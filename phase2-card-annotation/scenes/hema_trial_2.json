@@ -1,0 +1,32 @@
+{
+  "scene_id": "hema_trial_2",
+  "input": "../../screenshots/盒马_单一元素_试评测2.png",
+  "output": "../../screenshots-out/盒马_单一元素_试评测2_annotated.png",
+  "canvas": {"width": 1224, "height": 2700},
+  "coordinate_space": "image_pixel",
+  "page_context": {"screen": 2, "is_continuation": true},
+  "annotations": [
+    {"id":"status-bar","label":"状态栏","x":0,"y":0,"w":1224,"h":120,"kind":"macro","source":"manual-review","semantic_role":"status_bar"},
+    {"id":"top-nav","label":"顶部导航搜索框","x":0,"y":120,"w":1224,"h":121,"kind":"macro","source":"manual-review","semantic_role":"top_navigation"},
+    {"id":"quick-filter","label":"快筛/排序/筛选器","x":0,"y":299,"w":1224,"h":48,"kind":"macro","source":"manual-review","semantic_role":"quick_filter"},
+    {"id":"card-tail-01-border","label":"商家卡0_border（续页可见尾部）","x":0,"y":391,"w":1224,"h":396,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":true},
+    {"id":"card-tail-01-product-grid","label":"商家卡0_图文下挂区","x":259,"y":391,"w":965,"h":396,"kind":"part","parent":"card-tail-01-border","source":"manual-review","semantic_role":"product_grid","cropped":true},
+    {"id":"card-01-border","label":"商家卡1_border","x":0,"y":863,"w":1224,"h":250,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":false},
+    {"id":"card-01-image","label":"商家卡1_头图区","x":32,"y":863,"w":195,"h":195,"kind":"part","parent":"card-01-border","source":"manual-review","semantic_role":"product_image"},
+    {"id":"card-01-title","label":"商家卡1_标题区","x":259,"y":863,"w":965,"h":73,"kind":"part","parent":"card-01-border","source":"manual-review","semantic_role":"merchant_title"},
+    {"id":"card-01-basic-info","label":"商家卡1_基础信息区","x":259,"y":937,"w":965,"h":105,"kind":"part","parent":"card-01-border","source":"manual-review","semantic_role":"merchant_basic_info"},
+    {"id":"card-01-tags","label":"商家卡1_标签区","x":259,"y":1067,"w":965,"h":46,"kind":"part","parent":"card-01-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"card-02-border","label":"商家卡2_border","x":0,"y":1183,"w":1224,"h":726,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":false},
+    {"id":"card-02-image","label":"商家卡2_头图区","x":32,"y":1183,"w":195,"h":195,"kind":"part","parent":"card-02-border","source":"manual-review","semantic_role":"product_image"},
+    {"id":"card-02-title","label":"商家卡2_标题区","x":259,"y":1183,"w":965,"h":70,"kind":"part","parent":"card-02-border","source":"manual-review","semantic_role":"merchant_title"},
+    {"id":"card-02-basic-info","label":"商家卡2_基础信息区","x":259,"y":1259,"w":965,"h":104,"kind":"part","parent":"card-02-border","source":"manual-review","semantic_role":"merchant_basic_info"},
+    {"id":"card-02-tags","label":"商家卡2_标签区","x":259,"y":1386,"w":965,"h":47,"kind":"part","parent":"card-02-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"card-02-product-grid","label":"商家卡2_图文下挂区","x":259,"y":1471,"w":965,"h":438,"kind":"part","parent":"card-02-border","source":"manual-review","semantic_role":"product_grid"},
+    {"id":"card-03-border","label":"商家卡3_border","x":0,"y":1985,"w":1224,"h":715,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":true},
+    {"id":"card-03-image","label":"商家卡3_头图区","x":32,"y":1985,"w":195,"h":195,"kind":"part","parent":"card-03-border","source":"manual-review","semantic_role":"product_image"},
+    {"id":"card-03-title","label":"商家卡3_标题区","x":259,"y":1985,"w":965,"h":65,"kind":"part","parent":"card-03-border","source":"manual-review","semantic_role":"merchant_title"},
+    {"id":"card-03-basic-info","label":"商家卡3_基础信息区","x":259,"y":2051,"w":965,"h":121,"kind":"part","parent":"card-03-border","source":"manual-review","semantic_role":"merchant_basic_info"},
+    {"id":"card-03-tags","label":"商家卡3_标签区","x":259,"y":2188,"w":965,"h":35,"kind":"part","parent":"card-03-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"card-03-product-grid","label":"商家卡3_图文下挂区","x":259,"y":2273,"w":965,"h":427,"kind":"part","parent":"card-03-border","source":"manual-review","semantic_role":"product_grid","cropped":true}
+  ]
+}

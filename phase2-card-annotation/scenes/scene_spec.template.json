@@ -1,0 +1,53 @@
+{
+  "contractVersion": "phase2.scene-spec.v1",
+  "scene_id": "replace-with-unique-scene-id",
+  "input": "project://screenshots/示例_全部_1.png",
+  "output": "project://screenshots-out/annotations/示例_全部_1_annotated.png",
+  "canvas": {
+    "width": 1224,
+    "height": 2700
+  },
+  "coordinate_space": "image_pixel",
+  "page_context": {
+    "screen": 1,
+    "is_continuation": false,
+    "below_tab_component": "无"
+  },
+  "annotations": [
+    {
+      "id": "status-bar",
+      "label": "状态栏",
+      "x": 0,
+      "y": 0,
+      "w": 1224,
+      "h": 120,
+      "kind": "macro",
+      "source": "manual-current-image",
+      "semantic_role": "status_bar"
+    },
+    {
+      "id": "card-01-border",
+      "label": "商卡1_border",
+      "x": 18,
+      "y": 800,
+      "w": 1188,
+      "h": 420,
+      "kind": "border",
+      "source": "manual-current-image",
+      "semantic_role": "merchant_card",
+      "cropped": false
+    },
+    {
+      "id": "card-01-image",
+      "label": "商卡1_头图区",
+      "x": 32,
+      "y": 814,
+      "w": 300,
+      "h": 300,
+      "kind": "part",
+      "parent": "card-01-border",
+      "source": "manual-current-image",
+      "semantic_role": "header_image"
+    }
+  ]
+}

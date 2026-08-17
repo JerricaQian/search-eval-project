@@ -1,0 +1,47 @@
+{
+  "scene_id": "1_durian_3",
+  "input": "../screenshots/1/榴莲_全部_3.png",
+  "output": "../out/1/榴莲_全部_3_annotated.png",
+  "canvas": {"width": 1224, "height": 2700},
+  "coordinate_space": "image_pixel",
+  "annotations": [
+    {"id":"status","label":"状态栏","x":0,"y":0,"w":1224,"h":120,"kind":"macro","source":"manual+scan_rows","semantic_role":"status_bar"},
+    {"id":"nav","label":"顶部导航搜索框","x":0,"y":120,"w":1224,"h":95,"kind":"macro","source":"manual+scan_rows","semantic_role":"top_navigation"},
+    {"id":"filters","label":"快筛排序筛选器","x":0,"y":299,"w":1224,"h":48,"kind":"macro","source":"manual+scan_rows","semantic_role":"quick_filters"},
+    {"id":"related-searches","label":"相似推荐提示","x":24,"y":448,"w":1176,"h":330,"kind":"hetero","source":"manual+scan_rows","semantic_role":"related_searches"},
+
+    {"id":"card-01-border","label":"商卡1_border","x":24,"y":818,"w":1176,"h":430,"kind":"border","source":"manual+scan_rows","semantic_role":"commodity_card"},
+    {"id":"card-01-image","label":"商卡1_头图区","x":24,"y":818,"w":342,"h":353,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"image_region"},
+    {"id":"card-01-title","label":"商卡1_标题区","x":396,"y":818,"w":780,"h":60,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"commodity_title"},
+    {"id":"card-01-subtitle","label":"商卡1_副标题区","x":396,"y":884,"w":700,"h":52,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"commodity_subtitle"},
+    {"id":"card-01-price","label":"商卡1_价格区","x":396,"y":990,"w":780,"h":68,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"price"},
+    {"id":"card-01-tags","label":"商卡1_标签区","x":396,"y":1050,"w":780,"h":62,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"benefit_tags"},
+    {"id":"card-01-merchant","label":"商卡1_商家信息区","x":396,"y":1126,"w":780,"h":56,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"merchant_info"},
+    {"id":"card-01-delivery","label":"商卡1_基础信息区","x":396,"y":1192,"w":780,"h":48,"kind":"part","parent":"card-01-border","source":"manual","semantic_role":"delivery_info"},
+
+    {"id":"card-02-border","label":"商卡2_border","x":24,"y":1297,"w":1176,"h":420,"kind":"border","source":"manual+scan_rows","semantic_role":"commodity_card"},
+    {"id":"card-02-image","label":"商卡2_头图区","x":24,"y":1297,"w":342,"h":366,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"image_region"},
+    {"id":"card-02-title","label":"商卡2_标题区","x":396,"y":1297,"w":780,"h":60,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"commodity_title"},
+    {"id":"card-02-subtitle","label":"商卡2_副标题区","x":396,"y":1386,"w":650,"h":60,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"commodity_subtitle"},
+    {"id":"card-02-price","label":"商卡2_价格区","x":396,"y":1478,"w":780,"h":68,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"price"},
+    {"id":"card-02-tags","label":"商卡2_标签区","x":396,"y":1552,"w":780,"h":54,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"benefit_tags"},
+    {"id":"card-02-merchant","label":"商卡2_商家信息区","x":396,"y":1618,"w":780,"h":56,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"merchant_info"},
+    {"id":"card-02-delivery","label":"商卡2_基础信息区","x":396,"y":1682,"w":780,"h":30,"kind":"part","parent":"card-02-border","source":"manual","semantic_role":"delivery_info"},
+
+    {"id":"card-03-border","label":"商卡3_border","x":24,"y":1801,"w":1176,"h":489,"kind":"border","source":"manual+scan_rows","semantic_role":"commodity_card"},
+    {"id":"card-03-image","label":"商卡3_头图区","x":24,"y":1801,"w":342,"h":359,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"image_region"},
+    {"id":"card-03-title","label":"商卡3_标题区","x":396,"y":1801,"w":780,"h":64,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"commodity_title"},
+    {"id":"card-03-subtitle","label":"商卡3_副标题区","x":396,"y":1878,"w":650,"h":64,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"commodity_subtitle"},
+    {"id":"card-03-price","label":"商卡3_价格区","x":396,"y":2044,"w":780,"h":68,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"price"},
+    {"id":"card-03-tags","label":"商卡3_标签区","x":396,"y":2114,"w":780,"h":56,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"benefit_tags"},
+    {"id":"card-03-merchant","label":"商卡3_商家信息区","x":396,"y":2182,"w":780,"h":52,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"merchant_info"},
+    {"id":"card-03-delivery","label":"商卡3_基础信息区","x":396,"y":2246,"w":780,"h":44,"kind":"part","parent":"card-03-border","source":"manual","semantic_role":"delivery_info"},
+
+    {"id":"card-04-border","label":"商卡4_border","x":24,"y":2375,"w":1176,"h":325,"kind":"border","source":"manual+scan_rows","semantic_role":"commodity_card","cropped":true},
+    {"id":"card-04-image","label":"商卡4_头图区","x":24,"y":2375,"w":342,"h":325,"kind":"part","parent":"card-04-border","source":"manual","semantic_role":"image_region","cropped":true},
+    {"id":"card-04-title","label":"商卡4_标题区","x":396,"y":2375,"w":780,"h":64,"kind":"part","parent":"card-04-border","source":"manual","semantic_role":"commodity_title"},
+    {"id":"card-04-subtitle","label":"商卡4_副标题区","x":396,"y":2442,"w":680,"h":72,"kind":"part","parent":"card-04-border","source":"manual","semantic_role":"commodity_subtitle"},
+    {"id":"card-04-tags","label":"商卡4_标签区","x":396,"y":2518,"w":220,"h":48,"kind":"part","parent":"card-04-border","source":"manual","semantic_role":"benefit_tags"},
+    {"id":"card-04-price","label":"商卡4_价格区","x":396,"y":2608,"w":780,"h":68,"kind":"part","parent":"card-04-border","source":"manual","semantic_role":"price","cropped":true}
+  ]
+}

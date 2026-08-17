@@ -1,0 +1,33 @@
+{
+  "scene_id": "hema_trial_1",
+  "input": "../../screenshots/盒马_单一元素_试评测1.png",
+  "output": "../../screenshots-out/盒马_单一元素_试评测1_annotated.png",
+  "canvas": {"width": 1224, "height": 2700},
+  "coordinate_space": "image_pixel",
+  "page_context": {"screen": 1, "is_continuation": false, "below_tab_component": "无"},
+  "annotations": [
+    {"id":"status-bar","label":"状态栏","x":0,"y":0,"w":1224,"h":100,"kind":"macro","source":"manual-review","semantic_role":"status_bar"},
+    {"id":"top-navigation","label":"顶部导航搜索框","x":0,"y":100,"w":1224,"h":158,"kind":"macro","source":"manual-review","semantic_role":"top_navigation"},
+    {"id":"channel-tab","label":"Tab","x":0,"y":276,"w":1224,"h":102,"kind":"macro","source":"manual-review","semantic_role":"channel_tab"},
+    {"id":"quick-filter","label":"快筛/排序/筛选器","x":0,"y":400,"w":1224,"h":96,"kind":"macro","source":"manual-review","semantic_role":"quick_filter"},
+    {"id":"marketing-banner","label":"营销横幅","x":0,"y":534,"w":1224,"h":104,"kind":"macro","source":"manual-review","semantic_role":"promotional_banner"},
+    {"id":"store-card-1-border","label":"商家卡1_border","x":24,"y":680,"w":1176,"h":882,"kind":"border","source":"manual-review","semantic_role":"store_card","cropped":false},
+    {"id":"store-card-1-image","label":"商家卡1_头图区","x":48,"y":704,"w":170,"h":170,"kind":"part","parent":"store-card-1-border","source":"manual-review","semantic_role":"header_image"},
+    {"id":"store-card-1-title","label":"商家卡1_标题区","x":260,"y":704,"w":908,"h":62,"kind":"part","parent":"store-card-1-border","source":"manual-review","semantic_role":"title"},
+    {"id":"store-card-1-info","label":"商家卡1_商家信息区","x":260,"y":772,"w":930,"h":100,"kind":"part","parent":"store-card-1-border","source":"manual-review","semantic_role":"store_info"},
+    {"id":"store-card-1-tags","label":"商家卡1_标签区","x":260,"y":900,"w":610,"h":66,"kind":"part","parent":"store-card-1-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"store-card-1-text-attachment","label":"商家卡1_文字下挂区","x":260,"y":970,"w":520,"h":66,"kind":"part","parent":"store-card-1-border","source":"manual-review","semantic_role":"text_attachment"},
+    {"id":"store-card-1-product-grid","label":"商家卡1_图文下挂区","x":244,"y":1124,"w":956,"h":394,"kind":"part","parent":"store-card-1-border","source":"manual-review","semantic_role":"product_grid"},
+    {"id":"store-card-2-border","label":"商家卡2_border","x":24,"y":1580,"w":1176,"h":800,"kind":"border","source":"manual-review","semantic_role":"store_card","cropped":false},
+    {"id":"store-card-2-image","label":"商家卡2_头图区","x":48,"y":1590,"w":170,"h":170,"kind":"part","parent":"store-card-2-border","source":"manual-review","semantic_role":"header_image"},
+    {"id":"store-card-2-title","label":"商家卡2_标题区","x":260,"y":1586,"w":908,"h":62,"kind":"part","parent":"store-card-2-border","source":"manual-review","semantic_role":"title"},
+    {"id":"store-card-2-info","label":"商家卡2_商家信息区","x":260,"y":1654,"w":930,"h":94,"kind":"part","parent":"store-card-2-border","source":"manual-review","semantic_role":"store_info"},
+    {"id":"store-card-2-tags","label":"商家卡2_标签区","x":260,"y":1770,"w":560,"h":72,"kind":"part","parent":"store-card-2-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"store-card-2-product-grid","label":"商家卡2_图文下挂区","x":244,"y":1860,"w":956,"h":450,"kind":"part","parent":"store-card-2-border","source":"manual-review","semantic_role":"product_grid"},
+    {"id":"store-card-3-border","label":"商家卡3_border","x":24,"y":2384,"w":1176,"h":316,"kind":"border","source":"manual-review","semantic_role":"store_card","cropped":true},
+    {"id":"store-card-3-image","label":"商家卡3_头图区","x":48,"y":2390,"w":170,"h":170,"kind":"part","parent":"store-card-3-border","source":"manual-review","semantic_role":"header_image"},
+    {"id":"store-card-3-title","label":"商家卡3_标题区","x":260,"y":2388,"w":908,"h":62,"kind":"part","parent":"store-card-3-border","source":"manual-review","semantic_role":"title"},
+    {"id":"store-card-3-info","label":"商家卡3_商家信息区","x":260,"y":2454,"w":930,"h":108,"kind":"part","parent":"store-card-3-border","source":"manual-review","semantic_role":"store_info"},
+    {"id":"store-card-3-tags","label":"商家卡3_标签区","x":260,"y":2572,"w":560,"h":64,"kind":"part","parent":"store-card-3-border","source":"manual-review","semantic_role":"promo_tags"}
+  ]
+}

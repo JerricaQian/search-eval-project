@@ -1,0 +1,208 @@
+{
+  "scene_id": "面部清洁-minimum-independent-elements-8",
+  "input": "/Users/qianjing/Desktop/search-eval-project/screenshots/首评-单一元素/面部清洁_全部_1_副本.png",
+  "output": "/Users/qianjing/Desktop/search-eval-project/screenshots-out/面部清洁_全部_1_副本_annotated.png",
+  "canvas": {
+    "width": 1224,
+    "height": 2700
+  },
+  "coordinate_space": "image_pixel",
+  "page_context": {
+    "screen": 1,
+    "is_continuation": false,
+    "below_tab_component": "无"
+  },
+  "annotations": [
+    {
+      "id": "macro-search-filter-macro",
+      "label": "顶部信息组件",
+      "x": 0,
+      "y": 0,
+      "w": 1224,
+      "h": 1010,
+      "kind": "macro",
+      "source": "current-image-review",
+      "semantic_role": "page_component"
+    },
+    {
+      "id": "merchant-01-border",
+      "label": "merchant-01_border",
+      "x": 18,
+      "y": 1010,
+      "w": 1188,
+      "h": 500,
+      "kind": "border",
+      "source": "current-image-review",
+      "semantic_role": "merchant_card",
+      "cropped": false
+    },
+    {
+      "id": "merchant-01-region-1",
+      "label": "merchant-01_头图区",
+      "x": 32,
+      "y": 1030,
+      "w": 260,
+      "h": 260,
+      "kind": "part",
+      "parent": "merchant-01-border",
+      "source": "current-image-review",
+      "semantic_role": "image_region"
+    },
+    {
+      "id": "merchant-01-region-2",
+      "label": "merchant-01_标题区",
+      "x": 315,
+      "y": 1030,
+      "w": 850,
+      "h": 80,
+      "kind": "part",
+      "parent": "merchant-01-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-01-region-3",
+      "label": "merchant-01_基础信息区",
+      "x": 315,
+      "y": 1110,
+      "w": 850,
+      "h": 100,
+      "kind": "part",
+      "parent": "merchant-01-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-01-region-4",
+      "label": "merchant-01_下挂区",
+      "x": 315,
+      "y": 1240,
+      "w": 850,
+      "h": 240,
+      "kind": "part",
+      "parent": "merchant-01-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-02-border",
+      "label": "merchant-02_border",
+      "x": 18,
+      "y": 1510,
+      "w": 1188,
+      "h": 500,
+      "kind": "border",
+      "source": "current-image-review",
+      "semantic_role": "merchant_card",
+      "cropped": false
+    },
+    {
+      "id": "merchant-02-region-1",
+      "label": "merchant-02_头图区",
+      "x": 32,
+      "y": 1530,
+      "w": 260,
+      "h": 260,
+      "kind": "part",
+      "parent": "merchant-02-border",
+      "source": "current-image-review",
+      "semantic_role": "image_region"
+    },
+    {
+      "id": "merchant-02-region-2",
+      "label": "merchant-02_标题区",
+      "x": 315,
+      "y": 1530,
+      "w": 850,
+      "h": 80,
+      "kind": "part",
+      "parent": "merchant-02-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-02-region-3",
+      "label": "merchant-02_基础信息区",
+      "x": 315,
+      "y": 1610,
+      "w": 850,
+      "h": 100,
+      "kind": "part",
+      "parent": "merchant-02-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-02-region-4",
+      "label": "merchant-02_下挂区",
+      "x": 315,
+      "y": 1740,
+      "w": 850,
+      "h": 240,
+      "kind": "part",
+      "parent": "merchant-02-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-03-border",
+      "label": "merchant-03_border",
+      "x": 18,
+      "y": 2010,
+      "w": 1188,
+      "h": 500,
+      "kind": "border",
+      "source": "current-image-review",
+      "semantic_role": "merchant_card",
+      "cropped": false
+    },
+    {
+      "id": "merchant-03-region-1",
+      "label": "merchant-03_头图区",
+      "x": 32,
+      "y": 2030,
+      "w": 260,
+      "h": 260,
+      "kind": "part",
+      "parent": "merchant-03-border",
+      "source": "current-image-review",
+      "semantic_role": "image_region"
+    },
+    {
+      "id": "merchant-03-region-2",
+      "label": "merchant-03_标题区",
+      "x": 315,
+      "y": 2030,
+      "w": 850,
+      "h": 80,
+      "kind": "part",
+      "parent": "merchant-03-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-03-region-3",
+      "label": "merchant-03_基础信息区",
+      "x": 315,
+      "y": 2110,
+      "w": 850,
+      "h": 100,
+      "kind": "part",
+      "parent": "merchant-03-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    },
+    {
+      "id": "merchant-03-region-4",
+      "label": "merchant-03_下挂区",
+      "x": 315,
+      "y": 2240,
+      "w": 850,
+      "h": 240,
+      "kind": "part",
+      "parent": "merchant-03-border",
+      "source": "current-image-review",
+      "semantic_role": "information_region"
+    }
+  ]
+}

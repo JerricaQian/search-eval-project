@@ -1,0 +1,32 @@
+{
+  "scene_id": "hema_trial_3",
+  "input": "../../screenshots/盒马_单一元素_试评测3.png",
+  "output": "../../screenshots-out/盒马_单一元素_试评测3_annotated.png",
+  "canvas": {"width": 1224, "height": 2700},
+  "coordinate_space": "image_pixel",
+  "page_context": {"screen": 3, "is_continuation": true},
+  "annotations": [
+    {"id":"status-bar","label":"状态栏","x":0,"y":0,"w":1224,"h":120,"kind":"macro","source":"manual-review","semantic_role":"status_bar"},
+    {"id":"top-navigation","label":"顶部导航搜索框","x":0,"y":120,"w":1224,"h":121,"kind":"macro","source":"manual-review","semantic_role":"top_navigation"},
+    {"id":"quick-filter","label":"快筛/排序/筛选器","x":0,"y":299,"w":1224,"h":48,"kind":"macro","source":"manual-review","semantic_role":"quick_filter"},
+    {"id":"card-tail-01-border","label":"商家卡0_border（续页可见尾部）","x":24,"y":391,"w":1176,"h":121,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":true},
+    {"id":"card-tail-01-product-grid","label":"商家卡0_图文下挂区","x":259,"y":391,"w":933,"h":121,"kind":"part","parent":"card-tail-01-border","source":"manual-review","semantic_role":"product_grid","cropped":true},
+    {"id":"similar-search","label":"相似推荐提示","x":24,"y":552,"w":1176,"h":304,"kind":"hetero","source":"manual-review","semantic_role":"similar_search_suggestion","cropped":false},
+    {"id":"merchant-card-01-border","label":"商家卡1_border","x":24,"y":950,"w":1176,"h":726,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":false},
+    {"id":"merchant-card-01-image","label":"商家卡1_头图区","x":32,"y":950,"w":194,"h":195,"kind":"part","parent":"merchant-card-01-border","source":"manual-review","semantic_role":"merchant_image"},
+    {"id":"merchant-card-01-title","label":"商家卡1_标题区","x":259,"y":950,"w":933,"h":61,"kind":"part","parent":"merchant-card-01-border","source":"manual-review","semantic_role":"merchant_title"},
+    {"id":"merchant-card-01-info","label":"商家卡1_商家信息区","x":259,"y":1024,"w":933,"h":114,"kind":"part","parent":"merchant-card-01-border","source":"manual-review","semantic_role":"merchant_information"},
+    {"id":"merchant-card-01-tags","label":"商家卡1_标签区","x":259,"y":1154,"w":933,"h":46,"kind":"part","parent":"merchant-card-01-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"merchant-card-01-product-grid","label":"商家卡1_图文下挂区","x":259,"y":1238,"w":933,"h":438,"kind":"part","parent":"merchant-card-01-border","source":"manual-review","semantic_role":"product_grid"},
+    {"id":"merchant-card-02-border","label":"商家卡2_border","x":24,"y":1752,"w":1176,"h":790,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":false},
+    {"id":"merchant-card-02-image","label":"商家卡2_头图区","x":32,"y":1752,"w":194,"h":195,"kind":"part","parent":"merchant-card-02-border","source":"manual-review","semantic_role":"merchant_image"},
+    {"id":"merchant-card-02-title","label":"商家卡2_标题区","x":259,"y":1752,"w":933,"h":61,"kind":"part","parent":"merchant-card-02-border","source":"manual-review","semantic_role":"merchant_title"},
+    {"id":"merchant-card-02-info","label":"商家卡2_商家信息区","x":259,"y":1826,"w":933,"h":118,"kind":"part","parent":"merchant-card-02-border","source":"manual-review","semantic_role":"merchant_information"},
+    {"id":"merchant-card-02-tags","label":"商家卡2_标签区","x":259,"y":1956,"w":933,"h":46,"kind":"part","parent":"merchant-card-02-border","source":"manual-review","semantic_role":"promo_tags"},
+    {"id":"merchant-card-02-product-grid","label":"商家卡2_图文下挂区","x":259,"y":2040,"w":933,"h":502,"kind":"part","parent":"merchant-card-02-border","source":"manual-review","semantic_role":"product_grid"},
+    {"id":"merchant-card-03-border","label":"商家卡3_border","x":24,"y":2554,"w":1176,"h":146,"kind":"border","source":"manual-review","semantic_role":"merchant_card","cropped":true},
+    {"id":"merchant-card-03-image","label":"商家卡3_头图区","x":32,"y":2554,"w":194,"h":146,"kind":"part","parent":"merchant-card-03-border","source":"manual-review","semantic_role":"merchant_image","cropped":true},
+    {"id":"merchant-card-03-title","label":"商家卡3_标题区","x":259,"y":2554,"w":933,"h":56,"kind":"part","parent":"merchant-card-03-border","source":"manual-review","semantic_role":"merchant_title"},
+    {"id":"merchant-card-03-info","label":"商家卡3_商家信息区","x":259,"y":2628,"w":933,"h":72,"kind":"part","parent":"merchant-card-03-border","source":"manual-review","semantic_role":"merchant_information","cropped":true}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "_comment": "Phase5 人类可读文案禁用词表。仅用于 validate_eval_results.py 的文本扫描校验，不在任何 SKILL.md 中重复列出。",
+  "internal_id_patterns": [
+    "\\b[A-Z]{1,3}\\d+(-[a-z0-9-]+)?\\b"
+  ],
+  "internal_field_names": [
+    "elementId", "cardId", "componentId", "moduleType", "isListItem", "isListPrefix",
+    "isHeterogeneous", "styleKey", "entityKind", "tierTrace", "colorFamilies",
+    "colorFamilyCount", "assessmentRows", "listPosition", "layoutSignature",
+    "comparisonGroupKey", "visualStatus", "countedInComplexity", "sourceRegion",
+    "contentRole", "visibleStatus", "cardTypeCode", "dedupDecision", "colorRole",
+    "semanticRole", "containerShape", "tagScanChecklist", "visualInventory",
+    "evidenceMode", "sourceManifestTotal", "evaluatedUnitCount"
+  ],
+  "script_filename_pattern": "[a-zA-Z_]+\\.py\\b",
+  "english_enum_pattern": "\\b(?:red|orange|yellow|green|blue|cyan|magenta|purple|neutral|multicolor|confirmed|uncertain|found|not_found)\\b"
+}

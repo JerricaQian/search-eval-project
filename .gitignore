@@ -1,0 +1,25 @@
+# 运行产物与人工复核过程文件
+.artifacts/
+tmp_review/
+.rescore_p4/
+.metrics/
+
+# 截图、标注图和本地报告（体积大且可能含业务数据）
+screenshots/
+screenshots-out/
+reports/
+
+# 本地临时文件与缓存
+__pycache__/
+*.py[cod]
+.DS_Store
+*.log
+*.tmp
+--psm.txt
+hema_import_test.png
+tmp_analyze_screenshots.py
+screenshots/sm_*.png
+
+# 编辑器与系统文件
+.idea/
+.vscode/

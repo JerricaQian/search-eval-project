@@ -1,0 +1,27 @@
+{
+  "scene_id": "xigua-first-screen-20260729",
+  "input": "/Users/qianjing/Desktop/search-eval-project/screenshots/首评-单一元素/西瓜_全部_1_副本.png",
+  "output": "/Users/qianjing/Desktop/search-eval-project/screenshots-out/西瓜_全部_1_副本_annotated.png",
+  "canvas": {"width": 1224, "height": 2700},
+  "coordinate_space": "image_pixel",
+  "page_context": {"screen": 1, "is_continuation": false, "below_tab_component": "图筛"},
+  "annotations": [
+    {"id":"status","label":"状态栏","x":0,"y":0,"w":1224,"h":115,"kind":"macro","source":"current-image+scan_rows","semantic_role":"status_bar"},
+    {"id":"search","label":"顶部导航搜索框","x":0,"y":115,"w":1224,"h":126,"kind":"macro","source":"current-image+scan_rows","semantic_role":"search_navigation"},
+    {"id":"tab","label":"Tab","x":0,"y":275,"w":1224,"h":90,"kind":"macro","source":"current-image+scan_rows","semantic_role":"channel_tab"},
+    {"id":"graphical-filter","label":"图筛","x":0,"y":433,"w":1224,"h":140,"kind":"macro","source":"current-image+scan_rows","semantic_role":"graphical_filter"},
+    {"id":"coupon","label":"营销横幅","x":0,"y":632,"w":1224,"h":170,"kind":"macro","source":"current-image+scan_rows","semantic_role":"promotional_banner"},
+    {"id":"card-01-border","label":"商品卡1_border","x":32,"y":1034,"w":1160,"h":390,"kind":"border","source":"current-image+scan_rows","semantic_role":"merchant_card","cropped":false},
+    {"id":"card-01-image","label":"商品卡1_头图区","x":58,"y":1034,"w":332,"h":332,"kind":"part","parent":"card-01-border","source":"current-image","semantic_role":"image_region"},
+    {"id":"card-01-title","label":"商品卡1_标题区","x":422,"y":1034,"w":730,"h":124,"kind":"part","parent":"card-01-border","source":"current-image","semantic_role":"product_title"},
+    {"id":"card-01-price","label":"商品卡1_价格区","x":422,"y":1190,"w":700,"h":60,"kind":"part","parent":"card-01-border","source":"current-image","semantic_role":"price_region"},
+    {"id":"card-01-merchant","label":"商品卡1_商家信息区","x":422,"y":1315,"w":700,"h":73,"kind":"part","parent":"card-01-border","source":"current-image","semantic_role":"merchant_info"},
+    {"id":"operation-card","label":"运营聚合卡","x":16,"y":1476,"w":1192,"h":274,"kind":"hetero","source":"current-image+scan_rows","semantic_role":"operation_aggregate_card"},
+    {"id":"similar-search","label":"相似推荐提示","x":60,"y":1804,"w":810,"h":149,"kind":"macro","source":"current-image+scan_rows","semantic_role":"similar_recommendation"},
+    {"id":"card-02-border","label":"商品卡2_border","x":32,"y":2182,"w":1160,"h":518,"kind":"border","source":"current-image+scan_rows","semantic_role":"merchant_card","cropped":true},
+    {"id":"card-02-image","label":"商品卡2_头图区","x":58,"y":2182,"w":332,"h":332,"kind":"part","parent":"card-02-border","source":"current-image","semantic_role":"image_region","cropped":true},
+    {"id":"card-02-title","label":"商品卡2_标题区","x":422,"y":2182,"w":730,"h":162,"kind":"part","parent":"card-02-border","source":"current-image","semantic_role":"product_title","cropped":true},
+    {"id":"card-02-price","label":"商品卡2_价格区","x":422,"y":2428,"w":700,"h":60,"kind":"part","parent":"card-02-border","source":"current-image","semantic_role":"price_region","cropped":true},
+    {"id":"card-02-merchant","label":"商品卡2_商家信息区","x":422,"y":2580,"w":700,"h":117,"kind":"part","parent":"card-02-border","source":"current-image","semantic_role":"merchant_info","cropped":true}
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "scene_id": "massage-all-1-copy-single-element-3",
+  "input": "/Users/qianjing/Desktop/search-eval-project/screenshots/首评-单一元素/按摩_全部_1_副本.png",
+  "output": "/Users/qianjing/Desktop/search-eval-project/screenshots-out/按摩_全部_1_副本_annotated.png",
+  "canvas": {"width": 1224, "height": 2700},
+  "coordinate_space": "image_pixel",
+  "page_context": {"screen": 1, "is_continuation": false, "below_tab_component": "图筛"},
+  "element_manifest": "/Users/qianjing/Desktop/search-eval-project/screenshots-out/elements_按摩_首评-单一元素-3.json",
+  "element_audit": "/Users/qianjing/Desktop/search-eval-project/screenshots-out/elements_按摩_首评-单一元素-3.audit.json",
+  "element_total": 52,
+  "element_contract": "Phase2 manifest is the source of truth for minimal independent elements; every active element keeps its own id, original text and coordinate.",
+  "annotations": [
+    {"id":"status-bar","label":"状态栏","x":0,"y":0,"w":1224,"h":120,"kind":"macro","source":"manual_current_image+scan_rows_once","semantic_role":"status_bar"},
+    {"id":"search-navigation","label":"顶部导航/搜索框","x":0,"y":120,"w":1224,"h":121,"kind":"macro","source":"manual_current_image+scan_rows_once","semantic_role":"search_navigation"},
+    {"id":"channel-tab","label":"Tab","x":0,"y":241,"w":1224,"h":58,"kind":"macro","source":"manual_current_image+scan_rows_once","semantic_role":"channel_tab"},
+    {"id":"graphical-filter","label":"图筛","x":0,"y":404,"w":1224,"h":228,"kind":"macro","source":"manual_current_image+scan_rows_once","semantic_role":"graphical_filter"},
+    {"id":"quick-filter","label":"快筛","x":28,"y":754,"w":1168,"h":48,"kind":"macro","source":"manual_current_image+scan_rows_once","semantic_role":"quick_filter"},
+
+    {"id":"card-01-border","label":"商家卡1_border","x":18,"y":874,"w":1188,"h":434,"kind":"border","source":"manual_current_image+scan_rows_once","semantic_role":"merchant_card","cropped":false},
+    {"id":"card-01-image","label":"商家卡1_头图区","x":28,"y":874,"w":282,"h":282,"kind":"part","parent":"card-01-border","source":"manual_current_image","semantic_role":"image_region"},
+    {"id":"card-01-title","label":"商家卡1_标题区","x":340,"y":874,"w":850,"h":78,"kind":"part","parent":"card-01-border","source":"manual_current_image","semantic_role":"merchant_title"},
+    {"id":"card-01-info","label":"商家卡1_基础信息区","x":340,"y":956,"w":850,"h":121,"kind":"part","parent":"card-01-border","source":"manual_current_image","semantic_role":"merchant_info"},
+    {"id":"card-01-hanging","label":"商家卡1_图文下挂区","x":340,"y":1184,"w":715,"h":124,"kind":"part","parent":"card-01-border","source":"manual_current_image","semantic_role":"product_hanging"},
+
+    {"id":"card-02-border","label":"商家卡2_border","x":18,"y":1375,"w":1188,"h":427,"kind":"border","source":"manual_current_image+scan_rows_once","semantic_role":"merchant_card","cropped":false},
+    {"id":"card-02-image","label":"商家卡2_头图区","x":28,"y":1375,"w":282,"h":282,"kind":"part","parent":"card-02-border","source":"manual_current_image","semantic_role":"image_region"},
+    {"id":"card-02-title","label":"商家卡2_标题区","x":340,"y":1375,"w":850,"h":80,"kind":"part","parent":"card-02-border","source":"manual_current_image","semantic_role":"merchant_title"},
+    {"id":"card-02-info","label":"商家卡2_基础信息区","x":340,"y":1455,"w":850,"h":187,"kind":"part","parent":"card-02-border","source":"manual_current_image","semantic_role":"merchant_info"},
+    {"id":"card-02-hanging","label":"商家卡2_图文下挂区","x":340,"y":1685,"w":838,"h":117,"kind":"part","parent":"card-02-border","source":"manual_current_image","semantic_role":"product_hanging"},
+
+    {"id":"card-03-border","label":"商家卡3_border","x":18,"y":1862,"w":1188,"h":496,"kind":"border","source":"manual_current_image+scan_rows_once","semantic_role":"merchant_card","cropped":false},
+    {"id":"card-03-image","label":"商家卡3_头图区","x":28,"y":1862,"w":282,"h":282,"kind":"part","parent":"card-03-border","source":"manual_current_image","semantic_role":"image_region"},
+    {"id":"card-03-title","label":"商家卡3_标题区","x":340,"y":1862,"w":850,"h":64,"kind":"part","parent":"card-03-border","source":"manual_current_image","semantic_role":"merchant_title"},
+    {"id":"card-03-info","label":"商家卡3_基础信息区","x":340,"y":1930,"w":850,"h":275,"kind":"part","parent":"card-03-border","source":"manual_current_image","semantic_role":"merchant_info"},
+    {"id":"card-03-hanging","label":"商家卡3_图文下挂区","x":340,"y":2241,"w":837,"h":117,"kind":"part","parent":"card-03-border","source":"manual_current_image","semantic_role":"product_hanging"},
+
+    {"id":"card-04-border","label":"商家卡4_border","x":18,"y":2418,"w":1188,"h":282,"kind":"border","source":"manual_current_image+scan_rows_once","semantic_role":"merchant_card","cropped":true},
+    {"id":"card-04-image","label":"商家卡4_头图区","x":28,"y":2418,"w":282,"h":282,"kind":"part","parent":"card-04-border","source":"manual_current_image","semantic_role":"image_region"},
+    {"id":"card-04-title","label":"商家卡4_标题区","x":340,"y":2418,"w":850,"h":76,"kind":"part","parent":"card-04-border","source":"manual_current_image","semantic_role":"merchant_title"},
+    {"id":"card-04-info","label":"商家卡4_基础信息区","x":340,"y":2494,"w":850,"h":206,"kind":"part","parent":"card-04-border","source":"manual_current_image","semantic_role":"merchant_info"}
+  ]
+}

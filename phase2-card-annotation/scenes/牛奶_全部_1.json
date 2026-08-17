@@ -1,0 +1,52 @@
+{
+  "scene_id": "milk-all-1-phase2-review",
+  "input": "/Users/qianjing/Desktop/search-eval-project/screenshots/3/牛奶_全部_1.png",
+  "output": "/Users/qianjing/Desktop/search-eval-project/screenshots-out/牛奶_全部_1_annotated.png",
+  "canvas": {
+    "width": 1200,
+    "height": 2670
+  },
+  "coordinate_space": "image_pixel",
+  "page_context": {
+    "screen": 1,
+    "is_continuation": false,
+    "below_tab_component": "图筛"
+  },
+  "annotations": [
+    {"id":"status-bar","label":"状态栏","x":0,"y":0,"w":1200,"h":88,"kind":"macro","source":"current-image visual review+scan_rows","semantic_role":"status_bar"},
+    {"id":"top-navigation","label":"顶部导航搜索框","x":0,"y":88,"w":1200,"h":89,"kind":"macro","source":"current-image visual review+scan_rows","semantic_role":"top_navigation"},
+    {"id":"channel-tab","label":"Tab","x":0,"y":177,"w":1200,"h":45,"kind":"macro","source":"current-image visual review+scan_rows","semantic_role":"channel_tab"},
+    {"id":"graphical-filter","label":"图筛","x":22,"y":222,"w":1156,"h":129,"kind":"macro","source":"current-image visual review + scan_rows; box covers y=222-351 to fully include category image/icon row and all brand text row, ends before whitespace gap at y=351-404","semantic_role":"graphical_filter"},
+    {"id":"quick-filter","label":"快筛排序筛选器","x":22,"y":404,"w":1156,"h":36,"kind":"macro","source":"current-image visual review+scan_rows","semantic_role":"quick_filter"},
+
+    {"id":"card-01-border","label":"商品卡1_border","x":24,"y":479,"w":1152,"h":808,"kind":"border","source":"current-image visual review+scan_rows","semantic_role":"product_card","cropped":false},
+    {"id":"card-01-image","label":"商品卡1_头图区","x":24,"y":490,"w":252,"h":250,"kind":"part","parent":"card-01-border","source":"current-image visual review","semantic_role":"image_region"},
+    {"id":"card-01-title","label":"商品卡1_标题区","x":300,"y":490,"w":770,"h":85,"kind":"part","parent":"card-01-border","source":"current-image visual review","semantic_role":"product_title"},
+    {"id":"card-01-tags","label":"商品卡1_标签区","x":300,"y":580,"w":620,"h":40,"kind":"part","parent":"card-01-border","source":"current-image visual review","semantic_role":"tag_region"},
+    {"id":"card-01-price","label":"商品卡1_价格区","x":300,"y":635,"w":700,"h":48,"kind":"part","parent":"card-01-border","source":"current-image visual review","semantic_role":"price_region"},
+    {"id":"card-01-merchant","label":"商品卡1_商家区","x":24,"y":695,"w":1050,"h":155,"kind":"part","parent":"card-01-border","source":"current-image visual review","semantic_role":"merchant_region"},
+
+    {"id":"card-02-border","label":"商品卡2_border","x":24,"y":1366,"w":1152,"h":320,"kind":"border","source":"current-image visual review+scan_rows","semantic_role":"product_card","cropped":false},
+    {"id":"card-02-image","label":"商品卡2_头图区","x":24,"y":1376,"w":252,"h":235,"kind":"part","parent":"card-02-border","source":"current-image visual review","semantic_role":"image_region"},
+    {"id":"card-02-title","label":"商品卡2_标题区","x":300,"y":1376,"w":740,"h":58,"kind":"part","parent":"card-02-border","source":"current-image visual review","semantic_role":"product_title"},
+    {"id":"card-02-tags","label":"商品卡2_标签区","x":300,"y":1435,"w":600,"h":35,"kind":"part","parent":"card-02-border","source":"current-image visual review","semantic_role":"tag_region"},
+    {"id":"card-02-price","label":"商品卡2_价格区","x":300,"y":1490,"w":710,"h":40,"kind":"part","parent":"card-02-border","source":"current-image visual review","semantic_role":"price_region"},
+    {"id":"card-02-merchant","label":"商品卡2_商家区","x":24,"y":1540,"w":1045,"h":120,"kind":"part","parent":"card-02-border","source":"current-image visual review","semantic_role":"merchant_region"},
+
+    {"id":"card-03-border","label":"商品卡3_border","x":24,"y":1765,"w":1152,"h":320,"kind":"border","source":"current-image visual review+scan_rows","semantic_role":"product_card","cropped":false},
+    {"id":"card-03-image","label":"商品卡3_头图区","x":24,"y":1775,"w":252,"h":230,"kind":"part","parent":"card-03-border","source":"current-image visual review","semantic_role":"image_region"},
+    {"id":"card-03-title","label":"商品卡3_标题区","x":300,"y":1775,"w":735,"h":58,"kind":"part","parent":"card-03-border","source":"current-image visual review","semantic_role":"product_title"},
+    {"id":"card-03-price","label":"商品卡3_价格区","x":300,"y":1840,"w":700,"h":40,"kind":"part","parent":"card-03-border","source":"current-image visual review","semantic_role":"price_region"},
+    {"id":"card-03-merchant","label":"商品卡3_商家区","x":24,"y":1890,"w":1040,"h":105,"kind":"part","parent":"card-03-border","source":"current-image visual review","semantic_role":"merchant_region"},
+
+    {"id":"card-04-border","label":"商品卡4_border","x":24,"y":2164,"w":1152,"h":329,"kind":"border","source":"current-image visual review+scan_rows","semantic_role":"product_card","cropped":false},
+    {"id":"card-04-image","label":"商品卡4_头图区","x":24,"y":2174,"w":252,"h":235,"kind":"part","parent":"card-04-border","source":"current-image visual review","semantic_role":"image_region"},
+    {"id":"card-04-title","label":"商品卡4_标题区","x":300,"y":2174,"w":735,"h":65,"kind":"part","parent":"card-04-border","source":"current-image visual review","semantic_role":"product_title"},
+    {"id":"card-04-price","label":"商品卡4_价格区","x":300,"y":2245,"w":700,"h":42,"kind":"part","parent":"card-04-border","source":"current-image visual review","semantic_role":"price_region"},
+    {"id":"card-04-merchant","label":"商品卡4_商家区","x":24,"y":2295,"w":1045,"h":120,"kind":"part","parent":"card-04-border","source":"current-image visual review","semantic_role":"merchant_region"},
+
+    {"id":"card-05-border","label":"商品卡5_续页可见尾部_border","x":24,"y":2572,"w":1152,"h":98,"kind":"border","source":"current-image visual review+scan_rows","semantic_role":"product_card","cropped":true},
+    {"id":"card-05-image","label":"商品卡5_头图区","x":24,"y":2580,"w":252,"h":72,"kind":"part","parent":"card-05-border","source":"current-image visual review","semantic_role":"image_region"},
+    {"id":"card-05-title","label":"商品卡5_标题区","x":300,"y":2580,"w":735,"h":62,"kind":"part","parent":"card-05-border","source":"current-image visual review","semantic_role":"product_title"}
+  ]
+}
