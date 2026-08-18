@@ -1,0 +1,848 @@
+{
+  "contractVersion": "phase2.product-card-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为布洛芬.png",
+  "pageStructure": {
+    "source": "gold_component_annotation",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "sourceRegion": "搜索框",
+            "coord": [
+              135,
+              175,
+              894,
+              97
+            ],
+            "visibleText": "布洛芬",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "business_image_filter",
+        "name": "无tab图筛",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 1,
+            "coord": [
+              64,
+              410,
+              140,
+              235
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                64,
+                410,
+                140,
+                175
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                64,
+                593,
+                140,
+                52
+              ],
+              "visibleText": "美林",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 2,
+            "coord": [
+              462,
+              471,
+              151,
+              151
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                462,
+                471,
+                151,
+                91
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                462,
+                570,
+                151,
+                52
+              ],
+              "visibleText": "司百得",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 3,
+            "coord": [
+              650,
+              465,
+              155,
+              158
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                650,
+                465,
+                155,
+                98
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                650,
+                571,
+                155,
+                52
+              ],
+              "visibleText": "散利痛",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 4,
+            "coord": [
+              841,
+              471,
+              162,
+              150
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                841,
+                471,
+                162,
+                90
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                841,
+                569,
+                162,
+                52
+              ],
+              "visibleText": "泽芬",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 5,
+            "coord": [
+              1085,
+              427,
+              61,
+              218
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                1085,
+                427,
+                61,
+                158
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                1085,
+                593,
+                61,
+                52
+              ],
+              "visibleText": "仁和",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 6,
+            "coord": [
+              1024,
+              470,
+              170,
+              230
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                1024,
+                470,
+                170,
+                170
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                1024,
+                648,
+                170,
+                52
+              ],
+              "visibleText": "感康",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "componentType": "sort_filter",
+        "name": "快筛",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 5,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "cropped": false,
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "heterogeneous_card",
+            "name": "大家还在搜",
+            "listPosition": 1,
+            "cropped": false,
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡1",
+            "listPosition": 2,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1256,
+              1224,
+              502
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1256,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1256,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1256,
+                      812,
+                      132
+                    ],
+                    "visibleText": "[芬必得]布洛芬咀嚼片0.2g*10反/盒",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1388,
+                      812,
+                      70
+                    ],
+                    "visibleText": "超90人回购",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1388,
+                      812,
+                      70
+                    ],
+                    "visibleText": "痛经",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1388,
+                      812,
+                      70
+                    ],
+                    "visibleText": "牙痛",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1388,
+                      812,
+                      70
+                    ],
+                    "visibleText": "头痛",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1388,
+                      812,
+                      70
+                    ],
+                    "visibleText": "感冒发热",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      825,
+                      1458,
+                      219,
+                      100
+                    ],
+                    "visibleText": "已售1000+",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1653,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥20",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1653,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡2",
+            "listPosition": 3,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1758,
+              1224,
+              502
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1758,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1758,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1758,
+                      812,
+                      132
+                    ],
+                    "visibleText": "[芬必得]布洛芬缓释胶囊0.3g*12板/盒",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1890,
+                      111,
+                      70
+                    ],
+                    "visibleText": "原研药",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      536,
+                      1890,
+                      221,
+                      70
+                    ],
+                    "visibleText": "超60人加购",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      1126,
+                      1890,
+                      74,
+                      70
+                    ],
+                    "visibleText": "痛经",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      706,
+                      1960,
+                      282,
+                      100
+                    ],
+                    "visibleText": "¥14.0226",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1059,
+                      1960,
+                      141,
+                      100
+                    ],
+                    "visibleText": "已售41",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      2155,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥20",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡3",
+            "listPosition": 4,
+            "cropped": true,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              2260,
+              1224,
+              440
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2260,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2260,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2260,
+                      812,
+                      132
+                    ],
+                    "visibleText": "[芬必得]布洛芬缓释胶囊0.3g*12板/盒",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      2392,
+                      111,
+                      70
+                    ],
+                    "visibleText": "原研药",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      536,
+                      2392,
+                      221,
+                      70
+                    ],
+                    "visibleText": "超30人好评",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      1126,
+                      2392,
+                      74,
+                      70
+                    ],
+                    "visibleText": "痛经",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "价格说明",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      469,
+                      2462,
+                      162,
+                      100
+                    ],
+                    "visibleText": "官方补贴",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      794,
+                      2462,
+                      284,
+                      100
+                    ],
+                    "visibleText": "已售5000+",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      2657,
+                      430,
+                      43
+                    ],
+                    "visibleText": "起送￥20",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "order": 6,
+        "componentType": "floating_service",
+        "name": "问医生浮窗",
+        "cropped": false,
+        "status": "confirmed"
+      }
+    ]
+  },
+  "cvFacts": {
+    "photoCandidates": 10
+  },
+  "routing": {
+    "rule": "uncertain only records insufficient local recognition; it never means absent, defective, failing, excellent, or a human-review task."
+  }
+}

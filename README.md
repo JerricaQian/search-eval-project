@@ -32,6 +32,17 @@ bash ~/Desktop/search-eval-project/setup.sh --with-device
 ```
 默认模式不要求连接手机，适合复用已有截图；现场截图时才需要 Android 真机。若缺 Python 图像依赖，在项目根目录执行 `python3 -m pip install -r requirements.txt`。
 
+### Phase2 本地 OCR（推荐）
+
+Phase2 会先运行 `phase2-card-annotation/scripts/run_cv_facts.sh`，以本地 OCR 和既有 OpenCV 产出文本、坐标、图片候选和行间留白事实；视觉模型只处理低置信候选的局部裁剪。系统已安装 Tesseract 时可直接作为后端；如需更好的中文 OCR，可在项目虚拟环境中安装 PaddleOCR：
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt -r requirements-ocr.txt
+```
+
+没有本地 OCR 时，提取器会把能力缺口记录为 `missingCapabilities`，不得据此认定文本或图片缺失。`uncertain` 不创建人工复核任务，也不能作为“不达标”、缺失或“优秀”的依据。
+
 **手机端（仅现场截图）**：USB 连电脑 + 「传输文件」模式 + 开启 USB 调试 + 安装并登录美团 App。
 **macOS 权限（关键）**：系统设置 → 隐私与安全性 → 完全磁盘访问权限 → 添加 CatPaw → **完全退出并重启应用**。不做这步评测子进程可能读不到桌面截图，报告会全空。
 

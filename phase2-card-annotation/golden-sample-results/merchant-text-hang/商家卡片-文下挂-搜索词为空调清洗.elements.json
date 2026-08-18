@@ -1,0 +1,1065 @@
+{
+  "contractVersion": "phase2.merchant-text-hang-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗.png",
+  "pageStructure": {
+    "source": "cv_local_crop",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "status": "confirmed"
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商卡1-文字下挂",
+            "listPosition": 1,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1037,
+              1224,
+              317
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1037,
+                      163,
+                      163
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      215,
+                      1031,
+                      92,
+                      62
+                    ],
+                    "visibleText": "上门",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      311,
+                      1031,
+                      889,
+                      62
+                    ],
+                    "visibleText": "空调维修移机北京老班长",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      215,
+                      1095,
+                      269,
+                      64
+                    ],
+                    "visibleText": "23条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      215,
+                      1221,
+                      985,
+                      58
+                    ],
+                    "visibleText": "好评维修很专业，",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      215,
+                      1279,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        1279,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        1279,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        1279,
+                        609,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1279,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      215,
+                      1349,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        1349,
+                        100,
+                        54
+                      ],
+                      "visibleText": "上门",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        1349,
+                        110,
+                        54
+                      ],
+                      "visibleText": "同城",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        1349,
+                        609,
+                        54
+                      ],
+                      "visibleText": "速修专业空调维修移机",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1349,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡2-文字下挂",
+            "listPosition": 2,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1354,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1354,
+                      163,
+                      163
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      215,
+                      1348,
+                      92,
+                      62
+                    ],
+                    "visibleText": "上门",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      311,
+                      1348,
+                      889,
+                      62
+                    ],
+                    "visibleText": "同城速修专业空调维修移机",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      215,
+                      1412,
+                      328,
+                      64
+                    ],
+                    "visibleText": "4.5分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      872,
+                      1412,
+                      328,
+                      64
+                    ],
+                    "visibleText": "195条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      215,
+                      1476,
+                      985,
+                      62
+                    ],
+                    "visibleText": "神券立减5近期100+人好评",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      215,
+                      1538,
+                      985,
+                      58
+                    ],
+                    "visibleText": "非常专业，维修技术好",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      215,
+                      1596,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        1596,
+                        100,
+                        54
+                      ],
+                      "visibleText": "本mm",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        1596,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        1596,
+                        609,
+                        54
+                      ],
+                      "visibleText": "机洗深产专生",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1596,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      215,
+                      1666,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        1666,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        1666,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        1666,
+                        609,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1666,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡3-文字下挂",
+            "listPosition": 3,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1829,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1829,
+                      163,
+                      163
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      215,
+                      1823,
+                      92,
+                      62
+                    ],
+                    "visibleText": "上门",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      311,
+                      1823,
+                      889,
+                      62
+                    ],
+                    "visibleText": "家电清洗维修北京美的服务",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      215,
+                      1887,
+                      328,
+                      64
+                    ],
+                    "visibleText": "3.9分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      872,
+                      1887,
+                      328,
+                      64
+                    ],
+                    "visibleText": "382条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      215,
+                      1951,
+                      985,
+                      62
+                    ],
+                    "visibleText": "神券立减5家电清洗近期好评率96%",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      215,
+                      2013,
+                      985,
+                      58
+                    ],
+                    "visibleText": "速度赞，服务高标准！",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      215,
+                      2071,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        2071,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        2071,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        2071,
+                        609,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2071,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      215,
+                      2141,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        2141,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        2141,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        2141,
+                        609,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2141,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡4-文字下挂",
+            "listPosition": 4,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2304,
+              1224,
+              396
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": true,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2304,
+                      163,
+                      163
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      215,
+                      2298,
+                      92,
+                      62
+                    ],
+                    "visibleText": "上门",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      311,
+                      2298,
+                      889,
+                      62
+                    ],
+                    "visibleText": "北京自如家服家政保洁清洗",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      215,
+                      2362,
+                      303,
+                      64
+                    ],
+                    "visibleText": "4.4分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      215,
+                      2426,
+                      985,
+                      62
+                    ],
+                    "visibleText": "神券最高膨至40北京保洁清洗好评榜第4名",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      215,
+                      2488,
+                      985,
+                      58
+                    ],
+                    "visibleText": "空调清洗】1台挂机深层拆洗￥573.4折年售8000+",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      215,
+                      2546,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        2546,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        2546,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        2546,
+                        609,
+                        54
+                      ],
+                      "visibleText": "法G",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2546,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      215,
+                      2616,
+                      985,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        215,
+                        2616,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥I3I",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        317,
+                        2616,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        429,
+                        2616,
+                        609,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2616,
+                        156,
+                        54
+                      ],
+                      "visibleText": "2009",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "routing": {
+    "rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "contractVersion": "phase2.golden-page-structure.v1",
+  "description": "组件级黄金样本真值。每张页面按阅读顺序列出所有可见组件；cards 的 cropped 只表示截图边界截断，不代表卡片缺失。",
+  "componentElementAnnotations": {
+    "商家卡片-图文下挂-搜索词为库迪": {"search_bar": {"searchKeyword": "库迪"}},
+    "商家卡片-图文下挂-搜索词为烧烤": {"search_bar": {"searchKeyword": "烧烤"}},
+    "商家卡片-图文下挂-搜索词为生日蛋糕": {
+      "search_bar": {"searchKeyword": "生日蛋糕"},
+      "image_filter": {
+        "coord": [32, 941, 1160, 365],
+        "tabs": [
+          {"text": "款式", "selected": true, "coord": [64, 969, 128, 56]},
+          {"text": "用途", "selected": false, "coord": [213, 969, 128, 56]}
+        ],
+        "items": [
+          {"text": "动物奶油", "imageCoord": [64, 1042, 178, 178], "textCoord": [64, 1230, 178, 55]},
+          {"text": "提拉米苏", "imageCoord": [256, 1042, 178, 178], "textCoord": [256, 1230, 178, 55]},
+          {"text": "慕斯蛋糕", "imageCoord": [448, 1042, 178, 178], "textCoord": [448, 1230, 178, 55]},
+          {"text": "草莓蛋糕", "imageCoord": [640, 1042, 178, 178], "textCoord": [640, 1230, 178, 55]},
+          {"text": "榴莲千层", "imageCoord": [832, 1042, 178, 178], "textCoord": [832, 1230, 178, 55]},
+          {"text": "水果蛋糕", "imageCoord": [1024, 1042, 168, 178], "textCoord": [1024, 1230, 168, 55]}
+        ]
+      }
+    },
+    "商家卡片-图文下挂-搜索词为药店": {
+      "search_bar": {"searchKeyword": "药店"},
+      "business_image_filter": {
+        "coord": [32, 376, 1160, 298],
+        "items": [
+          {"text": "肠胃用药", "imageCoord": [64, 410, 178, 178], "textCoord": [64, 600, 178, 55]},
+          {"text": "男科用药", "imageCoord": [256, 410, 178, 178], "textCoord": [256, 600, 178, 55]},
+          {"text": "儿童用药", "imageCoord": [448, 410, 178, 178], "textCoord": [448, 600, 178, 55]},
+          {"text": "五官用药", "imageCoord": [640, 410, 178, 178], "textCoord": [640, 600, 178, 55]},
+          {"text": "抗菌消炎", "imageCoord": [832, 410, 178, 178], "textCoord": [832, 600, 178, 55]},
+          {"text": "止痛用药", "imageCoord": [1024, 410, 168, 178], "textCoord": [1024, 600, 168, 55]}
+        ]
+      }
+    },
+    "商家卡片-图文下挂-搜索词为盒马": {"search_bar": {"searchKeyword": "盒马"}},
+    "商家卡片-图文下挂-搜索词为蜜雪冰城": {"search_bar": {"searchKeyword": "蜜雪冰城"}},
+    "商家卡片-图文下挂-搜索词为隆江猪脚饭": {"search_bar": {"searchKeyword": "隆江猪脚饭"}}
+  },
+  "pages": {
+    "商家卡片-图文下挂-搜索词为库迪": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", false], ["result_card", "商卡3-图文下挂", true]
+    ],
+    "商家卡片-图文下挂-搜索词为烧烤": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", false], ["result_card", "商卡3-图文下挂", false], ["result_card", "商卡4-图文下挂", true]
+    ],
+    "商家卡片-图文下挂-搜索词为生日蛋糕": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["business_operation_card", "异构卡-广告卡", false], ["image_filter", "有tab图筛", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", true]
+    ],
+    "商家卡片-图文下挂-搜索词为盒马": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["sort_filter", "快筛", false], ["promotion_filter", "优惠筛选", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", false], ["result_card", "商卡3-图文下挂", false]
+    ],
+    "商家卡片-图文下挂-搜索词为蜜雪冰城": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["live_card", "异构卡-直播大卡", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", true]
+    ],
+    "商家卡片-图文下挂-搜索词为隆江猪脚饭": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", false], ["result_card", "商卡3-图文下挂", true]
+    ],
+    "商家卡片-图文下挂-搜索词为药店": [
+      ["search_bar", "搜索框", false], ["tab", "Tab", false], ["business_image_filter", "无tab图筛", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商卡1-图文下挂", false], ["result_card", "商卡2-图文下挂", false], ["floating_service", "问医生浮窗", false], ["result_card", "商卡3-图文下挂", true]
+    ]
+  }
+}

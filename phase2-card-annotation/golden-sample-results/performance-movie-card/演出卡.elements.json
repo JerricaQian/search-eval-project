@@ -1,0 +1,15 @@
+{
+  "contractVersion": "phase2.performance-movie-elements.v1",
+  "screenshot": "演出电影卡-演出卡.png",
+  "pageStructure": {
+    "components": [
+      {"order": 1, "componentType": "search_bar", "name": "搜索框", "status": "confirmed", "elements": [{"elementType": "搜索关键词", "visibleText": "相声", "status": "confirmed"}]},
+      {"order": 2, "componentType": "tab", "name": "Tab", "status": "confirmed"},
+      {"order": 3, "componentType": "results_list", "name": "结果列表", "status": "confirmed", "components": [
+        {"componentType": "result_card", "listPosition": 1, "cardType": "演出卡", "status": "confirmed", "regions": {"头图区": {"elements": [{"elementType": "演出海报", "visibleText": "", "status": "confirmed"}]}, "标题区": {"elements": [{"elementType": "履约标签", "visibleText": "演出", "status": "confirmed"}, {"elementType": "城市", "visibleText": "北京", "status": "confirmed"}, {"elementType": "演出标题", "visibleText": "听云轩麒麟新天地相声专场", "status": "confirmed"}]}, "演出信息区": {"elements": [{"elementType": "评分", "visibleText": "9.2分", "status": "confirmed"}, {"elementType": "演出日期", "visibleText": "2026-07-10至2026-07-31", "status": "confirmed"}, {"elementType": "演出场馆", "visibleText": "听云轩望京麒麟社", "status": "confirmed"}]}, "价格区": {"elements": [{"elementType": "价格区间", "visibleText": "¥68-299", "status": "confirmed"}]}}},
+        {"componentType": "result_card", "listPosition": 2, "cardType": "演出卡", "status": "confirmed", "regions": {"头图区": {"elements": [{"elementType": "演出海报", "visibleText": "", "status": "confirmed"}]}, "标题区": {"elements": [{"elementType": "履约标签", "visibleText": "演出", "status": "confirmed"}, {"elementType": "城市", "visibleText": "北京", "status": "confirmed"}, {"elementType": "演出标题", "visibleText": "德云社相声大会-德云社广德楼戏园", "status": "confirmed"}]}, "演出信息区": {"elements": [{"elementType": "演出日期", "visibleText": "2026-07-10至2026-07-12", "status": "confirmed"}, {"elementType": "演出场馆", "visibleText": "德云社-广德楼戏园", "status": "confirmed"}]}, "价格区": {"elements": [{"elementType": "价格区间", "visibleText": "¥150-350", "status": "confirmed"}]}}}
+      ]}
+    ]
+  },
+  "routing": {"rule": "uncertain 不表示缺失或问题。"}
+}

@@ -1,0 +1,902 @@
+{
+  "contractVersion": "phase2.merchant-text-hang-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为体检.png",
+  "pageStructure": {
+    "source": "cv_local_crop",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "status": "confirmed"
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商卡1-文字下挂",
+            "listPosition": 1,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              881,
+              1224,
+              820
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      881,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      875,
+                      805,
+                      62
+                    ],
+                    "visibleText": "体检(望京分院）",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      939,
+                      200,
+                      64
+                    ],
+                    "visibleText": "4.5分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      699,
+                      939,
+                      251,
+                      64
+                    ],
+                    "visibleText": "2836条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      950,
+                      939,
+                      250,
+                      64
+                    ],
+                    "visibleText": "1.8km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1065,
+                      901,
+                      58
+                    ],
+                    "visibleText": "41折入职体检|次日出报告|入年售7000+￥138",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1123,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1123,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥150",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1123,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1123,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1123,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1193,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1193,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥100",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1193,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1193,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1193,
+                        156,
+                        54
+                      ],
+                      "visibleText": "000",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡2-文字下挂",
+            "listPosition": 2,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1701,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1701,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1695,
+                      805,
+                      62
+                    ],
+                    "visibleText": "国宾体检中心（望之京首开广场分院）",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      1759,
+                      212,
+                      64
+                    ],
+                    "visibleText": "4.4分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      723,
+                      1759,
+                      212,
+                      64
+                    ],
+                    "visibleText": "715条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      935,
+                      1759,
+                      265,
+                      64
+                    ],
+                    "visibleText": "2.1km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1885,
+                      901,
+                      58
+                    ],
+                    "visibleText": "中青年】臻爱优选健康体5折￥500年售2000+",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1943,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1943,
+                        100,
+                        54
+                      ],
+                      "visibleText": "30",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1943,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1943,
+                        525,
+                        54
+                      ],
+                      "visibleText": "月件",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1943,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      2013,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2013,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2013,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2013,
+                        525,
+                        54
+                      ],
+                      "visibleText": "[标]",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2013,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡3-文字下挂",
+            "listPosition": 3,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2111,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2111,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      2105,
+                      805,
+                      62
+                    ],
+                    "visibleText": "体检（望京南湖东园店）24小时",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      2169,
+                      200,
+                      64
+                    ],
+                    "visibleText": "3.9分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      699,
+                      2169,
+                      251,
+                      64
+                    ],
+                    "visibleText": "1027条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      950,
+                      2169,
+                      250,
+                      64
+                    ],
+                    "visibleText": "1.9km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      2295,
+                      901,
+                      58
+                    ],
+                    "visibleText": "￥61.242折入职体检|可约令日1当年售5000+",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      2353,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2353,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥0",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2353,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2353,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2353,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      2423,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2423,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥0C",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2423,
+                        110,
+                        54
+                      ],
+                      "visibleText": "0.21",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2423,
+                        525,
+                        54
+                      ],
+                      "visibleText": "件位业E",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2423,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡4-文字下挂",
+            "listPosition": 4,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2521,
+              1224,
+              179
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": true,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2521,
+                      247,
+                      179
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      2515,
+                      805,
+                      62
+                    ],
+                    "visibleText": "大健康体检中心(酒仙桥分院）",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      385,
+                      2579,
+                      171,
+                      64
+                    ],
+                    "visibleText": "暂无评分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      771,
+                      2579,
+                      214,
+                      64
+                    ],
+                    "visibleText": "3578条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      985,
+                      2579,
+                      215,
+                      64
+                    ],
+                    "visibleText": "3.7km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": []
+              },
+              "文字下挂区": {
+                "items": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "routing": {
+    "rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"
+  }
+}

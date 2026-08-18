@@ -12,6 +12,16 @@ description: "在 IMD 设计文件（imd.sankuai.com）中，对搜索结果页/
 
 无论模式如何，统一元素清单都是 Phase3 的单一事实源。Phase3 的问题位置由 Phase4 再按需生成整页截图红框证据图，不由 Phase2 预先批量生成。
 
+### 本地 CV JSON 的归属树（强制）
+
+`extract_merchant_graphic_hang_elements.py` 的输出以 `pageStructure.components` 为唯一页面树：搜索框、Tab、图筛、异构卡、快筛和结果列表都是页面组件；**结果卡只能放在 `results_list.components[]` 内**，不得再在根节点输出平铺 `cards`；每张结果卡的 `regions`（头图区、标题区、商家信息区、标签区、下挂商品区、特殊下挂）只能放在该卡组件内。图筛的 Tab 和图筛项只能放在图筛组件的 `elements[]` 内；每个图筛项必须将图片与文字作为同一项的 `image` / `text` 子对象。快筛仅登记组件存在性，不提取其内部元素。
+
+商品卡使用 `extract_product_card_elements.py`，同样遵守该树；其卡内 `regions` 固定以可见事实拆为 `头图区 / 标题区 / 副标题区 / 价格区 / 商家区`。商品主图及其角标归头图区，履约标签与商品名归标题区，属性/推荐文案归副标题区，商品价格/价格说明/销量/券归价格区，商家名、起送配送、配送时长和距离归商家区。
+
+商家**文字下挂**使用 `extract_merchant_text_hang_elements.py`，不得调用图文下挂的商品图片格语义。卡内增加 `AI推荐理由区（可选）` 和 `文字下挂区`；后者必须以 `items[]` 表达每条服务，并将价格、折扣、服务名、销量拆为同一 `itemIndex` 的独立字段。完整规则见 `references/merchant_text_hang_algorithm.v1.md`。
+
+演出电影卡与主点卡为独立卡型：演出/电影规则见 `references/performance_movie_card_algorithm.v1.md`；主点卡须先判为非商、商场、景点或医院，再按 `references/primary_point_card_algorithm.v1.md` 输出。主点卡是结果列表前的页面组件，不能嵌入结果商卡。
+
 ## 事实源、校验与参数化纪律（阻断）
 
 1. **先事实、后评测：**元素遗漏、卡片/模块边界、业务归属、可见原文、渲染状态或视觉属性存在错误时，必须先修正本 Phase2 manifest；不得在 Phase3/4 结果 JSON 中以补丁替代事实源修正。
@@ -82,6 +92,25 @@ Phase2 交付校验：完整组件必须提供 `visualInventory`；其列出的�
 ## 结构化事实契约（供 Phase3 确定性消费）
 
 标签 / icon 之外，Phase2 还必须把截图中**可观察、可定位、可重复计算**的事实写入统一元素清单。它只登记事实、状态与置信度，**不得**提前输出“信息冗余、布局合理、信息真实、规范合规”等主观结论；这些结论仍由对应的 Phase3 Skill 依据本契约和自身规则生成。
+
+### 本地 CV/OCR 语义候选（Phase2 前置）
+
+本地路径先依次运行 `scripts/run_cv_facts.sh`、`scripts/build_search_page_structure.py` 和 `scripts/map_search_page_semantics.py`。最后一个脚本消费 `references/search_page_semantic_rules.v1.json`，把 OCR 文本按可见文案、颜色提示、相对位置和布局候选映射为**标签/价格/标题/基础信息的候选**。该 JSON 是从本文与 `references/页面与商卡识别规则.md` 提炼的可执行补充：它只能给出 `confirmed|uncertain`、证据和建议分区，不能替代当前截图的可见性核对，也不能直接输出体验结论。
+
+示例：独立 OCR 候选“直播中”命中 `live-status`，且文字颜色提示为红/橙时可成为 `tag → 标签区` 的 confirmed 候选；若没有独立视觉证据或 OCR/布局置信度不足，必须保留 `uncertain`，不得把它并入标题、补造成标签或推断为缺失。
+
+### PaddleOCR 局部识别纪律（强制）
+
+- 对长搜索结果截图，先用轻量 CV 建立页面组件、卡片及区域坐标，再对**单个语义区域**执行本地 PaddleOCR；禁止把整页长截图直接送入 PaddleOCR。局部模型目录为 `models/paddleocr/`，运行时由 `scripts/extract_cv_facts.py` 复用一次模型实例；不得联网下载模型。
+- `PaddleOCR 3.x` 的 `predict()` 为惰性迭代器，必须消费其结果并读取每个文本框的坐标、原文与置信度；不得因未消费迭代器而静默回退到 Tesseract。
+- OCR 裁剪必须与字段一一对应：履约标签、标题、配送时长、评分/销量/起送费/配送费/距离、每个标签、每个下挂商品名和价格分别裁剪。不得把整行或整个商家区拼成一个 `visibleText`，再以正则猜字段。
+- 履约标签必须使用独立左侧裁剪并命中明确枚举（到店/外卖/上门/景点等）后才输出；标题必须从履约标签右侧独立裁剪。不得因为预期存在履约标签而删去标题开头字符，也不得把 OCR 误读的前两字当作履约标签。
+- OCR 出现乱码、过长拉丁字母串、异常标点序列或跨字段拼接时，不得发布为 `confirmed.visibleText`；保留空值 `uncertain` 或不发布候选。此规则适用于商品卡、图文下挂和文字下挂。
+- 结果列表卡片数应由连续的左侧大头图候选和 y 轴锚点共同确定；检测阈值不足时可降低图片尺寸阈值或使用已确认组件锚点补齐，但不得因某个头图漏检而截断后续结果卡。
+- 商品卡标题允许一行或两行。标题裁剪中出现规格/属性/卖点的第二行时，必须拆为 `标题区.商品标题` 与 `副标题区` 的独立元素；例如 `≥… / 保质期… / 麦香浓郁 / 口感…` 不得并入商品标题。无法可靠切分时，保留 `uncertain`，不可把整块文本确认为标题。
+- 价格区裁剪不得越过商家区；券、销量、价格说明均须使用有边界的表达式匹配。错误地包含商家名、距离、配送信息的价格/神券候选必须丢弃，不能发布为可见事实。
+- CV 未检出商品头图、但黄金组件样本已确认卡片位置时，可用黄金位置锚点恢复标题/副标题/价格/商家区域的**候选裁剪**；头图元素必须标为 `uncertain`，不得伪称 CV 已检测成功。
+- 用户确认的元素级文本必须写入对应黄金结构的 `cardElementOverrides`，并优先于 OCR；它们既是回归测试真值，也用于后续规则校准。黄金真值只能修正该已确认样本，不能凭相似搜索词外推到未标注截图。
 
 ### 1. 页面与组件事实
 
@@ -204,7 +233,7 @@ Phase2 交付校验：完整组件必须提供 `visualInventory`；其列出的�
 
 ### 4. `factInventory` 与复核门槛
 
-每张卡补充 `factInventory`，页面根对象补充 `pageFactInventory`，逐项列出模块、图片、文字、分区、布局和关系的扫描状态。`complete=false` 或任一关键项 `uncertain` 时，相关 Phase3 维度不得输出“优秀”，应请求 Phase2 旁路复核；未确认项既不计入缺陷分子，也不得按 0 处理。视觉层级维度还要求上述“视觉层级事实门槛”全部满足，不能只因其他事实项已完成而放行。对存在同组完整卡的视觉秩序评测，还必须通过 `--require-alignment-anchors`：任一卡缺少 `image/title/primaryInfo` 布局锚点或卡内关系事实，必须阻断该项 Phase3 评测。
+每张卡补充 `factInventory`，页面根对象补充 `pageFactInventory`，逐项列出模块、图片、文字、分区、布局和关系的扫描状态。`complete=false` 或任一关键项 `uncertain` 时，相关 Phase3 维度不得把该项作为“优秀”证据；未确认项既不计入缺陷分子，也不得按 0 处理、不得创建人工复核任务。视觉层级维度还要求上述“视觉层级事实门槛”全部满足，不能只因其他事实项已完成而放行。对存在同组完整卡的视觉秩序评测，还必须通过 `--require-alignment-anchors`：任一卡缺少 `image/title/primaryInfo` 布局锚点或卡内关系事实，必须阻断该项 Phase3 评测。
 
 ```json
 {
@@ -400,7 +429,7 @@ python3 scripts/scan_rows.py /tmp/scene_1.png 365 1190 <y0> <y1>    # 可选：�
 
 ### 4.2 关键字段识别旁路审计（必做，不污染元素清单 schema）
 
-在元素清单同目录新增 `elements_<query><tagSuffix>.recognition-audit.json`。该文件必须记录 `query`、`screenshot`、`manifest`、`fullImageReadCount`、`localReviewReadCount`、`totalImageReadCount` 及 `fields`；每条 `fields[]` 至少含 `cardId`、`elementId`（图片存在性可为空）、`field`、`visibleText`、`status`（`confirmed|uncertain`）、`source`（`full_image|local_review`）、`reason`。总图片读取数不得超过 12。标题、价格、基础信息、履约和可见图片存在性均须按实际情况记录；低置信字段标为 `uncertain`，而不是猜测、补全或写成 UI 缺失。下游 Phase3 看到 `uncertain` 时只能输出“需人工复核/不计入缺陷”，不得据此判定截断、错字、元素缺失或头图缺失。
+在元素清单同目录新增 `elements_<query><tagSuffix>.recognition-audit.json`。该文件必须记录 `query`、`screenshot`、`manifest`、`fullImageReadCount`、`localReviewReadCount`、`totalImageReadCount` 及 `fields`；每条 `fields[]` 至少含 `cardId`、`elementId`（图片存在性可为空）、`field`、`visibleText`、`status`（`confirmed|uncertain`）、`source`（`full_image|local_review`）、`reason`。总图片读取数不得超过 12。标题、价格、基础信息、履约和可见图片存在性均须按实际情况记录；低置信字段标为 `uncertain`，而不是猜测、补全或写成 UI 缺失。下游 Phase3 看到 `uncertain` 时只跳过该未确认事实的正向/负向推断，不创建人工复核任务；不得据此判定截断、错字、元素缺失或头图缺失。
 
 > ⚠️ **禁止跨卡复用坐标——必须逐卡读图独立标定**。同类卡片之间头图高度、标题起始 y、
 > 各信息行行高、下挂区类型都可能不同（例：迪士尼商卡1头图高约352、有5行信息含文字下挂；
@@ -707,5 +736,5 @@ python3 scripts/imd_eval.py eval '(() => { const doc=window.mg.document; const p
 - 只新增 `[ANNO]` 图层，绝不修改/移动/删除原设计稿图层（非破坏性）。执行前告知用户会在源文件留下新图层。
 - 若用户尚未明确标注范围（场景/画板/屏数）或颗粒度（两级 / 仅宏观），先询问；用户已明确时直接执行，无需重复确认。
 - 每个场景绘制后必做 group 导出视觉验证。
-- 识别环节（读图判定卡内分区，尤其标签区 / 文字下挂区、异构卡边界）建议保留人工复核。
+- 识别环节（读图判定卡内分区，尤其标签区 / 文字下挂区、异构卡边界）应保留来源、置信度和 `uncertain` 原因；不创建人工复核任务。
 - 若新场景图层名不符合 `{场景名}_全部_{N}` 规律，先用关键词试搜或请用户提供准确画板名，禁止凭猜测的 id 执行。

@@ -1,0 +1,1309 @@
+{
+  "contractVersion": "phase2.merchant-text-hang-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为游乐场.png",
+  "pageStructure": {
+    "source": "cv_local_crop",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "status": "confirmed"
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商卡1-文字下挂",
+            "listPosition": 1,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              765,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      765,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      759,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      759,
+                      805,
+                      62
+                    ],
+                    "visibleText": "奈尔宝·儿童乐园·亲子餐厅(北京东坝",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      823,
+                      139,
+                      64
+                    ],
+                    "visibleText": "3.6分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1027,
+                      823,
+                      173,
+                      64
+                    ],
+                    "visibleText": "7.2km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      887,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券立减5朝阳区儿童乐园人气趋势榜第4名",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      949,
+                      901,
+                      58
+                    ],
+                    "visibleText": "4.3折【儿童乐园】1大1小单次￥190年售14万+",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1007,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1007,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥20",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1007,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1007,
+                        525,
+                        54
+                      ],
+                      "visibleText": "四八·平庆",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1007,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1077,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1077,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥UC",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1077,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1077,
+                        525,
+                        54
+                      ],
+                      "visibleText": "成八宗同外P段口",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1077,
+                        156,
+                        54
+                      ],
+                      "visibleText": "15.1",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡2-文字下挂",
+            "listPosition": 2,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1175,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1175,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1169,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1169,
+                      805,
+                      62
+                    ],
+                    "visibleText": "嗨酷蹦床运动乐园·团建·轰趴·亲子",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      1233,
+                      150,
+                      64
+                    ],
+                    "visibleText": "4.2分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      599,
+                      1233,
+                      188,
+                      64
+                    ],
+                    "visibleText": "4916条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      975,
+                      1233,
+                      225,
+                      64
+                    ],
+                    "visibleText": "19.5km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      1297,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券最高膨至5022%顾客是回头客",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1359,
+                      901,
+                      58
+                    ],
+                    "visibleText": "单人畅玩】-金天畅玩1.3折年售2000+94V",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1417,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1417,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥4",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1417,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1417,
+                        525,
+                        54
+                      ],
+                      "visibleText": "物物G",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1417,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1487,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1487,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥】",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1487,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1487,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1487,
+                        156,
+                        54
+                      ],
+                      "visibleText": "4000",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡3-文字下挂",
+            "listPosition": 3,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1585,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1585,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1579,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1579,
+                      805,
+                      62
+                    ],
+                    "visibleText": "觉醒之秘·沉浸式探秘游戏基地",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      1643,
+                      150,
+                      64
+                    ],
+                    "visibleText": "4.8分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      599,
+                      1643,
+                      188,
+                      64
+                    ],
+                    "visibleText": "1319条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1012,
+                      1643,
+                      188,
+                      64
+                    ],
+                    "visibleText": "6.1km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1769,
+                      901,
+                      58
+                    ],
+                    "visibleText": "含觉醒能量60】大小通用单8342折年售500+V",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1827,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1827,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥0O",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1827,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1827,
+                        525,
+                        54
+                      ],
+                      "visibleText": "宽八遇通而",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1827,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1897,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1897,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥I5C",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1897,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1897,
+                        525,
+                        54
+                      ],
+                      "visibleText": "能重入通]",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1897,
+                        156,
+                        54
+                      ],
+                      "visibleText": "100",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡4-文字下挂",
+            "listPosition": 4,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1995,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1995,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1989,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1989,
+                      805,
+                      62
+                    ],
+                    "visibleText": "疯狂冒险家-亲子密室-东坝店(金隅嘉",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      2053,
+                      144,
+                      64
+                    ],
+                    "visibleText": "4.6分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      659,
+                      2053,
+                      145,
+                      64
+                    ],
+                    "visibleText": "905条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1020,
+                      2053,
+                      180,
+                      64
+                    ],
+                    "visibleText": "8.1km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      2179,
+                      901,
+                      58
+                    ],
+                    "visibleText": "游乐场】2大1小周末节6.6折年售900+￥130",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      2237,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2237,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥15C",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2237,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2237,
+                        525,
+                        54
+                      ],
+                      "visibleText": "[【历场入同外P]",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2237,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      2307,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2307,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥14.",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2307,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2307,
+                        525,
+                        54
+                      ],
+                      "visibleText": "历场o力",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2307,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡5-文字下挂",
+            "listPosition": 5,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2405,
+              1224,
+              295
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": true,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2405,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      2399,
+                      92,
+                      62
+                    ],
+                    "visibleText": "景点",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      2399,
+                      805,
+                      62
+                    ],
+                    "visibleText": "北京环球度假区",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      2463,
+                      180,
+                      64
+                    ],
+                    "visibleText": "4.7分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      930,
+                      2463,
+                      270,
+                      64
+                    ],
+                    "visibleText": "23.7km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      2589,
+                      901,
+                      58
+                    ],
+                    "visibleText": "标准(成人)票】北京环球影城已售2134万+￥548",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      2647,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2647,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥54C",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2647,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2647,
+                        525,
+                        54
+                      ],
+                      "visibleText": "乐上均城",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2647,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "routing": {
+    "rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"
+  }
+}

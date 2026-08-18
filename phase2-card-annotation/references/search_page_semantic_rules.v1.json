@@ -1,0 +1,26 @@
+{
+  "contractVersion": "phase2.semantic-rules.v1",
+  "description": "从《页面与商卡识别规则》和 Phase2 结构化事实契约提炼的保守文本角色候选规则；命中规则只产生候选，不产生体验结论。",
+  "initialThresholds": { "confirmed": 0.9, "uncertain": 0.72 },
+  "textRules": [
+    { "id": "live-status", "role": "tag", "pattern": "^(直播中|直播)$", "score": 0.86, "requires": ["independent_text"] },
+    { "id": "service-status", "role": "tag", "pattern": "^(自营|品牌|闪购|放心吃|神券|可订|已验真|直播)$", "score": 0.82, "requires": ["independent_text"] },
+    { "id": "price-symbol", "role": "price", "pattern": "[¥￥]\\s*\\d", "score": 0.9, "requires": [] },
+    { "id": "price-phrase", "role": "price", "pattern": "(券后|起|特价|折|到手)", "score": 0.74, "requires": ["price_color_or_position"] },
+    { "id": "rating", "role": "rating", "pattern": "(^|\\s)([0-5](\\.\\d)?分|评分\\s*[0-5]|★)", "score": 0.86, "requires": [] },
+    { "id": "sales", "role": "sales", "pattern": "(月售|已售|销量|人气)", "score": 0.84, "requires": [] },
+    { "id": "location", "role": "location", "pattern": "(\\d+(\\.\\d+)?(km|公里|m|米)|附近|商圈|路|街|号)", "score": 0.8, "requires": [] },
+    { "id": "fulfillment", "role": "fulfillment", "pattern": "(外卖|配送|起送|分钟|到店|团购|快递|上门)", "score": 0.8, "requires": [] }
+  ],
+  "roleToRegion": {
+    "tag": "标签区",
+    "price": "价格区",
+    "rating": "基础信息区",
+    "sales": "基础信息区",
+    "location": "基础信息区",
+    "fulfillment": "基础信息区",
+    "title": "标题区",
+    "other": "基础信息区"
+  },
+  "visualBonuses": { "tag": { "red": 0.08, "orange": 0.08, "blue": 0.06, "green": 0.06 }, "price": { "red": 0.08, "orange": 0.05 } }
+}

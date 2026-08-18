@@ -1,0 +1,977 @@
+{
+  "contractVersion": "phase2.merchant-text-hang-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为解压体验馆.png",
+  "pageStructure": {
+    "source": "cv_local_crop",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "status": "confirmed"
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商卡1-文字下挂",
+            "listPosition": 1,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1029,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1029,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1023,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1023,
+                      805,
+                      62
+                    ],
+                    "visibleText": "沄溪·恬系·江南SPA(酒仙桥店）",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      795,
+                      1087,
+                      180,
+                      64
+                    ],
+                    "visibleText": "272条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      975,
+                      1087,
+                      225,
+                      64
+                    ],
+                    "visibleText": "2.6km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      1151,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券立减36酒仙桥商圈按摩/足疗人气榜第1名",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1213,
+                      901,
+                      58
+                    ],
+                    "visibleText": "很放松的体验,力度适中",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1271,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1271,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1271,
+                        110,
+                        54
+                      ],
+                      "visibleText": "7 ato",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1271,
+                        525,
+                        54
+                      ],
+                      "visibleText": "合安床产文术",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1271,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1341,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1341,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1341,
+                        110,
+                        54
+                      ],
+                      "visibleText": "7 _",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1341,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1341,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡2-文字下挂",
+            "listPosition": 2,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1504,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1504,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1498,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1498,
+                      805,
+                      62
+                    ],
+                    "visibleText": "沐云·影院足道·奢颜SPA",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      545,
+                      1562,
+                      164,
+                      64
+                    ],
+                    "visibleText": "147条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      995,
+                      1562,
+                      205,
+                      64
+                    ],
+                    "visibleText": "1.8km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      1626,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券立减24免费水果",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1688,
+                      901,
+                      58
+                    ],
+                    "visibleText": "很放松的体验,力度适中",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1746,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1746,
+                        100,
+                        54
+                      ],
+                      "visibleText": "一 F",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1746,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1746,
+                        525,
+                        54
+                      ],
+                      "visibleText": "久卫",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1746,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1816,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1816,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1816,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1816,
+                        525,
+                        54
+                      ],
+                      "visibleText": "7自",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1816,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡3-文字下挂",
+            "listPosition": 3,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1979,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1979,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1973,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1973,
+                      805,
+                      62
+                    ],
+                    "visibleText": "煜坤影院足道·SPA",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      680,
+                      2037,
+                      139,
+                      64
+                    ],
+                    "visibleText": "187条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1027,
+                      2037,
+                      173,
+                      64
+                    ],
+                    "visibleText": "4.7km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      2101,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券立减24小营休闲按摩足浴销量榜第1名",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      2163,
+                      901,
+                      58
+                    ],
+                    "visibleText": "很放松的体验,力度适中",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      2221,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2221,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2221,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2221,
+                        525,
+                        54
+                      ],
+                      "visibleText": "文应",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2221,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      2291,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2291,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2291,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2291,
+                        525,
+                        54
+                      ],
+                      "visibleText": "业日专专书",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2291,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡4-文字下挂",
+            "listPosition": 4,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2454,
+              1224,
+              246
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": true,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2454,
+                      247,
+                      246
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      2448,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      2448,
+                      805,
+                      62
+                    ],
+                    "visibleText": "初初与晚晚·踩背馆·私享SPA(麒麟社",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      385,
+                      2512,
+                      129,
+                      64
+                    ],
+                    "visibleText": "85条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      985,
+                      2512,
+                      215,
+                      64
+                    ],
+                    "visibleText": "1.6km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      2576,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券最高膨至50精油SPA",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      2638,
+                      901,
+                      58
+                    ],
+                    "visibleText": "很放松的体验,力度适中",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "routing": {
+    "rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"
+  }
+}

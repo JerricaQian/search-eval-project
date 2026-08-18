@@ -1,0 +1,1212 @@
+{
+  "contractVersion": "phase2.merchant-text-hang-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为漂流.png",
+  "pageStructure": {
+    "source": "cv_local_crop",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "status": "confirmed"
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商卡1-文字下挂",
+            "listPosition": 1,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              849,
+              1224,
+              318
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      849,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      843,
+                      92,
+                      62
+                    ],
+                    "visibleText": "景点",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      843,
+                      805,
+                      62
+                    ],
+                    "visibleText": "花果山漂流(紫竹院公园)",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      907,
+                      225,
+                      64
+                    ],
+                    "visibleText": "4.0分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      524,
+                      907,
+                      169,
+                      64
+                    ],
+                    "visibleText": "23条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      862,
+                      907,
+                      338,
+                      64
+                    ],
+                    "visibleText": "16.1km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": []
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1091,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1091,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1091,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1091,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1091,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1161,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1161,
+                        100,
+                        54
+                      ],
+                      "visibleText": "景点",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1161,
+                        110,
+                        54
+                      ],
+                      "visibleText": "北京",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1161,
+                        525,
+                        54
+                      ],
+                      "visibleText": "欢乐谷4A",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1161,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡2-文字下挂",
+            "listPosition": 2,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1167,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1167,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1161,
+                      92,
+                      62
+                    ],
+                    "visibleText": "景点",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1161,
+                      805,
+                      62
+                    ],
+                    "visibleText": "北京欢乐谷4A",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      1225,
+                      172,
+                      64
+                    ],
+                    "visibleText": "4.9分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      943,
+                      1225,
+                      257,
+                      64
+                    ],
+                    "visibleText": "15.7km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1351,
+                      901,
+                      58
+                    ],
+                    "visibleText": "乐享漂流演艺，打卡摩天轮夜游盛宴",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1409,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1409,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1409,
+                        110,
+                        54
+                      ],
+                      "visibleText": "7性",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1409,
+                        525,
+                        54
+                      ],
+                      "visibleText": "了LT 司 -辣一-> 下 ee ee ee 一",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1409,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1479,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1479,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1479,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1479,
+                        525,
+                        54
+                      ],
+                      "visibleText": "为的",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1479,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡3-文字下挂",
+            "listPosition": 3,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              1642,
+              1224,
+              410
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1642,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      1636,
+                      92,
+                      62
+                    ],
+                    "visibleText": "到店",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      1636,
+                      805,
+                      62
+                    ],
+                    "visibleText": "拾光团建·拓展活动·旅游会议(望京店",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      1700,
+                      144,
+                      64
+                    ],
+                    "visibleText": "4.5分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      515,
+                      1700,
+                      144,
+                      64
+                    ],
+                    "visibleText": "110条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1020,
+                      1700,
+                      180,
+                      64
+                    ],
+                    "visibleText": "2.2km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      299,
+                      1764,
+                      901,
+                      62
+                    ],
+                    "visibleText": "神券最高膨至25望京团建拓展好评榜第3名",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      1826,
+                      901,
+                      58
+                    ],
+                    "visibleText": "棒球+漂流】主题团建定制1.6折94年售200+V",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      1884,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1884,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥4",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1884,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1884,
+                        525,
+                        54
+                      ],
+                      "visibleText": "[【场·除】趣图连市]",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1884,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      1954,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        1954,
+                        100,
+                        54
+                      ],
+                      "visibleText": "￥5C",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        1954,
+                        110,
+                        54
+                      ],
+                      "visibleText": "151",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        1954,
+                        525,
+                        54
+                      ],
+                      "visibleText": "[【来内地超题连]",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        1954,
+                        156,
+                        54
+                      ],
+                      "visibleText": "中百47",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡4-文字下挂",
+            "listPosition": 4,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2052,
+              1224,
+              475
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": false,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2052,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      2046,
+                      92,
+                      62
+                    ],
+                    "visibleText": "景点",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      2046,
+                      805,
+                      62
+                    ],
+                    "visibleText": "野三坡刘家河高山漂流",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      2110,
+                      212,
+                      64
+                    ],
+                    "visibleText": "4.3分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      776,
+                      2110,
+                      212,
+                      64
+                    ],
+                    "visibleText": "875条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      988,
+                      2110,
+                      212,
+                      64
+                    ],
+                    "visibleText": "99km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": [
+                  {
+                    "elementType": "AI推荐理由",
+                    "sourceRegion": "AI推荐理由区",
+                    "coord": [
+                      299,
+                      2236,
+                      901,
+                      58
+                    ],
+                    "visibleText": "长长的吊桥也很好玩，水上项目也很多”",
+                    "confidence": 0.76,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      299,
+                      2294,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2294,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2294,
+                        110,
+                        54
+                      ],
+                      "visibleText": "二7日",
+                      "confidence": 0.72,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2294,
+                        525,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2294,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      299,
+                      2364,
+                      901,
+                      54
+                    ],
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        299,
+                        2364,
+                        100,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "discount": {
+                      "elementType": "下挂价格折扣标签",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        401,
+                        2364,
+                        110,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        513,
+                        2364,
+                        525,
+                        54
+                      ],
+                      "visibleText": "开关7E",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "sales": {
+                      "elementType": "下挂商品销量",
+                      "sourceRegion": "文字下挂区",
+                      "coord": [
+                        1044,
+                        2364,
+                        156,
+                        54
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.72,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡5-文字下挂",
+            "listPosition": 5,
+            "cardType": "商家卡片-文字下挂",
+            "coord": [
+              0,
+              2527,
+              1224,
+              173
+            ],
+            "confidence": 0.8,
+            "status": "confirmed",
+            "cropped": true,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2527,
+                      247,
+                      173
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      299,
+                      2521,
+                      92,
+                      62
+                    ],
+                    "visibleText": "景点",
+                    "confidence": 0.84,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      395,
+                      2521,
+                      805,
+                      62
+                    ],
+                    "visibleText": "林溪漂流",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      2585,
+                      240,
+                      64
+                    ],
+                    "visibleText": "4.4分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      539,
+                      2585,
+                      120,
+                      64
+                    ],
+                    "visibleText": "5条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      840,
+                      2585,
+                      360,
+                      64
+                    ],
+                    "visibleText": "50.9km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "AI推荐理由区": {
+                "elements": []
+              },
+              "文字下挂区": {
+                "items": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "routing": {
+    "rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"
+  }
+}

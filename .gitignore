@@ -1,5 +1,6 @@
 # 运行产物与人工复核过程文件
 .artifacts/
+phase2-card-annotation/models/paddleocr/
 tmp_review/
 .rescore_p4/
 .metrics/
@@ -12,6 +13,7 @@ reports/
 # 本地临时文件与缓存
 __pycache__/
 *.py[cod]
+.venv/
 .DS_Store
 *.log
 *.tmp

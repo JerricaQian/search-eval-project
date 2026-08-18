@@ -1,0 +1,545 @@
+{
+  "contractVersion": "phase2.product-card-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为喜力啤酒整箱.png",
+  "pageStructure": {
+    "source": "gold_component_annotation",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "sourceRegion": "搜索框",
+            "coord": [
+              135,
+              175,
+              894,
+              97
+            ],
+            "visibleText": "喜力啤酒整箱",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "sort_filter",
+        "name": "快筛",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 4,
+        "componentType": "promotion_filter",
+        "name": "优惠筛选",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 5,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "cropped": false,
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商品卡1",
+            "listPosition": 1,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              710,
+              1224,
+              563
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      710,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      710,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      710,
+                      812,
+                      68
+                    ],
+                    "visibleText": "【整箱】喜力啤酒500ml*12瓶°P",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": []
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      565,
+                      912,
+                      71,
+                      100
+                    ],
+                    "visibleText": "￥5",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      741,
+                      912,
+                      177,
+                      100
+                    ],
+                    "visibleText": "￥4.59",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "价格说明",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      459,
+                      912,
+                      106,
+                      100
+                    ],
+                    "visibleText": "冰爽价",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      918,
+                      912,
+                      212,
+                      100
+                    ],
+                    "visibleText": "月售9531",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": []
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡2",
+            "listPosition": 2,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1273,
+              1224,
+              563
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1273,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1273,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": []
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1072,
+                      1475,
+                      128,
+                      100
+                    ],
+                    "visibleText": "￥90",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      730,
+                      1475,
+                      256,
+                      100
+                    ],
+                    "visibleText": "月售1254",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": []
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡3",
+            "listPosition": 3,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1836,
+              1224,
+              515
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1836,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1836,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1836,
+                      812,
+                      68
+                    ],
+                    "visibleText": "【整箱】喜力11.4度听装啤酒ml*12罐/箱",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": []
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      388,
+                      2038,
+                      177,
+                      100
+                    ],
+                    "visibleText": "￥64.9",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      741,
+                      2038,
+                      177,
+                      100
+                    ],
+                    "visibleText": "￥5.41",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "价格说明",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      565,
+                      2038,
+                      71,
+                      100
+                    ],
+                    "visibleText": "神价",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      918,
+                      2038,
+                      212,
+                      100
+                    ],
+                    "visibleText": "月售9130",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      2233,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥18.9",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      2233,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡4",
+            "listPosition": 4,
+            "cropped": true,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              2351,
+              1224,
+              349
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2351,
+                      332,
+                      319
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2351,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2351,
+                      812,
+                      68
+                    ],
+                    "visibleText": "喜力啤酒11.4P听装500ml*12",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      2483,
+                      812,
+                      70
+                    ],
+                    "visibleText": "麦香浓郁｜一口感均衡",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": []
+              },
+              "商家区": {
+                "elements": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "cvFacts": {
+    "photoCandidates": 5
+  },
+  "routing": {
+    "rule": "uncertain only records insufficient local recognition; it never means absent, defective, failing, excellent, or a human-review task."
+  }
+}

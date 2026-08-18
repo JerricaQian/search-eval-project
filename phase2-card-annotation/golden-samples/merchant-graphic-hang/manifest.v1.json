@@ -1,0 +1,18 @@
+{
+  "contractVersion": "phase2.merchant-graphic-hang-golden-manifest.v1",
+  "purpose": "商家卡片-图文下挂的黄金储备。组件级标注用于页面组件顺序、异构卡、图筛、结果列表和卡片边界；元素级标注用于商卡区域及区域内元素的识别规则。",
+  "componentLevelSamples": [
+    {"query": "库迪", "raw": "component-level/商家卡片-图文下挂-搜索词为库迪.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为库迪-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/库迪.elements.json"},
+    {"query": "烧烤", "raw": "component-level/商家卡片-图文下挂-搜索词为烧烤.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为烧烤-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/烧烤.elements.json"},
+    {"query": "生日蛋糕", "raw": "component-level/商家卡片-图文下挂-搜索词为生日蛋糕.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为生日蛋糕-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/生日蛋糕.elements.json"},
+    {"query": "盒马", "raw": "component-level/商家卡片-图文下挂-搜索词为盒马.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为盒马-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/盒马.elements.json"},
+    {"query": "蜜雪冰城", "raw": "component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为蜜雪冰城-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/蜜雪冰城.elements.json"},
+    {"query": "隆江猪脚饭", "raw": "component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/隆江猪脚饭.elements.json"},
+    {"query": "药店", "raw": "component-level/商家卡片-图文下挂-搜索词为药店.png", "annotation": "component-level/商家卡片-图文下挂-搜索词为药店-标注后.png", "json": "../../golden-sample-results/merchant-graphic-hang/药店.elements.json"}
+  ],
+  "elementLevelSamples": [
+    {"query": "库迪", "annotation": "element-level/商家卡片-图文下挂-搜索词为库迪-元素标注后.png", "role": "初始元素级标注参考"},
+    {"query": "库迪", "annotation": "element-level/商家卡片-图文下挂-搜索词为库迪-元素标注后 (1).png", "role": "用户确认的元素级标注基准"}
+  ],
+  "policy": "每次修改商家卡片-图文下挂的页面结构、卡片边界、区域归属或元素拆分，都必须回归这 7 张组件级样本和 2 张元素级样本。"
+}

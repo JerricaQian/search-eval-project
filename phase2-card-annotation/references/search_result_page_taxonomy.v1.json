@@ -1,0 +1,26 @@
+{
+  "contractVersion": "phase2.search-result-page-taxonomy.v1",
+  "description": "搜索结果页的页面模块契约。必须先识别这些顺序模块，再识别结果列表卡片；主点卡不是结果列表卡型。",
+  "orderedModules": [
+    {"id": "search_bar", "name": "搜索栏", "required": true, "elements": ["返回/导航", "搜索关键词", "地图入口或功能入口"]},
+    {"id": "tab", "name": "Tab", "required": true, "elements": ["Tab项", "选中态", "未选中态", "问小团入口（如存在）"]},
+    {"id": "tip_strip", "name": "提示条", "required": false, "elements": ["提示文案", "图标", "操作入口"]},
+    {"id": "image_filter", "name": "图筛", "required": false, "elements": ["业务图片/图标", "分类名称", "选中态（如存在）"]},
+    {"id": "text_filter", "name": "文筛", "required": false, "elements": ["文本筛选项", "选中态", "下拉/展开图标（如存在）"]},
+    {"id": "business_image_filter", "name": "业务图筛", "required": false, "elements": ["业务图片/图标", "业务分类名称", "选中态（如存在）"]},
+    {"id": "live_card", "name": "异构卡-直播卡", "required": false, "classification": ["其他异构卡"], "elements": ["全宽直播画面", "直播品牌/状态", "观看量", "横向直播商品流"]},
+    {"id": "main_poi_card", "name": "主点卡", "required": false, "elements": ["POI实体标题", "实体类型/等级", "评分/评价/距离/地址", "领域下挂"]},
+    {"id": "business_operation_card", "name": "业务运营卡", "required": false, "classification": ["广告卡", "其他异构卡"], "elements": ["运营/广告素材", "运营文案", "行动入口", "广告标（如存在）"]},
+    {"id": "floating_service", "name": "业务浮窗", "required": false, "elements": ["浮窗图标/人物", "服务名称", "操作入口"]},
+    {"id": "sort_filter", "name": "排序筛选", "required": true, "elements": ["位置/AOI筛选", "综合排序", "筛选入口"]},
+    {"id": "promotion_filter", "name": "优惠筛选", "required": false, "elements": ["神券/优惠入口", "距离/一次性等优惠或条件筛选项"]},
+    {"id": "results_list", "name": "结果卡片列表", "required": true, "allowedCardTypes": ["商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片", "广告卡", "异构卡"]}
+  ],
+  "classificationPolicy": {
+    "order": "按 orderedModules 从上至下扫描；可选模块缺失时跳过，但不得用后续模块反推其缺失为体验问题。",
+    "mainPoi": "主点卡只在 main_poi_card 模块中识别，不写入 results_list。",
+    "operationCard": "业务运营卡位于结果列表前时作为页面模块；其广告/异构属性不改变结果卡列表的卡型判断。",
+    "liveCard": "异构卡-直播卡是结果列表前的页面模块，不属于 results_list；须同时有大面积媒体区和直播/观看文本或其他直播控件证据。",
+    "uncertain": "模块或边界不确定时标记 uncertain；不得将其作为缺失、问题、不达标、优秀或人工复核依据。"
+  }
+}

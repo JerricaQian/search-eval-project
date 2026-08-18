@@ -64,14 +64,46 @@ tools: Read, Bash, Write, Grep, Glob
 若 `skipAnnotation` 为 false 或未传：先执行一次 A9 校验命令探测 `${elementListFile}` 是否已存在且可复用（`valid=true` 且 `total>0`）；若已可复用，直接采用该清单跳过 A0~A8（避免重复识别成本）；若不可复用或文件不存在，按 A0~A9 全流程重新识别。
 
 A0. **重新扫描，不复用旧坐标**：必须对当前截图重新扫描确认坐标，不得照搬历史场景脚本坐标数值；场景脚本只作结构/命名经验参考。
+A0a. **先跑本地 CV/OCR 事实提取（必做）**：对 `${annotationInputs}` 中每张截图串行执行：
+    ```bash
+    mkdir -p "${artifactRunDir}/phase2/cv-facts"
+    bash "${imdSkillDir}/scripts/run_cv_facts.sh" "<当前截图>" \
+      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json"
+    ```
+    随后对每份 CV facts 执行：
+    ```bash
+    python3 "${imdSkillDir}/scripts/build_search_page_structure.py" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
+      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json"
+    ```
+    然后对结构化产物执行页面模块与结果卡组装：
+    ```bash
+    python3 "${imdSkillDir}/scripts/build_search_result_candidates.py" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json" \
+      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.result-candidates.json"
+    python3 "${imdSkillDir}/scripts/map_result_card_semantics.py" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.result-candidates.json" \
+      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.result-semantics.json"
+    ```
+    最后才执行通用文本角色候选（仅作补充）：
+    ```bash
+    python3 "${imdSkillDir}/scripts/map_search_page_semantics.py" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
+      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json" \
+      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.semantic.json"
+    ```
+    先消费 CV facts、布局块、页面模块、结果卡与**逐卡**卡型候选，再按 `${imdSkillDir}/references/search_card_taxonomy.v1.json` 的“卡型→区域→元素”契约建立卡片事实；不得对整页 OCR 判断单张卡型。`search_page_semantic_rules.v1.json` 只可作为旧的通用文本角色候选补充，不能覆盖卡型契约。卡型候选也只能输出候选，不能覆盖当前截图的可见事实。若 `routing.missingCapabilities` 非空，必须在识别审计中保留该能力缺口，绝不能把空候选误写为页面无文字/无图片。`route=local_vision` 的候选只允许裁剪“候选框 + 所属卡上下文”交给视觉模型确认；不得为已接受候选重新整页读图。若视觉模型仍无法确认，保留 `uncertain` 和原因，既不创建人工复核任务，也不得把该字段推断为缺失、缺陷或优秀证据。
 A1. **开工前必读 4 个核心文件**：`${imdSkillDir}/README.md`、`${imdSkillDir}/SKILL.md`、`${imdSkillDir}/references/页面与商卡识别规则.md`（全文，不准只 grep）、`${imdSkillDir}/scripts/annotation_scene.py`。
 A1a. **标注颗粒度与 phase3-标记权威标准（固定元素级，唯一颗粒度）**：`granularity` 恒为 `element`，即最细颗粒度——标宏观通栏组件 + 卡片分区 + 每个分区下的每个独立元素（文本/图片/标签逐个拆分；标签区逐标签拆；下挂区逐商品拆），并抄录每个元素的真实文字数字；`cards[].regions[].elements[]` 每个 element 必须有 id/所属组件/元素类型/内容简述/坐标/isExcluded，**内容简述必须以「原文:」打头抄截图真实文字数字**，不得用抽象字段名代替。权威标准与白名单（同时是 A9/B0 校验脚本 `--audit`/`--recognition-audit` 判定 L1/L2 是否达标的依据）：
     - 学城标准文档：https://km.sankuai.com/collabpage/2774716579
     - L1 页面类型与分区参考：https://imd.sankuai.com/goto/UEEng8wx
-    - L1 卡片类型白名单：商品卡片、商家卡片-图文下挂、商家卡片-文字下挂、酒店卡片、度假/酒店套餐卡片、演出/电影卡片、主点卡片、特殊广告卡（宏观通栏组件另计为 `isExcluded=true` 的 card 项，不在此白名单内但允许出现）
-    - L2 分区白名单：头图区、标题区、基础信息区、标签区、价格区、商家区、下挂区、AI推荐理由
-    - 执行顺序不可跳步：先 L1 判定卡片类型（禁止先套模板再反推类型）→ 再按卡型做 L2 分区切分（可见性可缺省，不得臆造缺失分区；商品卡片=头图/标题/基础信息/标签/价格/商家区，商家卡片-图文下挂/文字下挂=头图/标题/基础信息/标签/下挂区，酒店/度假套餐/演出电影/主点/特殊广告卡按各自可见分区落图，不套商家模板）→ 最后 L3 逐元素拆解（下挂区逐商品拆、标签区逐标签拆）。
-A2. **主读取路径 + 12 次强制停止**：整图 Read 1 次，按视觉顺序识别；局部 `sips -c` 裁图仅用于关键字段低置信复核。整图+局部 Read 合计上限 12 次（含整图 1 次），达到上限或已覆盖全部卡片关键字段即停止读图，剩余字段记为 `uncertain`。
+    - 页面模块必须按 `references/search_result_page_taxonomy.v1.json` 的顺序识别：搜索栏、Tab、可选提示条/图筛/文筛/业务图筛/主点卡/业务运营卡、排序筛选、可选优惠筛选、结果卡片列表。主点卡只可作为 `main_poi_card` 页面模块，不能落为结果列表卡。
+    - L1 结果卡类型白名单：商品卡片、商家卡片-图文下挂、商家卡片-文字下挂、酒店卡片、度假/酒店套餐卡片、演出/电影卡片、特殊广告卡、异构卡；宏观通栏组件另计为 `isExcluded=true` 的 card 项，不在此白名单内但允许出现。
+    - L2 分区白名单：以 `references/search_card_taxonomy.v1.json` 中当前 L1 卡型的 `regions[].name` 为准（允许：头图区、标题区、副标题区、价格区、商家区、商家信息区、标签区、下挂商品区、特殊下挂、服务下挂、下挂区、AI推荐理由、评分与推荐理由、位置信息、基础信息区、实体标题区、实体信息区、领域下挂区、演出信息区、套餐概要）；不得跨卡型套区。
+    - 执行顺序不可跳步：先 L1 判定卡片类型（禁止先套模板再反推类型）→ 再按当前卡型契约做 L2 分区切分（可见性可缺省，不得臆造缺失分区）→ 最后 L3 逐元素拆解（下挂区逐商品拆、标签区逐标签拆）。
+A2. **视觉读取预算 + 12 次强制停止**：先使用 A0a 的本地 CV/OCR 事实完成文字、图片和几何候选；整图 Read 最多 1 次，只用于页面级语义与 CV/OCR 未覆盖的关系判断。局部 `sips -c` 裁图只用于 A0a 标为 `route=local_vision` 的关键字段。整图+局部 Read 合计上限 12 次（含整图 1 次），达到上限或已覆盖全部关键字段即停止读图，剩余字段记为 `uncertain`；不创建人工复核任务，且不得把它们作为不达标、缺失或优秀证据。
 A3. **scan 输出重定向到文件 + 串行执行**，禁止并行跑多个 scan/裁剪命令。
 A4. **逐图逐卡独立确认坐标**，禁止跨截图复用绝对坐标、禁止首卡坐标平移给后续卡。
 A5. **输出**：`phase2Mode=lightweight` 只写元素清单 JSON 到 `${elementListFile}`；`full-annotation` 额外生成整页标注 PNG。

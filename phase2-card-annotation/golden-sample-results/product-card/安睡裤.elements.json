@@ -1,0 +1,937 @@
+{
+  "contractVersion": "phase2.product-card-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
+  "pageStructure": {
+    "source": "gold_component_annotation",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "sourceRegion": "搜索框",
+            "coord": [
+              135,
+              175,
+              894,
+              97
+            ],
+            "visibleText": "安睡裤",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "image_filter",
+        "name": "有tab图筛",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "图筛Tab",
+            "sourceRegion": "图筛",
+            "coord": [
+              64,
+              400,
+              130,
+              55
+            ],
+            "visibleText": "品牌",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation",
+            "selected": true
+          },
+          {
+            "elementType": "图筛Tab",
+            "sourceRegion": "图筛",
+            "coord": [
+              214,
+              400,
+              130,
+              55
+            ],
+            "visibleText": "类型",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation",
+            "selected": false
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 1,
+            "coord": [
+              84,
+              518,
+              143,
+              169
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                84,
+                518,
+                143,
+                109
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                84,
+                635,
+                143,
+                52
+              ],
+              "visibleText": "自由点",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 2,
+            "coord": [
+              274,
+              492,
+              144,
+              214
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                274,
+                492,
+                144,
+                154
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                274,
+                654,
+                144,
+                52
+              ],
+              "visibleText": "苏菲",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 3,
+            "coord": [
+              473,
+              498,
+              132,
+              201
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                473,
+                498,
+                132,
+                141
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                473,
+                647,
+                132,
+                52
+              ],
+              "visibleText": "护舒宝",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 4,
+            "coord": [
+              657,
+              498,
+              145,
+              205
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                657,
+                498,
+                145,
+                145
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                657,
+                651,
+                145,
+                52
+              ],
+              "visibleText": "高洁丝",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 5,
+            "coord": [
+              853,
+              511,
+              136,
+              197
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                853,
+                511,
+                136,
+                137
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                853,
+                656,
+                136,
+                52
+              ],
+              "visibleText": "七度空间",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          },
+          {
+            "elementType": "图筛项",
+            "sourceRegion": "图筛",
+            "itemIndex": 6,
+            "coord": [
+              1033,
+              489,
+              159,
+              219
+            ],
+            "image": {
+              "elementType": "图筛图片",
+              "sourceRegion": "图筛",
+              "coord": [
+                1033,
+                489,
+                159,
+                159
+              ],
+              "visibleText": "",
+              "confidence": 0.92,
+              "status": "confirmed",
+              "source": "cv_photo"
+            },
+            "text": {
+              "elementType": "图筛文本",
+              "sourceRegion": "图筛",
+              "coord": [
+                1033,
+                656,
+                159,
+                52
+              ],
+              "visibleText": "花王",
+              "confidence": 1.0,
+              "status": "confirmed",
+              "source": "gold_component_annotation"
+            },
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "componentType": "sort_filter",
+        "name": "快筛",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 5,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "cropped": false,
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商品卡1",
+            "listPosition": 1,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              952,
+              1224,
+              502
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      952,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      952,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      952,
+                      812,
+                      132
+                    ],
+                    "visibleText": "【L号】苏菲超熟睡安心裤5片/包裤型卫生巾",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": []
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      388,
+                      1154,
+                      107,
+                      100
+                    ],
+                    "visibleText": "￥10.9",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      602,
+                      1154,
+                      107,
+                      100
+                    ],
+                    "visibleText": "￥2.18",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "价格说明",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      495,
+                      1154,
+                      43,
+                      100
+                    ],
+                    "visibleText": "神价",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      709,
+                      1154,
+                      128,
+                      100
+                    ],
+                    "visibleText": "月售4630",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "神券",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      879,
+                      1154,
+                      278,
+                      100
+                    ],
+                    "visibleText": "神券立减545减121.5",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1349,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥14.9",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1349,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送时长",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      1050,
+                      1154,
+                      150,
+                      58
+                    ],
+                    "visibleText": "30分钟",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      1050,
+                      1214,
+                      150,
+                      58
+                    ],
+                    "visibleText": "1.5km",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡2",
+            "listPosition": 2,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1454,
+              1224,
+              563
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1454,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1454,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1454,
+                      812,
+                      132
+                    ],
+                    "visibleText": "她研社春眠小裤安睡裤M-L码/马3条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1586,
+                      812,
+                      70
+                    ],
+                    "visibleText": "3片",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      388,
+                      1656,
+                      62,
+                      100
+                    ],
+                    "visibleText": "￥4",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      794,
+                      1656,
+                      156,
+                      100
+                    ],
+                    "visibleText": "￥1.43",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "价格说明",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      607,
+                      1656,
+                      94,
+                      100
+                    ],
+                    "visibleText": "到手价",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      950,
+                      1656,
+                      187,
+                      100
+                    ],
+                    "visibleText": "已售7246",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1791,
+                      82,
+                      54
+                    ],
+                    "visibleText": "品牌",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "商家名",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      476,
+                      1791,
+                      562,
+                      54
+                    ],
+                    "visibleText": "参慕诗全球美妆集合店(朝阳望京店)",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1851,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送¥8.8",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1851,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "配送时长",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      1050,
+                      1656,
+                      150,
+                      58
+                    ],
+                    "visibleText": "46分钟",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      1050,
+                      1716,
+                      150,
+                      58
+                    ],
+                    "visibleText": "2.3km",
+                    "confidence": 1.0,
+                    "status": "confirmed",
+                    "source": "gold_element_annotation"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡3",
+            "listPosition": 3,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              2017,
+              1224,
+              683
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2017,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2017,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2017,
+                      812,
+                      132
+                    ],
+                    "visibleText": "全棉时代奈丝公主M码安睡裤3包",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": []
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      388,
+                      2219,
+                      177,
+                      100
+                    ],
+                    "visibleText": "￥11.9",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      670,
+                      2219,
+                      141,
+                      100
+                    ],
+                    "visibleText": "¥9.4",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "价格说明",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      565,
+                      2219,
+                      318,
+                      100
+                    ],
+                    "visibleText": "买2件¥9.4/件",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      882,
+                      2219,
+                      141,
+                      100
+                    ],
+                    "visibleText": "已售61",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": []
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡4",
+            "listPosition": 4,
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              0,
+              1224,
+              2700
+            ],
+            "cropped": true,
+            "status": "confirmed",
+            "recognitionStatus": "uncertain",
+            "regions": {
+              "标题区": {
+                "elements": []
+              }
+            },
+            "source": "gold_component_annotation"
+          }
+        ]
+      }
+    ]
+  },
+  "cvFacts": {
+    "photoCandidates": 10
+  },
+  "routing": {
+    "rule": "uncertain only records insufficient local recognition; it never means absent, defective, failing, excellent, or a human-review task."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "contractVersion": "phase2.golden-product-page-structure.v1",
+  "description": "商品卡片组件级黄金真值。顺序只描述页面组件；结果卡必须嵌套在结果列表组件中。",
+  "pages": {
+    "商品卡片-搜索词为啤酒": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["image_filter", "有tab图筛", false], ["sort_filter", "快筛", false], ["promotion_filter", "优惠筛选", false], ["results_list", "结果列表", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["result_card", "商品卡3", true]],
+    "商品卡片-搜索词为喜力啤酒整箱": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["sort_filter", "快筛", false], ["promotion_filter", "优惠筛选", false], ["results_list", "结果列表", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["result_card", "商品卡3", false], ["result_card", "商品卡4", true]],
+    "商品卡片-搜索词为安睡裤": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["image_filter", "有tab图筛", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["result_card", "商品卡3", false], ["result_card", "商品卡4", true]],
+    "商品卡片-搜索词为榴莲": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["image_filter", "有tab图筛", false], ["sort_filter", "快筛", false], ["promotion_filter", "优惠筛选", false], ["results_list", "结果列表", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["result_card", "商品卡3", false], ["result_card", "商品卡4", true]],
+    "商品卡片-搜索词为布洛芬": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["business_image_filter", "无tab图筛", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["heterogeneous_card", "大家还在搜", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["floating_service", "问医生浮窗", false], ["result_card", "商品卡3", true]],
+    "商品卡片-搜索词为生理盐水": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["sort_filter", "快筛", false], ["results_list", "结果列表", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["result_card", "商品卡3", false], ["floating_service", "问医生浮窗", false], ["result_card", "商品卡4", false], ["result_card", "商品卡5", true]],
+    "商品卡片-搜索词为西瓜": [["search_bar", "搜索框", false], ["tab", "Tab", false], ["business_image_filter", "无tab图筛", false], ["sort_filter", "快筛", false], ["promotion_filter", "优惠筛选", false], ["results_list", "结果列表", false], ["result_card", "商品卡1", false], ["result_card", "商品卡2", false], ["result_card", "商品卡3", false], ["result_card", "商品卡4", true]]
+  },
+  "componentElementAnnotations": {
+    "商品卡片-搜索词为啤酒": {"searchKeyword": "啤酒", "imageFilter": {"tabs": ["热门品类", "推荐品牌"], "items": ["奶皮子啤酒", "冰镇啤酒", "箱装啤酒", "果味", "鲜打啤酒", "白啤"]}, "cardElementOverrides": {"3": {"title": "燕京U8啤酒8P瓶装500ml度", "subtitle": {"属性说明": ["≥2.5%vol｜保质期：360天"]}}}},
+    "商品卡片-搜索词为喜力啤酒整箱": {"searchKeyword": "喜力啤酒整箱", "cardElementOverrides": {"4": {"title": "喜力啤酒11.4P听装500ml*12", "subtitle": {"属性说明": ["麦香浓郁｜一口感均衡"]}}}},
+    "商品卡片-搜索词为安睡裤": {"searchKeyword": "安睡裤", "imageFilter": {"tabs": ["品牌", "类型"], "items": ["自由点", "苏菲", "护舒宝", "高洁丝", "七度空间", "花王"]}, "cardElementOverrides": {"2": {"merchant": {"商家标签": "品牌", "商家名": "参慕诗全球美妆集合店(朝阳望京店)", "起送费": "起送¥8.8", "配送费": "免配送费", "配送时长": "46分钟", "距离": "2.3km"}}}},
+    "商品卡片-搜索词为榴莲": {"searchKeyword": "榴莲", "imageFilter": {"tabs": ["品种", "形态类型"], "items": ["金枕", "黑刺", "托曼尼", "干尧", "青尼"]}, "cardHeadY": [976, 1539, 2102, 2665], "cardElementOverrides": {"3": {"fulfillment": "外卖", "title": "【世界杯特惠榴莲】（鲜AA果）3-4斤泰国进口树熟【金枕榴莲】3-4斤（香"}}},
+    "商品卡片-搜索词为布洛芬": {"searchKeyword": "布洛芬", "imageFilter": {"items": ["美林", "司百得", "散利痛", "泽芬", "仁和", "感康"]}, "cardElementOverrides": {"1": {"subtitle": {"推荐理由": ["超90人回购"], "属性说明": ["痛经", "牙痛", "头痛", "感冒发热"]}}}},
+    "商品卡片-搜索词为生理盐水": {"searchKeyword": "生理盐水"},
+    "商品卡片-搜索词为西瓜": {"searchKeyword": "西瓜", "imageFilter": {"items": ["果切", "麒麟", "小西瓜", "半个", "无籽", "黄心"]}}
+  }
+}

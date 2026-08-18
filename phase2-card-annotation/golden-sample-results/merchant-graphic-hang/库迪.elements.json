@@ -1,0 +1,1012 @@
+{
+  "contractVersion": "phase2.merchant-graphic-hang-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为库迪.png",
+  "pageStructure": {
+    "source": "gold_component_annotation",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "sourceRegion": "搜索框",
+            "coord": [
+              135,
+              176,
+              894,
+              97
+            ],
+            "visibleText": "库迪",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "sort_filter",
+        "name": "快筛",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 4,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "cropped": false,
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商卡1-图文下挂",
+            "listPosition": 1,
+            "cardId": "C1",
+            "cardType": "商家卡片-图文下挂",
+            "coord": [
+              0,
+              554,
+              1224,
+              627
+            ],
+            "cropped": false,
+            "status": "confirmed",
+            "confidence": 0.9,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      554,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      394,
+                      546,
+                      625,
+                      68
+                    ],
+                    "visibleText": "库迪咖啡(异泵乐地铁站店)",
+                    "confidence": 0.86,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      350,
+                      616,
+                      101,
+                      72
+                    ],
+                    "visibleText": "1分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      501,
+                      616,
+                      152,
+                      72
+                    ],
+                    "visibleText": "17条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "下挂商品区": {
+                "products": [
+                  {
+                    "productIndex": 1,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        767,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        1036,
+                        264,
+                        72
+                      ],
+                      "visibleText": "[不要纯美式]特",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        1108,
+                        264,
+                        52
+                      ],
+                      "visibleText": "12G 1",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 2,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        767,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        1036,
+                        264,
+                        72
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        1108,
+                        264,
+                        52
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 3,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        767,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        1036,
+                        264,
+                        72
+                      ],
+                      "visibleText": "[10 选 1]库门招",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        1108,
+                        264,
+                        52
+                      ],
+                      "visibleText": "2e",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 4,
+                    "cropped": true,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        767,
+                        82,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "uncertain",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        1036,
+                        82,
+                        72
+                      ],
+                      "visibleText": "[—™",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        1108,
+                        82,
+                        52
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              },
+              "特殊下挂": {
+                "elements": []
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡2-图文下挂",
+            "listPosition": 2,
+            "cardId": "C2",
+            "cardType": "商家卡片-图文下挂",
+            "coord": [
+              0,
+              1269,
+              1224,
+              627
+            ],
+            "cropped": false,
+            "status": "confirmed",
+            "confidence": 0.9,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1269,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      394,
+                      1261,
+                      625,
+                      68
+                    ],
+                    "visibleText": "库迪咖啡(碑束金溜国际大厦)",
+                    "confidence": 0.86,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      1331,
+                      146,
+                      72
+                    ],
+                    "visibleText": "3.7分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "评价条数",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      481,
+                      1331,
+                      109,
+                      72
+                    ],
+                    "visibleText": "61条",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "人均价",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      627,
+                      1331,
+                      182,
+                      72
+                    ],
+                    "visibleText": "人均¥10",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1100,
+                      1331,
+                      109,
+                      72
+                    ],
+                    "visibleText": "17m",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "下挂商品区": {
+                "products": [
+                  {
+                    "productIndex": 1,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        1482,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        1751,
+                        264,
+                        72
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        1823,
+                        264,
+                        52
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 2,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        1482,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        1751,
+                        264,
+                        72
+                      ],
+                      "visibleText": "[不要纯美式]特",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        1823,
+                        264,
+                        52
+                      ],
+                      "visibleText": "12G 1",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 3,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        1482,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        1751,
+                        264,
+                        72
+                      ],
+                      "visibleText": "[10 选 1]库门招",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        1823,
+                        264,
+                        52
+                      ],
+                      "visibleText": "2e",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 4,
+                    "cropped": true,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        1482,
+                        82,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "uncertain",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        1751,
+                        82,
+                        72
+                      ],
+                      "visibleText": "[—™",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        1823,
+                        82,
+                        52
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              },
+              "特殊下挂": {
+                "elements": []
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商卡3-图文下挂",
+            "listPosition": 3,
+            "cardId": "C3",
+            "cardType": "商家卡片-图文下挂",
+            "coord": [
+              0,
+              1984,
+              1224,
+              273
+            ],
+            "cropped": true,
+            "status": "confirmed",
+            "confidence": 0.9,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1984,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      394,
+                      1976,
+                      625,
+                      68
+                    ],
+                    "visibleText": "4",
+                    "confidence": 0.86,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送时长",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      1034,
+                      1976,
+                      180,
+                      68
+                    ],
+                    "visibleText": "约15分钟",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分/新店",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      299,
+                      2046,
+                      140,
+                      72
+                    ],
+                    "visibleText": "4.8分",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      474,
+                      2046,
+                      210,
+                      72
+                    ],
+                    "visibleText": "月售800+",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      719,
+                      2046,
+                      140,
+                      72
+                    ],
+                    "visibleText": "起送¥0",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      894,
+                      2046,
+                      140,
+                      72
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1069,
+                      2046,
+                      140,
+                      72
+                    ],
+                    "visibleText": "996m",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": []
+              },
+              "下挂商品区": {
+                "products": [
+                  {
+                    "productIndex": 1,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        2197,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        2466,
+                        264,
+                        72
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        311,
+                        2538,
+                        264,
+                        52
+                      ],
+                      "visibleText": "15.8 30天低价",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 2,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        2197,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        2466,
+                        264,
+                        72
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        588,
+                        2538,
+                        264,
+                        52
+                      ],
+                      "visibleText": "¥14.4",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 3,
+                    "cropped": false,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        2197,
+                        264,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "confirmed",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        2466,
+                        264,
+                        72
+                      ],
+                      "visibleText": "金奖深， 深烘美式",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        865,
+                        2538,
+                        264,
+                        52
+                      ],
+                      "visibleText": "¥8.99 神券价",
+                      "confidence": 0.76,
+                      "status": "confirmed",
+                      "source": "local_crop_ocr"
+                    }
+                  },
+                  {
+                    "productIndex": 4,
+                    "cropped": true,
+                    "image": {
+                      "elementType": "下挂商品图",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        2197,
+                        82,
+                        264
+                      ],
+                      "visibleText": "",
+                      "confidence": 0.78,
+                      "status": "uncertain",
+                      "source": "cv_product_slot"
+                    },
+                    "name": {
+                      "elementType": "下挂商品名",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        2466,
+                        82,
+                        72
+                      ],
+                      "visibleText": "小黄",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    },
+                    "price": {
+                      "elementType": "下挂商品价格",
+                      "sourceRegion": "下挂商品区",
+                      "coord": [
+                        1142,
+                        2538,
+                        82,
+                        52
+                      ],
+                      "visibleText": "¥15:",
+                      "confidence": 0.76,
+                      "status": "uncertain",
+                      "source": "local_crop_ocr"
+                    }
+                  }
+                ]
+              },
+              "特殊下挂": {
+                "elements": []
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "cvModuleCandidates": [
+    {
+      "module": "search_bar",
+      "coord": [
+        4,
+        37,
+        1213,
+        322
+      ],
+      "confidence": 0.55,
+      "status": "uncertain",
+      "evidence": [
+        "top_text_candidate"
+      ]
+    },
+    {
+      "module": "tab",
+      "coord": [
+        697,
+        300,
+        445,
+        46
+      ],
+      "confidence": 0.8,
+      "status": "confirmed",
+      "evidence": [
+        "tab_terms"
+      ]
+    }
+  ],
+  "routing": {
+    "rule": "元素为 OCR/CV 伪标注候选；uncertain 不代表缺失、问题、不达标、优秀或人工复核任务。"
+  }
+}

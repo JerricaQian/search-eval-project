@@ -1,0 +1,17 @@
+{
+  "contractVersion": "phase2.product-card-golden-manifest.v1",
+  "purpose": "商品卡片黄金储备。组件标注确定页面组件、图筛/快筛/优惠筛选、异构卡和结果卡边界；元素标注确定商品卡的头图、标题、副标题、价格和商家区归属。",
+  "componentLevelSamples": [
+    {"query": "啤酒", "raw": "component-level/商品卡片-搜索词为啤酒.png", "annotation": "component-level/商品卡片-搜索词为啤酒-标注后.png", "json": "../../golden-sample-results/product-card/啤酒.elements.json"},
+    {"query": "喜力啤酒整箱", "raw": "component-level/商品卡片-搜索词为喜力啤酒整箱.png", "annotation": "component-level/商品卡片-搜索词为喜力啤酒整箱-标注后.png", "json": "../../golden-sample-results/product-card/喜力啤酒整箱.elements.json"},
+    {"query": "安睡裤", "raw": "component-level/商品卡片-搜索词为安睡裤.png", "annotation": "component-level/商品卡片-搜索词为安睡裤-标注后.png", "json": "../../golden-sample-results/product-card/安睡裤.elements.json"},
+    {"query": "榴莲", "raw": "component-level/商品卡片-搜索词为榴莲.png", "annotation": "component-level/商品卡片-搜索词为榴莲-标注后.png", "json": "../../golden-sample-results/product-card/榴莲.elements.json", "note": "源标注文件名为安睡裤-标注后-2，已按实际页面内容重命名归档。"},
+    {"query": "布洛芬", "raw": "component-level/商品卡片-搜索词为布洛芬.png", "annotation": "component-level/商品卡片-搜索词为布洛芬-标注后.png", "json": "../../golden-sample-results/product-card/布洛芬.elements.json"},
+    {"query": "生理盐水", "raw": "component-level/商品卡片-搜索词为生理盐水.png", "annotation": "component-level/商品卡片-搜索词为生理盐水-标注后.png", "json": "../../golden-sample-results/product-card/生理盐水.elements.json"},
+    {"query": "西瓜", "raw": "component-level/商品卡片-搜索词为西瓜.png", "annotation": "component-level/商品卡片-搜索词为西瓜-标注后.png", "json": "../../golden-sample-results/product-card/西瓜.elements.json"}
+  ],
+  "elementLevelSamples": [
+    {"query": "安睡裤", "annotation": "element-level/商品卡片-搜索词为安睡裤-元素标注后.png", "role": "商品卡元素级基准"}
+  ],
+  "policy": "商品卡的页面顺序、图筛项分组、卡片嵌套、卡内区域及元素归属发生变化时，必须回归全部 7+1 张黄金样本。"
+}

@@ -1,0 +1,685 @@
+{
+  "contractVersion": "phase2.product-card-elements.v1",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png",
+  "pageStructure": {
+    "source": "gold_component_annotation",
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "cropped": false,
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "sourceRegion": "搜索框",
+            "coord": [
+              135,
+              175,
+              894,
+              97
+            ],
+            "visibleText": "生理盐水",
+            "confidence": 1.0,
+            "status": "confirmed",
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "sort_filter",
+        "name": "快筛",
+        "cropped": false,
+        "status": "confirmed"
+      },
+      {
+        "order": 4,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "cropped": false,
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "name": "商品卡1",
+            "listPosition": 1,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              554,
+              1224,
+              502
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      554,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      554,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      554,
+                      812,
+                      132
+                    ],
+                    "visibleText": "海氏海诺英诺威医用生理盐水清250ml0.9%氯化钠清洗液清洁",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      686,
+                      375,
+                      70
+                    ],
+                    "visibleText": "一类医疗器械",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      825,
+                      686,
+                      375,
+                      70
+                    ],
+                    "visibleText": "超30人回购",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      815,
+                      756,
+                      85,
+                      100
+                    ],
+                    "visibleText": "￥1",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      901,
+                      756,
+                      256,
+                      100
+                    ],
+                    "visibleText": "已售700+",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      951,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥9.9",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      951,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡2",
+            "listPosition": 2,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1056,
+              1224,
+              502
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1056,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1056,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1056,
+                      812,
+                      132
+                    ],
+                    "visibleText": "[霖恩盐水]清洗液(0.9%NaCl)(生水)15ml*20支/盒生理盐水棒清",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1188,
+                      375,
+                      70
+                    ],
+                    "visibleText": "一类医疗器械",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      825,
+                      1188,
+                      375,
+                      70
+                    ],
+                    "visibleText": "超20人回购",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      672,
+                      1258,
+                      162,
+                      100
+                    ],
+                    "visibleText": "¥232",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      956,
+                      1258,
+                      244,
+                      100
+                    ],
+                    "visibleText": "已售700+",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1453,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥15.9",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1453,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡3",
+            "listPosition": 3,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              1558,
+              1224,
+              502
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1558,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      1558,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      1690,
+                      812,
+                      70
+                    ],
+                    "visibleText": "一类医疗器械",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      812,
+                      1760,
+                      106,
+                      100
+                    ],
+                    "visibleText": "已售2",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1955,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥9.9",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      1955,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡4",
+            "listPosition": 4,
+            "cropped": false,
+            "status": "confirmed",
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              2060,
+              1224,
+              640
+            ],
+            "confidence": 0.86,
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2060,
+                      332,
+                      332
+                    ],
+                    "visibleText": "",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "cv_photo"
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      388,
+                      2060,
+                      92,
+                      62
+                    ],
+                    "visibleText": "外卖",
+                    "confidence": 0.82,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "副标题区": {
+                "elements": [
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      388,
+                      2192,
+                      406,
+                      70
+                    ],
+                    "visibleText": "超300人回购",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "属性说明",
+                    "sourceRegion": "副标题区",
+                    "coord": [
+                      852,
+                      2192,
+                      174,
+                      70
+                    ],
+                    "visibleText": "处方药",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "商品价格",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      388,
+                      2262,
+                      102,
+                      100
+                    ],
+                    "visibleText": "￥4",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "销量数据",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      642,
+                      2262,
+                      355,
+                      100
+                    ],
+                    "visibleText": "已售4000+",
+                    "confidence": 0.78,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              },
+              "商家区": {
+                "elements": [
+                  {
+                    "elementType": "起送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      2457,
+                      430,
+                      54
+                    ],
+                    "visibleText": "起送￥20",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  },
+                  {
+                    "elementType": "配送费",
+                    "sourceRegion": "商家区",
+                    "coord": [
+                      388,
+                      2457,
+                      430,
+                      54
+                    ],
+                    "visibleText": "免配送费",
+                    "confidence": 0.8,
+                    "status": "confirmed",
+                    "source": "local_crop_ocr"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "name": "商品卡5",
+            "listPosition": 5,
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              0,
+              1224,
+              2700
+            ],
+            "cropped": true,
+            "status": "confirmed",
+            "recognitionStatus": "uncertain",
+            "regions": {
+              "标题区": {
+                "elements": []
+              }
+            },
+            "source": "gold_component_annotation"
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "componentType": "floating_service",
+        "name": "问医生浮窗",
+        "cropped": false,
+        "status": "confirmed"
+      }
+    ]
+  },
+  "cvFacts": {
+    "photoCandidates": 7
+  },
+  "routing": {
+    "rule": "uncertain only records insufficient local recognition; it never means absent, defective, failing, excellent, or a human-review task."
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "contractVersion": "phase2.search-card-taxonomy.v1",
+  "description": "依据七份卡片规范沉淀的领域卡片契约。识别顺序必须为：卡片类型 → 该卡型的区域 → 该区域允许的元素；本文件中的枚举是识别候选与评测依据，不是缺失推断依据。",
+  "classification": {
+    "order": ["商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片", "广告卡", "异构卡"],
+    "statusPolicy": "只有卡型证据与区域结构均充分时才 confirmed；多个卡型接近、OCR 不可靠或区域不可分时为 uncertain。uncertain 不得转写为元素缺失、体验问题、不达标或优秀，也不创建人工复核任务。",
+    "fallback": {
+      "广告卡": {"definition": "有明确广告标或推广素材，且不满足七种常见卡片框架的充分证据。"},
+      "异构卡": {"definition": "结果列表中的非广告卡，且不满足任一常见卡片框架的充分证据。"}
+    }
+  },
+  "commonElementVocabulary": {
+    "fulfillment": ["到店", "外卖", "闪购", "上门", "团购", "酒店", "民宿", "旅游", "演出", "景点", "地铁", "大学"],
+    "merchantStatus": ["直播中", "23:00休息", "24h营业", "休息中", "即将开业", "即将营业", "10:00营业", "暂停营业", "歇业关闭", "满房", "尚未营业"],
+    "commercialMarkers": ["广告", "推广", "自营", "品牌", "官方", "连锁", "SA级营销标", "资质认证"],
+    "price": ["现价", "划线价", "到手价", "券后价", "套餐价", "区间价", "最低价", "价格说明", "折扣", "立减", "共省"],
+    "metrics": ["评分", "评价条数", "人均价", "销量", "月售", "年售", "已售", "距离", "配送时长"]
+  },
+  "visualContract": {
+    "purpose": "视觉属性用于佐证元素候选和评测样式，不单独决定语义或缺失。",
+    "fields": ["position", "textColorRole", "fontWeight", "backgroundColorRole", "borderColorRole", "containerShape", "hasGraphicAssist", "graphicType", "sourceRegion", "attachedToHeadImage", "excludedWithHeadImage"],
+    "colorRoles": ["neutral", "red", "orange", "yellow", "green", "blue", "purple", "multicolor", "unknown"],
+    "recognitionRule": "只有文字、位置、区域归属和视觉样式至少两类相互支持时才可提高确认置信度；任一信息不确定则保留 uncertain。"
+  },
+  "cardTypes": [
+    {
+      "scope": "results_list_card",
+      "id": "商品卡片",
+      "name": "商品卡片",
+      "source": "商品卡片.pdf",
+      "classificationEvidence": {"required": ["商品主图与右侧商品文字信息", "商品价格"], "supporting": ["商品标题", "副标题", "商家信息"]},
+      "regions": [
+        {"id": "head_image", "name": "头图区", "elements": ["商品主图", "左上营销角标（SA级营销标，至多一项）", "右上钻石属性或特殊IP（至多一项，特殊IP优先）", "氛围腰带（活动/自营，活动优先）", "广告标"], "elementDefinitions": {"leftTopMarketing": {"position": "左上", "values": ["SA级营销标"], "maxCount": 1, "exclusionRule": "SA级营销标位于头图腰封时，作为头图附属元素处理；后续头图整体被排除时，该腰封随头图排除，不另计为独立卡片正文元素。"}, "rightTopDiamondAttribute": {"position": "右上", "maxCount": 1, "values": ["保温", "热食", "热饮", "现烤", "鲜打", "时令", "五谷", "鲜活", "冷藏", "低温", "冰鲜", "冷鲜", "冰镇", "冷冻", "3C认证", "新品", "医保个账", "医保"]}, "rightTopSpecialIP": {"position": "右上", "maxCount": 1, "priority": "specialIP > diamondAttribute", "values": ["NEW闪电新品", "有花漾", "严选", "省心厨", "鲜焙", "明口达", "日日鲜", "临期特惠", "特惠", "新品", "时令", "NEW品质新品", "百亿补贴", "团购", "特价团", "优美会", "美团住吧"]}, "atmosphereBelt": {"position": "头图腰封", "values": ["活动腰封", "自营腰封"], "priority": "活动腰封 > 自营腰封"}}},
+        {"id": "title", "name": "标题区", "elements": ["履约标签（前置）", "商品标题（至多两行）"]},
+        {"id": "subtitle", "name": "副标题区", "elements": ["推荐理由", "增值服务", "属性说明", "特殊售卖"], "elementDefinitions": {"recommendationReason": {"businessValues": {"闪购": ["92%好评18个点赞", "专业质检 售后无忧", "11人说‘花材质感出色’", "近期买过3次", "近期100+人复购"], "医药": ["超50人好评", "超50人回购", "最近66人看过超40人加购"], "团购": ["63条好评"]}}, "attributeDescription": {"businessValues": {"闪购": ["1瓶/3瓶/12瓶", "今日生产｜低温配送", "临期｜10月23日到期", "新上市｜0反式脂肪酸｜0糖"], "医药": ["原研药", "原装进口", "蓝帽认证", "二类医疗器械", "一类医疗器械", "处方药", "风寒感冒｜发热头痛", "持续12小时", "温和低刺激"]}}, "valueAddedService": {"businessValues": {"闪购": ["买双瓶赠原厂礼袋", "赠礼袋", "赠吸管", "赠开椰器", "可放机场鲜花柜"], "团购": ["免预约", "随时退", "过期自动退", "周末、节假日通用"]}}, "specialSale": {"values": ["预约｜9月20日10:00开售", "预约｜9月20日开售", "预约｜今日即将开售", "预约｜10:00开售", "预约｜9月20日10:00开始预售", "预约｜9月20日开始预售", "预约｜今日即将预售", "预约｜10:00预售", "预约｜最早9月20日发货", "9月20日10:00开始预约", "10:00开始预约", "预约后9月20日10:00可抢", "预约后10:00可抢", "9月20日10:00开抢", "10:00开抢"]}, "displayRule": "副标题最多一行；存在多类内容时按推荐理由 > 增值服务 > 属性说明的优先级，特殊售卖按产品规范的独立呈现位置判断，不以未出现反推缺失。"}},
+        {"id": "price", "name": "价格区", "elements": ["商品价格", "划线价", "价格说明", "销量数据", "平台保障"], "elementDefinitions": {"priceExplanation": {"values": ["国补价", "到手价", "会员价", "秒杀价", "新人价", "清仓价", "神价", "限时秒杀", "临期特惠", "团购会员价", "官方补贴", "每盒¥3.4", "满3件¥3.4/件", "第2件¥3.4/件", "已优惠5.84元", "V到手价", "¥25.5会员价", "¥25.5 V到手价"]}, "productPrice": {"values": ["¥35.8¥33", "¥35.8起", "前10件¥35.8/件", "3件总价¥35.8", "¥35.8 V到手价", "¥35.8到手价"]}, "sales": {"values": ["月售600", "已售600", "8人想买"]}, "platformGuarantee": {"businessValues": {"闪购": ["会员退货免运费", "半日送装", "次日送装", "新鲜承诺", "365天只换不修", "180天只换不修", "隐私包装", "假一赔十", "假一赔四", "不冰必赔", "融化必赔", "坏损包退", "坏必赔", "商家退货免运费", "官方售后", "安心送", "七天无理由退货"], "小象": ["退差价", "假一赔十", "不冰必赔", "化冻必退"], "医药": ["不瘦必赔", "品质险", "晚发赔", "慢必赔", "超20分钟赔", "超28分钟赔", "假一赔三", "全程隐私", "7天无理由退货", "隐私发货"]}}}},
+        {"id": "merchant", "name": "商家区", "elements": ["商家标签", "起送费", "配送费", "距离", "配送时长", "营业状态", "评分（仅到店/酒店）"], "elementDefinitions": {"merchantTag": {"values": ["新店", "官方", "精选", "自营", "品牌", "买过的店"]}, "minimumOrder": {"values": ["起送¥20"]}, "deliveryFee": {"values": ["配送¥0.1", "配送约¥2", "满¥29包邮", "满¥29免配送费", "免费配送"]}, "distance": {"values": ["4.8km"]}, "deliveryDuration": {"values": ["115分钟", "30分钟", "31分钟", "预计x天"]}, "merchantStatus": {"values": ["20:00休息", "休息中", "仅预定", "10:00营业", "明天8:00配送", "24h营业"]}, "rating": {"applicableBusiness": ["到店", "酒店"], "values": ["4.4分"]}}}
+      ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "商家卡片_图文下挂",
+      "name": "商家卡片-图文下挂",
+      "source": "商家卡片-图文下挂.pdf",
+      "classificationEvidence": {"required": ["商家头图和商家标题", "横向图文商品下挂"], "supporting": ["商家信息", "三级文字标签"], "topology": ["左侧近方形商家头图", "下一张商家头图前的右侧商品图片组", "同一卡本地OCR文本"], "exclusions": ["左侧竖版神券/代金券不作为商品图片组"]},
+      "regions": [
+        {"id": "head_image", "name": "头图区", "elements": ["商家头图", "左上直播标/SA级营销标/资质认证（至多一项）", "底部营业状态（至多一项）", "广告标"], "elementDefinitions": {"leftTop": {"maxCount": 1, "live": ["直播标"], "saMarketing": ["美团618"], "qualification": ["品牌", "自营", "官方", "精选", "连锁"]}, "bottom": ["营业状态"], "headImageOverlay": {"attachedToHeadImage": true, "excludedWithHeadImage": true}}},
+        {"id": "title", "name": "标题区", "elements": ["履约标识", "商家标题（至多一行）", "配送时长（右侧）"], "elementDefinitions": {"fulfillment": ["到店", "外卖", "闪购"], "rightSide": ["15分钟", "约15分钟", "30分钟", "31分钟", "预计2天达"]}},
+        {"id": "merchant_info", "name": "商家信息区", "elements": ["评分/新店", "评价条数", "人均价", "品类", "AOI商圈", "距离", "销量", "起送费", "配送费", "配送距离"], "elementDefinitions": {"dineInOrder": ["评分/新店", "评价条数", "人均价", "品类", "AOI商圈", "距离"], "deliveryOrder": ["评分/新店", "销量", "起送费", "配送费", "配送距离"], "ratingOrNewStore": ["4.8分", "暂无评分", "优选新店", "新店入驻", "大牌尝新"], "reviewCount": ["1860条"], "perCapita": ["人均¥88"], "category": ["火锅（及其他品类词）"], "aoiBusinessDistrict": ["望京（及其他地名）"], "sales": ["月售300+", "已售600"], "minimumOrder": ["起送¥20"], "deliveryFee": ["配送¥0.1", "满29包邮", "免配送费", "包邮"], "deliveryDistance": ["4.8km"]}},
+        {"id": "tags", "name": "标签区", "elements": ["一级标签：权威榜单/神券", "二级标签：高优服务/高优推荐", "三级标签：平台保障/服务次履约/动态信任/商家亮点"], "elementDefinitions": {"level1": {"style": "特殊字体及颜色", "authorityRanking": ["黑珍珠", "必吃榜", "必点榜"], "coupon": ["神券 满30减18", "神券 40减7", "神券 60减14"]}, "level2": {"style": "彩色高亮文字", "highPriorityService": ["可堂食", "明厨亮灶", "浣熊食堂", "明天8:00后配送", "仅预订", "医保个账", "医保"], "highPriorityRecommendation": ["当地人推荐榜", "特色菜•糖醋小排第1名", "北京火锅销量榜第3名", "人气榜", "好评榜", "热订榜"]}, "level3": {"style": "灰色文字", "platformGuarantee": ["可堂食", "明厨亮灶", "浣熊食堂", "先用后付", "品质险", "晚发赔", "慢必赔", "假一赔三", "七天无理由", "全程隐私", "隐私发货"], "serviceOrSecondaryFulfillment": ["可订座", "可配送", "线上点•到店取", "可自取"], "dynamicTrust": ["购买过", "买过5次", "刚刚有用户下单", "最近24小时11人下单", "今日200人看过", "超200人回购", "超100人好评"], "merchantHighlight": ["大众点评高分店铺", "望京火锅销量榜第3", "人气榜", "好评榜", "热订榜"]}}},
+        {"id": "attached_goods", "name": "下挂商品区", "elements": ["商品标签（仅左下）", "商品图", "商品名", "钻石属性", "特殊售卖", "特殊腰封", "商品单价", "划线价", "价格说明"], "elementDefinitions": {"productLabel": {"position": "商品图左下", "maxCount": 1, "diamondAttribute": ["时令", "新品", "鲜活", "冰镇", "冷藏", "冰鲜", "冷冻", "保温", "招牌", "3C认证"], "specialSale": ["预售", "即将预售", "即将开售", "预约抢购"], "specialBelt": ["约¥XXXX国补价"]}, "priceExplanation": ["国补价", "会员价", "新客价", "直播特惠", "到手价", "神价", "神券价", "第1件", "限1份", "神枪手", "拼好饭", "特价团", "2件总价"]}},
+        {"id": "special_attachment", "name": "特殊下挂", "elements": ["推荐菜", "主推人气爆款", "环境图", "特殊售卖", "代金券"], "elementDefinitions": {"recommendation": ["招牌菜", "主推人气爆款", "推荐菜"], "environment": ["环境图", "对店标题评"], "vouchers": ["代金券", "随时退", "过期退"]}},
+        {"id": "service_attachment", "name": "服务下挂", "elements": ["服务标题", "服务副标题", "排队/取号/前方等位等服务信息"], "elementDefinitions": {"queue": ["前方等位：中桌32桌、大桌3桌", "取号 高峰期可能排队，有号帮你提前取", "取号 前方等位：小桌32桌、中桌20桌、大桌18桌"]}}
+      ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "商家卡片_文字下挂",
+      "name": "商家卡片-文字下挂",
+      "source": "商家卡片-文字下挂.pdf",
+      "classificationEvidence": {"required": ["商家头图和商家标题", "无商品图的文字/服务下挂"], "supporting": ["AI推荐理由", "商品、服务或组合下挂"]},
+      "regions": [
+        {"id": "head_image", "name": "头图区", "elements": ["商家头图", "左上直播标/SA级营销标/资质认证（至多一项）", "底部营业状态或景点营业状态（至多一项）", "广告标"], "elementDefinitions": {"leftTop": ["直播标", "SA级营销标", "资质认证"], "bottom": ["营业状态", "景点营业状态"], "headImageOverlay": {"attachedToHeadImage": true, "excludedWithHeadImage": true}}},
+        {"id": "title", "name": "标题区", "elements": ["履约标识", "商家标题（至多一行）", "标题后景点等级（4A/5A等）"], "elementDefinitions": {"fulfillment": ["到店", "外卖", "上门", "景点"], "scenicRating": ["4A", "5A"]}},
+        {"id": "merchant_info", "name": "商家信息区", "elements": ["评分/新店", "评价条数", "人均价", "品类", "AOI商圈", "距离或服务时间"], "elementDefinitions": {"ratingOrNewStore": ["4.8分", "暂无评分", "优选新店", "新店入驻", "大牌尝新"], "reviewCount": ["1860条", "近2500例"], "perCapita": ["人均¥88", "洗剪吹¥88/人"], "businessCategory": ["美容美发", "免费入园", "免费预约", "医疗"], "aoi": ["望京（及其他商圈/地名）"], "distanceOrServiceTime": ["4.8km", "08:00-22:00"]}},
+        {"id": "tags", "name": "标签区", "elements": ["一级标签：权威榜单/神券", "二级标签：高优保障/高优属性/行业服务次履约", "三级标签：商家服务/医疗/景点/统计/区域榜单"], "elementDefinitions": {"level1": {"authorityRanking": ["必玩榜", "洗浴指南", "酒吧指南", "chao潮店", "100百大发型师", "美团北极星", "复旦榜", "趣玩榜"], "coupon": ["神券 满30减18"]}, "level2": {"highPriorityGuarantee": ["安心学", "安心洁", "安心洗", "安心修", "全程保", "跑路赔", "洗送快", "平台服务保障", "放心美验真", "放心种", "放心配", "中华老字号", "国家非遗"], "highPriorityAttribute": ["医疗资质", "公立三甲", "公立", "公立三乙", "公立三丙", "公立三级", "公立二甲", "医保定点"], "industryServiceOrSecondaryFulfillment": ["可预定•¥60/小时起", "空闲2/3", "暂满12/12"]}, "level3": {"merchantService": ["免费停车", "不满意可退", "立等可取", "可过夜", "可预定", "可上门", "仅接待女宾", "可挂号", "x位国医大师", "在线问诊", "减重门诊", "当前可约", "随时打无痛", "24小时急诊", "儿科急诊"], "scenic": ["亲子票"], "statisticsAndTrust": ["收录X年", "成立X年", "近期好评率95%", "近期100+人消费", "回头客推荐值92"], "regionalRanking": ["北京保洁清洗销量榜第3名"]}}},
+        {"id": "ai_reason", "name": "AI推荐理由", "elements": ["文本推荐理由（至多一行）"], "elementDefinitions": {"format": "带推荐图标的单行文本", "examples": ["老师傅稳定3年未涨价，专业口碑工具"]}},
+        {"id": "attachment", "name": "下挂区", "elements": ["商品下挂：商品名称+价格，无起送/配送位", "服务下挂：服务标题+副标题", "组合下挂：预约/服务信息+商品价格与名称"], "elementDefinitions": {"goods": ["商品名称", "商品价格"], "service": ["服务标题", "服务副标题", "预约", "今日可约", "取号/排队"], "combination": ["预约或服务信息", "商品名称", "商品价格"]}}
+      ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "酒店卡片",
+      "name": "酒店卡片（商家商品卡）",
+      "source": "酒店卡片（商家商品卡）.pdf",
+      "classificationEvidence": {"required": ["酒店/民宿履约标识", "酒店价格（¥…起）"], "supporting": ["酒店等级", "评分与推荐理由", "满房/预订等酒店状态"]},
+      "variants": ["通用酒店商家卡", "双列酒店商品卡"],
+      "regions": [
+        {"id": "head_image", "name": "头图区", "elements": ["酒店/民宿头图", "左上直播标或SA级营销标（至多一项）", "资质认证（美团住吧/认证影音房/认证电竞房/认证好床/优美会）", "右上视频标", "底部营业状态（满房/尚未营业/暂停营业/歇业关闭，至多一项）", "广告标"], "elementDefinitions": {"leftTop": ["直播标", "SA级营销标"], "certification": ["美团住吧", "认证影音房", "认证电竞房", "认证好床", "优美会", "金牌房源"], "rightTop": ["视频标"], "bottom": ["满房", "尚未营业", "暂停营业", "歇业关闭"], "headImageOverlay": {"attachedToHeadImage": true, "excludedWithHeadImage": true}}},
+        {"id": "title", "name": "标题区", "elements": ["酒店/民宿履约标识", "酒店标题（至多两行；双列变体至多一行）", "酒店等级（经济型/舒适型/高档型/豪华型）"], "elementDefinitions": {"fulfillment": ["酒店", "民宿"], "hotelRating": ["经济型", "舒适型", "高档型", "豪华型"]}},
+        {"id": "rating_reason", "name": "评分与推荐理由", "elements": ["评分或暂无评分", "推荐理由"], "elementDefinitions": {"rating": ["4.9分", "4.8分", "暂无评分"], "reason": ["设施智能完善，早餐品种丰富", "窗明几净，非常安静的民宿", "性价比很高，距离地铁走路2分钟就到"]}},
+        {"id": "location", "name": "位置信息", "elements": ["距离", "近区位", "AOI区位"], "elementDefinitions": {"distance": ["距您直线12.6km", "距您2km", "距您1.4km"], "nearby": ["近科技园公共汽车站", "近悠乐汇", "近来广营-地铁站"], "aoi": ["望京", "亦庄"]}},
+        {"id": "tags", "name": "标签区", "elements": ["一级会员权益", "三级酒店属性/服务标签", "民宿房型规格"], "elementDefinitions": {"level1Member": ["积分抵¥15", "送约会礼包", "住十送一", "无忧取消", "积分抵房费"], "level3": ["免费升房", "延迟退房", "免费早餐", "旗舰店·银卡会员", "必住礼遇", "欢迎水果", "提前入住", "近地铁", "不满意退", "健身房", "随心退", "有影音房", "预约发票", "即时确认", "专客专享"], "homestayRoomSpec": ["1室1床2人", "整套房源", "68m²"]}},
+        {"id": "price", "name": "价格区", "elements": ["酒店价格", "划线价", "价格标签", "预订信息", "动态信任标签", "销量", "左下标签", "左上榜单标签"], "elementDefinitions": {"priceLabels": ["满30减18", "黑钻8折", "30天低价", "冬季特惠", "已减109"], "booking": ["低价房仅剩2间", "最早x日可订", "看过的店"], "dynamicTrust": ["1小时前有人预订", "近x日有人收藏"], "sales": ["1000+消费"], "ranking": ["北京豪华好评榜第1名", "望京经济好评榜第1名"]}},
+        {"id": "basic_info", "name": "基础信息区（双列变体）", "elements": ["酒店信息：面积/人数/床型", "电竞设备信息：电脑数量/专线网络"], "elementDefinitions": {"hotelInfo": ["18-25m²", "2人", "大床"], "esportsDevice": ["1台电脑", "2台电脑", "专线网络"], "sales": ["已售27", "已售200"]}}
+      ]
+    },
+    {
+      "scope": "pre_results_page_module",
+      "id": "主点卡片",
+      "name": "主点卡片",
+      "source": "主点卡片.pdf",
+      "classificationEvidence": {"required": ["POI实体标题", "实体基础信息"], "supporting": ["地点/商场/景点/医院任一领域专属下挂"]},
+      "variants": ["非商主点（地铁/大学）", "商场", "景点", "医院"],
+      "regions": [
+        {"id": "entity_title", "name": "实体标题区", "elements": ["POI名称", "实体类型", "等级/认证（如5A、三甲）"], "elementDefinitions": {"nonMerchant": ["望京东（地铁站）", "清华大学", "地铁", "大学"], "mall": ["凯德MALL（望京店）", "商场"], "scenic": ["北京动物园", "上海迪斯尼度假区", "5A"], "hospital": ["北京积水潭医院（新街口院区）", "复旦榜评级A++", "公立三甲", "医保定点"]}},
+        {"id": "entity_info", "name": "实体信息区", "elements": ["评分", "评价条数", "距离", "地址/行政区", "推荐描述", "营业/门诊时间"], "elementDefinitions": {"nonMerchant": ["评分", "评价条数", "距离", "实体类型", "行政区/地址", "推荐描述"], "hospital": ["复旦榜评级", "公立三甲", "医保定点", "门诊时间", "门诊服务", "距离", "详细地址"]}},
+        {"id": "attachment", "name": "领域下挂区", "elements": ["非商主点：途径路线/拍照点/游玩路线/优惠团购", "商场：新店/热店文本下挂", "景点：可订日期/游客量/景点门票/附近酒店/景酒套餐", "医院：预约挂号/在线问诊/服务预约/科室/医生/号源/公开信息说明"], "elementDefinitions": {"nonMerchant": ["途径路线", "地铁线路", "拍照点", "游玩路线", "优惠团购"], "mall": ["新店", "热店", "商家集合文本"], "scenic": ["可订明日", "游客量较少/适中/较多", "景点门票", "附近酒店", "景酒套餐", "门票价格与说明"], "hospital": ["预约挂号", "在线问诊", "服务预约", "本院科室", "全部科室", "科室排名", "本院医生", "全部医生", "医生职称", "擅长", "咨询价格", "挂号/无号", "互联网公开信息说明"]}}
+      ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "演出电影卡片",
+      "name": "演出/电影卡片",
+      "source": "电影卡片.pdf",
+      "classificationEvidence": {"required": ["演出或影院标题", "固定价格区"], "supporting": ["演出日期/场馆", "近期场次", "所属城市"]},
+      "variants": ["演出卡", "电影卡"],
+      "regions": [
+        {"id": "head_image", "name": "头图区（演出）", "elements": ["固定尺寸演出海报；不承载标签等其他信息"], "elementDefinitions": {"poster": {"fixedSize": true, "prohibitedOverlays": ["标签", "其他信息"]}}},
+        {"id": "title", "name": "标题区", "elements": ["履约标识", "所属城市（演出）", "完整标题", "影院商家标题（电影）"], "elementDefinitions": {"performance": ["履约标识：演出", "所属城市：北京", "完整演出标题"], "cinema": ["影院商家标题"]}},
+        {"id": "performance_info", "name": "演出信息区", "elements": ["十分快评分", "演出日期", "演出场馆"], "elementDefinitions": {"rating": ["9.8分（十份制）"], "date": ["2026-01-28 至 2026-02-23"], "venue": ["开心麻花A88剧场"]}},
+        {"id": "merchant_info", "name": "商家信息区（电影）", "elements": ["地址/商场", "近期场次", "距离"], "elementDefinitions": {"address": ["有商场：朝阳区望京街道", "无商场：万象汇2F 朝阳区望京街道"], "sessions": ["近期场次: 17:40 18:10 19:20"], "distance": ["1.1km", "2.1km"]}},
+        {"id": "price", "name": "价格区", "elements": ["演出套餐区间价", "最低价", "预约抢票/开售倒计时", "电影套餐价（¥…起）"], "elementDefinitions": {"performance": ["¥180-580", "¥180起", "预约抢票", "距开售仅剩倒计时"], "cinema": ["¥28起", "¥45起"]}}
+      ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "度假酒店套餐卡片",
+      "name": "度假/酒店套餐卡片",
+      "source": "酒店套餐卡片.pdf",
+      "classificationEvidence": {"required": ["旅游或酒店履约标识", "套餐概要或套餐标签", "套餐价格"], "supporting": ["旅游天数", "出发城市", "住景享吃行枚举"]},
+      "variants": ["自由行", "跟团游", "酒店套餐"],
+      "regions": [
+        {"id": "head_image", "name": "头图区", "elements": ["头图", "左上超级团购（仅酒店套餐）", "底部出发城市（仅旅游）"], "elementDefinitions": {"leftTop": ["超级团购", "酒店套餐"], "bottom": ["北京出发", "多地出发", "北京等地出发"], "headImageOverlay": {"attachedToHeadImage": true, "excludedWithHeadImage": true}}},
+        {"id": "title", "name": "标题区", "elements": ["履约标识", "旅游天数", "旅游标题（至多两行）", "酒店标题"], "elementDefinitions": {"fulfillment": ["旅游", "酒店"], "travelDays": ["1天", "4天"], "travelTitle": ["2人独库公路+赛里木湖+那拉提空中草原+独子山4日"], "hotelTitle": ["西安星河湾温泉度假酒店1晚+双人温泉+游泳健身+双人自助晚餐一次"]}},
+        {"id": "package_summary", "name": "套餐概要", "elements": ["自由行：住/景/享/吃/行（优先住>景>享>吃>行）", "跟团游：团服务与保障/住行服务/拼团人数/司机与车辆/机票", "酒店套餐：住/吃/景/行/享"], "elementDefinitions": {"freeTravel": {"order": ["住", "景", "享", "吃", "行"], "values": ["酒店/房型/亲子主题房", "景区", "网红景点", "早餐", "乌鲁木齐起止", "上门接送"]}, "groupTour": ["拼小团/大巴团", "实惠私家团", "包车游", "含机票跟团游", "含6人团/含12人团", "独立成团", "行程可调", "必成团", "无购物", "无自费", "司机驾龄", "车辆年限", "具体车型", "飞机往返/去程飞机/返程飞机"], "hotelPackage": ["住：晚数/房型/房型可换", "吃：项目数/早餐/自助晚餐", "景", "行", "享：温泉/游泳健身"]}},
+        {"id": "tags", "name": "标签区", "elements": ["自由行/跟团游：人数、预约、退改、接送等灰色文字标签", "酒店套餐：先囤后兑、过期自动退、随时退、自选套餐、可当天兑换等灰色文字标签"], "elementDefinitions": {"freeTravelOrGroup": ["2人", "提前3天预约", "提前1天免费退", "过期退", "随时退", "伊宁市接送"], "hotelPackage": ["先囤后兑", "过期自动退", "随时退", "自选套餐", "可当天兑换"]}},
+        {"id": "price", "name": "价格区", "elements": ["套餐价格（右侧固定）", "划线价", "评分（仅跟团游）", "销量（月售/年售/已售，左侧）"], "elementDefinitions": {"price": ["¥410起", "¥503", "共省"], "rating": {"applicableVariant": "跟团游", "values": ["4.8分"]}, "sales": ["月售234", "年售234", "已售234"]}}
+      ]
+    }
+  ]
+}

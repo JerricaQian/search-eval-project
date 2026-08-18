@@ -1,0 +1,4 @@
+# Optional local OCR backend for Phase2 CV facts.
+# Keep this separate from requirements.txt: Paddle's platform-specific runtime
+# should be installed only on machines that run local Phase2 recognition.
+paddleocr>=3.0,<4
