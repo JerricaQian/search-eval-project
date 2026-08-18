@@ -14,4 +14,13 @@ if [[ -z "$PYTHON_BIN" ]]; then
   PYTHON_BIN="python3"
 fi
 
+# Keep local OCR from monopolising a laptop.  PaddleOCR is opt-in and must be
+# run on bounded card/region crops; these caps also make an accidental full
+# invocation less disruptive.
+OCR_THREADS="${PHASE2_OCR_THREADS:-2}"
+export OMP_NUM_THREADS="$OCR_THREADS"
+export MKL_NUM_THREADS="$OCR_THREADS"
+export OPENBLAS_NUM_THREADS="$OCR_THREADS"
+export PADDLE_NUM_THREADS="$OCR_THREADS"
+
 exec "$PYTHON_BIN" "$SCRIPT_DIR/extract_cv_facts.py" "$@"

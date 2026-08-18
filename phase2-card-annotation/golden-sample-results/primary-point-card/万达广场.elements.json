@@ -1,1 +1,125 @@
-{"contractVersion":"phase2.primary-point-card.v1","primaryPointType":"商场主点卡","pageStructure":{"components":[{"order":1,"componentType":"search_bar","elements":[{"elementType":"搜索关键词","visibleText":"万达广场"}]},{"order":2,"componentType":"tab"},{"order":3,"componentType":"primary_point_disambiguation","elements":[{"elementType":"主点候选","visibleText":"万达广场(北京东坝店) 7.3km"},{"elementType":"主点候选","visibleText":"万达广场西门金街B区"}]},{"order":4,"componentType":"primary_point_card","cardType":"商场主点卡","regions":{"头图区":{"elements":[{"elementType":"商场头图"}]},"标题区":{"elements":[{"elementType":"主点标题","visibleText":"万达广场（北京东坝店）"},{"elementType":"导航icon"}]},"基础信息区":{"elements":[{"elementType":"评分","visibleText":"4.1分"},{"elementType":"评价条数","visibleText":"5320条"},{"elementType":"距离","visibleText":"7.3km"},{"elementType":"品类","visibleText":"商场"},{"elementType":"地址","visibleText":"朝阳区东坝中路25号"}]},"文字下挂区":{"items":[{"itemIndex":1,"tag":{"elementType":"下挂标签","visibleText":"新店"},"text":{"elementType":"下挂文本","visibleText":"麻六记酸辣粉、阿祥嫂隆江猪脚饭新鲜…"}},{"itemIndex":2,"tag":{"elementType":"下挂标签","visibleText":"热店"},"text":{"elementType":"下挂文本","visibleText":"吾野家、姜胖胖首尔自助烤肉·街头小…"}}]}},{"order":5,"componentType":"business_image_filter"},{"order":6,"componentType":"sort_filter"},{"order":7,"componentType":"results_list","status":"confirmed"}]}}
+{
+  "contractVersion": "phase2.primary-point-card.v1",
+  "primaryPointType": "商场主点卡",
+  "pageStructure": {
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "visibleText": "万达广场"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab"
+      },
+      {
+        "order": 3,
+        "componentType": "primary_point_disambiguation",
+        "elements": [
+          {
+            "elementType": "主点候选",
+            "visibleText": "万达广场(北京东坝店) 7.3km"
+          },
+          {
+            "elementType": "主点候选",
+            "visibleText": "万达广场西门金街B区"
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "componentType": "primary_point_card",
+        "cardType": "商场主点卡",
+        "regions": {
+          "头图区": {
+            "elements": [
+              {
+                "elementType": "商场头图"
+              }
+            ]
+          },
+          "标题区": {
+            "elements": [
+              {
+                "elementType": "主点标题",
+                "visibleText": "万达广场（北京东坝店）"
+              },
+              {
+                "elementType": "导航icon"
+              }
+            ]
+          },
+          "基础信息区": {
+            "elements": [
+              {
+                "elementType": "评分",
+                "visibleText": "4.1分"
+              },
+              {
+                "elementType": "评价条数",
+                "visibleText": "5320条"
+              },
+              {
+                "elementType": "距离",
+                "visibleText": "7.3km"
+              },
+              {
+                "elementType": "品类",
+                "visibleText": "商场"
+              },
+              {
+                "elementType": "地址",
+                "visibleText": "朝阳区东坝中路25号"
+              }
+            ]
+          },
+          "文字下挂区": {
+            "items": [
+              {
+                "itemIndex": 1,
+                "tag": {
+                  "elementType": "下挂标签",
+                  "visibleText": "新店"
+                },
+                "text": {
+                  "elementType": "下挂文本",
+                  "visibleText": "麻六记酸辣粉、阿祥嫂隆江猪脚饭新鲜…"
+                }
+              },
+              {
+                "itemIndex": 2,
+                "tag": {
+                  "elementType": "下挂标签",
+                  "visibleText": "热店"
+                },
+                "text": {
+                  "elementType": "下挂文本",
+                  "visibleText": "吾野家、姜胖胖首尔自助烤肉·街头小…"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "order": 5,
+        "componentType": "business_image_filter"
+      },
+      {
+        "order": 6,
+        "componentType": "sort_filter"
+      },
+      {
+        "order": 7,
+        "componentType": "results_list",
+        "status": "confirmed"
+      }
+    ]
+  },
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/primary-point-card/主点卡-万达广场.png"
+}

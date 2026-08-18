@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "榴莲",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -51,7 +50,6 @@
               55
             ],
             "visibleText": "品种",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation",
             "selected": true
@@ -66,7 +64,6 @@
               55
             ],
             "visibleText": "形态类型",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation",
             "selected": false
@@ -91,7 +88,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -105,7 +101,6 @@
                 52
               ],
               "visibleText": "金枕",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -132,7 +127,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -146,7 +140,6 @@
                 52
               ],
               "visibleText": "黑刺",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -173,7 +166,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -187,7 +179,6 @@
                 52
               ],
               "visibleText": "托曼尼",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -214,7 +205,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -228,7 +218,6 @@
                 52
               ],
               "visibleText": "干尧",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -255,7 +244,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -269,7 +257,6 @@
                 52
               ],
               "visibleText": "青尼",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -312,7 +299,6 @@
               1224,
               551
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -326,7 +312,6 @@
                       330
                     ],
                     "visibleText": "",
-                    "confidence": 0.3,
                     "status": "uncertain",
                     "source": "gold_layout_anchor"
                   }
@@ -350,7 +335,6 @@
                       100
                     ],
                     "visibleText": "￥65",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -364,7 +348,6 @@
                       100
                     ],
                     "visibleText": "￥97.5",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -377,10 +360,9 @@
                       129,
                       100
                     ],
-                    "visibleText": "到手价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -392,7 +374,6 @@
                       100
                     ],
                     "visibleText": "月售26",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -410,7 +391,6 @@
                       54
                     ],
                     "visibleText": "品牌",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -424,7 +404,6 @@
                       54
                     ],
                     "visibleText": "起送￥10",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -438,7 +417,6 @@
                       58
                     ],
                     "visibleText": "18分钟",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -460,7 +438,6 @@
               1224,
               563
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -474,7 +451,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -492,7 +468,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -513,7 +488,6 @@
                       100
                     ],
                     "visibleText": "￥49.9",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -526,10 +500,9 @@
                       111,
                       100
                     ],
-                    "visibleText": "冰爽价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -541,7 +514,6 @@
                       100
                     ],
                     "visibleText": "月售2738",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -565,7 +537,6 @@
               1224,
               563
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -579,7 +550,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -597,7 +567,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -615,7 +584,6 @@
                       70
                     ],
                     "visibleText": "赠手套",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -633,7 +601,6 @@
                       100
                     ],
                     "visibleText": "￥288",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -646,10 +613,9 @@
                       81,
                       100
                     ],
-                    "visibleText": "神价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -661,7 +627,6 @@
                       100
                     ],
                     "visibleText": "月售300+",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -685,7 +650,6 @@
               1224,
               23
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -699,7 +663,6 @@
                       15
                     ],
                     "visibleText": "",
-                    "confidence": 0.3,
                     "status": "uncertain",
                     "source": "gold_layout_anchor"
                   }
@@ -714,12 +677,12 @@
                       384,
                       2677,
                       92,
-                      62
+                      23
                     ],
-                    "visibleText": "外卖",
-                    "confidence": 0.82,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "screenshot_boundary_clamp",
+                    "cropped": true
                   },
                   {
                     "elementType": "商品标题",
@@ -731,7 +694,6 @@
                       23
                     ],
                     "visibleText": "【规剥响规剥金枕榴莲肉",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }

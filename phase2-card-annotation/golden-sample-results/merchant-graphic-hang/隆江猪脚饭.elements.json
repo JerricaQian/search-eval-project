@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "隆江猪脚饭",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -62,7 +61,6 @@
             ],
             "cropped": false,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -76,7 +74,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -94,7 +91,6 @@
                       68
                     ],
                     "visibleText": "隆江猪脚饭(扭各麒麟性店)",
-                    "confidence": 0.86,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -108,7 +104,6 @@
                       68
                     ],
                     "visibleText": "26分钟",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -126,7 +121,6 @@
                       72
                     ],
                     "visibleText": "4.4分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -140,7 +134,6 @@
                       72
                     ],
                     "visibleText": "月售3000+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -154,7 +147,6 @@
                       72
                     ],
                     "visibleText": "起送¥0",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -168,7 +160,6 @@
                       72
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -182,7 +173,6 @@
                       72
                     ],
                     "visibleText": "2.3km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -206,7 +196,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -220,7 +209,6 @@
                         72
                       ],
                       "visibleText": "十",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -234,7 +222,6 @@
                         52
                       ],
                       "visibleText": "¥19.8",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -252,7 +239,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -266,7 +252,6 @@
                         72
                       ],
                       "visibleText": "隆江 L3H Hall Thx { 至",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -280,7 +265,6 @@
                         52
                       ],
                       "visibleText": "¥17.5",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -298,7 +282,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -312,7 +295,6 @@
                         72
                       ],
                       "visibleText": "任性 OD 隆江猫",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -325,10 +307,9 @@
                         264,
                         52
                       ],
-                      "visibleText": "25.8神券价",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -344,7 +325,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -358,7 +338,6 @@
                         72
                       ],
                       "visibleText": "月",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -372,7 +351,6 @@
                         52
                       ],
                       "visibleText": "¥19.88 42",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -391,7 +369,6 @@
                       387
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -413,7 +390,6 @@
             ],
             "cropped": false,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -427,7 +403,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -445,7 +420,6 @@
                       68
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.86,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -459,7 +433,6 @@
                       68
                     ],
                     "visibleText": "4% Ree Bes FL 8 Bal th (Se A THA FS TS",
-                    "confidence": 0.86,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -473,7 +446,6 @@
                       68
                     ],
                     "visibleText": "22分钟",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -491,7 +463,6 @@
                       72
                     ],
                     "visibleText": "4.7分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -505,7 +476,6 @@
                       72
                     ],
                     "visibleText": "月售3000+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -519,7 +489,6 @@
                       72
                     ],
                     "visibleText": "起送¥0",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -533,7 +502,6 @@
                       72
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -547,7 +515,6 @@
                       72
                     ],
                     "visibleText": "2.7km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -571,7 +538,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -585,7 +551,6 @@
                         72
                       ],
                       "visibleText": "优选矢餐】招",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -598,10 +563,9 @@
                         264,
                         52
                       ],
-                      "visibleText": "71 48 HAP DR +",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -617,7 +581,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -631,7 +594,6 @@
                         72
                       ],
                       "visibleText": "优选矢餐】招",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -644,10 +606,9 @@
                         264,
                         52
                       ],
-                      "visibleText": "71 48 HAP DR +",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -663,7 +624,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -677,7 +637,6 @@
                         72
                       ],
                       "visibleText": "广东名吃 @ )",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -690,10 +649,9 @@
                         264,
                         52
                       ],
-                      "visibleText": "7146 hal",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -709,7 +667,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -723,7 +680,6 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -737,7 +693,6 @@
                         52
                       ],
                       "visibleText": "7L 4B HAN IT:",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -756,7 +711,6 @@
                       439
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -778,7 +732,6 @@
             ],
             "cropped": true,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -792,7 +745,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -810,7 +762,6 @@
                       68
                     ],
                     "visibleText": "22分钟",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -828,7 +779,6 @@
                       72
                     ],
                     "visibleText": "4.8分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -842,7 +792,6 @@
                       72
                     ],
                     "visibleText": "月售3000+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -856,7 +805,6 @@
                       72
                     ],
                     "visibleText": "起送¥15",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -870,7 +818,6 @@
                       72
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -884,7 +831,6 @@
                       72
                     ],
                     "visibleText": "2.8km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -908,7 +854,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -922,9 +867,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -936,7 +880,6 @@
                         52
                       ],
                       "visibleText": "¥20.8 神券价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -954,7 +897,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -968,7 +910,6 @@
                         72
                       ],
                       "visibleText": "正宗隆; he L348 Ail",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -982,7 +923,6 @@
                         52
                       ],
                       "visibleText": "¥19.8 HAY)",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -1000,7 +940,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -1014,7 +953,6 @@
                         72
                       ],
                       "visibleText": "猪脚 + SZ}",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1028,7 +966,6 @@
                         52
                       ],
                       "visibleText": "¥26.8 *H¥",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1047,7 +984,6 @@
                       387
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -1068,7 +1004,6 @@
         1178,
         322
       ],
-      "confidence": 0.55,
       "status": "uncertain",
       "evidence": [
         "top_text_candidate"
@@ -1082,7 +1017,6 @@
         445,
         46
       ],
-      "confidence": 0.8,
       "status": "confirmed",
       "evidence": [
         "tab_terms"
@@ -1096,7 +1030,6 @@
         345,
         51
       ],
-      "confidence": 0.52,
       "status": "uncertain",
       "evidence": [
         "business_image_filter_terms"
@@ -1110,7 +1043,6 @@
         74,
         51
       ],
-      "confidence": 0.88,
       "status": "confirmed",
       "evidence": [
         "sort_filter_terms"

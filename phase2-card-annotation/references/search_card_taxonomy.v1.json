@@ -127,6 +127,32 @@
         {"id": "tags", "name": "标签区", "elements": ["自由行/跟团游：人数、预约、退改、接送等灰色文字标签", "酒店套餐：先囤后兑、过期自动退、随时退、自选套餐、可当天兑换等灰色文字标签"], "elementDefinitions": {"freeTravelOrGroup": ["2人", "提前3天预约", "提前1天免费退", "过期退", "随时退", "伊宁市接送"], "hotelPackage": ["先囤后兑", "过期自动退", "随时退", "自选套餐", "可当天兑换"]}},
         {"id": "price", "name": "价格区", "elements": ["套餐价格（右侧固定）", "划线价", "评分（仅跟团游）", "销量（月售/年售/已售，左侧）"], "elementDefinitions": {"price": ["¥410起", "¥503", "共省"], "rating": {"applicableVariant": "跟团游", "values": ["4.8分"]}, "sales": ["月售234", "年售234", "已售234"]}}
       ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "广告卡",
+      "name": "特殊广告卡",
+      "source": "搜索结果页广告显式证据契约",
+      "classificationEvidence": {"required": ["明确广告/推广文字或广告视觉标", "独立稳定卡片边界"], "supporting": ["推广素材", "行动按钮"], "exclusions": ["分类失败不得自动转广告卡"]},
+      "regions": [
+        {"id": "media", "name": "媒体区", "elements": ["广告图片", "视频封面", "品牌素材"]},
+        {"id": "primary", "name": "主要信息区", "elements": ["广告标", "标题", "核心卖点"]},
+        {"id": "secondary", "name": "辅助信息区", "elements": ["补充说明", "权益", "价格或活动信息"]},
+        {"id": "action", "name": "操作区", "elements": ["行动按钮", "跳转提示"]}
+      ]
+    },
+    {
+      "scope": "results_list_card",
+      "id": "异构卡",
+      "name": "异构卡",
+      "source": "搜索结果页未知结构保真契约",
+      "classificationEvidence": {"required": ["结果流中的稳定独立渲染单元", "无已知卡型通过最小结构契约", "无明确广告证据"], "supporting": ["可确认的媒体或文字内容"]},
+      "regions": [
+        {"id": "media", "name": "媒体区", "elements": ["图片", "视频封面", "其他媒体"]},
+        {"id": "primary", "name": "主要信息区", "elements": ["标题", "主要内容"]},
+        {"id": "secondary", "name": "辅助信息区", "elements": ["补充文字", "标签", "指标"]},
+        {"id": "action", "name": "操作区", "elements": ["按钮", "跳转入口", "其他操作"]}
+      ]
     }
   ]
 }

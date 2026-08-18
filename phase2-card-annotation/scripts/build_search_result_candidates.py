@@ -112,7 +112,13 @@ def _merchant_graphic_hang_cards(facts: dict[str, Any], results_start_y: int) ->
             if py < y + h * 0.70 or py >= next_y or px < viewport_width * 0.18 or pw < 96 or ph < 96:
                 continue
             product_groups.append(photo)
-        if not product_groups:
+        # The down-hang can be one detector region containing a whole product
+        # strip. It is already separated from the left head by x/y topology,
+        # so requiring two detector boxes incorrectly rejects merged strips.
+        # A lone right-edge image is normally a floating service/control, not
+        # a merchant product down-hang. Genuine strips have at least one item
+        # anchored before 70% of the viewport (often x≈227/311 on 1224px).
+        if not product_groups or not any(photo["coord"][0] < viewport_width * 0.70 for photo in product_groups):
             continue
         bottom = min(next_y, max(photo["coord"][1] + photo["coord"][3] for photo in product_groups) + 150)
         cards.append({
@@ -147,6 +153,11 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
                 break
     seeds = sorted(seeds)
     seeds = [index for index in seeds if blocks[index]["coord"][1] >= results_start_y]
+    trusted_non_result_modules = [
+        module["coord"] for module in modules
+        if module.get("status") == "confirmed" and module.get("module") in {"business_image_filter"}
+    ]
+    seeds = [index for index in seeds if not any(_overlap_y(blocks[index]["coord"], module_coord) for module_coord in trusted_non_result_modules)]
     cards: list[dict[str, Any]] = []
     for card_index, start_index in enumerate(seeds):
         end_index = seeds[card_index + 1] if card_index + 1 < len(seeds) else len(blocks)
@@ -162,6 +173,31 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
             "confidence": round(min(0.95, blocks[start_index]["confidence"]), 4),
             "status": "confirmed", "evidence": ["repeated_left_image_right_text_seed", "attached_until_next_card_seed"],
         })
+    # If two consecutive full-width cards establish a stable repeat interval,
+    # recover at most one immediately preceding card whose image seed was
+    # missed. This uses only the current screenshot and aggregate geometry;
+    # it never imports a golden coordinate or expected card count.
+    if len(cards) >= 2:
+        first_start, second_start = cards[0]["coord"][1], cards[1]["coord"][1]
+        interval = second_start - first_start
+        predicted_start = first_start - interval
+        confirmed_top_floor = max(
+            (module["coord"][1] + module["coord"][3] for module in modules
+             if module.get("status") == "confirmed" and module.get("module") in {"tab", "sort_filter", "business_image_filter"}),
+            default=results_start_y,
+        )
+        proposed = [0, predicted_start, int(facts["viewport"]["width"]), interval]
+        interval_ratio = interval / int(facts["viewport"]["height"])
+        local_text = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected" and _overlap_y(item["coord"], proposed)]
+        local_photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted" and _overlap_y(item["coord"], proposed)]
+        overlaps_module = any(_overlap_y(proposed, coord) for coord in trusted_non_result_modules)
+        if predicted_start >= max(results_start_y, confirmed_top_floor) and 0.05 <= interval_ratio <= 0.35 and not overlaps_module and (len(local_text) >= 2 or local_photos):
+            members = [block for block in blocks if _overlap_y(block["coord"], proposed)]
+            cards.insert(0, {
+                "id": "C0", "coord": proposed, "seedBlockId": "", "memberBlockIds": [member["id"] for member in members],
+                "confidence": 0.78, "status": "confirmed",
+                "evidence": ["learned_repeat_interval_backfill", "current_screenshot_two_card_periodicity"],
+            })
     graphic_cards = _merchant_graphic_hang_cards(facts, results_start_y)
     if graphic_cards:
         # The specialised detector owns intervals it can explain. Keep generic
@@ -170,9 +206,9 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
             cy0, cy1 = card["coord"][1], card["coord"][1] + card["coord"][3]
             return any(cy0 < special["coord"][1] + special["coord"][3] and cy1 > special["coord"][1] for special in graphic_cards)
         cards = graphic_cards + [card for card in cards if not overlaps_special(card)]
-        cards.sort(key=lambda card: card["coord"][1])
-        for index, card in enumerate(cards, start=1):
-            card["id"] = f"C{index}"
+    cards.sort(key=lambda card: card["coord"][1])
+    for index, card in enumerate(cards, start=1):
+        card["id"] = f"C{index}"
     return {
         "contractVersion": VERSION, "sourceCvFacts": facts.get("screenshot", ""),
         "pageModules": modules, "resultCards": cards, "structureBlocks": blocks,

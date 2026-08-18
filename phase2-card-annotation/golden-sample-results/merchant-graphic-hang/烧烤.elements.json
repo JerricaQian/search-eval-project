@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "烧烤",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -62,7 +61,6 @@
             ],
             "cropped": false,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -76,7 +74,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -94,7 +91,6 @@
                       68
                     ],
                     "visibleText": "26分钟",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -112,7 +108,6 @@
                       72
                     ],
                     "visibleText": "4.5分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -126,7 +121,6 @@
                       72
                     ],
                     "visibleText": "月售600+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -140,7 +134,6 @@
                       72
                     ],
                     "visibleText": "起送¥38",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -154,7 +147,6 @@
                       72
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -168,7 +160,6 @@
                       72
                     ],
                     "visibleText": "2.5km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -186,7 +177,6 @@
                       68
                     ],
                     "visibleText": "最近24小时10+人下单",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -207,7 +197,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -221,9 +210,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -235,7 +223,6 @@
                         52
                       ],
                       "visibleText": "¥0.59 神券价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -253,7 +240,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -267,7 +253,6 @@
                         72
                       ],
                       "visibleText": "左烤网红面盘",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -281,7 +266,6 @@
                         52
                       ],
                       "visibleText": "¥0.28 神券价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -299,7 +283,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -313,9 +296,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -327,7 +309,6 @@
                         52
                       ],
                       "visibleText": "¥0.75 神券价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -345,7 +326,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -359,7 +339,6 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -373,7 +352,6 @@
                         52
                       ],
                       "visibleText": "¥2.63 神券",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -392,7 +370,6 @@
                       387
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -414,7 +391,6 @@
             ],
             "cropped": false,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -428,7 +404,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -446,7 +421,6 @@
                       68
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.86,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -460,7 +434,6 @@
                       68
                     ],
                     "visibleText": "33分钟",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -478,7 +451,6 @@
                       72
                     ],
                     "visibleText": "4.6分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -492,7 +464,6 @@
                       72
                     ],
                     "visibleText": "月售2000+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -506,7 +477,6 @@
                       72
                     ],
                     "visibleText": "起送¥20",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -520,7 +490,6 @@
                       72
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -534,7 +503,6 @@
                       72
                     ],
                     "visibleText": "2.3km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -552,7 +520,6 @@
                       68
                     ],
                     "visibleText": "近30天225人复购",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -573,7 +540,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -587,7 +553,6 @@
                         72
                       ],
                       "visibleText": "秘制牛肉串",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -601,7 +566,6 @@
                         52
                       ],
                       "visibleText": "¥2.78 新客价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -619,7 +583,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -633,9 +596,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -647,7 +609,6 @@
                         52
                       ],
                       "visibleText": "¥6.3 新客价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -665,7 +626,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -679,9 +639,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -693,7 +652,6 @@
                         52
                       ],
                       "visibleText": "¥2.78 新客价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -711,7 +669,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -725,7 +682,6 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -739,7 +695,6 @@
                         52
                       ],
                       "visibleText": "¥1.6 新客从",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -758,7 +713,6 @@
                       387
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -780,7 +734,6 @@
             ],
             "cropped": false,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -794,7 +747,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -811,10 +763,9 @@
                       709,
                       68
                     ],
-                    "visibleText": "2 es)",
-                    "confidence": 0.86,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   }
                 ]
               },
@@ -830,7 +781,6 @@
                       72
                     ],
                     "visibleText": "4.6分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -844,7 +794,6 @@
                       72
                     ],
                     "visibleText": "月售3000+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -858,7 +807,6 @@
                       72
                     ],
                     "visibleText": "起送¥45",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -872,7 +820,6 @@
                       72
                     ],
                     "visibleText": "2.9km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -896,7 +843,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -910,9 +856,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -924,7 +869,6 @@
                         52
                       ],
                       "visibleText": "¥1.73 新客价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -942,7 +886,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -956,7 +899,6 @@
                         72
                       ],
                       "visibleText": "爆烤牛肉串",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -970,7 +912,6 @@
                         52
                       ],
                       "visibleText": "¥1.71 新客价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -988,7 +929,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -1002,9 +942,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -1016,7 +955,6 @@
                         52
                       ],
                       "visibleText": "¥8.99 新客价",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -1034,7 +972,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -1048,7 +985,6 @@
                         72
                       ],
                       "visibleText": "招牌望京，",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1062,7 +998,6 @@
                         52
                       ],
                       "visibleText": "1.53 =",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1081,7 +1016,6 @@
                       387
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -1112,7 +1046,6 @@
         1178,
         326
       ],
-      "confidence": 0.55,
       "status": "uncertain",
       "evidence": [
         "top_text_candidate"
@@ -1126,7 +1059,6 @@
         445,
         46
       ],
-      "confidence": 0.8,
       "status": "confirmed",
       "evidence": [
         "tab_terms"
@@ -1140,7 +1072,6 @@
         72,
         53
       ],
-      "confidence": 0.88,
       "status": "confirmed",
       "evidence": [
         "sort_filter_terms"

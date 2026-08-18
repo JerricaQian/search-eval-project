@@ -18,7 +18,7 @@ VERSION = "phase2.card-type-candidates.v1"
 
 SIGNALS: dict[str, dict[str, list[str]]] = {
     "商品卡片": {
-        "core": [r"[¥￥]\s*\d", r"商品", r"到手价|券后|划线价"],
+        "core": [r"[¥￥]\s*\d", r"商品", r"到手价|券后|划线价", r"\d+(?:\.\d+)?\s*(?:g|kg|ml|L|片|粒|瓶|盒|包|袋|支|个|罐|听)(?:\s*[xX*×]\s*\d+)?"],
         "supporting": [r"配送费|起送|月售|已售", r"推荐理由|商品属性|平台保障"],
     },
     "商家卡片_图文下挂": {
@@ -75,7 +75,10 @@ def classify_card_types(facts: dict[str, Any], taxonomy: dict[str, Any], card_co
         supporting = _matches(signal_set["supporting"], text)
         # A core hit alone often comes from a neighboring card; require two core
         # signals, or one core plus supporting evidence, to be considered.
-        score = min(1.0, 0.36 * len(core) + 0.14 * len(supporting))
+        # Two independent core signals must be sufficient to select a card
+        # contract.  The former 0.36 weight capped that case at 0.72 while the
+        # confirmation threshold is 0.78, contradicting the policy above.
+        score = min(1.0, 0.40 * len(core) + 0.14 * len(supporting))
         candidates.append({
             "cardType": card_type,
             "confidence": round(score, 4),

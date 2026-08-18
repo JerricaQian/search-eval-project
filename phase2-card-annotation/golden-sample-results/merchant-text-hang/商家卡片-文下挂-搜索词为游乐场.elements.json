@@ -33,7 +33,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -49,7 +48,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -67,7 +65,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -81,7 +78,6 @@
                       62
                     ],
                     "visibleText": "奈尔宝·儿童乐园·亲子餐厅(北京东坝",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -99,7 +95,6 @@
                       64
                     ],
                     "visibleText": "3.6分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -113,7 +108,6 @@
                       64
                     ],
                     "visibleText": "7.2km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -131,7 +125,6 @@
                       62
                     ],
                     "visibleText": "神券立减5朝阳区儿童乐园人气趋势榜第4名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -149,7 +142,6 @@
                       58
                     ],
                     "visibleText": "4.3折【儿童乐园】1大1小单次￥190年售14万+",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -175,7 +167,6 @@
                         54
                       ],
                       "visibleText": "￥20",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -189,7 +180,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -203,7 +193,6 @@
                         54
                       ],
                       "visibleText": "四八·平庆",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -217,7 +206,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -239,10 +227,9 @@
                         100,
                         54
                       ],
-                      "visibleText": "￥UC",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "discount": {
                       "elementType": "下挂价格折扣标签",
@@ -254,7 +241,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -268,7 +254,6 @@
                         54
                       ],
                       "visibleText": "成八宗同外P段口",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -282,7 +267,6 @@
                         54
                       ],
                       "visibleText": "15.1",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -302,7 +286,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -318,7 +301,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -336,7 +318,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -350,7 +331,6 @@
                       62
                     ],
                     "visibleText": "嗨酷蹦床运动乐园·团建·轰趴·亲子",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -368,7 +348,6 @@
                       64
                     ],
                     "visibleText": "4.2分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -382,7 +361,6 @@
                       64
                     ],
                     "visibleText": "4916条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -396,7 +374,6 @@
                       64
                     ],
                     "visibleText": "19.5km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -414,7 +391,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至5022%顾客是回头客",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -432,7 +408,6 @@
                       58
                     ],
                     "visibleText": "单人畅玩】-金天畅玩1.3折年售2000+94V",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -458,7 +433,6 @@
                         54
                       ],
                       "visibleText": "￥4",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -472,7 +446,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -486,7 +459,6 @@
                         54
                       ],
                       "visibleText": "物物G",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -500,7 +472,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -522,10 +493,9 @@
                         100,
                         54
                       ],
-                      "visibleText": "￥】",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "discount": {
                       "elementType": "下挂价格折扣标签",
@@ -537,7 +507,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -551,7 +520,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -565,7 +533,6 @@
                         54
                       ],
                       "visibleText": "4000",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -585,7 +552,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -601,7 +567,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -619,7 +584,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -633,7 +597,6 @@
                       62
                     ],
                     "visibleText": "觉醒之秘·沉浸式探秘游戏基地",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -651,7 +614,6 @@
                       64
                     ],
                     "visibleText": "4.8分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -665,7 +627,6 @@
                       64
                     ],
                     "visibleText": "1319条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -679,7 +640,6 @@
                       64
                     ],
                     "visibleText": "6.1km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -700,7 +660,6 @@
                       58
                     ],
                     "visibleText": "含觉醒能量60】大小通用单8342折年售500+V",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -726,7 +685,6 @@
                         54
                       ],
                       "visibleText": "￥0O",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -740,7 +698,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -754,7 +711,6 @@
                         54
                       ],
                       "visibleText": "宽八遇通而",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -768,7 +724,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -790,10 +745,9 @@
                         100,
                         54
                       ],
-                      "visibleText": "￥I5C",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "discount": {
                       "elementType": "下挂价格折扣标签",
@@ -805,7 +759,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -819,7 +772,6 @@
                         54
                       ],
                       "visibleText": "能重入通]",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -833,7 +785,6 @@
                         54
                       ],
                       "visibleText": "100",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -853,7 +804,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -869,7 +819,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -887,7 +836,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -901,7 +849,6 @@
                       62
                     ],
                     "visibleText": "疯狂冒险家-亲子密室-东坝店(金隅嘉",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -919,7 +866,6 @@
                       64
                     ],
                     "visibleText": "4.6分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -933,7 +879,6 @@
                       64
                     ],
                     "visibleText": "905条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -947,7 +892,6 @@
                       64
                     ],
                     "visibleText": "8.1km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -968,7 +912,6 @@
                       58
                     ],
                     "visibleText": "游乐场】2大1小周末节6.6折年售900+￥130",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -994,7 +937,6 @@
                         54
                       ],
                       "visibleText": "￥15C",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1008,7 +950,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1022,7 +963,6 @@
                         54
                       ],
                       "visibleText": "[【历场入同外P]",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1036,7 +976,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1059,7 +998,6 @@
                         54
                       ],
                       "visibleText": "￥14.",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1073,7 +1011,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1087,7 +1024,6 @@
                         54
                       ],
                       "visibleText": "历场o力",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1101,7 +1037,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1121,7 +1056,6 @@
               1224,
               295
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": true,
             "regions": {
@@ -1137,7 +1071,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -1155,7 +1088,6 @@
                       62
                     ],
                     "visibleText": "景点",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -1169,7 +1101,6 @@
                       62
                     ],
                     "visibleText": "北京环球度假区",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1187,7 +1118,6 @@
                       64
                     ],
                     "visibleText": "4.7分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -1201,7 +1131,6 @@
                       64
                     ],
                     "visibleText": "23.7km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1222,7 +1151,6 @@
                       58
                     ],
                     "visibleText": "标准(成人)票】北京环球影城已售2134万+￥548",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1236,7 +1164,7 @@
                       299,
                       2647,
                       901,
-                      54
+                      53
                     ],
                     "price": {
                       "elementType": "下挂商品价格",
@@ -1245,12 +1173,12 @@
                         299,
                         2647,
                         100,
-                        54
+                        53
                       ],
-                      "visibleText": "￥54C",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
                     },
                     "discount": {
                       "elementType": "下挂价格折扣标签",
@@ -1259,12 +1187,12 @@
                         401,
                         2647,
                         110,
-                        54
+                        53
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
-                      "source": "local_crop_ocr"
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -1273,12 +1201,12 @@
                         513,
                         2647,
                         525,
-                        54
+                        53
                       ],
-                      "visibleText": "乐上均城",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
                     },
                     "sales": {
                       "elementType": "下挂商品销量",
@@ -1287,13 +1215,16 @@
                         1044,
                         2647,
                         156,
-                        54
+                        53
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    }
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
+                    },
+                    "cropped": true,
+                    "status": "uncertain",
+                    "source": "screenshot_boundary_clamp"
                   }
                 ]
               }

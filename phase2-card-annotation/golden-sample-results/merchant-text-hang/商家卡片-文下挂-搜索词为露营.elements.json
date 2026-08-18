@@ -33,7 +33,6 @@
               1224,
               381
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -49,7 +48,6 @@
                       188
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -67,7 +65,6 @@
                       62
                     ],
                     "visibleText": "主路江四路营灼闪示",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -85,7 +82,6 @@
                       64
                     ],
                     "visibleText": "4.2分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -99,7 +95,6 @@
                       64
                     ],
                     "visibleText": "6条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -113,7 +108,6 @@
                       64
                     ],
                     "visibleText": "4.3km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -131,7 +125,6 @@
                       62
                     ],
                     "visibleText": "神券立减5朝阳区休闲园区销量榜第1名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -149,7 +142,6 @@
                       58
                     ],
                     "visibleText": "￥193营地搭建好的天幕租赁(不5.1折年售100+",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -175,7 +167,6 @@
                         54
                       ],
                       "visibleText": "￥14",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -188,10 +179,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "自5",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -203,7 +193,6 @@
                         54
                       ],
                       "visibleText": "营费用-扎营位-指定营位区域（",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -217,7 +206,6 @@
                         54
                       ],
                       "visibleText": "年售20",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -240,7 +228,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -254,7 +241,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -268,7 +254,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -282,7 +267,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -302,7 +286,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -318,7 +301,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -336,7 +318,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -350,7 +331,6 @@
                       62
                     ],
                     "visibleText": "浩华营地·室内轰趴.户外团建·自助B",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -368,7 +348,6 @@
                       64
                     ],
                     "visibleText": "4.9分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -382,7 +361,6 @@
                       64
                     ],
                     "visibleText": "760条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -396,7 +374,6 @@
                       64
                     ],
                     "visibleText": "2.5km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -414,7 +391,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至25北京团建拓展销量榜第1名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -432,7 +408,6 @@
                       58
                     ],
                     "visibleText": "非常满意，下次还要再来",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -458,7 +433,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -472,7 +446,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -486,7 +459,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -500,7 +472,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -523,7 +494,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -537,7 +507,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -551,7 +520,6 @@
                         54
                       ],
                       "visibleText": "日石",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -565,7 +533,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -585,7 +552,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -601,7 +567,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -619,7 +584,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -633,7 +597,6 @@
                       62
                     ],
                     "visibleText": "半醒小院·公司小聚·生日派对·露天",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -651,7 +614,6 @@
                       64
                     ],
                     "visibleText": "3.0分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -665,7 +627,6 @@
                       64
                     ],
                     "visibleText": "141条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -679,7 +640,6 @@
                       64
                     ],
                     "visibleText": "4.4km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -697,7 +657,6 @@
                       62
                     ],
                     "visibleText": "神券立减5朝阳区团建拓展人气榜第9名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -715,7 +674,6 @@
                       58
                     ],
                     "visibleText": "年售60+45折双人烤串套餐营地¥163",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -741,7 +699,6 @@
                         54
                       ],
                       "visibleText": "￥105",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -755,7 +712,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -769,7 +725,6 @@
                         54
                       ],
                       "visibleText": "以中会食业",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -783,7 +738,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -806,7 +760,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -820,7 +773,6 @@
                         54
                       ],
                       "visibleText": "¥09",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -834,7 +786,6 @@
                         54
                       ],
                       "visibleText": "口八中县",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -848,7 +799,6 @@
                         54
                       ],
                       "visibleText": "年吉00",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -868,7 +818,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -884,7 +833,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -902,7 +850,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -916,7 +863,6 @@
                       62
                     ],
                     "visibleText": "半醒花园·团建场地·户外简餐·星空",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -934,7 +880,6 @@
                       64
                     ],
                     "visibleText": "3.7分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -948,7 +893,6 @@
                       64
                     ],
                     "visibleText": "5条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -962,7 +906,6 @@
                       64
                     ],
                     "visibleText": "4.2km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -980,7 +923,6 @@
                       62
                     ],
                     "visibleText": "神券立减5近期500+人浏览免费停车",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -998,7 +940,6 @@
                       58
                     ],
                     "visibleText": "45折双人烤串套餐(需提前一天预约¥163年售3",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1024,7 +965,6 @@
                         54
                       ],
                       "visibleText": "￥105",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1038,7 +978,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1052,7 +991,6 @@
                         54
                       ],
                       "visibleText": "会良（足",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1066,7 +1004,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1089,7 +1026,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1103,7 +1039,6 @@
                         54
                       ],
                       "visibleText": "¥09",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1117,7 +1052,6 @@
                         54
                       ],
                       "visibleText": "八中会食而八丁贝",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1131,7 +1065,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1151,7 +1084,6 @@
               1224,
               114
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": true,
             "regions": {
@@ -1167,7 +1099,6 @@
                       114
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -1185,7 +1116,6 @@
                       62
                     ],
                     "visibleText": "景点",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -1199,7 +1129,6 @@
                       62
                     ],
                     "visibleText": "蟹岛绿色生态度假村4A",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1214,12 +1143,12 @@
                       299,
                       2644,
                       180,
-                      64
+                      56
                     ],
-                    "visibleText": "3.9分",
-                    "confidence": 0.8,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "screenshot_boundary_clamp",
+                    "cropped": true
                   },
                   {
                     "elementType": "评价条数",
@@ -1228,12 +1157,12 @@
                       569,
                       2644,
                       226,
-                      64
+                      56
                     ],
-                    "visibleText": "5986条",
-                    "confidence": 0.8,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "screenshot_boundary_clamp",
+                    "cropped": true
                   },
                   {
                     "elementType": "配送距离",
@@ -1242,12 +1171,12 @@
                       975,
                       2644,
                       225,
-                      64
+                      56
                     ],
-                    "visibleText": "5.6km",
-                    "confidence": 0.8,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "screenshot_boundary_clamp",
+                    "cropped": true
                   }
                 ]
               },

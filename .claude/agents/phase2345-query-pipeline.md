@@ -94,7 +94,7 @@ A0a. **先跑本地 CV/OCR 事实提取（必做）**：对 `${annotationInputs}
       "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json" \
       --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.semantic.json"
     ```
-    先消费 CV facts、布局块、页面模块、结果卡与**逐卡**卡型候选，再按 `${imdSkillDir}/references/search_card_taxonomy.v1.json` 的“卡型→区域→元素”契约建立卡片事实；不得对整页 OCR 判断单张卡型。`search_page_semantic_rules.v1.json` 只可作为旧的通用文本角色候选补充，不能覆盖卡型契约。卡型候选也只能输出候选，不能覆盖当前截图的可见事实。若 `routing.missingCapabilities` 非空，必须在识别审计中保留该能力缺口，绝不能把空候选误写为页面无文字/无图片。`route=local_vision` 的候选只允许裁剪“候选框 + 所属卡上下文”交给视觉模型确认；不得为已接受候选重新整页读图。若视觉模型仍无法确认，保留 `uncertain` 和原因，既不创建人工复核任务，也不得把该字段推断为缺失、缺陷或优秀证据。
+    先消费 CV facts、布局块、页面模块、结果卡与**逐卡**卡型候选，再按 `${imdSkillDir}/references/search_card_taxonomy.v1.json` 的“卡型→区域→元素”契约建立卡片事实；不得对整页 OCR 判断单张卡型。`search_page_semantic_rules.v1.json` 只可作为旧的通用文本角色候选补充，不能覆盖卡型契约。卡型候选也只能输出候选，不能覆盖当前截图的可见事实。`extract_product_card_elements.py` 是文件名匹配黄金结构的回归工具，不得对新拍截图调用；生产商品卡使用当前图的 CV/OCR 候选与商品卡区域契约，未确认字段保留 `uncertain`。若 `routing.missingCapabilities` 非空，必须在识别审计中保留该能力缺口，绝不能把空候选误写为页面无文字/无图片。`route=local_vision` 的候选只允许裁剪“候选框 + 所属卡上下文”交给视觉模型确认；不得为已接受候选重新整页读图。若视觉模型仍无法确认，保留 `uncertain` 和原因，既不创建人工复核任务，也不得把该字段推断为缺失、缺陷或优秀证据。
 A1. **开工前必读 4 个核心文件**：`${imdSkillDir}/README.md`、`${imdSkillDir}/SKILL.md`、`${imdSkillDir}/references/页面与商卡识别规则.md`（全文，不准只 grep）、`${imdSkillDir}/scripts/annotation_scene.py`。
 A1a. **标注颗粒度与 phase3-标记权威标准（固定元素级，唯一颗粒度）**：`granularity` 恒为 `element`，即最细颗粒度——标宏观通栏组件 + 卡片分区 + 每个分区下的每个独立元素（文本/图片/标签逐个拆分；标签区逐标签拆；下挂区逐商品拆），并抄录每个元素的真实文字数字；`cards[].regions[].elements[]` 每个 element 必须有 id/所属组件/元素类型/内容简述/坐标/isExcluded，**内容简述必须以「原文:」打头抄截图真实文字数字**，不得用抽象字段名代替。权威标准与白名单（同时是 A9/B0 校验脚本 `--audit`/`--recognition-audit` 判定 L1/L2 是否达标的依据）：
     - 学城标准文档：https://km.sankuai.com/collabpage/2774716579

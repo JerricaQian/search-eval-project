@@ -24,11 +24,13 @@ def _candidates_for_text(item: dict[str, Any], block: dict[str, Any] | None, rul
     for rule in rules["textRules"]:
         if not re.search(rule["pattern"], text):
             continue
-        score = min(float(rule["score"]), float(item.get("confidence", 0)))
+        # Semantic mapping is deterministic rule matching. OCR engine scores
+        # are intentionally not exported or used as a model-escalation signal.
+        score = float(rule["score"])
         color = item.get("visualHint", {}).get("colorRole", "unknown")
         score += float(rules.get("visualBonuses", {}).get(rule["role"], {}).get(color, 0))
         requirements = list(rule.get("requires", []))
-        evidence = [f"rule:{rule['id']}", f"ocr:{item.get('confidence', 0)}", f"color:{color}"]
+        evidence = [f"rule:{rule['id']}", f"color:{color}"]
         if "price_color_or_position" in requirements and color not in {"red", "orange"}:
             if not block or block.get("layoutCandidate") not in {"left_image_right_text", "top_image_bottom_text"}:
                 evidence.append("missing:price_color_or_position")
@@ -46,13 +48,15 @@ def map_semantics(facts: dict[str, Any], structure: dict[str, Any], rules: dict[
     uncertain_threshold = float(rules["initialThresholds"]["uncertain"])
     outputs: list[dict[str, Any]] = []
     for item in facts.get("candidates", {}).get("text", []):
+        if item.get("route") == "rejected":
+            continue
         block = _block_for(item["coord"], structure.get("blocks", []))
         candidates = _candidates_for_text(item, block, rules)
-        # A top-most, high-confidence text in a known image/text layout is only
-        # a title candidate when no stronger structured field rule matched.
+        # A top-most text in a known image/text layout is only a title
+        # candidate when no stronger structured field rule matched.
         if not candidates and block and block.get("layoutCandidate") in {"left_image_right_text", "top_image_bottom_text"}:
             if item["coord"][1] <= block["coord"][1] + max(64, block["coord"][3] // 3):
-                candidates.append({"role": "title", "score": round(float(item.get("confidence", 0)) * 0.82, 4), "evidence": ["rule:top_text_in_image_text_layout"]})
+                candidates.append({"role": "title", "score": 0.82, "evidence": ["rule:top_text_in_image_text_layout"]})
         candidates.sort(key=lambda candidate: candidate["score"], reverse=True)
         best = candidates[0] if candidates else {"role": "other", "score": 0.0, "evidence": ["no_domain_rule_matched"]}
         status = "confirmed" if best["score"] >= confirmed_threshold else "uncertain"

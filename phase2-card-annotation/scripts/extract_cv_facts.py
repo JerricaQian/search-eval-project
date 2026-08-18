@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Extract auditable, non-semantic facts from a search-result screenshot.
 
-This is deliberately a *candidate* generator.  It does not decide whether a
+This is deliberately a *candidate* generator. It does not decide whether a
 row is a title, price, tag, or whether a card is good/bad; those are domain
-rules evaluated after Phase2.  It combines the repository's existing pixel
-detectors with optional local PaddleOCR and records confidence by source so a
-caller can route only unresolved crops to a vision model.
+rules evaluated after extraction. It combines pixel detectors with local OCR
+and retains independent-layout consensus for deterministic gating. OCR
+uncertainty triggers bounded local reprocessing, never vision-model reading.
 
 The output is stable JSON and is safe to retain as a Phase2 process artifact.
 It is not itself the Phase2 element manifest.
@@ -16,9 +16,11 @@ import argparse
 import importlib.util
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -211,17 +213,13 @@ def ocr_region(image_path: Path, coord: list[int]) -> tuple[list[dict[str, Any]]
     return entries, backend, error
 
 
-def _ocr_with_tesseract(image_path: Path) -> tuple[list[dict[str, Any]], str | None]:
-    """Fallback local Chinese OCR using the system Tesseract installation."""
+def _run_tesseract(image_path: Path, psm: int) -> tuple[list[dict[str, Any]], str | None]:
     binary = shutil.which("tesseract")
     if not binary:
         return [], "tesseract_not_installed"
     try:
         completed = subprocess.run(
-            # Search-result screenshots are dense, horizontally aligned UI.
-            # PSM 6 preserves Chinese phrases/lines far better than sparse-text
-            # PSM 11, whose character fragments made card-level rules unusable.
-            [binary, str(image_path), "stdout", "-l", "chi_sim+eng", "--psm", "6", "tsv"],
+            [binary, str(image_path), "stdout", "-l", "chi_sim+eng", "--psm", str(psm), "tsv"],
             check=False, capture_output=True, text=True, timeout=90,
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
@@ -231,23 +229,151 @@ def _ocr_with_tesseract(image_path: Path) -> tuple[list[dict[str, Any]], str | N
     lines = completed.stdout.splitlines()
     if not lines:
         return [], "tesseract_empty_tsv"
-    entries: list[dict[str, Any]] = []
+    words: list[dict[str, Any]] = []
     for row in lines[1:]:
         values = row.split("\t", 11)
         if len(values) != 12:
             continue
         try:
-            level, left, top, width, height, confidence = int(values[0]), int(values[6]), int(values[7]), int(values[8]), int(values[9]), float(values[10])
+            level = int(values[0])
+            line_key = tuple(int(value) for value in values[1:5])
+            left, top, width, height, confidence = int(values[6]), int(values[7]), int(values[8]), int(values[9]), float(values[10])
         except ValueError:
             continue
         text = values[11].strip()
         if level != 5 or not text or confidence < 0:
             continue
-        entries.append({
+        words.append({
             "text": text, "coord": [left, top, width, height],
-            "ocrConfidence": round(confidence / 100.0, 4),
+            "lineKey": line_key,
         })
+    # Tesseract TSV is word-level. Chinese mobile UI frequently becomes many
+    # one/two-glyph words, which previously inflated the rejection ratio and
+    # destroyed titles. Merge only spatially adjacent words on the same OCR
+    # line; large gaps still preserve independent price/tag fields.
+    entries: list[dict[str, Any]] = []
+    for line_key in dict.fromkeys(item["lineKey"] for item in words):
+        line_words = sorted((item for item in words if item["lineKey"] == line_key), key=lambda item: item["coord"][0])
+        groups: list[list[dict[str, Any]]] = []
+        for word in line_words:
+            if not groups:
+                groups.append([word])
+                continue
+            previous = groups[-1][-1]
+            px, py, pw, ph = previous["coord"]
+            x, y, w, h = word["coord"]
+            gap = x - (px + pw)
+            if gap <= max(10, round(max(ph, h) * 1.25)):
+                groups[-1].append(word)
+            else:
+                groups.append([word])
+        for group in groups:
+            x0 = min(item["coord"][0] for item in group)
+            y0 = min(item["coord"][1] for item in group)
+            x1 = max(item["coord"][0] + item["coord"][2] for item in group)
+            y1 = max(item["coord"][1] + item["coord"][3] for item in group)
+            text_parts: list[str] = []
+            for word in group:
+                value = str(word["text"])
+                separator = " " if text_parts and text_parts[-1][-1:].isascii() and text_parts[-1][-1:].isalnum() and value[:1].isascii() and value[:1].isalpha() else ""
+                text_parts.append(separator + value)
+            entries.append({"text": "".join(text_parts), "coord": [x0, y0, x1 - x0, y1 - y0]})
     return entries, None
+
+
+def _run_tesseract_plain(image_path: Path, psm: int) -> tuple[list[dict[str, Any]], str | None]:
+    """Read bounded lines without consuming or filtering by OCR confidence."""
+    binary = shutil.which("tesseract")
+    if not binary:
+        return [], "tesseract_not_installed"
+    try:
+        completed = subprocess.run(
+            [binary, str(image_path), "stdout", "-l", "chi_sim+eng", "--psm", str(psm)],
+            check=False, capture_output=True, text=True, timeout=30,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        return [], f"tesseract_error:{type(exc).__name__}:{exc}"[:240]
+    if completed.returncode != 0:
+        return [], f"tesseract_error:{completed.stderr.strip()}"[:240]
+    entries = [{"text": line.strip()} for line in completed.stdout.splitlines() if line.strip()]
+    return (entries, None) if entries else ([], "tesseract_empty_text")
+
+
+def _normal_ocr_text(value: str) -> str:
+    return re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "", value).lower()
+
+
+def _box_match(left: list[int], right: list[int]) -> float:
+    lx, ly, lw, lh = left; rx, ry, rw, rh = right
+    iw = max(0, min(lx + lw, rx + rw) - max(lx, rx))
+    ih = max(0, min(ly + lh, ry + rh) - max(ly, ry))
+    intersection = iw * ih
+    union = lw * lh + rw * rh - intersection
+    return intersection / union if union else 0.0
+
+
+def _annotate_ocr_consensus(primary: list[dict[str, Any]], secondary: list[dict[str, Any]]) -> None:
+    for item in primary:
+        ranked = sorted(secondary, key=lambda other: _box_match(item["coord"], other["coord"]), reverse=True)
+        match = ranked[0] if ranked and _box_match(item["coord"], ranked[0]["coord"]) >= 0.18 else None
+        left = _normal_ocr_text(str(item.get("text", "")))
+        right = _normal_ocr_text(str(match.get("text", ""))) if match else ""
+        item["ocrConsensus"] = {"status": "confirmed" if left and left == right else "disagreed" if match else "unmatched",
+                                "primaryText": item.get("text", ""), "secondaryText": match.get("text", "") if match else ""}
+
+
+def _structured_text_quality(value: str) -> int:
+    chinese = sum("\u4e00" <= char <= "\u9fff" for char in value)
+    stripped = re.sub(r"(?:ml|kg|vol|cm|mm|km|SPA|KTV|Plus|Pro)", "", value, flags=re.I)
+    latin = sum(char.isascii() and char.isalpha() for char in stripped)
+    return chinese * 2 - latin
+
+
+def _prefer_independent_structured_text(entries: list[dict[str, Any]]) -> int:
+    """Select the cleaner OCR layout only when the same price digits anchor it."""
+    changed = 0
+    for item in entries:
+        consensus = item.get("ocrConsensus", {})
+        if consensus.get("status") != "disagreed":
+            continue
+        primary = str(item.get("text", ""))
+        secondary = str(consensus.get("secondaryText", ""))
+        primary_price = re.search(r"[¥￥]\s*(\d+(?:\.\d+)?)", primary)
+        secondary_price = re.search(r"[¥￥]\s*(\d+(?:\.\d+)?)", secondary)
+        if not primary_price or not secondary_price:
+            continue
+        if _numeric_signature(primary_price.group(1)) != _numeric_signature(secondary_price.group(1)):
+            continue
+        if len(secondary) < len(primary) * 0.55 or _structured_text_quality(secondary) < _structured_text_quality(primary) + 2:
+            continue
+        item["text"] = secondary
+        item["ocrRefinement"] = {
+            "applied": True, "originalText": primary, "refinedText": secondary,
+            "backend": "tesseract_independent_layout", "acceptance": "same_price_numeric_signature_and_higher_script_coherence",
+            "originalConsensus": dict(consensus),
+        }
+        item["ocrConsensus"] = {
+            "status": "confirmed", "primaryText": secondary, "secondaryText": primary,
+            "method": "independent_layout_structured_field_selection",
+        }
+        changed += 1
+    return changed
+
+
+def _ocr_with_tesseract(image_path: Path) -> tuple[list[dict[str, Any]], str | None]:
+    """Chinese OCR with an independent layout-mode consensus signal."""
+    primary, error = _run_tesseract(image_path, 6)
+    if error:
+        return primary, error
+    # PSM 11 is not used as replacement text. It is an independent hook input
+    # that helps detect plausible-looking but unstable PSM 6 strings.
+    secondary, secondary_error = _run_tesseract(image_path, 11)
+    if not secondary_error:
+        _annotate_ocr_consensus(primary, secondary)
+    else:
+        for item in primary:
+            item["ocrConsensus"] = {"status": "unavailable", "primaryText": item.get("text", ""), "secondaryText": ""}
+    return primary, None
 
 
 def _ocr(image_path: Path) -> tuple[list[dict[str, Any]], str, str | None]:
@@ -295,6 +421,52 @@ def _text_color_hint(rgb: np.ndarray, box: Box) -> dict[str, Any]:
     return {"colorRole": role, "medianRgb": [r, g, b], "evidence": "foreground_pixel_median"}
 
 
+def _hex_rgb(value: Any) -> str:
+    if not isinstance(value, list) or len(value) != 3 or not all(isinstance(channel, int) and 0 <= channel <= 255 for channel in value):
+        return ""
+    return "#" + "".join(f"{channel:02X}" for channel in value)
+
+
+def _text_size_bucket(height: int) -> str:
+    """A geometry fact, not a claim about the design-system token."""
+    if height <= 24:
+        return "small"
+    if height <= 44:
+        return "medium"
+    return "large"
+
+
+def _direct_text_phase3_facts(text: str, box: Box, hint: dict[str, Any], accepted: bool) -> dict[str, Any]:
+    """Emit Phase3-shaped CV facts before later card/semantic assignment."""
+    color = hint.get("colorRole", "unknown")
+    visible = "confirmed" if accepted else "uncertain"
+    return {
+        "render": {"visibleStatus": visible, "renderState": "normal" if accepted else "uncertain", "isPhoto": False, "isSystemUi": True},
+        "textFacts": {"rawText": text, "textStatus": "complete" if accepted else "uncertain", "semanticRole": "other",
+                      "emphasisLevel": "secondary", "fontSizeBucket": _text_size_bucket(box.h), "fontWeightBucket": "unknown", "textColorRole": color},
+        "visual": {"entityKind": "text", "visualStatus": visible, "isColored": color not in {"neutral", "unknown"}, "isShaped": False,
+                   "colorRole": color, "backgroundColor": "", "textColor": _hex_rgb(hint.get("medianRgb")), "borderColor": "",
+                   "hasGraphicAssist": False, "graphicType": "无", "styleKey": f"text|{color}|other|无容器|无",
+                   "colorEvidence": hint.get("evidence", "not_measured")},
+    }
+
+
+def _text_hygiene_reasons(text: str, box: Box, row_hits: int) -> list[str]:
+    """Reject OCR debris deterministically; never escalate it to model reading."""
+    compact = text.strip()
+    meaningful = [char for char in compact if char.isalnum() or "\u4e00" <= char <= "\u9fff"]
+    if not meaningful:
+        return ["ocr_punctuation_only"]
+    reasons: list[str] = []
+    if box.h < 10 or box.w < 8:
+        reasons.append("ocr_box_too_small")
+    if len(meaningful) == 1 and not meaningful[0].isdigit():
+        reasons.append("ocr_single_glyph_fragment")
+    if row_hits != 1:
+        reasons.append("text_box_row_alignment_ambiguous")
+    return reasons
+
+
 def _text_candidates(ocr: list[dict[str, Any]], rows: list[dict[str, Any]], rgb: np.ndarray, width: int, height: int) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     for index, item in enumerate(ocr, start=1):
@@ -303,24 +475,110 @@ def _text_candidates(ocr: list[dict[str, Any]], rows: list[dict[str, Any]], rgb:
         if not box:
             continue
         overlaps = sum(1 for row in rows if _near_row(box, row))
-        ocr_confidence = float(item["ocrConfidence"])
-        geometry_confidence = 1.0 if overlaps == 1 else 0.65 if overlaps else 0.4
-        confidence = min(ocr_confidence, geometry_confidence)
-        reasons: list[str] = []
-        if ocr_confidence < 0.92:
-            reasons.append("ocr_below_initial_key_text_threshold")
-        if overlaps != 1:
-            reasons.append("text_box_row_alignment_ambiguous")
+        reasons = _text_hygiene_reasons(str(item["text"]), box, overlaps)
+        hint = _text_color_hint(rgb, box)
+        accepted = not reasons
         candidates.append({
             "id": f"T{index}", "kind": "text", "text": item["text"], "coord": box.as_list(),
-            "confidence": round(confidence, 4), "confidenceParts": {
-                "ocr": round(ocr_confidence, 4), "rowGeometry": geometry_confidence,
-            },
-            "visualHint": _text_color_hint(rgb, box),
-            "route": "local_vision" if reasons else "accepted",
-            "routeReasons": reasons,
+            # Independent Tesseract layout modes are kept as gate evidence.
+            # They never replace the primary OCR string or trigger model OCR.
+            "ocrConsensus": item.get("ocrConsensus", {
+                "status": "unavailable", "primaryText": item.get("text", ""), "secondaryText": "",
+            }),
+            "geometry": {"rowAlignment": "single_row" if overlaps == 1 else "ambiguous"},
+            "visualHint": hint,
+            # These direct CV facts use the Phase3 names. Later stages only
+            # add ownership, region and semantic role; they must not replace
+            # the colour/pixel evidence with a guess.
+            "phase3Facts": _direct_text_phase3_facts(item["text"], box, hint, accepted),
+            **({"ocrRefinement": item["ocrRefinement"]} if item.get("ocrRefinement") else {}),
+            "route": "accepted" if accepted else "rejected", "rejectionReasons": reasons,
         })
     return candidates
+
+
+def _numeric_signature(value: str) -> str:
+    return "".join(char for char in value if char.isdigit())
+
+
+def _select_bounded_price_refinement(primary_text: str, entries: list[dict[str, Any]]) -> str:
+    """Choose only a local OCR price whose digits are anchored in full-page OCR."""
+    primary_digits = _numeric_signature(primary_text)
+    matches: list[tuple[int, str]] = []
+    for entry in entries:
+        value = str(entry.get("text", "")).strip()
+        match = re.search(r"[¥￥]\s*(\d+(?:[./]\d+)?)", value)
+        if not match:
+            continue
+        digits = _numeric_signature(match.group(1))
+        if len(digits) < 2:
+            continue
+        if digits in primary_digits or primary_digits in digits:
+            context = 2 if re.search(r"到手价|神价|低价|特价|券后|月售|起|[-–]", value) else 0
+            matches.append((len(digits) + context, value))
+    return max(matches, default=(0, ""))[1]
+
+
+def _bounded_price_refinements(rgb: np.ndarray, candidates: list[dict[str, Any]], maximum: int = 8) -> int:
+    """Re-read a few likely price lines with a red/dark foreground mask.
+
+    The local result replaces raw OCR only when it restores a real currency
+    glyph and its numeric signature agrees with the original full-page OCR.
+    No language correction or inferred value is introduced.
+    """
+    height, width, _ = rgb.shape
+    selected = []
+    for item in candidates:
+        text = str(item.get("text", ""))
+        x, y, w, h = item.get("coord", [0, 0, 0, 0])
+        role = item.get("visualHint", {}).get("colorRole")
+        contextual = bool(re.search(r"到手价|到手从|神价|低价|特价|券后|票价|价格|\d+(?:\.\d+)?\s*起|\d{2,4}\s*[-–]\s*\d{2,4}", text))
+        obvious_non_price = bool(re.search(r"分钟|公里|\bkm\b|\d+(?:\.\d+)?万?条|起送|配送费|20\d{2}[-/.年]", text, re.I)) and not contextual
+        if item.get("route") != "accepted" or role not in {"red", "orange"} or sum(char.isdigit() for char in text) < 2:
+            continue
+        if not contextual and not width * 0.18 <= x <= width * 0.88:
+            continue
+        if obvious_non_price or re.search(r"[¥￥]\s*\d", text):
+            continue
+        selected.append(item)
+    refined = 0
+    for item in selected[:maximum]:
+        x, y, w, h = item["coord"]
+        pad_x, pad_y = min(20, x), min(12, y)
+        x0, y0 = x - pad_x, y - pad_y
+        x1, y1 = min(width, x + w + 20), min(height, y + h + 12)
+        crop = rgb[y0:y1, x0:x1]
+        if crop.size == 0:
+            continue
+        red = (crop[:, :, 0] > crop[:, :, 1] * 1.12) & (crop[:, :, 0] > crop[:, :, 2] * 1.12) & (crop[:, :, 0] > 90)
+        dark = crop.mean(axis=2) < 130
+        mask = np.full(red.shape, 255, dtype=np.uint8)
+        mask[red | dark] = 0
+        image = Image.fromarray(mask).resize((mask.shape[1] * 4, mask.shape[0] * 4), Image.Resampling.NEAREST)
+        with tempfile.NamedTemporaryFile(suffix=".png") as handle:
+            image.save(handle.name)
+            entries, error = _run_tesseract_plain(Path(handle.name), 11)
+        if error:
+            continue
+        recovered = _select_bounded_price_refinement(str(item["text"]), entries)
+        if not recovered:
+            continue
+        original = str(item["text"])
+        original_consensus = item.get("ocrConsensus", {})
+        item["text"] = recovered
+        item["ocrConsensus"] = {
+            "status": "confirmed", "primaryText": recovered, "secondaryText": original,
+            "method": "bounded_price_mask_psm11_numeric_anchor",
+        }
+        item["ocrRefinement"] = {
+            "applied": True, "originalText": original, "refinedText": recovered,
+            "backend": "tesseract_psm11", "crop": [x0, y0, x1 - x0, y1 - y0],
+            "acceptance": "currency_glyph_restored_and_numeric_signature_anchored",
+            "originalConsensus": original_consensus,
+        }
+        item.get("phase3Facts", {}).get("textFacts", {})["rawText"] = recovered
+        refined += 1
+    return refined
 
 
 def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, height: int) -> list[dict[str, Any]]:
@@ -334,7 +592,7 @@ def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, 
         # colourful region and one stable content row is enough to propose a
         # photo, never enough to assign its semantic role.
         row_hits = sum(1 for row in rows if _near_row(box, row))
-        detector_confidence = 0.82 if item["rule"] == "large" else 0.72 if item["rule"] == "colorful" else 0.62
+        detector_confidence = 0.82 if item["rule"] == "large" else 0.8 if item["rule"] == "low_hue_textured" else 0.72 if item["rule"] == "colorful" else 0.62
         geometry_confidence = 0.9 if row_hits <= 3 else 0.65
         confidence = min(detector_confidence, geometry_confidence)
         reasons = []
@@ -342,11 +600,18 @@ def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, 
             reasons.append("photo_detector_weak_or_icon_like")
         if row_hits > 3:
             reasons.append("photo_spans_multiple_content_rows")
+        accepted = not reasons
         candidates.append({
             "id": f"P{index}", "kind": "photo_candidate", "coord": box.as_list(),
             "detectorRule": item["rule"], "confidence": round(confidence, 4),
             "confidenceParts": {"detector": detector_confidence, "rowGeometry": geometry_confidence},
-            "route": "local_vision" if reasons else "accepted", "routeReasons": reasons,
+            "phase3Facts": {
+                "render": {"visibleStatus": "confirmed" if accepted else "uncertain", "renderState": "normal" if accepted else "uncertain", "isPhoto": True, "isSystemUi": False},
+                "visual": {"entityKind": "image", "visualStatus": "confirmed" if accepted else "uncertain", "isColored": False, "isShaped": False,
+                           "colorRole": "unknown", "backgroundColor": "", "textColor": "", "borderColor": "", "hasGraphicAssist": False,
+                           "graphicType": "无", "styleKey": "image|unknown|photo|无容器|无", "colorEvidence": "Phase3_pixel_measurement_required"},
+            },
+            "route": "accepted" if accepted else "rejected", "rejectionReasons": reasons,
         })
     return candidates
 
@@ -357,7 +622,9 @@ def extract(image_path: Path) -> dict[str, Any]:
     height, width, _ = rgb.shape
     whitespace, rows = _content_rows(rgb)
     ocr, ocr_backend, backend_error = _ocr(image_path)
+    independent_layout_refinements = _prefer_independent_structured_text(ocr)
     text = _text_candidates(ocr, rows, rgb, width, height)
+    bounded_price_refinements = _bounded_price_refinements(rgb, text)
     photos = _photo_candidates(image_path, rows, width, height)
     unresolved = [item["id"] for item in text + photos if item["route"] != "accepted"]
     missing_capabilities: list[str] = []
@@ -369,14 +636,14 @@ def extract(image_path: Path) -> dict[str, Any]:
         "contractVersion": VERSION,
         "screenshot": str(image_path.resolve()),
         "viewport": {"width": width, "height": height},
-        "backends": {"pixel": "opencv+numpy", "ocr": ocr_backend, "ocrStatus": backend_error or "ok"},
+        "backends": {"pixel": "opencv+numpy", "ocr": ocr_backend, "ocrStatus": backend_error or "ok", "independentLayoutRefinements": independent_layout_refinements, "boundedPriceRefinements": bounded_price_refinements},
         "whitespaceBands": whitespace,
         "contentRows": rows,
         "candidates": {"text": text, "photos": photos},
         "routing": {
-            "policy": "conservative-v1", "unresolvedCandidateIds": unresolved,
+            "policy": "cv_only_gated_v1", "unresolvedCandidateIds": unresolved,
             "missingCapabilities": missing_capabilities,
-            "rule": "Only candidate-local crops may be sent to a vision model; unresolved facts cannot establish absence, defects, or excellence.",
+            "rule": "Rejected OCR/CV candidates are not sent to a model. They are evidence that the page-level recognition gate must reprocess or block this manifest; they cannot establish absence, defects, or excellence.",
         },
     }
 

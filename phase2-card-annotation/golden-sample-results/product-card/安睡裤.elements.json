@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "安睡裤",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -51,7 +50,6 @@
               55
             ],
             "visibleText": "品牌",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation",
             "selected": true
@@ -66,7 +64,6 @@
               55
             ],
             "visibleText": "类型",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation",
             "selected": false
@@ -91,7 +88,6 @@
                 109
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -105,7 +101,6 @@
                 52
               ],
               "visibleText": "自由点",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -132,7 +127,6 @@
                 154
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -146,7 +140,6 @@
                 52
               ],
               "visibleText": "苏菲",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -173,7 +166,6 @@
                 141
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -187,7 +179,6 @@
                 52
               ],
               "visibleText": "护舒宝",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -214,7 +205,6 @@
                 145
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -228,7 +218,6 @@
                 52
               ],
               "visibleText": "高洁丝",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -255,7 +244,6 @@
                 137
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -269,7 +257,6 @@
                 52
               ],
               "visibleText": "七度空间",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -296,7 +283,6 @@
                 159
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -310,7 +296,6 @@
                 52
               ],
               "visibleText": "花王",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -346,7 +331,6 @@
               1224,
               502
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -360,7 +344,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -378,7 +361,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -392,7 +374,6 @@
                       132
                     ],
                     "visibleText": "【L号】苏菲超熟睡安心裤5片/包裤型卫生巾",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -413,7 +394,6 @@
                       100
                     ],
                     "visibleText": "￥10.9",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -427,7 +407,6 @@
                       100
                     ],
                     "visibleText": "￥2.18",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -440,10 +419,9 @@
                       43,
                       100
                     ],
-                    "visibleText": "神价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -455,7 +433,6 @@
                       100
                     ],
                     "visibleText": "月售4630",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -469,7 +446,6 @@
                       100
                     ],
                     "visibleText": "神券立减545减121.5",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -487,7 +463,6 @@
                       54
                     ],
                     "visibleText": "起送￥14.9",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -501,7 +476,6 @@
                       54
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -515,7 +489,6 @@
                       58
                     ],
                     "visibleText": "30分钟",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -529,7 +502,6 @@
                       58
                     ],
                     "visibleText": "1.5km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -550,7 +522,6 @@
               1224,
               563
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -564,7 +535,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -582,7 +552,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -596,7 +565,6 @@
                       132
                     ],
                     "visibleText": "她研社春眠小裤安睡裤M-L码/马3条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -614,7 +582,6 @@
                       70
                     ],
                     "visibleText": "3片",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -632,7 +599,6 @@
                       100
                     ],
                     "visibleText": "￥4",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -646,7 +612,6 @@
                       100
                     ],
                     "visibleText": "￥1.43",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -659,10 +624,9 @@
                       94,
                       100
                     ],
-                    "visibleText": "到手价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -674,7 +638,6 @@
                       100
                     ],
                     "visibleText": "已售7246",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -692,7 +655,6 @@
                       54
                     ],
                     "visibleText": "品牌",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -706,7 +668,6 @@
                       54
                     ],
                     "visibleText": "参慕诗全球美妆集合店(朝阳望京店)",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -720,7 +681,6 @@
                       54
                     ],
                     "visibleText": "起送¥8.8",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -734,7 +694,6 @@
                       54
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -748,7 +707,6 @@
                       58
                     ],
                     "visibleText": "46分钟",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -762,7 +720,6 @@
                       58
                     ],
                     "visibleText": "2.3km",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   }
@@ -783,7 +740,6 @@
               1224,
               683
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -797,7 +753,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -815,7 +770,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -829,7 +783,6 @@
                       132
                     ],
                     "visibleText": "全棉时代奈丝公主M码安睡裤3包",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -850,7 +803,6 @@
                       100
                     ],
                     "visibleText": "￥11.9",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -864,7 +816,6 @@
                       100
                     ],
                     "visibleText": "¥9.4",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -878,7 +829,6 @@
                       100
                     ],
                     "visibleText": "买2件¥9.4/件",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -892,7 +842,6 @@
                       100
                     ],
                     "visibleText": "已售61",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }

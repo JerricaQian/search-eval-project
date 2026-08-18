@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "蜜雪冰城",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -69,7 +68,6 @@
             ],
             "cropped": false,
             "status": "confirmed",
-            "confidence": 0.9,
             "regions": {
               "头图区": {
                 "elements": [
@@ -83,7 +81,6 @@
                       163
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -101,7 +98,6 @@
                       68
                     ],
                     "visibleText": "20分钟",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -119,7 +115,6 @@
                       72
                     ],
                     "visibleText": "9分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -133,7 +128,6 @@
                       72
                     ],
                     "visibleText": "月售1000+",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -147,7 +141,6 @@
                       72
                     ],
                     "visibleText": "3.1km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -171,7 +164,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -184,10 +176,9 @@
                         264,
                         72
                       ],
-                      "visibleText": "加”jn | = 3™ Ay, ere GY",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -199,9 +190,8 @@
                         52
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -217,7 +207,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -231,9 +220,8 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -245,9 +233,8 @@
                         52
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -263,7 +250,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "confirmed",
                       "source": "cv_product_slot"
                     },
@@ -276,10 +262,9 @@
                         264,
                         72
                       ],
-                      "visibleText": "4KF",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "price": {
                       "elementType": "下挂商品价格",
@@ -290,10 +275,9 @@
                         264,
                         52
                       ],
-                      "visibleText": "18 Y24.8",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     }
                   },
                   {
@@ -309,7 +293,6 @@
                         264
                       ],
                       "visibleText": "",
-                      "confidence": 0.78,
                       "status": "uncertain",
                       "source": "cv_product_slot"
                     },
@@ -323,7 +306,6 @@
                         72
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -337,7 +319,6 @@
                         52
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -356,7 +337,6 @@
                       387
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -387,7 +367,6 @@
         1178,
         397
       ],
-      "confidence": 0.55,
       "status": "uncertain",
       "evidence": [
         "top_text_candidate"
@@ -401,7 +380,6 @@
         624,
         83
       ],
-      "confidence": 0.8,
       "status": "confirmed",
       "evidence": [
         "tab_terms"
@@ -416,7 +394,6 @@
         1224,
         812
       ],
-      "confidence": 0.82,
       "status": "confirmed",
       "evidence": [
         "large_media_block_after_tab",

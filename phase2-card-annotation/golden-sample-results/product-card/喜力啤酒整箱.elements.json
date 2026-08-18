@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "喜力啤酒整箱",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -68,7 +67,6 @@
               1224,
               563
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -82,7 +80,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -100,7 +97,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -114,7 +110,6 @@
                       68
                     ],
                     "visibleText": "【整箱】喜力啤酒500ml*12瓶°P",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -135,7 +130,6 @@
                       100
                     ],
                     "visibleText": "￥5",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -149,7 +143,6 @@
                       100
                     ],
                     "visibleText": "￥4.59",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -162,10 +155,9 @@
                       106,
                       100
                     ],
-                    "visibleText": "冰爽价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -177,7 +169,6 @@
                       100
                     ],
                     "visibleText": "月售9531",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -201,7 +192,6 @@
               1224,
               563
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -215,7 +205,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -233,7 +222,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -254,7 +242,6 @@
                       100
                     ],
                     "visibleText": "￥90",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -268,7 +255,6 @@
                       100
                     ],
                     "visibleText": "月售1254",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -292,7 +278,6 @@
               1224,
               515
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -306,7 +291,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -324,7 +308,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -338,7 +321,6 @@
                       68
                     ],
                     "visibleText": "【整箱】喜力11.4度听装啤酒ml*12罐/箱",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -359,7 +341,6 @@
                       100
                     ],
                     "visibleText": "￥64.9",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -373,7 +354,6 @@
                       100
                     ],
                     "visibleText": "￥5.41",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -386,10 +366,9 @@
                       71,
                       100
                     ],
-                    "visibleText": "神价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -401,7 +380,6 @@
                       100
                     ],
                     "visibleText": "月售9130",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -419,7 +397,6 @@
                       54
                     ],
                     "visibleText": "起送￥18.9",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -433,7 +410,6 @@
                       54
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -454,7 +430,6 @@
               1224,
               349
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -468,7 +443,6 @@
                       319
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -486,7 +460,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -500,7 +473,6 @@
                       68
                     ],
                     "visibleText": "喜力啤酒11.4P听装500ml*12",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -518,7 +490,6 @@
                       70
                     ],
                     "visibleText": "麦香浓郁｜一口感均衡",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   }

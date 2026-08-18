@@ -33,7 +33,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -49,7 +48,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -67,7 +65,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -85,7 +82,6 @@
                       64
                     ],
                     "visibleText": "4.2分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -99,7 +95,6 @@
                       64
                     ],
                     "visibleText": "180条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -113,7 +108,6 @@
                       64
                     ],
                     "visibleText": "1.5km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -134,7 +128,6 @@
                       58
                     ],
                     "visibleText": "全身都轻松了，环境舒适",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -160,7 +153,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -173,10 +165,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "按床",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -188,7 +179,6 @@
                         54
                       ],
                       "visibleText": "士专麻心关正",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -202,7 +192,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -225,7 +214,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -239,7 +227,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -253,7 +240,6 @@
                         54
                       ],
                       "visibleText": "认主山产大",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -267,7 +253,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -287,7 +272,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -303,7 +287,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -321,7 +304,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -339,7 +321,6 @@
                       64
                     ],
                     "visibleText": "4.0分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -353,7 +334,6 @@
                       64
                     ],
                     "visibleText": "482条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -367,7 +347,6 @@
                       64
                     ],
                     "visibleText": "1.4km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -385,7 +364,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至50↑望京足部护理销量榜第3名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -403,7 +381,6 @@
                       58
                     ],
                     "visibleText": "超值套餐】15点前可用|足疗￥593.8折年售8",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -429,7 +406,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -443,7 +419,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -457,7 +432,6 @@
                         54
                       ],
                       "visibleText": "退值会]",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -471,7 +445,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -494,7 +467,6 @@
                         54
                       ],
                       "visibleText": "￥45",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -507,10 +479,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "91",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -522,7 +493,6 @@
                         54
                       ],
                       "visibleText": "函5点可用U",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -536,7 +506,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -556,7 +525,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -572,7 +540,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -590,7 +557,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -604,7 +570,6 @@
                       62
                     ],
                     "visibleText": "柔己·推拿正脊SPA(望京店)",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -622,7 +587,6 @@
                       64
                     ],
                     "visibleText": "4.7分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -636,7 +600,6 @@
                       64
                     ],
                     "visibleText": "1874条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -650,7 +613,6 @@
                       64
                     ],
                     "visibleText": "1.8km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -668,7 +630,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至50↑望京推拿养生销量榜第10名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -686,7 +647,6 @@
                       58
                     ],
                     "visibleText": "专业按摩，舒服体验",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -712,7 +672,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -726,7 +685,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -740,7 +698,6 @@
                         54
                       ],
                       "visibleText": "[按白",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -754,7 +711,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -777,7 +733,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -791,7 +746,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -805,7 +759,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -819,7 +772,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -839,7 +791,6 @@
               1224,
               459
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": true,
             "regions": {
@@ -855,7 +806,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -873,7 +823,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -887,7 +836,6 @@
                       62
                     ],
                     "visibleText": "新印伽·云澜意境SPA·养生足道(望京",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -905,7 +853,6 @@
                       64
                     ],
                     "visibleText": "3.9分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -919,7 +866,6 @@
                       64
                     ],
                     "visibleText": "1406条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -933,7 +879,6 @@
                       64
                     ],
                     "visibleText": "1.3km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -951,7 +896,6 @@
                       62
                     ],
                     "visibleText": "神券立减36泰式手法",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -969,7 +913,6 @@
                       58
                     ],
                     "visibleText": "技师手法到位，力度合适",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -995,7 +938,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1009,7 +951,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1023,7 +964,6 @@
                         54
                       ],
                       "visibleText": "中术按关十",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1037,7 +977,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1060,7 +999,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1074,7 +1012,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1088,7 +1025,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1102,7 +1038,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }

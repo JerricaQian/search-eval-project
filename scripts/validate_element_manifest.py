@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 TOP_LEVEL_KEYS = {"query", "screenshot", "annotatedImage", "cards"}
-OPTIONAL_TOP_LEVEL_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations"}
+OPTIONAL_TOP_LEVEL_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations", "recognition"}
 CARD_KEYS = {"cardId", "卡片类型", "coord", "regions"}
 OPTIONAL_CARD_GOVERNANCE_KEYS = {
     "ownershipScope", "businessCode", "businessName", "businessConfidence",
@@ -66,9 +66,15 @@ def valid_tag_scan_checklist(value: Any, known_ids: set[str]) -> bool:
     return True
 CARD_TYPES = {
     "商品卡片", "商家卡片-图文下挂", "商家卡片-文字下挂", "酒店卡片",
-    "度假/酒店套餐卡片", "演出/电影卡片", "主点卡片", "特殊广告卡", "宏观组件",
+    "度假/酒店套餐卡片", "演出/电影卡片", "主点卡片", "特殊广告卡", "异构卡", "宏观组件", "酒店卡片（商家商品卡）",
 }
-REGION_NAMES = {"头图区", "标题区", "基础信息区", "标签区", "价格区", "商家区", "下挂区", "AI推荐理由"}
+REGION_NAMES = {
+    "头图区", "标题区", "副标题区", "基础信息区", "商家信息区", "评分与推荐理由",
+    "位置信息", "标签区", "价格区", "商家区", "下挂商品区", "特殊下挂", "服务下挂",
+    "下挂区", "文字下挂区", "AI推荐理由", "实体标题区", "实体信息区", "领域下挂区", "演出信息区", "套餐概要",
+    "头图区（演出）", "商家信息区（电影）", "基础信息区（双列变体）",
+    "媒体区", "主要信息区", "辅助信息区", "操作区",
+}
 ELEMENT_TYPES = {"文本", "图片", "标签"}
 GENERIC_TEXTS = {
     "原文:商家名称", "原文:评分", "原文:评分 距离 人均", "原文:标签", "原文:基础信息",
@@ -129,7 +135,18 @@ def main() -> int:
     if not isinstance(data, dict) or not TOP_LEVEL_KEYS.issubset(data) or not set(data).issubset(TOP_LEVEL_KEYS | OPTIONAL_TOP_LEVEL_FACT_KEYS):
         errors.append("top_level_keys_must_include_base_schema_and_only_allow_phase3_fact_extensions")
     elif not OPTIONAL_TOP_LEVEL_FACT_KEYS.issubset(data):
-        errors.append("phase3_fact_extensions_missing:pageFacts,pageFactInventory,relations")
+        errors.append("phase3_fact_extensions_missing:pageFacts,pageFactInventory,relations,recognition")
+    recognition = data.get("recognition", {}) if isinstance(data, dict) else {}
+    required_recognition = {"contractVersion", "status", "phase3Ready", "wholePageGate", "blockingCardIds", "backends", "errors", "semanticHookFindings", "reprocessTargets", "reprocess"}
+    if not isinstance(recognition, dict) or not required_recognition.issubset(recognition):
+        errors.append("whole_page_recognition_schema_invalid")
+    else:
+        if recognition.get("status") not in {"confirmed", "blocked"} or not isinstance(recognition.get("phase3Ready"), bool) or recognition.get("wholePageGate") is not True:
+            errors.append("whole_page_recognition_state_invalid")
+        if recognition.get("phase3Ready") is not True or recognition.get("status") != "confirmed":
+            errors.append("whole_page_recognition_blocked")
+        if recognition.get("phase3Ready") is True and (recognition.get("blockingCardIds") or recognition.get("errors")):
+            errors.append("phase3_ready_manifest_must_have_no_blockers")
     cards = data.get("cards") if isinstance(data, dict) else None
     if not isinstance(cards, list) or not cards:
         errors.append("cards_must_be_non_empty_array")

@@ -68,6 +68,11 @@ def _classify(x, y, w, h, area, stats):
         return "ui", "pure_color_label"
     # photo 规则
     ab, rs, cr = stats["active_bins"], stats["rgb_std"], stats["chrom_ratio"]
+    # Real product/merchant photos can be nearly monochromatic (durian,
+    # medicine packaging, dark storefronts).  Keep this behind strong area,
+    # texture, chroma, and geometry requirements so flat badges do not pass.
+    if area >= 20000 and ab < 3 and aspect <= 2.0 and rs >= 45 and cr >= 0.2:
+        return "photo", "low_hue_textured"
     if area >= 3000 and ab >= 3 and rs >= 25:
         return "photo", "large"
     if area >= 1500 and ab >= 5 and rs >= 35:

@@ -33,7 +33,6 @@
               1224,
               318
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -49,7 +48,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -67,7 +65,6 @@
                       62
                     ],
                     "visibleText": "景点",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -81,7 +78,6 @@
                       62
                     ],
                     "visibleText": "花果山漂流(紫竹院公园)",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -99,7 +95,6 @@
                       64
                     ],
                     "visibleText": "4.0分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -113,7 +108,6 @@
                       64
                     ],
                     "visibleText": "23条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -127,7 +121,6 @@
                       64
                     ],
                     "visibleText": "16.1km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -159,7 +152,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -173,7 +165,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -187,7 +178,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -201,7 +191,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -223,10 +212,9 @@
                         100,
                         54
                       ],
-                      "visibleText": "景点",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "discount": {
                       "elementType": "下挂价格折扣标签",
@@ -237,10 +225,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "北京",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -252,7 +239,6 @@
                         54
                       ],
                       "visibleText": "欢乐谷4A",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -266,7 +252,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -286,7 +271,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -302,7 +286,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -320,7 +303,6 @@
                       62
                     ],
                     "visibleText": "景点",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -334,7 +316,6 @@
                       62
                     ],
                     "visibleText": "北京欢乐谷4A",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -352,7 +333,6 @@
                       64
                     ],
                     "visibleText": "4.9分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -366,7 +346,6 @@
                       64
                     ],
                     "visibleText": "15.7km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -387,7 +366,6 @@
                       58
                     ],
                     "visibleText": "乐享漂流演艺，打卡摩天轮夜游盛宴",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -413,7 +391,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -426,10 +403,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "7性",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -441,7 +417,6 @@
                         54
                       ],
                       "visibleText": "了LT 司 -辣一-> 下 ee ee ee 一",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -455,7 +430,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -478,7 +452,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -492,7 +465,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -506,7 +478,6 @@
                         54
                       ],
                       "visibleText": "为的",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -520,7 +491,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -540,7 +510,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -556,7 +525,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -574,7 +542,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -588,7 +555,6 @@
                       62
                     ],
                     "visibleText": "拾光团建·拓展活动·旅游会议(望京店",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -606,7 +572,6 @@
                       64
                     ],
                     "visibleText": "4.5分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -620,7 +585,6 @@
                       64
                     ],
                     "visibleText": "110条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -634,7 +598,6 @@
                       64
                     ],
                     "visibleText": "2.2km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -652,7 +615,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至25望京团建拓展好评榜第3名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -670,7 +632,6 @@
                       58
                     ],
                     "visibleText": "棒球+漂流】主题团建定制1.6折94年售200+V",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -696,7 +657,6 @@
                         54
                       ],
                       "visibleText": "￥4",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -710,7 +670,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -724,7 +683,6 @@
                         54
                       ],
                       "visibleText": "[【场·除】趣图连市]",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -738,7 +696,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -761,7 +718,6 @@
                         54
                       ],
                       "visibleText": "￥5C",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -774,10 +730,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "151",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -789,7 +744,6 @@
                         54
                       ],
                       "visibleText": "[【来内地超题连]",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -803,7 +757,6 @@
                         54
                       ],
                       "visibleText": "中百47",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -823,7 +776,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -839,7 +791,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -857,7 +808,6 @@
                       62
                     ],
                     "visibleText": "景点",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -871,7 +821,6 @@
                       62
                     ],
                     "visibleText": "野三坡刘家河高山漂流",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -889,7 +838,6 @@
                       64
                     ],
                     "visibleText": "4.3分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -903,7 +851,6 @@
                       64
                     ],
                     "visibleText": "875条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -917,7 +864,6 @@
                       64
                     ],
                     "visibleText": "99km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -938,7 +884,6 @@
                       58
                     ],
                     "visibleText": "长长的吊桥也很好玩，水上项目也很多”",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -964,7 +909,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -977,10 +921,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "二7日",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -992,7 +935,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1006,7 +948,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1029,7 +970,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1043,7 +983,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -1057,7 +996,6 @@
                         54
                       ],
                       "visibleText": "开关7E",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -1071,7 +1009,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -1091,7 +1028,6 @@
               1224,
               173
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": true,
             "regions": {
@@ -1107,7 +1043,6 @@
                       173
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -1125,7 +1060,6 @@
                       62
                     ],
                     "visibleText": "景点",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -1139,7 +1073,6 @@
                       62
                     ],
                     "visibleText": "林溪漂流",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1157,7 +1090,6 @@
                       64
                     ],
                     "visibleText": "4.4分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -1171,7 +1103,6 @@
                       64
                     ],
                     "visibleText": "5条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -1185,7 +1116,6 @@
                       64
                     ],
                     "visibleText": "50.9km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }

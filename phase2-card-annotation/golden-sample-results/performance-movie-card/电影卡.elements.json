@@ -1,1 +1,169 @@
-{"contractVersion":"phase2.performance-movie.v1","cardType":"电影卡","pageStructure":{"components":[{"order":1,"componentType":"search_bar","elements":[{"elementType":"搜索关键词","visibleText":"给阿嫲的情书"}]},{"order":2,"componentType":"tab"},{"order":3,"componentType":"movie_primary_info","elements":[{"elementType":"电影海报"},{"elementType":"电影横幅/轮播"},{"elementType":"电影名","visibleText":"给阿嫲的情书"},{"elementType":"上映信息","visibleText":"2026.04.30 / 118分钟 / 剧情 喜剧 / 蓝鸿春"},{"elementType":"演员","visibleText":"李思澄 王彦桐 吴少卿"},{"elementType":"好评率","visibleText":"好于99%的电影"},{"elementType":"评分","visibleText":"9.7"},{"elementType":"评论数","visibleText":"10.62万条评论"},{"elementType":"热映计数","visibleText":"75部热映电影"},{"elementType":"待映计数","visibleText":"125部待映电影"}]},{"order":4,"componentType":"date_filter","elements":[{"elementType":"日期","visibleText":"今天 7月10日"},{"elementType":"日期","visibleText":"明天 7月11日"},{"elementType":"日期","visibleText":"后天 7月12日"}]},{"order":5,"componentType":"results_list","components":[{"componentType":"result_card","listPosition":1,"cardType":"电影影院卡","regions":{"标题区":{"elements":[{"elementType":"影院名","visibleText":"北京万达影城(望京激光巨幕店)"}]},"价格区":{"elements":[{"elementType":"起价","visibleText":"¥37.5起"}]},"商家信息区":{"elements":[{"elementType":"地址","visibleText":"朝阳区望京东园一区120号楼新荟城五层万达影城望京店"},{"elementType":"距离","visibleText":"1.2km"},{"elementType":"近期场次","visibleText":"近期场次：18:50"}]}},{"componentType":"result_card","listPosition":2,"cardType":"电影影院卡","regions":{"标题区":{"elements":[{"elementType":"影院名","visibleText":"中影CFR国际影城(望京万科时代中心店)"}]},"价格区":{"elements":[{"elementType":"起价","visibleText":"¥30.9起"}]},"商家信息区":{"elements":[{"elementType":"地址","visibleText":"朝阳区望京街9号万科时代中心F座B1层"},{"elementType":"距离","visibleText":"2.2km"},{"elementType":"近期场次","visibleText":"近期场次：18:25"}]}}]}}]}}
+{
+  "contractVersion": "phase2.performance-movie.v1",
+  "cardType": "电影卡",
+  "pageStructure": {
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "visibleText": "给阿嫲的情书"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab"
+      },
+      {
+        "order": 3,
+        "componentType": "movie_primary_info",
+        "elements": [
+          {
+            "elementType": "电影海报"
+          },
+          {
+            "elementType": "电影横幅/轮播"
+          },
+          {
+            "elementType": "电影名",
+            "visibleText": "给阿嫲的情书"
+          },
+          {
+            "elementType": "上映信息",
+            "visibleText": "2026.04.30 / 118分钟 / 剧情 喜剧 / 蓝鸿春"
+          },
+          {
+            "elementType": "演员",
+            "visibleText": "李思澄 王彦桐 吴少卿"
+          },
+          {
+            "elementType": "好评率",
+            "visibleText": "好于99%的电影"
+          },
+          {
+            "elementType": "评分",
+            "visibleText": "9.7"
+          },
+          {
+            "elementType": "评论数",
+            "visibleText": "10.62万条评论"
+          },
+          {
+            "elementType": "热映计数",
+            "visibleText": "75部热映电影"
+          },
+          {
+            "elementType": "待映计数",
+            "visibleText": "125部待映电影"
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "componentType": "date_filter",
+        "elements": [
+          {
+            "elementType": "日期",
+            "visibleText": "今天 7月10日"
+          },
+          {
+            "elementType": "日期",
+            "visibleText": "明天 7月11日"
+          },
+          {
+            "elementType": "日期",
+            "visibleText": "后天 7月12日"
+          }
+        ]
+      },
+      {
+        "order": 5,
+        "componentType": "results_list",
+        "components": [
+          {
+            "componentType": "result_card",
+            "listPosition": 1,
+            "cardType": "电影影院卡",
+            "regions": {
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "影院名",
+                    "visibleText": "北京万达影城(望京激光巨幕店)"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "起价",
+                    "visibleText": "¥37.5起"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "地址",
+                    "visibleText": "朝阳区望京东园一区120号楼新荟城五层万达影城望京店"
+                  },
+                  {
+                    "elementType": "距离",
+                    "visibleText": "1.2km"
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "visibleText": "近期场次：18:50"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 2,
+            "cardType": "电影影院卡",
+            "regions": {
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "影院名",
+                    "visibleText": "中影CFR国际影城(望京万科时代中心店)"
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "起价",
+                    "visibleText": "¥30.9起"
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "地址",
+                    "visibleText": "朝阳区望京街9号万科时代中心F座B1层"
+                  },
+                  {
+                    "elementType": "距离",
+                    "visibleText": "2.2km"
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "visibleText": "近期场次：18:25"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png"
+}

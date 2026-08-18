@@ -1,0 +1,218 @@
+{
+  "contractVersion": "phase2.learned-card-geometry-profiles.v1",
+  "sourcePolicy": "Only approved golden result-card boundaries. Aggregate normalized ranges only; never reuse screenshot coordinates or predicted labels.",
+  "stableGeometryLimits": {
+    "widthRatio": {
+      "minimum": 0.25,
+      "maximum": 1.05
+    },
+    "heightRatio": {
+      "minimum": 0.05,
+      "maximum": 0.45
+    },
+    "aspectRatio": {
+      "minimum": 0.5,
+      "maximum": 8.0
+    }
+  },
+  "profiles": [
+    {
+      "cardType": "商品卡片",
+      "status": "learned",
+      "seenPageCount": 7,
+      "pageCount": 7,
+      "cardCount": 23,
+      "excludedCardCount": 4,
+      "excludedReasons": {
+        "unstableOrPartialGeometry": 4
+      },
+      "distributions": {
+        "aspectRatio": {
+          "p10": 2.0132,
+          "median": 2.25,
+          "p90": 2.702,
+          "minimum": 1.7921,
+          "maximum": 3.5072
+        },
+        "cardsPerPage": {
+          "p10": 3.0,
+          "median": 3.0,
+          "p90": 4.0,
+          "minimum": 3.0,
+          "maximum": 4.0
+        },
+        "heightRatio": {
+          "p10": 0.1678,
+          "median": 0.2015,
+          "p90": 0.2252,
+          "minimum": 0.1293,
+          "maximum": 0.253
+        },
+        "topGapRatio": {
+          "p10": 0.1859,
+          "median": 0.1961,
+          "p90": 0.2085,
+          "minimum": 0.1822,
+          "maximum": 0.2204
+        },
+        "topRatio": {
+          "p10": 0.3526,
+          "median": 0.577,
+          "p90": 0.8322,
+          "minimum": 0.2052,
+          "maximum": 0.8707
+        },
+        "widthRatio": {
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "xRatio": {
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        }
+      }
+    },
+    {
+      "cardType": "商家卡片_图文下挂",
+      "status": "learned",
+      "seenPageCount": 7,
+      "pageCount": 6,
+      "cardCount": 17,
+      "excludedCardCount": 1,
+      "excludedReasons": {
+        "unstableOrPartialGeometry": 1
+      },
+      "distributions": {
+        "aspectRatio": {
+          "p10": 1.9522,
+          "median": 1.9522,
+          "p90": 2.3359,
+          "minimum": 1.7119,
+          "maximum": 4.4835
+        },
+        "cardsPerPage": {
+          "p10": 2.0,
+          "median": 3.0,
+          "p90": 3.0,
+          "minimum": 2.0,
+          "maximum": 3.0
+        },
+        "heightRatio": {
+          "p10": 0.1941,
+          "median": 0.2322,
+          "p90": 0.2322,
+          "minimum": 0.1011,
+          "maximum": 0.2648
+        },
+        "topGapRatio": {
+          "p10": 0.2456,
+          "median": 0.2648,
+          "p90": 0.2648,
+          "minimum": 0.2426,
+          "maximum": 0.2667
+        },
+        "topRatio": {
+          "p10": 0.2052,
+          "median": 0.5296,
+          "p90": 0.7722,
+          "minimum": 0.2052,
+          "maximum": 0.8559
+        },
+        "widthRatio": {
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "xRatio": {
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        }
+      }
+    },
+    {
+      "cardType": "商家卡片_文字下挂",
+      "status": "learned",
+      "seenPageCount": 11,
+      "pageCount": 11,
+      "cardCount": 44,
+      "excludedCardCount": 1,
+      "excludedReasons": {
+        "unstableOrPartialGeometry": 1
+      },
+      "distributions": {
+        "aspectRatio": {
+          "p10": 2.5768,
+          "median": 2.9854,
+          "p90": 4.5843,
+          "minimum": 1.2884,
+          "maximum": 7.0751
+        },
+        "cardsPerPage": {
+          "p10": 3.0,
+          "median": 4.0,
+          "p90": 5.0,
+          "minimum": 3.0,
+          "maximum": 5.0
+        },
+        "heightRatio": {
+          "p10": 0.0989,
+          "median": 0.1519,
+          "p90": 0.1759,
+          "minimum": 0.0641,
+          "maximum": 0.3519
+        },
+        "topGapRatio": {
+          "p10": 0.1519,
+          "median": 0.1759,
+          "p90": 0.1759,
+          "minimum": 0.1174,
+          "maximum": 0.3519
+        },
+        "topRatio": {
+          "p10": 0.3263,
+          "median": 0.6191,
+          "p90": 0.9011,
+          "minimum": 0.2833,
+          "maximum": 0.9359
+        },
+        "widthRatio": {
+          "p10": 1.0,
+          "median": 1.0,
+          "p90": 1.0,
+          "minimum": 1.0,
+          "maximum": 1.0
+        },
+        "xRatio": {
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0,
+          "minimum": 0.0,
+          "maximum": 0.0
+        }
+      }
+    },
+    {
+      "cardType": "演出电影卡片",
+      "status": "unavailable",
+      "seenPageCount": 2,
+      "pageCount": 0,
+      "cardCount": 0,
+      "excludedCardCount": 4,
+      "excludedReasons": {
+        "missingCoord": 4
+      },
+      "distributions": {}
+    }
+  ]
+}

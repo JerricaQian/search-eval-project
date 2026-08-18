@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "西瓜",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -61,7 +60,6 @@
                 93
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -75,7 +73,6 @@
                 52
               ],
               "visibleText": "果切",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -102,7 +99,6 @@
                 116
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -116,7 +112,6 @@
                 52
               ],
               "visibleText": "麒麟",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -143,7 +138,6 @@
                 138
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -157,7 +151,6 @@
                 52
               ],
               "visibleText": "小西瓜",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -184,7 +177,6 @@
                 131
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -198,7 +190,6 @@
                 52
               ],
               "visibleText": "半个",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -225,7 +216,6 @@
                 118
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -239,7 +229,6 @@
                 52
               ],
               "visibleText": "无籽",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -266,7 +255,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -280,7 +268,6 @@
                 52
               ],
               "visibleText": "黄心",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -323,7 +310,6 @@
               1224,
               563
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -337,7 +323,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -355,7 +340,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -369,7 +353,6 @@
                       132
                     ],
                     "visibleText": "【爆品半斤瓜切】店长推荐一包糖/吊秧/庞各庄西瓜切5g/份50份",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -387,7 +370,6 @@
                       70
                     ],
                     "visibleText": "赠叉子",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -405,7 +387,6 @@
                       100
                     ],
                     "visibleText": "￥10",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -419,7 +400,6 @@
                       100
                     ],
                     "visibleText": "月售1000+",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -443,7 +423,6 @@
               1224,
               492
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -457,7 +436,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -475,7 +453,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -489,7 +466,6 @@
                       132
                     ],
                     "visibleText": "一桶西瓜含桶1斤装【爆品】",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -510,7 +486,6 @@
                       100
                     ],
                     "visibleText": "神券52减18",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -534,7 +509,6 @@
               1224,
               608
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -548,7 +522,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -566,7 +539,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -580,7 +552,6 @@
                       132
                     ],
                     "visibleText": "【果切】一斤西瓜吃到爽(500g)",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -598,7 +569,6 @@
                       70
                     ],
                     "visibleText": "赠叉子",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -616,7 +586,6 @@
                       100
                     ],
                     "visibleText": "￥19.9",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -629,10 +598,9 @@
                       122,
                       100
                     ],
-                    "visibleText": "到手价",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -644,7 +612,6 @@
                       100
                     ],
                     "visibleText": "月售400+",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }

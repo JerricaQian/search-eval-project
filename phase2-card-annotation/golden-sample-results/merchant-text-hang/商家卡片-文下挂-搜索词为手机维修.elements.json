@@ -33,7 +33,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -49,7 +48,6 @@
                       243
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -67,7 +65,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -81,7 +78,6 @@
                       62
                     ],
                     "visibleText": "果粉师傅苹果维修回收(望京店)",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -99,7 +95,6 @@
                       64
                     ],
                     "visibleText": "4.7分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -113,7 +108,6 @@
                       64
                     ],
                     "visibleText": "5556条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -127,7 +121,6 @@
                       64
                     ],
                     "visibleText": "2.2km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -145,7 +138,6 @@
                       62
                     ],
                     "visibleText": "神券立减5全程保公益商家近期好评率100%",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -163,7 +155,6 @@
                       58
                     ],
                     "visibleText": "好评维修很专业，",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -189,7 +180,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -203,7 +193,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -217,7 +206,6 @@
                         54
                       ],
                       "visibleText": "文机维修",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -231,7 +219,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -254,7 +241,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -268,7 +254,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -282,7 +267,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -296,7 +280,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -316,7 +299,6 @@
               1224,
               950
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -332,7 +314,6 @@
                       243
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -350,7 +331,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -364,7 +344,6 @@
                       62
                     ],
                     "visibleText": "速达电脑手机维修·数据恢复(五道口",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -382,7 +361,6 @@
                       64
                     ],
                     "visibleText": "4.4分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -396,7 +374,6 @@
                       64
                     ],
                     "visibleText": "467条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -410,7 +387,6 @@
                       64
                     ],
                     "visibleText": "12.6km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -428,7 +404,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至40全程保近期好评率100%",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -446,7 +421,6 @@
                       58
                     ],
                     "visibleText": "非常专业维修技术好",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -472,7 +446,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -486,7 +459,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -500,7 +472,6 @@
                         54
                       ],
                       "visibleText": "修展",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -514,7 +485,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -537,7 +507,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -551,7 +520,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -565,7 +533,6 @@
                         54
                       ],
                       "visibleText": "维修",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -579,7 +546,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -599,7 +565,6 @@
               1224,
               394
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": true,
             "regions": {
@@ -615,7 +580,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -633,7 +597,6 @@
                       62
                     ],
                     "visibleText": "上门",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -647,7 +610,6 @@
                       62
                     ],
                     "visibleText": "闪修侠手机维修电脑维修北京",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -665,7 +627,6 @@
                       64
                     ],
                     "visibleText": "4.5分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -679,7 +640,6 @@
                       64
                     ],
                     "visibleText": "9353条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -697,7 +657,6 @@
                       62
                     ],
                     "visibleText": "神券立减5北京手机维修销量榜第1名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -715,7 +674,6 @@
                       58
                     ],
                     "visibleText": "￥255折【更换尾插优卷】机充年售1000+",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -741,7 +699,6 @@
                         54
                       ],
                       "visibleText": "￥23",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -755,7 +712,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -769,7 +725,6 @@
                         54
                       ],
                       "visibleText": "文包",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -783,7 +738,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -806,7 +760,6 @@
                         54
                       ],
                       "visibleText": "￥2J",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -819,10 +772,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "51",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -834,7 +786,6 @@
                         54
                       ],
                       "visibleText": "用米",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -848,7 +799,6 @@
                         54
                       ],
                       "visibleText": "000",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }

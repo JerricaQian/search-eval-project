@@ -1,1 +1,130 @@
-{"contractVersion":"phase2.primary-point-card.v1","primaryPointType":"景点主点卡","pageStructure":{"components":[{"order":1,"componentType":"search_bar","elements":[{"elementType":"搜索关键词","visibleText":"迪士尼"}]},{"order":2,"componentType":"tab"},{"order":3,"componentType":"heterogeneous_live_card","elements":[{"elementType":"直播视频"},{"elementType":"直播状态","visibleText":"美团官方直播"},{"elementType":"观看人数","visibleText":"5754观看"},{"elementType":"直播商品横滑项"}]},{"order":4,"componentType":"primary_point_card","cardType":"景点主点卡","regions":{"头图区":{"elements":[{"elementType":"景点头图"}]},"标题区":{"elements":[{"elementType":"主点标题","visibleText":"上海迪士尼度假区"}]},"基础信息区":{"elements":[{"elementType":"评分","visibleText":"4.7分"},{"elementType":"评价条数","visibleText":"48.2万条"},{"elementType":"AOI","visibleText":"上海"}]},"标签区":{"elements":[{"elementType":"榜单标签","visibleText":"玩榜"},{"elementType":"属性标签","visibleText":"游客量适中"},{"elementType":"属性标签","visibleText":"小火车"},{"elementType":"属性标签","visibleText":"有亲子票"}]},"文字下挂区":{"items":[{"itemIndex":1,"price":{"visibleText":"¥659"},"name":{"visibleText":"[成人]1日票｜无需换票…"},"sales":{"visibleText":"已售357.6万+"}}]}},{"order":5,"componentType":"business_image_filter"},{"order":6,"componentType":"sort_filter"},{"order":7,"componentType":"results_list","status":"confirmed"}]}}
+{
+  "contractVersion": "phase2.primary-point-card.v1",
+  "primaryPointType": "景点主点卡",
+  "pageStructure": {
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "visibleText": "迪士尼"
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab"
+      },
+      {
+        "order": 3,
+        "componentType": "heterogeneous_live_card",
+        "elements": [
+          {
+            "elementType": "直播视频"
+          },
+          {
+            "elementType": "直播状态",
+            "visibleText": "美团官方直播"
+          },
+          {
+            "elementType": "观看人数",
+            "visibleText": "5754观看"
+          },
+          {
+            "elementType": "直播商品横滑项"
+          }
+        ]
+      },
+      {
+        "order": 4,
+        "componentType": "primary_point_card",
+        "cardType": "景点主点卡",
+        "regions": {
+          "头图区": {
+            "elements": [
+              {
+                "elementType": "景点头图"
+              }
+            ]
+          },
+          "标题区": {
+            "elements": [
+              {
+                "elementType": "主点标题",
+                "visibleText": "上海迪士尼度假区"
+              }
+            ]
+          },
+          "基础信息区": {
+            "elements": [
+              {
+                "elementType": "评分",
+                "visibleText": "4.7分"
+              },
+              {
+                "elementType": "评价条数",
+                "visibleText": "48.2万条"
+              },
+              {
+                "elementType": "AOI",
+                "visibleText": "上海"
+              }
+            ]
+          },
+          "标签区": {
+            "elements": [
+              {
+                "elementType": "榜单标签",
+                "visibleText": "玩榜"
+              },
+              {
+                "elementType": "属性标签",
+                "visibleText": "游客量适中"
+              },
+              {
+                "elementType": "属性标签",
+                "visibleText": "小火车"
+              },
+              {
+                "elementType": "属性标签",
+                "visibleText": "有亲子票"
+              }
+            ]
+          },
+          "文字下挂区": {
+            "items": [
+              {
+                "itemIndex": 1,
+                "price": {
+                  "visibleText": "¥659"
+                },
+                "name": {
+                  "visibleText": "[成人]1日票｜无需换票…"
+                },
+                "sales": {
+                  "visibleText": "已售357.6万+"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "order": 5,
+        "componentType": "business_image_filter"
+      },
+      {
+        "order": 6,
+        "componentType": "sort_filter"
+      },
+      {
+        "order": 7,
+        "componentType": "results_list",
+        "status": "confirmed"
+      }
+    ]
+  },
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png"
+}

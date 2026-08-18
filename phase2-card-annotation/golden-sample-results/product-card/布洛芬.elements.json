@@ -21,7 +21,6 @@
               97
             ],
             "visibleText": "布洛芬",
-            "confidence": 1.0,
             "status": "confirmed",
             "source": "gold_component_annotation"
           }
@@ -61,7 +60,6 @@
                 175
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -75,7 +73,6 @@
                 52
               ],
               "visibleText": "美林",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -102,7 +99,6 @@
                 91
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -116,7 +112,6 @@
                 52
               ],
               "visibleText": "司百得",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -143,7 +138,6 @@
                 98
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -157,7 +151,6 @@
                 52
               ],
               "visibleText": "散利痛",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -184,7 +177,6 @@
                 90
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -198,7 +190,6 @@
                 52
               ],
               "visibleText": "泽芬",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -225,7 +216,6 @@
                 158
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -239,7 +229,6 @@
                 52
               ],
               "visibleText": "仁和",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -266,7 +255,6 @@
                 170
               ],
               "visibleText": "",
-              "confidence": 0.92,
               "status": "confirmed",
               "source": "cv_photo"
             },
@@ -280,7 +268,6 @@
                 52
               ],
               "visibleText": "感康",
-              "confidence": 1.0,
               "status": "confirmed",
               "source": "gold_component_annotation"
             },
@@ -324,7 +311,6 @@
               1224,
               502
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -338,7 +324,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -356,7 +341,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -370,7 +354,6 @@
                       132
                     ],
                     "visibleText": "[芬必得]布洛芬咀嚼片0.2g*10反/盒",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -388,7 +371,6 @@
                       70
                     ],
                     "visibleText": "超90人回购",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -402,7 +384,6 @@
                       70
                     ],
                     "visibleText": "痛经",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -416,7 +397,6 @@
                       70
                     ],
                     "visibleText": "牙痛",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -430,7 +410,6 @@
                       70
                     ],
                     "visibleText": "头痛",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   },
@@ -444,7 +423,6 @@
                       70
                     ],
                     "visibleText": "感冒发热",
-                    "confidence": 1.0,
                     "status": "confirmed",
                     "source": "gold_element_annotation"
                   }
@@ -462,7 +440,6 @@
                       100
                     ],
                     "visibleText": "已售1000+",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -480,7 +457,6 @@
                       54
                     ],
                     "visibleText": "起送￥20",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -494,7 +470,6 @@
                       54
                     ],
                     "visibleText": "免配送费",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -515,7 +490,6 @@
               1224,
               502
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -529,7 +503,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -547,7 +520,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -561,7 +533,6 @@
                       132
                     ],
                     "visibleText": "[芬必得]布洛芬缓释胶囊0.3g*12板/盒",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -579,7 +550,6 @@
                       70
                     ],
                     "visibleText": "原研药",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -593,7 +563,6 @@
                       70
                     ],
                     "visibleText": "超60人加购",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -607,7 +576,6 @@
                       70
                     ],
                     "visibleText": "痛经",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -625,7 +593,6 @@
                       100
                     ],
                     "visibleText": "¥14.0226",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -639,7 +606,6 @@
                       100
                     ],
                     "visibleText": "已售41",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -657,7 +623,6 @@
                       54
                     ],
                     "visibleText": "起送￥20",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -678,7 +643,6 @@
               1224,
               440
             ],
-            "confidence": 0.86,
             "regions": {
               "头图区": {
                 "elements": [
@@ -692,7 +656,6 @@
                       332
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -710,7 +673,6 @@
                       62
                     ],
                     "visibleText": "外卖",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -724,7 +686,6 @@
                       132
                     ],
                     "visibleText": "[芬必得]布洛芬缓释胶囊0.3g*12板/盒",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -742,7 +703,6 @@
                       70
                     ],
                     "visibleText": "原研药",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -756,7 +716,6 @@
                       70
                     ],
                     "visibleText": "超30人好评",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -770,7 +729,6 @@
                       70
                     ],
                     "visibleText": "痛经",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -787,10 +745,9 @@
                       162,
                       100
                     ],
-                    "visibleText": "官方补贴",
-                    "confidence": 0.78,
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "visibleText": "",
+                    "status": "uncertain",
+                    "source": "legacy_ocr_rejected_by_text_hygiene"
                   },
                   {
                     "elementType": "销量数据",
@@ -802,7 +759,6 @@
                       100
                     ],
                     "visibleText": "已售5000+",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -820,7 +776,6 @@
                       43
                     ],
                     "visibleText": "起送￥20",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }

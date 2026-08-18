@@ -33,7 +33,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -49,7 +48,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -67,7 +65,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -81,7 +78,6 @@
                       62
                     ],
                     "visibleText": "贝克街推理馆·剧本杀跑团血染钟楼",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -99,7 +95,6 @@
                       64
                     ],
                     "visibleText": "4.1分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -113,7 +108,6 @@
                       64
                     ],
                     "visibleText": "1949条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -127,7 +121,6 @@
                       64
                     ],
                     "visibleText": "1.6km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -145,7 +138,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至50↑望京剧本杀回头客榜第2名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -163,7 +155,6 @@
                       58
                     ],
                     "visibleText": "体验非常棒，超乎预期！",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -189,7 +180,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -202,10 +192,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "民山",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -217,7 +206,6 @@
                         54
                       ],
                       "visibleText": "用凡小车",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -231,7 +219,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -254,7 +241,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -268,7 +254,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -282,7 +267,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -296,7 +280,6 @@
                         54
                       ],
                       "visibleText": "7 四 加",
-                      "confidence": 0.72,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     }
@@ -316,7 +299,6 @@
               1224,
               475
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -332,7 +314,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -350,7 +331,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -364,7 +344,6 @@
                       62
                     ],
                     "visibleText": "鹿屿沉浸式剧本杀",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -382,7 +361,6 @@
                       64
                     ],
                     "visibleText": "4.4分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -396,7 +374,6 @@
                       64
                     ],
                     "visibleText": "1228条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -410,7 +387,6 @@
                       64
                     ],
                     "visibleText": "1.5km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -428,7 +404,6 @@
                       62
                     ],
                     "visibleText": "神券立减5望京剧本杀人气榜第1名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -446,7 +421,6 @@
                       58
                     ],
                     "visibleText": "房间宽，装修很有创意",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -472,7 +446,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -485,10 +458,9 @@
                         110,
                         54
                       ],
-                      "visibleText": "办十[一",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "legacy_ocr_rejected_by_text_hygiene"
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -500,7 +472,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -514,7 +485,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -537,7 +507,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -551,7 +520,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -565,7 +533,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -579,7 +546,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -599,7 +565,6 @@
               1224,
               410
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": false,
             "regions": {
@@ -615,7 +580,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -633,7 +597,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -647,7 +610,6 @@
                       62
                     ],
                     "visibleText": "来闹·沉浸剧本探案馆(望京",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -665,7 +627,6 @@
                       64
                     ],
                     "visibleText": "4.2分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -679,7 +640,6 @@
                       64
                     ],
                     "visibleText": "2225条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -693,7 +653,6 @@
                       64
                     ],
                     "visibleText": "2.0km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -711,7 +670,6 @@
                       62
                     ],
                     "visibleText": "神券最高膨至50↑望京剧本杀人气榜第2名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -729,7 +687,6 @@
                       58
                     ],
                     "visibleText": "来闹·盒装剧本·单人卷【周中】年售300+￥113",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -755,7 +712,6 @@
                         54
                       ],
                       "visibleText": "￥10",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -769,7 +725,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -783,7 +738,6 @@
                         54
                       ],
                       "visibleText": "表八",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -797,7 +751,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -820,7 +773,6 @@
                         54
                       ],
                       "visibleText": "￥120",
-                      "confidence": 0.76,
                       "status": "confirmed",
                       "source": "local_crop_ocr"
                     },
@@ -834,7 +786,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -848,7 +799,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.76,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     },
@@ -862,7 +812,6 @@
                         54
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
                       "source": "local_crop_ocr"
                     }
@@ -882,7 +831,6 @@
               1224,
               267
             ],
-            "confidence": 0.8,
             "status": "confirmed",
             "cropped": true,
             "regions": {
@@ -898,7 +846,6 @@
                       247
                     ],
                     "visibleText": "",
-                    "confidence": 0.82,
                     "status": "confirmed",
                     "source": "cv_photo"
                   }
@@ -916,7 +863,6 @@
                       62
                     ],
                     "visibleText": "到店",
-                    "confidence": 0.84,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -930,7 +876,6 @@
                       62
                     ],
                     "visibleText": "剧中有你剧场·沉浸推理剧本杀·声光",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -948,7 +893,6 @@
                       64
                     ],
                     "visibleText": "4.2分",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -962,7 +906,6 @@
                       64
                     ],
                     "visibleText": "3079条",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   },
@@ -976,7 +919,6 @@
                       64
                     ],
                     "visibleText": "6.0km",
-                    "confidence": 0.8,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -994,7 +936,6 @@
                       62
                     ],
                     "visibleText": "神券立减5亚运村商圈剧本杀销量榜第1名",
-                    "confidence": 0.78,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1012,7 +953,6 @@
                       58
                     ],
                     "visibleText": "立方馆谋杀始末已订6¥148",
-                    "confidence": 0.76,
                     "status": "confirmed",
                     "source": "local_crop_ocr"
                   }
@@ -1026,7 +966,7 @@
                       299,
                       2675,
                       901,
-                      54
+                      25
                     ],
                     "price": {
                       "elementType": "下挂商品价格",
@@ -1035,12 +975,12 @@
                         299,
                         2675,
                         100,
-                        54
+                        25
                       ],
-                      "visibleText": "￥140",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
                     },
                     "discount": {
                       "elementType": "下挂价格折扣标签",
@@ -1049,12 +989,12 @@
                         401,
                         2675,
                         110,
-                        54
+                        25
                       ],
-                      "visibleText": "立门",
-                      "confidence": 0.72,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
                     },
                     "name": {
                       "elementType": "下挂商品名",
@@ -1063,12 +1003,12 @@
                         513,
                         2675,
                         525,
-                        54
+                        25
                       ],
-                      "visibleText": "白深如外",
-                      "confidence": 0.76,
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                      "visibleText": "",
+                      "status": "uncertain",
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
                     },
                     "sales": {
                       "elementType": "下挂商品销量",
@@ -1077,13 +1017,16 @@
                         1044,
                         2675,
                         156,
-                        54
+                        25
                       ],
                       "visibleText": "",
-                      "confidence": 0.72,
                       "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    }
+                      "source": "screenshot_boundary_clamp",
+                      "cropped": true
+                    },
+                    "cropped": true,
+                    "status": "uncertain",
+                    "source": "screenshot_boundary_clamp"
                   }
                 ]
               }
