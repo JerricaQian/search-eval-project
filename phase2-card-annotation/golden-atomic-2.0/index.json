@@ -19,7 +19,7 @@
   },
   "samples": [
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/hotel-card/全季酒店-第1次.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/hotel-card/全季酒店-第1次.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -117,7 +117,7 @@
       "elements": 78
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/hotel-card/全季酒店-第2次.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/hotel-card/全季酒店-第2次.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -183,7 +183,7 @@
       "elements": 39
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/hotel-card/国庆节酒店-混排.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/hotel-card/国庆节酒店-混排.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -233,7 +233,7 @@
       "elements": 81
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/hotel-card/电竞房-双列.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/hotel-card/电竞房-双列.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -250,7 +250,7 @@
       "elements": 61
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/hotel-card/酒店.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/hotel-card/酒店.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -308,7 +308,7 @@
       "elements": 41
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/库迪.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/库迪.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -353,7 +353,7 @@
       "elements": 62
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/烧烤.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/烧烤.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -414,7 +414,7 @@
       "elements": 74
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/生日蛋糕.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/生日蛋糕.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -452,7 +452,7 @@
       "elements": 47
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/盒马.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/盒马.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -498,7 +498,7 @@
       "elements": 60
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/药店.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/药店.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -544,7 +544,7 @@
       "elements": 67
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/蜜雪冰城.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/蜜雪冰城.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -574,7 +574,7 @@
       "elements": 41
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-graphic-hang/隆江猪脚饭.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-graphic-hang/隆江猪脚饭.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -627,7 +627,7 @@
       "elements": 65
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为体检.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为体检.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -647,7 +647,7 @@
       "elements": 78
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为剧本杀.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为剧本杀.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -700,7 +700,7 @@
       "elements": 57
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -753,7 +753,7 @@
       "elements": 65
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为按摩.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为按摩.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -806,7 +806,7 @@
       "elements": 65
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为游乐场.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为游乐场.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -867,7 +867,7 @@
       "elements": 75
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -936,7 +936,7 @@
       "elements": 65
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为理发.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为理发.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -989,7 +989,7 @@
       "elements": 61
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为空调清洗.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为空调清洗.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1042,7 +1042,7 @@
       "elements": 25
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为解压体验馆.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为解压体验馆.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1103,7 +1103,7 @@
       "elements": 75
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为露营.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为露营.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1164,7 +1164,7 @@
       "elements": 73
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1184,7 +1184,7 @@
       "elements": 63
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/performance-movie-card/演出卡.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/performance-movie-card/演出卡.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1300,7 +1300,7 @@
       "elements": 44
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/performance-movie-card/电影卡.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/performance-movie-card/电影卡.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1319,7 +1319,7 @@
       "elements": 45
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/primary-point-card/万达广场.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/primary-point-card/万达广场.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1357,7 +1357,7 @@
       "elements": 54
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/primary-point-card/迪士尼.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/primary-point-card/迪士尼.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1395,7 +1395,7 @@
       "elements": 30
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/啤酒.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/啤酒.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1441,7 +1441,7 @@
       "elements": 55
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/喜力啤酒整箱.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/喜力啤酒整箱.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1495,7 +1495,7 @@
       "elements": 52
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/安睡裤.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/安睡裤.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1548,7 +1548,7 @@
       "elements": 47
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/布洛芬.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/布洛芬.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1594,7 +1594,7 @@
       "elements": 63
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/榴莲.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/榴莲.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1648,7 +1648,7 @@
       "elements": 56
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/生理盐水.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/生理盐水.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",
@@ -1710,7 +1710,7 @@
       "elements": 50
     },
     {
-      "manifest": "phase2-card-annotation/golden-atomic-v3/product-card/西瓜.atomic.v3.json",
+      "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/西瓜.atomic.v3.json",
       "valid": true,
       "taxonomy": {
         "contractVersion": "phase2.search-card-taxonomy.v1",

@@ -13,7 +13,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 必须明确区分两条流程：
 
-1. **黄金样本校准流（离线）**：允许在已经确认的截图/卡片边界内使用 PaddleOCR，并允许模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库只保留 `golden-atomic-v3/` 最新黄金 JSON；旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
+1. **黄金样本校准流（离线）**：允许在已经确认的截图/卡片边界内使用 PaddleOCR，并允许模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库只保留 `golden-atomic-2.0/` 最新黄金 JSON；旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
 2. **用户截图 Phase2 生产流**：只使用当前截图的本地 CV/OCR、卡型契约与门控；视觉模型和黄金字段值不得补读、猜测或注入。失败时有界重跑 Paddle/Tesseract，仍不满足契约就阻断，不发布伪完整 JSON。
 
 两条流程允许的证据不同，但输出必须遵循同一个元素级契约：
@@ -81,7 +81,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 | 黄金样本聚合几何经验 | `references/learned_card_geometry_profiles.v1.json`；只作软证据 |
 | OCR 文本角色候选 | `references/search_page_semantic_rules.v1.json` |
 | 清单及审计 schema | `scripts/validate_element_manifest.py` |
-| 黄金样本回归 | `golden-samples/` 截图与 `golden-atomic-v3/` 最新 JSON；不得外推到新截图 |
+| 黄金样本回归 | `golden-samples/` 截图与 `golden-atomic-2.0/` 最新 JSON；不得外推到新截图 |
 
 `extract_product_card_elements.py` 仅用于已登记文件名的黄金回归，不能用于新截图。新截图只能消费本次 CV/OCR、卡型候选和本地像素/拓扑证据。
 
@@ -147,14 +147,14 @@ PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到
 6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同行碎片、语义原子性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
 7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`golden-atomic-v3/` 只用于离线回归，禁止传入生产命令。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
+9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`golden-atomic-2.0/` 只用于离线回归，禁止传入生产命令。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
 
    黄金文本发布以结构范例和当前卡片的完整像素证据共同门控：标题与下挂不能由预设槽位生成；文字元素非空并不代表正确，必须能追溯到同卡、同元素且覆盖完整可见字形的 bounded observation；校准命令指定 `--require-backend paddleocr` 时任何后端降级均阻断。已有非空标题也必须按标题结构重新核验。
 
 Phase3 通过 `scripts/phase2_bundle_loader.py` 读取 atomic v3，完成枚举、哈希和 publication 门禁后只在内存中建立兼容视图。禁止持久化 Phase3 派生投影。
 
 `phase2.atomic-manifest.v3` 是页面可重建的原子结构投影，也是当前黄金源。34 份离线黄金
-统一保存在 `golden-atomic-v3/`。`scripts/build_atomic_manifest_v3_goldens.py` 默认以这 34 份
+统一保存在 `golden-atomic-2.0/`。`scripts/build_atomic_manifest_v3_goldens.py` 默认以这 34 份
 atomic v3 为输入，重新执行枚举、截图哈希和结构校验，保持坐标与原子事实不变，并重建
 汇总索引；不再依赖旧 `elements.json`。仅建模块若没有可靠外框则省略 `bounds`，不得按
 屏幕比例、固定高度或相邻模块均分补框。审计摘要只保留在批量

@@ -25,7 +25,7 @@ from validate_atomic_manifest_v3 import DEFAULT_TAXONOMY, load_taxonomy, validat
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE = ROOT / "phase2-card-annotation" / "golden-sample-results"
-DEFAULT_OUTPUT = ROOT / "phase2-card-annotation" / "golden-atomic-v3"
+DEFAULT_OUTPUT = ROOT / "phase2-card-annotation" / "golden-atomic-2.0"
 TITLE_AFFIX_REVIEWS = ROOT / "phase2-card-annotation" / "references" / "golden_title_affix_reviews.v1.json"
 TAXONOMY_ENUMS = load_taxonomy(DEFAULT_TAXONOMY)
 

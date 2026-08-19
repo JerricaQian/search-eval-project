@@ -13,7 +13,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[1]
 EXAMPLE = PROJECT_DIR / "phase2-card-annotation/references/phase2_atomic_manifest.v3.example.json"
 VALIDATOR = PROJECT_DIR / "phase2-card-annotation/scripts/validate_atomic_manifest_v3.py"
 BUILDER = PROJECT_DIR / "phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py"
-GOLDEN_ROOT = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3"
+GOLDEN_ROOT = PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.0"
 
 
 def load_validator():
@@ -133,7 +133,7 @@ class AtomicManifestV3Test(unittest.TestCase):
                 self.assertEqual(json.loads(output.read_text(encoding="utf-8")), json.loads(source.read_text(encoding="utf-8")))
 
     def test_batch_durian_uses_verified_coordinates_and_no_redundant_roles(self) -> None:
-        path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3/product-card/榴莲.atomic.v3.json"
+        path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.0/product-card/榴莲.atomic.v3.json"
         payload = json.loads(path.read_text(encoding="utf-8"))
         self.assertEqual(payload["cardsById"]["C1"]["bounds"], [0, 1077, 1224, 393])
         self.assertEqual(payload["cardsById"]["C2"]["bounds"], [0, 1511, 1224, 518])
@@ -162,7 +162,7 @@ class AtomicManifestV3Test(unittest.TestCase):
         compare_spec.loader.exec_module(compare)
         relations = importlib.util.module_from_spec(relation_spec)
         relation_spec.loader.exec_module(relations)
-        path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3/product-card/榴莲.atomic.v3.json"
+        path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.0/product-card/榴莲.atomic.v3.json"
         facts = loader.load_phase2_facts(manifest_path=path)
         self.assertEqual(len(facts["cards"]), 4)
         self.assertTrue(all("comparisonGroupKey" not in card["structure"] for card in facts["cards"]))
@@ -171,7 +171,7 @@ class AtomicManifestV3Test(unittest.TestCase):
         self.assertTrue(comparison["comparisons"])
         candidates = relations.derive_relation_candidates(facts)
         self.assertEqual(len(candidates["authenticityCandidates"]), 4)
-        scenic_path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json"
+        scenic_path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json"
         scenic_facts = loader.load_phase2_facts(manifest_path=scenic_path)
         scenic_tag = next(
             element
@@ -182,7 +182,7 @@ class AtomicManifestV3Test(unittest.TestCase):
         self.assertEqual(scenic_tag["textFacts"]["semanticRole"], "scenic_rating")
 
     def test_title_suffix_enums_are_separate_pixel_grounded_atoms(self) -> None:
-        path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json"
+        path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.0/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json"
         payload = json.loads(path.read_text(encoding="utf-8"))
         regions = [payload["regionsById"][region_id] for region_id in payload["cardsById"]["C2"]["regionIds"]]
         title = next(region for region in regions if region["name"] == "title")
@@ -193,7 +193,7 @@ class AtomicManifestV3Test(unittest.TestCase):
         self.assertEqual(rating_element["kind"], "tag")
 
     def test_every_tag_uses_a_tag_suffixed_slot(self) -> None:
-        for path in (PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3").rglob("*.atomic.v3.json"):
+        for path in (PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.0").rglob("*.atomic.v3.json"):
             payload = json.loads(path.read_text(encoding="utf-8"))
             elements = payload["elementsById"]
             owners = list(payload["modulesById"].values()) + list(payload["filterItemsById"].values())
