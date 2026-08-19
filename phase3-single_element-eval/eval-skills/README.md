@@ -19,9 +19,9 @@
 
 **问题背景**：同一张截图，不同评测 skill 各自拆分元素，导致元素总数不一致（曾出现 14 vs 12、49/50/51/51 的偏差），无法横向对比。
 
-**解决机制**：评测前先跑 `phase2-card-annotation` 产出一份**统一页面元素清单 JSON**（单一事实源），所有评测 skill 必须基于该清单计数和评级，不得自行重新拆分或增删元素。
+**解决机制**：评测前先跑 `phase2-card-annotation`，为每张截图分别产出一个**单图页面元素清单 JSON**。所有评测 skill 必须基于与当前截图对应且通过整页门控的清单计数和评级，不得自行重新拆分、增删元素或合并多图事实。
 
-- 清单路径：`<annotatedDir>/elements_<query>.json`，默认即项目根 `screenshots-out/elements_<query>.json`；不得使用已废弃的 `screenshots/annotated/` 或 skill 内部输出目录。
+- 清单路径：`<annotatedDir>/elements_<截图文件名>.json`，默认位于项目根 `screenshots-out/`；不得使用批量 `index.json`、其他截图清单或已废弃的 skill 内部输出目录。
 - 清单结构：`{query, tab, cards:[{cardId, 卡片类型, regions:[{分区, elements:[{id, 所属组件, 元素类型, 内容, 坐标, isExcluded}]}]}]}`
 - `isExcluded=true` 的元素（商家头图/营销大图/金刚icon等）不计入总数也不评测。
 - **元素总数 total 由确定性脚本计算**，禁止人工推导：

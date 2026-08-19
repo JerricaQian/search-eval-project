@@ -12,7 +12,7 @@ globs: "**/*.js", "**/*.sh", "**/*.py", "**/*.json", "**/*.md"
 | 阶段 | 目录（已定稿） | 旧名（已废弃，不得再用） |
 |---|---|---|
 | phase1 截图 | `phase1-screenshot/` | screenshot-skill |
-| phase2 标注 | `phase2-card-annotation/` | imd-card-annotation |
+| phase2 轻量识别 | `phase2-card-annotation/` | imd-card-annotation |
 | phase3 评测 | `phase3-card_or_component-eval/` `phase3-single_element-eval/` `phase3-page_framework-eval/` | card_or_component-eval（无 phase3 前缀） |
 | phase4 问题证据 | `phase4-issue-evidence/` | — |
 | phase5 报告 | `phase5-report/` | report-skill |
@@ -23,19 +23,15 @@ globs: "**/*.js", "**/*.sh", "**/*.py", "**/*.json", "**/*.md"
 ## 数据流路径：screenshots/ → screenshots-out/ → .artifacts/ → screenshots-out/evidence/ → reports/
 
 - phase1 截图产物 / phase2 输入：项目根 `screenshots/`
-- phase2 产物（默认元素清单 JSON；可选全量标注 PNG）：项目根 `screenshots-out/`（**不是** `screenshots/annotated/`，也**不是** skill 内部 `out/`）
+- phase2 产物（每张截图一个独立元素清单 JSON）：项目根 `screenshots-out/`（**不是** `screenshots/annotated/`，也**不是** skill 内部 `out/`）
 - phase3 原始结果与审计：项目根 `.artifacts/过程文件-评测结果与审计/`
 - phase4 局部问题证据：项目根 `screenshots-out/evidence/`
 - phase5 报告：项目根 `reports/`
 - 工作流参数：`screenshotDir`→`screenshots`、`annotatedDir`→`screenshots-out`、`reportDir`→`reports`。
 
-## 场景脚本路径（phase2-card-annotation/scripts/*.py、scenes/*.json）
+## 历史场景脚本路径（非生产）
 
-场景脚本的输入/输出路径必须用**项目级**绝对路径，不得写 skill 内部 `screenshots/`、`out/` 子目录或独立的 `Desktop/<旧名>/`、`meituan_search_screenshots_v2/` 等遗留位置：
-
-- 输入：`/Users/qianjing/Desktop/search-eval-project/screenshots/<query>_<tab>_<screen>.png`（与工作流命名一致，扁平、无场景分组子目录如 `2/`）
-- 输出：`/Users/qianjing/Desktop/search-eval-project/screenshots-out/<query>_<tab>_<screen>_annotated.png`
-- `sys.path` 指向标注内核：`/Users/qianjing/Desktop/search-eval-project/phase2-card-annotation/scripts`，或用 `str(Path(__file__).parent)` 相对写法（推荐，抗迁移）。
+旧 SceneSpec/IMD/标注图脚本只保留历史复现能力，不得成为新截图生产入口。生产入口固定为 `run_phase2_recognition.py`，输入项目根 `screenshots/<query>_<tab>_<screen>.png`，输出 `screenshots-out/elements_<截图文件名>.json`。项目路径必须从 `projectDir` 推导，不得写死某台机器的桌面路径。
 
 ## 评级分档
 

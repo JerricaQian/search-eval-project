@@ -4,8 +4,8 @@ export const meta = {
   phases: [
     { title: '① 截图', detail: 'ADB现场截图或复用已有图，9张/词' },
     { title: '② 发现评测项', detail: '自动发现所选维度的 eval skill（纯 frontmatter 解析，JS 级并行）' },
-    { title: '③ Phase2+3+4+5 单词全链路', detail: '标注/识别→多维度评测→问题证据→报告渲染，四阶段在同一子代理内顺序完成' },
-    { title: '④ 标注质量侧审计', detail: '可选：L1/L2/L3 phase3-标记合规率统计，仅记录不阻断' },
+    { title: '③ Phase2+3+4+5 单词全链路', detail: '单图本地识别→多维度评测→问题证据→报告渲染，四阶段在同一子代理内顺序完成' },
+    { title: '④ Manifest 质量侧审计', detail: '可选：单图元素清单 L1/L2/L3 合规率统计，仅记录不阻断' },
   ],
 }
 
@@ -16,7 +16,7 @@ if (!A || typeof A !== 'object') A = {}
 log('args=' + JSON.stringify(A))
 log('批量调度纪律：当前实例仅处理 1 个搜索词；外层每批最多 3 个词级子代理，必须批次屏障后再继续。')
 
-// 本工作流全程依赖识图（截图/标注/证据比对），子代理模型必须是具备识图能力的多模态模型。
+// Phase2 本身只运行本地 CV/OCR；同一子代理在后续 Phase3/4 仍需核对截图与问题证据，故模型须具备多模态能力。
 // 白名单以 Dr. Pie 模型目录中已验证具备识图能力的模型为准（该目录当前未收录 Gemini 系列）；
 // 非多模态模型（如 glm-5.2、deepseek 系列）路由到读图任务会导致结构化输出/图像理解异常，不得使用。
 const MULTIMODAL_MODEL_WHITELIST = ['claude-sonnet-5', 'vertex.claude-opus-4.6', 'kimi-k3', 'gpt-5.6-terra']
@@ -44,28 +44,28 @@ const skipScreenshot = A.skipScreenshot === false ? false : true
 // 维度文件夹名数组（顶层目录下的维度目录）。默认只跑 phase3-card_or_component-eval。
 let dimensions = A.dimensions ? A.dimensions : ['phase3-card_or_component-eval']
 if (typeof dimensions === 'string') dimensions = [dimensions]
-// Phase2 默认轻量识别：只产出统一元素清单 JSON。annotate=false 才显式跳过 Phase2（等价 skipAnnotation=true）。
-// phase2Mode=full-annotation 保留历史全量标注 PNG 产出能力；lightweight 为默认。
+// Phase2 只允许轻量识别，并为每张截图产出一个独立 JSON。annotate=false 才显式跳过。
 const annotate = A.annotate === false ? false : true
 const skipAnnotation = !annotate
 const phase2Mode = A.phase2Mode ? A.phase2Mode : 'lightweight'
-if (!['lightweight', 'full-annotation'].includes(phase2Mode)) throw new Error('phase2Mode 只能是 lightweight/full-annotation，收到: ' + phase2Mode)
-const imdLink = A.imdLink ? A.imdLink : ''
+if (phase2Mode !== 'lightweight') throw new Error('phase2Mode 当前只允许 lightweight；Phase2 不再生成整页标注图，收到: ' + phase2Mode)
+if (A.imdLink) throw new Error('标准 Phase2 只接受本地截图，不执行 IMD 识别')
 const annotateScenes = A.annotateScenes ? A.annotateScenes : []
 if (!Array.isArray(annotateScenes)) throw new Error('annotateScenes 必须是截图绝对路径数组')
+if (annotateScenes.length) throw new Error('annotateScenes 已停用：Phase2 必须为本轮每张 screenshots 输入分别生成 manifest')
 // granularity：Phase3 三个维度都以统一最小元素清单为单一事实源；合并后的 phase2345-query-pipeline agent
-// 固定按元素级契约（七键清单/regions/elements）执行，不再支持 component/region 颗粒度。
+// 固定按元素级契约（八键单图清单/regions/elements）执行，不再支持 component/region 颗粒度。
 const granularity = A.granularity ? A.granularity : 'element'
 if (granularity !== 'element') throw new Error('当前标准工作流只接受 granularity=element；组件/卡片与页面框架评测也必须消费同一份最小元素清单，再按各 Skill 聚合')
 const enableAnnotationAudit = A.enableAnnotationAudit !== false
-// tag：同 query 多张图（如两张内容不同的「盒马」截图）需分别评测时，用 tag 区分输出文件名（elements_<query>_<tag>.json / <query>_全部_1_<tag>_annotated.png / meituan_eval_report_<query>_<tag>.html），避免相互覆盖。留空则不带后缀。
+// tag：同一截图需要保留不同批次识别时作为单图 manifest 后缀；截图文件名本身用于区分多图。
 const tag = A.tag ? A.tag : ''
 const tagSuffix = tag ? '_' + tag : ''
 
 if (!A.projectDir) throw new Error('必须显式传入 projectDir（项目根绝对路径），不再提供兜底默认值')
 const projectDir = A.projectDir
 const screenshotDir = (A.screenshotDir ? A.screenshotDir : projectDir + '/screenshots')
-// annotatedDir：Phase2 产物输出目录。轻量模式仅写元素清单 JSON；全量标注模式额外写 PNG。
+// annotatedDir：Phase2 单图元素清单输出目录；Phase2 不生成整页标注 PNG。
 const annotatedDir = (A.annotatedDir ? A.annotatedDir : projectDir + '/screenshots-out')
 const reportDir = (A.reportDir ? A.reportDir : projectDir + '/reports')
 // 过程文件与最终 HTML 分离：报告目录只放交付物，评测原始结果和审计记录归档到易识别的过程文件目录。
@@ -146,10 +146,12 @@ const PIPELINE_SCHEMA = {
     stageA: {
       type: 'object',
       properties: {
-        elementListPath: { type: 'string' },
+        elementListPaths: { type: 'array', items: { type: 'string' } },
+        elementAuditPaths: { type: 'array', items: { type: 'string' } },
         elementCount: { type: 'number' },
         annotated: { type: 'array', items: { type: 'string' } },
       },
+      required: ['elementListPaths', 'elementAuditPaths', 'elementCount', 'annotated'],
     },
     stageB: {
       type: 'object',
@@ -192,7 +194,7 @@ const PIPELINE_SCHEMA = {
 
 // ---------- Phase 1: 截图 ----------
 phase('截图')
-log('工作流步骤：① 截图 → ② 发现评测项 → ③ Phase2+3+4+5 单词全链路子代理 → ④ 标注质量侧审计（可选）')
+log('工作流步骤：① 截图 → ② 发现评测项 → ③ Phase2+3+4+5 单词全链路子代理 → ④ Manifest 质量侧审计（可选）')
 log('Phase 1 截图: query=' + query + ' skip=' + skipScreenshot)
 
 const shotPrompt = `你是美团搜索截图执行 Agent。任务：为搜索词「${query}」获取 ${tabs.join('/')} × 第${screens.join('/')}屏 截图，目录 ${screenshotDir}。
@@ -232,28 +234,26 @@ if (!shotResult || !shotResult.ok) {
 const screenshots = shotResult.screenshots
 log('Phase 1 完成: ' + screenshots.length + ' 张截图')
 
-// ---------- Phase2 固定产物路径（Stage A 单一事实源，供 mergedInputs 与后续阶段共用） ----------
-const elementListFile = annotatedDir + '/elements_' + query + tagSuffix + '.json'
-const elementAuditFile = annotatedDir + '/elements_' + query + tagSuffix + '.audit.json'
-const recognitionAuditFile = annotatedDir + '/elements_' + query + tagSuffix + '.recognition-audit.json'
+// ---------- Phase2 固定产物路径：每张截图一个主 JSON，禁止多图合并 ----------
+const phase2InputPaths = screenshots
+const phase2Outputs = phase2InputPaths.map(p => {
+  const stem = p.split('/').pop().replace(/\.[^.]+$/, '')
+  const manifest = annotatedDir + '/elements_' + stem + tagSuffix + '.json'
+  return {
+    screenshot: p,
+    manifest,
+    audit: manifest.replace(/\.json$/, '.audit.json'),
+    recognitionAudit: manifest.replace(/\.json$/, '.recognition-audit.json'),
+    artifactsDir: artifactRunDir + '/phase2/' + stem + tagSuffix,
+  }
+})
+if (new Set(phase2Outputs.map(item => item.manifest)).size !== phase2Outputs.length) {
+  throw new Error('screenshots 中存在同名文件，无法保证一图一 JSON；请先让截图文件名唯一')
+}
 const phase2RereviewAuditFile = annotatedDir + '/elements_' + query + tagSuffix + '.recognition-audit-rereview-' + rerunId + '.json'
 const phase2RereviewValidationFile = evaluationArtifactDir + '/Phase2返工复核校验_' + query + tagSuffix + '_' + dimSlug + '.json'
 
-// reportImages 的标注图命名规则是确定性的（不依赖 Stage A 实际返回），full-annotation 模式下按命名规则
-// 预先算出期望路径即可；lightweight 模式下 annotated 恒为空字符串。避免让 Stage D 的报告渲染反向依赖
-// 本次调用内部才产出的 Stage A 结果，保持"调用方一次性注入全部输入"的单一子代理边界。
-const expectedAnnotatedPaths = phase2Mode === 'full-annotation'
-  ? screenshots.map(p => {
-      const name = p.split('/').pop().replace(/\.png$/, '')
-      return annotatedDir + '/' + name + tagSuffix + '_annotated.png'
-    })
-  : []
-const reportImages = screenshots.map(p => {
-  const fileName = p.split('/').pop()
-  const annotatedName = fileName.replace(/\.png$/, tagSuffix + '_annotated.png')
-  const annotatedPath = expectedAnnotatedPaths.find(item => item.endsWith(annotatedName))
-  return { original: p, annotated: annotatedPath || '' }
-})
+const reportImages = screenshots.map(p => ({ original: p, annotated: '' }))
 
 // ---------- Phase 2b: 自动发现各维度 eval skill（纯 frontmatter 解析，不读图，保留 JS 级并行） ----------
 phase('评测')
@@ -317,8 +317,8 @@ dimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
 // ---------- Phase 2+3+4+5: 单词全链路合并子代理 ----------
 // 原 phase2-annotator / phase3-evaluator / phase4-issue-evidence / phase5-report-renderer
 // 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
-// Stage A(标注)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
-// 所有阶段级契约细节（12次读图上限、七键清单、FACT_GATES、共享契约优先、issues/finding 结构、
+// Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
+// 所有阶段级契约细节（Phase2 本地识别隔离、八键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
 // 页面框架结论边界、报告渲染分支等）已完整写入 .claude/agents/phase2345-query-pipeline.md，
 // 本次调用只注入具体输入值，不在 JS 侧重复拼接任何阶段级 Prompt 文本。
 const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query + tagSuffix + '_' + dimSlug + '.json'
@@ -332,14 +332,11 @@ const mergedInputs = {
   screenshots,
   tabs,
   artifactRunDir,
-  // Phase2（标注）
+  // Phase2（本地识别）
   annotatedDir,
   imdSkillDir,
-  imdLink,
   phase2Mode,
-  elementListFile,
-  elementAuditFile,
-  recognitionAuditFile,
+  phase2Outputs,
   skipAnnotation,
   // Phase3（评测）
   evalTargets,
@@ -361,17 +358,13 @@ const mergedInputs = {
   isBatchGovernanceReport,
   batchArtifactDir,
 }
-if (annotateScenes.length) {
-  mergedInputs.annotationInputs = annotateScenes
-}
 
-const mergedPrompt = `你正在以 phase2345-query-pipeline agentType 执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。严格按你的 agent 定义文件执行所有阶段级规则（读图上限、七键清单契约、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 phase2345-query-pipeline agentType 执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。严格按你的 agent 定义文件执行所有阶段级规则（Phase2 本地识别隔离、八键单图清单、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json
 ${JSON.stringify(mergedInputs, null, 2)}
 \`\`\`
-${annotateScenes.length ? '\n注意：本次显式传入 annotationInputs，与 screenshots 不同——Stage A 标注只使用 annotationInputs 列表；Stage B/C/D 的读图、问题证据与报告仍使用 screenshots。\n' : ''}
 严格按你的输出 schema 一次性回传结果，不要提前中断或跳过阶段。`
 
 const pipelineResult = await agent(mergedPrompt, { label: 'Phase2345全链路:' + query, phase: '评测', schema: PIPELINE_SCHEMA, model: SUBAGENT_MODEL, agentType: 'phase2345-query-pipeline' })
@@ -382,18 +375,21 @@ const stageA = pipelineResult.stageA || {}
 const stageB = pipelineResult.stageB || {}
 const stageC = pipelineResult.stageC || {}
 const stageD = pipelineResult.stageD || {}
-const elementListPath = stageA.elementListPath || ''
+const elementListPaths = stageA.elementListPaths || []
+const elementAuditPaths = stageA.elementAuditPaths || []
 const elementCount = stageA.elementCount || 0
 const annotatedPaths = stageA.annotated || []
 log('Phase2+3+4+5 完成: elementCount=' + elementCount + ' evalCount=' + (stageB.evalCount || 0) + ' evidenceImages=' + ((stageC.evidenceImages || []).length) + ' report=' + stageD.reportPath)
 
-// ---------- Phase 2 标注质量侧审计（可选，仅记录 L1/L2/L3 合规率，不阻断） ----------
+// ---------- Phase2 manifest 质量侧审计（可选，仅记录 L1/L2/L3 合规率，不阻断） ----------
 // phase3-标记权威白名单，仅供本侧审计脚本比对，不再注入合并子代理的 Prompt（Stage A 已在
 // agent 定义文件内固化 L1/L2/L3 执行顺序与骨架约束）。
 const PHASE3_CARD_TYPES = ['商品卡片', '商家卡片-图文下挂', '商家卡片-文字下挂', '酒店卡片', '度假/酒店套餐卡片', '演出/电影卡片', '主点卡片', '特殊广告卡']
 const PHASE3_REGION_NAMES = ['头图区', '标题区', '基础信息区', '标签区', '价格区', '商家区', '下挂区', 'AI推荐理由']
 let annotationAudit = null
-if (elementListPath && enableAnnotationAudit) {
+if (elementListPaths.length === 1 && enableAnnotationAudit) {
+  const elementListPath = elementListPaths[0]
+  const recognitionAuditFile = phase2Outputs[0].recognitionAudit
   const auditPrompt = `用 Bash 跑下面命令，对元素清单做 phase3-标记自动验收（L1/L2/L3）：
 \`\`\`bash
 P=$(echo "${elementListPath}")
@@ -531,7 +527,7 @@ PYEOF
 \`\`\`
 把 stdout 原样放进 schema 返回。`
 
-  const auditResult = await agent(auditPrompt, { label: '标注验收', phase: '评测', schema: ANNOTATE_AUDIT_SCHEMA, model: SUBAGENT_MODEL })
+  const auditResult = await agent(auditPrompt, { label: 'Manifest验收', phase: '评测', schema: ANNOTATE_AUDIT_SCHEMA, model: SUBAGENT_MODEL })
   const auditOut = (auditResult && auditResult.stdout) || ''
   const pickNum = (k) => {
     const mm = auditOut.match(new RegExp(k + '=(\\d+(?:\\.\\d+)?)'))
@@ -565,7 +561,7 @@ PYEOF
   const l1 = annotationAudit.l1CardTypeRate == null ? 'NA' : Math.round(annotationAudit.l1CardTypeRate * 1000) / 10 + '%'
   const l2 = annotationAudit.l2RegionNameRate == null ? 'NA' : Math.round(annotationAudit.l2RegionNameRate * 1000) / 10 + '%'
   const l3 = annotationAudit.l3OverallRate == null ? 'NA' : Math.round(annotationAudit.l3OverallRate * 1000) / 10 + '%'
-  log('标注质量侧审计: L1=' + l1 + ' L2=' + l2 + ' L3=' + l3 + (annotationAudit.ok ? '' : ' (audit failed)'))
+  log('Manifest质量侧审计: L1=' + l1 + ' L2=' + l2 + ' L3=' + l3 + (annotationAudit.ok ? '' : ' (audit failed)'))
 }
 
 log('全部完成: 报告已生成 → ' + stageD.reportPath)
@@ -578,8 +574,8 @@ return {
   annotationAudit: annotationAudit,
   report: stageD,
   deterministicAudits: {
-    manifest: elementListPath ? elementAuditFile : '',
-    recognition: elementListPath ? recognitionAuditFile : '',
-    evaluations: elementListPath ? evalAuditFile : '',
+    manifests: elementAuditPaths,
+    recognition: phase2Outputs.map(item => item.recognitionAudit),
+    evaluations: elementListPaths.length ? evalAuditFile : '',
   },
 }

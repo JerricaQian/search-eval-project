@@ -24,7 +24,7 @@ metadata:
 {
   "query": "搜索词",
   "tabs": ["全部","外卖","团购"],
-  "images": [ { "original":"/绝对路径/原图.png", "annotated":"/绝对路径/标注图.png" } ],  // 从文件名解析截图词与屏次
+  "images": [ { "original":"/绝对路径/原图.png", "annotated":"" } ],  // Phase2 不生成整页标注图
   "overall": [ { "tab":"全部", "normalizedScore":72.2, "verdict":"✅良好" }, ... ],   // 跨维度均分
   "dimensions": [
     {
@@ -39,7 +39,7 @@ metadata:
 ```
 
 关键字段：
-- `images[]`：本轮评测的原图与可选 Phase2 全量标注图绝对路径。轻量识别时全量标注图可不存在，渲染时需优雅降级。
+- `images[]`：本轮评测的原图路径；Phase2 不生成全量标注图，`annotated` 为空时直接展示原图。
 - `overall[].normalizedScore`：该 Tab 跨所有维度的归一化均分（0-100，1 位小数）。
 - `dimensions[].perTab[tab]`：该维度该 Tab 的 `raw`（加权原始分）/ `min`/`max`（该维度理论最低/最高原始分）/ `normalized`（0-100）/ `verdict`。
 - `dimensions[].skills[]`：该维度各评测项的目录名、中文名 `title`、`extra`（非空表示该项评级需人工确认）。

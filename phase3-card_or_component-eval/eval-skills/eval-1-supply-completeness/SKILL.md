@@ -25,7 +25,7 @@ metadata:
 - **结果证据门槛：**当 Tab 评级为达标或不达标时，每个待优化组件都必须有一条 `assessmentRows` 记录，至少包含组件 ID、可见范围、适用字段、缺失/截断/乱码核查结果与评级；`evidence.evaluatedUnitCount` 必须等于行数且与 `overview.total` 一致。优秀结论不要求输出 `assessmentRows`。
 - `overview.total` 口径：组件 Skill 的 `overview.total` 必须等于实际评估组件数，Phase2 清单总数仅写入 `evidence.sourceManifestTotal` 作追溯，绝不得作为组件数。
 - **Phase2 事实优先：**元素存在性、图片/文字加载状态、自然裁切、异常截断与乱码必须读取 `render` / `textFacts` / `factInventory`；不得因清单缺元素推断页面缺失。`uncertain` 既不得报问题，也不得作为优秀依据，不创建人工复核任务。
-- **缺失结论的双重证据门槛：**每条不达标 `issue` 必须同时写出 `applicabilityEvidence`（为何该字段是此卡型/业态的必备字段）和 `visibleAbsenceEvidence`（当前卡对应区域的空白、占位、加载失败、不可读、截断、乱码，或同批次相同卡型的可见对照）。仅因字段未出现在通用模板、或主观猜测"通常应该有"均不得判为缺失；两字段任一为空则不得输出 issue、不得计入不达标。**清单未列出图片元素不是可见缺失证据：对左图右文/图文下挂卡，必须回看整张卡的可见图片区域；原图可见头图即判头图存在，并将 Phase2 漏识别记录为审计问题。若同目录 `recognition-audit` 将标题、价格、基础信息、履约或图片存在性标为 `uncertain`，该字段只跳过相关推断，不得作为截断、乱码、缺失或头图缺失的 issue 依据，也不得创建人工复核任务。**
+- **缺失结论的双重证据门槛：**每条不达标 `issue` 必须同时写出 `applicabilityEvidence` 和 `visibleAbsenceEvidence`。仅因字段未出现在模板不得判缺失。**单图 manifest 未列出图片或字段时，不得由 Phase3 回看原图补判；这属于 Phase2 事实缺口，必须阻断并回退该截图重新识别。`uncertain` 也不得作为截断、乱码、缺失或优秀依据。**
 
 ## 工具定位
 

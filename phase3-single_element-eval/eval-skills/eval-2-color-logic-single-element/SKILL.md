@@ -51,7 +51,7 @@ metadata:
 ## 前置与依赖
 
 - **输入来源**：支持两种——(a) 用户提供**本地整页/整卡截图**（PNG/JPG，可能已用红框圈出待评元素）；(b) 用户提供 **`imd.sankuai.com` 设计稿链接**（需先按 `catdesk-browser` skill 完成内网登录态，再导出整页底图）。
-- **元素识别依赖 `phase2-card-annotation` skill**：其《页面与商卡识别规则》能识别并区分商家图片（头图区）、图文/文字下挂、营销元素（营销图片/banner/腰封）、金刚图标与标签。本 skill 复用它来判定「哪些元素纳入、哪些排除」，并用它的 `imd_export_node.py` 导出 IMD 画板高清底图、用其分区扫描脚本定位元素坐标。若未安装，则由 AI 依据本文件的排除口径人工判定归属。
+- **元素归属与排除 mask 只消费对应截图的 Phase2 manifest**：头图、图文/文字下挂、营销元素、金刚图标、标签及其坐标必须来自该单图 JSON。manifest 缺失、`phase3Ready=false` 或归属不确定时回退 Phase2；禁止 AI 重新拆元素或调用历史 IMD 工具补坐标。
 - **像素统计脚本**：`scripts/count_element_colors.py`（Python3 + Pillow + numpy）。对元素裁剪图按 36 色分格统计占比、感知合并深浅、可选剔除背景，输出色谱与候选评级。详见 `references/36色标准.md`。
 - **辅助工具**：图片读取/放大工具（image_read）用于看清底色与字色；`phase2-card-annotation/scripts` 下的 `scan_rows.py`/`scan_textrows.py`/`scan_card_regions.py` 可用于定位元素像素坐标（裁剪框）；对彩色标签，可用「彩色标签带检测」（饱和度阈值找连通有色带）快速定位每个标签的 x/y 边界，避免反复盲裁（见下方「IMD 整页/单卡标签评测工作流」）。
 

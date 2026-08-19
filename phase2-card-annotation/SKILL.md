@@ -1,6 +1,6 @@
 ---
 name: phase2-card-annotation
-description: "对搜索结果页截图执行 Phase2 轻量识别：仅以本地 CV/OCR、卡型契约、拓扑和确定性语义门控生成一份包含页面全部事实及整页门控状态的统一 JSON；不让视觉模型补读 OCR，不生成整页标注图，不执行 IMD 操作，也不输出评测结论。"
+description: "对搜索结果页截图执行 Phase2 轻量识别：仅以本地 CV/OCR、卡型契约、拓扑和确定性语义门控，为每张截图分别生成一个包含该页全部事实及整页门控状态的 JSON；不合并多图、不让视觉模型补读 OCR、不生成整页标注图、不执行 IMD 操作，也不输出评测结论。"
 ---
 
 # Phase2 轻量识别
@@ -9,13 +9,13 @@ description: "对搜索结果页截图执行 Phase2 轻量识别：仅以本地 
 
 Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元素、坐标、可见原文与视觉规格。它为 Phase3 提供唯一事实源。
 
-只做：**截图 → 本地 CV/OCR 候选 → 卡型/元素识别 → 整页门控 → 一份统一元素清单 JSON → schema 校验**。
+只做：**每张截图 → 本地 CV/OCR 候选 → 卡型/元素识别 → 整页门控 → 该图独立元素清单 JSON → schema 校验**。
 
 不做：整页画框 PNG、IMD/设计稿操作、体验评级、问题结论、人工复核任务、跨截图坐标复用，以及用黄金样本补造当前截图事实。
 
 每张截图必须独立生成且只生成一个主 JSON；不同截图不得合并进同一个识别 JSON。该截图的唯一 Phase3 输入是：
 
-- `screenshots-out/elements_<query>[_<tag>].json`：页面模块、卡片、最小元素、视觉事实、关系及 `recognition` 整页门控状态全部内嵌。
+- `screenshots-out/elements_<截图文件名>[_<tag>].json`：只包含对应截图的页面模块、卡片、最小元素、视觉事实、关系及 `recognition` 整页门控状态。
 
 同名 `.audit.json`、可选 `.recognition-audit.json` 和 `.artifacts/.../phase2/` 只用于调试、回归与追踪来源，不是 Phase3 的第二事实源。门控失败仍必须写出主 JSON，但其中 `recognition.phase3Ready=false`，Phase3 必须拒绝消费。
 

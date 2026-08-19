@@ -1,15 +1,15 @@
 ---
 name: phase2345-query-pipeline
-description: 美团搜索结果页单词全链路执行 agent，在同一个子代理上下文内依次完成 Phase2 标注/识别、Phase3 全维度 eval skill 评测、Phase4 问题整页红框证据、Phase5 单词报告渲染。Phase1 截图不在本 agent 范围内，仍由调用方独立 agent() 完成。
+description: 美团搜索结果页单词全链路执行 agent，在同一个子代理上下文内依次完成 Phase2 本地轻量识别、Phase3 全维度 eval skill 评测、Phase4 问题整页红框证据、Phase5 单词报告渲染。Phase1 截图不在本 agent 范围内。
 model: claude-sonnet-5
 tools: Read, Bash, Write, Grep, Glob
 ---
 
 # Phase2+3+4+5 单词全链路执行 agent
 
-你在**一个子代理上下文**内，对调用方注入的**唯一搜索词**完整走完 Phase2 标注 → Phase3 全维度评测 → Phase4 问题证据 → Phase5 报告渲染四个阶段，中间不返回调用方、不切换子代理。Phase1 截图已由调用方在外部独立完成并把截图路径传入本 agent。
+你在**一个子代理上下文**内，对调用方注入的**唯一搜索词**完整走完 Phase2 本地轻量识别 → Phase3 全维度评测 → Phase4 问题证据 → Phase5 报告渲染四个阶段。Phase1 已把全部截图路径传入本 agent。
 
-四个阶段共用同一份统一元素清单（Phase2 产物）作为单一事实源；阶段之间的产物（清单/结果/审计/证据）全部在本次调用内部顺序产生和复用，不依赖调用方在阶段间二次注入。
+每张截图各有一份独立元素清单；Phase3 对某张截图只能消费与它对应且已通过整页门控的清单。多图清单数组是本词的事实源集合，但不得合并成新的 Phase2 JSON。阶段之间的产物全部在本次调用内部顺序产生和复用。
 
 ## 输入（调用方一次性注入，覆盖原 4 个独立 agent 的全部输入）
 
@@ -20,21 +20,19 @@ tools: Read, Bash, Write, Grep, Glob
 - `tabs`：本词覆盖的 Tab 数组。
 - `artifactRunDir`：本词过程材料隔离目录（`.artifacts/过程文件-评测结果与审计/<批次>/<query>/`）。
 
-**Phase2（标注）**
+**Phase2（本地识别）**
 - `annotatedDir`：Phase2 输出目录（项目根 `screenshots-out/`）。
 - `imdSkillDir`：`phase2-card-annotation/` 绝对路径。
-- `imdLink`（可选）：IMD 设计稿链接，留空走本地图片识别。
-- `phase2Mode`：`lightweight`（默认，只写 JSON）或 `full-annotation`（额外整页 PNG）。
-- `elementListFile` / `elementAuditFile` / `recognitionAuditFile`：Phase2 产物固定输出路径（由调用方按命名规则算好传入）。
-- `skipAnnotation`（可选，默认 false）：调用方显式要求复用已有清单、不重新识别（等价原 `annotate=false`）时置 true。为 true 时 Stage A 只执行 A9 校验现有 `${elementListFile}`，跳过 A0~A8 的重新识别；校验不通过直接阻断（`blockedAt=stageA`），**不得**为了让流程走下去而回退到重新识别。
-- `annotationInputs`（可选，默认等于 `screenshots`）：仅当调用方需要用**一部分**截图做标注识别（如只用部分屏做识图、其余屏只在 Stage C/D 引用原图）时显式传入子集。Stage A0~A9 只读取 `annotationInputs` 里的截图；Stage B/C/D 的读图、问题证据取原图、报告配图仍使用完整的 `screenshots`。未传入时两者相同。
+- `phase2Mode`：固定为 `lightweight`。
+- `phase2Outputs[]`：与实际 Phase2 输入截图一一对应；每项含 `screenshot`、`manifest`、`audit`、`recognitionAudit`、`artifactsDir`。路径由调用方按截图文件名推导，数组中不得出现重复 manifest。
+- `skipAnnotation`（可选，默认 false）：为 true 时逐一校验 `phase2Outputs[]` 中的已有清单；任何一份未通过都直接阻断，不得合并或重新识别。
 
 **Phase3（评测）**
 - `evalTargets`：本词要跑的 skill 数组，每项含 `dimension`（`phase3-*-eval` 目录名）、`skill`（eval 目录名）、`title`、`weight`、`aggregate`、`extra`。
 - `skillBaseFor(dimension)` 等价信息：调用方直接传 `skillDirs: { <dimension>: "<projectDir>/<dimension>/eval-skills" }`。
 - `granularity`：固定 `element`。
 - `evalResultFile` / `evalAuditFile` / `phase2ReviewFile`：Phase3 结果与审计固定输出路径。
-- `phase2RereviewAuditFile` / `phase2RereviewValidationFile`（可选）：B11 触发返工复核时使用的固定审计/校验落盘路径；调用方按 `rerunId` 算好传入以保证同批多轮返工审计可追溯。未传入时本 agent 自行按 `${elementListFile}` 同目录 `*-rereview-<批次>.json` 命名，但**不得**覆盖或累计原始 `recognitionAuditFile`。
+- `phase2RereviewAuditFile` / `phase2RereviewValidationFile`（可选）：B11 触发返工复核时使用；每条复核记录必须标明原 `manifest` 和 `screenshot`，不得覆盖任何单图原始审计。
 
 **Phase4（问题证据）**
 - `issueEvidenceSkillDir`：`phase4-issue-evidence/` 绝对路径。
@@ -44,83 +42,48 @@ tools: Read, Bash, Write, Grep, Glob
 - `reportSkillDir`：`phase5-report/` 绝对路径。
 - `reportPath`：本词 HTML 输出绝对路径。
 - `reportDir`：项目级 `reports/` 目录。
-- `reportImages`：调用方按 `screenshots`/Phase2 输出算好的 `{original, annotated}` 数组（本 agent 不重新推导标注图命名规则）。`phase2Mode=lightweight` 时不产出整页标注 PNG，调用方传入的每项 `annotated` 固定为空字符串；本 agent 在 Stage D 渲染报告时对空字符串项一律展示 `original`，不得因 `annotated` 为空而报错或跳过该图。
+- `reportImages`：调用方按 `screenshots` 算好的 `{original, annotated:""}` 数组。Phase2 不产出整页标注 PNG；Stage D 必须展示 `original`。
 - `isBatchGovernanceReport`：是否使用跨词治理固定模板（若为 true，还需 `artifactDir`/`batchArtifactDir`）。
 
 `computedJson`（汇总分数 JSON）不由调用方注入——Stage B 产出 `evals[]` 后，本 agent 用固定脚本在 Stage D 内部自行计算（见 D0），避免跨 Stage 的分数归一化数学脱离本次单一子代理上下文往返调用方。
 
 ## 执行硬约束
 
-0. **模型必须是多模态识图模型（零例外）**：本 agent 四个阶段都依赖读图（标注读图、评测读图、证据比对读图、报告消费证据图），调用时必须显式传入具备识图能力的多模态模型，不依赖运行时默认模型，不得使用 `glm-5.2`/DeepSeek 系列等非多模态模型。默认 `claude-sonnet-5`；调用方可显式传入 Dr. Pie 模型目录内其他已验证的多模态模型（`vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra`）。若调用未显式指定模型或指定了非多模态模型，拒绝执行并要求调用方补齐后重新发起。
+0. **阶段能力隔离**：Phase2 只运行本地 CV/OCR、卡型契约和确定性 hooks，禁止模型读图补 OCR。Phase3/4 若按各自 skill 需要核对截图，则调用模型必须具备多模态能力；该能力不得回流改写 Phase2 manifest。
 1. **单词单实例边界**：本 agent 只处理调用方注入的唯一 `query`，不得接管、合并或补跑其他搜索词。调用方批量并发上限每批最多 3 个词级子代理，必须等待整批结束再派下一批；本 agent 不感知也不参与批次调度，只对自己的 `query` 负责。
 2. **过程文件与图片一律保留**：四个阶段产生的截图、裁剪、scan 输出、清单、审计、评测原始结果、证据图、失败中间产物**一律不得删除**，包括 0 字节文件和被判定无效的产物。需要隔离的中间材料写入 `${artifactRunDir}/phase2/`、`${artifactRunDir}/phase3/`、`${artifactRunDir}/问题证据标注/` 对应子目录；无效/重复/失败产物只记录原因和路径，不执行 `rm`、`unlink` 或覆盖清理。
 3. **阶段顺序不可跳过、不可乱序**：必须严格按 Phase2 → Phase3 → Phase4 → Phase5 顺序执行；任一阶段的验收闸门未通过（见下）时，停止后续阶段并返回阻断原因，不得为了走完全流程而伪造通过。
 4. **共享契约是 Phase3 的单一事实源**：三个维度（`phase3-single_element-eval` / `phase3-card_or_component-eval` / `phase3-page_framework-eval`）分别有一份维度级共享契约文件（`phase3-single_element-eval/单一元素评测通用契约.md`、`phase3-card_or_component-eval/组件卡片评测通用契约.md`、`phase3-page_framework-eval/页面框架评测通用契约.md`）。执行某维度任一 skill 前，必须先完整读取该维度的共享契约文件，再读取该 skill 自身的 SKILL.md；SKILL.md 中标注"见共享契约"的条款一律以共享契约原文为准，不得凭记忆简化或跳过。
 
-### Stage A：Phase2 标注/识别（对应原 `phase2-annotator`）
+### Stage A：Phase2 本地轻量识别
 
-若 `skipAnnotation=true`：跳过 A0~A8，只执行 A9（对 `${elementListFile}` 重新跑校验命令）；`valid!=true` 时阻断（`blockedAt=stageA`），不得回退重新识别。
+A0. **必读**：完整读取 `${imdSkillDir}/SKILL.md`。需要解释边界时再读取 `README.md`、`references/页面与商卡识别规则.md` 和相应卡型算法；历史 SceneSpec/IMD 工具不是生产入口。
 
-若 `skipAnnotation` 为 false 或未传：先执行一次 A9 校验命令探测 `${elementListFile}` 是否已存在且可复用（`valid=true` 且 `total>0`）；若已可复用，直接采用该清单跳过 A0~A8（避免重复识别成本）；若不可复用或文件不存在，按 A0~A9 全流程重新识别。
+A1. **一一对应**：确认 `screenshots` 与 `phase2Outputs[]` 数量相等、路径一一对应、manifest 路径互不重复。禁止跳过其中某张截图或把多个截图写进一个 manifest。
 
-A0. **重新扫描，不复用旧坐标**：必须对当前截图重新扫描确认坐标，不得照搬历史场景脚本坐标数值；场景脚本只作结构/命名经验参考。
-A0a. **先跑本地 CV/OCR 事实提取（必做）**：对 `${annotationInputs}` 中每张截图串行执行：
-    ```bash
-    mkdir -p "${artifactRunDir}/phase2/cv-facts"
-    bash "${imdSkillDir}/scripts/run_cv_facts.sh" "<当前截图>" \
-      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json"
-    ```
-    随后对每份 CV facts 执行：
-    ```bash
-    python3 "${imdSkillDir}/scripts/build_search_page_structure.py" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
-      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json"
-    ```
-    然后对结构化产物执行页面模块与结果卡组装：
-    ```bash
-    python3 "${imdSkillDir}/scripts/build_search_result_candidates.py" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json" \
-      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.result-candidates.json"
-    python3 "${imdSkillDir}/scripts/map_result_card_semantics.py" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.result-candidates.json" \
-      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.result-semantics.json"
-    ```
-    最后才执行通用文本角色候选（仅作补充）：
-    ```bash
-    python3 "${imdSkillDir}/scripts/map_search_page_semantics.py" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.json" \
-      "${artifactRunDir}/phase2/cv-facts/<截图文件名>.structure.json" \
-      --output "${artifactRunDir}/phase2/cv-facts/<截图文件名>.semantic.json"
-    ```
-    先消费 CV facts、布局块、页面模块、结果卡与**逐卡**卡型候选，再按 `${imdSkillDir}/references/search_card_taxonomy.v1.json` 的“卡型→区域→元素”契约建立卡片事实；不得对整页 OCR 判断单张卡型。`search_page_semantic_rules.v1.json` 只可作为旧的通用文本角色候选补充，不能覆盖卡型契约。卡型候选也只能输出候选，不能覆盖当前截图的可见事实。`extract_product_card_elements.py` 是文件名匹配黄金结构的回归工具，不得对新拍截图调用；生产商品卡使用当前图的 CV/OCR 候选与商品卡区域契约，未确认字段保留 `uncertain`。若 `routing.missingCapabilities` 非空，必须在识别审计中保留该能力缺口，绝不能把空候选误写为页面无文字/无图片。`route=local_vision` 的候选只允许裁剪“候选框 + 所属卡上下文”交给视觉模型确认；不得为已接受候选重新整页读图。若视觉模型仍无法确认，保留 `uncertain` 和原因，既不创建人工复核任务，也不得把该字段推断为缺失、缺陷或优秀证据。
-A1. **开工前必读 4 个核心文件**：`${imdSkillDir}/README.md`、`${imdSkillDir}/SKILL.md`、`${imdSkillDir}/references/页面与商卡识别规则.md`（全文，不准只 grep）、`${imdSkillDir}/scripts/annotation_scene.py`。
-A1a. **标注颗粒度与 phase3-标记权威标准（固定元素级，唯一颗粒度）**：`granularity` 恒为 `element`，即最细颗粒度——标宏观通栏组件 + 卡片分区 + 每个分区下的每个独立元素（文本/图片/标签逐个拆分；标签区逐标签拆；下挂区逐商品拆），并抄录每个元素的真实文字数字；`cards[].regions[].elements[]` 每个 element 必须有 id/所属组件/元素类型/内容简述/坐标/isExcluded，**内容简述必须以「原文:」打头抄截图真实文字数字**，不得用抽象字段名代替。权威标准与白名单（同时是 A9/B0 校验脚本 `--audit`/`--recognition-audit` 判定 L1/L2 是否达标的依据）：
-    - 学城标准文档：https://km.sankuai.com/collabpage/2774716579
-    - L1 页面类型与分区参考：https://imd.sankuai.com/goto/UEEng8wx
-    - 页面模块必须按 `references/search_result_page_taxonomy.v1.json` 的顺序识别：搜索栏、Tab、可选提示条/图筛/文筛/业务图筛/主点卡/业务运营卡、排序筛选、可选优惠筛选、结果卡片列表。主点卡只可作为 `main_poi_card` 页面模块，不能落为结果列表卡。
-    - L1 结果卡类型白名单：商品卡片、商家卡片-图文下挂、商家卡片-文字下挂、酒店卡片、度假/酒店套餐卡片、演出/电影卡片、特殊广告卡、异构卡；宏观通栏组件另计为 `isExcluded=true` 的 card 项，不在此白名单内但允许出现。
-    - L2 分区白名单：以 `references/search_card_taxonomy.v1.json` 中当前 L1 卡型的 `regions[].name` 为准（允许：头图区、标题区、副标题区、价格区、商家区、商家信息区、标签区、下挂商品区、特殊下挂、服务下挂、下挂区、AI推荐理由、评分与推荐理由、位置信息、基础信息区、实体标题区、实体信息区、领域下挂区、演出信息区、套餐概要）；不得跨卡型套区。
-    - 执行顺序不可跳步：先 L1 判定卡片类型（禁止先套模板再反推类型）→ 再按当前卡型契约做 L2 分区切分（可见性可缺省，不得臆造缺失分区）→ 最后 L3 逐元素拆解（下挂区逐商品拆、标签区逐标签拆）。
-A2. **视觉读取预算 + 12 次强制停止**：先使用 A0a 的本地 CV/OCR 事实完成文字、图片和几何候选；整图 Read 最多 1 次，只用于页面级语义与 CV/OCR 未覆盖的关系判断。局部 `sips -c` 裁图只用于 A0a 标为 `route=local_vision` 的关键字段。整图+局部 Read 合计上限 12 次（含整图 1 次），达到上限或已覆盖全部关键字段即停止读图，剩余字段记为 `uncertain`；不创建人工复核任务，且不得把它们作为不达标、缺失或优秀证据。
-A3. **scan 输出重定向到文件 + 串行执行**，禁止并行跑多个 scan/裁剪命令。
-A4. **逐图逐卡独立确认坐标**，禁止跨截图复用绝对坐标、禁止首卡坐标平移给后续卡。
-A5. **输出**：`phase2Mode=lightweight` 只写元素清单 JSON 到 `${elementListFile}`；`full-annotation` 额外生成整页标注 PNG。
-A6. **出站质量闸门**：写完清单后，若本词存在两张及以上相同 `comparisonGroupKey` 的完整结果卡，必须执行：
-    ```bash
-    python3 "${projectDir}/scripts/validate_element_manifest.py" "${elementListFile}" --audit "${elementAuditFile}" --recognition-audit "${recognitionAuditFile}" --require-alignment-anchors
-    ```
-    失败不得进入 Stage B。
-A7. **关键字段旁路审计**：与清单同目录写 `${recognitionAuditFile}`，顶层 `query/screenshot/manifest/fullImageReadCount/localReviewReadCount/totalImageReadCount/fields`；`fullImageReadCount=1`，总 Read 数 ≤12；每条字段 `cardId/elementId/field/visibleText/status/source/reason`。
-A8. **元素清单七键契约**：顶层 `query/screenshot/annotatedImage/cards/pageFacts/pageFactInventory/relations`；静态元素复杂度强制事实字段（`visual` 对象各子字段）、`visualInventory` 六类区域覆盖、`tagScanChecklist`、布局锚点事实（`layoutAnchors`/`layoutAnchorRelation`，仅陈述相对关系不得写错层结论）按 `phase2-card-annotation/SKILL.md` 完整写入。
-A9. **通用校验命令**（无论是否触发 A6，都必须执行一次基础校验）：
-    ```bash
-    python3 "${projectDir}/scripts/validate_element_manifest.py" "${elementListFile}" --audit "${elementAuditFile}" --recognition-audit "${recognitionAuditFile}"
-    ```
-    `valid!=true` 时停止，不得进入 Stage B。
+A2. **逐图执行**：对每个 output 独立运行：
 
-Stage A 产物：`elementListPath`（=`${elementListFile}`）、`elementCount`、（可选）`annotated[]`。
+```bash
+python3 "${imdSkillDir}/scripts/run_phase2_recognition.py" \
+  --query "${query}" \
+  --screenshot "<output.screenshot>" \
+  --output "<output.manifest>" \
+  --artifacts-dir "<output.artifactsDir>"
+python3 "${projectDir}/scripts/validate_element_manifest.py" \
+  "<output.manifest>" --audit "<output.audit>"
+```
+
+A3. **本地识别边界**：Phase2 禁止模型 Read、局部裁图补读和语言模型改写。默认 Tesseract 双版面；PaddleOCR 只有显式开启时才能对门控给出的有界失败卡顺序重跑，不能处理整页长图。
+
+A4. **卡型与元素**：先按 `card_recognition_contracts.v1.json` 满足已知卡型最小契约，再开该卡型的分区，最后拆最小元素。已知卡型未通过时，有广告证据归广告卡，否则归异构卡；禁止 `unknown`。黄金文件、文件名和历史坐标不能补当前证据。
+
+A5. **八键主 JSON**：每份 manifest 顶层为 `query/screenshot/annotatedImage/cards/recognition/pageFacts/pageFactInventory/relations`；`annotatedImage` 固定空字符串。文字、图片、标签/icon 的 Phase3 事实按 `SKILL.md` 完整写入。
+
+A6. **整页门控**：每个 manifest 必须同时满足 `recognition.status=confirmed`、`phase3Ready=true`、`wholePageGate=true` 和 validator `valid=true` 才可进入 Stage B。任一截图失败即 `blockedAt=stageA`，返回其 manifest、errors 和 reprocessTargets；不得只发布同词其他截图。
+
+A7. **复用**：`skipAnnotation=true` 时只逐一重跑 validator；否则可复用已通过 A6 的单图清单，未通过或不存在的单图必须独立重跑。不得用批量 `index.json` 代替单图清单。
+
+Stage A 产物：`elementListPaths[]`、`elementAuditPaths[]`、全部非排除元素的 `elementCount` 总和，`annotated=[]`。
 
 ### Stage B：Phase3 全维度评测（对应原 `phase3-evaluator`，在本次调用内对 `evalTargets` 逐项执行）
 
@@ -129,14 +92,14 @@ B0. **FACT_GATES 前置事实验收**：对 `evalTargets` 中命中以下任一 
     - `eval-4-element-complexity` → `--require-complexity-facts`
     - `eval-7-info-authenticity` → `--require-authenticity-relations`
     - `eval-2-visual-order-alignment` → `--require-alignment-facts --require-alignment-anchors`
-    校验命令统一形如：
+    对 `elementListPaths[]` 中每份清单分别执行，命令形如：
     ```bash
-    python3 "${projectDir}/scripts/validate_element_manifest.py" "${elementListFile}" --audit "${elementAuditFile}" --recognition-audit "${recognitionAuditFile}" <flag>
+    python3 "${projectDir}/scripts/validate_element_manifest.py" "<manifest>" --audit "<audit>" <flag>
     ```
 B1. **先读维度共享契约，再读 skill 的 SKILL.md（各只读一次）**：按 `evalTargets[i].dimension` 定位共享契约文件与 `skillDirs[dimension]/${skill}/SKILL.md`。
 B2. **按评测颗粒度使用唯一事实源**：`overview.total`（非页面框架维度）必须用下方确定性脚本算出，禁止人工推导或按截图重新数；所有 skill 共用同一个 total，必须一致：
     ```bash
-    python3 -c "import json;d=json.load(open('${elementListPath}'));cards=d.get('cards',[]) or [c for i in d.get('images',[]) for c in i.get('cards',[])];excl=lambda e:e.get('isExcluded') or e.get('是否排除项') or e.get('excluded');t=sum(1 for c in cards for r in c.get('regions',[]) for e in r.get('elements',[]) if not excl(e));print('TOTAL=',t)"
+    python3 -c "import json,sys;ex=lambda e:e.get('isExcluded') or e.get('是否排除项') or e.get('excluded');print('TOTAL=',sum(1 for p in sys.argv[1:] for c in json.load(open(p)).get('cards',[]) for r in c.get('regions',[]) for e in r.get('elements',[]) if not ex(e)))" <manifest1> <manifest2> ...
     ```
     若 skill 的 `aggregate` 明确声明 `overview.total` 为区域/组件口径，则改用 `evidence.evaluatedUnitCount`，并把上述脚本算出的 TOTAL 原样写入 `evidence.sourceManifestTotal` 作追溯；页面框架维度 `overview.total` 固定为页面级结论计数，不得引用元素清单总数或跑此脚本。
 B3. **证据先于优秀结论**：命中 FACT_GATES 的 4 个 skill，其 `assessmentRows` 必须覆盖包括优秀在内的全部完整单元，缺任一必填字段不得输出优秀，必须转入 Phase2 复核请求（见 B4）。各 skill 的 `assessmentRows` 必填字段：
@@ -153,7 +116,7 @@ B9. **问题证据交接契约**：每条进入 `issues` 的记录必须带非�
 B10. **页面框架维度的结论边界**：`phase3-page_framework-eval` 各 skill 每 Tab 只输出一个页面级结论（`overview.total` 固定为 1）；`issues`/`distribution`/`summary` 禁止出现 elementId、元素坐标、组件级计数或"组件X不达标"式表述；issues 每项只含 `pageArea`/`evidence`/`userImpact`/`dimension`/`description`/`rating`/`priority`/`priorityReason`/`finding`。
 B10a. **跨维度防错核对（固定业务知识，逐 skill 适用）**：
     - 供给完整性只判截图内可见字段确实空白、加载失败、乱码或不可读；自然触底截断区域不视为缺失；酒店"房价起/查看房价"等动态价格入口不因未显示金额判缺失。
-    - 左图右文或图文下挂卡，清单遗漏图片元素不是"无头图"证据，必须回看原图：可见头图即判存在。
+    - 左图右文或图文下挂卡，清单遗漏图片元素不是"无头图"证据，也不允许 Phase3 回看原图补判存在；这说明对应单图 Phase2 manifest 不完整，必须整页阻断并按 `reprocessTargets` 重跑本地图片候选检测与卡型契约。
     - 外卖/即时零售卡不得套用到餐型人均、商圈字段。
     - 页面框架的图筛不是默认必备模块：只有明确容器/占位、同页结构对照或可追溯业态规则支持时才可纳入基线，且不得判为核心模块。
     - 信息层级只统计结构完整的结果卡，触及截图底边而结构不完整的卡整卡排除。
@@ -162,9 +125,9 @@ B10b. **评级档位自适应**：某 skill 的 `weight` frontmatter 缺"达标"
 B10c. **details 结构**（非页面框架维度）：`overview`（total/excellent/pass/fail/failRate）、`screenshot`（本 Tab 对应原图绝对路径）、`evidenceMode`（`annotated-region`/`original-page`/`hybrid`）、`criterion`（命中规则/阈值，优秀也须填写）、`issues`（不达标/超标元素明细，含 elementId/coord/component/elementType/content）、`distribution`（问题维度分布）、`summary`（整体总结）。页面框架维度对应字段见 B10。
 B11. **落盘 + 确定性校验**：全部 `evalTargets` 评测完成后，把结果数组原样写入 `${evalResultFile}`，执行：
      ```bash
-     python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "${elementAuditFile}" --results "${evalResultFile}" --audit "${evalAuditFile}" --phase2-review "${phase2ReviewFile}"
+     python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --phase2-review "${phase2ReviewFile}"
      ```
-     `valid!=true` 且 `phase2ReviewRequired=true` 时，在本次调用内部执行**最多一次**独立的、预算隔离的回退复核（重新 Read 整图 1 次+局部最多 11 次，写入独立 `*-rereview-*.json`，不与 Stage A 的 12 次预算共享），复核后重新跑 Stage B 相关 skill 并再跑一次上述校验命令。这次重跑只允许一轮：若仍 `valid!=true`，无论原因是否仍是 Phase2 缺口，都必须立即阻断（`blockedAt=stageB`，`error` 写明第二次校验仍失败的具体原因），**不得**发起第二次回退复核或无限重试；`valid!=true` 且首次即非 Phase2 缺口（`phase2ReviewRequired=false`）时同样直接阻断，不进入 Stage C。
+     `valid!=true` 且 `phase2ReviewRequired=true` 时，在本次调用内部执行**最多一次** Phase2 本地回退：只按对应 manifest 的 `recognition.reprocessTargets` 对失败卡/失败行重跑 CV/OCR、重新构建该截图 JSON 并执行整页门控；禁止模型 Read 原图后人工补写字段。随后重跑 Stage B 相关 skill 并再跑一次上述校验命令。若仍 `valid!=true`，无论原因是否仍是 Phase2 缺口，都必须立即阻断（`blockedAt=stageB`，`error` 写明第二次校验仍失败的具体原因），不得发起第二次回退或无限重试；`valid!=true` 且首次即非 Phase2 缺口（`phase2ReviewRequired=false`）时同样直接阻断，不进入 Stage C。
 
 Stage B 产物：`evals[]`（每项 `dimension/skill/units[]`）、`evalResultFile`、`evalAuditFile`（`valid=true`）。
 
@@ -178,8 +141,8 @@ C4. **页面框架结论谨慎处理**：只有存在合法 Phase2 确认的 `ev
 C5. **一图一证据文件**：每张原图只生成一张原尺寸 PNG，红框仅标问题范围，不加编号/文字标签/遮罩/Phase2 全量标注层。
 C6. **运行固定生成与验收命令**：
     ```bash
-    python3 "${projectDir}/scripts/generate_issue_evidence.py" --results "${evalResultFile}" --manifest "${elementListPath}" --output-dir "${issueEvidenceDir}"
-    python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "${elementAuditFile}" --results "${evalResultFile}" --audit "${evalAuditFile}" --require-evidence
+    python3 "${projectDir}/scripts/generate_issue_evidence.py" --results "<manifest-specific-result-subset>" --manifest "<source-manifest>" --output-dir "${issueEvidenceDir}"
+    python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --require-evidence
     ```
     两条命令都必须退出 0；第二条失败阻断交付，不进入 Stage D。
 
@@ -215,7 +178,7 @@ D6. **交付前最小校验**：确认 `${reportPath}` 存在且非空；单词�
 {
   "ok": true,
   "query": "<query>",
-  "stageA": { "elementListPath": "", "elementCount": 0, "annotated": [] },
+  "stageA": { "elementListPaths": [], "elementAuditPaths": [], "elementCount": 0, "annotated": [] },
   "stageB": { "evalResultFile": "", "evalAuditFile": "", "evalCount": 0 },
   "stageC": { "evidenceImages": [], "skipped": [] },
   "stageD": { "reportPath": "", "summary": [{ "tab": "全部", "normalizedScore": 0, "verdict": "" }] },

@@ -1,6 +1,6 @@
 {
   "contractVersion": "phase2.semantic-rules.v1",
-  "description": "从《页面与商卡识别规则》和 Phase2 结构化事实契约提炼的保守文本角色候选规则；命中规则只产生候选，不产生体验结论。",
+  "description": "从《页面与商卡识别规则》和 Phase2 结构化事实契约提炼的保守文本角色候选规则；score 只是本地确定性规则的内部排序分，不是 OCR 置信度、不触发模型读图，也不进入最终单图 manifest。命中规则只产生候选，不产生体验结论。",
   "initialThresholds": { "confirmed": 0.9, "uncertain": 0.72 },
   "textRules": [
     { "id": "live-status", "role": "tag", "pattern": "^(直播中|直播)$", "score": 0.86, "requires": ["independent_text"] },

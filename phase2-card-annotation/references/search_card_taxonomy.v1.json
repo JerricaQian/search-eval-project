@@ -3,7 +3,7 @@
   "description": "依据七份卡片规范沉淀的领域卡片契约。识别顺序必须为：卡片类型 → 该卡型的区域 → 该区域允许的元素；本文件中的枚举是识别候选与评测依据，不是缺失推断依据。",
   "classification": {
     "order": ["商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片", "广告卡", "异构卡"],
-    "statusPolicy": "只有卡型证据与区域结构均充分时才 confirmed；多个卡型接近、OCR 不可靠或区域不可分时为 uncertain。uncertain 不得转写为元素缺失、体验问题、不达标或优秀，也不创建人工复核任务。",
+    "statusPolicy": "先按已知卡型最小契约逐一确认；没有已知卡型通过时，明确广告证据归广告卡，否则归异构卡。字段或区域证据不足会阻断整页并进入 reprocessTargets，不得以 uncertain 卡型发布，也不得转写为元素缺失、体验问题、不达标或优秀。",
     "fallback": {
       "广告卡": {"definition": "有明确广告标或推广素材，且不满足七种常见卡片框架的充分证据。"},
       "异构卡": {"definition": "结果列表中的非广告卡，且不满足任一常见卡片框架的充分证据。"}
@@ -20,7 +20,7 @@
     "purpose": "视觉属性用于佐证元素候选和评测样式，不单独决定语义或缺失。",
     "fields": ["position", "textColorRole", "fontWeight", "backgroundColorRole", "borderColorRole", "containerShape", "hasGraphicAssist", "graphicType", "sourceRegion", "attachedToHeadImage", "excludedWithHeadImage"],
     "colorRoles": ["neutral", "red", "orange", "yellow", "green", "blue", "purple", "multicolor", "unknown"],
-    "recognitionRule": "只有文字、位置、区域归属和视觉样式至少两类相互支持时才可提高确认置信度；任一信息不确定则保留 uncertain。"
+    "recognitionRule": "文字、位置、区域归属和视觉样式至少两类相互支持时，元素候选才可进入已确认事实；证据不足时写入 reprocessTargets 并阻断整页，不发布 OCR 置信度，也不让视觉模型补读。"
   },
   "cardTypes": [
     {

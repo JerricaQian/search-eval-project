@@ -21,6 +21,6 @@
     "mainPoi": "主点卡只在 main_poi_card 模块中识别，不写入 results_list。",
     "operationCard": "业务运营卡位于结果列表前时作为页面模块；其广告/异构属性不改变结果卡列表的卡型判断。",
     "liveCard": "异构卡-直播卡是结果列表前的页面模块，不属于 results_list；须同时有大面积媒体区和直播/观看文本或其他直播控件证据。",
-    "uncertain": "模块或边界不确定时标记 uncertain；不得将其作为缺失、问题、不达标、优秀或人工复核依据。"
+    "uncertain": "模块或边界不确定时写入 reprocessTargets 并阻断该截图整页发布；不得将其作为缺失、问题、不达标或优秀依据，也不得由 Phase3 回看原图补写。"
   }
 }

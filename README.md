@@ -1,6 +1,6 @@
 # 美团搜索结果页标准化评测 Agent
 
-三维度、可组合、开箱即跑的端到端评测工作流：**截图 → Phase2 轻量识别（可选全量标注）→ 多维度评测 → 问题证据 → 合并 HTML 报告**。
+三维度、可组合、开箱即跑的端到端评测工作流：**截图 → Phase2 轻量识别 → 多维度评测 → 问题证据 → 合并 HTML 报告**。
 共享资源在顶层，每个维度只放自己的 eval-skills，工作流自动发现。换电脑/换人只需跑一次 `setup.sh`。
 
 ---
@@ -34,7 +34,7 @@ bash ~/Desktop/search-eval-project/setup.sh --with-device
 
 ### Phase2 本地 OCR（推荐）
 
-Phase2 会先运行 `phase2-card-annotation/scripts/run_cv_facts.sh`，以本地 OCR 和既有 OpenCV 产出文本、坐标、图片候选和行间留白事实；视觉模型只处理低置信候选的局部裁剪。系统已安装 Tesseract 时可直接作为后端；如需更好的中文 OCR，可在项目虚拟环境中安装 PaddleOCR：
+Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出该图自己的 `elements.json`。它不读取 OCR 置信度，也不让视觉模型补读失败字段。系统已安装 Tesseract 时可直接作为默认后端；PaddleOCR 仅作为显式开启的卡内有界重跑后端：
 
 ```bash
 python3 -m venv .venv
@@ -51,7 +51,7 @@ python3 -m venv .venv
 本项目支持两种**等价**执行模式：
 
 1. **显式 Workflow（优先）**：当前 CatPaw / Claude Code 会话提供 Workflow 工具时，调用 `workflow/meituan_eval_workflow.js`；
-2. **Agent 任务编排（回退）**：Workflow 工具不可用或用户要求逐阶段运行时，Agent 仍按 phase1 → phase2 → phase3 → phase4 → phase5 执行对应 skill、确定性审计和报告渲染。该模式不得跳过清单、审计或固定输出路径，结果口径与显式 Workflow 相同。编排前 Agent 必须确认：是否执行 phase2 标注、评测哪些维度（单一元素/组件或卡片/页面框架，可多选）、仅交付本地 HTML 或继续生成 NoCode 报告。
+2. **Agent 任务编排（回退）**：Workflow 工具不可用或用户要求逐阶段运行时，Agent 仍按 phase1 → phase2 → phase3 → phase4 → phase5 执行对应 skill、确定性审计和报告渲染。编排前确认是否执行 Phase2 轻量识别、评测哪些维度、仅交付本地 HTML 还是继续生成 NoCode 报告。
 
 > `workflow/meituan_eval_workflow.js` 是依赖 Workflow 宿主 API 的 DSL，不能直接通过 `node` 执行。它不可用不代表评测不可执行，应切换为 Agent 任务编排。选择 NoCode 时仍须先完成本地 HTML 或批量治理数据集，再按 NoCode 流程处理线上发布。
 
@@ -64,7 +64,7 @@ scriptPath: ~/Desktop/search-eval-project/workflow/meituan_eval_workflow.js
 args: { "query": "库迪", "dimensions": ["phase3-card_or_component-eval"], "tabs": ["全部","外卖","团购"], "screens": ["1","2","3"], "skipScreenshot": false }
 ```
 
-跑完后 HTML 报告在 `reports/`，截图在 `screenshots/`，标注图与元素清单（若开启标注）在 `screenshots-out/`。
+跑完后 HTML 报告在 `reports/`，截图在 `screenshots/`，每张截图各自的元素清单在 `screenshots-out/`。
 
 ---
 
@@ -81,7 +81,7 @@ search-eval-project/
 ├── phase1-screenshot/               # phase1 共享截图能力
 │   ├── SKILL.md                    # 截图流程+坐标+陷阱表
 │   └── scripts/{run_scroll.sh, loop_screenshot.sh}
-├── phase2-card-annotation/         # phase2 按需标注（组件+商卡分区可视化）[原 imd-card-annotation，已更名]
+├── phase2-card-annotation/         # phase2 本地 CV/OCR、卡型契约、整页门控与一图一 JSON
 │   ├── SKILL.md / scripts/ / references/ / scenes/
 ├── phase3-card_or_component-eval/         # 维度1：卡片/组件（8 项 eval skill）
 │   └── eval-skills/eval-1~8/SKILL.md
@@ -100,12 +100,12 @@ search-eval-project/
 ├── workflow/
 │   └── meituan_eval_workflow.js    # 标准化工作流（截图→识别→评测→证据→报告）
 ├── screenshots/                    # phase1 截图输出 / phase2 输入
-├── screenshots-out/                # phase2 元素清单；可选全量标注图；phase4 证据图
+├── screenshots-out/                # phase2 每图元素清单；phase4 问题证据图
 ├── .artifacts/过程文件-评测结果与审计/ # 按批次、搜索词、阶段隔离的评测结果与审计
 └── reports/                        # phase5 HTML 与批量治理数据集输出
 ```
 
-> **数据流向**：`screenshots/` ──Phase2 轻量识别──▶ `screenshots-out/`（统一元素清单；可选全量标注图）──Phase3 评测──▶ `.artifacts/过程文件-评测结果与审计/` ──Phase4 证据──▶ `screenshots-out/evidence/` ──Phase5──▶ `reports/`（HTML；批量治理看板还会输出 `.governance_dataset_<批次>.json`）──▶ NoCode 线上看板（可选）。Phase3 以元素清单为唯一事实源；全量标注 PNG 仅作可选人工复核素材。详见 `CLAUDE.md`。
+> **数据流向**：`screenshots/` ──Phase2 轻量识别──▶ `screenshots-out/`（每张截图一个独立元素清单）──Phase3 评测──▶ `.artifacts/过程文件-评测结果与审计/` ──Phase4 证据──▶ `screenshots-out/evidence/` ──Phase5──▶ `reports/`。Phase3 只消费与当前截图对应且 `recognition.phase3Ready=true` 的清单；批量 `index.json` 不是事实源。详见 `CLAUDE.md`。
 
 ---
 
@@ -119,16 +119,14 @@ search-eval-project/
 | screens | ["1","2","3"] | 要评测的屏 |
 | skipScreenshot | true | true=用已有图评测；false=现场 ADB 截图 |
 | annotate | true | 默认先跑 Phase2；仅 `false` 显式跳过（标准工作流的元素级评测通常不应跳过） |
-| phase2Mode | lightweight | `lightweight` 仅输出统一元素清单 JSON；`full-annotation` 额外输出整页标注 PNG |
+| phase2Mode | lightweight | 兼容参数；当前生产路径只允许 `lightweight` |
 | granularity | element | 标准工作流固定 `element`，确保三维度共用统一事实源 |
-| imdLink | "" | 标注 IMD 设计稿链接（留空则对本地截图识别） |
-| annotateScenes | [] | 指定参与 Phase2 的截图绝对路径数组，空=使用本轮截图 |
 | projectDir | 必填，无默认值 | 项目根绝对路径；调用方必须显式传入 |
 | screenshotDir | projectDir/screenshots | phase1 截图目录 / phase2 输入目录 |
-| annotatedDir | projectDir/screenshots-out | phase2 标注产物（标注图 + 元素清单）输出目录，供 phase3 参考图文 |
+| annotatedDir | projectDir/screenshots-out | Phase2 每张截图独立元素清单的输出目录 |
 | reportDir | projectDir/reports | 报告目录 |
 | shotSkillDir | projectDir/phase1-screenshot | 截图 skill 目录 |
-| imdSkillDir | projectDir/phase2-card-annotation | phase2 标注 skill 目录（原 imd-card-annotation，已更名） |
+| imdSkillDir | projectDir/phase2-card-annotation | Phase2 轻量识别 skill 目录（参数名为历史兼容） |
 | issueEvidenceSkillDir | projectDir/phase4-issue-evidence | Phase4 问题证据 skill 目录 |
 | reportSkillDir | projectDir/phase5-report | Phase5 汇总 skill 目录 |
 | batchId | 单词运行 | 当前批次标识；批量治理报告必须显式传入 |
@@ -138,7 +136,7 @@ search-eval-project/
 - 现场截图 + 单维度评测：`{ "query": "库迪", "dimensions": ["phase3-card_or_component-eval"], "skipScreenshot": false }`
 - 只评测已有截图：`{ "query": "库迪", "skipScreenshot": true }`
 - 多维度组合：`{ "query": "库迪", "dimensions": ["phase3-card_or_component-eval","phase3-single_element-eval"] }`
-- 带标注：`{ "query": "库迪", "annotate": true }`
+- 显式执行 Phase2 本地识别：`{ "query": "库迪", "annotate": true }`（`annotate` 是历史兼容参数名）
 - 批量截图（不经工作流）：`bash phase1-screenshot/scripts/loop_screenshot.sh`
 
 ---
@@ -170,7 +168,7 @@ metadata: ...
 ## 工作流各 phase（5 步）
 
 1. **① 截图**：ADB 现场截图或复用已有图（9 张/词）。设备离线守卫，避免 0 字节覆盖。
-2. **② Phase2 轻量识别（默认）**：默认 `annotate=true`、`phase2Mode=lightweight`，从 `screenshots/` 产出统一元素清单及识别审计到 `screenshots-out/`；只有 `phase2Mode=full-annotation` 才额外生成整页标注 PNG。清单必须先通过 `validate_element_manifest.py`，才可进入评测。
+2. **② Phase2 轻量识别（默认）**：默认 `annotate=true`、`phase2Mode=lightweight`，对 `screenshots/` 中每张图分别产出一个元素清单及审计到 `screenshots-out/`。每个清单都必须通过整页门控和 `validate_element_manifest.py`，才可进入评测。
 3. **③ 评测**：先自动发现所选维度的全部 eval skill（读 frontmatter），再按清单及其结构化事实评测，每项按 `aggregate` 聚合到 Tab 级评级 + 加权分，并将原始结果和审计写入当前批次 `.artifacts/过程文件-评测结果与审计/<batch>/<query>/results/`。
 4. **④ 问题证据**：只消费已通过 Phase3 校验的待优化问题。`phase3-single_element-eval` 保留元素级判定与精确定位，但红框展示所属完整组件/商卡上下文，并回写 `evidenceTargetElementId`、`evidenceTargetCoord`；组件/卡片维度同样框选完整聚合区块。生成原尺寸整页红框图并回写 `evidenceImage` 后，以 `validate_eval_results.py --require-evidence` 再次验收。
 5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name`，确定性输出 `GOVERNANCE_DASHBOARD_V1` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务按搜索词或按指标浏览问题明细与证据。
@@ -189,16 +187,16 @@ metadata: ...
 
 ---
 
-## 统一元素口径（标注 → 评测 的关键机制）
+## 统一元素口径（识别 → 评测 的关键机制）
 
-同一张截图，不同评测 skill 若各自拆分元素，元素总数会不一致（曾出现 49/50/51/51 偏差），无法横向对比。本工作流通过「标注产出统一元素清单」解决：
+同一张截图，不同评测 skill 若各自拆分元素，元素总数会不一致。本工作流通过“每张截图一个 Phase2 元素清单”解决：
 
-1. **Phase2 轻量识别（默认）**产出一份页面元素清单 JSON（单一事实源）：`<annotatedDir>/elements_<query>[_<tag>].json`（默认 `screenshots-out/`），结构包含 `cards[].regions[].elements[]`、`pageFacts`、`pageFactInventory`、`relations`。每元素含 id/所属组件/元素类型/内容/坐标/`isExcluded`；全量标注 PNG 仅在 `phase2Mode=full-annotation` 时额外生成。
-2. 每次新产出、复用或修订清单都必须通过 `validate_element_manifest.py` 与对应 audit/recognition-audit；未通过即阻断 Phase3。
+1. **Phase2 轻量识别（默认）**对每张截图产出独立页面元素清单：`<annotatedDir>/elements_<截图文件名>.json`。结构包含 `cards[].regions[].elements[]`、`recognition`、`pageFacts`、`pageFactInventory`、`relations`；多图不得合并进一个 JSON。
+2. 每个清单每次新建、复用或修订后都必须通过 `validate_element_manifest.py` 与对应 audit；任一截图未通过即按整页阻断，不能把该截图送入 Phase3。
 3. **评测 phase** 把清单路径 + 确定性计数脚本注入每个评测 agent prompt。单元素项的 `overview.total` 必须等于脚本输出；组件/页面项按各 Skill 的 `aggregate` 聚合，并保留 `evidence.sourceManifestTotal` 追溯，禁止人工重拆事实对象。
 4. `isExcluded=true` 的元素（商家头图/营销大图/金刚 icon 等）不计入元素总数也不评测；`uncertain` 事实不能被当作 UI 缺失、错字或违规依据。
 
-> **复用已有清单**：Phase2 启动前会先用 `validate_element_manifest.py` 审核 `elements_<query>[_<tag>].json` 及识别审计；仅确定性校验通过才复用。首次、文件失效或事实契约缺失时必须重新识别，旧产物保留供审计。
+> **复用已有清单**：Phase2 按截图逐一审核对应 `elements_<截图文件名>.json`；仅确定性校验通过才复用。批量 `index.json` 只能帮助定位文件，不能替代任何单图清单。
 
 ---
 
@@ -219,11 +217,11 @@ metadata: ...
 
 ## 模型选择
 
-工作流各子 agent 的模型分配以 `workflow/meituan_eval_workflow.js` 中的 `SUBAGENT_MODEL` 为唯一事实源。全流程依赖读图（截图识别、标注、证据比对），因此必须是具备识图能力的**多模态模型**；`SUBAGENT_MODEL` 内置白名单校验，非多模态模型会直接报错拒绝执行。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
+工作流将 Phase2 与后续阶段严格隔离：Phase2 只运行本地 CV/OCR 脚本，不使用模型补读或改写 manifest；同一个 phase2345 子 agent 在 Phase3/4 还需要按各 Skill 核对截图和问题证据，因此该 agent 的 `SUBAGENT_MODEL` 仍必须具备多模态能力。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
 
 | agent | 模型（默认/可选） | 原因 |
 |------|------|------|
-| 截图、标注、发现、评测、报告、检查 | 默认 `claude-sonnet-5`；可选 `vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra` | 全流程统一多模态模型，避免不同阶段因模型差异产生口径漂移；确定性校验仍由项目内 Python/JS 脚本执行。`glm-5.2`/DeepSeek 系列等非多模态模型不在白名单内，禁止用于本工作流。 |
+| 截图、Phase3/4 核图、报告与检查 | 默认 `claude-sonnet-5`；可选 `vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra` | 合并 agent 的后续阶段需要多模态；Phase2 在同一 agent 内仍只能调用本地脚本。确定性校验由项目内 Python/JS 脚本执行。`glm-5.2`/DeepSeek 系列等非多模态模型不在白名单内。 |
 
 > 若需调整模型，只修改 `workflow/meituan_eval_workflow.js` 的 `SUBAGENT_MODEL`（或传入 `args.model`），并同步更新本节；新模型必须先加入 `MULTIMODAL_MODEL_WHITELIST` 才能生效。不要按历史 Sonnet/Opus 分配表单独指定某个阶段。
 
@@ -267,19 +265,19 @@ A: macOS 没有 timeout 命令。本项目脚本不依赖它，别在循环里�
 A: 该维度 `eval-skills/` 下没有 `eval-*` 子目录，或 SKILL.md frontmatter 缺 `title/weight/aggregate`。按上文约定补齐。
 
 **Q: 不同评测 skill 报的元素总数对不上（如色彩 14、规范 12）**
-A: 各 skill 自行拆元素导致的口径漂移。解决：先开标注（`annotate=true`）产出统一元素清单，评测 phase 会把清单路径 + 确定性计数脚本注入每个 agent，要求 `overview.total` 必须等于脚本输出。详见上文「统一元素口径」。
+A: 各 skill 自行拆元素导致口径漂移。解决：执行 Phase2（`annotate=true`），为每张截图产出独立清单；评测 phase 按截图注入对应清单并用确定性脚本计数，禁止人工重拆。
 
 **Q: 某个评测 skill 只有「优秀/不达标」两档，工作流报「缺达标键」**
 A: 二档制 skill 合法，frontmatter `weight` 写 `{ "优秀": 1, "不达标": -1 }` 即可，「达标」键可省略；工作流发现脚本用 `.get("达标",0)` 兜底，schema 已把「达标」设为可选。不要硬凑三档。
 
 **Q: Phase2 识别一直很慢 / 根本没动 / 卡死**
-A: 几个可能：① 识别输出长或读图范围过大导致上下文/流式响应异常；当前工作流统一使用多模态模型（默认 `claude-sonnet-5`），模型设置以 `workflow/meituan_eval_workflow.js` 的 `SUBAGENT_MODEL` 为准。② 上次已产出 `elements_<query>[_<tag>].json`，但其 manifest 或 recognition-audit 未通过确定性校验，因而不能复用；③ 识别 agent 读了原图（2MB）+ scan 全量输出导致上下文爆炸 → scan 输出重定向到过程文件、只读 `sm_` 缩放图、规则分段读。
+A: 先检查本地 Tesseract、长图双版面 OCR 和有界价格复读是否仍在运行。Phase2 不依赖模型读图；PaddleOCR 默认关闭且线程数默认限制为 2。已有单图清单若 `phase3Ready=false` 或 manifest 校验失败会被阻断，必须按 `reprocessTargets` 对失败卡/失败行重跑。
 
 **Q: 评测 agent 计数还是不对（49/50/51）**
 A: 评测 agent 读清单后仍自己数。工作流已注入确定性 python 计数脚本，要求 `overview.total` 必须等于脚本输出，禁止人工推导。若仍错，检查 agent 是否真跑了脚本而非自行计数。
 
 **Q: 检查脚本输出 `EXISTS=0`，但文件明明存在**
-A: python 的 `os.path.expanduser("$HOME/...")` **不展开 shell 变量**，只展开 `~`。工作流已改为 shell 侧 `P=$(echo "${elementListFile}")` 先展开 `$HOME` 再传给 python argv。自己写脚本时同理：要么传 `~/` 让 expanduser 处理，要么在 shell 侧展开后传绝对路径。
+A: python 的 `os.path.expanduser("$HOME/...")` **不展开 shell 变量**，只展开 `~`。工作流传入的 `phase2Outputs[].manifest` 必须已经是绝对路径；自己写脚本时应传绝对路径，或使用 `~/` 让 `expanduser` 处理。
 
 **Q: 报告里出现「AI 初步建议，待人工确认」徽标**
 A: 该评测项 frontmatter `extra` 字段非空。用户已排除需人工审查的评测，若不想要此徽标，把 `extra` 留空。

@@ -64,7 +64,7 @@ metadata:
 
 - **规范依据（必读）**：`references/设计规范速查.md`（规范全量速查）；需要 CSS 级精确渐变/描边/阴影时读 `references/商卡分区规范清单.xlsx` 的「组件源样式字典」sheet。**判定前务必先加载规范速查，不要凭记忆判合规。**
 - **输入来源**：支持两种——(a) 用户提供**本地整页/整卡截图**（PNG/JPG，可能已用红框圈出待评元素）；(b) 用户提供 **`imd.sankuai.com` 设计稿链接**（可用 window.mg 直接读节点的字号/字重/颜色/底图，比截图更精确）。
-- **元素识别 / 分区定位依赖 `phase2-card-annotation` skill**：其《页面与商卡识别规则》能识别并区分头图区/标题区/基础信息区/标签区/价格区/评分新店区/下挂区等分区，以及商家图片、营销元素、金刚图标、标签。本 skill 复用它来判定「元素属于哪张卡的哪个分区」（分区定位是本指标的关键），并用其脚本导出 IMD 高清底图、定位元素坐标。若未安装，则由 AI 依据规范速查里的分区描述人工判定归属。
+- **元素识别 / 分区定位只消费对应截图的 Phase2 manifest**：卡型、分区、图片/营销/金刚/标签归属和元素坐标均来自该单图 JSON。manifest 缺失、未通过整页门控或事实不确定时回退 Phase2；禁止调用历史 IMD/SceneSpec 工具重新定位，也禁止 AI 人工补判归属。
 - **IMD 精确取值（强烈推荐用于设计稿链接）**：通过 `catdesk-browser` 完成内网登录态后，用 `window.mg` 读取目标节点的 `textStyles`（字号/字重/字体/字色）、`fills`（含渐变 `gradientStops`/`gradientHandlePositions` → CSS 角度与停止位）、`strokes`+`strokeWeight`、`effects`、`cornerRadius`。字号需按 @2x→@1x 换算（px÷2=pt）。
 - **辅助工具**：图片读取/放大工具（image_read）用于看清字号、字色、底色、描边（看不清必须放大再判，见 Gotchas）。
 
