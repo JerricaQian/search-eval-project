@@ -1,0 +1,1161 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "生日蛋糕",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为生日蛋糕.png",
+    "sha256": "55f8e26bdae68da7b3f0ce3e95e95c49927c03cd5397176cf91d67fa0a1a880a",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "business_operation_card",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        64,
+        969,
+        1128,
+        316
+      ],
+      "variant": "with_tabs",
+      "tabs": [
+        {
+          "id": "M4-T1",
+          "text": "款式",
+          "selected": true,
+          "panelId": "M4-P1",
+          "bounds": [
+            64,
+            969,
+            128,
+            56
+          ]
+        },
+        {
+          "id": "M4-T2",
+          "text": "用途",
+          "selected": false,
+          "panelId": "M4-P2",
+          "bounds": [
+            213,
+            969,
+            128,
+            56
+          ]
+        }
+      ],
+      "panels": [
+        {
+          "id": "M4-P1",
+          "itemIds": [
+            "M4-I1",
+            "M4-I2",
+            "M4-I3",
+            "M4-I4",
+            "M4-I5",
+            "M4-I6"
+          ]
+        },
+        {
+          "id": "M4-P2",
+          "itemIds": []
+        }
+      ]
+    },
+    "M5": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M6": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1513,
+        1224,
+        1187
+      ],
+      "cardIds": [
+        "C1",
+        "C2"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1513,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2176,
+        1224,
+        524
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1513,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        1513,
+        766,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1582,
+        966,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "fulfillment": [
+          "C1-E005",
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1726,
+        997,
+        385
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1726,
+            264,
+            382
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E007"
+            ],
+            "title": [
+              "C1-E008"
+            ],
+            "price": [
+              "C1-E009"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1726,
+            264,
+            385
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E010"
+            ],
+            "title": [
+              "C1-E011"
+            ],
+            "price": [
+              "C1-E012"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1726,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E013"
+            ],
+            "title": [
+              "C1-E014"
+            ],
+            "price": [
+              "C1-E015"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1726,
+            166,
+            382
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E016"
+            ],
+            "title": [
+              "C1-E017"
+            ],
+            "price": [
+              "C1-E018"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2176,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        234,
+        2176,
+        948,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2246,
+        966,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "price": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        550,
+        2311,
+        590,
+        43
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        2389,
+        997,
+        311
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            2389,
+            264,
+            311
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E009"
+            ],
+            "title": [
+              "C2-E010"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            2389,
+            264,
+            311
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E011"
+            ],
+            "title": [
+              "C2-E012"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            2389,
+            264,
+            310
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E013"
+            ],
+            "title": [
+              "C2-E014"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            2389,
+            166,
+            311
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E015"
+            ],
+            "title": [
+              "C2-E016"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {
+    "M4-I1": {
+      "bounds": [
+        64,
+        1042,
+        178,
+        243
+      ],
+      "slots": {
+        "media": [
+          "M4-I1-E1"
+        ],
+        "label": [
+          "M4-I1-E2"
+        ]
+      }
+    },
+    "M4-I2": {
+      "bounds": [
+        256,
+        1042,
+        178,
+        243
+      ],
+      "slots": {
+        "media": [
+          "M4-I2-E1"
+        ],
+        "label": [
+          "M4-I2-E2"
+        ]
+      }
+    },
+    "M4-I3": {
+      "bounds": [
+        448,
+        1042,
+        178,
+        243
+      ],
+      "slots": {
+        "media": [
+          "M4-I3-E1"
+        ],
+        "label": [
+          "M4-I3-E2"
+        ]
+      }
+    },
+    "M4-I4": {
+      "bounds": [
+        640,
+        1042,
+        178,
+        243
+      ],
+      "slots": {
+        "media": [
+          "M4-I4-E1"
+        ],
+        "label": [
+          "M4-I4-E2"
+        ]
+      }
+    },
+    "M4-I5": {
+      "bounds": [
+        832,
+        1042,
+        178,
+        243
+      ],
+      "slots": {
+        "media": [
+          "M4-I5-E1"
+        ],
+        "label": [
+          "M4-I5-E2"
+        ]
+      }
+    },
+    "M4-I6": {
+      "bounds": [
+        1024,
+        1042,
+        168,
+        243
+      ],
+      "slots": {
+        "media": [
+          "M4-I6-E1"
+        ],
+        "label": [
+          "M4-I6-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1513,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        1515,
+        72,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#83771A"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        322,
+        1513,
+        676,
+        50
+      ],
+      "text": "Foko法式蛋糕（动物奶油.生日蛋",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1582,
+        102,
+        47
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        341,
+        1582,
+        484,
+        47
+      ],
+      "text": "月售400+起送¥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1583,
+        111,
+        42
+      ],
+      "text": "3.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6C6C6C"
+      }
+    },
+    "C1-E007": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1726,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2006,
+        235,
+        44
+      ],
+      "text": "『心之所愿』法",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2067,
+        102,
+        41
+      ],
+      "text": "¥282",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E010": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1726,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2006,
+        224,
+        42
+      ],
+      "text": "“玫瑰之心”I",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2065,
+        187,
+        46
+      ],
+      "text": "¥85新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE402E"
+      }
+    },
+    "C1-E013": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1726,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2008,
+        235,
+        40
+      ],
+      "text": "“幸运星”表",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2066,
+        199,
+        44
+      ],
+      "text": "¥113新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE4433"
+      }
+    },
+    "C1-E016": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1726,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2005,
+        166,
+        45
+      ],
+      "text": "“旋梦蝶礼...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2067,
+        98,
+        41
+      ],
+      "text": "¥143...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2176,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        234,
+        2179,
+        70,
+        40
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE761B",
+        "textColor": "#FDBA86"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        322,
+        2176,
+        860,
+        50
+      ],
+      "text": "维尔纳斯·生日蛋糕动物奶油冰淇淋蛋糕（",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2246,
+        102,
+        47
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        336,
+        2246,
+        548,
+        47
+      ],
+      "text": "604条人均¥95面包蛋糕望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2248,
+        111,
+        40
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        1018,
+        2311,
+        122,
+        43
+      ],
+      "text": "可配送",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        550,
+        2316,
+        451,
+        38
+      ],
+      "text": "望京面包甜点好评榜第5名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C2-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        2389,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        230,
+        2673,
+        259,
+        27
+      ],
+      "text": "【蛋糕】4英寸冷",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E011": {
+      "kind": "media",
+      "bounds": [
+        504,
+        2389,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        509,
+        2671,
+        257,
+        29
+      ],
+      "text": "【山涧茉莉】6英",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E013": {
+      "kind": "media",
+      "bounds": [
+        781,
+        2389,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        784,
+        2672,
+        229,
+        27
+      ],
+      "text": "【生日蛋糕】明",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E015": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        2389,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        1061,
+        2672,
+        163,
+        28
+      ],
+      "text": "【纵享丝滑...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "生日蛋糕",
+      "visual": {
+        "backgroundColor": "#D4E7F2",
+        "textColor": "#F1F1F2"
+      }
+    },
+    "M4-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        64,
+        1042,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M4-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        64,
+        1230,
+        178,
+        55
+      ],
+      "text": "动物奶油",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#2A2A2A"
+      }
+    },
+    "M4-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        256,
+        1042,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M4-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        256,
+        1230,
+        178,
+        55
+      ],
+      "text": "提拉米苏",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#232323"
+      }
+    },
+    "M4-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        448,
+        1042,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M4-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        448,
+        1230,
+        178,
+        55
+      ],
+      "text": "慕斯蛋糕",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#333333"
+      }
+    },
+    "M4-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        640,
+        1042,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M4-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        640,
+        1230,
+        178,
+        55
+      ],
+      "text": "草莓蛋糕",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#303030"
+      }
+    },
+    "M4-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        832,
+        1042,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M4-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        832,
+        1230,
+        178,
+        55
+      ],
+      "text": "榴莲千层",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1F1F1F"
+      }
+    },
+    "M4-I6-E1": {
+      "kind": "media",
+      "bounds": [
+        1024,
+        1042,
+        168,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M4-I6-E2": {
+      "kind": "text",
+      "bounds": [
+        1024,
+        1230,
+        168,
+        55
+      ],
+      "text": "水果蛋糕",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#333333"
+      }
+    }
+  }
+}

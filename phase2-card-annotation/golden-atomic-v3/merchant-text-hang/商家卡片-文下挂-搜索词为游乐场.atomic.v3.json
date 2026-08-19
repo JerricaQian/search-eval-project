@@ -1,0 +1,1798 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "游乐场",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为游乐场.png",
+    "sha256": "ca73bc04bffb4ae3ea214afaa26e7ca3531f5135a315b67a3a4e3e5cbf314f65",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        765,
+        1224,
+        1935
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        765,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1175,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1585,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1995,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    },
+    "C5": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2405,
+        1224,
+        295
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03",
+        "C5-R04",
+        "C5-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        765,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        316,
+        765,
+        877,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        834,
+        884,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "price": [
+          "C1-E005"
+        ],
+        "fulfillment": [
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        898,
+        767,
+        46
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        980,
+        885,
+        116
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            980,
+            882,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E009"
+            ],
+            "price": [
+              "C1-E010"
+            ],
+            "promotion_tag": [
+              "C1-E011"
+            ],
+            "sales": [
+              "C1-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            308,
+            1051,
+            885,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E013"
+            ],
+            "price": [
+              "C1-E014"
+            ],
+            "promotion_tag": [
+              "C1-E015"
+            ],
+            "sales": [
+              "C1-E016"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1175,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1175,
+        836,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        1242,
+        884,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "price": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        1306,
+        637,
+        129
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008",
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        1385,
+        886,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            308,
+            1385,
+            885,
+            50
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ],
+            "promotion_tag": [
+              "C2-E012"
+            ],
+            "sales": [
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            313,
+            1459,
+            881,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E014"
+            ],
+            "price": [
+              "C2-E015"
+            ],
+            "promotion_tag": [
+              "C2-E016"
+            ],
+            "sales": [
+              "C2-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1585,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1585,
+        741,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        1653,
+        885,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "price": [
+          "C3-E005"
+        ],
+        "fulfillment": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        1720,
+        569,
+        121
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        1799,
+        883,
+        116
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1799,
+            882,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E009"
+            ],
+            "price": [
+              "C3-E010"
+            ],
+            "sales": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            1869,
+            883,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E012"
+            ],
+            "price": [
+              "C3-E013"
+            ],
+            "promotion_tag": [
+              "C3-E014"
+            ],
+            "sales": [
+              "C3-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1995,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1995,
+        875,
+        48
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        305,
+        2060,
+        888,
+        55
+      ],
+      "slots": {
+        "price": [
+          "C4-E004"
+        ],
+        "fulfillment": [
+          "C4-E005"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        2132,
+        272,
+        40
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        2210,
+        883,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            2210,
+            881,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E007",
+              "C4-E008"
+            ],
+            "price": [
+              "C4-E009"
+            ],
+            "promotion_tag": [
+              "C4-E010"
+            ],
+            "sales": [
+              "C4-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            2280,
+            883,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E012"
+            ],
+            "price": [
+              "C4-E013"
+            ],
+            "promotion_tag": [
+              "C4-E014"
+            ],
+            "sales": [
+              "C4-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2405,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        2405,
+        426,
+        45
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C5-E002"
+        ],
+        "title": [
+          "C5-E003"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        2474,
+        883,
+        43
+      ],
+      "slots": {
+        "rating": [
+          "C5-E004"
+        ],
+        "other": [
+          "C5-E005",
+          "C5-E006"
+        ],
+        "fulfillment": [
+          "C5-E007"
+        ]
+      }
+    },
+    "C5-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        2540,
+        457,
+        41
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C5-E008",
+          "C5-E009"
+        ]
+      }
+    },
+    "C5-R05": {
+      "name": "text_append",
+      "bounds": [
+        312,
+        2622,
+        880,
+        41
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            2622,
+            880,
+            41
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C5-E010"
+            ],
+            "price": [
+              "C5-E011"
+            ],
+            "sales": [
+              "C5-E012"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        765,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        316,
+        769,
+        71,
+        37
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE751A",
+        "textColor": "#FDBF90"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        405,
+        765,
+        788,
+        51
+      ],
+      "text": "奈尔宝·儿童乐园·亲子餐厅（北京东坝",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        834,
+        104,
+        43
+      ],
+      "text": "3.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        423,
+        836,
+        569,
+        45
+      ],
+      "text": "1.2万条￥190/人儿童乐园东坝",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        839,
+        112,
+        38
+      ],
+      "text": "7.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        898,
+        188,
+        44
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        504,
+        902,
+        571,
+        42
+      ],
+      "text": "朝阳区儿童乐园人气趋势榜第4名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        543,
+        983,
+        410,
+        40
+      ],
+      "text": "【儿童乐园】1大1小单次",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        311,
+        980,
+        97,
+        43
+      ],
+      "text": "¥190",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E011": {
+      "kind": "tag",
+      "bounds": [
+        419,
+        980,
+        89,
+        40
+      ],
+      "text": "4.3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        1017,
+        983,
+        176,
+        38
+      ],
+      "text": "年售1.4万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        519,
+        1054,
+        448,
+        39
+      ],
+      "text": "成人陪同票·周末节假日通",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1051,
+        81,
+        45
+      ],
+      "text": "¥53",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E015": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        1051,
+        87,
+        40
+      ],
+      "text": "5.3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF321E"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        1017,
+        1054,
+        176,
+        37
+      ],
+      "text": "年售3.9万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1175,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1176,
+        74,
+        42
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751B",
+        "textColor": "#FEBC8A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        1175,
+        745,
+        49
+      ],
+      "text": "嗨酷蹦床运动乐园·团建·轰趴·亲子",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1242,
+        105,
+        44
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        419,
+        1243,
+        449,
+        46
+      ],
+      "text": "4916条￥98/人儿童乐园",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        1248,
+        128,
+        38
+      ],
+      "text": "19.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1306,
+        311,
+        49
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3261"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1306,
+        308,
+        49
+      ],
+      "text": "22%顾客是回头客",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        1385,
+        185,
+        50
+      ],
+      "text": "￥941.3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        520,
+        1390,
+        371,
+        43
+      ],
+      "text": "【单人畅玩】-全天畅玩",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1385,
+        82,
+        50
+      ],
+      "text": "¥94",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E012": {
+      "kind": "tag",
+      "bounds": [
+        390,
+        1385,
+        103,
+        50
+      ],
+      "text": "1.3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3420"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        1393,
+        173,
+        37
+      ],
+      "text": "年售2000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        601,
+        1462,
+        328,
+        40
+      ],
+      "text": "【双人票】-全天畅玩",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        313,
+        1461,
+        155,
+        41
+      ],
+      "text": "¥179.54",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E016": {
+      "kind": "tag",
+      "bounds": [
+        476,
+        1459,
+        94,
+        43
+      ],
+      "text": "2.8折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF2E1A"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        1464,
+        174,
+        38
+      ],
+      "text": "年售4000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1585,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1587,
+        74,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBD8B"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        1585,
+        650,
+        49
+      ],
+      "text": "觉醒之秘·沉浸式探秘游戏基地",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1653,
+        104,
+        43
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        420,
+        1657,
+        468,
+        43
+      ],
+      "text": "1319条￥218/人儿童乐园",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1658,
+        111,
+        38
+      ],
+      "text": "6.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        1720,
+        569,
+        45
+      ],
+      "text": "朝阳区儿童乐园人气趋势榜第2名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        397,
+        1798,
+        92,
+        43
+      ],
+      "text": "4.2折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        519,
+        1799,
+        481,
+        45
+      ],
+      "text": "【含觉醒能量60】大小通用单",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1801,
+        77,
+        42
+      ],
+      "text": "¥83",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        1038,
+        1803,
+        154,
+        37
+      ],
+      "text": "年售500+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        539,
+        1869,
+        424,
+        46
+      ],
+      "text": "【含觉醒能量120】大小通",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1871,
+        97,
+        44
+      ],
+      "text": "¥150",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E014": {
+      "kind": "tag",
+      "bounds": [
+        419,
+        1871,
+        89,
+        40
+      ],
+      "text": "4.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        1874,
+        173,
+        37
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1995,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1997,
+        74,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBD8B"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        1995,
+        784,
+        48
+      ],
+      "text": "疯狂冒险家-亲子密室-东坝店（金隅嘉",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        305,
+        2060,
+        664,
+        55
+      ],
+      "text": "4.6分905条￥104/人儿童乐园东坝",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7F554A"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2068,
+        111,
+        39
+      ],
+      "text": "8.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C4-E006": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        2132,
+        272,
+        40
+      ],
+      "text": "近期好评率98%",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        542,
+        2213,
+        303,
+        40
+      ],
+      "text": "【游乐场】2大1小",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        878,
+        2213,
+        101,
+        40
+      ],
+      "text": "周末节",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        312,
+        2212,
+        96,
+        40
+      ],
+      "text": "¥130",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E010": {
+      "kind": "tag",
+      "bounds": [
+        419,
+        2210,
+        89,
+        40
+      ],
+      "text": "6.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        1040,
+        2213,
+        153,
+        38
+      ],
+      "text": "年售900+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        525,
+        2283,
+        457,
+        40
+      ],
+      "text": "【室内游乐场】10分钟格子|",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2280,
+        107,
+        45
+      ],
+      "text": "¥14.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E014": {
+      "kind": "tag",
+      "bounds": [
+        430,
+        2281,
+        61,
+        40
+      ],
+      "text": "5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C4-E015": {
+      "kind": "text",
+      "bounds": [
+        1037,
+        2281,
+        156,
+        44
+      ],
+      "text": "年售400+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2405,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        2408,
+        71,
+        40
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#208DF9",
+        "textColor": "#9FD0F8"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        409,
+        2405,
+        334,
+        45
+      ],
+      "text": "北京环球度假区",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2474,
+        93,
+        42
+      ],
+      "text": "4.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C5-E005": {
+      "kind": "text",
+      "bounds": [
+        419,
+        2479,
+        159,
+        36
+      ],
+      "text": "14.8万条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C5-E006": {
+      "kind": "text",
+      "bounds": [
+        561,
+        2478,
+        185,
+        39
+      ],
+      "text": "梨园商圈",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C5-E007": {
+      "kind": "text",
+      "bounds": [
+        1059,
+        2475,
+        134,
+        42
+      ],
+      "text": "23.7km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#434343"
+      }
+    },
+    "C5-E008": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        2540,
+        114,
+        40
+      ],
+      "text": "必玩榜",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595940"
+      }
+    },
+    "C5-E009": {
+      "kind": "tag",
+      "bounds": [
+        430,
+        2542,
+        338,
+        39
+      ],
+      "text": "大型游乐场小火车",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C5-E010": {
+      "kind": "text",
+      "bounds": [
+        431,
+        2622,
+        493,
+        41
+      ],
+      "text": "【标准(成人)票】北京环球影城",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E011": {
+      "kind": "text",
+      "bounds": [
+        312,
+        2622,
+        101,
+        41
+      ],
+      "text": "¥548",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C5-E012": {
+      "kind": "text",
+      "bounds": [
+        978,
+        2624,
+        214,
+        35
+      ],
+      "text": "已售213.4万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    }
+  }
+}

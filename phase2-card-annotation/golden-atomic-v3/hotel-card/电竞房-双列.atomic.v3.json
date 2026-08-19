@@ -1,0 +1,1476 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "电竞房",
+    "screenshot": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-双列-搜索词为电竞房.png",
+    "sha256": "402a97ca14180bf78918e70fcf72d9181aec05e622d021e60de43573a5cfa256",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        120,
+        1224,
+        131
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        267,
+        1224,
+        109
+      ]
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        384,
+        1224,
+        106
+      ]
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        17,
+        508,
+        1190,
+        2192
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        17,
+        508,
+        595,
+        820
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06"
+      ]
+    },
+    "C2": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        612,
+        508,
+        595,
+        820
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06"
+      ]
+    },
+    "C3": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        17,
+        1354,
+        595,
+        820
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        612,
+        1354,
+        595,
+        820
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05",
+        "C4-R06"
+      ]
+    },
+    "C5": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        17,
+        2200,
+        595,
+        500
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02"
+      ]
+    },
+    "C6": {
+      "cardType": "heterogeneous",
+      "variant": "standard",
+      "bounds": [
+        612,
+        2200,
+        595,
+        500
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C6-R01"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        515,
+        565,
+        411
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "location",
+      "bounds": [
+        68,
+        889,
+        170,
+        42
+      ],
+      "slots": {
+        "location": [
+          "C1-E002",
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "title",
+      "bounds": [
+        39,
+        971,
+        440,
+        57
+      ],
+      "slots": {
+        "title": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "base_info",
+      "bounds": [
+        41,
+        1049,
+        411,
+        109
+      ],
+      "slots": {
+        "room_area": [
+          "C1-E005"
+        ],
+        "guest_count": [
+          "C1-E006"
+        ],
+        "bed_type": [
+          "C1-E007"
+        ],
+        "other": [
+          "C1-E008",
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "price",
+      "bounds": [
+        36,
+        1168,
+        352,
+        84
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C1-E010",
+          "C1-E011"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "rating_and_reason",
+      "bounds": [
+        58,
+        1270,
+        451,
+        50
+      ],
+      "slots": {
+        "rating": [
+          "C1-E012"
+        ],
+        "title": [
+          "C1-E013"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        627,
+        515,
+        565,
+        411
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "location",
+      "bounds": [
+        658,
+        890,
+        195,
+        42
+      ],
+      "slots": {
+        "location": [
+          "C2-E002",
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "title",
+      "bounds": [
+        630,
+        973,
+        341,
+        56
+      ],
+      "slots": {
+        "title": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "base_info",
+      "bounds": [
+        631,
+        1048,
+        410,
+        110
+      ],
+      "slots": {
+        "room_area": [
+          "C2-E005"
+        ],
+        "guest_count": [
+          "C2-E006"
+        ],
+        "window_type": [
+          "C2-E007"
+        ],
+        "other": [
+          "C2-E008",
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "price",
+      "bounds": [
+        628,
+        1176,
+        321,
+        68
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C2-E010",
+          "C2-E011"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "rating_and_reason",
+      "bounds": [
+        650,
+        1272,
+        512,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C2-E012"
+        ],
+        "title": [
+          "C2-E013"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1361,
+        565,
+        411
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "location",
+      "bounds": [
+        69,
+        1742,
+        299,
+        36
+      ],
+      "slots": {
+        "location": [
+          "C3-E002",
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "title",
+      "bounds": [
+        41,
+        1820,
+        534,
+        58
+      ],
+      "slots": {
+        "title": [
+          "C3-E004",
+          "C3-E005"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "base_info",
+      "bounds": [
+        42,
+        1898,
+        519,
+        105
+      ],
+      "slots": {
+        "room_area": [
+          "C3-E006"
+        ],
+        "guest_count": [
+          "C3-E007"
+        ],
+        "bed_type": [
+          "C3-E008"
+        ],
+        "window_type": [
+          "C3-E009"
+        ],
+        "other": [
+          "C3-E010",
+          "C3-E011",
+          "C3-E012"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "price",
+      "bounds": [
+        32,
+        2012,
+        383,
+        94
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C3-E013",
+          "C3-E014"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "rating_and_reason",
+      "bounds": [
+        58,
+        2118,
+        513,
+        50
+      ],
+      "slots": {
+        "rating": [
+          "C3-E015"
+        ],
+        "title": [
+          "C3-E016"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        627,
+        1361,
+        565,
+        411
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "location",
+      "bounds": [
+        660,
+        1740,
+        192,
+        40
+      ],
+      "slots": {
+        "location": [
+          "C4-E002",
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "title",
+      "bounds": [
+        630,
+        1824,
+        523,
+        56
+      ],
+      "slots": {
+        "title": [
+          "C4-E004"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "base_info",
+      "bounds": [
+        632,
+        1904,
+        228,
+        44
+      ],
+      "slots": {
+        "room_type": [
+          "C4-E005"
+        ],
+        "guest_count": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "price",
+      "bounds": [
+        654,
+        1972,
+        331,
+        60
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R06": {
+      "name": "rating_and_reason",
+      "bounds": [
+        650,
+        2064,
+        511,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C4-E009"
+        ],
+        "title": [
+          "C4-E010"
+        ]
+      }
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2207,
+        565,
+        411
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "location",
+      "bounds": [
+        70,
+        2590,
+        298,
+        39
+      ],
+      "slots": {
+        "location": [
+          "C5-E002",
+          "C5-E003"
+        ]
+      }
+    },
+    "C6-R01": {
+      "name": "recommendation",
+      "bounds": [
+        656,
+        2200,
+        350,
+        492
+      ],
+      "slots": {
+        "recommendation": [
+          "C6-E001",
+          "C6-E002",
+          "C6-E003",
+          "C6-E004",
+          "C6-E005"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        515,
+        565,
+        411
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        68,
+        892,
+        72,
+        36
+      ],
+      "text": "2km",
+      "visual": {
+        "backgroundColor": "#5B4D3E",
+        "textColor": "#87643A"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        160,
+        889,
+        78,
+        42
+      ],
+      "text": "望京",
+      "visual": {
+        "backgroundColor": "#593B28",
+        "textColor": "#806342"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        39,
+        971,
+        440,
+        57
+      ],
+      "text": "特惠双人电竞兄弟房",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        41,
+        1049,
+        186,
+        50
+      ],
+      "text": "15-25m²",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        253,
+        1049,
+        53,
+        50
+      ],
+      "text": "2人",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#818181"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        333,
+        1049,
+        53,
+        50
+      ],
+      "text": "双床",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        45,
+        1106,
+        112,
+        52
+      ],
+      "text": "2台",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8B8B8B"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        216,
+        1112,
+        236,
+        42
+      ],
+      "text": "240Hz及以上",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        36,
+        1168,
+        200,
+        84
+      ],
+      "text": "¥412起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        237,
+        1196,
+        151,
+        42
+      ],
+      "text": "已售500+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        58,
+        1270,
+        106,
+        50
+      ],
+      "text": "4.9分",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        175,
+        1272,
+        334,
+        45
+      ],
+      "text": "6号青橙电竞主题酒店…",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#616161"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        627,
+        515,
+        565,
+        411
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        658,
+        894,
+        98,
+        34
+      ],
+      "text": "2.7km",
+      "visual": {
+        "backgroundColor": "#095994",
+        "textColor": "#2B3C59"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        776,
+        890,
+        77,
+        42
+      ],
+      "text": "望京",
+      "visual": {
+        "backgroundColor": "#2B5794",
+        "textColor": "#9484B1"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        630,
+        973,
+        341,
+        56
+      ],
+      "text": "至臻职业双床房",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        631,
+        1048,
+        186,
+        51
+      ],
+      "text": "15-20m²",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        843,
+        1048,
+        53,
+        51
+      ],
+      "text": "2人",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#818181"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        923,
+        1048,
+        53,
+        51
+      ],
+      "text": "有窗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        634,
+        1108,
+        110,
+        50
+      ],
+      "text": "2台",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8B8B8B"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        809,
+        1114,
+        232,
+        40
+      ],
+      "text": "240Hz及以上",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        628,
+        1176,
+        196,
+        68
+      ],
+      "text": "¥526起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        837,
+        1198,
+        112,
+        40
+      ],
+      "text": "已售85",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        650,
+        1274,
+        103,
+        43
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        768,
+        1272,
+        394,
+        44
+      ],
+      "text": "北京朋宜多电竞主题…",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1361,
+        565,
+        411
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        69,
+        1743,
+        96,
+        34
+      ],
+      "text": "4.2km",
+      "visual": {
+        "backgroundColor": "#252238",
+        "textColor": "#1A1618"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        190,
+        1742,
+        178,
+        36
+      ],
+      "text": "酒仙桥/798",
+      "visual": {
+        "backgroundColor": "#6A5C50",
+        "textColor": "#79736C"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        41,
+        1820,
+        194,
+        58
+      ],
+      "text": "畅游电竞",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        284,
+        1820,
+        291,
+        58
+      ],
+      "text": "轻奢电竞大床",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        42,
+        1898,
+        119,
+        50
+      ],
+      "text": "15m²",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#858585"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        190,
+        1898,
+        60,
+        50
+      ],
+      "text": "2人",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8A8A8A"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        280,
+        1898,
+        59,
+        50
+      ],
+      "text": "大床",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#858585"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        369,
+        1898,
+        59,
+        50
+      ],
+      "text": "有窗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        87,
+        1961,
+        66,
+        42
+      ],
+      "text": "2台",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        266,
+        1965,
+        109,
+        35
+      ],
+      "text": "12400",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        445,
+        1964,
+        116,
+        38
+      ],
+      "text": "144Hz",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        32,
+        2012,
+        215,
+        94
+      ],
+      "text": "¥354起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        245,
+        2044,
+        170,
+        46
+      ],
+      "text": "已售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        58,
+        2118,
+        108,
+        50
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        175,
+        2122,
+        396,
+        44
+      ],
+      "text": "JING·电竞酒店（北京…）",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#5E5E5E"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        627,
+        1361,
+        565,
+        411
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        660,
+        1743,
+        94,
+        34
+      ],
+      "text": "1.6km",
+      "visual": {
+        "backgroundColor": "#4D463E",
+        "textColor": "#65666B"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        776,
+        1740,
+        76,
+        40
+      ],
+      "text": "望京",
+      "visual": {
+        "backgroundColor": "#473D32",
+        "textColor": "#656055"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        630,
+        1824,
+        523,
+        56
+      ],
+      "text": "可长租4070显卡PS5…",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        632,
+        1904,
+        130,
+        44
+      ],
+      "text": "整套1室",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8B8B8B"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        795,
+        1904,
+        65,
+        44
+      ],
+      "text": "2人",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#626262"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        654,
+        1972,
+        166,
+        60
+      ],
+      "text": "¥538起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        835,
+        1988,
+        150,
+        43
+      ],
+      "text": "已售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        650,
+        2064,
+        104,
+        45
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#FF5500"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        768,
+        2064,
+        393,
+        42
+      ],
+      "text": "望京麒麟社万客公寓…",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2207,
+        565,
+        411
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "text",
+      "bounds": [
+        70,
+        2593,
+        98,
+        33
+      ],
+      "text": "3.4km",
+      "visual": {
+        "backgroundColor": "#4D5569",
+        "textColor": "#696E81"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        189,
+        2590,
+        179,
+        39
+      ],
+      "text": "酒仙桥/798",
+      "visual": {
+        "backgroundColor": "#2A2F34",
+        "textColor": "#56493E"
+      }
+    },
+    "C6-E001": {
+      "kind": "text",
+      "bounds": [
+        656,
+        2200,
+        288,
+        42
+      ],
+      "text": "Q 大家还在搜",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "C6-E002": {
+      "kind": "text",
+      "bounds": [
+        806,
+        2298,
+        200,
+        49
+      ],
+      "text": "电竞房酒店",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C6-E003": {
+      "kind": "text",
+      "bounds": [
+        826,
+        2413,
+        161,
+        48
+      ],
+      "text": "电竞酒店",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6A6A6A"
+      }
+    },
+    "C6-E004": {
+      "kind": "text",
+      "bounds": [
+        825,
+        2530,
+        162,
+        46
+      ],
+      "text": "亲子酒店",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#515151"
+      }
+    },
+    "C6-E005": {
+      "kind": "text",
+      "bounds": [
+        864,
+        2644,
+        83,
+        48
+      ],
+      "text": "民宿",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5E5E5E"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        0,
+        120,
+        1224,
+        131
+      ],
+      "text": "电竞房",
+      "visual": {
+        "backgroundColor": "#FAFAFA",
+        "textColor": "#A03E3E"
+      }
+    }
+  }
+}

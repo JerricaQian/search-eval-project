@@ -425,6 +425,54 @@ def _near_row(box: Box, row: dict[str, Any]) -> bool:
     return box.y < row["y1"] and box.y + box.h > row["y0"]
 
 
+def _color_role_from_rgb(value: np.ndarray) -> str:
+    r, g, b = (int(channel) for channel in value)
+    if r > g * 1.25 and r > b * 1.25:
+        return "red" if g < r * 0.72 else "orange"
+    if b > r * 1.18 and b > g * 1.05:
+        return "blue"
+    if g > r * 1.15 and g > b * 1.08:
+        return "green"
+    if max(r, g, b) - min(r, g, b) < 38:
+        return "neutral"
+    return "multicolor"
+
+
+def _horizontal_foreground_segments(crop: np.ndarray, mask: np.ndarray) -> list[dict[str, Any]]:
+    """Measure independent horizontal visual groups inside one OCR line.
+
+    Small glyph gaps remain in one group. A UI-sized blank gap separates
+    sibling tags even when OCR flattened them into one text candidate.
+    """
+    if crop.size == 0 or mask.size == 0:
+        return []
+    height = crop.shape[0]
+    active = np.flatnonzero(mask.sum(axis=0) >= max(2, round(height * 0.08)))
+    if len(active) == 0:
+        return []
+    max_glyph_gap = max(10, round(height * 0.22))
+    groups: list[tuple[int, int]] = []
+    start = previous = int(active[0])
+    for column in active[1:]:
+        column = int(column)
+        if column - previous > max_glyph_gap:
+            groups.append((start, previous + 1))
+            start = column
+        previous = column
+    groups.append((start, previous + 1))
+    minimum_width = max(8, round(height * 0.32))
+    output = []
+    for start, end in groups:
+        if end - start < minimum_width:
+            continue
+        pixels = crop[:, start:end][mask[:, start:end]]
+        if len(pixels) < 3:
+            continue
+        median = np.median(pixels, axis=0)
+        output.append({"xOffset": start, "width": end - start, "medianRgb": [int(value) for value in median], "colorRole": _color_role_from_rgb(median)})
+    return output
+
+
 def _text_color_hint(rgb: np.ndarray, box: Box) -> dict[str, Any]:
     crop = rgb[box.y:box.y + box.h, box.x:box.x + box.w]
     if crop.size == 0:
@@ -433,21 +481,19 @@ def _text_color_hint(rgb: np.ndarray, box: Box) -> dict[str, Any]:
     surface_rgb = [int(value) for value in np.median(values, axis=0)]
     spread = values.max(axis=1) - values.min(axis=1)
     brightness = values.mean(axis=1)
-    foreground = values[(brightness < 185) | ((spread > 45) & (brightness < 235))]
+    foreground_mask = ((brightness < 185) | ((spread > 45) & (brightness < 235))).reshape(crop.shape[:2])
+    foreground = values[foreground_mask.reshape(-1)]
     if len(foreground) < max(3, len(values) // 120):
         return {"colorRole": "unknown", "surfaceMedianRgb": surface_rgb, "evidence": "insufficient_foreground_pixels"}
-    r, g, b = (int(value) for value in np.median(foreground, axis=0))
-    if r > g * 1.25 and r > b * 1.25:
-        role = "red" if g < r * 0.72 else "orange"
-    elif b > r * 1.18 and b > g * 1.05:
-        role = "blue"
-    elif g > r * 1.15 and g > b * 1.08:
-        role = "green"
-    elif max(r, g, b) - min(r, g, b) < 38:
-        role = "neutral"
-    else:
-        role = "multicolor"
-    return {"colorRole": role, "medianRgb": [r, g, b], "surfaceMedianRgb": surface_rgb, "evidence": "foreground_and_surface_pixel_median"}
+    median = np.median(foreground, axis=0)
+    r, g, b = (int(value) for value in median)
+    return {
+        "colorRole": _color_role_from_rgb(median),
+        "medianRgb": [r, g, b],
+        "surfaceMedianRgb": surface_rgb,
+        "horizontalForegroundSegments": _horizontal_foreground_segments(crop, foreground_mask),
+        "evidence": "foreground_surface_and_horizontal_segment_pixels",
+    }
 
 
 def _hex_rgb(value: Any) -> str:

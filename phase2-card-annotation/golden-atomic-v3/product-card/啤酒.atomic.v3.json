@@ -1,0 +1,1357 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "啤酒",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为啤酒.png",
+    "sha256": "05af188e02b1dedc1639c86d7120c48902b3fc28427586cf0625bb7a2b0c6f0a",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        64,
+        400,
+        1130,
+        317
+      ],
+      "variant": "with_tabs",
+      "tabs": [
+        {
+          "id": "M3-T1",
+          "text": "热门品类",
+          "selected": true,
+          "panelId": "M3-P1",
+          "bounds": [
+            64,
+            400,
+            130,
+            55
+          ]
+        },
+        {
+          "id": "M3-T2",
+          "text": "推荐品牌",
+          "selected": false,
+          "panelId": "M3-P2",
+          "bounds": [
+            214,
+            400,
+            130,
+            55
+          ]
+        }
+      ],
+      "panels": [
+        {
+          "id": "M3-P1",
+          "itemIds": [
+            "M3-I1",
+            "M3-I2",
+            "M3-I3",
+            "M3-I4",
+            "M3-I5",
+            "M3-I6"
+          ]
+        },
+        {
+          "id": "M3-P2",
+          "itemIds": []
+        }
+      ]
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "promotion_filter",
+      "visibility": "confirmed"
+    },
+    "M6": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1108,
+        1224,
+        1592
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1108,
+        1224,
+        478
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06",
+        "C1-R07"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1675,
+        1224,
+        474
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06",
+        "C2-R07"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2233,
+        1224,
+        467
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06",
+        "C3-R07"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1108,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        396,
+        1111,
+        691,
+        116
+      ],
+      "slots": {
+        "title": [
+          "C1-E002"
+        ],
+        "fulfillment_tag": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "price",
+      "bounds": [
+        388,
+        1340,
+        400,
+        60
+      ],
+      "slots": {
+        "price": [
+          "C1-E006",
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        392,
+        1416,
+        368,
+        44
+      ],
+      "slots": {
+        "promotion": [
+          "C1-E009",
+          "C1-E010"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        1482,
+        500,
+        44
+      ],
+      "slots": {
+        "merchant": [
+          "C1-E012"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        395,
+        1356,
+        798,
+        230
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E008",
+          "C1-E011",
+          "C1-E013",
+          "C1-E014"
+        ]
+      }
+    },
+    "C1-R07": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        1253,
+        634,
+        40
+      ],
+      "slots": {
+        "other": [
+          "C1-E004",
+          "C1-E005"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1685,
+        332,
+        318
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ],
+        "product_attribute_tag": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        391,
+        1675,
+        784,
+        124
+      ],
+      "slots": {
+        "title": [
+          "C2-E003"
+        ],
+        "fulfillment_tag": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "price",
+      "bounds": [
+        385,
+        1900,
+        499,
+        68
+      ],
+      "slots": {
+        "price": [
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        392,
+        1978,
+        538,
+        45
+      ],
+      "slots": {
+        "promotion": [
+          "C2-E009",
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "merchant",
+      "bounds": [
+        392,
+        2042,
+        506,
+        50
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E012"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        395,
+        1917,
+        799,
+        232
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E008",
+          "C2-E011",
+          "C2-E013",
+          "C2-E014"
+        ]
+      }
+    },
+    "C2-R07": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        1816,
+        539,
+        44
+      ],
+      "slots": {
+        "other": [
+          "C2-E005",
+          "C2-E006"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2247,
+        332,
+        319
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ],
+        "product_attribute_tag": [
+          "C3-E002"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        401,
+        2233,
+        691,
+        46
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E003"
+        ],
+        "title": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        387,
+        2395,
+        507,
+        64
+      ],
+      "slots": {
+        "price": [
+          "C3-E007"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        392,
+        2470,
+        538,
+        44
+      ],
+      "slots": {
+        "promotion": [
+          "C3-E009",
+          "C3-E010"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "merchant",
+      "bounds": [
+        393,
+        2535,
+        504,
+        46
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E012"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        396,
+        2409,
+        798,
+        236
+      ],
+      "slots": {
+        "fulfillment": [
+          "C3-E008",
+          "C3-E011",
+          "C3-E013",
+          "C3-E014"
+        ]
+      }
+    },
+    "C3-R07": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        2308,
+        538,
+        42
+      ],
+      "slots": {
+        "other": [
+          "C3-E005",
+          "C3-E006"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {
+    "M3-I1": {
+      "bounds": [
+        64,
+        481,
+        119,
+        227
+      ],
+      "slots": {
+        "media": [
+          "M3-I1-E1"
+        ],
+        "label": [
+          "M3-I1-E2"
+        ]
+      }
+    },
+    "M3-I2": {
+      "bounds": [
+        289,
+        498,
+        125,
+        219
+      ],
+      "slots": {
+        "media": [
+          "M3-I2-E1"
+        ],
+        "label": [
+          "M3-I2-E2"
+        ]
+      }
+    },
+    "M3-I3": {
+      "bounds": [
+        465,
+        500,
+        156,
+        209
+      ],
+      "slots": {
+        "media": [
+          "M3-I3-E1"
+        ],
+        "label": [
+          "M3-I3-E2"
+        ]
+      }
+    },
+    "M3-I4": {
+      "bounds": [
+        1081,
+        498,
+        64,
+        215
+      ],
+      "slots": {
+        "media": [
+          "M3-I4-E1"
+        ],
+        "label": [
+          "M3-I4-E2"
+        ]
+      }
+    },
+    "M3-I5": {
+      "bounds": [
+        832,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I5-E1"
+        ],
+        "label": [
+          "M3-I5-E2"
+        ]
+      }
+    },
+    "M3-I6": {
+      "bounds": [
+        1024,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I6-E1"
+        ],
+        "label": [
+          "M3-I6-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1108,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1111,
+        691,
+        116
+      ],
+      "text": "泰山原浆啤酒10度7天新鲜 720ml*3瓶",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E003": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        1118,
+        72,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#877916"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        388,
+        1340,
+        114,
+        60
+      ],
+      "text": "￥39",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        495,
+        1350,
+        293,
+        48
+      ],
+      "text": "到手价/每瓶￥13",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5B4B"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1416,
+        217,
+        44
+      ],
+      "text": "神券40减12",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D69"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        630,
+        1419,
+        130,
+        39
+      ],
+      "text": "85减15",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1482,
+        500,
+        44
+      ],
+      "text": "品牌泰山原浆啤酒(望京东店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6C5555"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        996,
+        1356,
+        196,
+        42
+      ],
+      "text": "1约15分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7801"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        1084,
+        1420,
+        109,
+        39
+      ],
+      "text": "1.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1548,
+        147,
+        38
+      ],
+      "text": "起送￥35",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#757575"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        557,
+        1549,
+        157,
+        37
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1253,
+        548,
+        40
+      ],
+      "text": "酒精度:3.8%vol麦汁浓度:10P",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        971,
+        1253,
+        58,
+        40
+      ],
+      "text": "瓶装",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#828282"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1703,
+        332,
+        300
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        271,
+        1685,
+        74,
+        42
+      ],
+      "text": "冰镇",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1AB5FE",
+        "textColor": "#95E1FB"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        391,
+        1675,
+        784,
+        124
+      ],
+      "text": "【特殊品勿拍】燕京U8啤酒8°P 瓶装500ml*1+歪马定制无纺布袋*1（",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1680,
+        73,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#8A7C17"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        385,
+        1900,
+        499,
+        68
+      ],
+      "text": "￥22到手价¥29月售100+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F46F67"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1978,
+        191,
+        44
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        605,
+        1982,
+        325,
+        41
+      ],
+      "text": "105减22极速开票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#E43B34"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        392,
+        2042,
+        506,
+        50
+      ],
+      "text": "美团自营歪马送酒(东湖渠店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#A15555"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        1917,
+        130,
+        46
+      ],
+      "text": "27分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1983,
+        111,
+        39
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2110,
+        146,
+        39
+      ],
+      "text": "起送￥29",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        557,
+        2112,
+        157,
+        37
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1816,
+        308,
+        44
+      ],
+      "text": "酒精度:≥2.5%vol",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        729,
+        1816,
+        205,
+        44
+      ],
+      "text": "保质期:360天",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2247,
+        332,
+        319
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        272,
+        2251,
+        72,
+        37
+      ],
+      "text": "冰镇",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#18B5FD",
+        "textColor": "#94E0FB"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        2236,
+        72,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#83771A"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        492,
+        2233,
+        600,
+        46
+      ],
+      "text": "燕京U8啤酒8°P瓶装500ml",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        387,
+        2395,
+        507,
+        64
+      ],
+      "text": "￥24.9起到手价/每瓶￥4.15",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C28"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        392,
+        2470,
+        191,
+        44
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        605,
+        2474,
+        325,
+        40
+      ],
+      "text": "105减22极速开票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#E43B34"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        393,
+        2535,
+        504,
+        46
+      ],
+      "text": "美团自营歪马送酒(东湖渠店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#A15555"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        2409,
+        130,
+        46
+      ],
+      "text": "27分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        2474,
+        111,
+        38
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2604,
+        146,
+        38
+      ],
+      "text": "起送￥29",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        555,
+        2604,
+        159,
+        41
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2308,
+        307,
+        42
+      ],
+      "text": "酒精度:≥2.5%vol",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        728,
+        2308,
+        205,
+        42
+      ],
+      "text": "保质期:360天",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "啤酒",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        64,
+        481,
+        119,
+        167
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        64,
+        656,
+        119,
+        52
+      ],
+      "text": "奶皮子啤酒",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        289,
+        498,
+        125,
+        159
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        289,
+        665,
+        125,
+        52
+      ],
+      "text": "冰镇啤酒",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        465,
+        500,
+        156,
+        149
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        465,
+        657,
+        156,
+        52
+      ],
+      "text": "箱装啤酒",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#353535"
+      }
+    },
+    "M3-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        1081,
+        498,
+        64,
+        155
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        661,
+        64,
+        52
+      ],
+      "text": "果味",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        832,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        832,
+        648,
+        170,
+        52
+      ],
+      "text": "鲜打啤酒",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I6-E1": {
+      "kind": "media",
+      "bounds": [
+        1024,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I6-E2": {
+      "kind": "text",
+      "bounds": [
+        1024,
+        648,
+        170,
+        52
+      ],
+      "text": "白啤",
+      "visual": {
+        "backgroundColor": "#FAFAFA",
+        "textColor": "#4A4A4A"
+      }
+    }
+  }
+}

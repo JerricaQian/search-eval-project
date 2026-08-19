@@ -1,0 +1,1269 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "安睡裤",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
+    "sha256": "67aca39c78c3bbaf914a5ec8d1dab021bf3aca1fa22c3e868e1a31f600b963dc",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        64,
+        400,
+        1128,
+        308
+      ],
+      "variant": "with_tabs",
+      "tabs": [
+        {
+          "id": "M3-T1",
+          "text": "品牌",
+          "selected": true,
+          "panelId": "M3-P1",
+          "bounds": [
+            64,
+            400,
+            130,
+            55
+          ]
+        },
+        {
+          "id": "M3-T2",
+          "text": "类型",
+          "selected": false,
+          "panelId": "M3-P2",
+          "bounds": [
+            214,
+            400,
+            130,
+            55
+          ]
+        }
+      ],
+      "panels": [
+        {
+          "id": "M3-P1",
+          "itemIds": [
+            "M3-I1",
+            "M3-I2",
+            "M3-I3",
+            "M3-I4",
+            "M3-I5",
+            "M3-I6"
+          ]
+        },
+        {
+          "id": "M3-P2",
+          "itemIds": []
+        }
+      ]
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        952,
+        1224,
+        1748
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        952,
+        1224,
+        477
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06",
+        "C1-R07"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1454,
+        1224,
+        532
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06",
+        "C2-R07"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2017,
+        1224,
+        530
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2547,
+        1224,
+        153
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        952,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        397,
+        954,
+        784,
+        117
+      ],
+      "slots": {
+        "title": [
+          "C1-E002"
+        ],
+        "fulfillment_tag": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "price",
+      "bounds": [
+        385,
+        1120,
+        558,
+        68
+      ],
+      "slots": {
+        "price": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        392,
+        1198,
+        190,
+        44
+      ],
+      "slots": {
+        "promotion": [
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        1266,
+        422,
+        41
+      ],
+      "slots": {
+        "merchant": [
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        396,
+        1137,
+        798,
+        233
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E005",
+          "C1-E008",
+          "C1-E010",
+          "C1-E011"
+        ]
+      }
+    },
+    "C1-R07": {
+      "name": "base_info",
+      "bounds": [
+        604,
+        1201,
+        131,
+        39
+      ],
+      "slots": {
+        "other": [
+          "C1-E007"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1454,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        392,
+        1459,
+        758,
+        116
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ],
+        "fulfillment_tag": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "price",
+      "bounds": [
+        388,
+        1689,
+        633,
+        59
+      ],
+      "slots": {
+        "price": [
+          "C2-E005"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        392,
+        1761,
+        189,
+        44
+      ],
+      "slots": {
+        "promotion": [
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        1830,
+        693,
+        40
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        393,
+        1700,
+        801,
+        235
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E006",
+          "C2-E008",
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R07": {
+      "name": "base_info",
+      "bounds": [
+        391,
+        1596,
+        67,
+        47
+      ],
+      "slots": {
+        "other": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2017,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        394,
+        2019,
+        770,
+        121
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ],
+        "fulfillment_tag": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        384,
+        2247,
+        493,
+        66
+      ],
+      "slots": {
+        "price": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        392,
+        2323,
+        190,
+        45
+      ],
+      "slots": {
+        "promotion": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "merchant",
+      "bounds": [
+        398,
+        2392,
+        574,
+        39
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        396,
+        2264,
+        798,
+        232
+      ],
+      "slots": {
+        "delivery_time": [
+          "C3-E005"
+        ],
+        "fulfillment": [
+          "C3-E007",
+          "C3-E009"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2547,
+        330,
+        153
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        401,
+        2581,
+        780,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "base_info",
+      "bounds": [
+        394,
+        2649,
+        209,
+        51
+      ],
+      "slots": {
+        "other": [
+          "C4-E004"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {
+    "M3-I1": {
+      "bounds": [
+        84,
+        518,
+        143,
+        169
+      ],
+      "slots": {
+        "media": [
+          "M3-I1-E1"
+        ],
+        "label": [
+          "M3-I1-E2"
+        ]
+      }
+    },
+    "M3-I2": {
+      "bounds": [
+        274,
+        492,
+        144,
+        214
+      ],
+      "slots": {
+        "media": [
+          "M3-I2-E1"
+        ],
+        "label": [
+          "M3-I2-E2"
+        ]
+      }
+    },
+    "M3-I3": {
+      "bounds": [
+        473,
+        498,
+        132,
+        201
+      ],
+      "slots": {
+        "media": [
+          "M3-I3-E1"
+        ],
+        "label": [
+          "M3-I3-E2"
+        ]
+      }
+    },
+    "M3-I4": {
+      "bounds": [
+        657,
+        498,
+        145,
+        205
+      ],
+      "slots": {
+        "media": [
+          "M3-I4-E1"
+        ],
+        "label": [
+          "M3-I4-E2"
+        ]
+      }
+    },
+    "M3-I5": {
+      "bounds": [
+        853,
+        511,
+        136,
+        197
+      ],
+      "slots": {
+        "media": [
+          "M3-I5-E1"
+        ],
+        "label": [
+          "M3-I5-E2"
+        ]
+      }
+    },
+    "M3-I6": {
+      "bounds": [
+        1033,
+        489,
+        159,
+        219
+      ],
+      "slots": {
+        "media": [
+          "M3-I6-E1"
+        ],
+        "label": [
+          "M3-I6-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        952,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        397,
+        954,
+        784,
+        117
+      ],
+      "text": "【L号】苏菲 超熟睡安心裤5片/包 超薄裤型卫生巾",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E003": {
+      "kind": "tag",
+      "bounds": [
+        402,
+        962,
+        70,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#807517"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        385,
+        1120,
+        558,
+        68
+      ],
+      "text": "￥10.9神价/每片¥2.18月售46",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5549"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1198,
+        190,
+        44
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1266,
+        422,
+        41
+      ],
+      "text": "品牌熊本便利店(望京店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B5555"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        1137,
+        129,
+        46
+      ],
+      "text": "30分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1201,
+        109,
+        39
+      ],
+      "text": "1.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1333,
+        186,
+        37
+      ],
+      "text": "起送￥14.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        583,
+        1333,
+        161,
+        37
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        604,
+        1201,
+        131,
+        39
+      ],
+      "text": "45減12",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1454,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1459,
+        758,
+        116
+      ],
+      "text": "她研社春眠小裤安睡裤M-L码/XL码3条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003": {
+      "kind": "tag",
+      "bounds": [
+        398,
+        1461,
+        76,
+        44
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#958916"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        388,
+        1689,
+        633,
+        59
+      ],
+      "text": "￥4.27起到手价/每条¥1.43已售72",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF554C"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1761,
+        189,
+        44
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1830,
+        693,
+        40
+      ],
+      "text": "品牌叁慕诗全球美妆集合店(朝阳望京店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#615555"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1066,
+        1700,
+        128,
+        45
+      ],
+      "text": "46分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1765,
+        111,
+        39
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        393,
+        1893,
+        330,
+        42
+      ],
+      "text": "起送￥8.8免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        391,
+        1596,
+        67,
+        47
+      ],
+      "text": "3片",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2017,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        394,
+        2019,
+        770,
+        121
+      ],
+      "text": "全棉时代奈丝公主M码安睡裤3片/包",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        402,
+        2028,
+        70,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE42B",
+        "textColor": "#817617"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        384,
+        2247,
+        493,
+        66
+      ],
+      "text": "￥11.9买2件¥9.4/件已售6",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF402A"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        392,
+        2323,
+        190,
+        45
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        398,
+        2392,
+        574,
+        39
+      ],
+      "text": "官方全棉时代(北京望京万象汇店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#655555"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        996,
+        2264,
+        196,
+        41
+      ],
+      "text": "约15分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7801"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        2327,
+        113,
+        42
+      ],
+      "text": "2.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2457,
+        399,
+        39
+      ],
+      "text": "起送￥20满29免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2547,
+        330,
+        153
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        2589,
+        72,
+        40
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#877A16"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        496,
+        2581,
+        685,
+        51
+      ],
+      "text": "【M-L号】她研社 深藏BLUE安睡裤3条/包",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        394,
+        2649,
+        209,
+        51
+      ],
+      "text": "裤3条/包",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "安睡裤",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        84,
+        518,
+        143,
+        109
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        84,
+        635,
+        143,
+        52
+      ],
+      "text": "自由点",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#232323"
+      }
+    },
+    "M3-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        274,
+        492,
+        144,
+        154
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        274,
+        654,
+        144,
+        52
+      ],
+      "text": "苏菲",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        473,
+        498,
+        132,
+        141
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        473,
+        647,
+        132,
+        52
+      ],
+      "text": "护舒宝",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "M3-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        657,
+        498,
+        145,
+        145
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        657,
+        651,
+        145,
+        52
+      ],
+      "text": "高洁丝",
+      "visual": {
+        "backgroundColor": "#FBFBFB",
+        "textColor": "#2A2A2A"
+      }
+    },
+    "M3-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        853,
+        511,
+        136,
+        137
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        853,
+        656,
+        136,
+        52
+      ],
+      "text": "七度空间",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I6-E1": {
+      "kind": "media",
+      "bounds": [
+        1033,
+        489,
+        159,
+        159
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I6-E2": {
+      "kind": "text",
+      "bounds": [
+        1033,
+        656,
+        159,
+        52
+      ],
+      "text": "花王",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    }
+  }
+}

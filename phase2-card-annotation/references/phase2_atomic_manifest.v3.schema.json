@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "phase2.atomic-manifest.v3",
+  "title": "Phase2 atomic page fact manifest v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "taxonomy", "source", "publication", "page", "modulesById", "cardsById", "regionsById", "filterItemsById", "elementsById"],
+  "properties": {
+    "schemaVersion": {"const": "phase2.atomic-manifest.v3"},
+    "taxonomy": {"$ref": "#/$defs/taxonomy"},
+    "source": {"$ref": "#/$defs/source"},
+    "publication": {"$ref": "#/$defs/publication"},
+    "page": {"type": "object", "additionalProperties": false, "required": ["moduleIds"], "properties": {"moduleIds": {"$ref": "#/$defs/idArray"}}},
+    "modulesById": {"type": "object", "additionalProperties": {"$ref": "#/$defs/module"}},
+    "cardsById": {"type": "object", "additionalProperties": {"$ref": "#/$defs/card"}},
+    "regionsById": {"type": "object", "additionalProperties": {"$ref": "#/$defs/region"}},
+    "filterItemsById": {"type": "object", "additionalProperties": {"$ref": "#/$defs/filterItem"}},
+    "elementsById": {"type": "object", "additionalProperties": {"$ref": "#/$defs/element"}}
+  },
+  "$defs": {
+    "idArray": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "bounds": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 0}, {"type": "integer", "minimum": 0}, {"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}], "minItems": 4, "maxItems": 4},
+    "taxonomy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contractVersion", "file", "sha256"],
+      "properties": {
+        "contractVersion": {"const": "phase2.search-card-taxonomy.v1"},
+        "file": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["query", "screenshot", "sha256", "viewport"],
+      "properties": {
+        "query": {"type": "string"}, "screenshot": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "viewport": {"type": "array", "prefixItems": [{"type": "integer", "minimum": 1}, {"type": "integer", "minimum": 1}], "minItems": 2, "maxItems": 2}
+      }
+    },
+    "publication": {"type": "object", "additionalProperties": false, "required": ["status", "blockers"], "properties": {"status": {"enum": ["ready", "blocked"]}, "blockers": {"$ref": "#/$defs/idArray"}}},
+    "module": {
+      "type": "object", "additionalProperties": false, "required": ["type", "visibility"],
+      "properties": {
+        "type": {"enum": ["search_bar", "page_tab", "location_filter", "sort_filter", "price_filter", "coupon_filter", "instant_filter", "promotion_filter", "image_filter", "primary_point", "primary_point_disambiguation", "heterogeneous_module", "live_card", "hotel_search_panel", "hotel_notice", "movie_primary_info", "date_filter", "business_operation_card", "floating_service", "result_list"]},
+        "variant": {"enum": ["with_tabs", "without_tabs", "business"]}, "bounds": {"$ref": "#/$defs/bounds"},
+        "visibility": {"enum": ["confirmed", "naturally_cropped", "uncertain"]},
+        "tabs": {"type": "array", "items": {"$ref": "#/$defs/filterTab"}}, "panels": {"type": "array", "items": {"$ref": "#/$defs/filterPanel"}},
+        "itemIds": {"$ref": "#/$defs/idArray"}, "cardIds": {"$ref": "#/$defs/idArray"}, "slots": {"$ref": "#/$defs/slots"}
+      }
+    },
+    "filterTab": {"type": "object", "additionalProperties": false, "required": ["id", "text", "selected", "panelId", "bounds"], "properties": {"id": {"type": "string", "minLength": 1}, "text": {"type": "string"}, "selected": {"type": "boolean"}, "panelId": {"type": "string", "minLength": 1}, "bounds": {"$ref": "#/$defs/bounds"}}},
+    "filterPanel": {"type": "object", "additionalProperties": false, "required": ["id", "itemIds"], "properties": {"id": {"type": "string", "minLength": 1}, "itemIds": {"$ref": "#/$defs/idArray"}}},
+    "filterItem": {"type": "object", "additionalProperties": false, "required": ["bounds", "slots"], "properties": {"bounds": {"$ref": "#/$defs/bounds"}, "slots": {"$ref": "#/$defs/slots"}}},
+    "card": {
+      "type": "object", "additionalProperties": false, "required": ["cardType", "bounds", "visibility", "regionIds"],
+      "properties": {
+        "cardType": {"enum": ["merchant_text_append", "merchant_graphic_append", "merchant_product_card", "product", "hotel", "performance_movie", "primary_point", "heterogeneous", "advertisement"]},
+        "variant": {"type": "string"}, "bounds": {"$ref": "#/$defs/bounds"}, "visibility": {"enum": ["complete", "naturally_cropped"]}, "regionIds": {"$ref": "#/$defs/idArray"}
+      }
+    },
+    "region": {
+      "type": "object", "additionalProperties": false, "required": ["name", "bounds"],
+      "properties": {"name": {"type": "string", "minLength": 1}, "bounds": {"$ref": "#/$defs/bounds"}, "slots": {"$ref": "#/$defs/slots"}, "items": {"type": "array", "items": {"$ref": "#/$defs/item"}}},
+      "oneOf": [{"required": ["slots"]}, {"required": ["items"]}]
+    },
+    "item": {"type": "object", "additionalProperties": false, "required": ["index", "bounds", "visibility", "slots"], "properties": {"index": {"type": "integer", "minimum": 0}, "bounds": {"$ref": "#/$defs/bounds"}, "visibility": {"enum": ["complete", "naturally_cropped"]}, "slots": {"$ref": "#/$defs/slots"}}},
+    "slots": {"type": "object", "additionalProperties": {"$ref": "#/$defs/idArray"}, "minProperties": 1},
+    "element": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "bounds"],
+      "properties": {
+        "kind": {"enum": ["text", "tag", "icon", "media"]}, "text": {"type": "string"},
+        "mediaType": {"enum": ["photo", "illustration", "logo", "poster", "video_frame", "product_render", "unknown"]},
+        "bounds": {"$ref": "#/$defs/bounds"}, "visibility": {"enum": ["naturally_cropped", "load_failed", "garbled", "abnormal_clipped"]},
+        "textDecoration": {"enum": ["none", "line_through"]},
+        "visual": {"type": "object", "additionalProperties": false, "properties": {"container": {"enum": ["none", "filled", "outlined", "unknown"]}, "backgroundColor": {"type": "string"}, "textColor": {"type": "string"}, "borderColor": {"type": "string"}, "graphicAssist": {"type": "string"}}}
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"const": "media"}}}, "then": {"required": ["mediaType"], "not": {"required": ["text"]}}, "else": {"not": {"required": ["mediaType"]}}},
+        {"if": {"properties": {"kind": {"enum": ["text", "tag"]}}}, "then": {"required": ["text"]}}
+      ]
+    }
+  }
+}

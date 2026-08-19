@@ -2,6 +2,8 @@
 
 本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径只使用本地 CV/OCR、卡型契约和确定性门控，不让视觉模型补读 OCR，不生成整页标注图，也不执行 IMD 操作。
 
+`phase2.atomic-manifest.v3` 每次写出前必须使用 `references/search_card_taxonomy.v1.json` 校验，并记录枚举契约版本与文件 SHA-256。所有标签元素统一使用 `kind: "tag"`，槽位名统一以 `_tag` 结尾，例如 `product_attribute_tag` 与 `scenic_rating_tag`。
+
 生产 Phase2 与离线黄金校准是两条隔离流程，但共享同一元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。黄金校准允许有界 Paddle 与模型视觉复核并保留证据，生产 Phase2 不允许模型或黄金值补读当前截图，契约不满足即阻断。
 
 详细执行纪律见 `SKILL.md`；卡型边界与最小证据以 `references/card_recognition_contracts.v1.json` 为准。
@@ -76,7 +78,7 @@ python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
   --output-dir .artifacts/golden-cv-rerun
 ```
 
-模型辅助校准只允许发生在离线黄金流：卡片边界写入 `references/golden_page_truth.v2.json`；有界 Paddle 与模型逐像素复核后的元素写入对应 `golden-sample-results/*.elements.json`，并保存 `golden-contract-evidence` 等证据。任何黄金字段都不得传入生产 Phase2。更新后必须运行 `scripts/validate_golden_element_contract.py`，只有 34 文件的卡数、边界、标题、元素字段、下挂分组和语义原子全部通过才算完成。回归目录中每个截图子目录各有一个 `elements.json`；顶层 `index.json` 仅做索引和指标汇总。
+仓库只保留 `golden-atomic-v3/` 下最新的 34 份页面可重建黄金 JSON 和一个汇总 `index.json`。旧 `golden-sample-results/**/*.elements.json` 已外部归档，逐 manifest audit sidecar 已删除；审计摘要集中保存在索引中。迁移脚本只有在显式恢复并传入旧源目录时才可运行，不能在仓库中重新落旧格式 JSON。没有 CV/OCR 或组件真值外框的 module-only 组件不写 `bounds`，由索引中的 `missingModuleBounds` 明示。
 
 ## 历史兼容文件
 

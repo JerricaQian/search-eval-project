@@ -1,0 +1,1553 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "面部清洁",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为面部清洁.png",
+    "sha256": "1d02fe034302b2dcf5dcec31e9de4b37074d1be1d30d2d7f0d73ed260e996ec9",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        843,
+        1224,
+        1857
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        843,
+        1224,
+        394
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1254,
+        1224,
+        394
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1665,
+        1224,
+        394
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2076,
+        1224,
+        394
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    },
+    "C5": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2487,
+        1224,
+        213
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03",
+        "C5-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        843,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        310,
+        875,
+        433,
+        52
+      ],
+      "slots": {
+        "title": [
+          "C1-E002"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        307,
+        947,
+        887,
+        49
+      ],
+      "slots": {
+        "other": [
+          "C1-E003",
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        1015,
+        696,
+        46
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E005",
+          "C1-E006",
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        312,
+        1096,
+        881,
+        113
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            314,
+            1096,
+            878,
+            40
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E008"
+            ],
+            "price": [
+              "C1-E009"
+            ],
+            "sales": [
+              "C1-E010"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            312,
+            1166,
+            881,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E011"
+            ],
+            "price": [
+              "C1-E012"
+            ],
+            "sales": [
+              "C1-E013"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1254,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        309,
+        1283,
+        587,
+        58
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        307,
+        1355,
+        886,
+        52
+      ],
+      "slots": {
+        "price": [
+          "C2-E003"
+        ],
+        "fulfillment": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        307,
+        1423,
+        851,
+        45
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E005",
+          "C2-E006",
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        1505,
+        884,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            1505,
+            881,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E008"
+            ],
+            "price": [
+              "C2-E009"
+            ],
+            "sales": [
+              "C2-E010"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            308,
+            1575,
+            884,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E011",
+              "C2-E012"
+            ],
+            "price": [
+              "C2-E013"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1665,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        310,
+        1696,
+        278,
+        49
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        307,
+        1767,
+        886,
+        46
+      ],
+      "slots": {
+        "price": [
+          "C3-E003"
+        ],
+        "other": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        1837,
+        799,
+        38
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E005",
+          "C3-E006",
+          "C3-E007"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1914,
+        884,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            1914,
+            882,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E008",
+              "C3-E009"
+            ],
+            "price": [
+              "C3-E010"
+            ],
+            "promotion_tag": [
+              "C3-E011"
+            ],
+            "sales": [
+              "C3-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            311,
+            1985,
+            882,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E013",
+              "C3-E014"
+            ],
+            "price": [
+              "C3-E015"
+            ],
+            "promotion_tag": [
+              "C3-E016"
+            ],
+            "sales": [
+              "C3-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2076,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        306,
+        2102,
+        861,
+        55
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2178,
+        884,
+        45
+      ],
+      "slots": {
+        "other": [
+          "C4-E003"
+        ],
+        "fulfillment": [
+          "C4-E004"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        2245,
+        625,
+        42
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E005",
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        2323,
+        883,
+        120
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2323,
+            882,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E007",
+              "C4-E008"
+            ],
+            "price": [
+              "C4-E009"
+            ],
+            "promotion_tag": [
+              "C4-E010"
+            ],
+            "sales": [
+              "C4-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            309,
+            2392,
+            883,
+            51
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E012"
+            ],
+            "price": [
+              "C4-E013"
+            ],
+            "promotion_tag": [
+              "C4-E014"
+            ]
+          }
+        }
+      ]
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2487,
+        247,
+        213
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        308,
+        2515,
+        613,
+        58
+      ],
+      "slots": {
+        "title": [
+          "C5-E002"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        306,
+        2587,
+        888,
+        51
+      ],
+      "slots": {
+        "price": [
+          "C5-E003"
+        ],
+        "fulfillment": [
+          "C5-E004"
+        ]
+      }
+    },
+    "C5-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        2654,
+        777,
+        46
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C5-E005",
+          "C5-E006"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        843,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        310,
+        875,
+        433,
+        52
+      ],
+      "text": "美丽荟西子医疗美容",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        307,
+        947,
+        520,
+        49
+      ],
+      "text": "4.8分2214条医学美容望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8D5548"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        1088,
+        950,
+        106,
+        44
+      ],
+      "text": "713m",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C1-E005": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        1015,
+        158,
+        46
+      ],
+      "text": "医疗资质",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#45B3A3"
+      }
+    },
+    "C1-E006": {
+      "kind": "tag",
+      "bounds": [
+        482,
+        1017,
+        200,
+        44
+      ],
+      "text": "放心美验真",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7E3D"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        696,
+        1016,
+        311,
+        44
+      ],
+      "text": "神券最高膨至300",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D5A"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        405,
+        1096,
+        558,
+        40
+      ],
+      "text": "【收缩毛孔】光子嫩肤M22全面部",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        314,
+        1098,
+        98,
+        38
+      ],
+      "text": "¥94",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        1041,
+        1100,
+        151,
+        35
+      ],
+      "text": "消费700+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        413,
+        1166,
+        573,
+        43
+      ],
+      "text": "【皮肤清洁】皮肤检测+术后关怀|",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1166,
+        101,
+        43
+      ],
+      "text": "¥210",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        1040,
+        1168,
+        153,
+        39
+      ],
+      "text": "消费200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1254,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1283,
+        587,
+        58
+      ],
+      "text": "哲肌祛痘·科技美肤（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        307,
+        1355,
+        558,
+        52
+      ],
+      "text": "4.4分89条 ￥173/人祛痘望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#895545"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1363,
+        111,
+        40
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#424242"
+      }
+    },
+    "C2-E005": {
+      "kind": "tag",
+      "bounds": [
+        307,
+        1423,
+        187,
+        45
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C2-E006": {
+      "kind": "tag",
+      "bounds": [
+        508,
+        1429,
+        478,
+        38
+      ],
+      "text": "望京皮肤管理销量榜第10名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        968,
+        1428,
+        190,
+        39
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        521,
+        1507,
+        479,
+        41
+      ],
+      "text": "【黑头清洁】50分钟深层清洁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1505,
+        78,
+        45
+      ],
+      "text": "¥33",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        1509,
+        153,
+        36
+      ],
+      "text": "年售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        516,
+        1579,
+        203,
+        39
+      ],
+      "text": "清洁补水组合",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        753,
+        1579,
+        439,
+        39
+      ],
+      "text": "60分全国爆卖46.4万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1575,
+        79,
+        47
+      ],
+      "text": "¥75",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1665,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1696,
+        278,
+        49
+      ],
+      "text": "I·研理肤沙龙",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        307,
+        1767,
+        676,
+        46
+      ],
+      "text": "4.7分1096条￥815/人皮肤管理望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#74554B"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        1086,
+        1773,
+        107,
+        40
+      ],
+      "text": "751m",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C3-E005": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        1837,
+        448,
+        38
+      ],
+      "text": "望京美容美体好评榜第6名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C3-E006": {
+      "kind": "tag",
+      "bounds": [
+        781,
+        1837,
+        156,
+        38
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        956,
+        1837,
+        154,
+        38
+      ],
+      "text": "免费停车",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        543,
+        1916,
+        285,
+        38
+      ],
+      "text": "60分钟深层清洁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        864,
+        1916,
+        107,
+        38
+      ],
+      "text": "海菲秀",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1915,
+        104,
+        46
+      ],
+      "text": "¥680",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E011": {
+      "kind": "tag",
+      "bounds": [
+        424,
+        1914,
+        90,
+        41
+      ],
+      "text": "4.4折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3724"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1036,
+        1919,
+        155,
+        36
+      ],
+      "text": "年售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        542,
+        1987,
+        278,
+        41
+      ],
+      "text": "30分钟面部紧致",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        855,
+        1987,
+        209,
+        41
+      ],
+      "text": "韩女同款·O",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1987,
+        102,
+        42
+      ],
+      "text": "¥980",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E016": {
+      "kind": "tag",
+      "bounds": [
+        424,
+        1985,
+        91,
+        42
+      ],
+      "text": "3.8折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        1093,
+        1990,
+        100,
+        37
+      ],
+      "text": "年售2",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2076,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        306,
+        2102,
+        861,
+        55
+      ],
+      "text": "skin79皮肤管理中心（北京望京麒麟社店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2178,
+        497,
+        45
+      ],
+      "text": "4.8分259条皮肤管理望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#865548"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2183,
+        109,
+        40
+      ],
+      "text": "1.6km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C4-E005": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        2245,
+        448,
+        42
+      ],
+      "text": "望京皮肤管理销量榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C4-E006": {
+      "kind": "tag",
+      "bounds": [
+        781,
+        2245,
+        155,
+        42
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        526,
+        2326,
+        287,
+        41
+      ],
+      "text": "60分钟深层清洁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        848,
+        2326,
+        108,
+        41
+      ],
+      "text": "小气泡",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2324,
+        120,
+        45
+      ],
+      "text": "¥29.6",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E010": {
+      "kind": "tag",
+      "bounds": [
+        433,
+        2323,
+        67,
+        44
+      ],
+      "text": "1折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3C2A"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        1017,
+        2329,
+        175,
+        36
+      ],
+      "text": "年售3.7万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        576,
+        2396,
+        616,
+        42
+      ],
+      "text": "60分钟面部清洁全国爆卖46.4万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2392,
+        141,
+        51
+      ],
+      "text": "¥76.03",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E014": {
+      "kind": "tag",
+      "bounds": [
+        453,
+        2395,
+        97,
+        42
+      ],
+      "text": "2.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2487,
+        247,
+        213
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2515,
+        613,
+        58
+      ],
+      "text": "痘院士祛痘皮肤管理（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        306,
+        2587,
+        582,
+        51
+      ],
+      "text": "4.9分924条￥159/人祛痘望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#865545"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2590,
+        112,
+        44
+      ],
+      "text": "1.9km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#636363"
+      }
+    },
+    "C5-E005": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        2654,
+        311,
+        46
+      ],
+      "text": "神券最高膨至30",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3260"
+      }
+    },
+    "C5-E006": {
+      "kind": "tag",
+      "bounds": [
+        635,
+        2657,
+        450,
+        41
+      ],
+      "text": "望京皮肤管理销量榜第3名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    }
+  }
+}

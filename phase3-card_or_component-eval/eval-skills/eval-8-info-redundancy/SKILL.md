@@ -31,10 +31,10 @@ metadata:
 通用条款（Phase2 清单原子性、完整阅读标准、`issues` 引用真实 ID）见 [[组件卡片评测通用契约]]（`phase3-card_or_component-eval/组件卡片评测通用契约.md`）。以下为本 Skill 专属内容（差异较大，不可归并）：
 
 - 组件 Skill 必须逐组件执行自身规则；`overview.total` 必须等于实际评估**区域数**，Phase2 清单总数仅写入 `evidence.sourceManifestTotal` 作追溯，绝不得作为区域数。
-- **Phase2 事实优先：**元素原文、`semanticRole`、所属分区、卡片归属、`overlapping_annotation` 与 `same_supply_candidate` 必须从 Phase2 清单和 `relations` 读取；Phase3 仍负责“是否无信息损失”的语义终判，不能将候选关系直接计为冗余。
+- **Phase2 基础事实优先：**元素原文、`semanticRole`、所属分区、卡片归属和坐标来自 Phase2。Phase3 必须运行 `scripts/extract_phase3_relation_candidates.py`，遍历当前卡/区域内的独立文本原子并形成字面相同/包含候选对；不依赖 Phase2 预生成 `overlapping_annotation` 或 `same_supply_candidate` 关系。候选对只是扫描入口，Phase3 仍负责“删除任一项是否无信息损失”的语义终判。
 - **重建不等于重评**：仅重建元素清单、坐标、总数或报告数据时，禁止改写本 Skill 的评级、`issues`、重复数量或逐区域结论；只有重新按本 Skill 完成逐区域扫描并留下证据，才可改变既有结论。
 - **历史问题不默认失效**：若已有冗余问题，必须逐条重新验证其两个（或多个）关联元素的语义角色；只有能明确说明“任一元素被删除后会损失何种不同决策信息”时才能撤销。不得因元素拆分、ID 更新、清单重建或“旧结果可能错误”而批量清空问题。
-- **证据先于结论**：达标或不达标 Tab 必须先形成“图筛 / 快筛 / 每张商卡”的逐区域 `assessmentRows`，再汇总重复数和评级；优秀只需输出 `reason`、`criterion`、`summary`，不要求保留逐区域证据行。组件类 `overview.total` 应等于本 Skill 的实际评估区域数，不得机械复用 Phase2 元素总数。
+- **证据先于结论**：所有 Tab（包括优秀）必须先形成“图筛 / 快筛 / 每张商卡”的逐区域 `assessmentRows`，保留当次 Phase3 遍历的原子、候选对、排除原因、语义终判及 `measurement` 产物，再汇总重复数和评级。组件类 `overview.total` 应等于本 Skill 的实际评估区域数，不得机械复用 Phase2 元素总数。
 - **商卡核查焦点与语义角色门槛：**商卡内必须优先交叉核查**标题/副标题、基础信息、头图位置标签、下挂位置标签与标签区标签**之间是否传达重复信息；判定冗余前，必须分别写出两个候选元素的视觉位置、语义角色、服务对象与各自新增的决策信息，并证明删除任一项不会造成信息损失。只因文字相同、相似或同属促销标签不得判为冗余。
 
 ## 工具定位

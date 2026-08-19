@@ -16,7 +16,7 @@ COMPONENT_ROW_REQUIREMENTS: dict[str, set[str]] = {
     "eval-4-element-complexity": {"componentId", "scannedRegions", "includedTagStyles", "includedIconStyles", "excludedEntities", "tagStyleCount", "iconStyleCount", "rating"},
     "eval-5-info-hierarchy": {"componentId", "sourceElements", "weightSequence", "tierTrace", "levelCount", "rating"},
     "eval-6-info-partitioning": {"componentId", "partitions", "adjacentBoundaryChecks", "issueCount", "rating"},
-    "eval-7-info-authenticity": {"componentId", "checkedRelations", "relationStatuses", "inapplicableChecks", "conflicts", "conflictCount", "rating"},
+    "eval-7-info-authenticity": {"componentId", "candidatePairs", "pairJudgements", "inapplicableChecks", "conflicts", "conflictCount", "rating"},
     "eval-8-info-redundancy": {"regionId", "regionType", "examinedElements", "candidatePairs", "duplicateCount", "rating"},
 }
 
@@ -25,6 +25,9 @@ MEASUREMENT_REQUIRED_SKILLS = {
     "eval-4-element-complexity",
     "eval-6-info-partitioning",
     "eval-3-page-color-logic",
+    "eval-6-info-comparability",
+    "eval-7-info-authenticity",
+    "eval-8-info-redundancy",
 }
 
 FORBIDDEN_COPY_TERMS_PATH = Path(__file__).with_name("forbidden_copy_terms.json")
@@ -179,14 +182,14 @@ def require_component_copy_consistency(
         if rating != expected_rating or expected_rating not in verdict:
             errors.append(f"{prefix}:hierarchy_copy_rating_must_match_measured_levelCount")
     elif skill == "eval-7-info-authenticity":
-        statuses = row.get("relationStatuses")
+        statuses = row.get("pairJudgements")
         conflict_count = row.get("conflictCount")
         if not isinstance(conflict_count, int) or conflict_count < 0:
             return
         if str(conflict_count) not in observable_fact:
             errors.append(f"{prefix}:authenticity_copy_must_include_measured_conflictCount")
         if not isinstance(statuses, list) or not statuses:
-            errors.append(f"{prefix}:authenticity_copy_requires_relationStatuses")
+            errors.append(f"{prefix}:authenticity_copy_requires_pairJudgements")
         expected_rating = "优秀" if conflict_count == 0 else "不达标"
         if rating != expected_rating or expected_rating not in verdict:
             errors.append(f"{prefix}:authenticity_copy_rating_must_match_measured_conflictCount")
@@ -283,6 +286,27 @@ def main() -> int:
                             require_measurement(errors, f"{skill}/{tab}/row_1", assessment_rows[0])
                     else:
                         errors.append(f"{skill}/{tab}:unknown_page_framework_skill_without_evidence_contract")
+                if skill == "eval-6-info-comparability" and isinstance(assessment_rows, list) and assessment_rows:
+                    row = assessment_rows[0]
+                    if isinstance(row, dict):
+                        for field in ("cardGroups", "comparableFields", "comparisons"):
+                            if not isinstance(row.get(field), list):
+                                errors.append(f"{skill}/{tab}:{field}_must_be_array")
+                        comparisons = row.get("comparisons")
+                        if isinstance(comparisons, list):
+                            for index, comparison in enumerate(comparisons, start=1):
+                                if not isinstance(comparison, dict) or not {
+                                    "comparisonGroupKey", "semanticRole", "observations",
+                                    "detectedDifferences", "phase3Judgement",
+                                }.issubset(comparison):
+                                    errors.append(f"{skill}/{tab}:comparison_{index}_missing_phase3_derivation_trace")
+                                    continue
+                                if not isinstance(comparison.get("observations"), list) or len(comparison["observations"]) < 2:
+                                    errors.append(f"{skill}/{tab}:comparison_{index}_requires_two_observations")
+                                if not isinstance(comparison.get("detectedDifferences"), dict):
+                                    errors.append(f"{skill}/{tab}:comparison_{index}_detectedDifferences_invalid")
+                                if comparison.get("phase3Judgement") not in {"consistent", "inconsistent", "not_material", "needs_review"}:
+                                    errors.append(f"{skill}/{tab}:comparison_{index}_phase3Judgement_invalid")
                 page_issues = (unit.get("details") or {}).get("issues")
                 if unit.get("rating") in {"达标", "不达标", "🟡", "🔴"} and (not isinstance(page_issues, list) or not page_issues):
                     errors.append(f"{skill}/{tab}:actionable_page_result_requires_non_empty_issues")
@@ -339,13 +363,15 @@ def main() -> int:
                     for index, row in enumerate(assessment_rows, start=1):
                         if not isinstance(row, dict):
                             continue
-                        relations = row.get("checkedRelations")
-                        statuses = row.get("relationStatuses")
+                        relations = row.get("candidatePairs")
+                        statuses = row.get("pairJudgements")
                         inapplicable = row.get("inapplicableChecks")
-                        if not isinstance(relations, list) or not relations:
-                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_checkedRelations_invalid")
-                        if not isinstance(statuses, list) or not statuses or any(status != "confirmed" for status in statuses):
-                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_relationStatuses_must_be_confirmed")
+                        if not isinstance(relations, list):
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_candidatePairs_invalid")
+                        if not isinstance(statuses, list) or len(statuses) != len(relations or []):
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_pairJudgements_must_match_candidates")
+                        elif any(status not in {"consistent", "conflict", "not_applicable"} for status in statuses):
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_pairJudgements_invalid")
                         if not isinstance(inapplicable, list):
                             errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_inapplicableChecks_must_be_array")
                 if skill == "eval-4-element-complexity" and isinstance(assessment_rows, list):

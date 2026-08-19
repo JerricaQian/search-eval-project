@@ -7,8 +7,15 @@ Each hook returns explicit findings so a caller can retry local OCR or block.
 from __future__ import annotations
 
 import re
+import sys
 from difflib import SequenceMatcher
+from pathlib import Path
 from typing import Any, Callable
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from semantic_atomicity import merged_tag_reason
 
 
 Hook = Callable[[dict[str, Any]], list[dict[str, str]]]
@@ -16,18 +23,6 @@ Hook = Callable[[dict[str, Any]], list[dict[str, str]]]
 
 def _meaningful(value: str) -> str:
     return re.sub(r"[^0-9A-Za-z\u4e00-\u9fff¥￥.+%折减]", "", value)
-
-
-def _semantic_tag_group_count(text: str) -> int:
-    groups = (
-        r"神券|立减|最高膨",
-        r"全程保",
-        r"公益商家",
-        r"好评率|回头客|浏览",
-        r"榜第\d+名",
-        r"免费停车|免费水果|泰式手法|精油SPA",
-    )
-    return sum(bool(re.search(pattern, text)) for pattern in groups)
 
 
 def field_schema_hook(context: dict[str, Any]) -> list[dict[str, str]]:
@@ -176,8 +171,44 @@ def semantic_atomicity_hook(context: dict[str, Any]) -> list[dict[str, str]]:
         if len(parts) > 1:
             findings.append({"hook": "semantic_atomicity", "sourceId": item["sourceId"], "reason": f"delimited_fields_must_be_split:{text}"})
             continue
-        if region == "标签区" and _semantic_tag_group_count(text) > 1:
-            findings.append({"hook": "semantic_atomicity", "sourceId": item["sourceId"], "reason": f"multiple_independent_tags_merged:{text}"})
+        if region == "标签区":
+            source = context.get("factsById", {}).get(item["sourceId"], {})
+            segments = source.get("visualHint", {}).get("horizontalForegroundSegments", [])
+            reason = merged_tag_reason(text, segments if isinstance(segments, list) else [])
+            if reason:
+                findings.append({"hook": "semantic_atomicity", "sourceId": item["sourceId"], "reason": f"multiple_independent_tags_merged:{reason}:{text}"})
+    return findings
+
+
+def dense_numeric_atomicity_hook(context: dict[str, Any]) -> list[dict[str, str]]:
+    """Reject common OCR joins in compact price, metric, and time rows.
+
+    These are not language corrections: each rule only identifies an invalid
+    publication shape and sends the bounded source line back for local OCR.
+    In particular, a detected rating token must become a rating field instead
+    of remaining the prefix of an otherwise generic merchant-information row.
+    """
+    findings = []
+    for item in context["semanticItems"]:
+        text = re.sub(r"\s+", "", item["text"])
+        role = item["role"]
+        reason = ""
+        if re.search(r"(?:\d(?:\.\d)?分|暂无评分).+", text) and role != "rating":
+            reason = "rating_token_must_be_a_standalone_rating_field"
+        elif re.search(r"\d(?:\.\d)?分\d", text):
+            reason = "rating_is_glued_to_following_numeric_field"
+        elif re.search(r"[^0-9.]\d+(?:\.\d+)?km$", text) and not re.fullmatch(r"\d+(?:\.\d+)?km", text):
+            reason = "distance_has_non_distance_prefix"
+        elif re.search(r"\d{1,2}:\d{3,}", text):
+            reason = "session_time_has_extra_trailing_digit"
+        elif text.count("¥") + text.count("￥") >= 3:
+            reason = "multiple_product_prices_are_merged_in_one_element"
+        elif re.search(r"神券\d+减\d{3,}减\d+", text):
+            reason = "adjacent_coupon_thresholds_are_merged"
+        elif re.match(r"^\d约\d+分钟$", text):
+            reason = "delivery_time_has_numeric_prefix"
+        if reason:
+            findings.append({"hook": "dense_numeric_atomicity", "sourceId": item["sourceId"], "reason": reason})
     return findings
 
 
@@ -214,6 +245,7 @@ HOOKS: tuple[Hook, ...] = (
     ocr_consensus_hook,
     line_fragmentation_hook,
     semantic_atomicity_hook,
+    dense_numeric_atomicity_hook,
     card_semantic_contract_hook,
 )
 

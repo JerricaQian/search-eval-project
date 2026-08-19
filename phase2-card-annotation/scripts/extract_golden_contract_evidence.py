@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any, Iterator
 
 from extract_cv_facts import ocr_region
+from semantic_atomicity import merged_tag_reason
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -70,7 +71,7 @@ def likely_merged(item: dict[str, Any]) -> bool:
     region = str(item.get("sourceRegion", ""))
     if region not in {"标签区", "基础信息区", "商家信息区"}:
         return False
-    if any(mark in text for mark in ("｜", "|", "；")):
+    if region == "标签区" and merged_tag_reason(text):
         return True
     anchors = re.findall(r"神券|立减|最高|榜第|回头客|公益商家|好评率|全程保|近期|人均|月售|评分|km|公里", text)
     return len(anchors) >= 2 or len(text) >= 18

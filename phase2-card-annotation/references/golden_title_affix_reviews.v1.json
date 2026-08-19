@@ -1,0 +1,22 @@
+{
+  "contractVersion": "phase2.golden-title-affix-reviews.v1",
+  "coordinatePolicy": "Coordinates come from thresholded current-screenshot glyph columns plus visual review; no corrected-template or proportional estimates.",
+  "reviews": [
+    {
+      "golden": "merchant-text-hang/商家卡片-文下挂-搜索词为漂流.elements.json",
+      "cardId": "C2",
+      "legacyText": "北京欢乐谷4A",
+      "title": {"text": "北京欢乐谷", "bounds": [410, 1167, 236, 42]},
+      "suffix": {"slot": "scenic_rating_tag", "text": "4A", "bounds": [656, 1176, 45, 29]},
+      "evidence": "current_screenshot_pixel_column_segmentation_and_visual_review"
+    },
+    {
+      "golden": "merchant-text-hang/商家卡片-文下挂-搜索词为露营.elements.json",
+      "cardId": "C5",
+      "legacyText": "蟹岛绿色生态度假村4A",
+      "title": {"text": "蟹岛绿色生态度假村", "bounds": [410, 2586, 428, 42]},
+      "suffix": {"slot": "scenic_rating_tag", "text": "4A", "bounds": [848, 2595, 45, 29]},
+      "evidence": "current_screenshot_pixel_column_segmentation_and_visual_review"
+    }
+  ]
+}

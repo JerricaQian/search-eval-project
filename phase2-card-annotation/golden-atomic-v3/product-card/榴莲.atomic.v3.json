@@ -1,0 +1,1417 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "榴莲",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为榴莲.png",
+    "sha256": "9e78421a2cb7f4dd14c282ecd33a32879f96346d76c522876fec2b1eade2d507",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        64,
+        400,
+        938,
+        300
+      ],
+      "variant": "with_tabs",
+      "tabs": [
+        {
+          "id": "M3-T1",
+          "text": "品种",
+          "selected": true,
+          "panelId": "M3-P1",
+          "bounds": [
+            64,
+            400,
+            130,
+            55
+          ]
+        },
+        {
+          "id": "M3-T2",
+          "text": "形态类型",
+          "selected": false,
+          "panelId": "M3-P2",
+          "bounds": [
+            214,
+            400,
+            130,
+            55
+          ]
+        }
+      ],
+      "panels": [
+        {
+          "id": "M3-P1",
+          "itemIds": [
+            "M3-I1",
+            "M3-I2",
+            "M3-I3",
+            "M3-I4",
+            "M3-I5"
+          ]
+        },
+        {
+          "id": "M3-P2",
+          "itemIds": []
+        }
+      ]
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "promotion_filter",
+      "visibility": "confirmed"
+    },
+    "M6": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1077,
+        1224,
+        1623
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1077,
+        1224,
+        393
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1511,
+        1224,
+        518
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06",
+        "C2-R07"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2068,
+        1224,
+        518
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06",
+        "C3-R07"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2628,
+        1224,
+        72
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        1077,
+        330,
+        241
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ],
+        "product_attribute_tag": [
+          "C1-E002"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        398,
+        1102,
+        650,
+        55
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E003"
+        ],
+        "title": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "price",
+      "bounds": [
+        387,
+        1203,
+        480,
+        69
+      ],
+      "slots": {
+        "price": [
+          "C1-E005"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        394,
+        1283,
+        350,
+        45
+      ],
+      "slots": {
+        "promotion": [
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "merchant",
+      "bounds": [
+        398,
+        1351,
+        381,
+        39
+      ],
+      "slots": {
+        "merchant": [
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        394,
+        1222,
+        800,
+        234
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E006",
+          "C1-E008",
+          "C1-E010"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1539,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ],
+        "product_attribute_tag": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        392,
+        1539,
+        756,
+        126
+      ],
+      "slots": {
+        "title": [
+          "C2-E003"
+        ],
+        "fulfillment_tag": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "price",
+      "bounds": [
+        385,
+        1767,
+        584,
+        69
+      ],
+      "slots": {
+        "price": [
+          "C2-E009",
+          "C2-E010",
+          "C2-E011"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        395,
+        1643,
+        502,
+        247
+      ],
+      "slots": {
+        "coupon_type_tag": [
+          "C2-E005"
+        ],
+        "coupon_value_tag": [
+          "C2-E006",
+          "C2-E007"
+        ],
+        "promotion": [
+          "C2-E013"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "merchant",
+      "bounds": [
+        396,
+        1914,
+        677,
+        40
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E015"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        394,
+        1785,
+        798,
+        235
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E012",
+          "C2-E014",
+          "C2-E016",
+          "C2-E017"
+        ]
+      }
+    },
+    "C2-R07": {
+      "name": "base_info",
+      "bounds": [
+        393,
+        1681,
+        184,
+        48
+      ],
+      "slots": {
+        "other": [
+          "C2-E008"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2102,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ],
+        "product_attribute_tag": [
+          "C3-E002"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        391,
+        2105,
+        786,
+        129
+      ],
+      "slots": {
+        "title": [
+          "C3-E003"
+        ],
+        "fulfillment_tag": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        385,
+        2330,
+        517,
+        71
+      ],
+      "slots": {
+        "price": [
+          "C3-E010"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        395,
+        2250,
+        341,
+        43
+      ],
+      "slots": {
+        "coupon_type_tag": [
+          "C3-E007"
+        ],
+        "coupon_value_tag": [
+          "C3-E008"
+        ],
+        "guarantee_tag": [
+          "C3-E009"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "merchant",
+      "bounds": [
+        393,
+        2474,
+        466,
+        47
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E013"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        395,
+        2349,
+        798,
+        234
+      ],
+      "slots": {
+        "fulfillment": [
+          "C3-E011",
+          "C3-E012",
+          "C3-E014",
+          "C3-E015"
+        ]
+      }
+    },
+    "C3-R07": {
+      "name": "base_info",
+      "bounds": [
+        391,
+        2245,
+        331,
+        50
+      ],
+      "slots": {
+        "other": [
+          "C3-E005",
+          "C3-E006"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        2677,
+        330,
+        15
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        403,
+        2674,
+        71,
+        26
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "base_info",
+      "bounds": [
+        498,
+        2668,
+        474,
+        31
+      ],
+      "slots": {
+        "other": [
+          "C4-E003"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {
+    "M3-I1": {
+      "bounds": [
+        64,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I1-E1"
+        ],
+        "label": [
+          "M3-I1-E2"
+        ]
+      }
+    },
+    "M3-I2": {
+      "bounds": [
+        256,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I2-E1"
+        ],
+        "label": [
+          "M3-I2-E2"
+        ]
+      }
+    },
+    "M3-I3": {
+      "bounds": [
+        448,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I3-E1"
+        ],
+        "label": [
+          "M3-I3-E2"
+        ]
+      }
+    },
+    "M3-I4": {
+      "bounds": [
+        640,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I4-E1"
+        ],
+        "label": [
+          "M3-I4-E2"
+        ]
+      }
+    },
+    "M3-I5": {
+      "bounds": [
+        832,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I5-E1"
+        ],
+        "label": [
+          "M3-I5-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        1077,
+        330,
+        241
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        267,
+        1119,
+        82,
+        48
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#28C31F"
+      }
+    },
+    "C1-E003": {
+      "kind": "tag",
+      "bounds": [
+        398,
+        1107,
+        79,
+        47
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FDE02A"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        490,
+        1102,
+        558,
+        55
+      ],
+      "text": "泰国金枕榴莲（约）2kg称重",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        387,
+        1203,
+        480,
+        69
+      ],
+      "text": "￥65到手价￥97.5月售26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F4746A"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1283,
+        350,
+        45
+      ],
+      "text": "神券79减16坏必赔",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3069"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        398,
+        1351,
+        381,
+        39
+      ],
+      "text": "品牌京客隆(大山子店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#855555"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1068,
+        1222,
+        126,
+        46
+      ],
+      "text": "48分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1287,
+        112,
+        40
+      ],
+      "text": "4.0km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1414,
+        370,
+        42
+      ],
+      "text": "起送￥19满39配送￥3",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1539,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        270,
+        1552,
+        75,
+        44
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1CC017",
+        "textColor": "#7AD874"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1539,
+        756,
+        126
+      ],
+      "text": "【下单现剥】AA泰国树上熟金枕榴莲3-6斤（大果默认剥肉装盒）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "tag",
+      "bounds": [
+        399,
+        1546,
+        75,
+        43
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#918517"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        385,
+        1767,
+        195,
+        69
+      ],
+      "text": "￥35.8起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF0000"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        599,
+        1778,
+        113,
+        45
+      ],
+      "text": "冰爽价",
+      "visual": {
+        "backgroundColor": "#E6F9FD",
+        "textColor": "#62BFF2"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        737,
+        1785,
+        232,
+        44
+      ],
+      "text": "￥49.9月售27",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#C2C2C2"
+      }
+    },
+    "C2-E005": {
+      "kind": "tag",
+      "bounds": [
+        395,
+        1643,
+        75,
+        43
+      ],
+      "text": "神券",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111",
+        "container": "none"
+      }
+    },
+    "C2-E006": {
+      "kind": "tag",
+      "bounds": [
+        478,
+        1643,
+        136,
+        43
+      ],
+      "text": "52减18",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111",
+        "container": "none"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        630,
+        1643,
+        136,
+        43
+      ],
+      "text": "62减20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111",
+        "container": "none"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        630,
+        1849,
+        267,
+        41
+      ],
+      "text": "62减20坏必赔",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2F1E"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1914,
+        677,
+        40
+      ],
+      "text": "品牌梵果恋·果切·果捞·礼盒(南湖渠店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#635555"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        1066,
+        1785,
+        126,
+        44
+      ],
+      "text": "38分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5B5B5B"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1852,
+        109,
+        36
+      ],
+      "text": "4.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#676767"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1978,
+        150,
+        42
+      ],
+      "text": "起送￥20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        555,
+        1980,
+        159,
+        40
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        393,
+        1681,
+        184,
+        48
+      ],
+      "text": "约2kg以下",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#727272"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2102,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        270,
+        2116,
+        76,
+        42
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1BC117",
+        "textColor": "#79D974"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        391,
+        2105,
+        786,
+        129
+      ],
+      "text": "【世界杯特惠榴莲】（鲜 AA 果）3-4斤泰国进口树熟【金枕榴莲】3-4斤（香",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "tag",
+      "bounds": [
+        398,
+        2107,
+        79,
+        48
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FDE02B"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        385,
+        2330,
+        517,
+        71
+      ],
+      "text": "￥67起神价¥288月售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F46D64"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        395,
+        2250,
+        75,
+        43
+      ],
+      "text": "神券",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979",
+        "container": "none"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        478,
+        2250,
+        110,
+        43
+      ],
+      "text": "立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#888888",
+        "container": "none"
+      }
+    },
+    "C3-E009": {
+      "kind": "tag",
+      "bounds": [
+        606,
+        2250,
+        130,
+        43
+      ],
+      "text": "坏必赔",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        393,
+        2474,
+        466,
+        47
+      ],
+      "text": "品牌榴鲜宝榴莲店(望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#765555"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        2349,
+        128,
+        44
+      ],
+      "text": "27分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2415,
+        109,
+        36
+      ],
+      "text": "2.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2542,
+        149,
+        40
+      ],
+      "text": "起送¥20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        555,
+        2544,
+        159,
+        39
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        391,
+        2245,
+        99,
+        50
+      ],
+      "text": "赠手套",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        523,
+        2245,
+        199,
+        50
+      ],
+      "text": "约2kg以下",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        2677,
+        330,
+        15
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        403,
+        2674,
+        71,
+        26
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE22B",
+        "textColor": "#71661A"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        498,
+        2668,
+        474,
+        31
+      ],
+      "text": "【现剥山】现剥金枕榴莲肉",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "榴莲",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        64,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        64,
+        648,
+        170,
+        52
+      ],
+      "text": "金枕",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#282828"
+      }
+    },
+    "M3-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        256,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        256,
+        648,
+        170,
+        52
+      ],
+      "text": "黑刺",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#414141"
+      }
+    },
+    "M3-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        448,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        448,
+        648,
+        170,
+        52
+      ],
+      "text": "托曼尼",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        640,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        640,
+        648,
+        170,
+        52
+      ],
+      "text": "干尧",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        832,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        832,
+        648,
+        170,
+        52
+      ],
+      "text": "青尼",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    }
+  }
+}

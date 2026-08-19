@@ -1,0 +1,1155 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "演出卡",
+    "screenshot": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-演出卡.png",
+    "sha256": "3b46ba906ba661f19307ffb0b69be80cc1e31995d7811991df67a90ba33990fe",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        122,
+        1224,
+        128
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        414,
+        1224,
+        2286
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "performance_movie",
+      "variant": "performance",
+      "bounds": [
+        0,
+        414,
+        1224,
+        404
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04"
+      ]
+    },
+    "C2": {
+      "cardType": "performance_movie",
+      "variant": "performance",
+      "bounds": [
+        0,
+        818,
+        1224,
+        414
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04"
+      ]
+    },
+    "C3": {
+      "cardType": "performance_movie",
+      "variant": "performance",
+      "bounds": [
+        0,
+        1232,
+        1224,
+        472
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04"
+      ]
+    },
+    "C4": {
+      "cardType": "performance_movie",
+      "variant": "performance",
+      "bounds": [
+        0,
+        1704,
+        1224,
+        411
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04"
+      ]
+    },
+    "C5": {
+      "cardType": "performance_movie",
+      "variant": "performance",
+      "bounds": [
+        0,
+        2115,
+        1224,
+        404
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03",
+        "C5-R04"
+      ]
+    },
+    "C6": {
+      "cardType": "performance_movie",
+      "variant": "performance",
+      "bounds": [
+        0,
+        2519,
+        1224,
+        181
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C6-R01",
+        "C6-R02",
+        "C6-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        28,
+        430,
+        254,
+        330
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        318,
+        414,
+        801,
+        52
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "city": [
+          "C1-E003"
+        ],
+        "title": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "performance_info",
+      "bounds": [
+        308,
+        486,
+        466,
+        175
+      ],
+      "slots": {
+        "rating": [
+          "C1-E005"
+        ],
+        "date": [
+          "C1-E006"
+        ],
+        "venue": [
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "price",
+      "bounds": [
+        337,
+        692,
+        212,
+        58
+      ],
+      "slots": {
+        "price": [
+          "C1-E008"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        28,
+        834,
+        254,
+        330
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        308,
+        818,
+        884,
+        122
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ],
+        "fulfillment_tag": [
+          "C2-E003"
+        ],
+        "city": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "performance_info",
+      "bounds": [
+        310,
+        970,
+        467,
+        103
+      ],
+      "slots": {
+        "date": [
+          "C2-E005"
+        ],
+        "venue": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "price",
+      "bounds": [
+        336,
+        1105,
+        240,
+        60
+      ],
+      "slots": {
+        "price": [
+          "C2-E007"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        28,
+        1248,
+        254,
+        330
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        307,
+        1232,
+        829,
+        126
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ],
+        "fulfillment_tag": [
+          "C3-E003"
+        ],
+        "city": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "performance_info",
+      "bounds": [
+        307,
+        1370,
+        494,
+        176
+      ],
+      "slots": {
+        "rating": [
+          "C3-E005"
+        ],
+        "date": [
+          "C3-E006"
+        ],
+        "venue": [
+          "C3-E007"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "price",
+      "bounds": [
+        304,
+        1576,
+        207,
+        65
+      ],
+      "slots": {
+        "price": [
+          "C3-E008"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        28,
+        1720,
+        254,
+        330
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        308,
+        1704,
+        884,
+        124
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ],
+        "fulfillment_tag": [
+          "C4-E003"
+        ],
+        "city": [
+          "C4-E004"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "performance_info",
+      "bounds": [
+        309,
+        1856,
+        469,
+        100
+      ],
+      "slots": {
+        "date": [
+          "C4-E005"
+        ],
+        "venue": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "price",
+      "bounds": [
+        305,
+        1992,
+        244,
+        60
+      ],
+      "slots": {
+        "price": [
+          "C4-E007"
+        ]
+      }
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        28,
+        2131,
+        254,
+        330
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        318,
+        2115,
+        872,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C5-E002"
+        ],
+        "city": [
+          "C5-E003"
+        ],
+        "title": [
+          "C5-E004"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "performance_info",
+      "bounds": [
+        309,
+        2187,
+        467,
+        167
+      ],
+      "slots": {
+        "rating": [
+          "C5-E005"
+        ],
+        "date": [
+          "C5-E006"
+        ],
+        "venue": [
+          "C5-E007"
+        ]
+      }
+    },
+    "C5-R04": {
+      "name": "price",
+      "bounds": [
+        336,
+        2393,
+        207,
+        58
+      ],
+      "slots": {
+        "price": [
+          "C5-E008"
+        ]
+      }
+    },
+    "C6-R01": {
+      "name": "head_media",
+      "bounds": [
+        28,
+        2535,
+        254,
+        149
+      ],
+      "slots": {
+        "media": [
+          "C6-E001"
+        ]
+      }
+    },
+    "C6-R02": {
+      "name": "title",
+      "bounds": [
+        310,
+        2519,
+        860,
+        122
+      ],
+      "slots": {
+        "title": [
+          "C6-E002"
+        ],
+        "fulfillment_tag": [
+          "C6-E003"
+        ],
+        "city": [
+          "C6-E004"
+        ]
+      }
+    },
+    "C6-R03": {
+      "name": "performance_info",
+      "bounds": [
+        311,
+        2671,
+        465,
+        28
+      ],
+      "slots": {
+        "date": [
+          "C6-E005"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        28,
+        430,
+        254,
+        330
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        420,
+        69,
+        39
+      ],
+      "text": "演出",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741D",
+        "textColor": "#FCC498"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        405,
+        414,
+        102,
+        50
+      ],
+      "text": "北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        542,
+        414,
+        577,
+        52
+      ],
+      "text": "听云轩麒麟新天地相声专场",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        308,
+        486,
+        100,
+        46
+      ],
+      "text": "9.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        310,
+        557,
+        464,
+        38
+      ],
+      "text": "2026-07-10至2026-07-31",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        312,
+        618,
+        312,
+        43
+      ],
+      "text": "听云轩望京麒麟社",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        337,
+        692,
+        212,
+        58
+      ],
+      "text": "¥68-299",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        28,
+        834,
+        254,
+        330
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        308,
+        820,
+        884,
+        120
+      ],
+      "text": "德云社相声大会-德云社广德楼戏园",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#584618"
+      }
+    },
+    "C2-E003": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        828,
+        69,
+        39
+      ],
+      "text": "演出",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741C",
+        "textColor": "#FBC599"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        406,
+        818,
+        102,
+        53
+      ],
+      "text": "北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        310,
+        970,
+        467,
+        38
+      ],
+      "text": "2026-07-10至2026-07-12",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1031,
+        331,
+        42
+      ],
+      "text": "德云社-广德楼戏园",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        336,
+        1105,
+        240,
+        60
+      ],
+      "text": "¥150-350",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        28,
+        1248,
+        254,
+        330
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        307,
+        1234,
+        829,
+        124
+      ],
+      "text": "咂摸相声专场(南锣鼓巷观乐专场）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#454514"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        1242,
+        69,
+        38
+      ],
+      "text": "演出",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741D",
+        "textColor": "#FBC79B"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        405,
+        1232,
+        102,
+        52
+      ],
+      "text": "北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        307,
+        1370,
+        98,
+        48
+      ],
+      "text": "9.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1442,
+        466,
+        40
+      ],
+      "text": "2026-07-10至2026-07-31",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1504,
+        489,
+        42
+      ],
+      "text": "咂摸剧场（南锣鼓巷观乐茶馆）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        304,
+        1576,
+        207,
+        65
+      ],
+      "text": "¥68-88",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        28,
+        1720,
+        254,
+        330
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1706,
+        884,
+        122
+      ],
+      "text": "德云社相声大会-北京学院路德云社",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#534618"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        1712,
+        71,
+        42
+      ],
+      "text": "演出",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741B",
+        "textColor": "#FBC092"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        405,
+        1704,
+        102,
+        53
+      ],
+      "text": "北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1856,
+        469,
+        40
+      ],
+      "text": "2026-07-10至2026-07-19",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6F6F6F"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1920,
+        307,
+        36
+      ],
+      "text": "德云社学院路剧场",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#757575"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        305,
+        1992,
+        244,
+        60
+      ],
+      "text": "¥60-280",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        28,
+        2131,
+        254,
+        330
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        2121,
+        68,
+        39
+      ],
+      "text": "演出",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741D",
+        "textColor": "#FCC79A"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        2115,
+        102,
+        48
+      ],
+      "text": "北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        540,
+        2115,
+        650,
+        51
+      ],
+      "text": "前门盛世园相声大会-大栅栏店",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E005": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2187,
+        98,
+        45
+      ],
+      "text": "9.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C5-E006": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2257,
+        466,
+        38
+      ],
+      "text": "2026-07-10至2026-07-27",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6C6C6C"
+      }
+    },
+    "C5-E007": {
+      "kind": "text",
+      "bounds": [
+        313,
+        2312,
+        424,
+        42
+      ],
+      "text": "北京前门盛世园相声茶馆",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C5-E008": {
+      "kind": "text",
+      "bounds": [
+        336,
+        2393,
+        207,
+        58
+      ],
+      "text": "¥78-980",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C6-E001": {
+      "kind": "media",
+      "bounds": [
+        28,
+        2535,
+        254,
+        149
+      ],
+      "mediaType": "photo"
+    },
+    "C6-E002": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2519,
+        860,
+        122
+      ],
+      "text": "德云社相声大会——三里屯德云社剧场",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#534616"
+      }
+    },
+    "C6-E003": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        2529,
+        70,
+        40
+      ],
+      "text": "演出",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741B",
+        "textColor": "#FBC497"
+      }
+    },
+    "C6-E004": {
+      "kind": "text",
+      "bounds": [
+        405,
+        2519,
+        102,
+        54
+      ],
+      "text": "北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C6-E005": {
+      "kind": "text",
+      "bounds": [
+        311,
+        2671,
+        465,
+        28
+      ],
+      "text": "2026-07-10至2026-07-19",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        158,
+        168,
+        90,
+        42
+      ],
+      "text": "相声",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

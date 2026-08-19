@@ -24,13 +24,14 @@ metadata:
 - 【技能专属】`observableFact` 必须写清同类字段在不同卡片中的格式、位置或样式差异。
 - 【技能专属】示例输出：`同类商卡的评分分别使用“4.8分”和“好评率98%”两种表达，评级为不达标。用户无法直接横向比较商家的口碑表现。`
 
-- 达标或不达标结论的 `assessmentRows` 必须保留整页核查事实、命中规则及评级解释（技能专属覆盖模式：达标/不达标才需要）；优秀不要求保留 `assessmentRows`。
+- 每个结论都必须保留一条 `assessmentRows`，包含 Phase3 现场提取的同卡型分组、可比字段、逐卡观测、差异候选、排除原因及评级解释；优秀也不得省略。
 - `details.evidenceMode`、优秀排除规则同 7 个 skill 逐字相同条款，详见 [[页面框架评测通用契约]]。
 
 ## Phase2 事实输入契约
 
-- 同卡型分组、可比字段、`semanticRole`、文本原文、规格桶、位置和 `same_field_across_cards` 关系必须读取 Phase2 清单；自然裁切或 `uncertain` 字段不进入横向比较。
-- Phase3 仍按本 Skill 判断格式、位置、样式差异是否影响比较，不能把 Phase2 的候选关系直接计为不一致。
+- Phase2 只提供卡型/布局基础事实、原子元素的 `semanticRole`、原文、规格桶、分区、坐标和样式事实。本 Skill 必须运行 `scripts/extract_phase3_comparability.py`，在 Phase3 内完成同卡型分组、同语义角色字段匹配和格式/分区/位置/样式差异提取；不依赖、也不得要求 Phase2 生成 `same_field_across_cards`关系。
+- 自然裁切的元素仍可参与其他只评可见像素的 Phase3 Skill，但不作为完整字段进入横向比较；真正 `uncertain` 的基础事实才回退 Phase2。
+- 提取脚本标记的差异只是 Phase3 候选证据，Phase3 仍须按本 Skill 判断其是否真正增加横向比较成本，不得把任一字符串或坐标差异直接计为问题。
 
 ## 工具定位
 

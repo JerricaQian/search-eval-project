@@ -1,0 +1,1678 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "烧烤",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png",
+    "sha256": "440faadb1efb0e60f50503b957cbae9d49cd34b2bf1675af9b6ad2c988a34c26",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        554,
+        1224,
+        2146
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        554,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1217,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1880,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2540,
+        1224,
+        160
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        554,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        227,
+        554,
+        516,
+        58
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        626,
+        966,
+        41
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "sales": [
+          "C1-E005"
+        ],
+        "fulfillment": [
+          "C1-E006",
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        767,
+        997,
+        384
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            767,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E009"
+            ],
+            "title": [
+              "C1-E010"
+            ],
+            "price": [
+              "C1-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            767,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E012"
+            ],
+            "title": [
+              "C1-E013"
+            ],
+            "price": [
+              "C1-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            767,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E015"
+            ],
+            "title": [
+              "C1-E016"
+            ],
+            "price": [
+              "C1-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            767,
+            166,
+            383
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E018"
+            ],
+            "title": [
+              "C1-E019"
+            ],
+            "price": [
+              "C1-E020"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1217,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        1217,
+        461,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1289,
+        966,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "sales": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006",
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        402,
+        1357,
+        622,
+        37
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E008",
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1430,
+        997,
+        384
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1430,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E010"
+            ],
+            "title": [
+              "C2-E011"
+            ],
+            "price": [
+              "C2-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1430,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E013"
+            ],
+            "title": [
+              "C2-E014"
+            ],
+            "price": [
+              "C2-E015"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1430,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E016"
+            ],
+            "title": [
+              "C2-E017"
+            ],
+            "price": [
+              "C2-E018"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1430,
+            166,
+            384
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E019"
+            ],
+            "title": [
+              "C2-E020"
+            ],
+            "price": [
+              "C2-E021"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1880,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        227,
+        1880,
+        987,
+        60
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ],
+        "delivery_time": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1952,
+        966,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C3-E005"
+        ],
+        "sales": [
+          "C3-E006"
+        ],
+        "fulfillment": [
+          "C3-E007",
+          "C3-E008",
+          "C3-E009"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        398,
+        2017,
+        627,
+        42
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E010",
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        2093,
+        997,
+        383
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            2093,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E012"
+            ],
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            2093,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E015"
+            ],
+            "title": [
+              "C3-E016"
+            ],
+            "price": [
+              "C3-E017"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            2093,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E018"
+            ],
+            "title": [
+              "C3-E019"
+            ],
+            "price": [
+              "C3-E020"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            2093,
+            166,
+            383
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E021"
+            ],
+            "title": [
+              "C3-E022"
+            ],
+            "price": [
+              "C3-E023"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2568,
+        247,
+        120
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        2540,
+        411,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2614,
+        967,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "fulfillment": [
+          "C4-E005",
+          "C4-E007"
+        ],
+        "sales": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        483,
+        2680,
+        622,
+        20
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E008",
+          "C4-E009"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        554,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        227,
+        554,
+        78,
+        58
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE84B",
+        "textColor": "#E5D51D"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        323,
+        554,
+        420,
+        47
+      ],
+      "text": "锦州烧烤（悠乐汇店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        626,
+        102,
+        41
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        341,
+        626,
+        198,
+        41
+      ],
+      "text": "月售600+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#525252"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        626,
+        111,
+        40
+      ],
+      "text": "2.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        518,
+        627,
+        155,
+        39
+      ],
+      "text": "起送￥38",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#515151"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        686,
+        627,
+        158,
+        39
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1049,
+        248,
+        40
+      ],
+      "text": "碳烤风味小串(",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1107,
+        205,
+        44
+      ],
+      "text": "¥0.59神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE3D2C"
+      }
+    },
+    "C1-E012": {
+      "kind": "media",
+      "bounds": [
+        504,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1049,
+        232,
+        40
+      ],
+      "text": "碳烤网红面筋",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1107,
+        204,
+        44
+      ],
+      "text": "¥0.28神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE3C2A"
+      }
+    },
+    "C1-E015": {
+      "kind": "media",
+      "bounds": [
+        781,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1049,
+        248,
+        40
+      ],
+      "text": "碳烤腊肠小串(",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1107,
+        202,
+        44
+      ],
+      "text": "¥0.75神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE3C2A"
+      }
+    },
+    "C1-E018": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        767,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E019": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1049,
+        166,
+        41
+      ],
+      "text": "碳烤黑椒...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#181818"
+      }
+    },
+    "C1-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1108,
+        166,
+        42
+      ],
+      "text": "¥2.63神券...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3623"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1217,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        1221,
+        70,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#7C721A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        321,
+        1217,
+        373,
+        50
+      ],
+      "text": "锦州烧烤（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1289,
+        102,
+        42
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        344,
+        1289,
+        210,
+        42
+      ],
+      "text": "月售2000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1289,
+        110,
+        40
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        546,
+        1290,
+        323,
+        41
+      ],
+      "text": "起送￥20免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        402,
+        1357,
+        303,
+        37
+      ],
+      "text": "184位当地人常点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        716,
+        1357,
+        308,
+        37
+      ],
+      "text": "近30天225人复购",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E010": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1430,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1712,
+        194,
+        40
+      ],
+      "text": "秘制牛肉串",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1772,
+        202,
+        41
+      ],
+      "text": "¥2.78新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FD4433"
+      }
+    },
+    "C2-E013": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1430,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1710,
+        243,
+        45
+      ],
+      "text": "烤鸡翅天生",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6D6D29"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1770,
+        187,
+        44
+      ],
+      "text": "¥6.3新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FC4737"
+      }
+    },
+    "C2-E016": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1430,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        785,
+        1712,
+        229,
+        41
+      ],
+      "text": "【招牌】烤羊肉",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E018": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1772,
+        202,
+        41
+      ],
+      "text": "¥2.78新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FD4433"
+      }
+    },
+    "C2-E019": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1430,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1713,
+        166,
+        38
+      ],
+      "text": "烤五花肉串...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E021": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1772,
+        166,
+        42
+      ],
+      "text": "¥1.6新客价...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FC4B3B"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1880,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        227,
+        1880,
+        78,
+        58
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE84B",
+        "textColor": "#E5D51D"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        322,
+        1880,
+        475,
+        52
+      ],
+      "text": "望京小腰·烧烤（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        1034,
+        1880,
+        180,
+        60
+      ],
+      "text": "34分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1952,
+        102,
+        42
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        343,
+        1952,
+        214,
+        42
+      ],
+      "text": "月售3000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#515151"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        707,
+        1952,
+        158,
+        39
+      ],
+      "text": "配送￥0.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#494949"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1952,
+        111,
+        39
+      ],
+      "text": "2.9km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#505050"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        546,
+        1953,
+        156,
+        39
+      ],
+      "text": "起送￥45",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E010": {
+      "kind": "tag",
+      "bounds": [
+        398,
+        2021,
+        304,
+        37
+      ],
+      "text": "244位当地人常点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E011": {
+      "kind": "tag",
+      "bounds": [
+        717,
+        2017,
+        308,
+        42
+      ],
+      "text": "近30天318人复购",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E012": {
+      "kind": "media",
+      "bounds": [
+        227,
+        2093,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2372,
+        247,
+        47
+      ],
+      "text": "店内热销 🔥 炭",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C3811"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2436,
+        195,
+        40
+      ],
+      "text": "¥1.73新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FC4938"
+      }
+    },
+    "C3-E015": {
+      "kind": "media",
+      "bounds": [
+        504,
+        2093,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2374,
+        193,
+        41
+      ],
+      "text": "爆烤牛肉串",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2436,
+        191,
+        40
+      ],
+      "text": "¥1.71新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FC4F3F"
+      }
+    },
+    "C3-E018": {
+      "kind": "media",
+      "bounds": [
+        781,
+        2093,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E019": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2374,
+        232,
+        41
+      ],
+      "text": "淄博烧烤伴侣",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#181818"
+      }
+    },
+    "C3-E020": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2433,
+        205,
+        43
+      ],
+      "text": "¥8.99新客价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE4230"
+      }
+    },
+    "C3-E021": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        2093,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E022": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2373,
+        165,
+        41
+      ],
+      "text": "招牌望京...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E023": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2435,
+        165,
+        41
+      ],
+      "text": "¥1.53新客...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE4837"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2568,
+        247,
+        120
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        2546,
+        70,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#7C721A"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        324,
+        2540,
+        320,
+        49
+      ],
+      "text": "肉串汪（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2614,
+        102,
+        41
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        545,
+        2614,
+        323,
+        41
+      ],
+      "text": "起送￥30免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        341,
+        2615,
+        197,
+        41
+      ],
+      "text": "月售2000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2615,
+        111,
+        39
+      ],
+      "text": "1.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        483,
+        2680,
+        208,
+        20
+      ],
+      "text": "313位当地人赞过",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6A6A6A"
+      }
+    },
+    "C4-E009": {
+      "kind": "tag",
+      "bounds": [
+        706,
+        2680,
+        399,
+        20
+      ],
+      "text": "近30天415人复购",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "烧烤",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

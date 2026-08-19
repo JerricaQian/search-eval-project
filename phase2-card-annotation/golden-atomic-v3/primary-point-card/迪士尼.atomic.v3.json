@@ -1,0 +1,739 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "迪士尼",
+    "screenshot": "phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png",
+    "sha256": "9317d732bdc7813c8c4a75dbda79600077369c52f23a9f26c0f280abff7ca774",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M7"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        122,
+        1224,
+        128
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "heterogeneous_module",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        376,
+        1224,
+        775
+      ],
+      "slots": {
+        "other": [
+          "M3-E001",
+          "M3-E004"
+        ],
+        "other_tag": [
+          "M3-E002"
+        ],
+        "sales": [
+          "M3-E003"
+        ]
+      }
+    },
+    "M4": {
+      "type": "primary_point",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1170,
+        1224,
+        407
+      ]
+    },
+    "M5": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "variant": "business",
+      "itemIds": []
+    },
+    "M6": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M7": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1950,
+        1224,
+        750
+      ],
+      "cardIds": [
+        "C1",
+        "C2"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1950,
+        1224,
+        371
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2346,
+        1224,
+        354
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1978,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        318,
+        1966,
+        523,
+        55
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        2040,
+        883,
+        50
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "other": [
+          "C1-E005",
+          "C1-E006"
+        ],
+        "fulfillment": [
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        310,
+        2106,
+        825,
+        47
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E008",
+          "C1-E009",
+          "C1-E010",
+          "C1-E011"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2374,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        318,
+        2374,
+        429,
+        60
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2450,
+        884,
+        48
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "other": [
+          "C2-E005",
+          "C2-E006"
+        ],
+        "fulfillment": [
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        2517,
+        661,
+        47
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E008",
+          "C2-E009",
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        328,
+        2663,
+        865,
+        37
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            328,
+            2663,
+            865,
+            37
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E011",
+              "C2-E012"
+            ],
+            "price": [
+              "C2-E013"
+            ],
+            "sales": [
+              "C2-E014"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1978,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        1976,
+        70,
+        38
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1F8DFA",
+        "textColor": "#9FCFF8"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        1966,
+        435,
+        55
+      ],
+      "text": "上海乐高乐园度假区",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2040,
+        98,
+        45
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        420,
+        2043,
+        133,
+        42
+      ],
+      "text": "9792条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4B4B4B"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        566,
+        2044,
+        121,
+        42
+      ],
+      "text": "金山区",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        974,
+        2044,
+        218,
+        46
+      ],
+      "text": "距景点61km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#626262"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        310,
+        2106,
+        116,
+        44
+      ],
+      "text": "必玩榜",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595940"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        436,
+        2107,
+        312,
+        46
+      ],
+      "text": "神券最高膨至80↑",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3160"
+      }
+    },
+    "C1-E010": {
+      "kind": "tag",
+      "bounds": [
+        762,
+        2108,
+        160,
+        44
+      ],
+      "text": "有亲子票",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E011": {
+      "kind": "tag",
+      "bounds": [
+        939,
+        2110,
+        196,
+        42
+      ],
+      "text": "公园游乐场",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#757575"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2374,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        2386,
+        70,
+        39
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1F8DFA",
+        "textColor": "#9FCFF8"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        405,
+        2374,
+        342,
+        60
+      ],
+      "text": "上海失恋博物馆",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2450,
+        100,
+        45
+      ],
+      "text": "4.3分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        420,
+        2452,
+        108,
+        45
+      ],
+      "text": "2万条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4D4D4D"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        540,
+        2452,
+        238,
+        46
+      ],
+      "text": "南京东路商圈",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        976,
+        2454,
+        216,
+        42
+      ],
+      "text": "距景点20km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        2517,
+        310,
+        45
+      ],
+      "text": "神券最高膨至80↑",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3160"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        634,
+        2520,
+        160,
+        42
+      ],
+      "text": "有学生票",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C2-E010": {
+      "kind": "tag",
+      "bounds": [
+        810,
+        2520,
+        160,
+        44
+      ],
+      "text": "结伴出游",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        559,
+        2664,
+        242,
+        36
+      ],
+      "text": "【学生票】门票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        836,
+        2664,
+        138,
+        36
+      ],
+      "text": "无需换票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        328,
+        2663,
+        198,
+        37
+      ],
+      "text": "¥29.95.0折",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        1021,
+        2665,
+        172,
+        35
+      ],
+      "text": "已售3000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        158,
+        168,
+        133,
+        42
+      ],
+      "text": "迪士尼",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M3-E001": {
+      "kind": "media",
+      "bounds": [
+        0,
+        376,
+        1224,
+        775
+      ],
+      "mediaType": "photo"
+    },
+    "M3-E002": {
+      "kind": "tag",
+      "bounds": [
+        46,
+        390,
+        360,
+        108
+      ],
+      "text": "美团官方直播",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#B2B19C",
+        "textColor": "#A38E81"
+      }
+    },
+    "M3-E003": {
+      "kind": "text",
+      "bounds": [
+        175,
+        447,
+        200,
+        50
+      ],
+      "text": "5754观看",
+      "visual": {
+        "backgroundColor": "#C2AF9E",
+        "textColor": "#AC9888"
+      }
+    },
+    "M3-E004": {
+      "kind": "text",
+      "bounds": [
+        33,
+        938,
+        1170,
+        210
+      ],
+      "text": "",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787F68"
+      }
+    }
+  }
+}

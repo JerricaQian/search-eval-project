@@ -39,8 +39,9 @@ metadata:
 
 - 组件 Skill 必须逐组件执行自身规则；`overview.total` 必须等于实际评估**组件数**，Phase2 清单总数仅写入 `evidence.sourceManifestTotal` 作追溯，绝不得作为组件数。
 - **结果证据门槛：**每个评估组件必须有一条 `assessmentRows` 记录，列出六分区扫描范围、纳入/排除的标签与 icon、可复查的 `styleKey`、去重后的标签/icon 样式数和评级；每行还必须含 `measurement.tool`、`measurement.artifactPath`、`measurement.parameters`。`evidence.evaluatedUnitCount` 必须等于行数且与 `overview.total` 一致；优秀结论同样必须保留这些可复核证据。
-- **Phase2 属性优先：**完整可评组件必须具备 `visualInventory.complete=true`，且每个可见分区均有扫描记录；Phase3 只能以其中 `visualStatus=confirmed` 的 `entityKind`、`styleKey`、`sourceRegion` 为唯一计数输入，按当前组件去重后确定性评级。每个已确认 tag/icon 均必须同时存在于所属分区库存；不得重新按标签区猜测、不得漏掉头图/标题/下挂中的已登记标签。库存缺失、不完整或相关属性为 `uncertain` 时，必须发起 Phase2 回退复核；回退前不得把未确认项当作 0，也不得因此输出优秀。
-- **确定性测量优先：**当本项目可运行 `<projectDir>/scripts/extract_component_metrics.py` 时，必须优先执行并在 `assessmentRows` 保留扫描分区、纳入/排除实体、`styleKey`、标签/icon 去重计数、输入组件范围和测量产物路径。Phase2 `visualInventory` 是实体与样式事实源，测量脚本用于复核可见样式/图标；LLM 只能解释不确定实体或脚本未覆盖的语义，绝不得目视改写已确认 `styleKey` 去重计数及其阈值评级。脚本不可用或发现事实冲突时，记录原因并回退 Phase2 复核，不得自行补零或伪造测量结果。
+- **Phase2 原子事实优先：**Phase2 只提供元素原子、所属分区、坐标、基础 `entityKind` 和确认状态。Phase3 必须遍历组件全部可见分区的原子，不依赖 `visualInventory`、`countedInComplexity`、`countDecision` 或 Phase2 预生成的去重结论。若像素扫描发现原子边界外的疑似标签/icon，只能请求 Phase2 补齐基础识别，未确认 blob 不进入正式计数。
+- **标签识别：**优先遍历 `entityKind=tag` 的全部原子；atomic v3 中其 slot 必须以 `_tag` 结尾，前缀表示属性，例如 `fulfillment_tag`、`product_attribute_tag`、`scenic_rating_tag`、`promotion_tag`。属性只用于解释标签类别，不能替代 Phase3 对容器形态、颜色角色、图形辅助和去重条件的独立比较。
+- **确定性测量优先：**必须运行 `<projectDir>/scripts/extract_component_metrics.py`，由 Phase3 在当前原图上检测标签的颜色/容器样式和 icon 的像素样式，再生成当次五段式 `styleKey`、纳入理由、去重对象和计数。`assessmentRows` 保留全分区候选、排除项、像素测量值和产物路径；LLM 仅解释适用性及测量无法表达的语义，不得目视改写已确定的去重计数和阈值评级。
 
 ## 工具定位
 
@@ -95,7 +96,7 @@ metadata:
 
 ### 样式去重原则
 
-同一组件内只允许对**实体类别、颜色角色、语义角色、容器形态、图形辅助五项均一致**的已确认标签去重，且 Phase2 的 `dedupDecision` 必须点名可去重对象并说明视觉依据。颜色相近、都是圆角胶囊、文案相似均不足以合并。一个折扣胶囊中视觉上共用同一容器的「3.0折」「已减5」可作为一个最小标签实体；同卡中两个“时令”若五项完全一致，可计为 1 种。反之，“神券”（券标）、“鲜打”（商品卖点标）、“酒水热卖榜第1名”（榜单标）、“秒提 到店取”（履约标）、“直播特惠”（营销腰封）、“满85减15”（优惠金额标）即使均为橙色圆角容器，也必须分别计数。评分星、闪电、奖杯等独立图形按 icon 的完整 `styleKey` 另行计数，不能混入标签数。
+同一组件内只允许对**实体类别、颜色角色、语义角色、容器形态、图形辅助五项均一致**的已确认标签去重，且 Phase2 的 `dedupWithElementIds` 必须明确引用去重对象。颜色相近、都是圆角胶囊、文案相似均不足以合并。一个折扣胶囊中视觉上共用同一容器的「3.0折」「已减5」可作为一个最小标签实体；同卡中两个“时令”若五项完全一致，可计为 1 种。反之，“神券”（券标）、“鲜打”（商品卖点标）、“酒水热卖榜第1名”（榜单标）、“秒提 到店取”（履约标）、“直播特惠”（营销腰封）、“满85减15”（优惠金额标）即使均为橙色圆角容器，也必须分别计数。评分星、闪电、奖杯等独立图形按 icon 的完整 `styleKey` 另行计数，不能混入标签数。
 
 ---
 
@@ -141,12 +142,12 @@ metadata:
 
 ### Step 3：逐组件按视觉清单统计标签样式和 icon 样式
 
-对每个组件，从 Phase2 `visualInventory` 读取六分区已确认实体，按商卡整体边界过滤，再按 `styleKey` 去重统计；**不得只读取 `标签区`，也不得重新把 Phase2 已拆分实体合并**。标签可以出现在任意分区，区域归属不改变其是否计入本维度的结论。
+对每个组件，Phase3 遍历六分区的全部原子，在当前截图上测量候选样式后去重统计；**不得只读取 `标签区`，也不得重新把 Phase2 已拆分原子合并**。
 
-1. 纳入 `entityKind=tag`、`visualStatus=confirmed`、`countedInComplexity=true` 且满足 `isColored || isShaped || hasGraphicAssist` 的元素，按完整五段式 `styleKey` 去重计入标签样式数。缺少语义角色、容器形态、图形辅助、计入理由或去重决定时，必须回退 Phase2，不能自行补全。
-2. 纳入 `entityKind=icon`、`visualStatus=confirmed`、`countedInComplexity=true` 的独立图形，按完整五段式 `styleKey` 去重计入 icon 样式数。
+1. 对 Phase2 已确认为 tag 的原子测量颜色、填充/描边/纯文字容器和图形辅助；Phase3 判定是否纳入并生成当次 `styleKey`后去重。
+2. 对 Phase2 已确认为 icon 的原子在其坐标内测量像素样式，Phase3 去重计入 icon 样式数。
 3. `visualStatus=uncertain`、`entityKind=text`、主图/商品图以及中性色普通文字必须逐项列为“未计入”，并说明 Phase2 的可见视觉依据。普通下挂文案、票券说明和价格说明即使含“优惠”“年卡”“折”“减”等业务词，只要无彩色/异形视觉证据，均为 `text`，绝不得计作标签。
-4. `visualInventory.complete=false`、标签扫描检查表缺失、或任一候选的去重事实不完整时，写入 `待回退Phase2复核`；该组件不产生正式评级，更不得输出“优秀”或把未确认项按 0 处理。回退完成后再生成正式评级。
+4. Phase2 原子类型/边界不确定时回退 Phase2；Phase3 遍历、像素测量、样式组合或去重产物缺失时则在 Phase3 重跑/阻断，不得伪装成 Phase2 字段缺口。
 
 **3a. 扫描异形/异色标签**
 

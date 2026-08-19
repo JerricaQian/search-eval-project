@@ -75,7 +75,7 @@ def measure_crop(rgb: np.ndarray, coord: list[int]) -> dict[str, str]:
 
 
 def entity_kind(element_type: str, region: str) -> str:
-    if any(token in element_type for token in ("图片", "头图", "海报", "视频", "横幅/轮播")):
+    if any(token in element_type for token in ("图片", "头图", "主图", "海报", "视频", "横幅/轮播")):
         return "image"
     if "icon" in element_type.lower():
         return "icon"

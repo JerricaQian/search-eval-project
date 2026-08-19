@@ -1,0 +1,1480 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "西瓜",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为西瓜.png",
+    "sha256": "6be1d17806fa2083b672756977942bb75a2ae2bcefbd1cc71c77356a10c9f321",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        68,
+        436,
+        1126,
+        208
+      ],
+      "variant": "business",
+      "itemIds": [
+        "M3-I1",
+        "M3-I2",
+        "M3-I3",
+        "M3-I4",
+        "M3-I5",
+        "M3-I6"
+      ]
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "promotion_filter",
+      "visibility": "confirmed"
+    },
+    "M6": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1037,
+        1224,
+        1663
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1037,
+        1224,
+        538
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06",
+        "C1-R07"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1600,
+        1224,
+        462
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2092,
+        1224,
+        544
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06",
+        "C3-R07"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2636,
+        1224,
+        64
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1037,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ],
+        "product_attribute_tag": [
+          "C1-E002"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        389,
+        1038,
+        794,
+        131
+      ],
+      "slots": {
+        "title": [
+          "C1-E003"
+        ],
+        "fulfillment_tag": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "price",
+      "bounds": [
+        393,
+        1275,
+        606,
+        55
+      ],
+      "slots": {
+        "price": [
+          "C1-E010",
+          "C1-E011"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        395,
+        1194,
+        341,
+        43
+      ],
+      "slots": {
+        "coupon_type_tag": [
+          "C1-E007"
+        ],
+        "coupon_value_tag": [
+          "C1-E008"
+        ],
+        "guarantee_tag": [
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "merchant",
+      "bounds": [
+        396,
+        1411,
+        483,
+        44
+      ],
+      "slots": {
+        "merchant": [
+          "C1-E014"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        392,
+        1281,
+        802,
+        240
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E012",
+          "C1-E013",
+          "C1-E015"
+        ]
+      }
+    },
+    "C1-R07": {
+      "name": "base_info",
+      "bounds": [
+        392,
+        1181,
+        475,
+        47
+      ],
+      "slots": {
+        "other": [
+          "C1-E005",
+          "C1-E006"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1600,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ],
+        "product_attribute_tag": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        393,
+        1600,
+        685,
+        117
+      ],
+      "slots": {
+        "title": [
+          "C2-E003"
+        ],
+        "fulfillment_tag": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "price",
+      "bounds": [
+        384,
+        1758,
+        490,
+        69
+      ],
+      "slots": {
+        "price": [
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        395,
+        1757,
+        519,
+        43
+      ],
+      "slots": {
+        "coupon_type_tag": [
+          "C2-E005"
+        ],
+        "coupon_value_tag": [
+          "C2-E006",
+          "C2-E007"
+        ],
+        "guarantee_tag": [
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "merchant",
+      "bounds": [
+        394,
+        1901,
+        346,
+        45
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E012"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        397,
+        1776,
+        796,
+        235
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E010",
+          "C2-E011",
+          "C2-E013",
+          "C2-E014"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2092,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ],
+        "product_attribute_tag": [
+          "C3-E002"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        390,
+        2093,
+        731,
+        122
+      ],
+      "slots": {
+        "title": [
+          "C3-E003"
+        ],
+        "fulfillment_tag": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        387,
+        2325,
+        477,
+        63
+      ],
+      "slots": {
+        "price": [
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        395,
+        2320,
+        519,
+        43
+      ],
+      "slots": {
+        "coupon_type_tag": [
+          "C3-E007"
+        ],
+        "coupon_value_tag": [
+          "C3-E008",
+          "C3-E009"
+        ],
+        "guarantee_tag": [
+          "C3-E010"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        2467,
+        344,
+        41
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E014"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        393,
+        2338,
+        802,
+        235
+      ],
+      "slots": {
+        "fulfillment": [
+          "C3-E012",
+          "C3-E013",
+          "C3-E015"
+        ]
+      }
+    },
+    "C3-R07": {
+      "name": "base_info",
+      "bounds": [
+        393,
+        2236,
+        355,
+        43
+      ],
+      "slots": {
+        "other": [
+          "C3-E005",
+          "C3-E006"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2636,
+        330,
+        64
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ],
+        "product_attribute_tag": [
+          "C4-E002"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        400,
+        2662,
+        76,
+        38
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "base_info",
+      "bounds": [
+        497,
+        2659,
+        654,
+        41
+      ],
+      "slots": {
+        "other": [
+          "C4-E004"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {
+    "M3-I1": {
+      "bounds": [
+        68,
+        462,
+        175,
+        153
+      ],
+      "slots": {
+        "media": [
+          "M3-I1-E1"
+        ],
+        "label": [
+          "M3-I1-E2"
+        ]
+      }
+    },
+    "M3-I2": {
+      "bounds": [
+        274,
+        443,
+        157,
+        176
+      ],
+      "slots": {
+        "media": [
+          "M3-I2-E1"
+        ],
+        "label": [
+          "M3-I2-E2"
+        ]
+      }
+    },
+    "M3-I3": {
+      "bounds": [
+        458,
+        443,
+        165,
+        198
+      ],
+      "slots": {
+        "media": [
+          "M3-I3-E1"
+        ],
+        "label": [
+          "M3-I3-E2"
+        ]
+      }
+    },
+    "M3-I4": {
+      "bounds": [
+        657,
+        436,
+        138,
+        191
+      ],
+      "slots": {
+        "media": [
+          "M3-I4-E1"
+        ],
+        "label": [
+          "M3-I4-E2"
+        ]
+      }
+    },
+    "M3-I5": {
+      "bounds": [
+        846,
+        439,
+        157,
+        178
+      ],
+      "slots": {
+        "media": [
+          "M3-I5-E1"
+        ],
+        "label": [
+          "M3-I5-E2"
+        ]
+      }
+    },
+    "M3-I6": {
+      "bounds": [
+        1024,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I6-E1"
+        ],
+        "label": [
+          "M3-I6-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1037,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        267,
+        1048,
+        79,
+        49
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#A2CD00",
+        "textColor": "#2CC51F"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        389,
+        1038,
+        794,
+        131
+      ],
+      "text": "【爆品半斤瓜切】店长推荐 一包糖 麒麟/吊秧/庞各庄 西瓜切5g/份 50份",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1046,
+        74,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE329",
+        "textColor": "#8F8218"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        393,
+        1275,
+        337,
+        55
+      ],
+      "text": "50件总价￥9.81起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        728,
+        1281,
+        271,
+        47
+      ],
+      "text": "￥10月售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#ABABAB"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        395,
+        1194,
+        75,
+        43
+      ],
+      "text": "神券",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A",
+        "container": "none"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        478,
+        1194,
+        110,
+        43
+      ],
+      "text": "立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474",
+        "container": "none"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        606,
+        1194,
+        130,
+        43
+      ],
+      "text": "坏必赔",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8B8B8B"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1411,
+        483,
+        44
+      ],
+      "text": "品牌果小果·鲜果切(望京店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6A5555"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        1281,
+        130,
+        49
+      ],
+      "text": "21分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1349,
+        111,
+        38
+      ],
+      "text": "2.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1474,
+        302,
+        47
+      ],
+      "text": "起送￥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        392,
+        1181,
+        110,
+        47
+      ],
+      "text": "赠叉子",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        538,
+        1181,
+        329,
+        47
+      ],
+      "text": "水果混合果切/果拼",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8B8B8B"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1600,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        272,
+        1616,
+        70,
+        39
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1CC317",
+        "textColor": "#84DF80"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        393,
+        1600,
+        685,
+        117
+      ],
+      "text": "一桶西瓜 含桶1斤装（爆品）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#363311"
+      }
+    },
+    "C2-E004": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        1603,
+        72,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#7F741A"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        384,
+        1758,
+        490,
+        69
+      ],
+      "text": "￥0到手价￥24.9月售400+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#E68881"
+      }
+    },
+    "C2-E005": {
+      "kind": "tag",
+      "bounds": [
+        395,
+        1757,
+        75,
+        43
+      ],
+      "text": "神券",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26",
+        "container": "none"
+      }
+    },
+    "C2-E006": {
+      "kind": "tag",
+      "bounds": [
+        478,
+        1757,
+        136,
+        43
+      ],
+      "text": "52减18",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F6887F",
+        "container": "none"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        630,
+        1757,
+        136,
+        43
+      ],
+      "text": "62减20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#C2C2C2",
+        "container": "none"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        784,
+        1757,
+        130,
+        43
+      ],
+      "text": "坏必赔",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6A6A6A"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1901,
+        346,
+        45
+      ],
+      "text": "品牌切果达(望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#855555"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        1067,
+        1776,
+        126,
+        45
+      ],
+      "text": "31分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#626262"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1841,
+        110,
+        37
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        530,
+        1968,
+        162,
+        43
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1970,
+        124,
+        37
+      ],
+      "text": "起送￥0",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#757575"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2092,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        271,
+        2108,
+        71,
+        39
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1CC317",
+        "textColor": "#81DE7D"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        390,
+        2093,
+        731,
+        122
+      ],
+      "text": "【果切】一斤西瓜吃到爽(500g) 爆品",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        2102,
+        72,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#877916"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        387,
+        2325,
+        477,
+        63
+      ],
+      "text": "￥0到手价¥19.9月售400+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#EA847E"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        395,
+        2320,
+        75,
+        43
+      ],
+      "text": "神券",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26",
+        "container": "none"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        478,
+        2320,
+        136,
+        43
+      ],
+      "text": "52减18",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F6887F",
+        "container": "none"
+      }
+    },
+    "C3-E009": {
+      "kind": "tag",
+      "bounds": [
+        630,
+        2320,
+        136,
+        43
+      ],
+      "text": "62减20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#C2C2C2",
+        "container": "none"
+      }
+    },
+    "C3-E010": {
+      "kind": "tag",
+      "bounds": [
+        784,
+        2320,
+        130,
+        43
+      ],
+      "text": "坏必赔",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6B6B6B"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        397,
+        2467,
+        344,
+        41
+      ],
+      "text": "品牌切果乐(望京店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#855555"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        2338,
+        131,
+        46
+      ],
+      "text": "29分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2405,
+        109,
+        36
+      ],
+      "text": "2.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        393,
+        2530,
+        300,
+        43
+      ],
+      "text": "起送￥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        393,
+        2236,
+        106,
+        43
+      ],
+      "text": "赠叉子",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        535,
+        2236,
+        213,
+        43
+      ],
+      "text": "西瓜切片/块",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#757575"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2636,
+        330,
+        64
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        270,
+        2670,
+        73,
+        30
+      ],
+      "text": "时令",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#25C51E",
+        "textColor": "#90E68C"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        2662,
+        76,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32E",
+        "textColor": "#8F8212"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        497,
+        2659,
+        654,
+        41
+      ],
+      "text": "【冰镇西瓜】一牙/半个麒麟瓜约",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "西瓜",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        68,
+        462,
+        175,
+        93
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        68,
+        563,
+        175,
+        52
+      ],
+      "text": "果切",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#2A2A2A"
+      }
+    },
+    "M3-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        274,
+        443,
+        157,
+        116
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        274,
+        567,
+        157,
+        52
+      ],
+      "text": "麒麟",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        458,
+        443,
+        165,
+        138
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        458,
+        589,
+        165,
+        52
+      ],
+      "text": "小西瓜",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#2A2A2A"
+      }
+    },
+    "M3-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        657,
+        436,
+        138,
+        131
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        657,
+        575,
+        138,
+        52
+      ],
+      "text": "半个",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#222222"
+      }
+    },
+    "M3-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        846,
+        439,
+        157,
+        118
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        846,
+        565,
+        157,
+        52
+      ],
+      "text": "无籽",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I6-E1": {
+      "kind": "media",
+      "bounds": [
+        1024,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I6-E2": {
+      "kind": "text",
+      "bounds": [
+        1068,
+        598,
+        92,
+        46
+      ],
+      "text": "黄心",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#181818"
+      }
+    }
+  }
+}

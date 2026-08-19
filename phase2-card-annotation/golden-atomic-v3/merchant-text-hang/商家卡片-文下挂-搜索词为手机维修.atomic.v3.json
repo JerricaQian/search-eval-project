@@ -1,0 +1,1541 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "手机维修",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为手机维修.png",
+    "sha256": "7a2f8c74a93f80e124c60b580d2a74a3a891b6611356d63437c474083571e769",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        843,
+        1224,
+        1828
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        843,
+        1224,
+        443
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1325,
+        1224,
+        442
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1807,
+        1224,
+        441
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2289,
+        1224,
+        382
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        843,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        313,
+        873,
+        753,
+        58
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        304,
+        944,
+        891,
+        52
+      ],
+      "slots": {
+        "price": [
+          "C1-E004"
+        ],
+        "fulfillment": [
+          "C1-E005"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        310,
+        1011,
+        802,
+        113
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E006",
+          "C1-E007",
+          "C1-E008",
+          "C1-E009",
+          "C1-E010"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1158,
+        884,
+        118
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            1158,
+            882,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E011"
+            ],
+            "price": [
+              "C1-E012"
+            ],
+            "promotion_tag": [
+              "C1-E013"
+            ],
+            "sales": [
+              "C1-E014"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            309,
+            1230,
+            884,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E015"
+            ],
+            "price": [
+              "C1-E016"
+            ],
+            "promotion_tag": [
+              "C1-E017"
+            ],
+            "sales": [
+              "C1-E018"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1325,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        314,
+        1348,
+        853,
+        58
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        1424,
+        883,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "price": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1491,
+        755,
+        106
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008",
+          "C2-E009",
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        1635,
+        886,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            1635,
+            884,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E011"
+            ],
+            "price": [
+              "C2-E012"
+            ],
+            "sales": [
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            308,
+            1705,
+            886,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E014"
+            ],
+            "price": [
+              "C2-E015"
+            ],
+            "promotion_tag": [
+              "C2-E016"
+            ],
+            "sales": [
+              "C2-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1807,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        310,
+        1825,
+        687,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        307,
+        1897,
+        426,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "review_count": [
+          "C3-E005"
+        ],
+        "category": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        312,
+        1963,
+        650,
+        109
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008",
+          "C3-E009"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        2109,
+        885,
+        119
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            2109,
+            884,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E010"
+            ],
+            "price": [
+              "C3-E011"
+            ],
+            "sales": [
+              "C3-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            308,
+            2179,
+            885,
+            49
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ],
+            "sales": [
+              "C3-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2289,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        311,
+        2298,
+        721,
+        55
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        2376,
+        419,
+        41
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "other": [
+          "C4-E005"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        2440,
+        651,
+        42
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E006",
+          "C4-E007"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        307,
+        2520,
+        886,
+        118
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            308,
+            2520,
+            885,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E008"
+            ],
+            "price": [
+              "C4-E009"
+            ],
+            "promotion_tag": [
+              "C4-E010"
+            ],
+            "sales": [
+              "C4-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            307,
+            2588,
+            886,
+            50
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E012"
+            ],
+            "price": [
+              "C4-E013"
+            ],
+            "promotion_tag": [
+              "C4-E014"
+            ],
+            "sales": [
+              "C4-E015"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        843,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        313,
+        880,
+        80,
+        46
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF8B2F",
+        "textColor": "#FE8B4D"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        402,
+        873,
+        664,
+        58
+      ],
+      "text": "果粉师傅苹果维修回收（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        304,
+        944,
+        585,
+        52
+      ],
+      "text": "4.7分5556条￥286/人手机维修",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D5541"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        952,
+        114,
+        42
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#424242"
+      }
+    },
+    "C1-E006": {
+      "kind": "tag",
+      "bounds": [
+        310,
+        1011,
+        118,
+        50
+      ],
+      "text": "全程保",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7631"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        445,
+        1011,
+        183,
+        50
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        647,
+        1011,
+        292,
+        50
+      ],
+      "text": "近期好评率100%",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        956,
+        1011,
+        156,
+        50
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E010": {
+      "kind": "tag",
+      "bounds": [
+        354,
+        1080,
+        315,
+        44
+      ],
+      "text": "维修很专业，好评",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#916B46"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        536,
+        1158,
+        451,
+        46
+      ],
+      "text": "【外屏碎】手机维修6-16换",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1160,
+        94,
+        44
+      ],
+      "text": "¥172",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E013": {
+      "kind": "tag",
+      "bounds": [
+        413,
+        1158,
+        92,
+        44
+      ],
+      "text": "0.8折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        1040,
+        1163,
+        153,
+        38
+      ],
+      "text": "年售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        526,
+        1230,
+        464,
+        45
+      ],
+      "text": "【维修】苹果手机iPhoneXs-",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1231,
+        83,
+        45
+      ],
+      "text": "¥111",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E017": {
+      "kind": "tag",
+      "bounds": [
+        405,
+        1230,
+        90,
+        43
+      ],
+      "text": "1.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3420"
+      }
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        1235,
+        154,
+        37
+      ],
+      "text": "年售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1325,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        314,
+        1356,
+        78,
+        45
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF791F",
+        "textColor": "#FEB480"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        404,
+        1348,
+        763,
+        58
+      ],
+      "text": "速达电脑手机维修·数据恢复（五道口",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1424,
+        103,
+        43
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        419,
+        1425,
+        583,
+        45
+      ],
+      "text": "467条￥103/人电脑维修五道口",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1062,
+        1430,
+        129,
+        35
+      ],
+      "text": "12.6km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#494949"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1491,
+        123,
+        43
+      ],
+      "text": "全程保",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7631"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        445,
+        1492,
+        311,
+        40
+      ],
+      "text": "神券最高膨至40",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3262"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        773,
+        1492,
+        291,
+        40
+      ],
+      "text": "近期好评率100%",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E010": {
+      "kind": "tag",
+      "bounds": [
+        354,
+        1557,
+        391,
+        40
+      ],
+      "text": "非常专业、维修技术好",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#926C48"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        517,
+        1635,
+        391,
+        42
+      ],
+      "text": "手机维修换屏升级解锁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1635,
+        81,
+        45
+      ],
+      "text": "¥25",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        1098,
+        1637,
+        95,
+        40
+      ],
+      "text": "年售1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#838383"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        517,
+        1708,
+        236,
+        40
+      ],
+      "text": "小米手机维修",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1706,
+        81,
+        46
+      ],
+      "text": "¥25",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E016": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1707,
+        89,
+        39
+      ],
+      "text": "2.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        1096,
+        1705,
+        98,
+        46
+      ],
+      "text": "年售1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#838383"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1807,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        310,
+        1828,
+        96,
+        48
+      ],
+      "text": "上门",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FEE128"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        402,
+        1825,
+        595,
+        50
+      ],
+      "text": "京东服务家电维修安装北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        307,
+        1897,
+        102,
+        46
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        426,
+        1897,
+        144,
+        46
+      ],
+      "text": "4.8万条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5B5B5B"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        587,
+        1897,
+        146,
+        46
+      ],
+      "text": "家电维修",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        774,
+        1963,
+        188,
+        45
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        312,
+        1967,
+        447,
+        37
+      ],
+      "text": "北京家电维修好评榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7835"
+      }
+    },
+    "C3-E009": {
+      "kind": "tag",
+      "bounds": [
+        354,
+        2031,
+        391,
+        41
+      ],
+      "text": "搞定了棘手问题，推荐",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#946E4A"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        514,
+        2110,
+        468,
+        40
+      ],
+      "text": "安卓手机检测故障维修手机",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2109,
+        77,
+        47
+      ],
+      "text": "¥37",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        2111,
+        154,
+        41
+      ],
+      "text": "年售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        518,
+        2182,
+        468,
+        39
+      ],
+      "text": "苹果手机维修上门检测故障",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2179,
+        85,
+        49
+      ],
+      "text": "¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        2184,
+        154,
+        38
+      ],
+      "text": "年售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2289,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        2303,
+        87,
+        50
+      ],
+      "text": "上门",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FEE128"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        405,
+        2298,
+        627,
+        54
+      ],
+      "text": "闪修侠手机维修电脑维修北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2376,
+        102,
+        40
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        408,
+        2377,
+        321,
+        40
+      ],
+      "text": "9353条手机维修",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C4-E006": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        2442,
+        452,
+        40
+      ],
+      "text": "北京手机维修销量榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7B39"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        775,
+        2440,
+        187,
+        41
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        494,
+        2521,
+        465,
+        42
+      ],
+      "text": "【更换尾插优惠卷】手机充电",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2520,
+        81,
+        46
+      ],
+      "text": "¥25",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E010": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        2520,
+        60,
+        41
+      ],
+      "text": "5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        1018,
+        2522,
+        175,
+        40
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        495,
+        2593,
+        466,
+        41
+      ],
+      "text": "【30代50】抵用金-苹果华为",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        307,
+        2588,
+        83,
+        50
+      ],
+      "text": "¥25",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E014": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        2589,
+        61,
+        44
+      ],
+      "text": "5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C4-E015": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        2594,
+        173,
+        38
+      ],
+      "text": "年售8000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    }
+  }
+}

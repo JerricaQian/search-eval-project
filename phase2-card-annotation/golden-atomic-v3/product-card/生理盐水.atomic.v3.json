@@ -1,0 +1,1292 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "生理盐水",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png",
+    "sha256": "d4c6493c6f4ded1922ec173d3ef39b7277c18b27dca255028b6d61a619344f59",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        554,
+        1224,
+        2146
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    },
+    "M5": {
+      "type": "floating_service",
+      "visibility": "confirmed"
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        554,
+        1224,
+        502
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06",
+        "C1-R07"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1056,
+        1224,
+        502
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1558,
+        1224,
+        487
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2045,
+        1224,
+        517
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05",
+        "C4-R06"
+      ]
+    },
+    "C5": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2562,
+        1224,
+        138
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        554,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        392,
+        558,
+        773,
+        121
+      ],
+      "slots": {
+        "title": [
+          "C1-E002"
+        ],
+        "fulfillment_tag": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "price",
+      "bounds": [
+        394,
+        787,
+        456,
+        60
+      ],
+      "slots": {
+        "price": [
+          "C1-E006"
+        ],
+        "sales": [
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "promotion_and_guarantee",
+      "bounds": [
+        514,
+        800,
+        154,
+        43
+      ],
+      "slots": {
+        "promotion_tag": [
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "merchant",
+      "bounds": [
+        396,
+        866,
+        503,
+        45
+      ],
+      "slots": {
+        "merchant": [
+          "C1-E010"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "fulfillment",
+      "bounds": [
+        393,
+        799,
+        801,
+        177
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E007",
+          "C1-E011",
+          "C1-E012"
+        ]
+      }
+    },
+    "C1-R07": {
+      "name": "base_info",
+      "bounds": [
+        397,
+        700,
+        460,
+        43
+      ],
+      "slots": {
+        "other": [
+          "C1-E004",
+          "C1-E005"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1056,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        394,
+        1059,
+        776,
+        122
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ],
+        "fulfillment_tag": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "price",
+      "bounds": [
+        388,
+        1281,
+        495,
+        80
+      ],
+      "slots": {
+        "price": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "merchant",
+      "bounds": [
+        395,
+        1368,
+        503,
+        45
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        393,
+        1301,
+        801,
+        177
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E007",
+          "C2-E009",
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        1201,
+        462,
+        45
+      ],
+      "slots": {
+        "other": [
+          "C2-E004",
+          "C2-E005"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1558,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        395,
+        1561,
+        775,
+        119
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ],
+        "fulfillment_tag": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        390,
+        1782,
+        502,
+        72
+      ],
+      "slots": {
+        "price": [
+          "C3-E005"
+        ],
+        "sales": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        1873,
+        644,
+        41
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        397,
+        1806,
+        796,
+        171
+      ],
+      "slots": {
+        "delivery_time": [
+          "C3-E007"
+        ],
+        "fulfillment": [
+          "C3-E009",
+          "C3-E010",
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "base_info",
+      "bounds": [
+        394,
+        1702,
+        237,
+        44
+      ],
+      "slots": {
+        "other": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2060,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        392,
+        2061,
+        807,
+        120
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ],
+        "fulfillment_tag": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "price",
+      "bounds": [
+        392,
+        2290,
+        308,
+        70
+      ],
+      "slots": {
+        "price": [
+          "C4-E007"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        2373,
+        534,
+        42
+      ],
+      "slots": {
+        "merchant": [
+          "C4-E009"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        396,
+        2306,
+        799,
+        173
+      ],
+      "slots": {
+        "fulfillment": [
+          "C4-E008",
+          "C4-E010",
+          "C4-E011",
+          "C4-E012"
+        ]
+      }
+    },
+    "C4-R06": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        2205,
+        471,
+        41
+      ],
+      "slots": {
+        "other": [
+          "C4-E004",
+          "C4-E005",
+          "C4-E006"
+        ]
+      }
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2562,
+        330,
+        138
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        403,
+        2566,
+        757,
+        48
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C5-E002"
+        ],
+        "title": [
+          "C5-E003"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "base_info",
+      "bounds": [
+        397,
+        2634,
+        785,
+        48
+      ],
+      "slots": {
+        "other": [
+          "C5-E004"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        554,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        392,
+        558,
+        773,
+        121
+      ],
+      "text": "海氏海诺英诺威医用生理盐水清洗液250ml 0.9%氯化钠清洗液清洁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E003": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        562,
+        74,
+        42
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE328",
+        "textColor": "#8E7F1C"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        394,
+        787,
+        112,
+        60
+      ],
+      "text": "￥6.5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        688,
+        800,
+        162,
+        43
+      ],
+      "text": "已售700+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        514,
+        800,
+        154,
+        43
+      ],
+      "text": "已优惠¥1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F75647",
+        "container": "none"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        396,
+        866,
+        503,
+        45
+      ],
+      "text": "品牌惠百堂医疗器械(望京店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#765555"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        799,
+        129,
+        48
+      ],
+      "text": "32分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#565656"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        870,
+        111,
+        38
+      ],
+      "text": "2.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        393,
+        930,
+        331,
+        46
+      ],
+      "text": "起送￥9.9免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        397,
+        700,
+        212,
+        43
+      ],
+      "text": "一类医疗器械",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4095F7"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        645,
+        700,
+        212,
+        43
+      ],
+      "text": "超30人回购",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1056,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1059,
+        776,
+        122
+      ],
+      "text": "[霖恩盐水]清洗液(0.9%NaCl)(生理盐水)15ml*20支/盒 生理盐水棒清",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1065,
+        73,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE328",
+        "textColor": "#877C1D"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        388,
+        1281,
+        495,
+        80
+      ],
+      "text": "￥15.9已优惠¥2已售700+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F55555"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1368,
+        503,
+        45
+      ],
+      "text": "品牌闪叮叮医疗器械(望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#705555"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        1301,
+        129,
+        48
+      ],
+      "text": "32分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#565656"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1372,
+        111,
+        38
+      ],
+      "text": "2.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        393,
+        1431,
+        353,
+        47
+      ],
+      "text": "起送￥15.9免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1201,
+        213,
+        45
+      ],
+      "text": "一类医疗器械",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#3E94F7"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        644,
+        1201,
+        213,
+        45
+      ],
+      "text": "超20人回购",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1558,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1561,
+        775,
+        119
+      ],
+      "text": "[霖恩盐水]清洗液(0.9%NaCl)(生理盐水)15ml*20支/盒 伤口清洁温和",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        402,
+        1568,
+        70,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE328",
+        "textColor": "#82781E"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        390,
+        1782,
+        138,
+        72
+      ],
+      "text": "￥11.5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        502,
+        1805,
+        390,
+        44
+      ],
+      "text": "5满2件10.35/件已售2",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F55E55"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1873,
+        644,
+        41
+      ],
+      "text": "品牌叮当优品器械健康用品店(望京...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#685555"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        1034,
+        1806,
+        159,
+        42
+      ],
+      "text": "15分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7802"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        1084,
+        1875,
+        107,
+        36
+      ],
+      "text": "1.7km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        563,
+        1938,
+        159,
+        39
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1939,
+        155,
+        36
+      ],
+      "text": "起送￥9.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1702,
+        237,
+        44
+      ],
+      "text": "一类医疗器械",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4296F7"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2060,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        392,
+        2061,
+        807,
+        120
+      ],
+      "text": "[KL]生理氯化钠溶液(0.9%)*500ml/瓶",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1ACFB2"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        398,
+        2065,
+        78,
+        47
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FDE02B"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        392,
+        2290,
+        308,
+        70
+      ],
+      "text": "￥4.9已售4000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#D45555"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        397,
+        2373,
+        534,
+        42
+      ],
+      "text": "品牌111医药馆(望京西园分店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E5555"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        2306,
+        131,
+        46
+      ],
+      "text": "30分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2375,
+        112,
+        40
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2440,
+        150,
+        38
+      ],
+      "text": "起送￥20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        555,
+        2440,
+        158,
+        39
+      ],
+      "text": "免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2205,
+        236,
+        41
+      ],
+      "text": "超300人回购",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        664,
+        2205,
+        101,
+        41
+      ],
+      "text": "处方药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        799,
+        2205,
+        67,
+        41
+      ],
+      "text": "西药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#858585"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2562,
+        330,
+        138
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "tag",
+      "bounds": [
+        403,
+        2573,
+        69,
+        36
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE326",
+        "textColor": "#887C22"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        494,
+        2566,
+        666,
+        48
+      ],
+      "text": "生理盐水清洗液【15支/1支】[妮",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        397,
+        2634,
+        785,
+        48
+      ],
+      "text": "蓓莉]待测物清洗液(0.9%盐水清洗液)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "生理盐水",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

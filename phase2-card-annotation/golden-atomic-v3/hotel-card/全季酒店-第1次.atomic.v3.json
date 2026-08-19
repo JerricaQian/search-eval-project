@@ -1,0 +1,1758 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "全季酒店-第1次",
+    "screenshot": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第1次.png",
+    "sha256": "6e6a86747a3befb92eef9a98ae10a2d9923d91dda932c7b7fe98e3a04840e9ef",
+    "viewport": [
+      1206,
+      2622
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        178,
+        1206,
+        127
+      ],
+      "slots": {
+        "merchant": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        313,
+        1206,
+        108
+      ]
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        428,
+        1206,
+        107
+      ]
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        554,
+        1206,
+        2068
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        554,
+        1206,
+        488
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06"
+      ]
+    },
+    "C2": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1042,
+        1206,
+        395
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06"
+      ]
+    },
+    "C3": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1437,
+        1206,
+        406
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1843,
+        1206,
+        421
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05",
+        "C4-R06"
+      ]
+    },
+    "C5": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2264,
+        1206,
+        358
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03",
+        "C5-R04",
+        "C5-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        568,
+        330,
+        421
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        358,
+        574,
+        775,
+        116
+      ],
+      "slots": {
+        "title": [
+          "C1-E002"
+        ],
+        "fulfillment_tag": [
+          "C1-E003"
+        ],
+        "hotel_class": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "rating_and_reason",
+      "bounds": [
+        357,
+        706,
+        94,
+        41
+      ],
+      "slots": {
+        "rating": [
+          "C1-E005"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "location",
+      "bounds": [
+        358,
+        768,
+        414,
+        38
+      ],
+      "slots": {
+        "location": [
+          "C1-E006",
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "tags",
+      "bounds": [
+        410,
+        823,
+        529,
+        117
+      ],
+      "slots": {
+        "generic_tag": [
+          "C1-E008",
+          "C1-E009",
+          "C1-E010"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "price",
+      "bounds": [
+        360,
+        886,
+        816,
+        114
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C1-E011",
+          "C1-E012",
+          "C1-E013",
+          "C1-E014",
+          "C1-E015"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        1056,
+        330,
+        367
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        366,
+        1046,
+        724,
+        53
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ],
+        "hotel_class": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "rating_and_reason",
+      "bounds": [
+        356,
+        1114,
+        358,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C2-E005"
+        ],
+        "recommendation": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "location",
+      "bounds": [
+        359,
+        1176,
+        538,
+        40
+      ],
+      "slots": {
+        "location": [
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "tags",
+      "bounds": [
+        412,
+        1235,
+        654,
+        39
+      ],
+      "slots": {
+        "generic_tag": [
+          "C2-E009",
+          "C2-E010",
+          "C2-E011"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "price",
+      "bounds": [
+        358,
+        1288,
+        818,
+        115
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C2-E012",
+          "C2-E013",
+          "C2-E014",
+          "C2-E015",
+          "C2-E016",
+          "C2-E017"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        1451,
+        330,
+        378
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        366,
+        1450,
+        635,
+        52
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ],
+        "hotel_class": [
+          "C3-E004"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "rating_and_reason",
+      "bounds": [
+        358,
+        1517,
+        466,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C3-E005"
+        ],
+        "recommendation": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "location",
+      "bounds": [
+        360,
+        1580,
+        479,
+        36
+      ],
+      "slots": {
+        "location": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "tags",
+      "bounds": [
+        412,
+        1637,
+        654,
+        43
+      ],
+      "slots": {
+        "generic_tag": [
+          "C3-E009",
+          "C3-E010",
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "price",
+      "bounds": [
+        358,
+        1691,
+        818,
+        116
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C3-E012",
+          "C3-E013",
+          "C3-E014",
+          "C3-E015",
+          "C3-E016",
+          "C3-E017"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        1857,
+        330,
+        393
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        358,
+        1853,
+        748,
+        114
+      ],
+      "slots": {
+        "hotel_class": [
+          "C4-E002"
+        ],
+        "fulfillment_tag": [
+          "C4-E003"
+        ],
+        "title": [
+          "C4-E004"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "rating_and_reason",
+      "bounds": [
+        357,
+        1987,
+        467,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C4-E005"
+        ],
+        "recommendation": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "location",
+      "bounds": [
+        360,
+        2049,
+        487,
+        38
+      ],
+      "slots": {
+        "location": [
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "tags",
+      "bounds": [
+        410,
+        2101,
+        692,
+        50
+      ],
+      "slots": {
+        "generic_tag": [
+          "C4-E009",
+          "C4-E010",
+          "C4-E011"
+        ]
+      }
+    },
+    "C4-R06": {
+      "name": "price",
+      "bounds": [
+        358,
+        2161,
+        819,
+        103
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C4-E012",
+          "C4-E013",
+          "C4-E014",
+          "C4-E015",
+          "C4-E016",
+          "C4-E017"
+        ]
+      }
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        2278,
+        330,
+        330
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        359,
+        2322,
+        791,
+        114
+      ],
+      "slots": {
+        "hotel_class": [
+          "C5-E002"
+        ],
+        "fulfillment_tag": [
+          "C5-E003"
+        ],
+        "title": [
+          "C5-E004"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "rating_and_reason",
+      "bounds": [
+        358,
+        2456,
+        417,
+        43
+      ],
+      "slots": {
+        "rating": [
+          "C5-E005"
+        ],
+        "recommendation": [
+          "C5-E006"
+        ]
+      }
+    },
+    "C5-R04": {
+      "name": "location",
+      "bounds": [
+        360,
+        2519,
+        518,
+        37
+      ],
+      "slots": {
+        "location": [
+          "C5-E007",
+          "C5-E008"
+        ]
+      }
+    },
+    "C5-R05": {
+      "name": "tags",
+      "bounds": [
+        412,
+        2574,
+        690,
+        42
+      ],
+      "slots": {
+        "generic_tag": [
+          "C5-E009",
+          "C5-E010",
+          "C5-E011"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        568,
+        330,
+        421
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        358,
+        574,
+        775,
+        116
+      ],
+      "text": "全季酒店（北京望京商务区宝能中心店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1B3A3A"
+      }
+    },
+    "C1-E003": {
+      "kind": "tag",
+      "bounds": [
+        364,
+        578,
+        68,
+        38
+      ],
+      "text": "酒店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1E8DFC",
+        "textColor": "#90CAF6"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        427,
+        646,
+        112,
+        44
+      ],
+      "text": "舒适型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#999999"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        357,
+        706,
+        94,
+        41
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5907"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        358,
+        768,
+        254,
+        38
+      ],
+      "text": "距您直线2.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6D6D6D"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        626,
+        769,
+        146,
+        36
+      ],
+      "text": "近悠乐汇",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        410,
+        823,
+        292,
+        46
+      ],
+      "text": "住就送·32元券包",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF8F0",
+        "textColor": "#6D4610"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        738,
+        826,
+        201,
+        42
+      ],
+      "text": "新开业/装修",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C1-E010": {
+      "kind": "tag",
+      "bounds": [
+        420,
+        898,
+        351,
+        42
+      ],
+      "text": "望京舒适好评榜第7名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFEDDE",
+        "textColor": "#823D0E"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        1029,
+        886,
+        147,
+        54
+      ],
+      "text": "¥888起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        892,
+        904,
+        109,
+        30
+      ],
+      "text": "¥1009",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#888888"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        360,
+        965,
+        248,
+        35
+      ],
+      "text": "1小时前有人预订",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        885,
+        962,
+        111,
+        33
+      ],
+      "text": "天天特价",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF4837"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        1024,
+        962,
+        139,
+        33
+      ],
+      "text": "立减121",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3724"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        1056,
+        330,
+        367
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        366,
+        1056,
+        64,
+        34
+      ],
+      "text": "酒店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1D8CFB",
+        "textColor": "#95CBF7"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        446,
+        1046,
+        530,
+        53
+      ],
+      "text": "全季酒店（北京会议中心店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        980,
+        1054,
+        110,
+        43
+      ],
+      "text": "高档型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#909090"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        356,
+        1114,
+        92,
+        42
+      ],
+      "text": "4.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5C0B"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        464,
+        1116,
+        250,
+        38
+      ],
+      "text": "设施完善且齐全",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7D3D"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        359,
+        1176,
+        252,
+        37
+      ],
+      "text": "距您直线3.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        627,
+        1176,
+        270,
+        40
+      ],
+      "text": "亚运村/奥体中心",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        412,
+        1236,
+        288,
+        38
+      ],
+      "text": "住就送·32元券包",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF8F0",
+        "textColor": "#6D4610"
+      }
+    },
+    "C2-E010": {
+      "kind": "tag",
+      "bounds": [
+        738,
+        1236,
+        180,
+        38
+      ],
+      "text": "机器人服务",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C2-E011": {
+      "kind": "tag",
+      "bounds": [
+        956,
+        1235,
+        110,
+        39
+      ],
+      "text": "健身房",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#565656"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        1034,
+        1288,
+        142,
+        54
+      ],
+      "text": "¥616起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1305,
+        164,
+        40
+      ],
+      "text": "2万+消费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        912,
+        1306,
+        94,
+        32
+      ],
+      "text": "¥699",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#888888"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        360,
+        1369,
+        218,
+        34
+      ],
+      "text": "低价房仅剩1间",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF8447"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        894,
+        1364,
+        134,
+        32
+      ],
+      "text": "天天特价",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF4938"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        1032,
+        1365,
+        132,
+        33
+      ],
+      "text": "立减83",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3926"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        1451,
+        330,
+        378
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        366,
+        1458,
+        64,
+        34
+      ],
+      "text": "酒店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1E8CFB",
+        "textColor": "#95CBF7"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        447,
+        1450,
+        437,
+        52
+      ],
+      "text": "全季酒店（北京望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        891,
+        1457,
+        110,
+        42
+      ],
+      "text": "高档型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#727272"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1517,
+        94,
+        40
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5907"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        466,
+        1519,
+        358,
+        40
+      ],
+      "text": "非常好的一次入住体验",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7632"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        360,
+        1580,
+        249,
+        35
+      ],
+      "text": "距您直线2.7km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        623,
+        1580,
+        216,
+        36
+      ],
+      "text": "近朝阳区望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    },
+    "C3-E009": {
+      "kind": "tag",
+      "bounds": [
+        412,
+        1637,
+        290,
+        43
+      ],
+      "text": "住就送·32元券包",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF8F0",
+        "textColor": "#6D4610"
+      }
+    },
+    "C3-E010": {
+      "kind": "tag",
+      "bounds": [
+        738,
+        1639,
+        179,
+        37
+      ],
+      "text": "机器人服务",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C3-E011": {
+      "kind": "tag",
+      "bounds": [
+        956,
+        1637,
+        110,
+        40
+      ],
+      "text": "健身房",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#565656"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1026,
+        1691,
+        150,
+        55
+      ],
+      "text": "¥686起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1708,
+        166,
+        39
+      ],
+      "text": "3万+消费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6F6F6F"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        909,
+        1709,
+        90,
+        32
+      ],
+      "text": "¥779",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#888888"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1771,
+        220,
+        36
+      ],
+      "text": "低价房仅剩1间",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF8447"
+      }
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        894,
+        1767,
+        136,
+        34
+      ],
+      "text": "天天特价",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF4938"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        1012,
+        1769,
+        150,
+        32
+      ],
+      "text": "立减93",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3825"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        1857,
+        330,
+        393
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1927,
+        108,
+        40
+      ],
+      "text": "高档型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#909090"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        366,
+        1859,
+        66,
+        36
+      ],
+      "text": "酒店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1E8CFB",
+        "textColor": "#91CCF7"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        446,
+        1853,
+        660,
+        53
+      ],
+      "text": "全季酒店（北京鸟巢关庄地铁站店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        357,
+        1987,
+        94,
+        40
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5907"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        466,
+        1989,
+        358,
+        40
+      ],
+      "text": "非常好的一次居住体验",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF732E"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        360,
+        2049,
+        222,
+        36
+      ],
+      "text": "距您直线5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6F6F6F"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        592,
+        2049,
+        255,
+        38
+      ],
+      "text": "近中华女子学院",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C4-E009": {
+      "kind": "tag",
+      "bounds": [
+        410,
+        2101,
+        293,
+        50
+      ],
+      "text": "住就送·32元券包",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#714B15"
+      }
+    },
+    "C4-E010": {
+      "kind": "tag",
+      "bounds": [
+        736,
+        2105,
+        182,
+        42
+      ],
+      "text": "机器人服务",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C4-E011": {
+      "kind": "tag",
+      "bounds": [
+        956,
+        2106,
+        146,
+        40
+      ],
+      "text": "商务出行",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#585858"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        1024,
+        2161,
+        153,
+        54
+      ],
+      "text": "¥668起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        358,
+        2177,
+        167,
+        40
+      ],
+      "text": "3万+消费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6F6F6F"
+      }
+    },
+    "C4-E014": {
+      "kind": "text",
+      "bounds": [
+        907,
+        2178,
+        92,
+        32
+      ],
+      "text": "¥759",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#888888"
+      }
+    },
+    "C4-E015": {
+      "kind": "text",
+      "bounds": [
+        360,
+        2241,
+        218,
+        23
+      ],
+      "text": "低价房仅剩1间",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF8447"
+      }
+    },
+    "C4-E016": {
+      "kind": "text",
+      "bounds": [
+        900,
+        2237,
+        130,
+        27
+      ],
+      "text": "天天特价",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF4837"
+      }
+    },
+    "C4-E017": {
+      "kind": "text",
+      "bounds": [
+        1038,
+        2237,
+        123,
+        26
+      ],
+      "text": "立减91",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3825"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        2278,
+        330,
+        330
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "text",
+      "bounds": [
+        359,
+        2396,
+        108,
+        40
+      ],
+      "text": "高档型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#909090"
+      }
+    },
+    "C5-E003": {
+      "kind": "tag",
+      "bounds": [
+        366,
+        2329,
+        64,
+        35
+      ],
+      "text": "酒店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1E8CFB",
+        "textColor": "#91CCF7"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        447,
+        2322,
+        703,
+        52
+      ],
+      "text": "全季酒店（北京鸟巢国家会议中心店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E005": {
+      "kind": "text",
+      "bounds": [
+        358,
+        2456,
+        96,
+        42
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5A08"
+      }
+    },
+    "C5-E006": {
+      "kind": "text",
+      "bounds": [
+        468,
+        2458,
+        307,
+        41
+      ],
+      "text": "服务很好，卫生干净",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7A38"
+      }
+    },
+    "C5-E007": {
+      "kind": "text",
+      "bounds": [
+        360,
+        2519,
+        251,
+        34
+      ],
+      "text": "距您直线5.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#717171"
+      }
+    },
+    "C5-E008": {
+      "kind": "text",
+      "bounds": [
+        624,
+        2520,
+        254,
+        36
+      ],
+      "text": "近中华女子学院",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C5-E009": {
+      "kind": "tag",
+      "bounds": [
+        412,
+        2574,
+        288,
+        41
+      ],
+      "text": "住就送·32元券包",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF8F0",
+        "textColor": "#6D4610"
+      }
+    },
+    "C5-E010": {
+      "kind": "tag",
+      "bounds": [
+        738,
+        2578,
+        180,
+        37
+      ],
+      "text": "机器人服务",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5D5D5D"
+      }
+    },
+    "C5-E011": {
+      "kind": "tag",
+      "bounds": [
+        956,
+        2576,
+        146,
+        40
+      ],
+      "text": "商务出行",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#585858"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        0,
+        178,
+        1206,
+        127
+      ],
+      "text": "全季酒店",
+      "visual": {
+        "backgroundColor": "#FAFAFA",
+        "textColor": "#333333"
+      }
+    }
+  }
+}

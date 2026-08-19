@@ -1,0 +1,676 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "空调清洗",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗.png",
+    "sha256": "88def2576f7eaa91a22ab11efd93aa5d2c9a57a26abc655e16b79d75ecad40a2",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1037,
+        1224,
+        1663
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1037,
+        1224,
+        317
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1354,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1829,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2304,
+        1224,
+        396
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1037,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        234,
+        1037,
+        631,
+        47
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        398,
+        1108,
+        262,
+        43
+      ],
+      "slots": {
+        "other": [
+          "C1-E004",
+          "C1-E005"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1354,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        1354,
+        668,
+        48
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1829,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        234,
+        1829,
+        679,
+        47
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1899,
+        394,
+        44
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "other": [
+          "C3-E005"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        413,
+        2032,
+        221,
+        37
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2304,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        235,
+        2304,
+        690,
+        46
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2375,
+        420,
+        40
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "other": [
+          "C4-E005",
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        313,
+        2441,
+        878,
+        120
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E007",
+          "C4-E008",
+          "C4-E009",
+          "C4-E010",
+          "C4-E011"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1037,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        234,
+        1039,
+        74,
+        41
+      ],
+      "text": "上门",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE327",
+        "textColor": "#9F9116"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        323,
+        1037,
+        542,
+        47
+      ],
+      "text": "北京老班长空调维修移机",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        398,
+        1108,
+        93,
+        41
+      ],
+      "text": "23条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        497,
+        1109,
+        163,
+        42
+      ],
+      "text": "家电维修",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595959"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1354,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        1354,
+        79,
+        46
+      ],
+      "text": "上门",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE644",
+        "textColor": "#FCDE17"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        322,
+        1354,
+        578,
+        48
+      ],
+      "text": "同城速修专业空调维修移机",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1829,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        234,
+        1831,
+        75,
+        42
+      ],
+      "text": "上门",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE329",
+        "textColor": "#A39613"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        322,
+        1829,
+        591,
+        47
+      ],
+      "text": "美的服务家电清洗维修北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1899,
+        102,
+        44
+      ],
+      "text": "3.9分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        333,
+        1899,
+        288,
+        44
+      ],
+      "text": "382条家电维修",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C3-E006": {
+      "kind": "tag",
+      "bounds": [
+        413,
+        2032,
+        221,
+        37
+      ],
+      "text": "服务高标准！",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#916A45"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2304,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        235,
+        2306,
+        73,
+        40
+      ],
+      "text": "上门",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE225",
+        "textColor": "#A6981F"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        326,
+        2304,
+        599,
+        46
+      ],
+      "text": "自如家服家政保洁清洗北京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2375,
+        102,
+        39
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        333,
+        2375,
+        144,
+        39
+      ],
+      "text": "2.1万条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        461,
+        2376,
+        186,
+        39
+      ],
+      "text": "保洁清洗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        693,
+        2441,
+        310,
+        38
+      ],
+      "text": "神券最高膨至40",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3262"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        313,
+        2520,
+        89,
+        38
+      ],
+      "text": "3.4折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C4-E009": {
+      "kind": "tag",
+      "bounds": [
+        436,
+        2520,
+        347,
+        41
+      ],
+      "text": "【空调清洗】1台挂机",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E010": {
+      "kind": "tag",
+      "bounds": [
+        817,
+        2520,
+        139,
+        41
+      ],
+      "text": "深层拆洗",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "C4-E011": {
+      "kind": "tag",
+      "bounds": [
+        1021,
+        2523,
+        170,
+        36
+      ],
+      "text": "年售8000+",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    }
+  }
+}

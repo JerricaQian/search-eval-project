@@ -143,8 +143,7 @@ def visual_hint(candidate: dict[str, Any], kind: str, region: str, role: str = "
         semantic_role = "券标" if re.search(r"神券|券", raw) else "履约标" if re.search(r"外卖|配送|到店|上门", raw) else "业务类型标" if re.search(r"演出|景点", raw) else "推荐标" if re.search(r"推荐|必玩", raw) else role or "其他标签"
         value.update({"semanticRole": semantic_role, "containerShape": container_shape,
                       "graphicAssistRole": "无", "countedInComplexity": value["isColored"],
-                      "countDecision": "本地 OCR 独立文本框与前景/表面像素确认的标签",
-                      "dedupDecision": "未与其他实体去重", "dedupWithElementIds": []})
+                      "dedupWithElementIds": []})
         value["styleKey"] = f"{kind}|{color}|{semantic_role}|{container_shape}|无"
     return value
 
@@ -316,10 +315,10 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
             "regions": [{"region": row["name"], "coord": row["coord"], "visibleStatus": "confirmed" if row["elements"] else "uncertain", "hasPhysicalBoundary": False, "hasBackgroundSeparation": False} for row in region_rows]},
         "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_repeated_type"] if partial else [])},
         "visualInventory": {"complete": complete and all(e.get("visual", {}).get("visualStatus") == "confirmed" for e in tags), "regions": inventory_regions,
-            "tagScanChecklist": [{"candidate": "local_cv_tag_icon_candidates", "status": "found" if tags else "not_found", "checkedRegions": list(regions), "elementIds": [e["id"] for e in tags], "visualBasis": "local CV/OCR candidate scan"}]},
+            "tagScanChecklist": [{"candidate": "local_cv_tag_icon_candidates", "status": "found" if tags else "not_found", "checkedRegions": list(regions), "elementIds": [e["id"] for e in tags]}]},
         "_relations": (
-            [{"relationType": "title_to_image", "from": title["id"], "to": image["id"], "status": "confirmed", "evidence": "same confirmed result card and card-type head-image topology"} for title in titles for image in head_images]
-            + [{"relationType": "title_to_append", "from": title["id"], "to": element_id, "status": "confirmed", "evidence": "same confirmed appended item group"}
+            [{"relationType": "title_to_image", "from": title["id"], "to": image["id"], "status": "confirmed"} for title in titles for image in head_images]
+            + [{"relationType": "title_to_append", "from": title["id"], "to": element_id, "status": "confirmed"}
                for title in titles for row in region_rows for group in row.get("itemGroups", []) for element_id in group["elementIds"]]
         )}
 

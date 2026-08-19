@@ -1,0 +1,1546 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "漂流",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为漂流.png",
+    "sha256": "aa593a0988ed730b1a80e8299c6f6bd3c3e3060609d55b2a39ecae741178a078",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        849,
+        1224,
+        1851
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        849,
+        1224,
+        318
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1167,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1642,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2052,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    },
+    "C5": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2527,
+        1224,
+        173
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03",
+        "C5-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        849,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        849,
+        603,
+        47
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        915,
+        884,
+        48
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "other": [
+          "C1-E005",
+          "C1-E006"
+        ],
+        "fulfillment": [
+          "C1-E007"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1167,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        316,
+        1167,
+        385,
+        44
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ],
+        "scenic_rating_tag": [
+          "C2-E003-A1"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        1234,
+        886,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "other": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        1299,
+        671,
+        110
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        312,
+        1448,
+        881,
+        113
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            1448,
+            880,
+            41
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E009",
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ],
+            "sales": [
+              "C2-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            312,
+            1516,
+            881,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E013",
+              "C2-E014"
+            ],
+            "price": [
+              "C2-E015"
+            ],
+            "sales": [
+              "C2-E016"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1642,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1642,
+        878,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        1710,
+        884,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "price": [
+          "C3-E005"
+        ],
+        "fulfillment": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1775,
+        776,
+        47
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        1855,
+        883,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            1855,
+            881,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E009"
+            ],
+            "price": [
+              "C3-E010"
+            ],
+            "promotion_tag": [
+              "C3-E011"
+            ],
+            "sales": [
+              "C3-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            1928,
+            883,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ],
+            "promotion_tag": [
+              "C3-E015"
+            ],
+            "sales": [
+              "C3-E016"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2052,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        316,
+        2052,
+        573,
+        46
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2119,
+        886,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "other": [
+          "C4-E005"
+        ],
+        "fulfillment": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        307,
+        2185,
+        736,
+        108
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        311,
+        2334,
+        882,
+        112
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            2334,
+            880,
+            40
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E009"
+            ],
+            "price": [
+              "C4-E010"
+            ],
+            "sales": [
+              "C4-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            311,
+            2403,
+            882,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E012"
+            ],
+            "price": [
+              "C4-E013"
+            ],
+            "sales": [
+              "C4-E014"
+            ]
+          }
+        }
+      ]
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2527,
+        247,
+        173
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        2527,
+        283,
+        43
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C5-E002"
+        ],
+        "title": [
+          "C5-E003"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        2594,
+        882,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C5-E004"
+        ],
+        "other": [
+          "C5-E005",
+          "C5-E006"
+        ],
+        "fulfillment": [
+          "C5-E007"
+        ]
+      }
+    },
+    "C5-R04": {
+      "name": "tags",
+      "bounds": [
+        315,
+        2678,
+        852,
+        22
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C5-E008",
+          "C5-E009",
+          "C5-E010",
+          "C5-E011"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        849,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        853,
+        71,
+        39
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#208CF9",
+        "textColor": "#9FD0F8"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        408,
+        849,
+        512,
+        47
+      ],
+      "text": "花果山漂流（紫竹院公园）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        915,
+        98,
+        48
+      ],
+      "text": "4.0分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        418,
+        919,
+        92,
+        43
+      ],
+      "text": "23条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        519,
+        920,
+        124,
+        42
+      ],
+      "text": "紫竹桥",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        1062,
+        921,
+        130,
+        38
+      ],
+      "text": "16.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1167,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        316,
+        1169,
+        74,
+        42
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1F8CF9",
+        "textColor": "#9FD0F8"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        410,
+        1167,
+        236,
+        42
+      ],
+      "text": "北京欢乐谷",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003-A1": {
+      "kind": "tag",
+      "bounds": [
+        656,
+        1176,
+        45,
+        29
+      ],
+      "text": "4A",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111",
+        "container": "none"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1234,
+        98,
+        44
+      ],
+      "text": "4.9分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        418,
+        1238,
+        370,
+        41
+      ],
+      "text": "42.8万条北京欢乐谷",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1061,
+        1237,
+        133,
+        42
+      ],
+      "text": "15.7km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        1299,
+        387,
+        46
+      ],
+      "text": "必玩榜玩沙有夜场票",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#68655B"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        354,
+        1364,
+        625,
+        45
+      ],
+      "text": "乐享漂流演艺，打卡摩天轮夜游盛宴",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        412,
+        1448,
+        400,
+        41
+      ],
+      "text": "【不限人群票】夜场门票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        848,
+        1448,
+        109,
+        41
+      ],
+      "text": "无需换",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1448,
+        100,
+        41
+      ],
+      "text": "¥199",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        1022,
+        1449,
+        170,
+        38
+      ],
+      "text": "已售3000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        429,
+        1516,
+        282,
+        43
+      ],
+      "text": "【成人票】全天票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        747,
+        1516,
+        141,
+        43
+      ],
+      "text": "无需换票",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1518,
+        117,
+        43
+      ],
+      "text": "¥339",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        1019,
+        1519,
+        174,
+        39
+      ],
+      "text": "已售3.5万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1642,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1644,
+        74,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBD8B"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        403,
+        1642,
+        790,
+        51
+      ],
+      "text": "拾光团建·拓展活动·旅游会议（望京店",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1710,
+        102,
+        43
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        419,
+        1710,
+        544,
+        47
+      ],
+      "text": "110条￥247/人团建拓展望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1715,
+        111,
+        39
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#424242"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1775,
+        311,
+        47
+      ],
+      "text": "神券最高膨至25",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3161"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1775,
+        448,
+        47
+      ],
+      "text": "望京团建拓展好评榜第3名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        520,
+        1857,
+        464,
+        43
+      ],
+      "text": "【棒球+漂流】主题团建定制",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1858,
+        78,
+        41
+      ],
+      "text": "¥94",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E011": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1855,
+        90,
+        43
+      ],
+      "text": "1.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3420"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        1860,
+        153,
+        38
+      ],
+      "text": "年售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        521,
+        1929,
+        496,
+        40
+      ],
+      "text": "【梨树沟山地滑车】主题团建~",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1930,
+        79,
+        42
+      ],
+      "text": "¥56",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E015": {
+      "kind": "tag",
+      "bounds": [
+        402,
+        1928,
+        87,
+        40
+      ],
+      "text": "1.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3522"
+      }
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        1079,
+        1930,
+        114,
+        38
+      ],
+      "text": "年售47",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2052,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        316,
+        2054,
+        74,
+        42
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1F8CF9",
+        "textColor": "#9FD0F8"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        408,
+        2052,
+        481,
+        46
+      ],
+      "text": "野三坡刘家河高山漂流",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2119,
+        102,
+        45
+      ],
+      "text": "4.3分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        417,
+        2122,
+        249,
+        42
+      ],
+      "text": "875条百里峡",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        1002,
+        2120,
+        192,
+        46
+      ],
+      "text": "保定99km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#3D3D3D"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        307,
+        2185,
+        218,
+        44
+      ],
+      "text": "爬山闺蜜游",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        348,
+        2254,
+        695,
+        39
+      ],
+      "text": "“长长的吊桥也很好玩,水上项目也很多”",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#764618"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        404,
+        2334,
+        581,
+        40
+      ],
+      "text": "【不限人群票】高山漂流票+观光电",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        312,
+        2334,
+        89,
+        40
+      ],
+      "text": "¥90",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        1041,
+        2335,
+        151,
+        38
+      ],
+      "text": "已售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        522,
+        2404,
+        463,
+        40
+      ],
+      "text": "【不限人群票】水上乐园河道",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        311,
+        2403,
+        79,
+        43
+      ],
+      "text": "¥24",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E014": {
+      "kind": "text",
+      "bounds": [
+        1041,
+        2406,
+        152,
+        38
+      ],
+      "text": "已售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2527,
+        247,
+        173
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        2529,
+        71,
+        41
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#208DF9",
+        "textColor": "#9FD0F8"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        2527,
+        193,
+        43
+      ],
+      "text": "林溪漂流",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2594,
+        96,
+        43
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C5-E005": {
+      "kind": "text",
+      "bounds": [
+        420,
+        2597,
+        68,
+        42
+      ],
+      "text": "5条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C5-E006": {
+      "kind": "text",
+      "bounds": [
+        498,
+        2597,
+        123,
+        42
+      ],
+      "text": "青龙峡",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C5-E007": {
+      "kind": "text",
+      "bounds": [
+        1061,
+        2596,
+        131,
+        43
+      ],
+      "text": "50.9km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#474747"
+      }
+    },
+    "C5-E008": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        2682,
+        66,
+        18
+      ],
+      "text": "v57",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C5-E009": {
+      "kind": "tag",
+      "bounds": [
+        397,
+        2678,
+        86,
+        22
+      ],
+      "text": "3.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF2E1A"
+      }
+    },
+    "C5-E010": {
+      "kind": "tag",
+      "bounds": [
+        519,
+        2678,
+        518,
+        22
+      ],
+      "text": "【不限人群票】林溪漂大票",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E011": {
+      "kind": "tag",
+      "bounds": [
+        1081,
+        2678,
+        86,
+        22
+      ],
+      "text": "随时",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    }
+  }
+}

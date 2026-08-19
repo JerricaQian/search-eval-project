@@ -1,0 +1,1222 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "万达广场",
+    "screenshot": "phase2-card-annotation/golden-samples/primary-point-card/主点卡-万达广场.png",
+    "sha256": "352edaffa25d5a603be012082a62f7ab1f5c3fcd502131b8fa57d4e4279c0989",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M7"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        122,
+        1224,
+        128
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "primary_point_disambiguation",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        382,
+        1224,
+        100
+      ],
+      "slots": {
+        "fulfillment": [
+          "M3-E001"
+        ],
+        "other": [
+          "M3-E002"
+        ]
+      }
+    },
+    "M4": {
+      "type": "primary_point",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        497,
+        1224,
+        406
+      ]
+    },
+    "M5": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "variant": "business",
+      "itemIds": []
+    },
+    "M6": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M7": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1290,
+        1224,
+        1410
+      ],
+      "cardIds": [
+        "C1",
+        "C2"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1290,
+        1224,
+        685
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2015,
+        1224,
+        685
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1318,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        1308,
+        655,
+        60
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        1386,
+        886,
+        48
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "other": [
+          "C1-E005",
+          "C1-E007",
+          "C1-E008",
+          "C1-E009"
+        ],
+        "price": [
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        310,
+        1453,
+        669,
+        46
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E010",
+          "C1-E011"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "append_items",
+      "bounds": [
+        310,
+        1555,
+        914,
+        414
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1555,
+            524,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E012"
+            ],
+            "title": [
+              "C1-E013"
+            ],
+            "price": [
+              "C1-E014"
+            ],
+            "original_price": [
+              "C1-E015"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            586,
+            1555,
+            265,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E016"
+            ],
+            "title": [
+              "C1-E017"
+            ],
+            "price": [
+              "C1-E018"
+            ],
+            "original_price": [
+              "C1-E019"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            862,
+            1555,
+            266,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E020"
+            ],
+            "title": [
+              "C1-E021"
+            ],
+            "price": [
+              "C1-E022"
+            ],
+            "original_price": [
+              "C1-E023"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1141,
+            1555,
+            83,
+            413
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E024"
+            ],
+            "title": [
+              "C1-E025"
+            ],
+            "price": [
+              "C1-E026"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2043,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        318,
+        2023,
+        878,
+        63
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2101,
+        886,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "other": [
+          "C2-E005",
+          "C2-E007",
+          "C2-E008"
+        ],
+        "price": [
+          "C2-E006"
+        ],
+        "fulfillment": [
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        310,
+        2169,
+        372,
+        44
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "append_items",
+      "bounds": [
+        309,
+        2280,
+        915,
+        403
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            2280,
+            265,
+            403
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E011"
+            ],
+            "title": [
+              "C2-E012"
+            ],
+            "price": [
+              "C2-E013"
+            ],
+            "original_price": [
+              "C2-E014"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            587,
+            2280,
+            264,
+            403
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E015"
+            ],
+            "title": [
+              "C2-E016"
+            ],
+            "price": [
+              "C2-E017"
+            ],
+            "original_price": [
+              "C2-E018"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            863,
+            2280,
+            361,
+            403
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E019"
+            ],
+            "title": [
+              "C2-E020"
+            ],
+            "price": [
+              "C2-E021"
+            ],
+            "original_price": [
+              "C2-E022"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1139,
+            2280,
+            85,
+            402
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E023"
+            ],
+            "title": [
+              "C2-E024"
+            ],
+            "price": [
+              "C2-E025"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1318,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        1322,
+        71,
+        40
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE761C",
+        "textColor": "#FDBA86"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        402,
+        1308,
+        570,
+        60
+      ],
+      "text": "茉莉奶白（北京东坝万达店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1386,
+        102,
+        46
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        421,
+        1388,
+        114,
+        46
+      ],
+      "text": "366条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        516,
+        1388,
+        195,
+        44
+      ],
+      "text": "人均￥18",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        695,
+        1389,
+        176,
+        44
+      ],
+      "text": "茶饮果汁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        884,
+        1388,
+        84,
+        46
+      ],
+      "text": "东坝",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        1067,
+        1388,
+        128,
+        46
+      ],
+      "text": "商场1F",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C1-E010": {
+      "kind": "tag",
+      "bounds": [
+        310,
+        1453,
+        398,
+        46
+      ],
+      "text": "东坝奶茶人气榜第10名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E011": {
+      "kind": "tag",
+      "bounds": [
+        721,
+        1456,
+        258,
+        41
+      ],
+      "text": "线上点·到店取",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C1-E012": {
+      "kind": "media",
+      "bounds": [
+        310,
+        1555,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1816,
+        524,
+        95
+      ],
+      "text": "茉莉奶白/栀子奶白/白兰(大杯用】超值饮品5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1923,
+        102,
+        46
+      ],
+      "text": "¥30.6",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        423,
+        1923,
+        67,
+        46
+      ],
+      "text": "¥42",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5E5E5E"
+      }
+    },
+    "C1-E016": {
+      "kind": "media",
+      "bounds": [
+        587,
+        1555,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        586,
+        1812,
+        248,
+        97
+      ],
+      "text": "【12-15点可用】超值饮品5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        586,
+        1922,
+        96,
+        47
+      ],
+      "text": "¥10.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E019": {
+      "kind": "text",
+      "bounds": [
+        691,
+        1922,
+        55,
+        47
+      ],
+      "text": "¥17",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C1-E020": {
+      "kind": "media",
+      "bounds": [
+        864,
+        1555,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E021": {
+      "kind": "text",
+      "bounds": [
+        864,
+        1814,
+        236,
+        95
+      ],
+      "text": "【毕业季】薄巧系列3选1赠",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E022": {
+      "kind": "text",
+      "bounds": [
+        862,
+        1922,
+        111,
+        47
+      ],
+      "text": "¥18.04",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E023": {
+      "kind": "text",
+      "bounds": [
+        980,
+        1922,
+        64,
+        47
+      ],
+      "text": "¥22",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C1-E024": {
+      "kind": "media",
+      "bounds": [
+        1141,
+        1555,
+        83,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E025": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        1812,
+        81,
+        44
+      ],
+      "text": "白兰",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E026": {
+      "kind": "text",
+      "bounds": [
+        1156,
+        1924,
+        67,
+        44
+      ],
+      "text": "¥15.6",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2043,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        318,
+        2037,
+        69,
+        38
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE761C",
+        "textColor": "#FDBC88"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        402,
+        2023,
+        794,
+        63
+      ],
+      "text": "鸿潮汕广式鸡煲火锅（东坝金隅嘉品店",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2101,
+        103,
+        46
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        424,
+        2105,
+        90,
+        43
+      ],
+      "text": "36条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        527,
+        2105,
+        148,
+        42
+      ],
+      "text": "人均¥64",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        690,
+        2105,
+        158,
+        40
+      ],
+      "text": "港式火锅",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#646464"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        864,
+        2103,
+        84,
+        44
+      ],
+      "text": "东坝",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        966,
+        2104,
+        228,
+        43
+      ],
+      "text": "距商场1.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#575757"
+      }
+    },
+    "C2-E010": {
+      "kind": "tag",
+      "bounds": [
+        310,
+        2169,
+        372,
+        44
+      ],
+      "text": "东坝火锅人气榜第7名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C2-E011": {
+      "kind": "media",
+      "bounds": [
+        310,
+        2280,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2532,
+        257,
+        95
+      ],
+      "text": "【开业特惠】【特色尝鲜】招牌双",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2637,
+        92,
+        46
+      ],
+      "text": "¥113",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        408,
+        2637,
+        74,
+        46
+      ],
+      "text": "¥254",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5E5E5E"
+      }
+    },
+    "C2-E015": {
+      "kind": "media",
+      "bounds": [
+        587,
+        2280,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        588,
+        2530,
+        232,
+        94
+      ],
+      "text": "【入门级鸡煲】尝鲜双人餐",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        604,
+        2639,
+        92,
+        44
+      ],
+      "text": "¥118",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2E1A"
+      }
+    },
+    "C2-E018": {
+      "kind": "text",
+      "bounds": [
+        704,
+        2639,
+        75,
+        44
+      ],
+      "text": "¥168",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C2-E019": {
+      "kind": "media",
+      "bounds": [
+        864,
+        2280,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E020": {
+      "kind": "text",
+      "bounds": [
+        864,
+        2531,
+        360,
+        93
+      ],
+      "text": "【特色尝鲜】招牌双人餐华双",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E021": {
+      "kind": "text",
+      "bounds": [
+        863,
+        2639,
+        92,
+        44
+      ],
+      "text": "¥158",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E022": {
+      "kind": "text",
+      "bounds": [
+        963,
+        2639,
+        75,
+        44
+      ],
+      "text": "¥254",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5E5E5E"
+      }
+    },
+    "C2-E023": {
+      "kind": "media",
+      "bounds": [
+        1141,
+        2280,
+        83,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E024": {
+      "kind": "text",
+      "bounds": [
+        1139,
+        2529,
+        85,
+        95
+      ],
+      "text": "【金榜华双",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E025": {
+      "kind": "text",
+      "bounds": [
+        1141,
+        2637,
+        83,
+        45
+      ],
+      "text": "¥188",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        158,
+        168,
+        178,
+        42
+      ],
+      "text": "万达广场",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-E001": {
+      "kind": "text",
+      "bounds": [
+        53,
+        390,
+        543,
+        84
+      ],
+      "text": "万达广场(北京东坝店) 7.3km",
+      "visual": {
+        "backgroundColor": "#FFFADB",
+        "textColor": "#1B1B11"
+      }
+    },
+    "M3-E002": {
+      "kind": "text",
+      "bounds": [
+        610,
+        390,
+        560,
+        84
+      ],
+      "text": "万达广场西门金街B区",
+      "visual": {
+        "backgroundColor": "#FAFAFA",
+        "textColor": "#555555"
+      }
+    }
+  }
+}

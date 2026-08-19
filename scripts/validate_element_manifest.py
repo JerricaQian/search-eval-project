@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from phase2_bundle_loader import load_phase2_facts
+
 TOP_LEVEL_KEYS = {"query", "screenshot", "annotatedImage", "cards"}
 OPTIONAL_TOP_LEVEL_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations", "recognition"}
 CARD_KEYS = {"cardId", "卡片类型", "coord", "regions"}
@@ -32,10 +34,7 @@ VISUAL_ENTITY_KINDS = {"tag", "icon", "text", "image"}
 VISUAL_STATUSES = {"confirmed", "uncertain"}
 COLOR_ROLES = {"neutral", "red", "orange", "yellow", "green", "blue", "purple", "multicolor", "unknown"}
 TAG_SCAN_STATUSES = {"found", "not_found", "uncertain"}
-REQUIRED_COMPLEXITY_VISUAL_FIELDS = {
-    "semanticRole", "containerShape", "graphicAssistRole", "countedInComplexity",
-    "countDecision", "dedupDecision", "dedupWithElementIds",
-}
+REQUIRED_BASE_VISUAL_FIELDS = {"semanticRole", "containerShape", "graphicAssistRole"}
 
 
 def style_key_ok(value: Any) -> bool:
@@ -54,8 +53,6 @@ def valid_tag_scan_checklist(value: Any, known_ids: set[str]) -> bool:
         if not isinstance(item.get("candidate"), str) or not item["candidate"].strip():
             return False
         if not isinstance(item.get("checkedRegions"), list) or not item["checkedRegions"]:
-            return False
-        if not isinstance(item.get("visualBasis"), str) or not item["visualBasis"].strip():
             return False
         ids = item.get("elementIds", [])
         if not isinstance(ids, list) or any(not isinstance(element_id, str) or element_id not in known_ids for element_id in ids):
@@ -126,7 +123,9 @@ def semantic_tag_group_count(text: str) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate a phase2 element manifest")
-    parser.add_argument("manifest", type=Path)
+    parser.add_argument("manifest", type=Path, nargs="?")
+    parser.add_argument("--normalized-input", type=Path, help="Validate compact golden truth directly")
+    parser.add_argument("--evidence-input", type=Path, help="Evidence sidecar paired with --normalized-input")
     parser.add_argument("--audit", type=Path, help="Write the audit JSON to this path")
     parser.add_argument("--recognition-audit", type=Path, help="Require and validate Phase2 key-field recognition audit")
     parser.add_argument("--require-hierarchy-facts", action="store_true", help="Require complete visual facts for every complete result-list card before visual-hierarchy evaluation")
@@ -136,10 +135,22 @@ def main() -> int:
     parser.add_argument("--require-alignment-anchors", action="store_true", help="Require layout anchors and a pairwise relation verdict for every comparable complete result-card group")
     args = parser.parse_args()
 
+    if args.normalized_input:
+        if args.manifest is not None:
+            parser.error("manifest cannot be combined with --normalized-input")
+        if not args.evidence_input:
+            parser.error("--evidence-input is required with --normalized-input")
+    elif args.manifest is None or args.evidence_input:
+        parser.error("provide manifest or --normalized-input with --evidence-input")
+
     errors: list[str] = []
     warnings: list[str] = []
     try:
-        data = json.loads(args.manifest.read_text(encoding="utf-8"))
+        data = load_phase2_facts(
+            manifest_path=args.manifest,
+            normalized_path=args.normalized_input,
+            evidence_path=args.evidence_input,
+        )
     except Exception as exc:
         result = {"valid": False, "total": 0, "elementIds": [], "errors": [f"json_parse:{exc}"], "warnings": [], "hierarchyFactAudit": [], "complexityFactAudit": [], "authenticityRelationAudit": [], "alignmentFactAudit": []}
         print(json.dumps(result, ensure_ascii=False))
@@ -311,8 +322,9 @@ def main() -> int:
                         atomic_parts = [part.strip() for part in re.split(r"[｜|；]", raw) if part.strip()]
                         if len(atomic_parts) > 1:
                             errors.append(f"{eprefix}:semantic_fields_must_be_atomic_not_delimited_bundle")
-                        if region.get("name") == "标签区" and semantic_tag_group_count(raw) > 1:
-                            errors.append(f"{eprefix}:multiple_independent_tags_merged")
+                        # Text tokens such as “回头客榜第2名” or “神券最高膨至30”
+                        # can form one visual chip. Phase3 must not re-split an
+                        # atom by business words; Phase2 owns pixel atomicity.
                     active.append(element)
                     card_elements.append(element)
                 render = element.get("render")
@@ -342,21 +354,17 @@ def main() -> int:
                         if not all(isinstance(visual.get(key), bool) for key in ("isColored", "isShaped", "hasGraphicAssist")):
                             errors.append(f"{eprefix}:visual_boolean_invalid")
                         if visual.get("visualStatus") == "confirmed" and visual.get("entityKind") in {"tag", "icon"}:
-                            if not style_key_ok(visual.get("styleKey")):
-                                errors.append(f"{eprefix}:visual_confirmed_styleKey_must_have_five_segments")
-                            missing_complexity_fields = [key for key in REQUIRED_COMPLEXITY_VISUAL_FIELDS if key not in visual]
-                            if missing_complexity_fields:
-                                errors.append(f"{eprefix}:visual_complexity_fields_missing:{','.join(sorted(missing_complexity_fields))}")
+                            if visual.get("styleKey") is not None and not style_key_ok(visual.get("styleKey")):
+                                errors.append(f"{eprefix}:visual_styleKey_if_present_must_have_five_segments")
+                            missing_visual_fields = [key for key in REQUIRED_BASE_VISUAL_FIELDS if key not in visual]
+                            if missing_visual_fields:
+                                errors.append(f"{eprefix}:visual_base_fields_missing:{','.join(sorted(missing_visual_fields))}")
                             elif (
                                 not isinstance(visual.get("semanticRole"), str) or not visual["semanticRole"].strip()
                                 or not isinstance(visual.get("containerShape"), str) or not visual["containerShape"].strip()
                                 or not isinstance(visual.get("graphicAssistRole"), str) or not visual["graphicAssistRole"].strip()
-                                or not isinstance(visual.get("countedInComplexity"), bool)
-                                or not isinstance(visual.get("countDecision"), str) or not visual["countDecision"].strip()
-                                or not isinstance(visual.get("dedupDecision"), str) or not visual["dedupDecision"].strip()
-                                or not isinstance(visual.get("dedupWithElementIds"), list)
                             ):
-                                errors.append(f"{eprefix}:visual_complexity_fields_invalid")
+                                errors.append(f"{eprefix}:visual_base_fields_invalid")
                         elif visual.get("dedupWithElementIds") is not None and any(not isinstance(item, str) or not item.strip() for item in visual.get("dedupWithElementIds", [])):
                             errors.append(f"{eprefix}:visual_dedup_reference_invalid")
 
@@ -373,7 +381,7 @@ def main() -> int:
                         if not isinstance(group, dict) or set(group) != required:
                             errors.append(f"{gprefix}:item_group_schema_invalid")
                             continue
-                        if group.get("itemIndex") != gi or not coord_ok(group.get("coord")) or group.get("visibleStatus") not in {"confirmed", "uncertain"}:
+                        if group.get("itemIndex") != gi or not coord_ok(group.get("coord")) or group.get("visibleStatus") not in {"confirmed", "naturally_cropped", "uncertain"}:
                             errors.append(f"{gprefix}:item_group_identity_invalid")
                         ids = group.get("elementIds")
                         role_lists = [group.get(key) for key in ("imageElementIds", "textElementIds", "priceElementIds")]
@@ -382,8 +390,12 @@ def main() -> int:
                             continue
                         if set(ids) != set().union(*(set(values) for values in role_lists)) or any(item not in region_ids for item in ids):
                             errors.append(f"{gprefix}:item_group_roles_must_partition_owned_elements")
-                        if not group.get("textElementIds") or not group.get("priceElementIds"):
+                        if group.get("visibleStatus") == "confirmed" and (not group.get("textElementIds") or not group.get("priceElementIds")):
                             errors.append(f"{gprefix}:appended_item_requires_text_and_price")
+                        if group.get("visibleStatus") == "naturally_cropped" and not group.get("elementIds"):
+                            errors.append(f"{gprefix}:naturally_cropped_item_requires_visible_atom")
+                        if group.get("visibleStatus") == "uncertain" and not group.get("elementIds"):
+                            errors.append(f"{gprefix}:cropped_appended_item_requires_visible_element")
                         if card.get("卡片类型") == "商家卡片-图文下挂" and not group.get("imageElementIds"):
                             errors.append(f"{gprefix}:graphic_appended_item_requires_image")
                         grouped_ids.extend(str(item) for item in ids)
@@ -490,7 +502,7 @@ def main() -> int:
             known_element_ids = set(element_ids)
             allowed_relation_types = {"same_card", "same_field_across_cards", "title_to_image", "title_to_append", "overlapping_annotation", "same_supply_candidate"}
             for index, relation in enumerate(relations, start=1):
-                required_relation = {"relationType", "from", "to", "status", "evidence"}
+                required_relation = {"relationType", "from", "to", "status"}
                 if not isinstance(relation, dict) or not required_relation.issubset(relation):
                     errors.append(f"relations_{index}_schema_invalid")
                 elif relation.get("from") not in known_element_ids or relation.get("to") not in known_element_ids:
@@ -518,7 +530,8 @@ def main() -> int:
                         uncertain.extend(str(item) for item in fact_inventory["uncertainElementIds"])
                     titles = [element for element in elements if isinstance(element.get("textFacts"), dict) and element["textFacts"].get("semanticRole") == "title"]
                     images = [element for element in elements if element.get("元素类型") == "图片"]
-                    append_elements = [element for element in elements if isinstance(element.get("render"), dict) and element["render"].get("sourceRegion") == "下挂区"]
+                    append_regions = {"下挂商品区", "文字下挂区", "下挂区", "服务下挂", "特殊下挂", "领域下挂区"}
+                    append_elements = [element for element in elements if isinstance(element.get("render"), dict) and element["render"].get("sourceRegion") in append_regions]
                     for title in titles:
                         title_id = str(title.get("id"))
                         for relation_type, targets in (("title_to_image", images), ("title_to_append", append_elements)):

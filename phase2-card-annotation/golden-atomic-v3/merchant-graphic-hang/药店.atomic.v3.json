@@ -1,0 +1,1586 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "药店",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为药店.png",
+    "sha256": "ab4c6271908b33077e72509b11b533511d4a923020cc2a1113546a0621a61c0f",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "merchant": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        64,
+        410,
+        1128,
+        245
+      ],
+      "variant": "business",
+      "itemIds": [
+        "M3-I1",
+        "M3-I2",
+        "M3-I3",
+        "M3-I4",
+        "M3-I5",
+        "M3-I6"
+      ]
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        881,
+        1224,
+        1819
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    },
+    "M6": {
+      "type": "floating_service",
+      "visibility": "confirmed"
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        881,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1596,
+        1224,
+        715
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2311,
+        1224,
+        389
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        881,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        881,
+        648,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        952,
+        966,
+        44
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "sales": [
+          "C1-E005"
+        ],
+        "fulfillment": [
+          "C1-E006",
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        400,
+        1019,
+        560,
+        40
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E008",
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1094,
+        997,
+        414
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1094,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E010"
+            ],
+            "title": [
+              "C1-E011"
+            ],
+            "price": [
+              "C1-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1094,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E013"
+            ],
+            "title": [
+              "C1-E014"
+            ],
+            "price": [
+              "C1-E015"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1094,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E016"
+            ],
+            "title": [
+              "C1-E017"
+            ],
+            "price": [
+              "C1-E018"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1094,
+            166,
+            414
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E019"
+            ],
+            "title": [
+              "C1-E020"
+            ],
+            "price": [
+              "C1-E021"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1596,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        1596,
+        558,
+        52
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1668,
+        966,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "fulfillment": [
+          "C2-E005",
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        401,
+        1735,
+        590,
+        39
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1810,
+        997,
+        437
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1810,
+            264,
+            437
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E009"
+            ],
+            "title": [
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1810,
+            264,
+            436
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E012"
+            ],
+            "title": [
+              "C2-E013"
+            ],
+            "price": [
+              "C2-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1810,
+            264,
+            434
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E015"
+            ],
+            "title": [
+              "C2-E016"
+            ],
+            "price": [
+              "C2-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1810,
+            166,
+            434
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E018"
+            ],
+            "title": [
+              "C2-E019"
+            ],
+            "price": [
+              "C2-E020"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2311,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        2311,
+        608,
+        52
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2383,
+        965,
+        41
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "fulfillment": [
+          "C3-E005",
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        458,
+        2449,
+        594,
+        40
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "append_items",
+      "bounds": [
+        244,
+        2524,
+        920,
+        176
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            244,
+            2524,
+            176,
+            176
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E009"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            430,
+            2524,
+            176,
+            176
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E010"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            616,
+            2524,
+            176,
+            176
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            802,
+            2524,
+            176,
+            176
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E012"
+            ]
+          }
+        },
+        {
+          "index": 4,
+          "bounds": [
+            988,
+            2524,
+            176,
+            176
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E013"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {
+    "M3-I1": {
+      "bounds": [
+        64,
+        410,
+        178,
+        245
+      ],
+      "slots": {
+        "media": [
+          "M3-I1-E1"
+        ],
+        "label": [
+          "M3-I1-E2"
+        ]
+      }
+    },
+    "M3-I2": {
+      "bounds": [
+        256,
+        410,
+        178,
+        245
+      ],
+      "slots": {
+        "media": [
+          "M3-I2-E1"
+        ],
+        "label": [
+          "M3-I2-E2"
+        ]
+      }
+    },
+    "M3-I3": {
+      "bounds": [
+        448,
+        410,
+        178,
+        245
+      ],
+      "slots": {
+        "media": [
+          "M3-I3-E1"
+        ],
+        "label": [
+          "M3-I3-E2"
+        ]
+      }
+    },
+    "M3-I4": {
+      "bounds": [
+        640,
+        410,
+        178,
+        245
+      ],
+      "slots": {
+        "media": [
+          "M3-I4-E1"
+        ],
+        "label": [
+          "M3-I4-E2"
+        ]
+      }
+    },
+    "M3-I5": {
+      "bounds": [
+        832,
+        410,
+        178,
+        245
+      ],
+      "slots": {
+        "media": [
+          "M3-I5-E1"
+        ],
+        "label": [
+          "M3-I5-E2"
+        ]
+      }
+    },
+    "M3-I6": {
+      "bounds": [
+        1024,
+        410,
+        168,
+        245
+      ],
+      "slots": {
+        "media": [
+          "M3-I6-E1"
+        ],
+        "label": [
+          "M3-I6-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        881,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        885,
+        70,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE326",
+        "textColor": "#8C8123"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        323,
+        881,
+        558,
+        50
+      ],
+      "text": "111医药馆（望京西园分店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        952,
+        102,
+        41
+      ],
+      "text": "4.9分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        337,
+        952,
+        186,
+        41
+      ],
+      "text": "月售2万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        512,
+        953,
+        325,
+        43
+      ],
+      "text": "起送￥20免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        953,
+        111,
+        39
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1019,
+        244,
+        40
+      ],
+      "text": "点评收录10年",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#828282"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        657,
+        1021,
+        303,
+        37
+      ],
+      "text": "店铺回头客13万+",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "C1-E010": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1094,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1376,
+        261,
+        92
+      ],
+      "text": "[济川药业]蒲地蓝消炎口服液1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#181818"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1487,
+        117,
+        21
+      ],
+      "text": "¥42.21",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C1-E013": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1094,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1376,
+        260,
+        91
+      ],
+      "text": "[京都念慈菴]京都念慈菴蜜炼",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#232323"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        512,
+        1482,
+        97,
+        26
+      ],
+      "text": "¥27.4",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C1-E016": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1094,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1376,
+        260,
+        94
+      ],
+      "text": "[同仁堂]感冒清热颗粒12g*10",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1486,
+        113,
+        22
+      ],
+      "text": "¥18.78",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C1-E019": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1094,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1375,
+        166,
+        93
+      ],
+      "text": "[江中]复方...沥液10ml...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E021": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1485,
+        99,
+        23
+      ],
+      "text": "¥16.8...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1596,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        1598,
+        73,
+        43
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#8C811A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        321,
+        1596,
+        469,
+        52
+      ],
+      "text": "叮当智慧药房（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1668,
+        102,
+        40
+      ],
+      "text": "5.0分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1668,
+        111,
+        40
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        337,
+        1669,
+        530,
+        41
+      ],
+      "text": "月售1000+起送￥20配送约￥1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        1735,
+        284,
+        39
+      ],
+      "text": "店铺回头客2千+",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#727272"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        698,
+        1735,
+        293,
+        39
+      ],
+      "text": "店铺好评数超1万",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C2-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1810,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2089,
+        260,
+        96
+      ],
+      "text": "[仁和]布洛芬缓释胶囊0.3g*11",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1F1F1F"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2198,
+        106,
+        49
+      ],
+      "text": "¥20.5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C2-E012": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1810,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2092,
+        259,
+        95
+      ],
+      "text": "[神威]藿香正气软胶囊0.45g*1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2197,
+        106,
+        49
+      ],
+      "text": "¥22.5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C2-E015": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1810,
+        264,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2087,
+        159,
+        98
+      ],
+      "text": "[京都念都念慈菴",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#234141"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2201,
+        102,
+        43
+      ],
+      "text": "¥32.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C2-E018": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1810,
+        166,
+        240
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E019": {
+      "kind": "text",
+      "bounds": [
+        1078,
+        2068,
+        121,
+        94
+      ],
+      "text": "问医生...24小时...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#00CFB2",
+        "textColor": "#8CECE3"
+      }
+    },
+    "C2-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2201,
+        103,
+        43
+      ],
+      "text": "¥36.2...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2311,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        2313,
+        73,
+        43
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#8C811A"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        321,
+        2311,
+        519,
+        52
+      ],
+      "text": "叮当快药（北京望京东店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2383,
+        102,
+        41
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        338,
+        2383,
+        608,
+        41
+      ],
+      "text": "月售2000+起送￥20满59免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#505050"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        1085,
+        2385,
+        107,
+        36
+      ],
+      "text": "1.8km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#656565"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        458,
+        2449,
+        304,
+        38
+      ],
+      "text": "店铺回头客4万+",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        757,
+        2449,
+        295,
+        40
+      ],
+      "text": "店铺好评数超3万",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C3-E009": {
+      "kind": "media",
+      "bounds": [
+        244,
+        2524,
+        176,
+        176
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E010": {
+      "kind": "media",
+      "bounds": [
+        430,
+        2524,
+        176,
+        176
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E011": {
+      "kind": "media",
+      "bounds": [
+        616,
+        2524,
+        176,
+        176
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E012": {
+      "kind": "media",
+      "bounds": [
+        802,
+        2524,
+        176,
+        176
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E013": {
+      "kind": "media",
+      "bounds": [
+        988,
+        2524,
+        176,
+        176
+      ],
+      "mediaType": "photo"
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "药店",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        64,
+        410,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        64,
+        600,
+        178,
+        55
+      ],
+      "text": "肠胃用药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#212121"
+      }
+    },
+    "M3-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        256,
+        410,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        256,
+        600,
+        178,
+        55
+      ],
+      "text": "男科用药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1D1D1D"
+      }
+    },
+    "M3-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        448,
+        410,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        448,
+        600,
+        178,
+        55
+      ],
+      "text": "儿童用药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        640,
+        410,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        640,
+        600,
+        178,
+        55
+      ],
+      "text": "五官用药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        832,
+        410,
+        178,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        832,
+        600,
+        178,
+        55
+      ],
+      "text": "抗菌消炎",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#2F2F2F"
+      }
+    },
+    "M3-I6-E1": {
+      "kind": "media",
+      "bounds": [
+        1024,
+        410,
+        168,
+        178
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I6-E2": {
+      "kind": "text",
+      "bounds": [
+        1024,
+        600,
+        168,
+        55
+      ],
+      "text": "止痛用药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#222222"
+      }
+    }
+  }
+}

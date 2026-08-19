@@ -1,0 +1,1753 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "国庆节酒店",
+    "screenshot": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为国庆节酒店.png",
+    "sha256": "b5cfeb72b86915b3fda5b87a3b34e79569a039dbb7dbd6c566ea632bfe77dad2",
+    "viewport": [
+      1206,
+      2622
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        178,
+        1206,
+        127
+      ],
+      "slots": {
+        "merchant": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        313,
+        1206,
+        108
+      ]
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        428,
+        1206,
+        107
+      ]
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        554,
+        1206,
+        2068
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        554,
+        1206,
+        670
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1247,
+        1206,
+        574
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04"
+      ]
+    },
+    "C3": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1843,
+        1206,
+        464
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "hotel",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2307,
+        1206,
+        315
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        589,
+        300,
+        300
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "append_items",
+      "bounds": [
+        134,
+        786,
+        1072,
+        402
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            134,
+            786,
+            469,
+            401
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E002"
+            ],
+            "other": [
+              "C1-E003",
+              "C1-E004",
+              "C1-E005",
+              "C1-E006",
+              "C1-E007"
+            ],
+            "price": [
+              "C1-E008",
+              "C1-E009"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            614,
+            786,
+            245,
+            402
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E010"
+            ],
+            "other": [
+              "C1-E011"
+            ],
+            "price": [
+              "C1-E012",
+              "C1-E013"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            868,
+            786,
+            245,
+            401
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E014"
+            ],
+            "other": [
+              "C1-E015"
+            ],
+            "price": [
+              "C1-E016",
+              "C1-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1122,
+            786,
+            84,
+            401
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E018"
+            ],
+            "other": [
+              "C1-E019"
+            ],
+            "price": [
+              "C1-E020"
+            ]
+          }
+        }
+      ]
+    },
+    "C1-R03": {
+      "name": "title",
+      "bounds": [
+        366,
+        582,
+        769,
+        54
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E021"
+        ],
+        "title": [
+          "C1-E022"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "merchant_info",
+      "bounds": [
+        357,
+        648,
+        821,
+        102
+      ],
+      "slots": {
+        "other": [
+          "C1-E023",
+          "C1-E026"
+        ],
+        "price": [
+          "C1-E024"
+        ],
+        "fulfillment": [
+          "C1-E025"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        1282,
+        300,
+        300
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "append_items",
+      "bounds": [
+        360,
+        1407,
+        846,
+        401
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            360,
+            1407,
+            243,
+            401
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E002"
+            ],
+            "other": [
+              "C2-E003"
+            ],
+            "price": [
+              "C2-E004",
+              "C2-E005"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            613,
+            1407,
+            246,
+            400
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E006"
+            ],
+            "other": [
+              "C2-E007"
+            ],
+            "price": [
+              "C2-E008",
+              "C2-E009"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            868,
+            1407,
+            245,
+            401
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E010"
+            ],
+            "other": [
+              "C2-E011"
+            ],
+            "price": [
+              "C2-E012",
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1122,
+            1407,
+            84,
+            399
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E014"
+            ],
+            "other": [
+              "C2-E015",
+              "C2-E016"
+            ],
+            "price": [
+              "C2-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R03": {
+      "name": "title",
+      "bounds": [
+        366,
+        1265,
+        352,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E018"
+        ],
+        "title": [
+          "C2-E019"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "merchant_info",
+      "bounds": [
+        358,
+        1331,
+        820,
+        41
+      ],
+      "slots": {
+        "other": [
+          "C2-E020",
+          "C2-E022"
+        ],
+        "price": [
+          "C2-E021"
+        ],
+        "fulfillment": [
+          "C2-E023"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        1857,
+        330,
+        421
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        358,
+        1855,
+        802,
+        118
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ],
+        "fulfillment_tag": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "tags",
+      "bounds": [
+        38,
+        1863,
+        918,
+        288
+      ],
+      "slots": {
+        "generic_tag": [
+          "C3-E004",
+          "C3-E005",
+          "C3-E006",
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "rating_and_reason",
+      "bounds": [
+        358,
+        1990,
+        752,
+        40
+      ],
+      "slots": {
+        "rating": [
+          "C3-E009"
+        ],
+        "recommendation": [
+          "C3-E010",
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "location",
+      "bounds": [
+        360,
+        2051,
+        520,
+        40
+      ],
+      "slots": {
+        "location": [
+          "C3-E012",
+          "C3-E013"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "price",
+      "bounds": [
+        358,
+        2163,
+        819,
+        114
+      ],
+      "slots": {
+        "price_and_trade": [
+          "C3-E014",
+          "C3-E015",
+          "C3-E016",
+          "C3-E017",
+          "C3-E018",
+          "C3-E019"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        30,
+        2321,
+        330,
+        287
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        356,
+        2322,
+        804,
+        121
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ],
+        "fulfillment_tag": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "tags",
+      "bounds": [
+        37,
+        2331,
+        993,
+        288
+      ],
+      "slots": {
+        "generic_tag": [
+          "C4-E004",
+          "C4-E005",
+          "C4-E006",
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "rating_and_reason",
+      "bounds": [
+        358,
+        2457,
+        571,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C4-E009"
+        ],
+        "recommendation": [
+          "C4-E010"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "location",
+      "bounds": [
+        359,
+        2519,
+        576,
+        40
+      ],
+      "slots": {
+        "location": [
+          "C4-E011",
+          "C4-E012"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        589,
+        300,
+        300
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "media",
+      "bounds": [
+        360,
+        786,
+        243,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1046,
+        234,
+        91
+      ],
+      "text": "【中秋国庆通用】家庭自助餐（…）",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1C1C1C"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        426,
+        999,
+        138,
+        15
+      ],
+      "text": "家庭自助餐包含2大1小",
+      "visual": {
+        "backgroundColor": "#BD9F7F",
+        "textColor": "#88694C"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        426,
+        1016,
+        147,
+        10
+      ],
+      "text": "8.21-8.30马来西亚美食节期间通用",
+      "visual": {
+        "backgroundColor": "#BB9D7F",
+        "textColor": "#88694B"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        134,
+        1064,
+        92,
+        34
+      ],
+      "text": "无门槛",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF4E3D"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        144,
+        1142,
+        70,
+        38
+      ],
+      "text": "使用",
+      "visual": {
+        "backgroundColor": "#FDFFFF",
+        "textColor": "#F94443"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        377,
+        1148,
+        78,
+        39
+      ],
+      "text": "¥523",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        452,
+        1152,
+        90,
+        32
+      ],
+      "text": "¥820",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#575757"
+      }
+    },
+    "C1-E010": {
+      "kind": "media",
+      "bounds": [
+        616,
+        786,
+        243,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        616,
+        1046,
+        211,
+        86
+      ],
+      "text": "【周一至周四】商务晚餐半自助…",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#171717"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        614,
+        1148,
+        91,
+        40
+      ],
+      "text": "¥163",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        704,
+        1154,
+        83,
+        31
+      ],
+      "text": "¥198",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#575757"
+      }
+    },
+    "C1-E014": {
+      "kind": "media",
+      "bounds": [
+        870,
+        786,
+        243,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        868,
+        1045,
+        241,
+        85
+      ],
+      "text": "单人自助餐（8.21-8.30马来西亚…）",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#202020"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        886,
+        1148,
+        79,
+        39
+      ],
+      "text": "¥233",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        964,
+        1153,
+        89,
+        32
+      ],
+      "text": "¥328",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595959"
+      }
+    },
+    "C1-E018": {
+      "kind": "media",
+      "bounds": [
+        1124,
+        786,
+        82,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E019": {
+      "kind": "text",
+      "bounds": [
+        1122,
+        1044,
+        84,
+        88
+      ],
+      "text": "【南洋…】",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#151515"
+      }
+    },
+    "C1-E020": {
+      "kind": "text",
+      "bounds": [
+        1124,
+        1146,
+        82,
+        41
+      ],
+      "text": "¥163",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E021": {
+      "kind": "tag",
+      "bounds": [
+        366,
+        591,
+        66,
+        36
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE7518",
+        "textColor": "#FABB8A"
+      }
+    },
+    "C1-E022": {
+      "kind": "text",
+      "bounds": [
+        446,
+        582,
+        689,
+        54
+      ],
+      "text": "北京望京凯悦酒店·MarketCafé咖",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E023": {
+      "kind": "text",
+      "bounds": [
+        357,
+        652,
+        97,
+        42
+      ],
+      "text": "4.3分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5B09"
+      }
+    },
+    "C1-E024": {
+      "kind": "text",
+      "bounds": [
+        458,
+        648,
+        557,
+        48
+      ],
+      "text": "5645条人均￥250综合自助望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#454545"
+      }
+    },
+    "C1-E025": {
+      "kind": "text",
+      "bounds": [
+        1067,
+        650,
+        111,
+        42
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#2C2C2C"
+      }
+    },
+    "C1-E026": {
+      "kind": "text",
+      "bounds": [
+        417,
+        716,
+        356,
+        34
+      ],
+      "text": "望京自助餐好评榜第6名",
+      "visual": {
+        "backgroundColor": "#FFEDDE",
+        "textColor": "#8A481B"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        1282,
+        300,
+        300
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "media",
+      "bounds": [
+        360,
+        1407,
+        243,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        360,
+        1666,
+        234,
+        87
+      ],
+      "text": "【十一】【食尚风味】豫东熬炒鸡",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#181818"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        376,
+        1768,
+        78,
+        40
+      ],
+      "text": "¥288",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        454,
+        1773,
+        90,
+        32
+      ],
+      "text": "¥428",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#575757"
+      }
+    },
+    "C2-E006": {
+      "kind": "media",
+      "bounds": [
+        616,
+        1407,
+        243,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        613,
+        1667,
+        217,
+        86
+      ],
+      "text": "【地方特色】黄河大鲤鱼+郑…",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#141414"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        615,
+        1769,
+        94,
+        38
+      ],
+      "text": "¥480",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        710,
+        1773,
+        80,
+        30
+      ],
+      "text": "¥731",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C2-E010": {
+      "kind": "media",
+      "bounds": [
+        870,
+        1407,
+        243,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        871,
+        1667,
+        226,
+        87
+      ],
+      "text": "【食全食美】羊肉烩面双人餐（…）",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1E1E1E"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        868,
+        1767,
+        91,
+        41
+      ],
+      "text": "¥148",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        960,
+        1774,
+        85,
+        31
+      ],
+      "text": "¥278",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#575757"
+      }
+    },
+    "C2-E014": {
+      "kind": "media",
+      "bounds": [
+        1124,
+        1407,
+        82,
+        244
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        1150,
+        1596,
+        56,
+        34
+      ],
+      "text": "随时",
+      "visual": {
+        "backgroundColor": "#FEF1F2",
+        "textColor": "#998D8D"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        1122,
+        1666,
+        84,
+        37
+      ],
+      "text": "100元",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1F1F1F"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        1144,
+        1767,
+        54,
+        39
+      ],
+      "text": "¥95",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E018": {
+      "kind": "tag",
+      "bounds": [
+        366,
+        1271,
+        66,
+        36
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE7518",
+        "textColor": "#FABB8A"
+      }
+    },
+    "C2-E019": {
+      "kind": "text",
+      "bounds": [
+        447,
+        1265,
+        271,
+        50
+      ],
+      "text": "商都酒店餐饮",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E020": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1332,
+        87,
+        40
+      ],
+      "text": "4.1分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5602"
+      }
+    },
+    "C2-E021": {
+      "kind": "text",
+      "bounds": [
+        450,
+        1333,
+        281,
+        39
+      ],
+      "text": "227条人均￥116",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#393939"
+      }
+    },
+    "C2-E022": {
+      "kind": "text",
+      "bounds": [
+        711,
+        1335,
+        96,
+        36
+      ],
+      "text": "豫菜",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#3C3C3C"
+      }
+    },
+    "C2-E023": {
+      "kind": "text",
+      "bounds": [
+        1050,
+        1331,
+        128,
+        41
+      ],
+      "text": "18.6km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#2E2E2E"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        1857,
+        330,
+        421
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1855,
+        802,
+        118
+      ],
+      "text": "【怡园】E2地铁近国贸CBD直达北海南锣鼓巷舒适明亮三居·可洗衣·租房·套",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        368,
+        1861,
+        62,
+        36
+      ],
+      "text": "民宿",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#208DF9",
+        "textColor": "#96C9FD"
+      }
+    },
+    "C3-E004": {
+      "kind": "tag",
+      "bounds": [
+        38,
+        1863,
+        122,
+        34
+      ],
+      "text": "金牌房源",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#362722",
+        "textColor": "#E6D1B6"
+      }
+    },
+    "C3-E005": {
+      "kind": "tag",
+      "bounds": [
+        370,
+        2109,
+        75,
+        42
+      ],
+      "text": "实拍",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E006": {
+      "kind": "tag",
+      "bounds": [
+        482,
+        2111,
+        144,
+        38
+      ],
+      "text": "超赞房东",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        662,
+        2109,
+        113,
+        42
+      ],
+      "text": "近地铁",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#656565"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        812,
+        2111,
+        144,
+        39
+      ],
+      "text": "寄存行李",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        358,
+        1990,
+        94,
+        40
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5907"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        467,
+        1992,
+        212,
+        38
+      ],
+      "text": "老板人很好，",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF6A20"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        676,
+        1991,
+        434,
+        38
+      ],
+      "text": "总体是一次很好的入住经历",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7531"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        360,
+        2051,
+        268,
+        38
+      ],
+      "text": "距您直线14.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6D6D6D"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        644,
+        2053,
+        236,
+        38
+      ],
+      "text": "传媒大学/管庄",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#717171"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        1032,
+        2163,
+        145,
+        55
+      ],
+      "text": "¥474起",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        358,
+        2181,
+        165,
+        38
+      ],
+      "text": "700+消费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        921,
+        2181,
+        85,
+        32
+      ],
+      "text": "¥712",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#888888"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        874,
+        2240,
+        115,
+        32
+      ],
+      "text": "今夜特价",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF4534"
+      }
+    },
+    "C3-E018": {
+      "kind": "text",
+      "bounds": [
+        1018,
+        2240,
+        144,
+        32
+      ],
+      "text": "立减238",
+      "visual": {
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3825"
+      }
+    },
+    "C3-E019": {
+      "kind": "text",
+      "bounds": [
+        360,
+        2245,
+        274,
+        32
+      ],
+      "text": "44分钟前有人收藏",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        30,
+        2321,
+        330,
+        287
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        356,
+        2322,
+        804,
+        121
+      ],
+      "text": "北野！大兴机场！明亮宽敞三居！十一特惠！24小时热水无线！免费停车！·近北",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        368,
+        2330,
+        64,
+        36
+      ],
+      "text": "民宿",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#208DF9",
+        "textColor": "#96C9FD"
+      }
+    },
+    "C4-E004": {
+      "kind": "tag",
+      "bounds": [
+        37,
+        2331,
+        124,
+        35
+      ],
+      "text": "金牌房源",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#372722",
+        "textColor": "#E6D1B6"
+      }
+    },
+    "C4-E005": {
+      "kind": "tag",
+      "bounds": [
+        370,
+        2579,
+        145,
+        40
+      ],
+      "text": "超赞房东",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C4-E006": {
+      "kind": "tag",
+      "bounds": [
+        554,
+        2579,
+        146,
+        38
+      ],
+      "text": "立即确认",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#565656"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        736,
+        2579,
+        146,
+        40
+      ],
+      "text": "寄存行李",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        918,
+        2578,
+        112,
+        40
+      ],
+      "text": "洗衣机",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#F5F5F5",
+        "textColor": "#626262"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        358,
+        2459,
+        91,
+        40
+      ],
+      "text": "4.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5C0B"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        463,
+        2457,
+        466,
+        42
+      ],
+      "text": "卫生特别干净，住得特别放心",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7A38"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        359,
+        2519,
+        276,
+        38
+      ],
+      "text": "距您直线56.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        646,
+        2519,
+        289,
+        40
+      ],
+      "text": "北京大兴国际机场",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        0,
+        178,
+        1206,
+        127
+      ],
+      "text": "国庆节酒店",
+      "visual": {
+        "backgroundColor": "#FAFAFA",
+        "textColor": "#333333"
+      }
+    }
+  }
+}

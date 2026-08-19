@@ -1,0 +1,1377 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "盒马",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为盒马.png",
+    "sha256": "d6e94a6c623b12759865a3b9788d4f18ffea31d7ab5d104bddfc91bc3a079a04",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "promotion_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        710,
+        1224,
+        1990
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        710,
+        1224,
+        720
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1430,
+        1224,
+        655
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2085,
+        1224,
+        615
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        710,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        710,
+        749,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        783,
+        965,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "fulfillment": [
+          "C1-E005",
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        360,
+        848,
+        274,
+        39
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E007"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        923,
+        997,
+        439
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            923,
+            264,
+            437
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E008"
+            ],
+            "title": [
+              "C1-E009"
+            ],
+            "price": [
+              "C1-E010"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            923,
+            264,
+            438
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E011"
+            ],
+            "title": [
+              "C1-E012"
+            ],
+            "price": [
+              "C1-E013"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            923,
+            264,
+            438
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E014"
+            ],
+            "title": [
+              "C1-E015"
+            ],
+            "price": [
+              "C1-E016"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            923,
+            166,
+            439
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E017"
+            ],
+            "title": [
+              "C1-E018"
+            ],
+            "price": [
+              "C1-E019"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1430,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        1430,
+        652,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1503,
+        966,
+        41
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "sales": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006",
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1579,
+        997,
+        439
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1579,
+            264,
+            439
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E009"
+            ],
+            "title": [
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1579,
+            264,
+            439
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E012"
+            ],
+            "title": [
+              "C2-E013"
+            ],
+            "price": [
+              "C2-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1579,
+            264,
+            437
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E015"
+            ],
+            "title": [
+              "C2-E016"
+            ],
+            "price": [
+              "C2-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1579,
+            166,
+            435
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E018"
+            ],
+            "title": [
+              "C2-E019"
+            ],
+            "price": [
+              "C2-E020"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2085,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        2085,
+        749,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2157,
+        965,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "sales": [
+          "C3-E005"
+        ],
+        "fulfillment": [
+          "C3-E006",
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        2217,
+        997,
+        458
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            2217,
+            264,
+            452
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E009"
+            ],
+            "title": [
+              "C3-E010"
+            ],
+            "price": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            2217,
+            264,
+            454
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E012"
+            ],
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            2217,
+            264,
+            458
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E015"
+            ],
+            "title": [
+              "C3-E016"
+            ],
+            "price": [
+              "C3-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            2217,
+            166,
+            452
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E018"
+            ],
+            "title": [
+              "C3-E019"
+            ],
+            "price": [
+              "C3-E020"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        710,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        713,
+        71,
+        40
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#82761A"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        321,
+        710,
+        661,
+        50
+      ],
+      "text": "盒马鲜生代购（望京广顺北大街）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        783,
+        102,
+        42
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        341,
+        783,
+        564,
+        42
+      ],
+      "text": "月售900+起送¥0满39免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        784,
+        109,
+        36
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        360,
+        848,
+        274,
+        39
+      ],
+      "text": "刚刚有用户下单",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C1-E008": {
+      "kind": "media",
+      "bounds": [
+        227,
+        923,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1203,
+        246,
+        93
+      ],
+      "text": "盒马 左旋肉碱水 960ml",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1322,
+        162,
+        38
+      ],
+      "text": "¥10 限1件",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C1-E011": {
+      "kind": "media",
+      "bounds": [
+        504,
+        923,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1201,
+        226,
+        50
+      ],
+      "text": "黄瓜 约600g",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1321,
+        188,
+        40
+      ],
+      "text": "¥3.23 限1件",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C1-E014": {
+      "kind": "media",
+      "bounds": [
+        781,
+        923,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1203,
+        246,
+        93
+      ],
+      "text": "盒马 红豆薏米水 900ml",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1321,
+        182,
+        40
+      ],
+      "text": "¥8.51 限1件",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C1-E017": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        923,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1204,
+        166,
+        94
+      ],
+      "text": "国产富士...粒装 约6...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E019": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1317,
+        166,
+        45
+      ],
+      "text": "¥13.44 限...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1430,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        1433,
+        71,
+        40
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#82761A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        321,
+        1430,
+        564,
+        49
+      ],
+      "text": "盒马鲜生代购（望京万象汇）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1503,
+        102,
+        40
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        341,
+        1503,
+        170,
+        40
+      ],
+      "text": "月售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        659,
+        1503,
+        244,
+        41
+      ],
+      "text": "满39免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1504,
+        111,
+        37
+      ],
+      "text": "2.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        522,
+        1505,
+        151,
+        39
+      ],
+      "text": "起送￥0",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C2-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1579,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1858,
+        245,
+        98
+      ],
+      "text": "盒马工坊酱卤牛腱100g",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1974,
+        210,
+        44
+      ],
+      "text": "¥15.93到手价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5646"
+      }
+    },
+    "C2-E012": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1579,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1857,
+        260,
+        94
+      ],
+      "text": "盒马烘焙原味&伯爵红茶味瑞",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1974,
+        193,
+        44
+      ],
+      "text": "¥18.5到手价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF594A"
+      }
+    },
+    "C2-E015": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1579,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1856,
+        208,
+        104
+      ],
+      "text": "盒马酸奶昔400g",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1975,
+        186,
+        41
+      ],
+      "text": "¥9.13到手价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5B4D"
+      }
+    },
+    "C2-E018": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1579,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E019": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1859,
+        166,
+        94
+      ],
+      "text": "封神麻辣...虾神鲜桶...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1976,
+        166,
+        38
+      ],
+      "text": "¥92.68到手...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF432E"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2085,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        2088,
+        71,
+        39
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#7E7419"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        322,
+        2085,
+        660,
+        49
+      ],
+      "text": "盒马鲜生代购（望京广顺北大街）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2157,
+        102,
+        39
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        339,
+        2157,
+        147,
+        39
+      ],
+      "text": "月售70+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        498,
+        2157,
+        130,
+        42
+      ],
+      "text": "起送￥0",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        638,
+        2158,
+        242,
+        40
+      ],
+      "text": "满39免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2159,
+        109,
+        36
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C3-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        2217,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2515,
+        244,
+        92
+      ],
+      "text": "盒马烘焙安心慢发酵米酿吐",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2631,
+        210,
+        38
+      ],
+      "text": "¥12.65到手价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5849"
+      }
+    },
+    "C3-E012": {
+      "kind": "media",
+      "bounds": [
+        504,
+        2217,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2514,
+        254,
+        99
+      ],
+      "text": "盒马有机一分甘胡萝卜400g",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2630,
+        191,
+        41
+      ],
+      "text": "¥4.53到手价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5F4F"
+      }
+    },
+    "C3-E015": {
+      "kind": "media",
+      "bounds": [
+        781,
+        2217,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2514,
+        245,
+        99
+      ],
+      "text": "佳农进口有机超糯蕉650g",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2627,
+        95,
+        48
+      ],
+      "text": "¥15.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C3-E018": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        2217,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E019": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2514,
+        166,
+        97
+      ],
+      "text": "【水果菜】...串茄400g...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2631,
+        166,
+        38
+      ],
+      "text": "¥9.19到手...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5445"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "盒马",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

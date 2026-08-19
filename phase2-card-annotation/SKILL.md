@@ -13,7 +13,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 必须明确区分两条流程：
 
-1. **黄金样本校准流（离线）**：允许在已经确认的截图/卡片边界内使用 PaddleOCR，并允许模型视觉能力逐像素复核标题、元素语义归属和分组。所有改写都必须保留 bounded evidence 与校准来源。该流程只更新 `golden-sample-results/` 和离线回归引用，绝不能被生产入口导入。
+1. **黄金样本校准流（离线）**：允许在已经确认的截图/卡片边界内使用 PaddleOCR，并允许模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库只保留 `golden-atomic-v3/` 最新黄金 JSON；旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
 2. **用户截图 Phase2 生产流**：只使用当前截图的本地 CV/OCR、卡型契约与门控；视觉模型和黄金字段值不得补读、猜测或注入。失败时有界重跑 Paddle/Tesseract，仍不满足契约就阻断，不发布伪完整 JSON。
 
 两条流程允许的证据不同，但输出必须遵循同一个元素级契约：
@@ -22,6 +22,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 - 下挂按可见供给逐项分组：`items[0]` 只拥有下挂1的 `imageElements`、`textElements`、`priceElements`、`auxiliaryElements`，`items[1]` 只拥有下挂2；禁止把多项图片、文字、价格平铺到一个 region 后丢失归属。文字下挂未渲染图片时 `imageElements=[]`，不得伪造图片。
 - `基础信息区`、`商家信息区`、`标签区` 必须按独立语义字段/独立视觉 chip 拆分；例如 `15-25m²｜2人｜双床` 是面积、人数、床型三个元素。不得按整行合并，也不得按单字切分。
 - 元素边界以独立视觉实体为准，不以 OCR 返回的一行文字为准。同行但颜色、间距、容器、图形辅助或交互含义不同的标签必须分别建元素；参照“面部清洁”黄金样本中“美丽荟西子医疗美容”的三个标签。
+- 怀疑一行包含多个实体时，Paddle/Tesseract 仍返回同一整行只能证明文字可重复，不能证明它是一个元素，也不能作为拆分依据。必须取得两个以上有独立边界的视觉/OCR observation，或使用已复核的逐像素拆分；否则保持未确认并阻断发布。
 - 文字/标签不得成为单字符元素；`起`、`¥` 等后缀或符号必须与所属价格合并。图片元素可使用空 `visibleText`。
 - 任何一条不满足，黄金校准不得标记完成，生产识别不得设置 `phase3Ready=true`。
 - **结构完整不等于文字正确。** 每个 `status=confirmed` 的标题和下挂文字/价格必须有同一原图范围内的完整可见像素证据。仅通过 schema、字段非空或卡片数量检查，不得宣称黄金样本正确。
@@ -30,6 +31,9 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 - 黄金校准明确要求 PaddleOCR 时，实际后端不是 `paddleocr` 必须立即失败；禁止静默回退 Tesseract 后仍把产物标成 Paddle 证据。
 - 黄金发布 JSON 的文字事实只保留元素级 `visibleText`；`boundedEvidence` 仅保留像素坐标溯源，不重复发布 observation `text`，也不发布 `ocrConfidence`。OCR 原文与置信度只允许存在于离线过程证据目录，不能成为黄金或 Phase2 最终 JSON 的消费字段。
 - 图片内部的包装字、品牌字和装饰字属于图片像素，不另建 UI 文本或标签元素；只有与图片分离、承担界面语义的可见文字才拆成元素。
+- 同一可见像素实体在一张卡内只能有一个规范所有者。下挂名称、价格、折扣、销量等归具体下挂项，不得同时复制到泛化 `标签区`；价格区中的价格不得同时保留在信息区。相同原文且相同坐标，或相同原文、同实体类型且一个框高度覆盖另一个框的嵌套标注，均视为重复所有权并阻断黄金发布。
+- 元素语义类型、渲染类型与 Phase3 遮罩必须一致：`图片/头图/主图/海报/视频` 类元素必须为 `visual.entityKind=image`、`render.isPhoto=true`、`render.isSystemUi=false`，且不得携带 `textFacts`。禁止因类型别名缺失把照片当文本，导致 Phase3 把图片纹理计入 UI 颜色或 icon。
+- `naturally_cropped` 表示可见像素已确认但被视口自然截断，不等于 OCR/视觉事实不确定。生成 Phase3 投影时保留自然裁切状态，并只对可见部分评测；真正的 `uncertain` 仍阻断完整卡进入依赖该事实的维度。
 
 ### 结构参照法（优先于坐标模板和 OCR 行形状）
 
@@ -72,11 +76,12 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 | 卡型边界与最小证据 | `references/card_recognition_contracts.v1.json` |
 | 酒店单列/双列/民宿与混排细则 | `references/hotel_card_algorithm.v1.md` 与 `references/hotel_card_element_contract.v1.json` |
 | 标题、文字下挂、图文下挂与异构下挂结构范例 | `references/golden_structure_exemplars.v1.md`；只学习结构，当前截图独立取证 |
+| 已逐像素复核的黄金标签拆分 | `references/golden_tag_split_reviews.v1.json`；只供离线黄金校准与回归，不向生产注入字段值 |
 | UI/图标检测、OCR 与颜色事实融合 | `references/screen_parser_backend.v1.md`；处理非文本 UI、图标漏检或评估 OmniParser 时读取 |
 | 黄金样本聚合几何经验 | `references/learned_card_geometry_profiles.v1.json`；只作软证据 |
 | OCR 文本角色候选 | `references/search_page_semantic_rules.v1.json` |
 | 清单及审计 schema | `scripts/validate_element_manifest.py` |
-| 黄金样本回归 | `golden-samples/` 与 `golden-sample-results/`；不得外推到新截图 |
+| 黄金样本回归 | `golden-samples/` 截图与 `golden-atomic-v3/` 最新 JSON；不得外推到新截图 |
 
 `extract_product_card_elements.py` 仅用于已登记文件名的黄金回归，不能用于新截图。新截图只能消费本次 CV/OCR、卡型候选和本地像素/拓扑证据。
 
@@ -142,15 +147,47 @@ PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到
 6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同行碎片、语义原子性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
 7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`references/golden_page_truth.v2.json` 是允许模型辅助校准的离线回归真值，只能在推理结束后比较卡数、卡型、模块与 IoU，禁止传入生产命令。黄金元素校准可使用 `scripts/extract_golden_contract_evidence.py` 的有界 Paddle 证据与模型视觉复核，再由 `scripts/calibrate_golden_element_contract.py` 写回；这两个脚本禁止由生产入口调用。允许离线聚合经过清洗的归一化几何分布；缺坐标、整页误框和页尾残片必须排除。该分布只给已通过最小契约的卡型增加少量辅助分，不能补齐缺失证据或单独否决新布局。每次更新黄金样本后运行：
+9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`golden-atomic-v3/` 只用于离线回归，禁止传入生产命令。旧格式迁移脚本只有在显式提供外部归档的 `--source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
 
    黄金文本发布以结构范例和当前卡片的完整像素证据共同门控：标题与下挂不能由预设槽位生成；文字元素非空并不代表正确，必须能追溯到同卡、同元素且覆盖完整可见字形的 bounded observation；校准命令指定 `--require-backend paddleocr` 时任何后端降级均阻断。已有非空标题也必须按标题结构重新核验。
 
+Phase3 通过 `scripts/phase2_bundle_loader.py` 读取 atomic v3，完成枚举、哈希和 publication 门禁后只在内存中建立兼容视图。禁止持久化 Phase3 派生投影。
+
+`phase2.atomic-manifest.v3` 是页面可重建的原子结构投影。34 份离线黄金投影统一由
+`scripts/build_atomic_manifest_v3_goldens.py` 生成到 `golden-atomic-v3/`：corrected/示例 JSON
+只提供 module/card/region/slot 结构词汇，严禁读取其坐标；card、region、element、图筛项坐标
+只能复制现有逐像素复核 golden 与 bounded CV/OCR 证据。仅建模块若没有可靠外框则省略
+`bounds`，不得按屏幕比例、固定高度或相邻模块均分补框。审计摘要只保留在批量
+`index.json`，不再生成逐 manifest audit sidecar；索引必须保持 34 图、135 卡的回归基线。
+
+所有 Phase2 JSON 在写出前必须加载 `references/search_card_taxonomy.v1.json` 执行枚举校验；
+输出必须记录该枚举文件的 `contractVersion`、相对路径和 SHA-256。枚举文件缺失、版本或
+哈希不一致、卡型不在枚举内、封闭枚举槽位出现非法值时一律阻断发布，禁止使用脚本内
+硬编码近义词集合绕过该门禁。
+
+标题区必须保留标题前后独立视觉实体：履约标使用 `fulfillment_tag`，商家标使用
+`merchant_tag`，标题后景点等级使用 `scenic_rating_tag` 且 `kind=tag`；实际前置、后置或行内位置由当前元素
+坐标决定，不另存预计位置。商品头图上的「时令、冰镇」等钻石属性使用
+`product_attribute_tag` 并归属 `head_media`，不得因旧字段名为“履约标签”而归入
+`fulfillment_tag`。标题文字不得吞入已由像素确认的前后标签；没有独立像素边界时也不得按
+枚举词硬切。所有 `kind=tag` 元素的槽位名必须以 `_tag` 结尾，所有 `_tag` 槽位也只能
+引用 `kind=tag` 元素；例如 `promotion_tag`、`guarantee_tag`、`gift_tag`。批量 audit 的
+`titleAffixErrors` 必须为 0 才可发布。
+
 ```bash
-python3 phase2-card-annotation/scripts/learn_card_geometry_profiles.py \
-  --output phase2-card-annotation/references/learned_card_geometry_profiles.v1.json
-python3 phase2-card-annotation/scripts/enrich_golden_visual_facts.py
+python3 phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py
 ```
+
+迁移完成后，Phase3 通过确定性测量入口直接消费两份文件；入口会先核对 sidecar 文件名、规范 JSON SHA-256、截图哈希及卡内/页面元素 ID 索引，任一不一致立即失败：
+
+```bash
+python3 scripts/extract_component_metrics.py \
+  --project-dir <projectDir> --scenes <sample> --skill <eval-skill> \
+  --normalized-input <sample>.golden.json \
+  --evidence-input <sample>.evidence.json
+```
+
+`countDecision`、`dedupDecision` 等可由结构化字段直接推导的解释性文案不写入规范化主文件、证据 sidecar 或 Phase3 内存视图；只保留 `countedInComplexity` 与 `dedupWithElementIds`。
 
 10. 黄金回归只在整条推理完成后做 `expectedCardTypes`/`predictedCards` 对照，绝不能向生产识别传入期望卡型：
 
@@ -262,6 +299,8 @@ query 只写入输出上下文，不是卡型或页面结构主键。同一 quer
 
 这是 Phase3 静态元素复杂度的唯一输入。Phase2 只记录事实，不计分、不评级、不预聚合数量。
 
+Phase2 只发布已确认的标签/icon 原子、归属、坐标和基础视觉事实，不发布 Phase3 专用的预计数、预去重或评级结论。Phase3 必须遍历当前组件的全分区原子，现场测量样式、决定纳入并去重计数。Phase3 像素扫描若发现原子边界外的疑似漏标，可触发 Phase2 基础识别回退；未确认 blob 不能直接参与正式计数或评级。
+
 扫描范围：头图角标/腰封、标题前 badge、履约标与闪电 icon、基础信息、标签区、价格旁促销标、文字下挂、每个图文下挂商品的角标/腰封、保障标与图筛项。每个独立标签、角标、券标、腰封和 icon 都拆为一个元素；不能因颜色或轮廓相近而合并。
 
 标签/icon 的 `visual` 必填。当前阶段不做通用圆角容器检测；未由像素事实确认时，`containerShape` 写 `unknown`，不得按业务词猜形状：
@@ -282,8 +321,6 @@ query 只写入输出上下文，不是卡型或页面结构主键。同一 quer
   "graphicType": "无",
   "graphicAssistRole": "无",
   "countedInComplexity": true,
-  "countDecision": "独立红色券标",
-  "dedupDecision": "不与履约标或榜单标去重",
   "dedupWithElementIds": [],
   "styleKey": "标签|red|券标|unknown|无",
   "sourceRegion": "标签区"
@@ -292,7 +329,7 @@ query 只写入输出上下文，不是卡型或页面结构主键。同一 quer
 
 `entityKind` 只能是 `tag | icon | text | image`；`colorRole` 只能是 `neutral | red | orange | yellow | green | blue | purple | multicolor | unknown`。`styleKey` 固定为“实体类别｜颜色角色｜语义角色｜容器形态｜图形辅助”；只有五段都相同并写明理由时才可去重。
 
-每张完整卡还必须有 `visualInventory`（各可见分区的已确认元素、styleKey、是否计入与未确认项）和 `tagScanChecklist`。每项包含 `candidate`、`status: found|not_found|uncertain`、`checkedRegions`、`elementIds`、`visualBasis`。检查表提醒扫描，不能按搜索词补造标签。
+每张完整卡还必须有 `visualInventory`（各可见分区的已确认元素、styleKey、是否计入与未确认项）和 `tagScanChecklist`。每项包含 `candidate`、`status: found|not_found|uncertain`、`checkedRegions`、`elementIds`。检查表提醒扫描，不能按搜索词补造标签。
 
 ### 业务/搜索意图标签扫描检查表
 

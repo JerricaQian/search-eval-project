@@ -1,0 +1,1267 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "喜力啤酒整箱",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为喜力啤酒整箱.png",
+    "sha256": "9806cd4f4f04c63686009753958ba1eb07981e35e0f6335a055da7068484f894",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "promotion_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        710,
+        1224,
+        1990
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        710,
+        1224,
+        563
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05",
+        "C1-R06"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1273,
+        1224,
+        563
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06",
+        "C2-R07"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1836,
+        1224,
+        515
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2351,
+        1224,
+        349
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05",
+        "C4-R06"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        710,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ],
+        "product_attribute_tag": [
+          "C1-E002"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        392,
+        713,
+        720,
+        117
+      ],
+      "slots": {
+        "title": [
+          "C1-E003"
+        ],
+        "fulfillment_tag": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "price",
+      "bounds": [
+        386,
+        938,
+        601,
+        67
+      ],
+      "slots": {
+        "price": [
+          "C1-E007",
+          "C1-E008"
+        ],
+        "price_and_sales": [
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "merchant",
+      "bounds": [
+        397,
+        1085,
+        536,
+        39
+      ],
+      "slots": {
+        "merchant": [
+          "C1-E013"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        394,
+        954,
+        800,
+        236
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E010",
+          "C1-E012",
+          "C1-E014"
+        ]
+      }
+    },
+    "C1-R06": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        855,
+        639,
+        206
+      ],
+      "slots": {
+        "other": [
+          "C1-E005",
+          "C1-E006",
+          "C1-E011"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1273,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ],
+        "product_attribute_tag": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        395,
+        1274,
+        691,
+        123
+      ],
+      "slots": {
+        "title": [
+          "C2-E003"
+        ],
+        "fulfillment_tag": [
+          "C2-E004"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "price",
+      "bounds": [
+        669,
+        1521,
+        211,
+        41
+      ],
+      "slots": {
+        "price": [
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "merchant",
+      "bounds": [
+        396,
+        1647,
+        540,
+        43
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E012"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        394,
+        1518,
+        799,
+        236
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E009",
+          "C2-E011",
+          "C2-E013",
+          "C2-E014"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "base_info",
+      "bounds": [
+        396,
+        1417,
+        592,
+        208
+      ],
+      "slots": {
+        "other": [
+          "C2-E005",
+          "C2-E006",
+          "C2-E007",
+          "C2-E010"
+        ]
+      }
+    },
+    "C2-R07": {
+      "name": "price",
+      "bounds": [
+        394,
+        1504,
+        273,
+        62
+      ],
+      "slots": {
+        "price": [
+          "C2-E015"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1836,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        395,
+        1838,
+        694,
+        120
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ],
+        "fulfillment_tag": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        390,
+        2069,
+        557,
+        62
+      ],
+      "slots": {
+        "price": [
+          "C3-E007"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "merchant",
+      "bounds": [
+        398,
+        2151,
+        420,
+        40
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E009"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        395,
+        2082,
+        797,
+        174
+      ],
+      "slots": {
+        "fulfillment": [
+          "C3-E008",
+          "C3-E010",
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "base_info",
+      "bounds": [
+        397,
+        1982,
+        784,
+        40
+      ],
+      "slots": {
+        "other": [
+          "C3-E004",
+          "C3-E005",
+          "C3-E006"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2351,
+        332,
+        319
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        396,
+        2351,
+        764,
+        103
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ],
+        "fulfillment_tag": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "price",
+      "bounds": [
+        502,
+        2514,
+        149,
+        42
+      ],
+      "slots": {
+        "sales": [
+          "C4-E005"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "fulfillment",
+      "bounds": [
+        397,
+        2513,
+        797,
+        175
+      ],
+      "slots": {
+        "fulfillment": [
+          "C4-E006",
+          "C4-E008",
+          "C4-E009",
+          "C4-E010"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "base_info",
+      "bounds": [
+        395,
+        2495,
+        597,
+        130
+      ],
+      "slots": {
+        "other": [
+          "C4-E004",
+          "C4-E007"
+        ]
+      }
+    },
+    "C4-R06": {
+      "name": "subtitle",
+      "bounds": [
+        396,
+        2395,
+        352,
+        42
+      ],
+      "slots": {
+        "attribute": [
+          "C4-E011"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        710,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        269,
+        722,
+        79,
+        46
+      ],
+      "text": "冰镇",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#1BB3FC",
+        "textColor": "#95DDF9"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        392,
+        713,
+        720,
+        117
+      ],
+      "text": "【整箱】喜力啤酒500ml*12瓶 11.4°P",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "tag",
+      "bounds": [
+        399,
+        718,
+        76,
+        42
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE329",
+        "textColor": "#958917"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        386,
+        938,
+        138,
+        67
+      ],
+      "text": "￥55",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF0000"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        520,
+        948,
+        123,
+        47
+      ],
+      "text": "冰爽价",
+      "visual": {
+        "backgroundColor": "#E6FAFF",
+        "textColor": "#61BFF2"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        657,
+        957,
+        330,
+        40
+      ],
+      "text": "/每瓶￥4.59月售95",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5555"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1085,
+        536,
+        39
+      ],
+      "text": "品牌廿肆灯火生活超市(望京店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E5555"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        954,
+        129,
+        49
+      ],
+      "text": "31分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#626262"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1022,
+        111,
+        38
+      ],
+      "text": "3.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6C6C6C"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1149,
+        351,
+        41
+      ],
+      "text": "起送￥12.9免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        395,
+        855,
+        552,
+        42
+      ],
+      "text": "酒精度：4.0%v0l保质期:12个月",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        976,
+        855,
+        58,
+        42
+      ],
+      "text": "箱装",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1019,
+        157,
+        42
+      ],
+      "text": "不冰必赔",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1273,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        273,
+        1290,
+        71,
+        38
+      ],
+      "text": "冰镇",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#18B5FD",
+        "textColor": "#94E0FB"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1274,
+        691,
+        123
+      ],
+      "text": "喜力（Heineken）11.4°P啤酒 500ml*12听/箱",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "tag",
+      "bounds": [
+        398,
+        1280,
+        78,
+        45
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE644",
+        "textColor": "#CEBE17"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        669,
+        1521,
+        211,
+        41
+      ],
+      "text": "￥90月售12",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#C2C2C2"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1647,
+        540,
+        43
+      ],
+      "text": "品牌华致名酒库(朝阳大悦城店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#685555"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        1518,
+        128,
+        45
+      ],
+      "text": "54分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        1585,
+        129,
+        38
+      ],
+      "text": "11.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6C6C6C"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1713,
+        171,
+        40
+      ],
+      "text": "起送￥158",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        578,
+        1713,
+        147,
+        41
+      ],
+      "text": "配送￥12",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1417,
+        254,
+        46
+      ],
+      "text": "酒精度:5%vol",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        678,
+        1417,
+        225,
+        46
+      ],
+      "text": "保质期:365天",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        932,
+        1417,
+        56,
+        46
+      ],
+      "text": "箱装",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1583,
+        157,
+        42
+      ],
+      "text": "不冰必赔",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1504,
+        273,
+        62
+      ],
+      "text": "前2件¥82/件",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3C26"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1836,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1838,
+        694,
+        120
+      ],
+      "text": "【整箱】喜力11.4度听装啤酒 500ml*12罐/箱",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1844,
+        75,
+        42
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE329",
+        "textColor": "#938717"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        390,
+        2069,
+        557,
+        62
+      ],
+      "text": "￥64.9神价/每罐￥5.41月售91",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5547"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        398,
+        2151,
+        420,
+        40
+      ],
+      "text": "品牌吉惠达超市(望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#745555"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        2082,
+        127,
+        44
+      ],
+      "text": "30分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2153,
+        109,
+        36
+      ],
+      "text": "3.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2215,
+        350,
+        41
+      ],
+      "text": "起送￥18.9免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1982,
+        235,
+        40
+      ],
+      "text": "酒精度：5%vol",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        658,
+        1982,
+        288,
+        40
+      ],
+      "text": "麦汁浓度:11.4°P",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        972,
+        1982,
+        209,
+        40
+      ],
+      "text": "保质期:365天",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2351,
+        332,
+        319
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2351,
+        764,
+        103
+      ],
+      "text": "喜力啤酒11.4°P听装500ml*12",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555538"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        399,
+        2351,
+        75,
+        31
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FEE129",
+        "textColor": "#837715"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        502,
+        2514,
+        149,
+        42
+      ],
+      "text": "月售50+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        2513,
+        130,
+        45
+      ],
+      "text": "30分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2583,
+        111,
+        39
+      ],
+      "text": "2.0km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        397,
+        2648,
+        126,
+        36
+      ],
+      "text": "起送￥0",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#757575"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        530,
+        2645,
+        245,
+        43
+      ],
+      "text": "满39免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        417,
+        2495,
+        80,
+        62
+      ],
+      "text": "78",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2577,
+        597,
+        48
+      ],
+      "text": "自营小象超市(原美团买菜)-博泰站",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#685555"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2395,
+        352,
+        42
+      ],
+      "text": "麦香浓郁｜口感均衡",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#767676"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "喜力啤酒整箱",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

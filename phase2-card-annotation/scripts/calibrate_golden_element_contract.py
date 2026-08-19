@@ -18,10 +18,13 @@ import re
 from pathlib import Path
 from typing import Any, Iterator
 
+from apply_golden_tag_split_reviews import apply_to_card, load_reviews
+
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "phase2-card-annotation" / "golden-sample-results"
 TRUTH = ROOT / "phase2-card-annotation" / "references" / "golden_page_truth.v2.json"
+TAG_SPLIT_REVIEWS = ROOT / "phase2-card-annotation" / "references" / "golden_tag_split_reviews.v1.json"
 
 
 TITLE_REVIEWS: dict[tuple[str, int], tuple[str, list[str]]] = {
@@ -313,10 +316,10 @@ def split_merged_elements(card: dict[str, Any], requests: list[dict[str, Any]]) 
                 replacement.extend(parts)
                 changed += int(len(parts) > 1)
             elif observations:
-                value = copy.deepcopy(item)
-                value.update({"coord": observations[0]["coord"], "visibleText": observations[0]["text"], "source": "bounded_paddleocr_model_calibrated", "status": "confirmed"})
-                replacement.append(value)
-                changed += int(value != item)
+                # One OCR observation of the same full row is not evidence of
+                # UI atomicity. Keep the candidate unchanged so the fail-closed
+                # semantic/visual gate can require a reviewed split.
+                replacement.append(item)
             else:
                 replacement.append(item)
         values[:] = replacement
@@ -532,11 +535,14 @@ def clip_card_elements(card: dict[str, Any]) -> int:
 def calibrate(path: Path, evidence_dir: Path) -> dict[str, int]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     evidence = evidence_for(path, evidence_dir)
-    summary = {"geometry": sync_existing_card_geometry(payload), "titles": 0, "reviewedTitleText": 0, "titleRegionElements": 0, "semanticSplits": 0, "downhangs": 0, "downhangFields": 0, "singletons": 0, "clipped": 0}
+    reviewed_splits = load_reviews(TAG_SPLIT_REVIEWS)
+    relative = str(path.relative_to(RESULTS))
+    summary = {"geometry": sync_existing_card_geometry(payload), "titles": 0, "reviewedTitleText": 0, "titleRegionElements": 0, "reviewedTagSplits": 0, "semanticSplits": 0, "downhangs": 0, "downhangFields": 0, "singletons": 0, "clipped": 0}
     for card in cards(payload):
         summary["titles"] += int(add_missing_title(path, card, evidence))
         summary["reviewedTitleText"] += apply_reviewed_title_text(path, card)
         summary["titleRegionElements"] += add_reviewed_title_region_elements(path, card)
+        summary["reviewedTagSplits"] += apply_to_card(relative, card, reviewed_splits)
         summary["semanticSplits"] += split_merged_elements(card, evidence.get("requests", []))
         summary["singletons"] += merge_price_suffixes_and_drop_singletons(card)
         summary["downhangs"] += normalize_downhang(card)

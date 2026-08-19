@@ -23,7 +23,7 @@ metadata:
 - 【技能专属】`observableFact` 必须写清发生冲突的标题、图片、标签或下挂内容。
 - 【技能专属】示例输出：`C1 标题写“家庭套餐”，下挂商品却标注“单人票”，评级为不达标。用户可能误解可购买的服务规格。`
 
-- 每个 Tab 无论评级为优秀或不达标，都必须输出覆盖全部完整可评组件的 `assessmentRows`（技能专属覆盖模式：覆盖全部完整可评组件(关系)）。每行必须列出 `componentId`、主标题、图片、下挂、标签、搜索词及 `title_to_image` / `title_to_append` 的已检查关系、关系状态、每项不适用原因、冲突数、评级和结论；不得用“已核查图文”替代真实 elementId 与关系事实。关系缺失或 `uncertain` 的组件必须请求 Phase2 复核，当前 Tab 不得输出优秀。
+- 每个 Tab 无论评级为优秀或不达标，都必须输出覆盖全部完整可评组件的 `assessmentRows`。每行必须列出 Phase3 遍历得到的主标题—图片/下挂候选对、真实 elementId、逐对语义核查、不适用原因、冲突数、评级和结论；不得用“已核查图文”代替候选遍历与比较证据。
 - `details.evidenceMode`、优秀排除规则同 8 个 skill 逐字相同条款，详见 [[组件卡片评测通用契约]]。
 
 ## 统一输入与执行契约
@@ -31,8 +31,8 @@ metadata:
 通用条款（Phase2 清单原子性、完整阅读标准、`issues` 引用真实 ID）见 [[组件卡片评测通用契约]]（`phase3-card_or_component-eval/组件卡片评测通用契约.md`）。以下为本 Skill 专属内容：
 
 - 组件 Skill 必须逐组件执行自身规则；`overview.total` 必须等于实际评估**组件数**，Phase2 清单总数仅写入 `evidence.sourceManifestTotal` 作追溯，绝不得作为组件数。
-- **结果证据门槛：**每个完整可评组件（包括优秀者）必须有一条 `assessmentRows`，列出图文、标题/副标题、标签、下挂与搜索词关系的已检查项/不适用原因、对应真实 `elementId`、关系 `status`、冲突数和评级；`evidence.evaluatedUnitCount` 必须等于行数且与 `overview.total` 一致。任一必需 `title_to_image` / `title_to_append` 关系缺失或为 `uncertain` 时，停止评测并请求 Phase2 复核，不得输出优秀。
-- **Phase2 事实优先：**图片、标题、副标题、标签、下挂、搜索词和 `title_to_image` / `title_to_append` 关系必须从 Phase2 元素及 `relations` 读取；Phase3 只判断元素组合是否冲突，不能把 Phase2 未确认字段解释为矛盾。
+- **结果证据门槛：**每个完整可评组件必须有一条 `assessmentRows`，列出 `scripts/extract_phase3_relation_candidates.py` 的候选对产物、逐对核查结果、不适用原因、冲突数和评级；`measurement` 必须指向当次 Phase3 产物。候选提取未运行时阻断 Phase3，不得改为 Phase2 预计算关系。
+- **Phase2 基础事实优先：**图片、标题、副标题、标签、下挂、搜索词的原子归属与可见事实来自 Phase2；候选关系枚举与语义冲突终判均由 Phase3 完成，不依赖 Phase2 `relations` 的真实性结论。
 
 ## 工具定位
 

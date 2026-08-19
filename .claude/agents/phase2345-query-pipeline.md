@@ -89,8 +89,6 @@ Stage A 产物：`elementListPaths[]`、`elementAuditPaths[]`、全部非排除�
 
 B0. **FACT_GATES 前置事实验收**：对 `evalTargets` 中命中以下任一 skill 的项，必须先执行对应校验命令，`valid=true` 才可评测该 skill，否则阻断并返回原因：
     - `eval-5-info-hierarchy` → `--require-hierarchy-facts`
-    - `eval-4-element-complexity` → `--require-complexity-facts`
-    - `eval-7-info-authenticity` → `--require-authenticity-relations`
     - `eval-2-visual-order-alignment` → `--require-alignment-facts --require-alignment-anchors`
     对 `elementListPaths[]` 中每份清单分别执行，命令形如：
     ```bash
@@ -108,6 +106,7 @@ B3. **证据先于优秀结论**：命中 FACT_GATES 的 4 个 skill，其 `asse
     - `eval-7-info-authenticity`（信息真实性）：每条含主标题、每个可见图片/下挂实体的真实 elementId、`title_to_image`/`title_to_append` 关系、confirmed 状态、检查结论及不适用原因；未确认关系不得写成无冲突或优秀。
     - `eval-2-visual-order-alignment`（视觉秩序分组）：每条含分组 key、成员 cardId、layoutMode、layoutSignature、各卡 `layoutAnchors` 与卡内 `layoutAnchorRelation`、跨卡比较结果或单例阅读顺序核查；只允许相同 key 的完整卡横向比较，单例不得宣称跨卡一致。**严禁把标题/信息列的绝对 x 坐标、头图尺寸或卡片高度差异单独作为不达标依据**；只有同 key 卡的 `layoutAnchorRelation` 出现可见相对关系冲突（如 image_left_of_text 与 image_right_of_text、title_above_primaryInfo 与 primaryInfo_above_title），或同组锚点支持肉眼可见的页面级错层时，才可判不达标；锚点不能支持结论时必须请求 Phase2 复核，不得自行推断。
 B4. **Phase2 契约缺口不得静默处理**：评测中发现 Phase2 事实缺失或不足以支撑结论时，必须显式产出 Phase2 复核需求，不得当作"无问题"处理。
+B4a. **Phase2/Phase3 回退边界（优先于 B3/B4 的旧字段要求）**：原子边界/类型/归属/坐标或基础可见事实缺失时产出 Phase2 复核需求；Phase3 候选提取、比较、测量、去重或计数产物缺失时只重跑/阻断 Phase3，不得通过给 Phase2 加评测专用字段规避遍历。复杂度由 Phase3 扫全分区原子并测量/去重；可比性运行 `scripts/extract_phase3_comparability.py`；真实性由 Phase3 枚举同卡标题—图片/下挂候选对。
 B5. **确定性测量先行**：像素/颜色/样式/边界等测量必须先跑确定性脚本（如 `extract_component_metrics.py`），`assessmentRows` 附 `measurement.tool/artifactPath/parameters`，不得凭视觉估算代替。
 B6. **读图硬上限**：每个 skill 的评测整图全程只 Read 1 次；局部细节用 `sips -c` 裁窄条复核，不重读整图。
 B7. **评级分档严格遵守 skill 的 `weight` frontmatter**，二档 skill 不得凭空产生"达标"档，不得自创中间档。

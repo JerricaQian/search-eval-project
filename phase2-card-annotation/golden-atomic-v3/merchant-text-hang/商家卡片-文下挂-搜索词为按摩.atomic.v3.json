@@ -1,0 +1,1538 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "按摩",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为按摩.png",
+    "sha256": "a5238a2466bad1d74495911c566d2cbfd1b1565a1231e64e5bc5896ae27a7560",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        881,
+        1224,
+        1819
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        881,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1356,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1766,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2241,
+        1224,
+        459
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        881,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        881,
+        720,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        303,
+        942,
+        893,
+        62
+      ],
+      "slots": {
+        "fulfillment": [
+          "C1-E004"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        1014,
+        800,
+        110
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E005",
+          "C1-E006",
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1163,
+        886,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            1163,
+            881,
+            41
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E009"
+            ],
+            "price": [
+              "C1-E010"
+            ],
+            "sales": [
+              "C1-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            309,
+            1230,
+            886,
+            48
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E012"
+            ],
+            "price": [
+              "C1-E013"
+            ],
+            "promotion_tag": [
+              "C1-E014"
+            ],
+            "sales": [
+              "C1-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1356,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1356,
+        857,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        1424,
+        881,
+        48
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "price": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1489,
+        776,
+        47
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        306,
+        1568,
+        889,
+        119
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            306,
+            1568,
+            889,
+            50
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E009",
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ],
+            "promotion_tag": [
+              "C2-E012"
+            ],
+            "sales": [
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            1641,
+            884,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E014",
+              "C2-E015"
+            ],
+            "price": [
+              "C2-E016"
+            ],
+            "promotion_tag": [
+              "C2-E017"
+            ],
+            "sales": [
+              "C2-E018"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1766,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1766,
+        836,
+        52
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        304,
+        1828,
+        889,
+        57
+      ],
+      "slots": {
+        "price": [
+          "C3-E004"
+        ],
+        "fulfillment": [
+          "C3-E005"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1899,
+        798,
+        108
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E006",
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        2045,
+        883,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2045,
+            882,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E009"
+            ],
+            "price": [
+              "C3-E010"
+            ],
+            "promotion_tag": [
+              "C3-E011"
+            ],
+            "sales": [
+              "C3-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            2116,
+            883,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ],
+            "promotion_tag": [
+              "C3-E015"
+            ],
+            "sales": [
+              "C3-E016"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2241,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        316,
+        2241,
+        875,
+        48
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        304,
+        2302,
+        887,
+        56
+      ],
+      "slots": {
+        "price": [
+          "C4-E004"
+        ],
+        "fulfillment": [
+          "C4-E005"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        2372,
+        473,
+        113
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E006",
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        2521,
+        883,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2521,
+            882,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E009"
+            ],
+            "price": [
+              "C4-E010"
+            ],
+            "sales": [
+              "C4-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            2591,
+            883,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E012",
+              "C4-E013"
+            ],
+            "price": [
+              "C4-E014"
+            ],
+            "promotion_tag": [
+              "C4-E015"
+            ],
+            "sales": [
+              "C4-E016"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        881,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        883,
+        74,
+        43
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF761B",
+        "textColor": "#FEBB88"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        881,
+        628,
+        50
+      ],
+      "text": "云驰运动康复（望京 SOHO店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        303,
+        942,
+        893,
+        62
+      ],
+      "text": "4.2分180条 ¥251/人传统按摩/足疗望京1.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#765852"
+      }
+    },
+    "C1-E005": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        1014,
+        448,
+        49
+      ],
+      "text": "望京康复矫正销量榜第2名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C1-E006": {
+      "kind": "tag",
+      "bounds": [
+        780,
+        1014,
+        118,
+        49
+      ],
+      "text": "休闲区",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        916,
+        1014,
+        195,
+        49
+      ],
+      "text": "全程无推销",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        353,
+        1081,
+        433,
+        43
+      ],
+      "text": "全身都轻松了，环境舒适",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#96724E"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        410,
+        1163,
+        533,
+        41
+      ],
+      "text": "【按摩养生】冲击波/超声按摩仪",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1163,
+        98,
+        41
+      ],
+      "text": "¥160",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        1060,
+        1163,
+        133,
+        39
+      ],
+      "text": "年售60+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        543,
+        1233,
+        479,
+        40
+      ],
+      "text": "寒假专训青少年体态脊柱侧",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1230,
+        106,
+        48
+      ],
+      "text": "¥280",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E014": {
+      "kind": "tag",
+      "bounds": [
+        424,
+        1232,
+        91,
+        40
+      ],
+      "text": "4.7折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        1078,
+        1234,
+        117,
+        39
+      ],
+      "text": "年售14",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#818181"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1356,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1358,
+        74,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBD8B"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        1356,
+        766,
+        49
+      ],
+      "text": "北派修脚·采耳·养生（望京SOHO店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1424,
+        102,
+        43
+      ],
+      "text": "4.0分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        419,
+        1425,
+        620,
+        47
+      ],
+      "text": "482条￥55/人传统按摩/足疗望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1080,
+        1430,
+        110,
+        35
+      ],
+      "text": "1.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1489,
+        311,
+        47
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3261"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1489,
+        448,
+        47
+      ],
+      "text": "望京足部护理销量榜第3名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        521,
+        1571,
+        404,
+        43
+      ],
+      "text": "【超值套餐】15点前可用",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        959,
+        1571,
+        67,
+        43
+      ],
+      "text": "足疗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1B1B1B"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        306,
+        1568,
+        83,
+        50
+      ],
+      "text": "¥59",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E012": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1570,
+        89,
+        40
+      ],
+      "text": "3.8折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        1098,
+        1573,
+        97,
+        40
+      ],
+      "text": "年售8",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        523,
+        1643,
+        402,
+        40
+      ],
+      "text": "【非遗传承】15点前可用",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        959,
+        1643,
+        67,
+        40
+      ],
+      "text": "北派",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1642,
+        80,
+        45
+      ],
+      "text": "¥45",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E017": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1641,
+        89,
+        40
+      ],
+      "text": "6.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF321E"
+      }
+    },
+    "C2-E018": {
+      "kind": "text",
+      "bounds": [
+        1079,
+        1644,
+        115,
+        39
+      ],
+      "text": "年售15",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1766,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1767,
+        75,
+        43
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF761B",
+        "textColor": "#FEBA87"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        404,
+        1766,
+        747,
+        52
+      ],
+      "text": "REJOY柔己·推拿正脊SPA（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        304,
+        1828,
+        674,
+        57
+      ],
+      "text": "4.7分1874条¥117/人传统按摩/足疗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#825953"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1839,
+        110,
+        40
+      ],
+      "text": "1.8km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C3-E006": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1899,
+        311,
+        46
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3261"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1899,
+        470,
+        46
+      ],
+      "text": "望京推拿养生销量榜第10名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        355,
+        1967,
+        352,
+        40
+      ],
+      "text": "专业按摩，舒服体验",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#9A7755"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        541,
+        2048,
+        426,
+        40
+      ],
+      "text": "【按摩推拿】【按摩】全身推",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2045,
+        98,
+        45
+      ],
+      "text": "¥108",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E011": {
+      "kind": "tag",
+      "bounds": [
+        417,
+        2045,
+        90,
+        41
+      ],
+      "text": "4.4折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3724"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        2049,
+        172,
+        38
+      ],
+      "text": "年售5000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        522,
+        2117,
+        446,
+        43
+      ],
+      "text": "【推拿按摩】肩颈放松·肩颈",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2116,
+        80,
+        46
+      ],
+      "text": "¥90",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E015": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        2116,
+        89,
+        41
+      ],
+      "text": "4.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        2119,
+        173,
+        39
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2241,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        316,
+        2243,
+        72,
+        40
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE761A",
+        "textColor": "#FEBE8C"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        405,
+        2241,
+        786,
+        48
+      ],
+      "text": "新印伽·云澜意境SPA·养生足道（望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        304,
+        2302,
+        676,
+        56
+      ],
+      "text": "3.9分1406条￥184/人传统按摩/足疗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#82584E"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        1084,
+        2314,
+        107,
+        37
+      ],
+      "text": "1.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#636363"
+      }
+    },
+    "C4-E006": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        2372,
+        202,
+        48
+      ],
+      "text": "神券立减36",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6A"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        535,
+        2372,
+        151,
+        48
+      ],
+      "text": "泰式手法",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        353,
+        2441,
+        431,
+        44
+      ],
+      "text": "技师手法到位，力度合适",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8C643D"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        519,
+        2522,
+        446,
+        41
+      ],
+      "text": "「中式按摩养生放松·全身",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2521,
+        80,
+        43
+      ],
+      "text": "¥98",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        1041,
+        2525,
+        151,
+        36
+      ],
+      "text": "年售400+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        545,
+        2593,
+        287,
+        41
+      ],
+      "text": "【足疗】101分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        864,
+        2593,
+        128,
+        41
+      ],
+      "text": "专业按摩",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C4-E014": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2591,
+        103,
+        45
+      ],
+      "text": "¥734",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E015": {
+      "kind": "tag",
+      "bounds": [
+        423,
+        2591,
+        89,
+        41
+      ],
+      "text": "4.9折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C4-E016": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        2594,
+        154,
+        39
+      ],
+      "text": "年售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    }
+  }
+}

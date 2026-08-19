@@ -4,8 +4,15 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any, Iterator
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from semantic_atomicity import merged_tag_reason
+from golden_visual_identity import duplicate_visual_atoms
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -52,6 +59,11 @@ def audit() -> dict[str, Any]:
                 if not isinstance(item.get(key), dict):
                     errors.append(f"{path.name}:{item.get('elementType')}:{key}_missing")
             is_image = item.get("visual", {}).get("entityKind") == "image"
+            image_semantic = any(token in str(item.get("elementType", "")) for token in ("图片", "头图", "主图", "海报", "视频", "横幅/轮播"))
+            if image_semantic != is_image:
+                errors.append(f"{path.name}:{item.get('elementType')}:semantic_visual_kind_mismatch")
+            if is_image and (item.get("render", {}).get("isPhoto") is not True or item.get("render", {}).get("isSystemUi") is not False):
+                errors.append(f"{path.name}:{item.get('elementType')}:image_render_policy_invalid")
             if not is_image and not isinstance(item.get("textFacts"), dict):
                 errors.append(f"{path.name}:{item.get('elementType')}:textFacts_missing")
             visual = item.get("visual", {})
@@ -82,6 +94,12 @@ def audit() -> dict[str, Any]:
                 errors.append(f"{prefix}:visible_status_mismatch")
             regions = card.get("regions", {})
             card_elements = list(elements(regions))
+            for duplicate in duplicate_visual_atoms(regions):
+                owners = ",".join(owner["region"] for owner in duplicate["owners"])
+                errors.append(
+                    f"{prefix}:visual_atom_has_multiple_owners:"
+                    f"{duplicate['normalizedText']}:{duplicate['coord']}:{owners}"
+                )
             if not card_elements:
                 errors.append(f"{prefix}:visible_card_requires_element_facts")
             complete_known = card.get("componentType") == "result_card" and card.get("visibleStatus") == "complete" and card.get("cardType") not in {"异构卡", "广告卡"}
@@ -105,6 +123,11 @@ def audit() -> dict[str, Any]:
                     errors.append(f"{prefix}:bounded_text_missing_pixel_evidence:{semantic_type}:{text}")
                 if item.get("sourceRegion") in {"基础信息区", "商家信息区", "标签区"} and re.search(r"[｜|；]", text):
                     errors.append(f"{prefix}:merged_semantic_fields:{text}")
+                if item.get("sourceRegion") == "标签区":
+                    segments = item.get("visual", {}).get("horizontalForegroundSegments", [])
+                    reason = merged_tag_reason(text, segments if isinstance(segments, list) else [])
+                    if reason:
+                        errors.append(f"{prefix}:multiple_independent_tags_merged:{reason}:{text}")
             for region_name in ("下挂商品区", "文字下挂区", "下挂区", "服务下挂"):
                 region = regions.get(region_name)
                 if not isinstance(region, dict):

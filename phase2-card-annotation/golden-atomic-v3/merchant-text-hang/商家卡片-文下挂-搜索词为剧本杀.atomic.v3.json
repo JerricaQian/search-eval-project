@@ -1,0 +1,1394 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "剧本杀",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为剧本杀.png",
+    "sha256": "8bb9ecb9266a4811847f922dbd56773f2ac8236bbd36ce7869c8c4f9203f8386",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1073,
+        1224,
+        1627
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1073,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1548,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2023,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2433,
+        1224,
+        267
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1073,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1073,
+        838,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        1140,
+        883,
+        51
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "price": [
+          "C1-E005"
+        ],
+        "fulfillment": [
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1206,
+        776,
+        108
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E007",
+          "C1-E008",
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        312,
+        1355,
+        881,
+        112
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            313,
+            1355,
+            880,
+            41
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E010"
+            ],
+            "price": [
+              "C1-E011"
+            ],
+            "sales": [
+              "C1-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            312,
+            1426,
+            881,
+            41
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E013"
+            ],
+            "price": [
+              "C1-E014"
+            ],
+            "sales": [
+              "C1-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1548,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1548,
+        476,
+        48
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        1615,
+        884,
+        48
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "price": [
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1679,
+        611,
+        112
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008",
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1827,
+        884,
+        116
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            1827,
+            884,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ],
+            "promotion_tag": [
+              "C2-E012"
+            ],
+            "sales": [
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            1898,
+            883,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E014"
+            ],
+            "price": [
+              "C2-E015"
+            ],
+            "promotion_tag": [
+              "C2-E016"
+            ],
+            "sales": [
+              "C2-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2023,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        316,
+        2023,
+        858,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2091,
+        884,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "price": [
+          "C3-E005"
+        ],
+        "fulfillment": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        2156,
+        737,
+        47
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        311,
+        2239,
+        883,
+        114
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            2239,
+            881,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E009"
+            ],
+            "price": [
+              "C3-E010"
+            ],
+            "sales": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            311,
+            2309,
+            883,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E012"
+            ],
+            "price": [
+              "C3-E013"
+            ],
+            "sales": [
+              "C3-E014"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2433,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        2433,
+        859,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        2502,
+        880,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "price": [
+          "C4-E005"
+        ],
+        "distance": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        2564,
+        728,
+        51
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        2647,
+        885,
+        46
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2647,
+            885,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E009"
+            ],
+            "price": [
+              "C4-E010"
+            ],
+            "sales": [
+              "C4-E011"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1073,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1075,
+        74,
+        42
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBC8A"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        1073,
+        746,
+        50
+      ],
+      "text": "贝克街推理馆·剧本杀跑团血染钟楼",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1140,
+        104,
+        45
+      ],
+      "text": "4.1分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        410,
+        1141,
+        530,
+        50
+      ],
+      "text": "1949条¥145/人剧本杀望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1144,
+        109,
+        40
+      ],
+      "text": "1.6km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1206,
+        311,
+        47
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3261"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1206,
+        448,
+        47
+      ],
+      "text": "望京剧本杀回头客榜第2名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        355,
+        1275,
+        403,
+        39
+      ],
+      "text": "体验非常棒，超乎预期！",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#987452"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        407,
+        1355,
+        560,
+        41
+      ],
+      "text": "【剧本推理】【恐怖】雪乡连环杀人",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        313,
+        1355,
+        94,
+        41
+      ],
+      "text": "¥148",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        1041,
+        1356,
+        152,
+        38
+      ],
+      "text": "已订300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        390,
+        1426,
+        608,
+        41
+      ],
+      "text": "【剧本推理】【恐怖】剧本杀《上路》|",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1426,
+        78,
+        41
+      ],
+      "text": "¥148",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        1428,
+        112,
+        36
+      ],
+      "text": "已订25",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1548,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1550,
+        74,
+        42
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBC8A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        408,
+        1548,
+        383,
+        48
+      ],
+      "text": "鹿屿沉浸式剧本杀",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1615,
+        103,
+        45
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        423,
+        1619,
+        524,
+        44
+      ],
+      "text": "1228条 ￥139/人剧本杀 望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1618,
+        111,
+        42
+      ],
+      "text": "1.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1679,
+        183,
+        51
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        511,
+        1679,
+        409,
+        51
+      ],
+      "text": "望京剧本杀人气榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        354,
+        1748,
+        431,
+        43
+      ],
+      "text": "房间宽，装修很有创意",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#9B7756"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        521,
+        1828,
+        506,
+        43
+      ],
+      "text": "【剧本杀】【工作日】盒装剧本闲",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1827,
+        81,
+        46
+      ],
+      "text": "¥93",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E012": {
+      "kind": "tag",
+      "bounds": [
+        400,
+        1828,
+        89,
+        40
+      ],
+      "text": "6.8折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        1078,
+        1830,
+        115,
+        39
+      ],
+      "text": "年售15",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        543,
+        1901,
+        405,
+        41
+      ],
+      "text": "【精品盒装】周末单人4H",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1898,
+        96,
+        45
+      ],
+      "text": "¥143",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E016": {
+      "kind": "tag",
+      "bounds": [
+        420,
+        1898,
+        88,
+        41
+      ],
+      "text": "5.8折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        1901,
+        173,
+        38
+      ],
+      "text": "年售2000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2023,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        316,
+        2025,
+        73,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF7519",
+        "textColor": "#FEBD8B"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        2023,
+        767,
+        49
+      ],
+      "text": "LIENOW来闹·沉浸剧本探案馆（望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2091,
+        106,
+        43
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        419,
+        2092,
+        529,
+        46
+      ],
+      "text": "2225条 ¥130/人剧本杀望",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#545454"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2096,
+        110,
+        39
+      ],
+      "text": "2.0km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#424242"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        2156,
+        311,
+        47
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3261"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        2156,
+        409,
+        47
+      ],
+      "text": "望京剧本杀人气榜第2名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        411,
+        2239,
+        512,
+        43
+      ],
+      "text": "来闹·盒装剧本·单人券【周中】",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        312,
+        2240,
+        90,
+        40
+      ],
+      "text": "¥113",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        1040,
+        2241,
+        153,
+        38
+      ],
+      "text": "年售300+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        421,
+        2310,
+        313,
+        40
+      ],
+      "text": "雪乡连环杀人事件",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        311,
+        2309,
+        96,
+        44
+      ],
+      "text": "¥128",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        1041,
+        2312,
+        153,
+        37
+      ],
+      "text": "已订700+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2433,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        2436,
+        71,
+        40
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF7519",
+        "textColor": "#FDBE8C"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        2433,
+        769,
+        49
+      ],
+      "text": "剧中有你剧场·沉浸推理剧本杀·声光",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2502,
+        102,
+        42
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        420,
+        2503,
+        646,
+        45
+      ],
+      "text": "3079条¥130/人剧本杀亚运村商圈",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        1050,
+        2507,
+        140,
+        37
+      ],
+      "text": "6.0km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#414141"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        2564,
+        183,
+        51
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        511,
+        2564,
+        526,
+        51
+      ],
+      "text": "亚运村商圈剧本杀销量榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        421,
+        2648,
+        275,
+        43
+      ],
+      "text": "立方馆谋杀始末",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2647,
+        97,
+        46
+      ],
+      "text": "¥148",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        1101,
+        2650,
+        94,
+        39
+      ],
+      "text": "已订6",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    }
+  }
+}

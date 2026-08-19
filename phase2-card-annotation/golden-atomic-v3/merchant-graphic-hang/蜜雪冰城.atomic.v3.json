@@ -1,0 +1,969 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "蜜雪冰城",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png",
+    "sha256": "3a127d0da1cba2c31f17853edcd206f472312f0fe15d667a4cb4420627ac4d90",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "live_card",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        1326,
+        1224,
+        1374
+      ],
+      "cardIds": [
+        "C1",
+        "C2"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1326,
+        1224,
+        598
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1947,
+        1224,
+        753
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1326,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        1326,
+        462,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1398,
+        966,
+        41
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "sales": [
+          "C1-E005"
+        ],
+        "fulfillment": [
+          "C1-E006",
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        551,
+        1464,
+        272,
+        40
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E009"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1538,
+        997,
+        385
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1538,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E010"
+            ],
+            "title": [
+              "C1-E011"
+            ],
+            "price": [
+              "C1-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1538,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E013"
+            ],
+            "title": [
+              "C1-E014"
+            ],
+            "price": [
+              "C1-E015"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1538,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E016"
+            ],
+            "title": [
+              "C1-E017"
+            ],
+            "price": [
+              "C1-E018"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1538,
+            166,
+            385
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E019"
+            ],
+            "title": [
+              "C1-E020"
+            ],
+            "price": [
+              "C1-E021"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1947,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        314,
+        2064,
+        374,
+        58
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2136,
+        967,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C2-E003"
+        ],
+        "review_count": [
+          "C2-E004"
+        ],
+        "average_spend": [
+          "C2-E005"
+        ],
+        "category": [
+          "C2-E006"
+        ],
+        "other": [
+          "C2-E007"
+        ],
+        "distance": [
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "append_items",
+      "bounds": [
+        221,
+        2259,
+        1003,
+        441
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            221,
+            2259,
+            427,
+            441
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E009"
+            ],
+            "banner": [
+              "C2-E010"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            658,
+            2259,
+            267,
+            416
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E011"
+            ],
+            "title": [
+              "C2-E012"
+            ],
+            "price": [
+              "C2-E013"
+            ],
+            "original_price": [
+              "C2-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            938,
+            2259,
+            264,
+            415
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E015"
+            ],
+            "title": [
+              "C2-E016"
+            ],
+            "price": [
+              "C2-E017"
+            ],
+            "original_price": [
+              "C2-E018"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1215,
+            2259,
+            9,
+            264
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E019"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1326,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        1328,
+        72,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#83771A"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        321,
+        1326,
+        373,
+        49
+      ],
+      "text": "蜜雪冰城（东辛店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1398,
+        102,
+        41
+      ],
+      "text": "4.9分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        341,
+        1398,
+        190,
+        41
+      ],
+      "text": "月售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1399,
+        110,
+        38
+      ],
+      "text": "3.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6C6C6C"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        546,
+        1400,
+        151,
+        38
+      ],
+      "text": "起送￥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        707,
+        1400,
+        158,
+        37
+      ],
+      "text": "配送￥0.4",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        551,
+        1464,
+        272,
+        40
+      ],
+      "text": "刚刚有用户下单",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C1-E010": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1538,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1820,
+        195,
+        42
+      ],
+      "text": "冰鲜柠檬水",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1877,
+        64,
+        45
+      ],
+      "text": "¥11",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E013": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1538,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1820,
+        196,
+        42
+      ],
+      "text": "满杯百香果",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1880,
+        261,
+        41
+      ],
+      "text": "¥13.46 30天低价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE3826"
+      }
+    },
+    "C1-E016": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1538,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1820,
+        195,
+        42
+      ],
+      "text": "冰鲜柠檬水",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1882,
+        187,
+        39
+      ],
+      "text": "¥0.8 神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FD402F"
+      }
+    },
+    "C1-E019": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1538,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1818,
+        166,
+        45
+      ],
+      "text": "心想事“橙...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E021": {
+      "kind": "text",
+      "bounds": [
+        1074,
+        1878,
+        61,
+        45
+      ],
+      "text": "¥25...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1947,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        314,
+        2064,
+        374,
+        58
+      ],
+      "text": "茶山季（合生汇店）",
+      "visual": {
+        "backgroundColor": "#FFFAFA",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2136,
+        102,
+        42
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFF9F9",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        341,
+        2136,
+        108,
+        42
+      ],
+      "text": "2629条",
+      "visual": {
+        "backgroundColor": "#FFFAFA",
+        "textColor": "#414040"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        470,
+        2136,
+        133,
+        42
+      ],
+      "text": "人均¥19",
+      "visual": {
+        "backgroundColor": "#FFFBFB",
+        "textColor": "#535252"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        626,
+        2136,
+        160,
+        42
+      ],
+      "text": "茶饮果汁",
+      "visual": {
+        "backgroundColor": "#FFFCFC",
+        "textColor": "#585757"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        807,
+        2136,
+        118,
+        42
+      ],
+      "text": "九龙山",
+      "visual": {
+        "backgroundColor": "#FFFDFD",
+        "textColor": "#535252"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        1080,
+        2136,
+        114,
+        42
+      ],
+      "text": "12.8km",
+      "visual": {
+        "backgroundColor": "#FFFEFE",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E009": {
+      "kind": "media",
+      "bounds": [
+        221,
+        2259,
+        427,
+        441
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        256,
+        2607,
+        377,
+        50
+      ],
+      "text": "【茶山季必喝】四 ¥16",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#350404",
+        "textColor": "#60564C"
+      }
+    },
+    "C2-E011": {
+      "kind": "media",
+      "bounds": [
+        661,
+        2259,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        682,
+        2568,
+        177,
+        44
+      ],
+      "text": "【手作冰淇...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFCFC",
+        "textColor": "#303030"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        658,
+        2627,
+        103,
+        48
+      ],
+      "text": "¥10.8",
+      "visual": {
+        "backgroundColor": "#FFFCFC",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        753,
+        2638,
+        63,
+        34
+      ],
+      "text": "¥18",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFCFC",
+        "textColor": "#828181"
+      }
+    },
+    "C2-E015": {
+      "kind": "media",
+      "bounds": [
+        938,
+        2259,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        961,
+        2569,
+        172,
+        41
+      ],
+      "text": "【抹茶奶茶...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFEFE",
+        "textColor": "#3B3B3B"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        949,
+        2627,
+        96,
+        47
+      ],
+      "text": "¥24.8",
+      "visual": {
+        "backgroundColor": "#FFFEFE",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E018": {
+      "kind": "text",
+      "bounds": [
+        1038,
+        2637,
+        62,
+        35
+      ],
+      "text": "¥28",
+      "textDecoration": "line_through",
+      "visual": {
+        "backgroundColor": "#FFFEFE",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C2-E019": {
+      "kind": "media",
+      "bounds": [
+        1215,
+        2259,
+        9,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "蜜雪冰城",
+      "visual": {
+        "backgroundColor": "#999394",
+        "textColor": "#95716E"
+      }
+    }
+  }
+}

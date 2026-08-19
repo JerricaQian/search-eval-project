@@ -1,0 +1,1424 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "布洛芬",
+    "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为布洛芬.png",
+    "sha256": "5e92b421d03cf5f93454c7598b22a7db14db8c75485476cae3144b5fd2a04e31",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "image_filter",
+      "visibility": "confirmed",
+      "bounds": [
+        64,
+        410,
+        1130,
+        235
+      ],
+      "variant": "business",
+      "itemIds": [
+        "M3-I1",
+        "M3-I2",
+        "M3-I3",
+        "M3-I4",
+        "M3-I5",
+        "M3-I6"
+      ]
+    },
+    "M4": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M5": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        849,
+        1224,
+        1851
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    },
+    "M6": {
+      "type": "floating_service",
+      "visibility": "confirmed"
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "heterogeneous",
+      "variant": "standard",
+      "bounds": [
+        0,
+        849,
+        1224,
+        348
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1256,
+        1224,
+        502
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05",
+        "C2-R06"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        1758,
+        1224,
+        502
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05",
+        "C3-R06"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_product_card",
+      "variant": "delivery",
+      "bounds": [
+        0,
+        2260,
+        1224,
+        440
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05",
+        "C4-R06"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "recommendation",
+      "bounds": [
+        29,
+        877,
+        1077,
+        272
+      ],
+      "slots": {
+        "recommendation": [
+          "C1-E001",
+          "C1-E002",
+          "C1-E003",
+          "C1-E004",
+          "C1-E005",
+          "C1-E006",
+          "C1-E007",
+          "C1-E008",
+          "C1-E009"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1256,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        395,
+        1260,
+        746,
+        119
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ],
+        "fulfillment_tag": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant",
+      "bounds": [
+        396,
+        1569,
+        536,
+        43
+      ],
+      "slots": {
+        "merchant": [
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "fulfillment",
+      "bounds": [
+        397,
+        1502,
+        798,
+        174
+      ],
+      "slots": {
+        "fulfillment": [
+          "C2-E008",
+          "C2-E010",
+          "C2-E011",
+          "C2-E012"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "base_info",
+      "bounds": [
+        393,
+        1400,
+        700,
+        43
+      ],
+      "slots": {
+        "other": [
+          "C2-E004",
+          "C2-E005",
+          "C2-E006",
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R06": {
+      "name": "price",
+      "bounds": [
+        395,
+        1466,
+        150,
+        62
+      ],
+      "slots": {
+        "price": [
+          "C2-E013"
+        ]
+      }
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1758,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        390,
+        1762,
+        799,
+        121
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ],
+        "fulfillment_tag": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "price",
+      "bounds": [
+        389,
+        1987,
+        550,
+        64
+      ],
+      "slots": {
+        "price": [
+          "C3-E008"
+        ],
+        "price_and_sales": [
+          "C3-E009"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "merchant",
+      "bounds": [
+        395,
+        2070,
+        424,
+        45
+      ],
+      "slots": {
+        "merchant": [
+          "C3-E011"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "fulfillment",
+      "bounds": [
+        396,
+        2005,
+        798,
+        172
+      ],
+      "slots": {
+        "fulfillment": [
+          "C3-E010",
+          "C3-E014",
+          "C3-E015"
+        ]
+      }
+    },
+    "C3-R06": {
+      "name": "base_info",
+      "bounds": [
+        397,
+        1903,
+        802,
+        260
+      ],
+      "slots": {
+        "other": [
+          "C3-E004",
+          "C3-E005",
+          "C3-E006",
+          "C3-E007",
+          "C3-E012",
+          "C3-E013"
+        ]
+      }
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2260,
+        332,
+        332
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        392,
+        2264,
+        797,
+        119
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ],
+        "fulfillment_tag": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant",
+      "bounds": [
+        396,
+        2573,
+        540,
+        44
+      ],
+      "slots": {
+        "merchant": [
+          "C4-E009"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "fulfillment",
+      "bounds": [
+        396,
+        2507,
+        799,
+        171
+      ],
+      "slots": {
+        "fulfillment": [
+          "C4-E008",
+          "C4-E010",
+          "C4-E011",
+          "C4-E012"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "base_info",
+      "bounds": [
+        394,
+        2404,
+        789,
+        45
+      ],
+      "slots": {
+        "other": [
+          "C4-E004",
+          "C4-E005",
+          "C4-E006",
+          "C4-E007"
+        ]
+      }
+    },
+    "C4-R06": {
+      "name": "price",
+      "bounds": [
+        394,
+        2470,
+        130,
+        62
+      ],
+      "slots": {
+        "price": [
+          "C4-E013"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {
+    "M3-I1": {
+      "bounds": [
+        64,
+        410,
+        140,
+        235
+      ],
+      "slots": {
+        "media": [
+          "M3-I1-E1"
+        ],
+        "label": [
+          "M3-I1-E2"
+        ]
+      }
+    },
+    "M3-I2": {
+      "bounds": [
+        462,
+        471,
+        151,
+        151
+      ],
+      "slots": {
+        "media": [
+          "M3-I2-E1"
+        ],
+        "label": [
+          "M3-I2-E2"
+        ]
+      }
+    },
+    "M3-I3": {
+      "bounds": [
+        650,
+        465,
+        155,
+        158
+      ],
+      "slots": {
+        "media": [
+          "M3-I3-E1"
+        ],
+        "label": [
+          "M3-I3-E2"
+        ]
+      }
+    },
+    "M3-I4": {
+      "bounds": [
+        841,
+        471,
+        162,
+        150
+      ],
+      "slots": {
+        "media": [
+          "M3-I4-E1"
+        ],
+        "label": [
+          "M3-I4-E2"
+        ]
+      }
+    },
+    "M3-I5": {
+      "bounds": [
+        1085,
+        427,
+        61,
+        218
+      ],
+      "slots": {
+        "media": [
+          "M3-I5-E1"
+        ],
+        "label": [
+          "M3-I5-E2"
+        ]
+      }
+    },
+    "M3-I6": {
+      "bounds": [
+        1024,
+        470,
+        170,
+        230
+      ],
+      "slots": {
+        "media": [
+          "M3-I6-E1"
+        ],
+        "label": [
+          "M3-I6-E2"
+        ]
+      }
+    }
+  },
+  "elementsById": {
+    "C1-E001": {
+      "kind": "text",
+      "bounds": [
+        29,
+        877,
+        289,
+        57
+      ],
+      "text": "Q大家还在搜",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        87,
+        988,
+        164,
+        50
+      ],
+      "text": "布洛芬片",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        358,
+        988,
+        204,
+        49
+      ],
+      "text": "布洛芬胶囊",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#232323"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        686,
+        987,
+        126,
+        52
+      ],
+      "text": "止痛片",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        975,
+        986,
+        131,
+        54
+      ],
+      "text": "安乃近",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        104,
+        1096,
+        130,
+        53
+      ],
+      "text": "退烧药",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#272727"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        398,
+        1098,
+        126,
+        49
+      ],
+      "text": "芬必得",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        684,
+        1097,
+        129,
+        51
+      ],
+      "text": "温度计",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1A1A1A"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        976,
+        1097,
+        128,
+        52
+      ],
+      "text": "止痛药",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#1E1E1E"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1256,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1260,
+        746,
+        119
+      ],
+      "text": "[芬必得]布洛芬咀嚼片0.2g*10片/板/盒",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        1267,
+        70,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE328",
+        "textColor": "#81781F"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        396,
+        1569,
+        536,
+        43
+      ],
+      "text": "品牌111医药馆(望京西园分店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E5555"
+      }
+    },
+    "C2-E008": {
+      "kind": "text",
+      "bounds": [
+        1064,
+        1502,
+        130,
+        45
+      ],
+      "text": "30分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        1569,
+        114,
+        42
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1635,
+        149,
+        39
+      ],
+      "text": "起送￥20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        531,
+        1635,
+        184,
+        41
+      ],
+      "text": "）免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        393,
+        1400,
+        205,
+        43
+      ],
+      "text": "超90人回购",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        614,
+        1400,
+        160,
+        42
+      ],
+      "text": "痛经牙痛",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        814,
+        1400,
+        79,
+        42
+      ],
+      "text": "头痛",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7F7F7F"
+      }
+    },
+    "C2-E007": {
+      "kind": "text",
+      "bounds": [
+        933,
+        1400,
+        160,
+        42
+      ],
+      "text": "感冒发热",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        395,
+        1466,
+        150,
+        62
+      ],
+      "text": "¥22.4",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1758,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        390,
+        1762,
+        799,
+        121
+      ],
+      "text": "[芬必得]布洛芬缓释胶囊0.3g*12粒*2板/盒",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "tag",
+      "bounds": [
+        402,
+        1769,
+        70,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE324",
+        "textColor": "#9B8C26"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        389,
+        1987,
+        177,
+        64
+      ],
+      "text": "￥23.98",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        563,
+        2002,
+        376,
+        46
+      ],
+      "text": "已优惠￥14.02已售41",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F56A60"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        395,
+        2070,
+        424,
+        45
+      ],
+      "text": "品牌健康云药房(望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#765555"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        1065,
+        2005,
+        129,
+        42
+      ],
+      "text": "26分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7700"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2137,
+        146,
+        39
+      ],
+      "text": "起送¥20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        556,
+        2138,
+        163,
+        39
+      ],
+      "text": "配送约￥2",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6F6F6F"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        397,
+        1904,
+        117,
+        39
+      ],
+      "text": "原研药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4396F7"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        535,
+        1903,
+        216,
+        42
+      ],
+      "text": "超60人加购",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        787,
+        1903,
+        144,
+        42
+      ],
+      "text": "流感退烧",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        967,
+        1903,
+        216,
+        42
+      ],
+      "text": "牙疼头疼痛经",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#727272"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1077,
+        2069,
+        122,
+        43
+      ],
+      "text": "问医生",
+      "visual": {
+        "backgroundColor": "#00CFB2",
+        "textColor": "#97EEE6"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        1077,
+        2124,
+        119,
+        39
+      ],
+      "text": "24小时",
+      "visual": {
+        "backgroundColor": "#01D0B2",
+        "textColor": "#83E9DE"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2260,
+        332,
+        332
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        392,
+        2264,
+        797,
+        119
+      ],
+      "text": "[芬必得]布洛芬缓释胶囊0.3g*12粒*2板/盒",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E003": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        2271,
+        71,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE326",
+        "textColor": "#918223"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2573,
+        540,
+        44
+      ],
+      "text": "品牌高济百康药房(花家地药店)",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6A5555"
+      }
+    },
+    "C4-E008": {
+      "kind": "text",
+      "bounds": [
+        1066,
+        2507,
+        128,
+        45
+      ],
+      "text": "44分钟",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        2573,
+        114,
+        43
+      ],
+      "text": "4.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2640,
+        146,
+        38
+      ],
+      "text": "起送￥20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#737373"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        555,
+        2640,
+        165,
+        38
+      ],
+      "text": "配送约￥3",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        394,
+        2404,
+        121,
+        45
+      ],
+      "text": "原研药",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4396F7"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        535,
+        2405,
+        216,
+        42
+      ],
+      "text": "超30人好评",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#717171"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        787,
+        2405,
+        144,
+        42
+      ],
+      "text": "流感退烧",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7E7E7E"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        967,
+        2405,
+        216,
+        42
+      ],
+      "text": "牙疼头疼痛经",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#727272"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        394,
+        2470,
+        130,
+        62
+      ],
+      "text": "¥21.7",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#F52916"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        175,
+        894,
+        97
+      ],
+      "text": "布洛芬",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    },
+    "M3-I1-E1": {
+      "kind": "media",
+      "bounds": [
+        64,
+        410,
+        140,
+        175
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I1-E2": {
+      "kind": "text",
+      "bounds": [
+        64,
+        593,
+        140,
+        52
+      ],
+      "text": "美林",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "M3-I2-E1": {
+      "kind": "media",
+      "bounds": [
+        462,
+        471,
+        151,
+        91
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I2-E2": {
+      "kind": "text",
+      "bounds": [
+        462,
+        570,
+        151,
+        52
+      ],
+      "text": "司百得",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I3-E1": {
+      "kind": "media",
+      "bounds": [
+        650,
+        465,
+        155,
+        98
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I3-E2": {
+      "kind": "text",
+      "bounds": [
+        650,
+        571,
+        155,
+        52
+      ],
+      "text": "散利痛",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#303030"
+      }
+    },
+    "M3-I4-E1": {
+      "kind": "media",
+      "bounds": [
+        841,
+        471,
+        162,
+        90
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I4-E2": {
+      "kind": "text",
+      "bounds": [
+        841,
+        569,
+        162,
+        52
+      ],
+      "text": "泽芬",
+      "visual": {
+        "backgroundColor": "#F7F7F7",
+        "textColor": "#111111"
+      }
+    },
+    "M3-I5-E1": {
+      "kind": "media",
+      "bounds": [
+        1085,
+        427,
+        61,
+        158
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I5-E2": {
+      "kind": "text",
+      "bounds": [
+        1085,
+        593,
+        61,
+        52
+      ],
+      "text": "仁和",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#3B3B3B"
+      }
+    },
+    "M3-I6-E1": {
+      "kind": "media",
+      "bounds": [
+        1024,
+        470,
+        170,
+        170
+      ],
+      "mediaType": "photo"
+    },
+    "M3-I6-E2": {
+      "kind": "text",
+      "bounds": [
+        1068,
+        598,
+        92,
+        46
+      ],
+      "text": "感康",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#3A3A3A"
+      }
+    }
+  }
+}

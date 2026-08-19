@@ -1,0 +1,1472 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "理发",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为理发.png",
+    "sha256": "64e3505cb7b8dece790cc71f4a15d8635281afb4f74e875999b829dd0b77a5ff",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        881,
+        1224,
+        1819
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        881,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1356,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1831,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2306,
+        1224,
+        394
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        881,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        881,
+        704,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        303,
+        942,
+        890,
+        61
+      ],
+      "slots": {
+        "price": [
+          "C1-E004"
+        ],
+        "fulfillment": [
+          "C1-E005"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1012,
+        737,
+        114
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E006",
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        1155,
+        885,
+        121
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            308,
+            1155,
+            885,
+            52
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E009"
+            ],
+            "price": [
+              "C1-E010"
+            ],
+            "sales": [
+              "C1-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            312,
+            1232,
+            881,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E012"
+            ],
+            "price": [
+              "C1-E013"
+            ],
+            "sales": [
+              "C1-E014"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1356,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1356,
+        638,
+        51
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        303,
+        1418,
+        890,
+        59
+      ],
+      "slots": {
+        "price": [
+          "C2-E004"
+        ],
+        "fulfillment": [
+          "C2-E005"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1487,
+        698,
+        113
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E006",
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        1634,
+        883,
+        116
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1634,
+            882,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E009"
+            ],
+            "price": [
+              "C2-E010"
+            ],
+            "promotion_tag": [
+              "C2-E011"
+            ],
+            "sales": [
+              "C2-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            1704,
+            883,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E013"
+            ],
+            "price": [
+              "C2-E014"
+            ],
+            "promotion_tag": [
+              "C2-E015"
+            ],
+            "sales": [
+              "C2-E016"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1831,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        316,
+        1831,
+        604,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        1900,
+        884,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "other": [
+          "C3-E005"
+        ],
+        "price": [
+          "C3-E006"
+        ],
+        "fulfillment": [
+          "C3-E007"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        313,
+        1969,
+        517,
+        105
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E008",
+          "C3-E009",
+          "C3-E010"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        2111,
+        883,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2111,
+            882,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E011"
+            ],
+            "price": [
+              "C3-E012"
+            ],
+            "sales": [
+              "C3-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            2181,
+            883,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E014"
+            ],
+            "price": [
+              "C3-E015"
+            ],
+            "sales": [
+              "C3-E016"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2306,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        2306,
+        559,
+        52
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        2376,
+        883,
+        47
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "price": [
+          "C4-E005"
+        ],
+        "fulfillment": [
+          "C4-E006"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        2438,
+        698,
+        127
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E007",
+          "C4-E008",
+          "C4-E009"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        312,
+        2522,
+        880,
+        112
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            312,
+            2522,
+            880,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E010"
+            ],
+            "price": [
+              "C4-E011"
+            ],
+            "sales": [
+              "C4-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            313,
+            2593,
+            879,
+            41
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E013"
+            ],
+            "price": [
+              "C4-E014"
+            ],
+            "sales": [
+              "C4-E015"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        881,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        882,
+        75,
+        43
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF761B",
+        "textColor": "#FEBA87"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        404,
+        881,
+        615,
+        51
+      ],
+      "text": "藤野造型（烫染望京新荟城店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        303,
+        942,
+        668,
+        61
+      ],
+      "text": "4.9分2.2万条美发¥34/人美发望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#83554A"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        953,
+        110,
+        40
+      ],
+      "text": "1.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C1-E006": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1012,
+        311,
+        51
+      ],
+      "text": "神券最高膨至30",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3260"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1012,
+        409,
+        51
+      ],
+      "text": "望京美发回头客榜第2名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        352,
+        1078,
+        433,
+        48
+      ],
+      "text": "独特舒适氛围，专业服务",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#9B7756"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        446,
+        1155,
+        511,
+        52
+      ],
+      "text": ".2折【剪发理发】【设计师理发",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#212119"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1155,
+        138,
+        52
+      ],
+      "text": "¥18.92",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        998,
+        1164,
+        195,
+        38
+      ],
+      "text": "年售47.6万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        436,
+        1232,
+        505,
+        43
+      ],
+      "text": "【美发】毕业季【美团专属】女神",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        312,
+        1232,
+        106,
+        44
+      ],
+      "text": "¥36.1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        995,
+        1233,
+        198,
+        40
+      ],
+      "text": "年售22.4万+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#797979"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1356,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1357,
+        75,
+        43
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF761B",
+        "textColor": "#FEBA87"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        405,
+        1356,
+        548,
+        51
+      ],
+      "text": "GH男士理发馆（麒麟社店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        303,
+        1418,
+        663,
+        59
+      ],
+      "text": "4.8分3114条美发¥92/人美发望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#83554A"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1428,
+        110,
+        40
+      ],
+      "text": "1.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C2-E006": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1487,
+        311,
+        51
+      ],
+      "text": "神券最高膨至30",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3260"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        1487,
+        370,
+        51
+      ],
+      "text": "望京烫染销量榜第3名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#808080"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        353,
+        1554,
+        356,
+        46
+      ],
+      "text": "满意的剪发，技术棒",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#997553"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        586,
+        1638,
+        413,
+        41
+      ],
+      "text": "【不限等级】【理发】GH造",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1634,
+        141,
+        45
+      ],
+      "text": "¥29.99",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E011": {
+      "kind": "tag",
+      "bounds": [
+        461,
+        1636,
+        92,
+        40
+      ],
+      "text": "6.3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        1639,
+        153,
+        38
+      ],
+      "text": "年售100+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        558,
+        1708,
+        385,
+        41
+      ],
+      "text": "【理发】【高级设计师】洗",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1704,
+        139,
+        46
+      ],
+      "text": "¥40.85",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E015": {
+      "kind": "tag",
+      "bounds": [
+        459,
+        1705,
+        65,
+        43
+      ],
+      "text": "3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        1018,
+        1708,
+        175,
+        42
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1831,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        316,
+        1833,
+        73,
+        42
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF741A",
+        "textColor": "#FEBD8C"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        1831,
+        514,
+        50
+      ],
+      "text": "PAYAHAIR（望京旗舰店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1900,
+        102,
+        41
+      ],
+      "text": "4.3分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        423,
+        1903,
+        163,
+        39
+      ],
+      "text": "7436条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5F5F5F"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        564,
+        1900,
+        425,
+        47
+      ],
+      "text": "美发¥190/人美发望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5B5B5B"
+      }
+    },
+    "C3-E007": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1901,
+        110,
+        42
+      ],
+      "text": "1.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666666"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        313,
+        1970,
+        193,
+        34
+      ],
+      "text": "100百大发型师",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#C36EA4"
+      }
+    },
+    "C3-E009": {
+      "kind": "tag",
+      "bounds": [
+        523,
+        1969,
+        307,
+        37
+      ],
+      "text": "神券最高膨至30",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3260"
+      }
+    },
+    "C3-E010": {
+      "kind": "tag",
+      "bounds": [
+        355,
+        2031,
+        390,
+        43
+      ],
+      "text": "店里很干净，值得推荐",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#987452"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        508,
+        2113,
+        465,
+        40
+      ],
+      "text": "【美发】【推荐】单人接发设计",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2111,
+        63,
+        44
+      ],
+      "text": "¥11",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        2112,
+        153,
+        39
+      ],
+      "text": "年售200+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        445,
+        2183,
+        500,
+        41
+      ],
+      "text": "【美发】【清爽出行】洗吹+造型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2181,
+        114,
+        45
+      ],
+      "text": "¥64.9",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        1018,
+        2183,
+        175,
+        42
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2306,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        2309,
+        71,
+        40
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF7519",
+        "textColor": "#FDBE8C"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        406,
+        2306,
+        470,
+        52
+      ],
+      "text": "HH·呵呵造型（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2376,
+        102,
+        41
+      ],
+      "text": "4.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        413,
+        2376,
+        548,
+        47
+      ],
+      "text": "2565条美发¥41/人美发望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5B5B5B"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2376,
+        111,
+        43
+      ],
+      "text": "1.8km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        2438,
+        311,
+        50
+      ],
+      "text": "神券最高膨至30",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3260"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        637,
+        2438,
+        370,
+        50
+      ],
+      "text": "望京烫染销量榜第4名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#818181"
+      }
+    },
+    "C4-E009": {
+      "kind": "tag",
+      "bounds": [
+        312,
+        2522,
+        544,
+        43
+      ],
+      "text": "￥34(星级设计师)洗剪吹+造型",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#3F2D19"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        396,
+        2522,
+        460,
+        43
+      ],
+      "text": "(星级设计师)洗剪吹+造型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        312,
+        2522,
+        84,
+        43
+      ],
+      "text": "¥34",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        1021,
+        2525,
+        171,
+        35
+      ],
+      "text": "年售7000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        402,
+        2593,
+        426,
+        41
+      ],
+      "text": "首席设计师洗剪吹+造型",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E014": {
+      "kind": "text",
+      "bounds": [
+        313,
+        2595,
+        80,
+        39
+      ],
+      "text": "¥54",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E015": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        2593,
+        172,
+        39
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    }
+  }
+}

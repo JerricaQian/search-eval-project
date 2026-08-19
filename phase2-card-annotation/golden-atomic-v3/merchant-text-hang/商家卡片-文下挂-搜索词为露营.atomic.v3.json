@@ -1,0 +1,1708 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "露营",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为露营.png",
+    "sha256": "3cf7953d6de8fe9a428016406b25914c4e7f533c5bfcce97a4aec935ab472879",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        910,
+        1224,
+        1790
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        910,
+        1224,
+        381
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1291,
+        1224,
+        475
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1766,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2176,
+        1224,
+        410
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    },
+    "C5": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2586,
+        1224,
+        114
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        910,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        954,
+        886,
+        103
+      ],
+      "slots": {
+        "rating": [
+          "C1-E002"
+        ],
+        "review_count": [
+          "C1-E003"
+        ],
+        "average_spend": [
+          "C1-E004"
+        ],
+        "category": [
+          "C1-E005"
+        ],
+        "distance": [
+          "C1-E006"
+        ],
+        "promotion": [
+          "C1-E007"
+        ],
+        "other": [
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1093,
+        884,
+        48
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E009",
+          "C1-E010",
+          "C1-E011",
+          "C1-E012"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        1167,
+        884,
+        44
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1167,
+            884,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E013"
+            ],
+            "price": [
+              "C1-E014"
+            ],
+            "sales": [
+              "C1-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C1-R05": {
+      "name": "title",
+      "bounds": [
+        407,
+        910,
+        605,
+        50
+      ],
+      "slots": {
+        "title": [
+          "C1-E016"
+        ]
+      }
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1291,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1291,
+        866,
+        46
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        304,
+        1354,
+        889,
+        56
+      ],
+      "slots": {
+        "price": [
+          "C2-E004"
+        ],
+        "fulfillment": [
+          "C2-E005"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        311,
+        1426,
+        775,
+        106
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E006",
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1570,
+        884,
+        118
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            1570,
+            883,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E009"
+            ],
+            "price": [
+              "C2-E010"
+            ],
+            "sales": [
+              "C2-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            309,
+            1640,
+            884,
+            48
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E012"
+            ],
+            "price": [
+              "C2-E013"
+            ],
+            "promotion_tag": [
+              "C2-E014"
+            ],
+            "sales": [
+              "C2-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1766,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        314,
+        1766,
+        837,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        304,
+        1828,
+        889,
+        56
+      ],
+      "slots": {
+        "price": [
+          "C3-E004"
+        ],
+        "fulfillment": [
+          "C3-E005"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        1896,
+        689,
+        53
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E006",
+          "C3-E007"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1978,
+        885,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            309,
+            1978,
+            885,
+            48
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E008"
+            ],
+            "price": [
+              "C3-E009"
+            ],
+            "promotion_tag": [
+              "C3-E010"
+            ],
+            "sales": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            2051,
+            884,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E012"
+            ],
+            "price": [
+              "C3-E013"
+            ],
+            "promotion_tag": [
+              "C3-E014"
+            ],
+            "sales": [
+              "C3-E015"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2176,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        2176,
+        836,
+        45
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        307,
+        2244,
+        886,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "other": [
+          "C4-E005",
+          "C4-E006"
+        ],
+        "fulfillment": [
+          "C4-E007"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        2308,
+        659,
+        46
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E008",
+          "C4-E009",
+          "C4-E010"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        310,
+        2390,
+        885,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2390,
+            884,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E011"
+            ],
+            "price": [
+              "C4-E012"
+            ],
+            "promotion_tag": [
+              "C4-E013"
+            ],
+            "sales": [
+              "C4-E014"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            310,
+            2462,
+            885,
+            43
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E015"
+            ],
+            "price": [
+              "C4-E016"
+            ],
+            "promotion_tag": [
+              "C4-E017"
+            ],
+            "sales": [
+              "C4-E018"
+            ]
+          }
+        }
+      ]
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2586,
+        247,
+        114
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        317,
+        2586,
+        576,
+        43
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C5-E002"
+        ],
+        "title": [
+          "C5-E003"
+        ],
+        "scenic_rating_tag": [
+          "C5-E003-A1"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        307,
+        2653,
+        887,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C5-E004"
+        ],
+        "other": [
+          "C5-E005",
+          "C5-E006",
+          "C5-E007"
+        ],
+        "fulfillment": [
+          "C5-E008"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        910,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        308,
+        954,
+        102,
+        44
+      ],
+      "text": "4.2分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        429,
+        954,
+        120,
+        44
+      ],
+      "text": "5176条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        570,
+        954,
+        146,
+        44
+      ],
+      "text": "¥137/人",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#545454"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        737,
+        954,
+        200,
+        44
+      ],
+      "text": "休闲园区",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        1080,
+        954,
+        114,
+        44
+      ],
+      "text": "4.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1014,
+        189,
+        43
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        481,
+        1019,
+        516,
+        37
+      ],
+      "text": "5朝阳区休闲园区销量榜第1名",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#807C7C"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1093,
+        98,
+        48
+      ],
+      "text": "¥193",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E010": {
+      "kind": "tag",
+      "bounds": [
+        419,
+        1096,
+        89,
+        39
+      ],
+      "text": "5.1折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3522"
+      }
+    },
+    "C1-E011": {
+      "kind": "tag",
+      "bounds": [
+        539,
+        1098,
+        439,
+        39
+      ],
+      "text": "营地搭建好的天幕租赁(不",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E012": {
+      "kind": "tag",
+      "bounds": [
+        1040,
+        1099,
+        153,
+        37
+      ],
+      "text": "年售100+",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        425,
+        1168,
+        605,
+        40
+      ],
+      "text": "自扎营费用-扎营位-指定营位区域(",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1167,
+        97,
+        44
+      ],
+      "text": "¥145",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        1078,
+        1169,
+        116,
+        39
+      ],
+      "text": "年售20",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        407,
+        910,
+        605,
+        50
+      ],
+      "text": "圣露庄园·露营·烤肉·亲子",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1291,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1293,
+        74,
+        42
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBC8A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        408,
+        1291,
+        773,
+        46
+      ],
+      "text": "浩华营地·室内轰趴.户外团建·自助B",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        304,
+        1354,
+        700,
+        56
+      ],
+      "text": "4.9分760条￥156/人团建拓展马泉营",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C554D"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        1363,
+        112,
+        40
+      ],
+      "text": "2.5km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#474747"
+      }
+    },
+    "C2-E006": {
+      "kind": "tag",
+      "bounds": [
+        311,
+        1426,
+        448,
+        41
+      ],
+      "text": "北京团建拓展销量榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7C3A"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        779,
+        1426,
+        307,
+        41
+      ],
+      "text": "神券最高膨至25",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3161"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        355,
+        1492,
+        429,
+        40
+      ],
+      "text": "非常满意，下次还要再来",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#96714D"
+      }
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        521,
+        1573,
+        447,
+        40
+      ],
+      "text": "【露营】自带食材单人门票|",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1570,
+        80,
+        46
+      ],
+      "text": "¥83",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        1573,
+        172,
+        38
+      ],
+      "text": "年售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        537,
+        1641,
+        443,
+        43
+      ],
+      "text": "【强烈推荐】自助BBQ畅吃",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1640,
+        97,
+        48
+      ],
+      "text": "¥173",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E014": {
+      "kind": "tag",
+      "bounds": [
+        416,
+        1641,
+        89,
+        41
+      ],
+      "text": "4.7折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        1019,
+        1644,
+        174,
+        38
+      ],
+      "text": "年售2000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1766,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        314,
+        1767,
+        75,
+        42
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF761B",
+        "textColor": "#FEBB88"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        1766,
+        744,
+        49
+      ],
+      "text": "半醒小院·公司小聚·生日派对·露天",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        304,
+        1828,
+        543,
+        56
+      ],
+      "text": "3.0分141条¥99/人团建拓展",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#84554A"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        1839,
+        110,
+        38
+      ],
+      "text": "4.4km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5E5E5E"
+      }
+    },
+    "C3-E006": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        1896,
+        183,
+        53
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        510,
+        1896,
+        488,
+        53
+      ],
+      "text": "朝阳区团建拓展人气榜第9名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C3-E008": {
+      "kind": "text",
+      "bounds": [
+        534,
+        1981,
+        317,
+        43
+      ],
+      "text": "双人烤串套餐营地",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1979,
+        100,
+        47
+      ],
+      "text": "¥163",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E010": {
+      "kind": "tag",
+      "bounds": [
+        417,
+        1978,
+        93,
+        44
+      ],
+      "text": "4.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1981,
+        136,
+        43
+      ],
+      "text": "年售60+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        544,
+        2053,
+        235,
+        41
+      ],
+      "text": "四人烤串套餐",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2051,
+        104,
+        44
+      ],
+      "text": "¥393",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E014": {
+      "kind": "tag",
+      "bounds": [
+        424,
+        2051,
+        93,
+        43
+      ],
+      "text": "6.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2053,
+        136,
+        41
+      ],
+      "text": "年售80+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2176,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        2178,
+        74,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF751A",
+        "textColor": "#FEBD8B"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        409,
+        2176,
+        742,
+        45
+      ],
+      "text": "半醒花园·团建场地·户外简餐·星空",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        307,
+        2244,
+        101,
+        43
+      ],
+      "text": "3.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        416,
+        2246,
+        90,
+        43
+      ],
+      "text": "5条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        495,
+        2246,
+        164,
+        44
+      ],
+      "text": "休闲园区",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4A4A4A"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2249,
+        110,
+        38
+      ],
+      "text": "4.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#525252"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        2308,
+        185,
+        45
+      ],
+      "text": "神券立减5",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D6D"
+      }
+    },
+    "C4-E009": {
+      "kind": "tag",
+      "bounds": [
+        511,
+        2312,
+        283,
+        42
+      ],
+      "text": "近期500+人浏览",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C4-E010": {
+      "kind": "tag",
+      "bounds": [
+        813,
+        2312,
+        154,
+        42
+      ],
+      "text": "免费停车",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        536,
+        2392,
+        520,
+        42
+      ],
+      "text": "双人烤串套餐(需提前一天预约",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E012": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2391,
+        96,
+        44
+      ],
+      "text": "¥163",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E013": {
+      "kind": "tag",
+      "bounds": [
+        419,
+        2390,
+        89,
+        40
+      ],
+      "text": "4.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C4-E014": {
+      "kind": "text",
+      "bounds": [
+        1097,
+        2393,
+        97,
+        39
+      ],
+      "text": "年售3",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7B7B7B"
+      }
+    },
+    "C4-E015": {
+      "kind": "text",
+      "bounds": [
+        548,
+        2466,
+        477,
+        36
+      ],
+      "text": "四人烤串套餐(需提前一天预",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E016": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2462,
+        103,
+        43
+      ],
+      "text": "¥393",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E017": {
+      "kind": "tag",
+      "bounds": [
+        426,
+        2463,
+        89,
+        39
+      ],
+      "text": "6.6折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C4-E018": {
+      "kind": "text",
+      "bounds": [
+        1098,
+        2464,
+        97,
+        39
+      ],
+      "text": "年售2",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2586,
+        247,
+        114
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "tag",
+      "bounds": [
+        317,
+        2590,
+        72,
+        39
+      ],
+      "text": "景点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#208CF9",
+        "textColor": "#9FD0F8"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        410,
+        2586,
+        428,
+        42
+      ],
+      "text": "蟹岛绿色生态度假村",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E003-A1": {
+      "kind": "tag",
+      "bounds": [
+        848,
+        2595,
+        45,
+        29
+      ],
+      "text": "4A",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111",
+        "container": "none"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        307,
+        2653,
+        100,
+        45
+      ],
+      "text": "3.9分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C5-E005": {
+      "kind": "text",
+      "bounds": [
+        418,
+        2656,
+        134,
+        41
+      ],
+      "text": "5986条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4E4E4E"
+      }
+    },
+    "C5-E006": {
+      "kind": "text",
+      "bounds": [
+        565,
+        2657,
+        167,
+        41
+      ],
+      "text": "免费入园",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595959"
+      }
+    },
+    "C5-E007": {
+      "kind": "text",
+      "bounds": [
+        734,
+        2656,
+        87,
+        40
+      ],
+      "text": "金盏",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6D6D6D"
+      }
+    },
+    "C5-E008": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2656,
+        112,
+        42
+      ],
+      "text": "5.6km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#545454"
+      }
+    }
+  }
+}

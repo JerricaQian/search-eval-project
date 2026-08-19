@@ -408,6 +408,44 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertTrue(module._layout_texts_compatible("fulfillment", "33分钟", "33分钟|钟"))
         self.assertFalse(module._layout_texts_compatible("price", "¥37.5起", "¥97.5起"))
 
+        merged = {
+            "semanticItems": [{"sourceId": "T2", "role": "promotion", "region": "标签区", "text": "全程保神券立减5公益商家"}],
+            "factsById": {"T2": {"visualHint": {"horizontalForegroundSegments": []}}},
+        }
+        findings = module.semantic_atomicity_hook(merged)
+        self.assertTrue(any("multiple_independent_tags_merged" in item["reason"] for item in findings))
+
+        one_ranking = {
+            "semanticItems": [{"sourceId": "T3", "role": "promotion", "region": "标签区", "text": "望京美发回头客榜第2名"}],
+            "factsById": {"T3": {"visualHint": {"horizontalForegroundSegments": []}}},
+        }
+        self.assertEqual(module.semantic_atomicity_hook(one_ranking), [])
+
+        visually_split = {
+            "semanticItems": [{"sourceId": "T4", "role": "promotion", "region": "标签区", "text": "北京男性体检销量榜第2名体检"}],
+            "factsById": {"T4": {"visualHint": {"horizontalForegroundSegments": [
+                {"xOffset": 0, "width": 220, "colorRole": "orange"},
+                {"xOffset": 240, "width": 50, "colorRole": "neutral"},
+            ]}}},
+        }
+        self.assertTrue(module.semantic_atomicity_hook(visually_split))
+
+        dense = {
+            "semanticItems": [
+                {"sourceId": "T5", "role": "other", "text": "4.5分4.8万条"},
+                {"sourceId": "T6", "role": "location", "text": "图6.0km"},
+                {"sourceId": "T7", "role": "price", "text": "¥30.6¥10.9¥17¥18.04"},
+                {"sourceId": "T8", "role": "promotion", "text": "神券52减1862减20"},
+                {"sourceId": "T9", "role": "other", "text": "17:555"},
+            ],
+        }
+        dense_reasons = {item["reason"] for item in module.dense_numeric_atomicity_hook(dense)}
+        self.assertIn("rating_token_must_be_a_standalone_rating_field", dense_reasons)
+        self.assertIn("distance_has_non_distance_prefix", dense_reasons)
+        self.assertIn("multiple_product_prices_are_merged_in_one_element", dense_reasons)
+        self.assertIn("adjacent_coupon_thresholds_are_merged", dense_reasons)
+        self.assertIn("session_time_has_extra_trailing_digit", dense_reasons)
+
     def test_price_evidence_recovers_currency_glyph_damage_without_using_delivery_fee(self) -> None:
         cases = [("YQ97.5起", "red", "商品卡片"), ("起送#35免配送费", "red", "异构卡")]
         for price_text, color, expected in cases:

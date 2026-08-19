@@ -1,0 +1,1433 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "库迪",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为库迪.png",
+    "sha256": "1d7e299e116e4f0b858fd2e0743869dbc2ff4ea20e50f1a1fad0dc1c9e99208f",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        554,
+        1224,
+        2081
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        554,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1269,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1984,
+        1224,
+        651
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        554,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        314,
+        554,
+        653,
+        47
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        623,
+        884,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "other": [
+          "C1-E005",
+          "C1-E006",
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        687,
+        583,
+        44
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E009",
+          "C1-E010"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "append_items",
+      "bounds": [
+        311,
+        767,
+        913,
+        414
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            767,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E011"
+            ],
+            "title": [
+              "C1-E012"
+            ],
+            "price": [
+              "C1-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            588,
+            767,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E014"
+            ],
+            "title": [
+              "C1-E015"
+            ],
+            "price": [
+              "C1-E016"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            865,
+            767,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E017"
+            ],
+            "title": [
+              "C1-E018"
+            ],
+            "price": [
+              "C1-E019"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1142,
+            767,
+            82,
+            414
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E020"
+            ],
+            "title": [
+              "C1-E021"
+            ],
+            "price": [
+              "C1-E022"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1269,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1269,
+        750,
+        48
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        304,
+        1334,
+        889,
+        52
+      ],
+      "slots": {
+        "price": [
+          "C2-E004"
+        ],
+        "other": [
+          "C2-E005"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        308,
+        1402,
+        583,
+        45
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E006",
+          "C2-E007"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "append_items",
+      "bounds": [
+        311,
+        1482,
+        913,
+        414
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            1482,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E008"
+            ],
+            "title": [
+              "C2-E009"
+            ],
+            "price": [
+              "C2-E010"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            588,
+            1482,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E011"
+            ],
+            "title": [
+              "C2-E012"
+            ],
+            "price": [
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            865,
+            1482,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E014"
+            ],
+            "title": [
+              "C2-E015"
+            ],
+            "price": [
+              "C2-E016"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1142,
+            1482,
+            82,
+            414
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E017"
+            ],
+            "title": [
+              "C2-E018"
+            ],
+            "price": [
+              "C2-E019"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1984,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        315,
+        1984,
+        704,
+        60
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        309,
+        2052,
+        884,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "fulfillment": [
+          "C3-E005"
+        ],
+        "other": [
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        309,
+        2119,
+        598,
+        45
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "append_items",
+      "bounds": [
+        311,
+        2197,
+        913,
+        383
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            311,
+            2197,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E009"
+            ],
+            "title": [
+              "C3-E010"
+            ],
+            "price": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            588,
+            2197,
+            264,
+            382
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E012"
+            ],
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            865,
+            2197,
+            264,
+            382
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E015"
+            ],
+            "title": [
+              "C3-E016"
+            ],
+            "price": [
+              "C3-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1142,
+            2197,
+            82,
+            382
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E018"
+            ],
+            "title": [
+              "C3-E019"
+            ],
+            "price": [
+              "C3-E020"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        554,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        314,
+        556,
+        74,
+        40
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FE781D",
+        "textColor": "#FDBA87"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        554,
+        560,
+        47
+      ],
+      "text": "库迪咖啡（望京东地铁站店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        623,
+        93,
+        43
+      ],
+      "text": "4.1分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        416,
+        626,
+        90,
+        40
+      ],
+      "text": "17条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#676767"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        515,
+        624,
+        86,
+        44
+      ],
+      "text": "咖啡",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#838383"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        611,
+        625,
+        85,
+        41
+      ],
+      "text": "望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#646464"
+      }
+    },
+    "C1-E008": {
+      "kind": "text",
+      "bounds": [
+        1089,
+        624,
+        104,
+        42
+      ],
+      "text": "593m",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E009": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        687,
+        307,
+        44
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3161"
+      }
+    },
+    "C1-E010": {
+      "kind": "tag",
+      "bounds": [
+        636,
+        691,
+        255,
+        40
+      ],
+      "text": "线上点·到店取",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C1-E011": {
+      "kind": "media",
+      "bounds": [
+        311,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E012": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1049,
+        260,
+        94
+      ],
+      "text": "[不要纯美式]特调咖啡5选1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1161,
+        160,
+        20
+      ],
+      "text": "¥5.88¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF554F"
+      }
+    },
+    "C1-E014": {
+      "kind": "media",
+      "bounds": [
+        588,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        588,
+        1050,
+        233,
+        90
+      ],
+      "text": "来自迪迪的非咖奶茶果饮8",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        588,
+        1159,
+        161,
+        22
+      ],
+      "text": "¥5.33¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF554F"
+      }
+    },
+    "C1-E017": {
+      "kind": "media",
+      "bounds": [
+        865,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        865,
+        1048,
+        260,
+        92
+      ],
+      "text": "[10选1]库门招牌咖啡随心选",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E019": {
+      "kind": "text",
+      "bounds": [
+        865,
+        1162,
+        161,
+        19
+      ],
+      "text": "¥6.66 ¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5555"
+      }
+    },
+    "C1-E020": {
+      "kind": "media",
+      "bounds": [
+        1142,
+        767,
+        82,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E021": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        1047,
+        82,
+        97
+      ],
+      "text": "[一杯...美式...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E022": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        1158,
+        79,
+        23
+      ],
+      "text": "¥5.9...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1269,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1271,
+        74,
+        41
+      ],
+      "text": "到店",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FF761D",
+        "textColor": "#FDB984"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        407,
+        1269,
+        658,
+        48
+      ],
+      "text": "库迪咖啡（望京金辉国际大厦店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        304,
+        1334,
+        563,
+        52
+      ],
+      "text": "3.7分61条人均¥10咖啡望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#8D6052"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        1089,
+        1339,
+        104,
+        42
+      ],
+      "text": "617m",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#686868"
+      }
+    },
+    "C2-E006": {
+      "kind": "tag",
+      "bounds": [
+        308,
+        1402,
+        313,
+        45
+      ],
+      "text": "神券最高膨至50",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3261"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        634,
+        1406,
+        257,
+        40
+      ],
+      "text": "线上点·到店取",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E008": {
+      "kind": "media",
+      "bounds": [
+        311,
+        1482,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E009": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1765,
+        233,
+        90
+      ],
+      "text": "来自迪迪的非咖奶茶果饮8",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        311,
+        1874,
+        161,
+        22
+      ],
+      "text": "¥5.33¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF554F"
+      }
+    },
+    "C2-E011": {
+      "kind": "media",
+      "bounds": [
+        588,
+        1482,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E012": {
+      "kind": "text",
+      "bounds": [
+        588,
+        1764,
+        260,
+        94
+      ],
+      "text": "[不要纯美式]特调咖啡5选1",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        588,
+        1876,
+        160,
+        20
+      ],
+      "text": "¥5.88¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF554F"
+      }
+    },
+    "C2-E014": {
+      "kind": "media",
+      "bounds": [
+        865,
+        1482,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        865,
+        1763,
+        260,
+        92
+      ],
+      "text": "[10选1]库门招牌咖啡随心选",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        865,
+        1877,
+        161,
+        19
+      ],
+      "text": "¥6.66 ¥26",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5555"
+      }
+    },
+    "C2-E017": {
+      "kind": "media",
+      "bounds": [
+        1142,
+        1482,
+        82,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E018": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        1762,
+        82,
+        97
+      ],
+      "text": "[一杯...美式...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E019": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        1873,
+        79,
+        23
+      ],
+      "text": "¥5.9...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1984,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        315,
+        1986,
+        75,
+        43
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32B",
+        "textColor": "#928715"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        394,
+        1984,
+        625,
+        60
+      ],
+      "text": "库迪咖啡（望京金辉国际大厦店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2052,
+        101,
+        45
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        425,
+        2056,
+        482,
+        42
+      ],
+      "text": "月售800+起送¥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#525252"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        1089,
+        2055,
+        104,
+        41
+      ],
+      "text": "996m",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        309,
+        2120,
+        309,
+        43
+      ],
+      "text": "近30天186人复购",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        630,
+        2119,
+        277,
+        45
+      ],
+      "text": "刚刚有用户下单",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C3-E009": {
+      "kind": "media",
+      "bounds": [
+        311,
+        2197,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        311,
+        2479,
+        156,
+        41
+      ],
+      "text": "生椰拿铁",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#181818"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        311,
+        2538,
+        241,
+        42
+      ],
+      "text": "¥15.830天低价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FD3A27"
+      }
+    },
+    "C3-E012": {
+      "kind": "media",
+      "bounds": [
+        588,
+        2197,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        588,
+        2479,
+        156,
+        41
+      ],
+      "text": "杨枝甘露",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#2A2A2A"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        588,
+        2537,
+        97,
+        42
+      ],
+      "text": "¥14.4",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E015": {
+      "kind": "media",
+      "bounds": [
+        865,
+        2197,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        865,
+        2479,
+        233,
+        40
+      ],
+      "text": "金奖深烘美式",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        865,
+        2540,
+        204,
+        39
+      ],
+      "text": "¥8.99神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE3D2B"
+      }
+    },
+    "C3-E018": {
+      "kind": "media",
+      "bounds": [
+        1142,
+        2197,
+        82,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E019": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        2478,
+        82,
+        43
+      ],
+      "text": "小黄...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E020": {
+      "kind": "text",
+      "bounds": [
+        1142,
+        2536,
+        82,
+        43
+      ],
+      "text": "¥15...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "库迪",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

@@ -1,0 +1,1805 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "体检",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为体检.png",
+    "sha256": "6090e46c0477a5d4d27e44d398df85531cb8670b332cfd09770a33e97626b073",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed"
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        849,
+        1224,
+        1851
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        849,
+        1224,
+        386
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1258,
+        1224,
+        386
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1667,
+        1224,
+        386
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2071,
+        1224,
+        391
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03",
+        "C4-R04",
+        "C4-R05"
+      ]
+    },
+    "C5": {
+      "cardType": "merchant_text_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2485,
+        1224,
+        215
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C5-R01",
+        "C5-R02",
+        "C5-R03",
+        "C5-R04"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        849,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        309,
+        875,
+        417,
+        51
+      ],
+      "slots": {
+        "title": [
+          "C1-E002"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        951,
+        883,
+        42
+      ],
+      "slots": {
+        "rating": [
+          "C1-E003"
+        ],
+        "other": [
+          "C1-E004"
+        ],
+        "fulfillment": [
+          "C1-E005"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        312,
+        1011,
+        722,
+        51
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E006",
+          "C1-E007",
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1095,
+        883,
+        115
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1095,
+            882,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E009",
+              "C1-E010"
+            ],
+            "price": [
+              "C1-E011"
+            ],
+            "promotion_tag": [
+              "C1-E012"
+            ],
+            "sales": [
+              "C1-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            309,
+            1165,
+            883,
+            45
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C1-E014",
+              "C1-E015"
+            ],
+            "price": [
+              "C1-E016"
+            ],
+            "promotion_tag": [
+              "C1-E017"
+            ],
+            "sales": [
+              "C1-E018"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1258,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        310,
+        1287,
+        369,
+        51
+      ],
+      "slots": {
+        "title": [
+          "C2-E002"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        1361,
+        883,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C2-E003"
+        ],
+        "other": [
+          "C2-E004",
+          "C2-E005"
+        ],
+        "fulfillment": [
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        313,
+        1427,
+        837,
+        42
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008",
+          "C2-E009"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "text_append",
+      "bounds": [
+        309,
+        1504,
+        883,
+        116
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1504,
+            882,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ],
+            "promotion_tag": [
+              "C2-E012"
+            ],
+            "sales": [
+              "C2-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            309,
+            1576,
+            883,
+            44
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C2-E014"
+            ],
+            "price": [
+              "C2-E015"
+            ],
+            "promotion_tag": [
+              "C2-E016"
+            ],
+            "sales": [
+              "C2-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1667,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        310,
+        1696,
+        848,
+        51
+      ],
+      "slots": {
+        "title": [
+          "C3-E002"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        310,
+        1770,
+        883,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C3-E003"
+        ],
+        "other": [
+          "C3-E004"
+        ],
+        "fulfillment": [
+          "C3-E005"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        313,
+        1838,
+        838,
+        39
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E006",
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        1915,
+        885,
+        117
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            1915,
+            881,
+            46
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E009"
+            ],
+            "price": [
+              "C3-E010"
+            ],
+            "promotion_tag": [
+              "C3-E011"
+            ],
+            "sales": [
+              "C3-E012"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            308,
+            1985,
+            885,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C3-E013",
+              "C3-E014"
+            ],
+            "price": [
+              "C3-E015"
+            ],
+            "promotion_tag": [
+              "C3-E016"
+            ],
+            "sales": [
+              "C3-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2071,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        309,
+        2106,
+        887,
+        58
+      ],
+      "slots": {
+        "title": [
+          "C4-E002"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2179,
+        886,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C4-E003"
+        ],
+        "other": [
+          "C4-E004"
+        ],
+        "fulfillment": [
+          "C4-E005"
+        ]
+      }
+    },
+    "C4-R04": {
+      "name": "tags",
+      "bounds": [
+        314,
+        2246,
+        758,
+        45
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C4-E006",
+          "C4-E007",
+          "C4-E008"
+        ]
+      }
+    },
+    "C4-R05": {
+      "name": "text_append",
+      "bounds": [
+        308,
+        2324,
+        884,
+        119
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            310,
+            2324,
+            882,
+            48
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E009",
+              "C4-E010"
+            ],
+            "price": [
+              "C4-E011"
+            ],
+            "promotion_tag": [
+              "C4-E012"
+            ],
+            "sales": [
+              "C4-E013"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            308,
+            2396,
+            884,
+            47
+          ],
+          "visibility": "complete",
+          "slots": {
+            "title": [
+              "C4-E014",
+              "C4-E015",
+              "C4-E016"
+            ],
+            "price": [
+              "C4-E017"
+            ],
+            "promotion_tag": [
+              "C4-E018"
+            ],
+            "sales": [
+              "C4-E019"
+            ]
+          }
+        }
+      ]
+    },
+    "C5-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2485,
+        247,
+        215
+      ],
+      "slots": {
+        "media": [
+          "C5-E001"
+        ]
+      }
+    },
+    "C5-R02": {
+      "name": "title",
+      "bounds": [
+        309,
+        2516,
+        707,
+        55
+      ],
+      "slots": {
+        "title": [
+          "C5-E002"
+        ]
+      }
+    },
+    "C5-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        308,
+        2590,
+        885,
+        46
+      ],
+      "slots": {
+        "other": [
+          "C5-E003",
+          "C5-E004"
+        ],
+        "fulfillment": [
+          "C5-E005"
+        ]
+      }
+    },
+    "C5-R04": {
+      "name": "tags",
+      "bounds": [
+        313,
+        2658,
+        329,
+        41
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C5-E006",
+          "C5-E007"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        849,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "text",
+      "bounds": [
+        309,
+        875,
+        417,
+        51
+      ],
+      "text": "慈铭体检（望京分院）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        310,
+        951,
+        102,
+        41
+      ],
+      "text": "4.5分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        420,
+        952,
+        327,
+        41
+      ],
+      "text": "2836条体检望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595959"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        1084,
+        953,
+        109,
+        40
+      ],
+      "text": "1.8km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C1-E006": {
+      "kind": "tag",
+      "bounds": [
+        486,
+        1011,
+        448,
+        51
+      ],
+      "text": "北京男性体检销量榜第2名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF7C3A"
+      }
+    },
+    "C1-E007": {
+      "kind": "tag",
+      "bounds": [
+        955,
+        1011,
+        79,
+        51
+      ],
+      "text": "体检",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        312,
+        1017,
+        156,
+        42
+      ],
+      "text": "医疗资质",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#45B3A3"
+      }
+    },
+    "C1-E009": {
+      "kind": "text",
+      "bounds": [
+        537,
+        1097,
+        147,
+        40
+      ],
+      "text": "入职体检",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        721,
+        1097,
+        184,
+        40
+      ],
+      "text": "次日出报告",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1095,
+        96,
+        45
+      ],
+      "text": "¥138",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E012": {
+      "kind": "tag",
+      "bounds": [
+        418,
+        1095,
+        90,
+        40
+      ],
+      "text": "4.1折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3A27"
+      }
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        1018,
+        1097,
+        174,
+        41
+      ],
+      "text": "年售7000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        538,
+        1168,
+        147,
+        40
+      ],
+      "text": "入职体检",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E015": {
+      "kind": "text",
+      "bounds": [
+        722,
+        1168,
+        184,
+        40
+      ],
+      "text": "次日出报告",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1165,
+        96,
+        45
+      ],
+      "text": "¥180",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E017": {
+      "kind": "tag",
+      "bounds": [
+        417,
+        1166,
+        90,
+        41
+      ],
+      "text": "3.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF321E"
+      }
+    },
+    "C1-E018": {
+      "kind": "text",
+      "bounds": [
+        1020,
+        1169,
+        172,
+        38
+      ],
+      "text": "年售8000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1258,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1287,
+        369,
+        51
+      ],
+      "text": "京东体检（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1361,
+        99,
+        41
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        423,
+        1363,
+        113,
+        40
+      ],
+      "text": "138条",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#585858"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        544,
+        1361,
+        183,
+        45
+      ],
+      "text": "体检望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#616161"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1363,
+        111,
+        40
+      ],
+      "text": "2.2km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#424242"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        313,
+        1427,
+        155,
+        42
+      ],
+      "text": "医疗资质",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#45B3A3"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        485,
+        1430,
+        489,
+        37
+      ],
+      "text": "朝阳区父母体检销量榜第5名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7D7D7D"
+      }
+    },
+    "C2-E009": {
+      "kind": "tag",
+      "bounds": [
+        992,
+        1428,
+        158,
+        38
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        569,
+        1508,
+        402,
+        37
+      ],
+      "text": "【暑期健康检】父母体检",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1504,
+        121,
+        47
+      ],
+      "text": "¥1699",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E012": {
+      "kind": "tag",
+      "bounds": [
+        445,
+        1505,
+        88,
+        41
+      ],
+      "text": "4.5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        1039,
+        1508,
+        153,
+        38
+      ],
+      "text": "年售700+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        543,
+        1579,
+        424,
+        40
+      ],
+      "text": "【体检入职】【身体检查】入",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E015": {
+      "kind": "text",
+      "bounds": [
+        309,
+        1576,
+        98,
+        44
+      ],
+      "text": "¥140",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E016": {
+      "kind": "tag",
+      "bounds": [
+        419,
+        1577,
+        89,
+        40
+      ],
+      "text": "4.1折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3A27"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        1021,
+        1581,
+        171,
+        35
+      ],
+      "text": "年售7000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1667,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1696,
+        848,
+        51
+      ],
+      "text": "爱康国宾体检中心（望之京首开广场分院）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1770,
+        101,
+        41
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        398,
+        1771,
+        329,
+        45
+      ],
+      "text": "`715条体检望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#666261"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        1773,
+        111,
+        40
+      ],
+      "text": "2.1km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#555555"
+      }
+    },
+    "C3-E006": {
+      "kind": "tag",
+      "bounds": [
+        313,
+        1838,
+        156,
+        39
+      ],
+      "text": "医疗资质",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#45B3A3"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        484,
+        1840,
+        491,
+        37
+      ],
+      "text": "朝阳区父母体检销量榜第3名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7C7C7C"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        989,
+        1838,
+        162,
+        38
+      ],
+      "text": "入职体检",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#7A7A7A"
+      }
+    },
+    "C3-E009": {
+      "kind": "text",
+      "bounds": [
+        519,
+        1917,
+        426,
+        41
+      ],
+      "text": "【中青年】臻爱优选健康体",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        310,
+        1916,
+        103,
+        45
+      ],
+      "text": "¥500",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E011": {
+      "kind": "tag",
+      "bounds": [
+        426,
+        1915,
+        61,
+        42
+      ],
+      "text": "5折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF3421"
+      }
+    },
+    "C3-E012": {
+      "kind": "text",
+      "bounds": [
+        1021,
+        1920,
+        170,
+        35
+      ],
+      "text": "年售2000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        547,
+        1988,
+        309,
+        42
+      ],
+      "text": "【女性体检】体检套餐",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        887,
+        1988,
+        124,
+        42
+      ],
+      "text": "TCT+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E015": {
+      "kind": "text",
+      "bounds": [
+        308,
+        1985,
+        105,
+        47
+      ],
+      "text": "¥520",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C3-E016": {
+      "kind": "tag",
+      "bounds": [
+        426,
+        1986,
+        89,
+        41
+      ],
+      "text": "4.3折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF331F"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        1059,
+        1989,
+        134,
+        39
+      ],
+      "text": "年售90+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#787878"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2071,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2106,
+        887,
+        58
+      ],
+      "text": "兔途体检（望京南湖东园店）24小时",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#11CAB0"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2179,
+        102,
+        44
+      ],
+      "text": "3.9分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5519"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        420,
+        2183,
+        327,
+        42
+      ],
+      "text": "1027条体检望京",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#606060"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        1084,
+        2183,
+        110,
+        40
+      ],
+      "text": "1.9km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#0D7676"
+      }
+    },
+    "C4-E006": {
+      "kind": "tag",
+      "bounds": [
+        314,
+        2248,
+        155,
+        40
+      ],
+      "text": "医疗资质",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#45B3A3"
+      }
+    },
+    "C4-E007": {
+      "kind": "tag",
+      "bounds": [
+        485,
+        2246,
+        410,
+        45
+      ],
+      "text": "朝阳区体检销量榜第1名",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#848484"
+      }
+    },
+    "C4-E008": {
+      "kind": "tag",
+      "bounds": [
+        917,
+        2246,
+        155,
+        45
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C4-E009": {
+      "kind": "text",
+      "bounds": [
+        550,
+        2329,
+        161,
+        40
+      ],
+      "text": "入职体检",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E010": {
+      "kind": "text",
+      "bounds": [
+        751,
+        2329,
+        201,
+        40
+      ],
+      "text": "可约今日当",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E011": {
+      "kind": "text",
+      "bounds": [
+        310,
+        2324,
+        109,
+        48
+      ],
+      "text": "¥61.2",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E012": {
+      "kind": "tag",
+      "bounds": [
+        429,
+        2326,
+        90,
+        40
+      ],
+      "text": "4.2折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF311E"
+      }
+    },
+    "C4-E013": {
+      "kind": "text",
+      "bounds": [
+        1021,
+        2330,
+        171,
+        35
+      ],
+      "text": "年售5000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C4-E014": {
+      "kind": "text",
+      "bounds": [
+        518,
+        2400,
+        148,
+        41
+      ],
+      "text": "入职体检",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E015": {
+      "kind": "text",
+      "bounds": [
+        703,
+        2400,
+        149,
+        41
+      ],
+      "text": "可约今日",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E016": {
+      "kind": "text",
+      "bounds": [
+        889,
+        2400,
+        111,
+        41
+      ],
+      "text": "当日出",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E017": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2396,
+        80,
+        47
+      ],
+      "text": "¥85",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E018": {
+      "kind": "tag",
+      "bounds": [
+        401,
+        2398,
+        86,
+        38
+      ],
+      "text": "6.2折",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFF1F0",
+        "textColor": "#FF301D"
+      }
+    },
+    "C4-E019": {
+      "kind": "text",
+      "bounds": [
+        1040,
+        2401,
+        152,
+        36
+      ],
+      "text": "年售400+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#777777"
+      }
+    },
+    "C5-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2485,
+        247,
+        215
+      ],
+      "mediaType": "photo"
+    },
+    "C5-E002": {
+      "kind": "text",
+      "bounds": [
+        309,
+        2516,
+        707,
+        55
+      ],
+      "text": "美年大健康体检中心（酒仙桥分院）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C5-E003": {
+      "kind": "text",
+      "bounds": [
+        308,
+        2590,
+        433,
+        46
+      ],
+      "text": "暂无评分3578条体检",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5A5A5A"
+      }
+    },
+    "C5-E004": {
+      "kind": "text",
+      "bounds": [
+        721,
+        2593,
+        200,
+        41
+      ],
+      "text": "酒仙桥商圈",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#5C5C5C"
+      }
+    },
+    "C5-E005": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2593,
+        111,
+        39
+      ],
+      "text": "3.7km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595959"
+      }
+    },
+    "C5-E006": {
+      "kind": "tag",
+      "bounds": [
+        313,
+        2658,
+        155,
+        41
+      ],
+      "text": "医疗资质",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#45B3A3"
+      }
+    },
+    "C5-E007": {
+      "kind": "tag",
+      "bounds": [
+        484,
+        2658,
+        158,
+        41
+      ],
+      "text": "公益商家",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    }
+  }
+}

@@ -1,0 +1,1522 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
+  },
+  "source": {
+    "query": "隆江猪脚饭",
+    "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png",
+    "sha256": "7460dfa1bab2c10cf3109d020d01211ef60368c7ff0beacfae031b2088868be6",
+    "viewport": [
+      1224,
+      2700
+    ]
+  },
+  "publication": {
+    "status": "ready",
+    "blockers": []
+  },
+  "page": {
+    "moduleIds": [
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ]
+  },
+  "modulesById": {
+    "M1": {
+      "type": "search_bar",
+      "visibility": "confirmed",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "slots": {
+        "other": [
+          "M1-E001"
+        ]
+      }
+    },
+    "M2": {
+      "type": "page_tab",
+      "visibility": "confirmed"
+    },
+    "M3": {
+      "type": "sort_filter",
+      "visibility": "confirmed"
+    },
+    "M4": {
+      "type": "result_list",
+      "visibility": "confirmed",
+      "bounds": [
+        0,
+        554,
+        1224,
+        2146
+      ],
+      "cardIds": [
+        "C1",
+        "C2",
+        "C3",
+        "C4"
+      ]
+    }
+  },
+  "cardsById": {
+    "C1": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        554,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C1-R01",
+        "C1-R02",
+        "C1-R03",
+        "C1-R04",
+        "C1-R05"
+      ]
+    },
+    "C2": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1217,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C2-R01",
+        "C2-R02",
+        "C2-R03",
+        "C2-R04",
+        "C2-R05"
+      ]
+    },
+    "C3": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        1932,
+        1224,
+        627
+      ],
+      "visibility": "complete",
+      "regionIds": [
+        "C3-R01",
+        "C3-R02",
+        "C3-R03",
+        "C3-R04",
+        "C3-R05"
+      ]
+    },
+    "C4": {
+      "cardType": "merchant_graphic_append",
+      "variant": "standard",
+      "bounds": [
+        0,
+        2565,
+        1224,
+        135
+      ],
+      "visibility": "naturally_cropped",
+      "regionIds": [
+        "C4-R01",
+        "C4-R02",
+        "C4-R03"
+      ]
+    }
+  },
+  "regionsById": {
+    "C1-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        554,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C1-E001"
+        ]
+      }
+    },
+    "C1-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        554,
+        654,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C1-E002"
+        ],
+        "title": [
+          "C1-E003"
+        ]
+      }
+    },
+    "C1-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        624,
+        966,
+        44
+      ],
+      "slots": {
+        "rating": [
+          "C1-E004"
+        ],
+        "fulfillment": [
+          "C1-E005",
+          "C1-E007"
+        ],
+        "sales": [
+          "C1-E006"
+        ]
+      }
+    },
+    "C1-R04": {
+      "name": "tags",
+      "bounds": [
+        543,
+        693,
+        362,
+        40
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C1-E008"
+        ]
+      }
+    },
+    "C1-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        767,
+        997,
+        385
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            767,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E009"
+            ],
+            "title": [
+              "C1-E010"
+            ],
+            "price": [
+              "C1-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            767,
+            264,
+            384
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E012"
+            ],
+            "title": [
+              "C1-E013"
+            ],
+            "price": [
+              "C1-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            767,
+            264,
+            385
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C1-E015"
+            ],
+            "title": [
+              "C1-E016"
+            ],
+            "price": [
+              "C1-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            767,
+            166,
+            383
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C1-E018"
+            ],
+            "title": [
+              "C1-E019"
+            ],
+            "price": [
+              "C1-E020"
+            ]
+          }
+        }
+      ]
+    },
+    "C2-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1217,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C2-E001"
+        ]
+      }
+    },
+    "C2-R02": {
+      "name": "title",
+      "bounds": [
+        232,
+        1217,
+        796,
+        49
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C2-E002"
+        ],
+        "title": [
+          "C2-E003"
+        ]
+      }
+    },
+    "C2-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        1287,
+        966,
+        46
+      ],
+      "slots": {
+        "rating": [
+          "C2-E004"
+        ],
+        "fulfillment": [
+          "C2-E005",
+          "C2-E006"
+        ]
+      }
+    },
+    "C2-R04": {
+      "name": "tags",
+      "bounds": [
+        357,
+        1354,
+        580,
+        43
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C2-E007",
+          "C2-E008"
+        ]
+      }
+    },
+    "C2-R05": {
+      "name": "append_items",
+      "bounds": [
+        227,
+        1430,
+        997,
+        414
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            227,
+            1430,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E009"
+            ],
+            "title": [
+              "C2-E010"
+            ],
+            "price": [
+              "C2-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            504,
+            1430,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E012"
+            ],
+            "title": [
+              "C2-E013"
+            ],
+            "price": [
+              "C2-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            781,
+            1430,
+            264,
+            414
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C2-E015"
+            ],
+            "title": [
+              "C2-E016"
+            ],
+            "price": [
+              "C2-E017"
+            ]
+          }
+        },
+        {
+          "index": 3,
+          "bounds": [
+            1058,
+            1430,
+            166,
+            414
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C2-E018"
+            ],
+            "title": [
+              "C2-E019"
+            ],
+            "price": [
+              "C2-E020"
+            ]
+          }
+        }
+      ]
+    },
+    "C3-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        1932,
+        247,
+        247
+      ],
+      "slots": {
+        "media": [
+          "C3-E001"
+        ]
+      }
+    },
+    "C3-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        1932,
+        747,
+        50
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C3-E002"
+        ],
+        "title": [
+          "C3-E003"
+        ]
+      }
+    },
+    "C3-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2002,
+        966,
+        45
+      ],
+      "slots": {
+        "rating": [
+          "C3-E004"
+        ],
+        "fulfillment": [
+          "C3-E005",
+          "C3-E006"
+        ]
+      }
+    },
+    "C3-R04": {
+      "name": "tags",
+      "bounds": [
+        355,
+        2068,
+        686,
+        44
+      ],
+      "slots": {
+        "merchant_feature_tag": [
+          "C3-E007",
+          "C3-E008"
+        ]
+      }
+    },
+    "C3-R05": {
+      "name": "append_items",
+      "bounds": [
+        504,
+        2145,
+        720,
+        384
+      ],
+      "items": [
+        {
+          "index": 0,
+          "bounds": [
+            504,
+            2145,
+            264,
+            382
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E009"
+            ],
+            "title": [
+              "C3-E010"
+            ],
+            "price": [
+              "C3-E011"
+            ]
+          }
+        },
+        {
+          "index": 1,
+          "bounds": [
+            781,
+            2145,
+            264,
+            383
+          ],
+          "visibility": "complete",
+          "slots": {
+            "media": [
+              "C3-E012"
+            ],
+            "title": [
+              "C3-E013"
+            ],
+            "price": [
+              "C3-E014"
+            ]
+          }
+        },
+        {
+          "index": 2,
+          "bounds": [
+            1058,
+            2145,
+            166,
+            384
+          ],
+          "visibility": "naturally_cropped",
+          "slots": {
+            "media": [
+              "C3-E015"
+            ],
+            "title": [
+              "C3-E016"
+            ],
+            "price": [
+              "C3-E017"
+            ]
+          }
+        }
+      ]
+    },
+    "C4-R01": {
+      "name": "head_media",
+      "bounds": [
+        32,
+        2593,
+        247,
+        95
+      ],
+      "slots": {
+        "media": [
+          "C4-E001"
+        ]
+      }
+    },
+    "C4-R02": {
+      "name": "title",
+      "bounds": [
+        233,
+        2592,
+        674,
+        47
+      ],
+      "slots": {
+        "fulfillment_tag": [
+          "C4-E002"
+        ],
+        "title": [
+          "C4-E003"
+        ]
+      }
+    },
+    "C4-R03": {
+      "name": "merchant_info",
+      "bounds": [
+        227,
+        2665,
+        965,
+        35
+      ],
+      "slots": {
+        "rating": [
+          "C4-E004"
+        ],
+        "sales": [
+          "C4-E005"
+        ],
+        "fulfillment": [
+          "C4-E006",
+          "C4-E007"
+        ]
+      }
+    }
+  },
+  "filterItemsById": {},
+  "elementsById": {
+    "C1-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        554,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        556,
+        73,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#877A19"
+      }
+    },
+    "C1-E003": {
+      "kind": "text",
+      "bounds": [
+        323,
+        554,
+        563,
+        50
+      ],
+      "text": "隆江猪脚饭（望京麒麟社店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        624,
+        102,
+        42
+      ],
+      "text": "4.4分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C1-E005": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        624,
+        111,
+        42
+      ],
+      "text": "2.3km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E006": {
+      "kind": "text",
+      "bounds": [
+        341,
+        626,
+        222,
+        42
+      ],
+      "text": "月售3000+走",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C1-E007": {
+      "kind": "text",
+      "bounds": [
+        542,
+        627,
+        303,
+        41
+      ],
+      "text": "起送￥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#505050"
+      }
+    },
+    "C1-E008": {
+      "kind": "tag",
+      "bounds": [
+        543,
+        693,
+        362,
+        40
+      ],
+      "text": "超500人1个月内回购",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#707070"
+      }
+    },
+    "C1-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1047,
+        226,
+        43
+      ],
+      "text": "隆江猪脚饭+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#161616"
+      }
+    },
+    "C1-E011": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1106,
+        97,
+        45
+      ],
+      "text": "¥19.8",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E012": {
+      "kind": "media",
+      "bounds": [
+        504,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1048,
+        254,
+        42
+      ],
+      "text": "隆江猪腳饭【堂",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E014": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1104,
+        94,
+        47
+      ],
+      "text": "¥17.5",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C1-E015": {
+      "kind": "media",
+      "bounds": [
+        781,
+        767,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1049,
+        249,
+        40
+      ],
+      "text": "任性 の隆江猪",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C1-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1104,
+        214,
+        48
+      ],
+      "text": "¥25.8神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3623"
+      }
+    },
+    "C1-E018": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        767,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C1-E019": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1048,
+        166,
+        41
+      ],
+      "text": "隆江猪脚...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#131313"
+      }
+    },
+    "C1-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1106,
+        166,
+        44
+      ],
+      "text": "¥19.88神...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1217,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E002": {
+      "kind": "tag",
+      "bounds": [
+        232,
+        1220,
+        73,
+        41
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE329",
+        "textColor": "#887C1A"
+      }
+    },
+    "C2-E003": {
+      "kind": "text",
+      "bounds": [
+        324,
+        1217,
+        704,
+        49
+      ],
+      "text": "阿祥嫂隆江猪脚饭（望京东湖渠店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1287,
+        102,
+        42
+      ],
+      "text": "4.7分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C2-E005": {
+      "kind": "text",
+      "bounds": [
+        1081,
+        1287,
+        112,
+        42
+      ],
+      "text": "2.7km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#595959"
+      }
+    },
+    "C2-E006": {
+      "kind": "text",
+      "bounds": [
+        337,
+        1289,
+        506,
+        44
+      ],
+      "text": "月售3000+起送¥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#505050"
+      }
+    },
+    "C2-E007": {
+      "kind": "tag",
+      "bounds": [
+        677,
+        1354,
+        260,
+        43
+      ],
+      "text": "超千人回购3次",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C2-E008": {
+      "kind": "tag",
+      "bounds": [
+        357,
+        1356,
+        309,
+        41
+      ],
+      "text": "457位当地人常点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#747474"
+      }
+    },
+    "C2-E009": {
+      "kind": "media",
+      "bounds": [
+        227,
+        1430,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E010": {
+      "kind": "text",
+      "bounds": [
+        227,
+        1713,
+        264,
+        90
+      ],
+      "text": "【优选套餐】招牌隆江猪脚饭+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E011": {
+      "kind": "text",
+      "bounds": [
+        236,
+        1819,
+        98,
+        25
+      ],
+      "text": "¥26.2",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E012": {
+      "kind": "media",
+      "bounds": [
+        504,
+        1430,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E013": {
+      "kind": "text",
+      "bounds": [
+        504,
+        1713,
+        264,
+        90
+      ],
+      "text": "【优选套餐】招牌隆江猪脚饭+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E014": {
+      "kind": "text",
+      "bounds": [
+        515,
+        1820,
+        94,
+        24
+      ],
+      "text": "¥26.8",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C2-E015": {
+      "kind": "media",
+      "bounds": [
+        781,
+        1430,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E016": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1711,
+        233,
+        93
+      ],
+      "text": "【广东名吃招牌隆江豬腳",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#352121"
+      }
+    },
+    "C2-E017": {
+      "kind": "text",
+      "bounds": [
+        781,
+        1822,
+        213,
+        22
+      ],
+      "text": "¥24.8神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FD3D2A"
+      }
+    },
+    "C2-E018": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        1430,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C2-E019": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1713,
+        166,
+        91
+      ],
+      "text": "【浓郁飘香...江猪脚拼...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C2-E020": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        1820,
+        166,
+        24
+      ],
+      "text": "¥26.8神券...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2F1B"
+      }
+    },
+    "C3-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        1932,
+        247,
+        247
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        1936,
+        71,
+        38
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#7E741A"
+      }
+    },
+    "C3-E003": {
+      "kind": "text",
+      "bounds": [
+        330,
+        1932,
+        650,
+        50
+      ],
+      "text": "粤知一二隆江猪脚饭烧腊（保利广场店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2002,
+        102,
+        42
+      ],
+      "text": "4.8分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C3-E005": {
+      "kind": "text",
+      "bounds": [
+        1082,
+        2002,
+        111,
+        42
+      ],
+      "text": "2.8km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "C3-E006": {
+      "kind": "text",
+      "bounds": [
+        341,
+        2004,
+        527,
+        43
+      ],
+      "text": "月售3000+起送¥15免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C3-E007": {
+      "kind": "tag",
+      "bounds": [
+        355,
+        2068,
+        311,
+        43
+      ],
+      "text": "373位当地人常点",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
+      }
+    },
+    "C3-E008": {
+      "kind": "tag",
+      "bounds": [
+        677,
+        2070,
+        364,
+        42
+      ],
+      "text": "超500人1个月内回购",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#717171"
+      }
+    },
+    "C3-E009": {
+      "kind": "media",
+      "bounds": [
+        504,
+        2145,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2426,
+        224,
+        42
+      ],
+      "text": "豬腳+肉捲+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E011": {
+      "kind": "text",
+      "bounds": [
+        504,
+        2485,
+        212,
+        42
+      ],
+      "text": "¥20.8神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF3623"
+      }
+    },
+    "C3-E012": {
+      "kind": "media",
+      "bounds": [
+        781,
+        2145,
+        264,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E013": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2428,
+        232,
+        38
+      ],
+      "text": "正宗隆江豬脚",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E014": {
+      "kind": "text",
+      "bounds": [
+        781,
+        2485,
+        204,
+        43
+      ],
+      "text": "¥19.8神券价",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FE3C2A"
+      }
+    },
+    "C3-E015": {
+      "kind": "media",
+      "bounds": [
+        1058,
+        2145,
+        166,
+        264
+      ],
+      "mediaType": "photo"
+    },
+    "C3-E016": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2426,
+        166,
+        42
+      ],
+      "text": "猪脚+叉火...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C3-E017": {
+      "kind": "text",
+      "bounds": [
+        1058,
+        2485,
+        166,
+        44
+      ],
+      "text": "¥26.8神券...",
+      "visibility": "naturally_cropped",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF2D19"
+      }
+    },
+    "C4-E001": {
+      "kind": "media",
+      "bounds": [
+        32,
+        2593,
+        247,
+        95
+      ],
+      "mediaType": "photo"
+    },
+    "C4-E002": {
+      "kind": "tag",
+      "bounds": [
+        233,
+        2597,
+        72,
+        40
+      ],
+      "text": "外卖",
+      "visual": {
+        "container": "none",
+        "backgroundColor": "#FFE32A",
+        "textColor": "#84791A"
+      }
+    },
+    "C4-E003": {
+      "kind": "text",
+      "bounds": [
+        324,
+        2592,
+        583,
+        47
+      ],
+      "text": "偲雅家·隆江猪脚饭（望京店）",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#111111"
+      }
+    },
+    "C4-E004": {
+      "kind": "text",
+      "bounds": [
+        227,
+        2665,
+        102,
+        35
+      ],
+      "text": "4.6分",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#FF5500"
+      }
+    },
+    "C4-E005": {
+      "kind": "text",
+      "bounds": [
+        346,
+        2665,
+        187,
+        35
+      ],
+      "text": "月售1000+",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#545454"
+      }
+    },
+    "C4-E006": {
+      "kind": "text",
+      "bounds": [
+        549,
+        2665,
+        298,
+        35
+      ],
+      "text": "起送￥0免配送费",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#535353"
+      }
+    },
+    "C4-E007": {
+      "kind": "text",
+      "bounds": [
+        1083,
+        2667,
+        109,
+        33
+      ],
+      "text": "3.0km",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#4F4F4F"
+      }
+    },
+    "M1-E001": {
+      "kind": "text",
+      "bounds": [
+        135,
+        176,
+        894,
+        97
+      ],
+      "text": "隆江猪脚饭",
+      "visual": {
+        "backgroundColor": "#F1F1F2",
+        "textColor": "#000000"
+      }
+    }
+  }
+}

@@ -27,6 +27,8 @@ from typing import Any
 import cv2
 import numpy as np
 
+from phase2_bundle_loader import load_phase2_facts
+
 ROOT: Path
 MANIFEST_DIR: Path
 METRIC_DIR: Path
@@ -219,7 +221,7 @@ def measure_text(bgr: np.ndarray, box) -> dict:
 # --------------------------------------------------------------- tag / icon
 
 def measure_tag_style(bgr: np.ndarray, box) -> dict:
-    """Measure pixel colour/container evidence only; Phase2 owns semantic styleKey and deduplication."""
+    """Measure Phase3 colour/container evidence for one Phase2 atomic box."""
     patch = crop(bgr, box)
     if patch.size == 0:
         return {"pixelStyle": "empty", "chromatic": False, "chromaRatio": 0.0,
@@ -260,12 +262,12 @@ def measure_tag_style(bgr: np.ndarray, box) -> dict:
     }
 
 
-def detect_icons(bgr: np.ndarray, boxes: list, photo_mask: np.ndarray) -> dict:
-    """eval-4: standalone icon glyphs.
+def detect_icon_candidates(bgr: np.ndarray, boxes: list, photo_mask: np.ndarray) -> dict:
+    """Measure compact icon-style candidates inside caller-selected boxes.
 
-    Only scans NON-text element boxes plus a small lead-in strip before text
-    rows, and requires a compact, near-square, saturated blob. Text strokes are
-    rejected by demanding the blob be isolated (not part of a long ink run).
+    Phase3 supplies confirmed atomic icon boxes for formal measurement. A
+    broader scan is retained only as an anomaly cue; blobs outside a Phase2
+    atom request base-recognition review and never enter the formal count.
     """
     h_img, w_img = bgr.shape[:2]
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
@@ -298,7 +300,33 @@ def detect_icons(bgr: np.ndarray, boxes: list, photo_mask: np.ndarray) -> dict:
             styles.append(key)
             hits.append({"styleKey": key, "at": [int(x0 + x), int(y0 + y), int(w), int(h)]})
     uniq = sorted(set(styles))
-    return {"iconCount": len(uniq), "iconStyles": uniq, "iconHits": hits[:40]}
+    return {"candidateCount": len(uniq), "candidateStyles": uniq, "candidateHits": hits[:40]}
+
+
+def derive_icon_styles(bgr: np.ndarray, elems: list[dict], photo_mask: np.ndarray) -> dict:
+    """Phase3 measures icon styles inside Phase2-confirmed atomic icon boxes."""
+    icons = [
+        element for element in elems
+        if not element.get("isExcluded")
+        and isinstance(element.get("visual"), dict)
+        and element["visual"].get("entityKind") == "icon"
+        and element["visual"].get("visualStatus") == "confirmed"
+        and ebox(element)
+    ]
+    measured = detect_icon_candidates(bgr, [ebox(element) for element in icons], photo_mask)
+    included = [
+        {"id": str(element.get("id", "")), "coord": ebox(element)}
+        for element in icons
+    ]
+    return {
+        "iconCount": measured["candidateCount"],
+        "iconStyles": measured["candidateStyles"],
+        "iconEntities": included,
+        "pixelHits": measured["candidateHits"],
+        "measurementComplete": not icons or measured["candidateCount"] > 0,
+        "unmeasuredAtomicIconIds": [] if (not icons or measured["candidateCount"] > 0) else [item["id"] for item in included],
+        "countSource": "phase3.pixel_measurement_within_phase2_icon_atoms",
+    }
 
 
 # --------------------------------------------------------- region utilities
@@ -527,10 +555,18 @@ def analyse_card(bgr: np.ndarray, card: dict, photo_mask: np.ndarray, ui_mask: n
             continue
         st = measure_tag_style(bgr, ebox(e))
         rn = e.get("_region") or "-"
-        semantic_style_key = (e.get("visual") or {}).get("styleKey")
+        visual = e.get("visual") if isinstance(e.get("visual"), dict) else {}
+        if visual.get("visualStatus") != "confirmed":
+            excluded_tags.append({"id": e.get("id"), "reason": "Phase2 原子类型或边界未确认，不进入 Phase3 测量"})
+            region_scan[rn]["excluded"].append(f"{e.get('id')}(未确认)")
+            continue
+        # The formal style is measured by Phase3 from current pixels.  A
+        # Phase2 styleKey may be retained for traceability but never controls
+        # inclusion, deduplication or the count.
+        phase3_style_key = st["pixelStyle"]
         if st["chromatic"]:
-            tag_styles[semantic_style_key].append(e.get("id"))
-            region_scan[rn]["included"].append(f"{e.get('id')}({semantic_style_key})")
+            tag_styles[phase3_style_key].append(e.get("id"))
+            region_scan[rn]["included"].append(f"{e.get('id')}({phase3_style_key})")
         else:
             excluded_tags.append({"id": e.get("id"), "pixelStyle": st["pixelStyle"],
                                   "reason": "中性色纯文字标签，无彩色底/描边/图形辅助",
@@ -540,7 +576,8 @@ def analyse_card(bgr: np.ndarray, card: dict, photo_mask: np.ndarray, ui_mask: n
     icon_boxes = [ebox(e) for e in elems
                   if etype(e) != "文本" and not e.get("isExcluded")]
     icon_boxes += [ebox(e) for e in elems if etype(e) == "图片" and e.get("isExcluded")]
-    icons = detect_icons(bgr, icon_boxes, photo_mask)
+    icons = derive_icon_styles(bgr, elems, photo_mask)
+    icons["cvCandidatesForPhase2Review"] = detect_icon_candidates(bgr, icon_boxes, photo_mask)
 
     # ---------- eval-5: visual weight tiers from measured glyph height
     # A text element whose box also spans a declared image (盒马 下挂区 stacks the
@@ -690,9 +727,18 @@ def _resolve_manifest_and_audit(scene: str, suffix: str) -> tuple[Path, Path | N
     return plain, (audit if audit.exists() else None)
 
 
-def run_scene(scene: str, suffix: str) -> dict:
-    manifest_path, audit_path = _resolve_manifest_and_audit(scene, suffix)
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+def run_scene(
+    scene: str,
+    suffix: str,
+    normalized_path: Path | None = None,
+    evidence_path: Path | None = None,
+) -> dict:
+    if normalized_path is not None:
+        manifest = load_phase2_facts(normalized_path=normalized_path, evidence_path=evidence_path)
+        audit_path = None
+    else:
+        manifest_path, audit_path = _resolve_manifest_and_audit(scene, suffix)
+        manifest = load_phase2_facts(manifest_path=manifest_path)
     manifest_total = None
     if audit_path is not None:
         audit = json.loads(audit_path.read_text(encoding="utf-8"))
@@ -747,11 +793,17 @@ def main() -> int:
     ap.add_argument("--scenes", nargs="+", required=True)
     ap.add_argument("--suffix", default="首评-单一元素-5")
     ap.add_argument("--skill", required=True, help="调用方 skill 名，用于隔离输出文件避免并行写冲突")
+    ap.add_argument("--normalized-input", type=Path, help="紧凑黄金真值；Phase3 直接读取，不生成展开清单")
+    ap.add_argument("--evidence-input", type=Path, help="与 --normalized-input 配套的校验证据")
     args = ap.parse_args()
+    if bool(args.normalized_input) != bool(args.evidence_input):
+        ap.error("--normalized-input and --evidence-input must be provided together")
+    if args.normalized_input and len(args.scenes) != 1:
+        ap.error("direct golden bundle mode currently accepts exactly one scene")
     configure_paths(args.project_dir)
     METRIC_DIR.mkdir(parents=True, exist_ok=True)
     for scene in args.scenes:
-        data = run_scene(scene, args.suffix)
+        data = run_scene(scene, args.suffix, args.normalized_input, args.evidence_input)
         out = METRIC_DIR / f"metrics_{scene}_{args.skill}.json"
         out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"{scene}: components={data['componentCount']} "
