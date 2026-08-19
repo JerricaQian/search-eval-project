@@ -130,8 +130,9 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
     hook_findings = run_hooks({"semanticItems": semantic_items, "factsById": facts_by_id, "acceptedText": accepted,
                                "rolesByCard": roles_by_card, "cards": cards, "cardSemantics": semantics})
     errors.extend(f"semantic_hook:{item['hook']}:{item['sourceId']}:{item['reason']}" for item in hook_findings)
+    role_by_source = {item["sourceId"]: item["role"] for item in semantic_items}
     reprocess_targets = [
-        {"sourceId": item["sourceId"], "hook": item["hook"], "reason": item["reason"], "action": "rerun_bounded_local_ocr_or_rebuild_card_boundary"}
+        {"sourceId": item["sourceId"], "role": role_by_source.get(item["sourceId"], ""), "hook": item["hook"], "reason": item["reason"], "action": "rerun_bounded_local_ocr_or_rebuild_card_boundary"}
         for item in hook_findings
     ]
     if hook_findings:

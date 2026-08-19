@@ -56,7 +56,53 @@ def usable_text(candidate: dict[str, Any], semantic: dict[str, Any]) -> bool:
     fragments from becoming false UI atoms while keeping the evidence visible.
     """
     raw = str(candidate.get("text", "")).strip()
-    return bool(raw) and (status(candidate) == "confirmed" or semantic.get("status") == "confirmed")
+    compact = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff¥￥.+%折减]", "", raw)
+    chinese = sum("\u4e00" <= char <= "\u9fff" for char in compact)
+    latin = sum(char.isascii() and char.isalpha() for char in compact)
+    punctuation = sum(not (char.isalnum() or "\u4e00" <= char <= "\u9fff" or char in "¥￥.,+-%折减/×* ()[]") for char in raw)
+    coherent = len(compact) >= 2 and punctuation / max(1, len(raw)) <= 0.35
+    if chinese == 0 and latin and len(compact) <= 4:
+        coherent = False
+    if chinese >= 2 and latin >= 5 and latin / max(1, chinese + latin) > 0.45:
+        coherent = False
+    return bool(raw) and coherent and (status(candidate) == "confirmed" or semantic.get("status") == "confirmed")
+
+
+def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_candidates: list[dict[str, Any]], semantic_by_source: dict[str, dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """Complete page-level rules with card-local geometry.
+
+    Page OCR blocks can span an entire merchant card, so their top-text rule
+    cannot reliably name the title. Card ownership is known here: select one
+    upper, coherent, non-structured CJK line as title and place remaining
+    untyped observations into the type-specific region without changing text.
+    """
+    x, y, width, height = candidate["coord"]
+    output = {source_id: dict(value) for source_id, value in semantic_by_source.items()}
+    structured = re.compile(r"月售|已售|评分|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
+    possible_titles = []
+    for item in text_candidates:
+        value = str(item.get("text", "")).strip()
+        chinese = sum("\u4e00" <= char <= "\u9fff" for char in value)
+        if item["coord"][1] <= y + max(100, height * 0.42) and chinese >= 2 and not structured.search(value):
+            possible_titles.append(item)
+    if possible_titles and not any(value.get("semanticRoleCandidate") == "title" and value.get("status") == "confirmed" for value in output.values()):
+        title = min(possible_titles, key=lambda item: (item["coord"][1], -sum("\u4e00" <= char <= "\u9fff" for char in str(item.get("text", "")))))
+        output[title["id"]] = {**output.get(title["id"], {}), "semanticRoleCandidate": "title", "regionCandidate": "标题区", "status": "confirmed", "evidence": ["card_local_upper_cjk_title"]}
+    fallback_region = {
+        "商家卡片_图文下挂": "下挂商品区",
+        "商家卡片_文字下挂": "下挂区",
+        "演出电影卡片": "演出信息区",
+        "酒店卡片": "基础信息区",
+        "度假酒店套餐卡片": "套餐概要",
+        "商品卡片": "副标题区",
+    }.get(selected_type, "基础信息区")
+    for item in text_candidates:
+        current = output.get(item["id"], {})
+        if current.get("semanticRoleCandidate", "other") != "other":
+            continue
+        lower_content = item["coord"][1] >= y + height * 0.28
+        output[item["id"]] = {**current, "semanticRoleCandidate": "other", "regionCandidate": fallback_region if lower_content else "基础信息区"}
+    return output
 
 
 def visual_hint(candidate: dict[str, Any], kind: str, region: str, role: str = "") -> dict[str, Any]:
@@ -66,19 +112,38 @@ def visual_hint(candidate: dict[str, Any], kind: str, region: str, role: str = "
     exact_text_color = ""
     if isinstance(median, list) and len(median) == 3 and all(isinstance(channel, int) and 0 <= channel <= 255 for channel in median):
         exact_text_color = "#" + "".join(f"{channel:02X}" for channel in median)
+    background_color = ""
+    container_shape = "unknown"
+    if kind in {"tag", "icon"}:
+        surface = hint.get("surfaceMedianRgb") if isinstance(hint, dict) else None
+        if isinstance(surface, list) and len(surface) == 3 and all(isinstance(channel, int) and 0 <= channel <= 255 for channel in surface):
+            sr, sg, sb = surface
+            spread = max(surface) - min(surface)
+            if spread >= 45 and sum(surface) / 3 < 235:
+                background_color = "#" + "".join(f"{channel:02X}" for channel in surface)
+                exact_text_color = "#FFFFFF" if sum(surface) / 3 < 205 else exact_text_color
+                if sr > sg * 1.25 and sr > sb * 1.25:
+                    color = "orange" if sg >= sr * 0.34 else "red"
+                elif sb > sr * 1.18 and sb > sg * 1.05:
+                    color = "blue"
+                elif sg > sr * 1.15 and sg > sb * 1.08:
+                    color = "green"
     confirmed = status(candidate) == "confirmed" and color != "unknown"
     value: dict[str, Any] = {
         "entityKind": kind, "visualStatus": "confirmed" if confirmed else "uncertain",
         "isColored": color not in {"neutral", "unknown"}, "isShaped": False,
-        "colorRole": color, "backgroundColor": "", "textColor": exact_text_color, "borderColor": "",
+        "colorRole": color, "backgroundColor": background_color, "textColor": exact_text_color, "borderColor": "",
         "hasGraphicAssist": False, "graphicType": "无", "styleKey": f"{kind}|{color}|{role or 'other'}|无容器|无",
         "sourceRegion": region, "colorEvidence": hint.get("evidence", "not_measured") if isinstance(hint, dict) else "not_measured",
     }
     if kind in {"tag", "icon"} and confirmed:
-        value.update({"semanticRole": role or "其他标签", "containerShape": "无容器",
+        raw = str(candidate.get("text", ""))
+        semantic_role = "券标" if re.search(r"神券|券", raw) else "履约标" if re.search(r"外卖|配送|到店|上门", raw) else "业务类型标" if re.search(r"演出|景点", raw) else "推荐标" if re.search(r"推荐|必玩", raw) else role or "其他标签"
+        value.update({"semanticRole": semantic_role, "containerShape": container_shape,
                       "graphicAssistRole": "无", "countedInComplexity": value["isColored"],
-                      "countDecision": "本地 OCR 与颜色候选确认的独立标签文本",
+                      "countDecision": "本地 OCR 独立文本框与前景/表面像素确认的标签",
                       "dedupDecision": "未与其他实体去重", "dedupWithElementIds": []})
+        value["styleKey"] = f"{kind}|{color}|{semantic_role}|{container_shape}|无"
     return value
 
 
@@ -117,7 +182,7 @@ def image_element(card_id: str, item: dict[str, Any], index: int, region: str = 
     direct = item.get("phase3Facts", {}) if isinstance(item.get("phase3Facts"), dict) else {}
     render = dict(direct.get("render", {})); render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "uncertain", "sourceRegion": region, "isPhoto": True, "isSystemUi": False})
     visual = dict(direct.get("visual", {})) or visual_hint(item, "image", region, "photo")
-    visual.update({"entityKind": "image", "sourceRegion": region})
+    visual.update({"entityKind": "image", "sourceRegion": region, "styleKey": f"image|unknown|photo|{region}|无"})
     return {"id": f"{card_id}-P{index}", "所属组件": card_id, "元素类型": "图片",
         "内容简述": "原文:图片", "坐标": item["coord"], "isExcluded": False, "excludeReason": "",
         "render": render, "visual": visual}
@@ -129,10 +194,13 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
     selected_type = selected.get("cardType", "")
     confirmed_type = selected.get("status") == "confirmed"
     card_type = TYPE_NAMES.get(selected_type, "异构卡")
-    semantic_by_source = {item.get("sourceId"): item for item in text_semantics.get("candidates", [])}
     regions: dict[str, list[dict[str, Any]]] = {}
     text_candidates = [x for x in facts["candidates"]["text"] if overlap(x["coord"], coord)]
     photo_candidates = [x for x in facts["candidates"]["photos"] if overlap(x["coord"], coord)]
+    semantic_by_source = card_local_semantics(
+        candidate, selected_type, text_candidates,
+        {item.get("sourceId"): item for item in text_semantics.get("candidates", [])},
+    )
     unresolved_ids = [item["id"] for item in text_candidates + photo_candidates if status(item) != "confirmed"]
     for index, item in enumerate(text_candidates, 1):
         source_semantic = semantic_by_source.get(item["id"], {})
@@ -143,20 +211,32 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
             continue
         region, element = text_element(card_id, item, source_semantic, index)
         regions.setdefault(region, []).append(element)
+    head_photo_id = str(candidate.get("headPhotoId", ""))
+    attached_photo_ids = {str(value) for value in candidate.get("attachedProductPhotoIds", [])}
+    emitted_head_image_ids: list[str] = []
     for index, item in enumerate(photo_candidates, 1):
         if status(item) != "confirmed":
             continue
+        if item["id"] in attached_photo_ids:
+            image_region = "下挂商品区"
+        elif item["id"] == head_photo_id or (not head_photo_id and not emitted_head_image_ids):
+            image_region = "头图区"
+        else:
+            image_region = "特殊下挂"
         item = {**item, "coord": clip(item["coord"], coord)}
         if item["coord"] is None:
             continue
-        regions.setdefault("头图区", []).append(image_element(card_id, item, index))
+        element = image_element(card_id, item, index, image_region)
+        regions.setdefault(image_region, []).append(element)
+        if image_region == "头图区":
+            emitted_head_image_ids.append(element["id"])
     if not regions:
         regions["基础信息区"] = []
     region_rows = [{"name": name, "coord": union([e["坐标"] for e in elements], coord), "elements": elements} for name, elements in regions.items()]
     elements = [element for row in region_rows for element in row["elements"]]
     uncertain = unresolved_ids + [element["id"] for element in elements if element["render"]["visibleStatus"] != "confirmed"]
     titles = [e for e in elements if e.get("textFacts", {}).get("semanticRole") == "title"]
-    images = [e for e in elements if e["元素类型"] == "图片"]
+    head_images = [e for row in region_rows if row["name"] == "头图区" for e in row["elements"] if e["元素类型"] == "图片"]
     inventory_regions = {row["name"]: [{"elementId": e["id"], "styleKey": e.get("visual", {}).get("styleKey", ""), "countedInComplexity": bool(e.get("visual", {}).get("countedInComplexity", False))} for e in row["elements"] if e.get("visual", {}).get("entityKind") in {"tag", "icon"}] for row in region_rows}
     tags = [e for e in elements if e.get("visual", {}).get("entityKind") in {"tag", "icon"}]
     complete = confirmed_type and not uncertain and bool(elements)
@@ -165,19 +245,22 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
     if not isinstance(classification_evidence, list):
         classification_evidence = []
     classification_evidence = [str(item) for item in classification_evidence if str(item).strip()] or ["phase2_local_cv_card_candidate"]
+    layout_mode = "left_image_right_text" if selected_type in {
+        "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片"
+    } and bool(head_images) else "other"
     return {"cardId": card_id, "卡片类型": card_type, "coord": coord, "regions": region_rows,
         "ownershipScope": "unknown", "businessCode": "unknown", "businessName": "", "businessConfidence": "unknown",
         "cardTypeCode": selected_type or "unknown", "cardTypeName": card_type, "resultType": "result_card",
         "classificationEvidence": classification_evidence,
         "structure": {"visibleStatus": "naturally_cropped" if partial else "complete" if complete else "uncertain", "cardTypeCode": selected_type or "unknown",
-            "layoutMode": next((r.get("layoutCandidate") for r in semantic.get("regions", []) if r.get("region") == "头图区"), "other"),
+            "layoutMode": layout_mode,
             "layoutSignature": "cv_candidate", "comparisonGroupKey": f"{selected_type or 'unknown'}|cv_candidate",
             "isResultListItem": True, "isHeterogeneous": card_type == "异构卡", "listPosition": int(card_id.removeprefix("C")) if card_id.removeprefix("C").isdigit() else 0,
             "regions": [{"region": row["name"], "coord": row["coord"], "visibleStatus": "confirmed" if row["elements"] else "uncertain", "hasPhysicalBoundary": False, "hasBackgroundSeparation": False} for row in region_rows]},
-        "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_merchant_card"] if partial else [])},
+        "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_repeated_type"] if partial else [])},
         "visualInventory": {"complete": complete and all(e.get("visual", {}).get("visualStatus") == "confirmed" for e in tags), "regions": inventory_regions,
             "tagScanChecklist": [{"candidate": "local_cv_tag_icon_candidates", "status": "found" if tags else "not_found", "checkedRegions": list(regions), "elementIds": [e["id"] for e in tags], "visualBasis": "local CV/OCR candidate scan"}]},
-        "_relations": [{"relationType": "title_to_image", "from": title["id"], "to": image["id"], "status": "uncertain", "evidence": "same card only; local CV cannot confirm semantic correspondence"} for title in titles for image in images]}
+        "_relations": [{"relationType": "title_to_image", "from": title["id"], "to": image["id"], "status": "confirmed", "evidence": "same confirmed result card and card-type head-image topology"} for title in titles for image in head_images]}
 
 
 def recognition_state(facts: dict[str, Any], card_semantics: dict[str, Any], gate: dict[str, Any] | None, card_ids: list[str]) -> dict[str, Any]:

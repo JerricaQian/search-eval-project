@@ -120,13 +120,13 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     attached_text_blocks = [block for block in attached_blocks if block.get("layoutCandidate") == "text_only"]
     attached_texts = [item for item in texts if any(_overlap(item.get("coord", [0, 0, 0, 0]), block["coord"]) for block in attached_text_blocks)]
     attached_joined = "\n".join(str(item.get("text", "")) for item in attached_texts)
-    service_pattern = r"预约|可约|取号|排队|服务|体验|门票|团购|套餐|美发|理发|剪发|洗护|清洗|保洁|家电|维修|按摩|体检|露营|漂流|游乐|剧本|医疗|问诊"
+    service_pattern = r"预约|可约|取号|排队|上门服务|到店体验|美发|理发|剪发|洗护|保洁|家电维修|手机维修|按摩|体检|露营|漂流|游乐|剧本|问诊"
     attached_photos = [item for item in photos if item["coord"][1] >= seed_bottom and item["coord"][0] >= x + width * 0.18]
     graphic_hint = card.get("classificationHint", {}).get("cardType") == "商家卡片_图文下挂" or bool(card.get("attachedProductPhotoIds"))
     poster_media = any(item["coord"][3] >= item["coord"][2] * 1.18 and item["coord"][2] <= width * 0.45 for item in photos)
     price_signals = [price_evidence(item, coord) for item in texts]
     boundary_evidence = set(card.get("evidence", []))
-    repeated_list_boundary = bool({"repeated_left_image_right_text_seed", "learned_repeat_interval_backfill"} & boundary_evidence)
+    repeated_list_boundary = bool({"repeated_left_image_right_text_seed", "learned_repeat_interval_backfill", "left_media_anchor_split"} & boundary_evidence)
     merchant_graphic_boundary = "left_square_merchant_head" in boundary_evidence and "right_side_attached_product_image_group" in boundary_evidence
     viewport_width = float(facts.get("viewport", {}).get("width", 0))
     features = {
@@ -158,16 +158,22 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "result_list_position": True,
         "pre_results_position": False,
     }
+    features["scenic_ticket_downhang"] = bool(
+        features["poi_identity"]
+        and re.search(r"门票|成人票|学生票|亲子票", joined)
+        and re.search(r"无需换票|已售|成人票|学生票|亲子票", joined)
+    )
+    features["scenic_merchant_identity"] = bool(features["poi_identity"] and features["poi_domain_detail"])
     # A semantic identity is not itself a boundary.  These compound features
     # require the card candidate to carry the geometry/topology evidence for
     # that type's documented cutting strategy.
     features.update({
         "product_repeat_boundary": repeated_list_boundary and not graphic_hint,
         "merchant_graphic_boundary": merchant_graphic_boundary,
-        "merchant_text_boundary": repeated_list_boundary and features["text_downhang"],
+        "merchant_text_boundary": repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"]),
         "hotel_list_boundary": repeated_list_boundary and features["hotel_identity"],
         "hotel_grid_boundary": bool(viewport_width and width <= viewport_width * 0.68) and features["hotel_identity"],
-        "performance_poster_boundary": poster_media and features["performance_identity"] and (repeated_list_boundary or bool(left_heads)),
+        "performance_poster_boundary": poster_media and features["performance_schedule"] and (repeated_list_boundary or bool(left_heads)),
         "movie_schedule_boundary": features["performance_schedule"] and features["performance_identity"] and repeated_list_boundary,
         "package_bundle_boundary": repeated_list_boundary and features["package_identity"] and features["package_summary"],
     })
@@ -213,14 +219,23 @@ def resolve_card_type(card: dict[str, Any], facts: dict[str, Any], structure_blo
         )
         for card_type, contract in contracts.items() if card_type in KNOWN_RESULT_TYPES
     ]
-    passing = sorted((item for item in evaluations if item["minimumSatisfied"]), key=lambda item: item["score"], reverse=True)
+    type_priority = {
+        "商家卡片_图文下挂": 60 if features.get("merchant_graphic_boundary") else 0,
+        "商家卡片_文字下挂": 55 if features.get("merchant_text_boundary") else 0,
+        "演出电影卡片": 52 if features.get("performance_poster_boundary") or features.get("movie_schedule_boundary") else 0,
+        "度假酒店套餐卡片": 50 if features.get("package_bundle_boundary") else 0,
+        "酒店卡片": 48 if features.get("hotel_list_boundary") or features.get("hotel_grid_boundary") else 0,
+        "商品卡片": 10 if features.get("product_repeat_boundary") else 0,
+    }
+    passing = sorted(
+        (item for item in evaluations if item["minimumSatisfied"]),
+        key=lambda item: (type_priority.get(item["cardType"], 0), item["score"]),
+        reverse=True,
+    )
     if passing:
         best = passing[0]
-        runner = passing[1] if len(passing) > 1 else None
-        separated = not runner or best["score"] - runner["score"] >= 0.08
-        status = "confirmed" if separated else "uncertain"
-        selected = {"cardType": best["cardType"], "confidence": best["score"], "status": status,
-                    "classificationMode": "known_minimum_contract", "evidence": best["matchedFeatures"]}
+        selected = {"cardType": best["cardType"], "confidence": best["score"], "status": "confirmed",
+                    "classificationMode": "known_minimum_contract_priority", "evidence": best["matchedFeatures"]}
         return {"selected": selected, "features": features, "contractValidation": best, "contractEvaluations": evaluations,
                 "nearestKnownCardType": best["cardType"]}
     ad = evaluate_contract(contracts["广告卡"], features, scores.get("广告卡", 0.0))

@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from card_contract_engine import price_evidence_items, resolve_card_type
+from card_contract_engine import KNOWN_RESULT_TYPES, price_evidence_items, resolve_card_type
 from classify_search_card_types import classify_card_types
 
 
@@ -24,10 +24,15 @@ def _overlap(box: list[int], container: list[int]) -> bool:
     return box[0] < container[0] + container[2] and box[0] + box[2] > container[0] and box[1] < container[1] + container[3] and box[1] + box[3] > container[1]
 
 
+def _owned_by_card(box: list[int], container: list[int]) -> bool:
+    center_y = box[1] + box[3] / 2
+    return _overlap(box, container) and container[1] <= center_y < container[1] + container[3]
+
+
 def _region_evidence(card: dict[str, Any], facts: dict[str, Any], definition: dict[str, Any]) -> list[dict[str, Any]]:
     x, y, w, h = card["coord"]
-    texts = [item for item in facts.get("candidates", {}).get("text", []) if _overlap(item["coord"], card["coord"])]
-    photos = [item for item in facts.get("candidates", {}).get("photos", []) if _overlap(item["coord"], card["coord"])]
+    texts = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected" and _owned_by_card(item["coord"], card["coord"])]
+    photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") != "rejected" and _owned_by_card(item["coord"], card["coord"])]
     regions: list[dict[str, Any]] = []
     for index, region in enumerate(definition["regions"]):
         name = region["name"]
@@ -35,9 +40,23 @@ def _region_evidence(card: dict[str, Any], facts: dict[str, Any], definition: di
         # Images support a head-image candidate only when they occupy card left
         # or upper area. Text evidence is intentionally spatial, not lexical.
         if "头图" in name:
-            evidence_ids = [item["id"] for item in photos if item["coord"][0] < x + w * 0.45 and item["coord"][1] < y + h * 0.6]
+            explicit_head = str(card.get("headPhotoId", ""))
+            if explicit_head:
+                evidence_ids = [item["id"] for item in photos if item["id"] == explicit_head]
+            else:
+                candidates = [item for item in photos if item["coord"][0] < x + w * 0.45 and item["coord"][1] < y + h * 0.6]
+                evidence_ids = [min(candidates, key=lambda item: (item["coord"][1], item["coord"][0]))["id"]] if candidates else []
         elif "标题" in name:
-            evidence_ids = [item["id"] for item in texts if item["coord"][1] < y + max(72, h * 0.25) and item["coord"][0] > x + w * 0.18]
+            structured = re.compile(r"月售|已售|评分|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
+            title_candidates = []
+            for item in texts:
+                value = str(item.get("text", ""))
+                chinese = sum("\u4e00" <= char <= "\u9fff" for char in value)
+                upper = item["coord"][1] < y + max(100, h * 0.42)
+                text_side = item["coord"][0] > x + w * 0.18 or item["coord"][2] > w * 0.40
+                if upper and text_side and chinese >= 2 and not structured.search(value):
+                    title_candidates.append(item)
+            evidence_ids = [min(title_candidates, key=lambda item: (item["coord"][1], -sum("\u4e00" <= char <= "\u9fff" for char in str(item.get("text", "")))))["id"]] if title_candidates else []
         elif "价格" in name:
             evidence_ids = [item["id"] for item in price_evidence_items(texts, card["coord"])]
         else:
@@ -104,11 +123,11 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
         selected = resolved["selected"]
         partial_policy = {"applied": False}
         bottom = card["coord"][1] + card["coord"][3]
-        is_bottom_partial = card_index == len(result_cards) - 1 and viewport_height > 0 and bottom >= viewport_height - max(12, round(viewport_height * 0.01))
+        is_bottom_partial = card_index == len(result_cards) - 1 and viewport_height > 0 and bottom >= viewport_height - max(20, round(viewport_height * 0.02))
         previous = output[-1] if output else None
         previous_selected = previous.get("selectedCardType", {}) if previous else {}
         previous_type = str(previous_selected.get("cardType", ""))
-        if is_bottom_partial and previous_selected.get("status") == "confirmed" and previous_type.startswith("商家卡片_") and not resolved["features"].get("explicit_ad_marker"):
+        if is_bottom_partial and previous_selected.get("status") == "confirmed" and previous_type in KNOWN_RESULT_TYPES and not resolved["features"].get("explicit_ad_marker"):
             inherited_validation = next(
                 (item for item in resolved["contractEvaluations"] if item.get("cardType") == previous_type),
                 resolved["contractValidation"],
@@ -117,7 +136,7 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
                 "cardType": previous_type,
                 "confidence": round(float(previous_selected.get("confidence", 0.8)) * 0.92, 4),
                 "status": "confirmed",
-                "classificationMode": "bottom_partial_inherit_previous_merchant_type",
+                "classificationMode": "bottom_partial_inherit_previous_repeated_type",
                 "evidence": sorted(set(inherited_validation.get("matchedFeatures", [])) | {"screen_bottom_natural_crop", f"previous_card_type:{previous['cardId']}"}),
             }
             resolved["contractValidation"] = inherited_validation

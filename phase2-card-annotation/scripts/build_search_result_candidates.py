@@ -34,52 +34,82 @@ def _union(boxes: list[list[int]]) -> list[int]:
 
 
 def _module_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> list[dict[str, Any]]:
-    texts = facts.get("candidates", {}).get("text", [])
-    joined = "\n".join(str(item.get("text", "")) for item in texts)
+    texts = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected"]
+    photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted"]
+    blocks = sorted(structure.get("blocks", []), key=lambda item: item["coord"][1])
     viewport = facts["viewport"]
-    module_rules = [
-        ("search_bar", r".{1,}", 0.55, "top_text_candidate"),
-        ("tab", r"全部|外卖|团购|地点|攻略", 0.80, "tab_terms"),
-        ("tip_strip", r"提示|温馨|为你|推荐", 0.62, "tip_terms"),
-        ("image_filter", r"男士剪发|女士剪发|儿童理发|烫染|洗头", 0.70, "image_filter_terms"),
-        ("text_filter", r"附近|热门|推荐|价格", 0.58, "text_filter_terms"),
-        ("business_image_filter", r"品类|服务|套餐", 0.52, "business_image_filter_terms"),
-        ("main_poi_card", r"地铁站|大学|医院|商场|景点", 0.68, "poi_terms"),
-        ("business_operation_card", r"广告|推广|领券|限时", 0.66, "operation_terms"),
-        ("sort_filter", r"综合排序|排序|筛选", 0.88, "sort_filter_terms"),
-        ("promotion_filter", r"神券|优惠|满减", 0.80, "promotion_terms"),
-    ]
+    width, height = int(viewport["width"]), int(viewport["height"])
+
+    def block_for(item: dict[str, Any]) -> dict[str, Any] | None:
+        middle = item["coord"][1] + item["coord"][3] / 2
+        return next((block for block in blocks if block["coord"][1] <= middle <= block["coord"][1] + block["coord"][3]), None)
+
     modules: list[dict[str, Any]] = []
-    for module_id, pattern, score, reason in module_rules:
-        matched = [item for item in texts if re.search(pattern, str(item.get("text", "")))]
-        if module_id == "search_bar":
-            matched = [item for item in texts if item["coord"][1] < viewport["height"] * 0.15]
-        if not matched:
-            continue
-        box = _union([item["coord"] for item in matched])
-        modules.append({"module": module_id, "coord": box, "confidence": score, "status": "confirmed" if score >= 0.78 else "uncertain", "evidence": [reason]})
-    confirmed_tabs = [module for module in modules if module["module"] == "tab" and module["status"] == "confirmed"]
-    if confirmed_tabs:
-        tab_bottom = max(module["coord"][1] + module["coord"][3] for module in confirmed_tabs)
-        # A multi-image row immediately after Tab is a business image filter,
-        # not the beginning of the result-card list (e.g. medicine categories).
-        for block in structure.get("blocks", []):
-            bx, by, bw, bh = block["coord"]
-            images = [item for item in facts.get("candidates", {}).get("photos", []) if _overlap_y(item["coord"], block["coord"])]
-            x_span = max((item["coord"][0] + item["coord"][2] for item in images), default=0) - min((item["coord"][0] for item in images), default=0)
-            preceding_merchant_head = any(item["coord"][1] < by and item["coord"][0] <= viewport["width"] * 0.16 and item["coord"][2] >= 88 and item["coord"][3] >= 88 for item in facts.get("candidates", {}).get("photos", []))
-            if by >= tab_bottom and not preceding_merchant_head and bh >= 80 and len(images) >= 3 and x_span >= viewport["width"] * 0.55:
-                modules.append({"module": "business_image_filter", "coord": block["coord"], "confidence": 0.78, "status": "confirmed", "evidence": ["multiple_business_images_spanning_row"]})
-                break
-        watcher_text = [item for item in texts if re.search(r"直播|观看", str(item.get("text", "")))]
-        for block in structure.get("blocks", []):
-            bx, by, bw, bh = block["coord"]
-            if block.get("layoutCandidate") != "other" or bh < 360 or by + bh <= tab_bottom:
-                continue
-            has_watcher = any(_overlap_y(item["coord"], block["coord"]) for item in watcher_text)
-            if has_watcher:
-                modules.append({"module": "live_card", "cardType": "异构卡-直播卡", "coord": [0, tab_bottom, int(viewport["width"]), by + bh - tab_bottom], "confidence": 0.82, "status": "confirmed", "evidence": ["large_media_block_after_tab", "live_or_viewer_text"]})
-                break
+
+    # Search and tab are local top-of-page structures. Never union every
+    # matching word across the long screenshot: that produced page-sized
+    # pseudo modules and confused bottom filters with the top tab row.
+    top_cjk = [item for item in texts if item["coord"][1] < height * 0.15 and re.search(r"[\u4e00-\u9fff]{2,}", str(item.get("text", "")))]
+    if top_cjk:
+        query = min(top_cjk, key=lambda item: abs((item["coord"][1] + item["coord"][3] / 2) - height * 0.075))
+        qy = max(0, query["coord"][1] - max(24, query["coord"][3]))
+        modules.append({"module": "search_bar", "coord": [round(width * 0.09), qy, round(width * 0.79), max(80, query["coord"][3] * 3)], "confidence": 0.82, "status": "confirmed", "evidence": ["top_query_text_in_search_geometry"]})
+    top_row_texts = [item for item in texts if height * 0.09 <= item["coord"][1] <= height * 0.22 and item["coord"][2] >= 20]
+    row_clusters: list[list[dict[str, Any]]] = []
+    for item in sorted(top_row_texts, key=lambda value: value["coord"][1]):
+        cluster = next((row for row in row_clusters if abs(row[0]["coord"][1] - item["coord"][1]) <= 28), None)
+        if cluster is None:
+            row_clusters.append([item])
+        else:
+            cluster.append(item)
+    tab_row = max(row_clusters, key=lambda row: len(row), default=[])
+    if len(tab_row) >= 3:
+        box = _union([item["coord"] for item in tab_row])
+        if box[2] >= width * 0.55:
+            modules.append({"module": "tab", "coord": [max(0, box[0] - 24), max(0, box[1] - 16), min(width, box[2] + 48), box[3] + 32], "confidence": 0.80, "status": "confirmed", "evidence": ["top_horizontal_text_row_geometry"]})
+
+    sort_matches = [item for item in texts if re.search(r"综合排序|排序|筛选", str(item.get("text", "")))]
+    sort_item = max(sort_matches, key=lambda item: item["coord"][1], default=None)
+    sort_block = block_for(sort_item) if sort_item else None
+    sort_top = sort_block["coord"][1] if sort_block else height
+    if sort_block:
+        modules.append({"module": "sort_filter", "coord": sort_block["coord"], "confidence": 0.90, "status": "confirmed", "evidence": ["localized_sort_filter_row"]})
+
+    watcher = [item for item in texts if re.search(r"直播|观看", str(item.get("text", "")))]
+    live_block = next((block for block in blocks if block["coord"][1] < height * 0.18 and block["coord"][3] >= height * 0.28 and (any(_overlap_y(item["coord"], block["coord"]) for item in watcher) or any(module["module"] == "tab" and _overlap_y(module["coord"], block["coord"]) for module in modules))), None)
+    if live_block:
+        modules.append({"module": "live_card", "cardType": "异构卡-直播卡", "coord": live_block["coord"], "confidence": 0.84, "status": "confirmed", "evidence": ["large_top_media_block", "live_or_top_tab_evidence"]})
+
+    live_bottom = live_block["coord"][1] + live_block["coord"][3] if live_block else 0
+    poi_pattern = re.compile(r"地铁站|大学|医院|商场|景点|度假区|迪士尼|游客量|门票")
+    poi_blocks = []
+    for block in blocks:
+        by, bottom = block["coord"][1], block["coord"][1] + block["coord"][3]
+        local_text = "\n".join(str(item.get("text", "")) for item in texts if _overlap_y(item["coord"], block["coord"]))
+        local_photos = [item for item in photos if _overlap_y(item["coord"], block["coord"])]
+        if by >= live_bottom and bottom <= sort_top and local_photos and poi_pattern.search(local_text):
+            poi_blocks.append(block)
+    main_poi = poi_blocks[0] if poi_blocks else None
+    main_poi_bottom = 0
+    if main_poi:
+        main_boxes = [main_poi["coord"]]
+        main_bottom = main_poi["coord"][1] + main_poi["coord"][3]
+        for block in blocks:
+            if block["coord"][1] == main_bottom and block.get("layoutCandidate") == "text_only":
+                main_boxes.append(block["coord"])
+                main_bottom = block["coord"][1] + block["coord"][3]
+        modules.append({"module": "main_poi_card", "coord": _union(main_boxes), "confidence": 0.84, "status": "confirmed", "evidence": ["poi_identity_with_local_media_before_filters"]})
+        main_poi_bottom = main_bottom
+
+    module_floor = main_poi_bottom or (live_bottom if live_block else 0)
+    filter_blocks = [block for block in blocks if block["coord"][1] >= module_floor and block["coord"][1] < sort_top]
+    if sort_block and module_floor > 0 and filter_blocks:
+        filter_photos = [item for item in photos if any(_overlap_y(item["coord"], block["coord"]) for block in filter_blocks)]
+        filter_text = "\n".join(str(item.get("text", "")) for item in texts if any(_overlap_y(item["coord"], block["coord"]) for block in filter_blocks))
+        if len(filter_photos) >= 2 or re.search(r"推荐|景点|酒店|美食|飞机票|火车票|品类|套餐", filter_text):
+            modules.append({"module": "business_image_filter", "coord": _union([block["coord"] for block in filter_blocks]), "confidence": 0.80, "status": "confirmed", "evidence": ["localized_media_or_category_filter_before_sort"]})
+
+    modules.sort(key=lambda module: (module["coord"][1], module["module"]))
     return modules
 
 
@@ -129,6 +159,52 @@ def _merchant_graphic_hang_cards(facts: dict[str, Any], results_start_y: int) ->
             "headPhotoId": head["id"], "attachedProductPhotoIds": [photo["id"] for photo in product_groups],
         })
     return cards
+
+
+def _split_cards_on_left_media_anchors(cards: list[dict[str, Any]], facts: dict[str, Any], blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Recover a bottom card whose photo shares one oversized structure block.
+
+    Long-page row segmentation can merge two adjacent product cards when the
+    final card is clipped by the viewport.  Two vertically separated, large
+    left-column media anchors are stronger physical boundaries than that merged
+    block.  Merchant graphic cards are handled later by their specialised
+    detector, so its product strip cannot become the final owner.
+    """
+    viewport_width = int(facts["viewport"]["width"])
+    photos = [
+        item for item in facts.get("candidates", {}).get("photos", [])
+        if item.get("route") == "accepted" and item["coord"][0] < viewport_width * 0.40
+        and item["coord"][2] >= 96 and item["coord"][3] >= 96
+    ]
+    output: list[dict[str, Any]] = []
+    for card in cards:
+        x, y, width, height = card["coord"]
+        anchors = sorted(
+            (item for item in photos if y <= item["coord"][1] < y + height),
+            key=lambda item: item["coord"][1],
+        )
+        deduped: list[dict[str, Any]] = []
+        for anchor in anchors:
+            if not deduped or anchor["coord"][1] - deduped[-1]["coord"][1] >= 96:
+                deduped.append(anchor)
+        split_starts = [anchor["coord"][1] for anchor in deduped[1:] if anchor["coord"][1] >= y + max(120, round(height * 0.35))]
+        if not split_starts:
+            output.append(card)
+            continue
+        starts = [y] + split_starts
+        ends = split_starts + [y + height]
+        for part_index, (start, end) in enumerate(zip(starts, ends), 1):
+            if end - start < 96:
+                continue
+            coord = [x, start, width, end - start]
+            members = [block for block in blocks if _overlap_y(block["coord"], coord)]
+            output.append({
+                **card,
+                "id": f"{card['id']}S{part_index}", "coord": coord,
+                "memberBlockIds": [member["id"] for member in members],
+                "evidence": sorted(set(card.get("evidence", [])) | {"left_media_anchor_split"}),
+            })
+    return output
 
 
 def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[str, Any]:
@@ -198,6 +274,7 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
                 "confidence": 0.78, "status": "confirmed",
                 "evidence": ["learned_repeat_interval_backfill", "current_screenshot_two_card_periodicity"],
             })
+    cards = _split_cards_on_left_media_anchors(cards, facts, blocks)
     graphic_cards = _merchant_graphic_hang_cards(facts, results_start_y)
     if graphic_cards:
         # The specialised detector owns intervals it can explain. Keep generic

@@ -34,7 +34,7 @@ bash ~/Desktop/search-eval-project/setup.sh --with-device
 
 ### Phase2 本地 OCR（推荐）
 
-Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出该图自己的 `elements.json`。它不读取 OCR 置信度，也不让视觉模型补读失败字段。系统已安装 Tesseract 时可直接作为默认后端；PaddleOCR 仅作为显式开启的卡内有界重跑后端：
+Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出该图自己的 `elements.json`。它不读取 OCR 置信度，也不让视觉模型补读失败字段。初次整页使用 Tesseract；门控失败时主入口自动执行一次卡内有界重识别，本地 Paddle 模型存在时只加载一次并顺序处理失败裁剪（默认 2 线程），不会运行整页 Paddle：
 
 ```bash
 python3 -m venv .venv
@@ -271,7 +271,7 @@ A: 各 skill 自行拆元素导致口径漂移。解决：执行 Phase2（`annot
 A: 二档制 skill 合法，frontmatter `weight` 写 `{ "优秀": 1, "不达标": -1 }` 即可，「达标」键可省略；工作流发现脚本用 `.get("达标",0)` 兜底，schema 已把「达标」设为可选。不要硬凑三档。
 
 **Q: Phase2 识别一直很慢 / 根本没动 / 卡死**
-A: 先检查本地 Tesseract、长图双版面 OCR 和有界价格复读是否仍在运行。Phase2 不依赖模型读图；PaddleOCR 默认关闭且线程数默认限制为 2。已有单图清单若 `phase3Ready=false` 或 manifest 校验失败会被阻断，必须按 `reprocessTargets` 对失败卡/失败行重跑。
+A: 先检查本地 Tesseract、长图双版面 OCR 和一次性的卡内有界重识别是否仍在运行。Phase2 不依赖视觉模型读图；PaddleOCR 只会在初次门控失败后加载一次，线程数默认限制为 2，可设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 关闭。已有单图清单若 `phase3Ready=false` 或 manifest 校验失败会被阻断，必须按 `reprocessTargets` 对失败卡/失败行重跑。
 
 **Q: 评测 agent 计数还是不对（49/50/51）**
 A: 评测 agent 读清单后仍自己数。工作流已注入确定性 python 计数脚本，要求 `overview.total` 必须等于脚本输出，禁止人工推导。若仍错，检查 agent 是否真跑了脚本而非自行计数。

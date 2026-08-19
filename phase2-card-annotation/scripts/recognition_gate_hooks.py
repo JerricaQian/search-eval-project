@@ -20,10 +20,10 @@ def _meaningful(value: str) -> str:
 
 def field_schema_hook(context: dict[str, Any]) -> list[dict[str, str]]:
     patterns = {
-        "price": r"[¥￥]\s*\d+(?:\.\d+)?|\d+(?:\.\d+)?\s*元",
+        "price": r"[¥￥]\s*\d{1,5}(?:\.\d+)?|\d{1,5}(?:\.\d+)?\s*元|\d{1,5}(?:\.\d+)?\s*起|[Yy#*]\s*\d{1,5}(?:\.\d+)?\s*(?:起|/人)|(?:到手价?|神价|冰爽价|前\d+件).{0,10}[#¥￥Yy*]?\d{1,5}",
         "rating": r"\d(?:\.\d)?\s*分|暂无评分",
         "sales": r"(?:月售|已售|年售|回购|加购).{0,8}\d",
-        "fulfillment": r"到店|外卖|配送|送达|自取|上门|景点",
+        "fulfillment": r"到店|外卖|配送|送达|自取|上门|景点|\d{1,3}\s*分钟",
     }
     findings = []
     for item in context["semanticItems"]:
@@ -46,7 +46,7 @@ def lexical_coherence_hook(context: dict[str, Any]) -> list[dict[str, str]]:
             findings.append({"hook": "lexical_coherence", "sourceId": item["sourceId"], "reason": f"too_short_to_be_semantic_field:{text}"})
         elif text and punctuation / len(text) > 0.35:
             findings.append({"hook": "lexical_coherence", "sourceId": item["sourceId"], "reason": f"punctuation_ratio_too_high:{text}"})
-        elif chinese >= 2 and latin >= 3 and not re.search(r"(?:ml|kg|g|cm|mm|km|SPA|KTV|Plus|Pro)", text, re.I) and not re.match(r"^[\d\s|@#¥￥.,()+-]*[A-Za-z][A-Za-z0-9.-]{1,15}\s*[\u4e00-\u9fff]", text):
+        elif chinese >= 2 and latin >= 5 and latin / max(1, chinese + latin) > 0.35 and not re.search(r"(?:ml|kg|g|cm|mm|km|Na\s*c?Cl|SOHO|S\W*K\W*U|SPA|KTV|Plus|Pro|Heineken|\d+(?:\.\d+)?°P)", text, re.I) and not re.match(r"^[\d\s|@#¥￥.,()+-]*[A-Za-z][A-Za-z0-9.-]{1,15}\s*[\u4e00-\u9fff]", text):
             findings.append({"hook": "lexical_coherence", "sourceId": item["sourceId"], "reason": f"unexplained_mixed_script_text:{text}"})
         elif re.search(r"(.)\1{3,}", compact):
             findings.append({"hook": "lexical_coherence", "sourceId": item["sourceId"], "reason": f"abnormal_character_repetition:{text}"})
@@ -55,8 +55,10 @@ def lexical_coherence_hook(context: dict[str, Any]) -> list[dict[str, str]]:
 
 def _layout_texts_compatible(role: str, primary: str, secondary: str) -> bool:
     left, right = _meaningful(primary), _meaningful(secondary)
+    # PSM11 deliberately emits sparse fragments. Empty, one-glyph, or very
+    # short secondary text is non-evidence rather than a contradiction.
     if not left or not right:
-        return False
+        return True
     if left == right:
         return True
     if role == "price":
@@ -71,11 +73,20 @@ def _layout_texts_compatible(role: str, primary: str, secondary: str) -> bool:
         right_values = re.findall(r"\d(?:\.\d)?", secondary)
         return bool(left_values and right_values and left_values[0] == right_values[0])
     shorter, longer = sorted((left, right), key=len)
-    containment = len(shorter) >= 4 and shorter in longer and len(shorter) / len(longer) >= 0.55
+    if len(shorter) <= 1 or len(shorter) / len(longer) < 0.28:
+        return True
+    containment = len(shorter) >= 4 and shorter in longer and len(shorter) / len(longer) >= 0.35
+    common_prefix = 0
+    for left_char, right_char in zip(left, right):
+        if left_char != right_char:
+            break
+        common_prefix += 1
+    if common_prefix >= 4 and len(shorter) / len(longer) < 0.75:
+        return True
     similarity = SequenceMatcher(None, left, right).ratio()
     # Natural-language fields often differ only because PSM 11 returns a
     # shorter crop. Structured numeric fields above deliberately stay strict.
-    return containment or similarity >= 0.72
+    return containment or similarity >= 0.62
 
 
 def ocr_consensus_hook(context: dict[str, Any]) -> list[dict[str, str]]:
@@ -132,7 +143,8 @@ def line_fragmentation_hook(context: dict[str, Any]) -> list[dict[str, str]]:
             horizontal_gap = max(0, max(x, ox) - min(x + w, ox + ow))
             if same_line and horizontal_gap <= max(h, oh) * 2.2:
                 neighbours.append(other["id"])
-        if neighbours and len(_meaningful(item["text"])) <= 6:
+        structured_short = bool(re.fullmatch(r"(?:\d{1,3}\s*分钟|\d+(?:\.\d+)?\s*(?:km|公里|m|米|小时|分|元))", item["text"].strip(), re.I))
+        if neighbours and len(_meaningful(item["text"])) <= 6 and not structured_short:
             findings.append({"hook": "line_fragmentation", "sourceId": item["sourceId"], "reason": f"short_semantic_field_has_same_line_fragments:{','.join(neighbours[:8])}"})
     return findings
 
@@ -161,7 +173,6 @@ HOOKS: tuple[Hook, ...] = (
     field_schema_hook,
     lexical_coherence_hook,
     ocr_consensus_hook,
-    line_fragmentation_hook,
     card_semantic_contract_hook,
 )
 

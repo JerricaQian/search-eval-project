@@ -1,0 +1,51 @@
+{
+  "contractVersion": "phase2.golden-page-truth.v2",
+  "sourcePolicy": "离线模型辅助读取当前截图后，以可见像素、重复边界和屏幕底边校准；只用于推理后的回归评估，禁止作为生产卡型、坐标或字段输入。完整卡与底部自然截断卡均记录。",
+  "pages": {
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png": {
+      "calibrationStatus": "model_assisted_verified",
+      "resultCards": [
+        {"cardType": "商家卡片_图文下挂", "coord": [0, 554, 1224, 627], "visibleStatus": "complete"},
+        {"cardType": "商家卡片_图文下挂", "coord": [0, 1217, 1224, 627], "visibleStatus": "complete"},
+        {"cardType": "商家卡片_图文下挂", "coord": [0, 1880, 1224, 627], "visibleStatus": "complete"},
+        {"cardType": "商家卡片_图文下挂", "coord": [0, 2540, 1224, 160], "visibleStatus": "naturally_cropped"}
+      ]
+    },
+    "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-演出卡.png": {
+      "calibrationStatus": "model_assisted_verified",
+      "resultCards": [
+        {"cardType": "演出电影卡片", "coord": [0, 414, 1224, 404], "visibleStatus": "complete"},
+        {"cardType": "演出电影卡片", "coord": [0, 818, 1224, 414], "visibleStatus": "complete"},
+        {"cardType": "演出电影卡片", "coord": [0, 1232, 1224, 472], "visibleStatus": "complete"},
+        {"cardType": "演出电影卡片", "coord": [0, 1704, 1224, 411], "visibleStatus": "complete"},
+        {"cardType": "演出电影卡片", "coord": [0, 2115, 1224, 404], "visibleStatus": "complete"},
+        {"cardType": "演出电影卡片", "coord": [0, 2519, 1224, 181], "visibleStatus": "naturally_cropped"}
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png": {
+      "calibrationStatus": "model_assisted_verified",
+      "resultCards": [
+        {"cardType": "商品卡片", "coord": [0, 554, 1224, 502], "visibleStatus": "complete"},
+        {"cardType": "商品卡片", "coord": [0, 1056, 1224, 502], "visibleStatus": "complete"},
+        {"cardType": "商品卡片", "coord": [0, 1558, 1224, 487], "visibleStatus": "complete"},
+        {"cardType": "商品卡片", "coord": [0, 2045, 1224, 517], "visibleStatus": "complete"},
+        {"cardType": "商品卡片", "coord": [0, 2562, 1224, 138], "visibleStatus": "naturally_cropped"}
+      ]
+    },
+    "phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png": {
+      "calibrationStatus": "model_assisted_verified",
+      "pageModules": [
+        {"moduleType": "live_card", "coord": [0, 0, 1224, 1188], "visibleStatus": "complete"},
+        {"moduleType": "search_bar", "coord": [117, 119, 946, 128], "visibleStatus": "complete"},
+        {"moduleType": "tab", "coord": [32, 280, 1160, 120], "visibleStatus": "complete"},
+        {"moduleType": "main_poi_card", "coord": [0, 1188, 1224, 417], "visibleStatus": "complete"},
+        {"moduleType": "business_image_filter", "coord": [0, 1605, 1224, 237], "visibleStatus": "complete"},
+        {"moduleType": "sort_filter", "coord": [0, 1842, 1224, 128], "visibleStatus": "complete"}
+      ],
+      "resultCards": [
+        {"cardType": "商家卡片_文字下挂", "coord": [0, 1970, 1224, 410], "visibleStatus": "complete"},
+        {"cardType": "商家卡片_文字下挂", "coord": [0, 2380, 1224, 320], "visibleStatus": "naturally_cropped"}
+      ]
+    }
+  }
+}

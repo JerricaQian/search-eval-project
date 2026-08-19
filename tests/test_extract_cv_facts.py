@@ -21,6 +21,8 @@ RESULT_SEMANTICS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/map_resu
 MANIFEST_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_phase2_manifest.py"
 MANIFEST_VALIDATOR = PROJECT_DIR / "scripts/validate_element_manifest.py"
 RECOGNITION_GATE = PROJECT_DIR / "phase2-card-annotation/scripts/validate_phase2_recognition.py"
+REPROCESS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/reprocess_bounded_cards.py"
+GATE_HOOKS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/recognition_gate_hooks.py"
 GOLDEN_PAGE_STRUCTURE = PROJECT_DIR / "phase2-card-annotation/references/golden_page_structure.v1.json"
 GOLDEN_PRODUCT_PAGE_STRUCTURE = PROJECT_DIR / "phase2-card-annotation/references/golden_product_page_structure.v1.json"
 RECOGNITION_CONTRACTS = PROJECT_DIR / "phase2-card-annotation/references/card_recognition_contracts.v1.json"
@@ -261,7 +263,7 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertTrue(geometry["withinLearnedRange"])
         self.assertEqual(geometry["source"], "approved_golden_aggregate_geometry")
 
-    def test_bottom_partial_merchant_card_inherits_previous_type_and_waives_missing_fields(self) -> None:
+    def test_bottom_partial_card_inherits_previous_repeated_type_and_waives_missing_fields(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
             facts_path, candidates_path, cards_path, text_path, gate_path = (
@@ -298,9 +300,49 @@ class ExtractCvFactsTest(unittest.TestCase):
 
         partial = cards["cards"][1]
         self.assertEqual(partial["selectedCardType"]["cardType"], "商家卡片_图文下挂")
-        self.assertEqual(partial["selectedCardType"]["classificationMode"], "bottom_partial_inherit_previous_merchant_type")
+        self.assertEqual(partial["selectedCardType"]["classificationMode"], "bottom_partial_inherit_previous_repeated_type")
         self.assertTrue(partial["partialCardPolicy"]["applied"])
         self.assertTrue(json.loads(completed.stdout)["valid"])
+
+    def test_bounded_retry_is_card_local_and_caps_crops(self) -> None:
+        script_dir = REPROCESS_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_bounded_retry_test", REPROCESS_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+        facts = {"candidates": {"photos": [{"id": "P1", "coord": [20, 100, 110, 110], "route": "accepted"}], "text": [{"id": "T1", "text": "测试商品", "coord": [150, 110, 120, 24]}]}}
+        candidates = {"resultCards": [{"id": "C1", "coord": [0, 80, 400, 240]}]}
+        semantics = {"cards": [{"cardId": "C1", "selectedCardType": {"status": "uncertain"}, "contractValidation": {"missingEvidenceGroups": [["title_like_text"], ["price_text"], ["performance_schedule"]]}}]}
+        gate = {"errors": ["C1:card_type_unconfirmed"], "reprocessTargets": [{"sourceId": "T1", "hook": "ocr_consensus"}]}
+        targets = module.plan_targets(facts, candidates, semantics, gate)
+        self.assertLessEqual(len(targets), 3)
+        self.assertTrue(all(item["cardId"] == "C1" for item in targets))
+        self.assertIn("price", {item["region"] for item in targets})
+        self.assertTrue(module.compatible_text("近30天318人复购", "HBT近30天318人复购"))
+        self.assertEqual(module.corroborated_title_span("oem|he)锦州烧烤(悠乐汇店)", "钊州烧烤(您乐汇店)"), "锦州烧烤(悠乐汇店)")
+        grouped = module.group_bounded_title_entries([
+            {"text": "北京", "coord": [100, 10, 60, 30]},
+            {"text": "咂摸相声专场(南锣鼓巷观乐", "coord": [180, 10, 420, 32]},
+            {"text": "演出", "coord": [20, 12, 60, 28]},
+            {"text": "专场）", "coord": [20, 54, 90, 30]},
+        ])
+        self.assertEqual(grouped[0]["text"], "咂摸相声专场(南锣鼓巷观乐专场）")
+        self.assertEqual({item.get("_boundedRegion") for item in grouped[1:]}, {"tag", "location"})
+
+    def test_gate_hook_accepts_minute_fulfillment_and_rejects_conflicting_price(self) -> None:
+        spec = importlib.util.spec_from_file_location("phase2_gate_hooks_test", GATE_HOOKS_SCRIPT)
+        assert spec and spec.loader
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        context = {"semanticItems": [{"sourceId": "T1", "role": "fulfillment", "text": "33分钟"}]}
+        self.assertEqual(module.field_schema_hook(context), [])
+        self.assertTrue(module._layout_texts_compatible("fulfillment", "33分钟", "33分钟|钟"))
+        self.assertFalse(module._layout_texts_compatible("price", "¥37.5起", "¥97.5起"))
 
     def test_price_evidence_recovers_currency_glyph_damage_without_using_delivery_fee(self) -> None:
         cases = [("YQ97.5起", "red", "商品卡片"), ("起送#35免配送费", "red", "异构卡")]

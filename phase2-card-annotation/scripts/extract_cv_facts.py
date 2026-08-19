@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageOps
 
 from detect_photo_region import detect_photos
 
@@ -182,7 +182,7 @@ def _ocr_with_paddle(image_path: Path) -> tuple[list[dict[str, Any]], str | None
     return entries, None
 
 
-def ocr_region(image_path: Path, coord: list[int]) -> tuple[list[dict[str, Any]], str, str | None]:
+def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = None) -> tuple[list[dict[str, Any]], str, str | None]:
     """OCR one bounded semantic region and return page-relative boxes.
 
     PaddleOCR is deliberately never sent an entire long result page by this
@@ -204,8 +204,18 @@ def ocr_region(image_path: Path, coord: list[int]) -> tuple[list[dict[str, Any]]
             entries, error = _ocr_with_paddle(Path(handle.name))
             backend = "paddleocr"
             if error:
-                entries, error = _ocr_with_tesseract(Path(handle.name))
+                entries, error = _run_tesseract(Path(handle.name), tesseract_psm) if tesseract_psm else _ocr_with_tesseract(Path(handle.name))
                 backend = "tesseract" if not error else "unavailable"
+            if (error or not entries) and tesseract_psm:
+                # Low-contrast gray metadata often disappears in a tight crop.
+                # Retry the same bounded pixels with deterministic grayscale
+                # autocontrast; this is not a new semantic or model source.
+                enhanced = ImageOps.autocontrast(crop.convert("L"))
+                enhanced = enhanced.point(lambda value: 0 if value < 220 else 255)
+                with tempfile.NamedTemporaryFile(suffix=".png") as enhanced_handle:
+                    enhanced.save(enhanced_handle.name)
+                    entries, error = _run_tesseract(Path(enhanced_handle.name), tesseract_psm)
+                backend = "tesseract_threshold" if entries and not error else "unavailable"
     # Undo the 2x scale and translate coordinates to the source page.
     for item in entries:
         cx, cy, cw, ch = item["coord"]
@@ -330,7 +340,13 @@ def _structured_text_quality(value: str) -> int:
 
 
 def _prefer_independent_structured_text(entries: list[dict[str, Any]]) -> int:
-    """Select the cleaner OCR layout only when the same price digits anchor it."""
+    """Select a clearly cleaner independent layout without language correction.
+
+    Prices still require the same numeric anchor.  Natural-language rows may
+    switch only when the alternate layout has substantially stronger Chinese
+    script coherence, which recovers titles whose primary layout is mostly
+    Latin-shaped OCR debris.
+    """
     changed = 0
     for item in entries:
         consensus = item.get("ocrConsensus", {})
@@ -340,16 +356,23 @@ def _prefer_independent_structured_text(entries: list[dict[str, Any]]) -> int:
         secondary = str(consensus.get("secondaryText", ""))
         primary_price = re.search(r"[¥￥]\s*(\d+(?:\.\d+)?)", primary)
         secondary_price = re.search(r"[¥￥]\s*(\d+(?:\.\d+)?)", secondary)
-        if not primary_price or not secondary_price:
-            continue
-        if _numeric_signature(primary_price.group(1)) != _numeric_signature(secondary_price.group(1)):
-            continue
-        if len(secondary) < len(primary) * 0.55 or _structured_text_quality(secondary) < _structured_text_quality(primary) + 2:
-            continue
+        if primary_price or secondary_price:
+            if not primary_price or not secondary_price:
+                continue
+            if _numeric_signature(primary_price.group(1)) != _numeric_signature(secondary_price.group(1)):
+                continue
+            if len(secondary) < len(primary) * 0.55 or _structured_text_quality(secondary) < _structured_text_quality(primary) + 2:
+                continue
+            acceptance = "same_price_numeric_signature_and_higher_script_coherence"
+        else:
+            secondary_chinese = sum("\u4e00" <= char <= "\u9fff" for char in secondary)
+            if secondary_chinese < 4 or _structured_text_quality(secondary) < _structured_text_quality(primary) + 4:
+                continue
+            acceptance = "substantially_higher_chinese_script_coherence"
         item["text"] = secondary
         item["ocrRefinement"] = {
             "applied": True, "originalText": primary, "refinedText": secondary,
-            "backend": "tesseract_independent_layout", "acceptance": "same_price_numeric_signature_and_higher_script_coherence",
+            "backend": "tesseract_independent_layout", "acceptance": acceptance,
             "originalConsensus": dict(consensus),
         }
         item["ocrConsensus"] = {
@@ -370,6 +393,7 @@ def _ocr_with_tesseract(image_path: Path) -> tuple[list[dict[str, Any]], str | N
     secondary, secondary_error = _run_tesseract(image_path, 11)
     if not secondary_error:
         _annotate_ocr_consensus(primary, secondary)
+        _prefer_independent_structured_text(primary)
     else:
         for item in primary:
             item["ocrConsensus"] = {"status": "unavailable", "primaryText": item.get("text", ""), "secondaryText": ""}
@@ -402,11 +426,12 @@ def _text_color_hint(rgb: np.ndarray, box: Box) -> dict[str, Any]:
     if crop.size == 0:
         return {"colorRole": "unknown", "evidence": "empty_crop"}
     values = crop.reshape(-1, 3)
+    surface_rgb = [int(value) for value in np.median(values, axis=0)]
     spread = values.max(axis=1) - values.min(axis=1)
     brightness = values.mean(axis=1)
     foreground = values[(brightness < 185) | ((spread > 45) & (brightness < 235))]
     if len(foreground) < max(3, len(values) // 120):
-        return {"colorRole": "unknown", "evidence": "insufficient_foreground_pixels"}
+        return {"colorRole": "unknown", "surfaceMedianRgb": surface_rgb, "evidence": "insufficient_foreground_pixels"}
     r, g, b = (int(value) for value in np.median(foreground, axis=0))
     if r > g * 1.25 and r > b * 1.25:
         role = "red" if g < r * 0.72 else "orange"
@@ -418,7 +443,7 @@ def _text_color_hint(rgb: np.ndarray, box: Box) -> dict[str, Any]:
         role = "neutral"
     else:
         role = "multicolor"
-    return {"colorRole": role, "medianRgb": [r, g, b], "evidence": "foreground_pixel_median"}
+    return {"colorRole": role, "medianRgb": [r, g, b], "surfaceMedianRgb": surface_rgb, "evidence": "foreground_and_surface_pixel_median"}
 
 
 def _hex_rgb(value: Any) -> str:
@@ -622,7 +647,7 @@ def extract(image_path: Path) -> dict[str, Any]:
     height, width, _ = rgb.shape
     whitespace, rows = _content_rows(rgb)
     ocr, ocr_backend, backend_error = _ocr(image_path)
-    independent_layout_refinements = _prefer_independent_structured_text(ocr)
+    independent_layout_refinements = sum(bool(item.get("ocrRefinement", {}).get("applied")) for item in ocr)
     text = _text_candidates(ocr, rows, rgb, width, height)
     bounded_price_refinements = _bounded_price_refinements(rgb, text)
     photos = _photo_candidates(image_path, rows, width, height)

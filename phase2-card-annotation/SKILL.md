@@ -63,6 +63,12 @@ python3 phase2-card-annotation/scripts/validate_phase2_recognition.py \
   --facts <facts.json> --result-candidates <candidates.json> \
   --card-semantics <card-semantics.json> --text-semantics <text-semantics.json> \
   --output <recognition-gate.json>
+# 仅当上一步阻断：主入口自动执行一次以下卡内定向重识别，随后重建全部下游候选并再次整页门控
+python3 phase2-card-annotation/scripts/reprocess_bounded_cards.py \
+  --screenshot <screenshot> --facts <facts.json> \
+  --result-candidates <candidates.json> --card-semantics <card-semantics.json> \
+  --recognition-gate <recognition-gate.json> --output <facts.retry.json> \
+  --report <bounded-card-reprocess.json>
 python3 phase2-card-annotation/scripts/build_phase2_manifest.py \
   --query <query> --facts <facts.json> --result-candidates <candidates.json> \
   --card-semantics <card-semantics.json> --text-semantics <text-semantics.json> \
@@ -73,13 +79,13 @@ python3 scripts/validate_element_manifest.py <elements.json> \
 
 前五个文件是**过程候选 JSON**：保留 OCR/CV 原始坐标、双版面 OCR 一致性、颜色像素提示和未决项，便于重新识别；不使用或发布 OCR 置信度。其中每个文字/图片候选直接携带可转写为 Phase3 的 `render`、`textFacts`/`visual` 像素事实。`build_phase2_manifest.py` 只把同一次识别结果写入统一 JSON，不制造新事实。已确认元素进入 `cards[].regions[].elements[]`；未确认项进入主 JSON 的 `recognition.semanticHookFindings/reprocessTargets` 与 `pageFactInventory.uncertainElementIds`，绝不被误当作“页面没有”。
 
-固定顺序：**CV/OCR → 页面模块 → 结果卡候选 → 卡型最小契约 → 卡型允许的分区 → 文本角色 → 识别质量门控 → 最小元素 → 统一 JSON → schema 校验**。任一卡失败即整页阻断；可以只重跑失败卡/失败行，但重跑后必须再次执行整页门控，禁止部分页面进入 Phase3。不会因 OCR 字段失败而把截图送给模型读图。已确认字段不得重复裁读。
+固定顺序：**初次 CV/OCR → 局部页面模块 → 结果卡候选 → 卡型最小契约 → 卡内分区/文本角色 → 初次整页门控 →（失败时）一次有界卡内重识别 → 全量重建结构/卡型/文本角色 → 最终整页门控 → 最小元素 → 统一 JSON → schema 校验**。任一卡失败即整页阻断；重识别最多一轮、每张失败卡最多三个裁剪，禁止部分页面进入 Phase3。不会因 OCR 字段失败而把截图送给模型读图。已确认字段不得重复裁读。
 
 Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不得按置信度切换；核心语义须通过 `ocr_consensus` hook：结构化数字要求数值锚一致，自然文本只允许确定性的包含或高相似关系。价格行可在相同数值锚下选择脚本连贯性更好的独立布局文本；疑似价格可做少量有界遮罩复读，但都必须保留原文、独立布局和接受理由，禁止无锚纠错。行内相邻的汉字碎片先按空间合并，明显分隔的标签、价格和标题保持独立。
 
 照片检测除多色轮廓外，允许以“大面积 + 高像素方差 + 足够彩色像素 + 非细长几何”补充低色相商品/商家照片；该规则不检测圆角容器，不按业务词推断图片。
 
-PaddleOCR 只允许作为门控失败后的可选本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的文字列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。它不会由主入口自动启动。`run_cv_facts.sh` 默认把 `OMP/MKL/OpenBLAS/Paddle` 线程数限制为 `PHASE2_OCR_THREADS=2`，可在资源充足时显式调整。
+PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的标题/价格/信息列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。主入口会在初次门控失败时自动尝试这一轮；本地模型不存在或初始化失败时退回有界 Tesseract，设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可完全关闭 Paddle。线程默认由 `PHASE2_OCR_THREADS=2` 限制。
 
 ## 4. 事实源、校验与参数化纪律（阻断）
 
@@ -88,10 +94,10 @@ PaddleOCR 只允许作为门控失败后的可选本地重跑后端：先用 CV 
 3. 收到 Phase3 回退请求时，保留旧 manifest/audit/过程候选，按新证据重建 Phase2，再重跑受影响的 Phase3；不得只改下游结论。
 4. 禁止固定搜索词、机器路径、历史 `/tmp` 或场景脚本输出作为生产入口。
 5. `validate_phase2_recognition.py` 是整页发布门控：OCR 碎片比例超限、异常文字、无结果卡、卡内可用事实不足、卡型未确认或未通过卡型最小契约时，必须写出 blocked JSON 并重跑本地 CV/OCR。它不读取 OCR 置信度，也不触发模型读图。
-6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同一视觉行碎片检查、卡型语义契约。hook 只报告异常和阻断，不改写 `rawText`。
-7. 结果流最后一张商家卡自然触底时，若上一张卡已确认具体商家卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
+6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
+7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。允许离线聚合经过清洗的归一化几何分布；缺坐标、整页误框和页尾残片必须排除。该分布只给已通过最小契约的卡型增加少量辅助分，不能补齐缺失证据或单独否决新布局。每次更新黄金样本后运行：
+9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`references/golden_page_truth.v2.json` 是允许模型辅助校准的离线回归真值，只能在推理结束后比较卡数、卡型、模块与 IoU，禁止传入生产命令。允许离线聚合经过清洗的归一化几何分布；缺坐标、整页误框和页尾残片必须排除。该分布只给已通过最小契约的卡型增加少量辅助分，不能补齐缺失证据或单独否决新布局。每次更新黄金样本后运行：
 
 ```bash
 python3 phase2-card-annotation/scripts/learn_card_geometry_profiles.py \

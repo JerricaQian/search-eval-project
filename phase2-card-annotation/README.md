@@ -39,17 +39,18 @@ python3 scripts/validate_element_manifest.py \
 3. `build_search_result_candidates.py`：页面模块和按卡型区分的结果卡边界。
 4. `map_result_card_semantics.py`：按最小证据契约确认已知卡型、广告卡或异构卡。
 5. `map_search_page_semantics.py`：补充文本角色候选。
-6. `validate_phase2_recognition.py`：字段文法、文本连贯性、双版面一致性、碎片和卡型语义整页门控。
-7. `build_phase2_manifest.py`：把同一次识别事实写入该截图自己的主 JSON。
-8. `validate_element_manifest.py`：校验 Phase3 所需事实与整页状态。
+6. `validate_phase2_recognition.py`：字段文法、文本连贯性、双版面一致性和卡型语义的初次整页门控。
+7. 初次门控失败时，`reprocess_bounded_cards.py` 自动执行一次失败卡定向重识别（每卡最多三个裁剪），随后重新生成结构、卡型、文本角色并再次整页门控。
+8. `build_phase2_manifest.py`：把最终同一次识别事实写入该截图自己的主 JSON。
+9. `validate_element_manifest.py`：校验 Phase3 所需事实与整页状态。
 
-主流程不读取 OCR 置信度。疑似价格只允许在数值锚一致时做有界遮罩复读或选择更连贯的独立布局文本，并保留原始文本和接受理由。PaddleOCR 默认关闭；显式启用时也只能对门控给出的失败卡裁剪顺序重跑，不能处理整页长图。
+主流程不读取 OCR 置信度。疑似价格只允许在数值锚一致时做有界遮罩复读或选择更连贯的独立布局文本，并保留原始文本和接受理由。PaddleOCR 只在初次门控失败后自动加载一次，顺序处理门控给出的失败卡裁剪，不能处理整页长图；设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可关闭，`PHASE2_OCR_THREADS` 默认是 `2`。
 
 ## 卡型与页尾规则
 
 卡型决策顺序固定为：满足最小契约的已知卡型 → 有明确广告证据的广告卡 → 稳定独立的异构卡。禁止输出 `unknown`。
 
-结果流最后一张商家卡自然触底时，可在无广告证据的前提下继承上一张已确认商家卡型。只豁免因截断不可见的必需字段；已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
+结果流最后一张重复卡自然触底时，可在无广告证据的前提下继承上一张已确认已知卡型。只豁免因截断不可见的必需字段；已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 
 不同卡型的边界策略不得混用：商品卡按单商品主图/标题/价格重复切分；商家图文下挂吸附商品图组；商家文字下挂吸附服务文字块；酒店、演出/电影、套餐和主点卡分别使用自己的拓扑契约。
 
@@ -71,7 +72,7 @@ python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
   --output-dir .artifacts/golden-cv-rerun
 ```
 
-回归目录中每个截图子目录各有一个 `elements.json`；顶层 `index.json` 仅做索引和指标汇总。
+模型辅助校准只允许写入 `references/golden_page_truth.v2.json`，且只在整条推理完成后比较模块、卡数、卡型和边界 IoU。回归目录中每个截图子目录各有一个 `elements.json`；顶层 `index.json` 仅做索引和指标汇总。
 
 ## 历史兼容文件
 
