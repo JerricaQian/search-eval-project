@@ -1,0 +1,640 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/hotel-card/电竞房-双列.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-双列-搜索词为电竞房.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "酒店卡片",
+      "coord": [
+        17,
+        508,
+        595,
+        820
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "2km",
+          "coord": [
+            68,
+            892,
+            72,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "望京",
+          "coord": [
+            160,
+            889,
+            78,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "特惠双人电竞兄弟房",
+          "coord": [
+            39,
+            971,
+            440,
+            57
+          ],
+          "ocrConfidence": 0.9812
+        },
+        {
+          "text": "15-25²|2人|双床",
+          "coord": [
+            41,
+            1049,
+            345,
+            50
+          ],
+          "ocrConfidence": 0.942
+        },
+        {
+          "text": "2台",
+          "coord": [
+            45,
+            1106,
+            112,
+            52
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "1240Hz及以上",
+          "coord": [
+            216,
+            1112,
+            236,
+            42
+          ],
+          "ocrConfidence": 0.9494
+        },
+        {
+          "text": "￥412起",
+          "coord": [
+            36,
+            1168,
+            200,
+            84
+          ],
+          "ocrConfidence": 0.9688
+        },
+        {
+          "text": "已售500+",
+          "coord": [
+            237,
+            1196,
+            151,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            58,
+            1270,
+            106,
+            50
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "6号青橙电竞主题...",
+          "coord": [
+            175,
+            1272,
+            334,
+            45
+          ],
+          "ocrConfidence": 0.9233
+        },
+        {
+          "text": ">",
+          "coord": [
+            539,
+            1272,
+            34,
+            41
+          ],
+          "ocrConfidence": 0.9868
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "酒店卡片",
+      "coord": [
+        612,
+        508,
+        595,
+        820
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "福",
+          "coord": [
+            828,
+            508,
+            380,
+            335
+          ],
+          "ocrConfidence": 0.3224
+        },
+        {
+          "text": "2.7km",
+          "coord": [
+            658,
+            894,
+            98,
+            34
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "望京",
+          "coord": [
+            776,
+            890,
+            77,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "至臻职业双床房",
+          "coord": [
+            630,
+            973,
+            341,
+            56
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "15-20m²|2人|有窗",
+          "coord": [
+            631,
+            1048,
+            345,
+            51
+          ],
+          "ocrConfidence": 0.9695
+        },
+        {
+          "text": "2台",
+          "coord": [
+            634,
+            1108,
+            110,
+            50
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "Hz",
+          "coord": [
+            768,
+            1118,
+            34,
+            24
+          ],
+          "ocrConfidence": 0.9823
+        },
+        {
+          "text": "240Hz及以上",
+          "coord": [
+            809,
+            1114,
+            232,
+            40
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "￥526",
+          "coord": [
+            628,
+            1176,
+            154,
+            68
+          ],
+          "ocrConfidence": 0.9356
+        },
+        {
+          "text": "起",
+          "coord": [
+            756,
+            1191,
+            68,
+            52
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "已售85",
+          "coord": [
+            837,
+            1198,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            650,
+            1274,
+            103,
+            43
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "北京朋宜多电竞主..>",
+          "coord": [
+            768,
+            1272,
+            394,
+            44
+          ],
+          "ocrConfidence": 0.963
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "酒店卡片",
+      "coord": [
+        17,
+        1354,
+        595,
+        820
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "器",
+          "coord": [
+            44,
+            1689,
+            18,
+            20
+          ],
+          "ocrConfidence": 0.2128
+        },
+        {
+          "text": "4.2km",
+          "coord": [
+            69,
+            1743,
+            96,
+            34
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "酒仙桥/798",
+          "coord": [
+            190,
+            1742,
+            178,
+            36
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "畅游电竞|轻奢电竞大床",
+          "coord": [
+            41,
+            1820,
+            534,
+            58
+          ],
+          "ocrConfidence": 0.9552
+        },
+        {
+          "text": "15m²|2人|大床|有窗",
+          "coord": [
+            42,
+            1898,
+            386,
+            50
+          ],
+          "ocrConfidence": 0.9565
+        },
+        {
+          "text": "2台|i512400",
+          "coord": [
+            41,
+            1955,
+            344,
+            53
+          ],
+          "ocrConfidence": 0.9562
+        },
+        {
+          "text": "Hz",
+          "coord": [
+            405,
+            1968,
+            32,
+            22
+          ],
+          "ocrConfidence": 0.9922
+        },
+        {
+          "text": "144Hz",
+          "coord": [
+            445,
+            1964,
+            116,
+            38
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": ")",
+          "coord": [
+            369,
+            1975,
+            15,
+            16
+          ],
+          "ocrConfidence": 0.4273
+        },
+        {
+          "text": "￥354起",
+          "coord": [
+            32,
+            2012,
+            215,
+            94
+          ],
+          "ocrConfidence": 0.9495
+        },
+        {
+          "text": "已售1000+",
+          "coord": [
+            245,
+            2044,
+            170,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "4.2分",
+          "coord": [
+            58,
+            2118,
+            108,
+            50
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "JING·电竞酒店(北..>",
+          "coord": [
+            175,
+            2122,
+            396,
+            44
+          ],
+          "ocrConfidence": 0.9575
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "酒店卡片",
+      "coord": [
+        612,
+        1354,
+        595,
+        820
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "1.6km",
+          "coord": [
+            660,
+            1743,
+            94,
+            34
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "望京",
+          "coord": [
+            776,
+            1740,
+            76,
+            40
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "可长租4070显卡PS5电",
+          "coord": [
+            630,
+            1824,
+            523,
+            56
+          ],
+          "ocrConfidence": 0.9683
+        },
+        {
+          "text": "整套1室|2人",
+          "coord": [
+            632,
+            1904,
+            228,
+            44
+          ],
+          "ocrConfidence": 0.9874
+        },
+        {
+          "text": "538",
+          "coord": [
+            654,
+            1972,
+            121,
+            60
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "￥5",
+          "coord": [
+            639,
+            1985,
+            39,
+            41
+          ],
+          "ocrConfidence": 0.6317
+        },
+        {
+          "text": "起",
+          "coord": [
+            774,
+            1986,
+            46,
+            46
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "已售200+",
+          "coord": [
+            835,
+            1988,
+            150,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            650,
+            2064,
+            104,
+            45
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "望京麒麟社万客公寓>",
+          "coord": [
+            768,
+            2064,
+            393,
+            42
+          ],
+          "ocrConfidence": 0.9875
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "酒店卡片",
+      "coord": [
+        17,
+        2200,
+        595,
+        500
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "3.4km",
+          "coord": [
+            70,
+            2593,
+            98,
+            33
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "酒仙桥/798",
+          "coord": [
+            189,
+            2590,
+            179,
+            39
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "中b意大床房",
+          "coord": [
+            49,
+            2676,
+            233,
+            24
+          ],
+          "ocrConfidence": 0.5865
+        }
+      ]
+    },
+    {
+      "listPosition": 6,
+      "cardType": "异构卡",
+      "coord": [
+        612,
+        2200,
+        595,
+        500
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "Q 大家还在搜",
+          "coord": [
+            656,
+            2200,
+            288,
+            42
+          ],
+          "ocrConfidence": 0.9385
+        },
+        {
+          "text": "电竞房酒店",
+          "coord": [
+            806,
+            2298,
+            200,
+            49
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "电竞酒店",
+          "coord": [
+            826,
+            2413,
+            161,
+            48
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "亲子酒店",
+          "coord": [
+            825,
+            2530,
+            162,
+            46
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "民宿",
+          "coord": [
+            864,
+            2644,
+            83,
+            48
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

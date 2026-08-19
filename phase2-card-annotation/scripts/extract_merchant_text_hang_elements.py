@@ -41,10 +41,13 @@ def _text_item(product: dict[str, Any], index: int) -> dict[str, Any]:
     return {
         "itemIndex": index,
         "coord": [min(x, price_x), min(y, price_y), max(w, price_w), max(h, price_h)],
-        "price": {**price, "elementType": "下挂商品价格"},
-        "discount": {"elementType": "下挂价格折扣标签", "sourceRegion": "文字下挂区", "coord": [price_x + price_w, price_y, 1, price_h], "visibleText": "", "status": "uncertain", "source": "not_observed"},
-        "name": {**name, "elementType": "下挂商品名"},
-        "sales": {"elementType": "下挂商品销量", "sourceRegion": "文字下挂区", "coord": [x + w, y, 1, h], "visibleText": "", "status": "uncertain", "source": "not_observed"},
+        "imageElements": [],
+        "priceElements": [{**price, "elementType": "下挂商品价格"}],
+        "textElements": [{**name, "elementType": "下挂商品名"}],
+        "auxiliaryElements": [
+            {"elementType": "下挂价格折扣标签", "sourceRegion": "文字下挂区", "coord": [price_x + price_w, price_y, 1, price_h], "visibleText": "", "status": "uncertain", "source": "not_observed"},
+            {"elementType": "下挂商品销量", "sourceRegion": "文字下挂区", "coord": [x + w, y, 1, h], "visibleText": "", "status": "uncertain", "source": "not_observed"},
+        ],
         "status": "uncertain" if product.get("cropped") else "confirmed",
     }
 
@@ -54,7 +57,10 @@ def extract_elements(image: Path, taxonomy: dict[str, Any]) -> dict[str, Any]:
     width, height = facts["viewport"]["width"], facts["viewport"]["height"]
     # Text-hang cards have a stable large left head image.  This direct
     # detector intentionally does not depend on graphic-hang classification.
-    heads = sorted([p for p in facts["candidates"]["photos"] if p["coord"][0] < width * .25 and p["coord"][1] > 650 and p["coord"][2] >= 100 and p["coord"][3] >= 100], key=lambda p: p["coord"][1])
+    # Search result lists may begin directly below the quick filters.  The old
+    # `y > 650` shortcut silently dropped the first merchant on short-header
+    # pages and shifted every subsequent title/downhang assignment.
+    heads = sorted([p for p in facts["candidates"]["photos"] if p["coord"][0] < width * .25 and p["coord"][1] > 250 and p["coord"][2] >= 100 and p["coord"][3] >= 100], key=lambda p: p["coord"][1])
     cards = []
     for index, head in enumerate(heads, 1):
         x, y, w, h = head["coord"]
@@ -87,7 +93,7 @@ def extract_elements(image: Path, taxonomy: dict[str, Any]) -> dict[str, Any]:
             discount_coord = [left + 102, row_y, 110, 54]
             name_coord = [left + 214, row_y, max(80, width - left - 400), 54]
             sales_coord = [width - 180, row_y, 156, 54]
-            regions["文字下挂区"]["items"].append({"itemIndex": item_index + 1, "coord": [left, row_y, width - left - 24, 54], "price": _text_element("下挂商品价格", "文字下挂区", price_coord, _crop_ocr(image, price_coord)), "discount": _text_element("下挂价格折扣标签", "文字下挂区", discount_coord, _crop_ocr(image, discount_coord), .72), "name": _text_element("下挂商品名", "文字下挂区", name_coord, _crop_ocr(image, name_coord, 6)), "sales": _text_element("下挂商品销量", "文字下挂区", sales_coord, _crop_ocr(image, sales_coord), .72)})
+            regions["文字下挂区"]["items"].append({"itemIndex": item_index + 1, "coord": [left, row_y, width - left - 24, 54], "imageElements": [], "priceElements": [_text_element("下挂商品价格", "文字下挂区", price_coord, _crop_ocr(image, price_coord))], "textElements": [_text_element("下挂商品名", "文字下挂区", name_coord, _crop_ocr(image, name_coord, 6))], "auxiliaryElements": [_text_element("下挂价格折扣标签", "文字下挂区", discount_coord, _crop_ocr(image, discount_coord), .72), _text_element("下挂商品销量", "文字下挂区", sales_coord, _crop_ocr(image, sales_coord), .72)]})
         cards.append({"componentType": "result_card", "name": f"商卡{index}-文字下挂", "listPosition": index, "cardType": "商家卡片-文字下挂", "coord": [0, y, width, card_h], "confidence": .8, "status": "confirmed", "cropped": next_y == height, "regions": regions})
     page_components = [{"order": 1, "componentType": "search_bar", "name": "搜索框", "status": "confirmed"}, {"order": 2, "componentType": "tab", "name": "Tab", "status": "confirmed"}, {"order": 3, "componentType": "results_list", "name": "结果列表", "status": "confirmed" if cards else "uncertain", "components": cards}]
     return {"contractVersion": VERSION, "screenshot": str(image.resolve()), "pageStructure": {"source": "cv_local_crop", "components": page_components}, "routing": {"rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"}}

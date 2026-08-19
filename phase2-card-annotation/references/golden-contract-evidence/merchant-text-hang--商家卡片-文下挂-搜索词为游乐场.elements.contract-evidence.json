@@ -1,0 +1,78 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为游乐场.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为游乐场.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "神券立减5朝阳区儿童乐园人气趋势榜第4名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        887,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            309,
+            899,
+            184,
+            43
+          ],
+          "ocrConfidence": 0.9875
+        },
+        {
+          "text": "朝阳区儿童乐园人气趋势榜第4名",
+          "coord": [
+            508,
+            899,
+            570,
+            44
+          ],
+          "ocrConfidence": 0.992
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券最高膨至5022%顾客是回头客",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1297,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至50",
+          "coord": [
+            309,
+            1310,
+            310,
+            42
+          ],
+          "ocrConfidence": 0.9772
+        },
+        {
+          "text": "22%顾客是回头客",
+          "coord": [
+            635,
+            1311,
+            310,
+            42
+          ],
+          "ocrConfidence": 0.9985
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,462 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/生日蛋糕.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为生日蛋糕.png",
+  "requests": [
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 1,
+      "coord": [
+        227,
+        1726,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "Fok",
+          "coord": [
+            379,
+            1734,
+            44,
+            24
+          ],
+          "ocrConfidence": 0.9574
+        },
+        {
+          "text": "福",
+          "coord": [
+            427,
+            1882,
+            48,
+            40
+          ],
+          "ocrConfidence": 0.6547
+        },
+        {
+          "text": "Foko",
+          "coord": [
+            438,
+            1920,
+            24,
+            11
+          ],
+          "ocrConfidence": 0.853
+        },
+        {
+          "text": "『心之所愿』法",
+          "coord": [
+            227,
+            2008,
+            234,
+            43
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "￥282新客价",
+          "coord": [
+            227,
+            2066,
+            213,
+            44
+          ],
+          "ocrConfidence": 0.9704
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 2,
+      "coord": [
+        504,
+        1726,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "海入",
+          "coord": [
+            712,
+            1952,
+            38,
+            10
+          ],
+          "ocrConfidence": 0.1821
+        },
+        {
+          "text": "出片仅码",
+          "coord": [
+            690,
+            1968,
+            33,
+            9
+          ],
+          "ocrConfidence": 0.6521
+        },
+        {
+          "text": "“玫瑰之心”I",
+          "coord": [
+            504,
+            2006,
+            223,
+            45
+          ],
+          "ocrConfidence": 0.9376
+        },
+        {
+          "text": "￥85新客价",
+          "coord": [
+            504,
+            2060,
+            190,
+            54
+          ],
+          "ocrConfidence": 0.9783
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 3,
+      "coord": [
+        781,
+        1726,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "美团外",
+          "coord": [
+            973,
+            1940,
+            71,
+            25
+          ],
+          "ocrConfidence": 0.9879
+        },
+        {
+          "text": "M仅供生中",
+          "coord": [
+            966,
+            1967,
+            78,
+            12
+          ],
+          "ocrConfidence": 0.4608
+        },
+        {
+          "text": "“幸运星”表",
+          "coord": [
+            781,
+            2006,
+            237,
+            45
+          ],
+          "ocrConfidence": 0.9955
+        },
+        {
+          "text": "￥113新客价",
+          "coord": [
+            781,
+            2064,
+            201,
+            47
+          ],
+          "ocrConfidence": 0.9607
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 4,
+      "coord": [
+        1058,
+        1726,
+        166,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "招牌",
+          "coord": [
+            1068,
+            1950,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "“旋梦蝶礼",
+          "coord": [
+            1059,
+            2007,
+            165,
+            42
+          ],
+          "ocrConfidence": 0.9955
+        },
+        {
+          "text": "￥143亲",
+          "coord": [
+            1058,
+            2066,
+            112,
+            42
+          ],
+          "ocrConfidence": 0.9296
+        },
+        {
+          "text": "新客",
+          "coord": [
+            1150,
+            2070,
+            74,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券最高膨至50",
+      "sourceRegion": "标签区",
+      "coord": [
+        226,
+        2312,
+        308,
+        41
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至50",
+          "coord": [
+            226,
+            2312,
+            308,
+            41
+          ],
+          "ocrConfidence": 0.9702
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 1,
+      "coord": [
+        227,
+        2389,
+        264,
+        311
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "维尔纳斯",
+          "coord": [
+            241,
+            2415,
+            48,
+            17
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "伯牙绝花",
+          "coord": [
+            453,
+            2469,
+            14,
+            68
+          ],
+          "ocrConfidence": 0.8272
+        },
+        {
+          "text": "茶",
+          "coord": [
+            450,
+            2585,
+            21,
+            21
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "维尔纳斯品牌大使",
+          "coord": [
+            314,
+            2631,
+            91,
+            14
+          ],
+          "ocrConfidence": 0.9836
+        },
+        {
+          "text": "「董璇」",
+          "coord": [
+            409,
+            2631,
+            39,
+            15
+          ],
+          "ocrConfidence": 0.9109
+        },
+        {
+          "text": "同款",
+          "coord": [
+            455,
+            2633,
+            22,
+            12
+          ],
+          "ocrConfidence": 0.9947
+        },
+        {
+          "text": "【蛋糕】4英寸冷",
+          "coord": [
+            233,
+            2673,
+            256,
+            28
+          ],
+          "ocrConfidence": 0.9911
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 2,
+      "coord": [
+        504,
+        2389,
+        264,
+        311
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "山润茉莉",
+          "coord": [
+            728,
+            2465,
+            16,
+            68
+          ],
+          "ocrConfidence": 0.6937
+        },
+        {
+          "text": "玫珑瓜",
+          "coord": [
+            746,
+            2489,
+            14,
+            41
+          ],
+          "ocrConfidence": 0.8807
+        },
+        {
+          "text": "【山涧茉莉】6英",
+          "coord": [
+            510,
+            2673,
+            256,
+            28
+          ],
+          "ocrConfidence": 0.976
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 3,
+      "coord": [
+        781,
+        2389,
+        264,
+        311
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "维尔纳斯品牌大使",
+          "coord": [
+            861,
+            2633,
+            94,
+            14
+          ],
+          "ocrConfidence": 0.9753
+        },
+        {
+          "text": "谨璐」推荐",
+          "coord": [
+            959,
+            2631,
+            72,
+            18
+          ],
+          "ocrConfidence": 0.6187
+        },
+        {
+          "text": "【生日蛋糕】明",
+          "coord": [
+            785,
+            2672,
+            228,
+            28
+          ],
+          "ocrConfidence": 0.9862
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 4,
+      "coord": [
+        1058,
+        2389,
+        166,
+        311
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【纵享丝滑",
+          "coord": [
+            1064,
+            2673,
+            160,
+            26
+          ],
+          "ocrConfidence": 0.9851
+        }
+      ]
+    }
+  ]
+}

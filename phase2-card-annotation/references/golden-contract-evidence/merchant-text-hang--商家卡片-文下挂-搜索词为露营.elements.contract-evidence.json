@@ -1,0 +1,160 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为露营.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为露营.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "神券立减5朝阳区休闲园区销量榜第1名",
+      "sourceRegion": "标签区",
+      "coord": [
+        272,
+        1032,
+        928,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            310,
+            1032,
+            183,
+            25
+          ],
+          "ocrConfidence": 0.981
+        },
+        {
+          "text": "朝阳区休闲园区销量榜第1名",
+          "coord": [
+            509,
+            1032,
+            489,
+            28
+          ],
+          "ocrConfidence": 0.9148
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券最高膨至25北京团建拓展销量榜第1名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1413,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "北京团建拓展销量榜第1名",
+          "coord": [
+            311,
+            1428,
+            448,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券最高膨至25",
+          "coord": [
+            779,
+            1426,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9672
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "神券立减5朝阳区团建拓展人气榜第9名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1888,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            309,
+            1900,
+            184,
+            44
+          ],
+          "ocrConfidence": 0.9876
+        },
+        {
+          "text": "朝阳区团建拓展人气榜第9名",
+          "coord": [
+            509,
+            1902,
+            490,
+            42
+          ],
+          "ocrConfidence": 0.9989
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 4,
+      "legacyText": "神券立减5近期500+人浏览免费停车",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        2298,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            309,
+            2310,
+            184,
+            42
+          ],
+          "ocrConfidence": 0.9647
+        },
+        {
+          "text": "近期500+人浏览",
+          "coord": [
+            509,
+            2312,
+            285,
+            40
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "免费停车",
+          "coord": [
+            812,
+            2312,
+            157,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

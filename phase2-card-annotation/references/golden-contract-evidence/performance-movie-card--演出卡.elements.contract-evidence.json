@@ -1,0 +1,5 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/performance-movie-card/演出卡.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-演出卡.png",
+  "requests": []
+}

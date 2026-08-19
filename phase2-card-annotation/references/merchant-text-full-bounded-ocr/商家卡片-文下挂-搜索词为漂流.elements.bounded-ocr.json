@@ -1,0 +1,686 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为漂流.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        849,
+        1224,
+        318
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "景点",
+          "coord": [
+            317,
+            853,
+            71,
+            39
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "花果山漂流(紫竹院公园)",
+          "coord": [
+            408,
+            849,
+            512,
+            47
+          ],
+          "ocrConfidence": 0.979
+        },
+        {
+          "text": "4.0分",
+          "coord": [
+            308,
+            915,
+            98,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "23条",
+          "coord": [
+            418,
+            919,
+            92,
+            43
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "紫竹桥",
+          "coord": [
+            519,
+            920,
+            124,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "16.1km",
+          "coord": [
+            1062,
+            921,
+            130,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1167,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "景点",
+          "coord": [
+            316,
+            1169,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "北京欢乐谷4A",
+          "coord": [
+            406,
+            1167,
+            300,
+            47
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            308,
+            1234,
+            98,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "42.8万条北京欢乐谷",
+          "coord": [
+            418,
+            1238,
+            370,
+            41
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "15.7km",
+          "coord": [
+            1061,
+            1237,
+            133,
+            42
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "必玩榜玩沙有夜场票",
+          "coord": [
+            308,
+            1299,
+            387,
+            46
+          ],
+          "ocrConfidence": 0.9383
+        },
+        {
+          "text": "07.11开园",
+          "coord": [
+            84,
+            1373,
+            136,
+            31
+          ],
+          "ocrConfidence": 0.9944
+        },
+        {
+          "text": "乐享漂流演艺，打卡摩天轮夜游盛宴",
+          "coord": [
+            354,
+            1364,
+            625,
+            45
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥199【不限人群票】夜场门票|无需换",
+          "coord": [
+            312,
+            1448,
+            645,
+            41
+          ],
+          "ocrConfidence": 0.9741
+        },
+        {
+          "text": "已售3000+",
+          "coord": [
+            1022,
+            1449,
+            170,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥339",
+          "coord": [
+            312,
+            1518,
+            117,
+            43
+          ],
+          "ocrConfidence": 0.905
+        },
+        {
+          "text": "【成人票】全天票|无需换票",
+          "coord": [
+            429,
+            1516,
+            459,
+            43
+          ],
+          "ocrConfidence": 0.9921
+        },
+        {
+          "text": "已售3.5万+",
+          "coord": [
+            1019,
+            1519,
+            174,
+            39
+          ],
+          "ocrConfidence": 0.9994
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1642,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1644,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "拾光团建·拓展活动·旅游会议(望京店",
+          "coord": [
+            403,
+            1642,
+            790,
+            51
+          ],
+          "ocrConfidence": 0.9919
+        },
+        {
+          "text": "回建定制",
+          "coord": [
+            50,
+            1695,
+            208,
+            60
+          ],
+          "ocrConfidence": 0.8396
+        },
+        {
+          "text": "4.5分",
+          "coord": [
+            309,
+            1710,
+            102,
+            43
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "110条￥247/人团建拓展望京",
+          "coord": [
+            419,
+            1710,
+            544,
+            47
+          ],
+          "ocrConfidence": 0.9654
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1082,
+            1715,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券最高膨至25→望京团建拓展好评榜第3名",
+          "coord": [
+            308,
+            1775,
+            777,
+            47
+          ],
+          "ocrConfidence": 0.9781
+        },
+        {
+          "text": "团建会议",
+          "coord": [
+            94,
+            1787,
+            119,
+            31
+          ],
+          "ocrConfidence": 0.9943
+        },
+        {
+          "text": "旅游培训",
+          "coord": [
+            98,
+            1818,
+            122,
+            35
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "￥94",
+          "coord": [
+            311,
+            1858,
+            78,
+            41
+          ],
+          "ocrConfidence": 0.9366
+        },
+        {
+          "text": "1.6折",
+          "coord": [
+            400,
+            1855,
+            90,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【棒球+漂流】主题团建定制",
+          "coord": [
+            520,
+            1857,
+            464,
+            43
+          ],
+          "ocrConfidence": 0.9819
+        },
+        {
+          "text": "年售200+",
+          "coord": [
+            1039,
+            1860,
+            153,
+            38
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥56",
+          "coord": [
+            310,
+            1930,
+            79,
+            42
+          ],
+          "ocrConfidence": 0.8926
+        },
+        {
+          "text": "1.5折",
+          "coord": [
+            402,
+            1928,
+            87,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【梨树沟山地滑车】主题团建~",
+          "coord": [
+            521,
+            1929,
+            496,
+            40
+          ],
+          "ocrConfidence": 0.9839
+        },
+        {
+          "text": "年售47",
+          "coord": [
+            1079,
+            1930,
+            114,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2052,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "景点",
+          "coord": [
+            316,
+            2054,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "野三坡刘家河高山漂流",
+          "coord": [
+            408,
+            2052,
+            481,
+            46
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "4.3分",
+          "coord": [
+            308,
+            2119,
+            102,
+            45
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "875条百里峡",
+          "coord": [
+            417,
+            2122,
+            249,
+            42
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "保定99km",
+          "coord": [
+            1002,
+            2120,
+            192,
+            46
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "爬山闺蜜游",
+          "coord": [
+            307,
+            2185,
+            218,
+            44
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "“长长的吊桥也很好玩,水上项目也很多”",
+          "coord": [
+            348,
+            2254,
+            695,
+            39
+          ],
+          "ocrConfidence": 0.9949
+        },
+        {
+          "text": "￥90",
+          "coord": [
+            312,
+            2334,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.8626
+        },
+        {
+          "text": "【不限人群票】高山漂流票+观光电",
+          "coord": [
+            404,
+            2334,
+            581,
+            40
+          ],
+          "ocrConfidence": 0.9916
+        },
+        {
+          "text": "已售200+",
+          "coord": [
+            1041,
+            2335,
+            151,
+            38
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥24",
+          "coord": [
+            311,
+            2403,
+            79,
+            43
+          ],
+          "ocrConfidence": 0.8802
+        },
+        {
+          "text": "3.0折",
+          "coord": [
+            399,
+            2402,
+            90,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【不限人群票】水上乐园河道",
+          "coord": [
+            522,
+            2404,
+            463,
+            40
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "已售300+",
+          "coord": [
+            1041,
+            2406,
+            152,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2527,
+        1224,
+        173
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "景点",
+          "coord": [
+            317,
+            2529,
+            71,
+            41
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "林溪漂流",
+          "coord": [
+            407,
+            2527,
+            193,
+            43
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            310,
+            2594,
+            96,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "5条",
+          "coord": [
+            420,
+            2597,
+            68,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "青龙峡",
+          "coord": [
+            498,
+            2597,
+            123,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "50.9km",
+          "coord": [
+            1061,
+            2596,
+            131,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "怀北林溪",
+          "coord": [
+            103,
+            2611,
+            50,
+            15
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "漂流",
+          "coord": [
+            101,
+            2623,
+            29,
+            16
+          ],
+          "ocrConfidence": 0.9894
+        },
+        {
+          "text": "v57",
+          "coord": [
+            315,
+            2682,
+            66,
+            18
+          ],
+          "ocrConfidence": 0.9784
+        },
+        {
+          "text": "3.6折",
+          "coord": [
+            397,
+            2678,
+            86,
+            22
+          ],
+          "ocrConfidence": 0.9199
+        },
+        {
+          "text": "【不限人群票】林溪漂大票|随时",
+          "coord": [
+            519,
+            2678,
+            648,
+            22
+          ],
+          "ocrConfidence": 0.8168
+        }
+      ]
+    }
+  ]
+}

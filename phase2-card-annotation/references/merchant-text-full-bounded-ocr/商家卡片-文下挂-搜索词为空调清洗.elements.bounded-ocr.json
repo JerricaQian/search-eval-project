@@ -1,0 +1,702 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为空调清洗.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1037,
+        1224,
+        317
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "空调",
+          "coord": [
+            46,
+            1037,
+            128,
+            60
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "上门",
+          "coord": [
+            234,
+            1039,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "北京老班长空调维修移机",
+          "coord": [
+            323,
+            1037,
+            542,
+            47
+          ],
+          "ocrConfidence": 0.9937
+        },
+        {
+          "text": "维修",
+          "coord": [
+            44,
+            1088,
+            131,
+            67
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "新店入驻",
+          "coord": [
+            225,
+            1108,
+            162,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "23条",
+          "coord": [
+            398,
+            1108,
+            93,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "家电维修",
+          "coord": [
+            497,
+            1109,
+            163,
+            42
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "24小时快速上门",
+          "coord": [
+            57,
+            1147,
+            106,
+            17
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "空调拆装",
+          "coord": [
+            36,
+            1167,
+            152,
+            34
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "近期好评率95%",
+          "coord": [
+            226,
+            1175,
+            268,
+            37
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "维修很专业，好评",
+          "coord": [
+            265,
+            1238,
+            320,
+            41
+          ],
+          "ocrConfidence": 0.9992
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1354,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "同城到家",
+          "coord": [
+            35,
+            1359,
+            47,
+            15
+          ],
+          "ocrConfidence": 0.8702
+        },
+        {
+          "text": "上门",
+          "coord": [
+            232,
+            1354,
+            79,
+            46
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "同城速修专业空调维修移机",
+          "coord": [
+            322,
+            1354,
+            578,
+            48
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "空调维修",
+          "coord": [
+            33,
+            1395,
+            81,
+            23
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "空调移机",
+          "coord": [
+            32,
+            1413,
+            96,
+            32
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "4.5分195条家电维修",
+          "coord": [
+            221,
+            1417,
+            405,
+            53
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "空调收售",
+          "coord": [
+            33,
+            1441,
+            83,
+            24
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "神券立减5近期100+人好评",
+          "coord": [
+            223,
+            1485,
+            488,
+            49
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "非常专业、维修技术好",
+          "coord": [
+            263,
+            1555,
+            397,
+            40
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "￥103",
+          "coord": [
+            225,
+            1634,
+            99,
+            44
+          ],
+          "ocrConfidence": 0.8779
+        },
+        {
+          "text": "【空调清洗】专业拆洗|深度清洁提高制冷",
+          "coord": [
+            340,
+            1635,
+            689,
+            41
+          ],
+          "ocrConfidence": 0.9959
+        },
+        {
+          "text": "年售45",
+          "coord": [
+            1079,
+            1636,
+            115,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥147",
+          "coord": [
+            225,
+            1704,
+            95,
+            45
+          ],
+          "ocrConfidence": 0.8861
+        },
+        {
+          "text": "6.3折",
+          "coord": [
+            331,
+            1705,
+            90,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【空调清洗】2台挂机|高温杀菌消",
+          "coord": [
+            455,
+            1706,
+            559,
+            40
+          ],
+          "ocrConfidence": 0.9926
+        },
+        {
+          "text": "年售22",
+          "coord": [
+            1078,
+            1705,
+            116,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1829,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "上门",
+          "coord": [
+            234,
+            1831,
+            75,
+            42
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "美的服务家电清洗维修北京",
+          "coord": [
+            322,
+            1829,
+            591,
+            47
+          ],
+          "ocrConfidence": 0.9888
+        },
+        {
+          "text": "美的旗下独立",
+          "coord": [
+            33,
+            1897,
+            157,
+            28
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "3.9分",
+          "coord": [
+            223,
+            1896,
+            105,
+            44
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "382条家电维修",
+          "coord": [
+            333,
+            1899,
+            288,
+            44
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "家电清洗品牌",
+          "coord": [
+            33,
+            1928,
+            157,
+            28
+          ],
+          "ocrConfidence": 0.9937
+        },
+        {
+          "text": "懂琦家电，才懂清洗家电",
+          "coord": [
+            48,
+            1966,
+            119,
+            13
+          ],
+          "ocrConfidence": 0.9251
+        },
+        {
+          "text": "神券立减5近期好评率96%家电清洗",
+          "coord": [
+            223,
+            1962,
+            648,
+            47
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "速度赞，",
+          "coord": [
+            270,
+            2030,
+            140,
+            41
+          ],
+          "ocrConfidence": 0.9743
+        },
+        {
+          "text": "服务高标准！",
+          "coord": [
+            413,
+            2032,
+            221,
+            37
+          ],
+          "ocrConfidence": 0.9754
+        },
+        {
+          "text": "￥58",
+          "coord": [
+            223,
+            2106,
+            83,
+            50
+          ],
+          "ocrConfidence": 0.9059
+        },
+        {
+          "text": "3.7折",
+          "coord": [
+            313,
+            2109,
+            91,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【空调清洗】1台挂机深度拆洗|",
+          "coord": [
+            439,
+            2111,
+            514,
+            40
+          ],
+          "ocrConfidence": 0.993
+        },
+        {
+          "text": "年售1.1万+",
+          "coord": [
+            1015,
+            2110,
+            178,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "￥112",
+          "coord": [
+            224,
+            2178,
+            92,
+            46
+          ],
+          "ocrConfidence": 0.8861
+        },
+        {
+          "text": "3.4折",
+          "coord": [
+            327,
+            2180,
+            90,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【空调清洗】2台可选1柜机|深",
+          "coord": [
+            451,
+            2180,
+            517,
+            40
+          ],
+          "ocrConfidence": 0.9876
+        },
+        {
+          "text": "年售2000+",
+          "coord": [
+            1020,
+            2183,
+            173,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2304,
+        1224,
+        396
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "上门",
+          "coord": [
+            235,
+            2306,
+            73,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "自如家服家政保洁清洗北京",
+          "coord": [
+            326,
+            2304,
+            599,
+            46
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "回昌人员",
+          "coord": [
+            52,
+            2340,
+            51,
+            21
+          ],
+          "ocrConfidence": 0.7224
+        },
+        {
+          "text": "/进口工具",
+          "coord": [
+            47,
+            2370,
+            55,
+            14
+          ],
+          "ocrConfidence": 0.9263
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            226,
+            2373,
+            99,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "2.1万条",
+          "coord": [
+            333,
+            2375,
+            144,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "保洁清洗",
+          "coord": [
+            461,
+            2376,
+            186,
+            39
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "/不满意返工",
+          "coord": [
+            46,
+            2398,
+            68,
+            14
+          ],
+          "ocrConfidence": 0.9435
+        },
+        {
+          "text": "洁净看得见",
+          "coord": [
+            43,
+            2440,
+            138,
+            25
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "北京保洁清洗好评榜第4名",
+          "coord": [
+            225,
+            2439,
+            453,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "神券最高膨至40",
+          "coord": [
+            693,
+            2441,
+            310,
+            38
+          ],
+          "ocrConfidence": 0.9728
+        },
+        {
+          "text": "￥57",
+          "coord": [
+            224,
+            2517,
+            77,
+            48
+          ],
+          "ocrConfidence": 0.9269
+        },
+        {
+          "text": "3.4折",
+          "coord": [
+            313,
+            2520,
+            89,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【空调清洗】1台挂机|深层拆洗",
+          "coord": [
+            436,
+            2520,
+            520,
+            41
+          ],
+          "ocrConfidence": 0.994
+        },
+        {
+          "text": "年售8000+",
+          "coord": [
+            1021,
+            2523,
+            170,
+            36
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "¥151",
+          "coord": [
+            227,
+            2590,
+            87,
+            42
+          ],
+          "ocrConfidence": 0.8674
+        },
+        {
+          "text": "3.1折",
+          "coord": [
+            327,
+            2589,
+            90,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【低至53/台】空调清洗3台挂机",
+          "coord": [
+            452,
+            2591,
+            525,
+            38
+          ],
+          "ocrConfidence": 0.9946
+        },
+        {
+          "text": "年售2000+",
+          "coord": [
+            1020,
+            2594,
+            172,
+            36
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    }
+  ]
+}

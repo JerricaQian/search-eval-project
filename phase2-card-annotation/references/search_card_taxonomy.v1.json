@@ -74,9 +74,9 @@
       "name": "酒店卡片（商家商品卡）",
       "source": "酒店卡片（商家商品卡）.pdf",
       "classificationEvidence": {"required": ["酒店/民宿履约标识", "酒店价格（¥…起）"], "supporting": ["酒店等级", "评分与推荐理由", "满房/预订等酒店状态"]},
-      "variants": ["通用酒店商家卡", "双列酒店商品卡"],
+      "variants": ["通用酒店商家卡", "民宿房源卡", "双列酒店房型卡"],
       "regions": [
-        {"id": "head_image", "name": "头图区", "elements": ["酒店/民宿头图", "左上直播标或SA级营销标（至多一项）", "资质认证（美团住吧/认证影音房/认证电竞房/认证好床/优美会）", "右上视频标", "底部营业状态（满房/尚未营业/暂停营业/歇业关闭，至多一项）", "广告标"], "elementDefinitions": {"leftTop": ["直播标", "SA级营销标"], "certification": ["美团住吧", "认证影音房", "认证电竞房", "认证好床", "优美会", "金牌房源"], "rightTop": ["视频标"], "bottom": ["满房", "尚未营业", "暂停营业", "歇业关闭"], "headImageOverlay": {"attachedToHeadImage": true, "excludedWithHeadImage": true}}},
+        {"id": "head_image", "name": "头图区", "elements": ["酒店/民宿/房型头图", "距离/商圈位置（双列房型可叠于头图底部）", "左上直播标或SA级营销标（至多一项）", "资质认证（美团住吧/认证影音房/认证电竞房/认证好床/优美会）", "右上视频标", "底部营业状态（满房/尚未营业/暂停营业/歇业关闭，至多一项）", "广告标"], "elementDefinitions": {"imageGeometry": {"fixedSize": false, "measurement": "per_card_current_pixels", "rule": "不同卡型及同一卡型均允许头图高度变化"}, "leftTop": ["直播标", "SA级营销标"], "certification": ["美团住吧", "认证影音房", "认证电竞房", "认证好床", "优美会", "金牌房源"], "rightTop": ["视频标"], "bottom": ["满房", "尚未营业", "暂停营业", "歇业关闭"], "headImageOverlay": {"attachedToHeadImage": true, "excludedWithHeadImage": true}}},
         {"id": "title", "name": "标题区", "elements": ["酒店/民宿履约标识", "酒店标题（至多两行；双列变体至多一行）", "酒店等级（经济型/舒适型/高档型/豪华型）"], "elementDefinitions": {"fulfillment": ["酒店", "民宿"], "hotelRating": ["经济型", "舒适型", "高档型", "豪华型"]}},
         {"id": "rating_reason", "name": "评分与推荐理由", "elements": ["评分或暂无评分", "推荐理由"], "elementDefinitions": {"rating": ["4.9分", "4.8分", "暂无评分"], "reason": ["设施智能完善，早餐品种丰富", "窗明几净，非常安静的民宿", "性价比很高，距离地铁走路2分钟就到"]}},
         {"id": "location", "name": "位置信息", "elements": ["距离", "近区位", "AOI区位"], "elementDefinitions": {"distance": ["距您直线12.6km", "距您2km", "距您1.4km"], "nearby": ["近科技园公共汽车站", "近悠乐汇", "近来广营-地铁站"], "aoi": ["望京", "亦庄"]}},

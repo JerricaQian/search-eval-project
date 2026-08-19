@@ -263,6 +263,70 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertTrue(geometry["withinLearnedRange"])
         self.assertEqual(geometry["source"], "approved_golden_aggregate_geometry")
 
+    def test_two_column_hotel_rows_split_into_independent_cells_and_classify_per_card(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            facts_path, structure_path = tmp_path / "facts.json", tmp_path / "structure.json"
+            candidates_path, semantics_path = tmp_path / "candidates.json", tmp_path / "semantics.json"
+            photos = []
+            texts = [{"id": "Sort", "text": "综合排序", "coord": [180, 120, 100, 24], "route": "accepted"}]
+            for row, y in enumerate((220, 600), 1):
+                for column, x in (("L", 16), ("R", 306)):
+                    photos.append({"id": f"P{row}{column}", "coord": [x, y, 278, 180], "route": "accepted"})
+                    texts.extend([
+                        {"id": f"T{row}{column}1", "text": "特惠双人电竞房", "coord": [x + 8, y + 190, 220, 28], "route": "accepted"},
+                        {"id": f"T{row}{column}2", "text": "20m² 2人 双床 2台 240Hz", "coord": [x + 8, y + 228, 250, 26], "route": "accepted"},
+                        {"id": f"T{row}{column}3", "text": "¥354起 已售500+", "coord": [x + 8, y + 270, 190, 30], "route": "accepted", "visualHint": {"colorRole": "red"}},
+                    ])
+            facts_path.write_text(json.dumps({
+                "contractVersion": "phase2.cv-facts.v1", "screenshot": "/tmp/grid.png",
+                "viewport": {"width": 600, "height": 1000}, "routing": {"missingCapabilities": []},
+                "candidates": {"photos": photos, "text": texts},
+            }, ensure_ascii=False), encoding="utf-8")
+            structure_path.write_text(json.dumps({
+                "contractVersion": "phase2.search-page-structure.v1", "blocks": [
+                    {"id": "Sort", "coord": [0, 100, 600, 80], "layoutCandidate": "text_only", "confidence": 0.9},
+                    {"id": "R1", "coord": [0, 200, 600, 380], "layoutCandidate": "other", "confidence": 0.82},
+                    {"id": "R2", "coord": [0, 580, 600, 380], "layoutCandidate": "other", "confidence": 0.82},
+                ],
+            }), encoding="utf-8")
+            subprocess.run([sys.executable, str(RESULT_CANDIDATES_SCRIPT), str(facts_path), str(structure_path), "--output", str(candidates_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            subprocess.run([sys.executable, str(RESULT_SEMANTICS_SCRIPT), str(facts_path), str(candidates_path), "--output", str(semantics_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            candidates = json.loads(candidates_path.read_text(encoding="utf-8"))
+            semantics = json.loads(semantics_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(len(candidates["resultCards"]), 4)
+        self.assertEqual([card["gridColumn"] for card in candidates["resultCards"]], ["left", "right", "left", "right"])
+        self.assertTrue(all(card["coord"][2] < 600 * 0.55 for card in candidates["resultCards"]))
+        self.assertEqual([card["selectedCardType"]["cardType"] for card in semantics["cards"]], ["酒店卡片"] * 4)
+
+    def test_hotel_time_text_does_not_satisfy_performance_identity(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            facts_path, candidates_path, output_path = tmp_path / "facts.json", tmp_path / "candidates.json", tmp_path / "cards.json"
+            facts_path.write_text(json.dumps({
+                "contractVersion": "phase2.cv-facts.v1", "screenshot": "/tmp/hotel.png", "viewport": {"width": 400, "height": 600},
+                "candidates": {
+                    "photos": [{"id": "P1", "coord": [20, 100, 120, 180], "route": "accepted"}],
+                    "text": [
+                        {"id": "T1", "text": "全季酒店 高档型", "coord": [160, 100, 180, 28], "route": "accepted"},
+                        {"id": "T2", "text": "2026-07-10 18:30 可预订", "coord": [160, 180, 210, 28], "route": "accepted"},
+                        {"id": "T3", "text": "¥519起", "coord": [160, 240, 100, 30], "route": "accepted", "visualHint": {"colorRole": "red"}},
+                    ],
+                }, "routing": {"missingCapabilities": []},
+            }, ensure_ascii=False), encoding="utf-8")
+            candidates_path.write_text(json.dumps({
+                "contractVersion": "phase2.search-result-candidates.v1", "structureBlocks": [],
+                "resultCards": [{"id": "C1", "coord": [0, 80, 400, 240], "status": "confirmed", "memberBlockIds": [], "evidence": ["repeated_left_image_right_text_seed"]}],
+            }), encoding="utf-8")
+            subprocess.run([sys.executable, str(RESULT_SEMANTICS_SCRIPT), str(facts_path), str(candidates_path), "--output", str(output_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            card = json.loads(output_path.read_text(encoding="utf-8"))["cards"][0]
+
+        self.assertEqual(card["selectedCardType"]["cardType"], "酒店卡片")
+        performance = next(item for item in card["contractEvaluations"] if item["cardType"] == "演出电影卡片")
+        self.assertTrue(performance["minimumSatisfied"])
+        self.assertNotIn("performance_identity", card["selectedCardType"]["evidence"])
+
     def test_bottom_partial_card_inherits_previous_repeated_type_and_waives_missing_fields(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
@@ -417,7 +481,7 @@ class ExtractCvFactsTest(unittest.TestCase):
                 "candidates": {"photos": [
                     {"id": "H1", "coord": [20, 340, 120, 120]}, {"id": "Coupon", "coord": [20, 470, 120, 230]}, {"id": "Goods1", "coord": [150, 480, 110, 160]}, {"id": "Goods2", "coord": [270, 480, 110, 160]}, {"id": "H2", "coord": [20, 700, 120, 120]},
                 ], "text": [
-                    {"id": "Sort", "text": "综合排序", "coord": [180, 280, 80, 20]}, {"id": "Title", "text": "商家标题", "coord": [160, 350, 120, 20]}, {"id": "Price", "text": "¥20", "coord": [160, 650, 60, 20]},
+                    {"id": "Sort", "text": "综合排序", "coord": [180, 280, 80, 20]}, {"id": "Title", "text": "商家标题 4.8分", "coord": [160, 350, 160, 20]}, {"id": "Price", "text": "¥20", "coord": [160, 650, 60, 20]},
                 ]},
             }, ensure_ascii=False), encoding="utf-8")
             structure_path.write_text(json.dumps({"contractVersion": "phase2.search-page-structure.v1", "blocks": [

@@ -1,0 +1,1221 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/药店.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为药店.png",
+  "requests": [
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 1,
+      "coord": [
+        227,
+        1094,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "JUMPCAN",
+          "coord": [
+            266,
+            1106,
+            42,
+            9
+          ],
+          "ocrConfidence": 0.9797
+        },
+        {
+          "text": "OTC",
+          "coord": [
+            447,
+            1107,
+            24,
+            12
+          ],
+          "ocrConfidence": 0.9933
+        },
+        {
+          "text": "MAMW",
+          "coord": [
+            268,
+            1116,
+            28,
+            7
+          ],
+          "ocrConfidence": 0.5587
+        },
+        {
+          "text": "嗓子不适",
+          "coord": [
+            288,
+            1132,
+            108,
+            26
+          ],
+          "ocrConfidence": 0.9862
+        },
+        {
+          "text": "就喝蒲地蓝",
+          "coord": [
+            271,
+            1159,
+            140,
+            28
+          ],
+          "ocrConfidence": 0.9649
+        },
+        {
+          "text": "用于炸脖、阳炎、腐络体花",
+          "coord": [
+            301,
+            1191,
+            77,
+            19
+          ],
+          "ocrConfidence": 0.6421
+        },
+        {
+          "text": "蒲",
+          "coord": [
+            243,
+            1224,
+            73,
+            87
+          ],
+          "ocrConfidence": 0.9924
+        },
+        {
+          "text": "蒲地蓝清炎口服液",
+          "coord": [
+            327,
+            1237,
+            74,
+            14
+          ],
+          "ocrConfidence": 0.8265
+        },
+        {
+          "text": "蒲",
+          "coord": [
+            441,
+            1250,
+            27,
+            32
+          ],
+          "ocrConfidence": 0.2656
+        },
+        {
+          "text": "1",
+          "coord": [
+            327,
+            1260,
+            74,
+            8
+          ],
+          "ocrConfidence": 0.2591
+        },
+        {
+          "text": "NE192500006",
+          "coord": [
+            329,
+            1270,
+            32,
+            5
+          ],
+          "ocrConfidence": 0.5053
+        },
+        {
+          "text": "312",
+          "coord": [
+            347,
+            1286,
+            38,
+            10
+          ],
+          "ocrConfidence": 0.4175
+        },
+        {
+          "text": "2",
+          "coord": [
+            452,
+            1287,
+            10,
+            8
+          ],
+          "ocrConfidence": 0.1171
+        },
+        {
+          "text": "I",
+          "coord": [
+            413,
+            1296,
+            11,
+            12
+          ],
+          "ocrConfidence": 0.1819
+        },
+        {
+          "text": "月公司",
+          "coord": [
+            346,
+            1303,
+            56,
+            10
+          ],
+          "ocrConfidence": 0.6097
+        },
+        {
+          "text": "322，..2..2G17",
+          "coord": [
+            236,
+            1338,
+            244,
+            7
+          ],
+          "ocrConfidence": 0.4068
+        },
+        {
+          "text": "EADA:CNX:DATDDGUROHRCD",
+          "coord": [
+            237,
+            1335,
+            114,
+            5
+          ],
+          "ocrConfidence": 0.5295
+        },
+        {
+          "text": "AMOXIERUHHHC4NNAASSTRSIPTOOUR",
+          "coord": [
+            237,
+            1344,
+            120,
+            6
+          ],
+          "ocrConfidence": 0.4053
+        },
+        {
+          "text": "[济川药业]蒲地",
+          "coord": [
+            227,
+            1378,
+            260,
+            42
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "蓝消炎口服液1",
+          "coord": [
+            227,
+            1430,
+            262,
+            44
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "v42",
+          "coord": [
+            231,
+            1488,
+            70,
+            20
+          ],
+          "ocrConfidence": 0.9139
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 2,
+      "coord": [
+        504,
+        1094,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "扫码验真·数据可查",
+          "coord": [
+            508,
+            1101,
+            116,
+            16
+          ],
+          "ocrConfidence": 0.9877
+        },
+        {
+          "text": "京都念笔",
+          "coord": [
+            595,
+            1156,
+            33,
+            14
+          ],
+          "ocrConfidence": 0.6947
+        },
+        {
+          "text": "川贝#记音",
+          "coord": [
+            583,
+            1168,
+            44,
+            13
+          ],
+          "ocrConfidence": 0.4299
+        },
+        {
+          "text": "NRM",
+          "coord": [
+            590,
+            1186,
+            31,
+            7
+          ],
+          "ocrConfidence": 0.2442
+        },
+        {
+          "text": "总8296",
+          "coord": [
+            646,
+            1185,
+            39,
+            10
+          ],
+          "ocrConfidence": 0.267
+        },
+        {
+          "text": "PEIRAKOA",
+          "coord": [
+            587,
+            1196,
+            36,
+            7
+          ],
+          "ocrConfidence": 0.6642
+        },
+        {
+          "text": "1ER",
+          "coord": [
+            642,
+            1193,
+            47,
+            12
+          ],
+          "ocrConfidence": 0.2635
+        },
+        {
+          "text": "WHJCMFE PAIY",
+          "coord": [
+            640,
+            1204,
+            48,
+            6
+          ],
+          "ocrConfidence": 0.6683
+        },
+        {
+          "text": "2401027",
+          "coord": [
+            582,
+            1220,
+            48,
+            8
+          ],
+          "ocrConfidence": 0.3962
+        },
+        {
+          "text": "全厂",
+          "coord": [
+            640,
+            1216,
+            51,
+            10
+          ],
+          "ocrConfidence": 0.5382
+        },
+        {
+          "text": "32",
+          "coord": [
+            652,
+            1231,
+            27,
+            7
+          ],
+          "ocrConfidence": 0.289
+        },
+        {
+          "text": "T",
+          "coord": [
+            596,
+            1238,
+            20,
+            6
+          ],
+          "ocrConfidence": 0.1943
+        },
+        {
+          "text": "功能主治：润肺化痰、止咳平喘",
+          "coord": [
+            543,
+            1307,
+            146,
+            12
+          ],
+          "ocrConfidence": 0.983
+        },
+        {
+          "text": "药房同款·现货速发",
+          "coord": [
+            515,
+            1328,
+            200,
+            24
+          ],
+          "ocrConfidence": 0.977
+        },
+        {
+          "text": "[京都念慈菴]京",
+          "coord": [
+            504,
+            1378,
+            261,
+            42
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "都念慈菴蜜炼",
+          "coord": [
+            504,
+            1430,
+            234,
+            41
+          ],
+          "ocrConfidence": 0.9928
+        },
+        {
+          "text": "27",
+          "coord": [
+            521,
+            1488,
+            54,
+            20
+          ],
+          "ocrConfidence": 0.9828
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 3,
+      "coord": [
+        781,
+        1094,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "OTC",
+          "coord": [
+            1001,
+            1146,
+            19,
+            8
+          ],
+          "ocrConfidence": 0.8493
+        },
+        {
+          "text": "感冒清热颗粒",
+          "coord": [
+            849,
+            1153,
+            148,
+            28
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "科检",
+          "coord": [
+            813,
+            1164,
+            8,
+            66
+          ],
+          "ocrConfidence": 0.4222
+        },
+        {
+          "text": "北京月仁堂",
+          "coord": [
+            819,
+            1164,
+            12,
+            68
+          ],
+          "ocrConfidence": 0.8657
+        },
+        {
+          "text": "Ganmao",
+          "coord": [
+            851,
+            1182,
+            40,
+            8
+          ],
+          "ocrConfidence": 0.923
+        },
+        {
+          "text": "QingreKel",
+          "coord": [
+            889,
+            1182,
+            49,
+            9
+          ],
+          "ocrConfidence": 0.9744
+        },
+        {
+          "text": "流风数寒解表清热",
+          "coord": [
+            849,
+            1196,
+            76,
+            12
+          ],
+          "ocrConfidence": 0.8764
+        },
+        {
+          "text": "#华#12元",
+          "coord": [
+            806,
+            1272,
+            32,
+            8
+          ],
+          "ocrConfidence": 0.4488
+        },
+        {
+          "text": "10楼",
+          "coord": [
+            805,
+            1281,
+            32,
+            8
+          ],
+          "ocrConfidence": 0.6254
+        },
+        {
+          "text": "[同仁堂]感冒清",
+          "coord": [
+            781,
+            1375,
+            262,
+            46
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "热颗粒12g*10",
+          "coord": [
+            781,
+            1424,
+            258,
+            48
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "v18",
+          "coord": [
+            786,
+            1488,
+            63,
+            20
+          ],
+          "ocrConfidence": 0.9792
+        },
+        {
+          "text": "79",
+          "coord": [
+            845,
+            1493,
+            38,
+            15
+          ],
+          "ocrConfidence": 0.729
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 1,
+      "coord": [
+        244,
+        1878,
+        134,
+        304
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "布洛芬绣",
+          "coord": [
+            288,
+            1891,
+            90,
+            37
+          ],
+          "ocrConfidence": 0.8601
+        },
+        {
+          "text": "仁和",
+          "coord": [
+            254,
+            1904,
+            32,
+            16
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "仁和]布",
+          "coord": [
+            244,
+            2090,
+            134,
+            43
+          ],
+          "ocrConfidence": 0.9323
+        },
+        {
+          "text": "泽胶囊0",
+          "coord": [
+            244,
+            2142,
+            134,
+            40
+          ],
+          "ocrConfidence": 0.8432
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 2,
+      "coord": [
+        388,
+        1878,
+        134,
+        304
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "释胶囊",
+          "coord": [
+            388,
+            1891,
+            76,
+            38
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "E",
+          "coord": [
+            390,
+            1934,
+            18,
+            5
+          ],
+          "ocrConfidence": 0.3093
+        },
+        {
+          "text": "各芬缓",
+          "coord": [
+            388,
+            2090,
+            134,
+            43
+          ],
+          "ocrConfidence": 0.9087
+        },
+        {
+          "text": "3g*11车",
+          "coord": [
+            388,
+            2142,
+            134,
+            40
+          ],
+          "ocrConfidence": 0.9745
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 3,
+      "coord": [
+        532,
+        1878,
+        134,
+        304
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "藿香正气软胶",
+          "coord": [
+            538,
+            1891,
+            128,
+            31
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "【功能主治】",
+          "coord": [
+            540,
+            1927,
+            50,
+            13
+          ],
+          "ocrConfidence": 0.949
+        },
+        {
+          "text": "A化准，暖气中，#子外",
+          "coord": [
+            540,
+            1942,
+            76,
+            10
+          ],
+          "ocrConfidence": 0.5618
+        },
+        {
+          "text": "意，务收",
+          "coord": [
+            540,
+            1949,
+            76,
+            10
+          ],
+          "ocrConfidence": 0.4364
+        },
+        {
+          "text": "的#，欢.#",
+          "coord": [
+            541,
+            1957,
+            76,
+            8
+          ],
+          "ocrConfidence": 0.5189
+        },
+        {
+          "text": "码.店电#",
+          "coord": [
+            541,
+            1964,
+            76,
+            8
+          ],
+          "ocrConfidence": 0.3679
+        },
+        {
+          "text": "营你上证",
+          "coord": [
+            542,
+            1972,
+            59,
+            8
+          ],
+          "ocrConfidence": 0.4272
+        },
+        {
+          "text": "神感药业",
+          "coord": [
+            542,
+            1990,
+            34,
+            12
+          ],
+          "ocrConfidence": 0.6569
+        },
+        {
+          "text": "SEEEN",
+          "coord": [
+            546,
+            2002,
+            12,
+            4
+          ],
+          "ocrConfidence": 0.609
+        },
+        {
+          "text": "申威]藿香",
+          "coord": [
+            532,
+            2090,
+            134,
+            43
+          ],
+          "ocrConfidence": 0.9469
+        },
+        {
+          "text": "胶囊0.",
+          "coord": [
+            532,
+            2142,
+            134,
+            40
+          ],
+          "ocrConfidence": 0.9804
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 4,
+      "coord": [
+        676,
+        1878,
+        134,
+        304
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "12X3栋",
+          "coord": [
+            700,
+            1998,
+            38,
+            12
+          ],
+          "ocrConfidence": 0.6975
+        },
+        {
+          "text": "正气[",
+          "coord": [
+            676,
+            2090,
+            134,
+            43
+          ],
+          "ocrConfidence": 0.8717
+        },
+        {
+          "text": "5g*1都",
+          "coord": [
+            676,
+            2141,
+            134,
+            41
+          ],
+          "ocrConfidence": 0.986
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 5,
+      "coord": [
+        820,
+        1878,
+        134,
+        304
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "蜜炼川贝枇杷",
+          "coord": [
+            871,
+            1878,
+            82,
+            16
+          ],
+          "ocrConfidence": 0.9822
+        },
+        {
+          "text": "NIN.",
+          "coord": [
+            886,
+            1908,
+            26,
+            11
+          ],
+          "ocrConfidence": 0.8745
+        },
+        {
+          "text": "JIOM",
+          "coord": [
+            911,
+            1908,
+            36,
+            11
+          ],
+          "ocrConfidence": 0.9516
+        },
+        {
+          "text": "PEI",
+          "coord": [
+            877,
+            1926,
+            26,
+            11
+          ],
+          "ocrConfidence": 0.9581
+        },
+        {
+          "text": "PA",
+          "coord": [
+            902,
+            1926,
+            21,
+            9
+          ],
+          "ocrConfidence": 0.975
+        },
+        {
+          "text": "KOA",
+          "coord": [
+            921,
+            1926,
+            31,
+            10
+          ],
+          "ocrConfidence": 0.9845
+        },
+        {
+          "text": "京都全慈巷总厂有限公",
+          "coord": [
+            868,
+            1974,
+            86,
+            12
+          ],
+          "ocrConfidence": 0.821
+        },
+        {
+          "text": "中国香港制造",
+          "coord": [
+            885,
+            2006,
+            63,
+            10
+          ],
+          "ocrConfidence": 0.9205
+        },
+        {
+          "text": "150班",
+          "coord": [
+            892,
+            2042,
+            38,
+            10
+          ],
+          "ocrConfidence": 0.8717
+        },
+        {
+          "text": "都念慈",
+          "coord": [
+            820,
+            2090,
+            114,
+            44
+          ],
+          "ocrConfidence": 0.7666
+        },
+        {
+          "text": "念慈菴",
+          "coord": [
+            820,
+            2142,
+            120,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 3,
+      "itemIndex": 1,
+      "coord": [
+        244,
+        2524,
+        176,
+        176
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "999",
+          "coord": [
+            256,
+            2564,
+            38,
+            23
+          ],
+          "ocrConfidence": 0.9908
+        },
+        {
+          "text": "感冒灵颗",
+          "coord": [
+            296,
+            2584,
+            124,
+            42
+          ],
+          "ocrConfidence": 0.9871
+        },
+        {
+          "text": "用于感冒引起的头痛，发热，鼻塞，",
+          "coord": [
+            278,
+            2634,
+            141,
+            12
+          ],
+          "ocrConfidence": 0.8482
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 3,
+      "itemIndex": 2,
+      "coord": [
+        430,
+        2524,
+        176,
+        176
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "芬必得",
+          "coord": [
+            508,
+            2538,
+            56,
+            12
+          ],
+          "ocrConfidence": 0.8797
+        },
+        {
+          "text": "12",
+          "coord": [
+            530,
+            2578,
+            45,
+            36
+          ],
+          "ocrConfidence": 0.9836
+        },
+        {
+          "text": "粒",
+          "coord": [
+            430,
+            2584,
+            40,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "小",
+          "coord": [
+            572,
+            2586,
+            34,
+            28
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "咽痛等",
+          "coord": [
+            430,
+            2634,
+            34,
+            14
+          ],
+          "ocrConfidence": 0.9316
+        },
+        {
+          "text": "W",
+          "coord": [
+            538,
+            2646,
+            16,
+            7
+          ],
+          "ocrConfidence": 0.0852
+        },
+        {
+          "text": "布洛芬缓释胶",
+          "coord": [
+            535,
+            2658,
+            71,
+            22
+          ],
+          "ocrConfidence": 0.9901
+        },
+        {
+          "text": "福",
+          "coord": [
+            442,
+            2662,
+            29,
+            20
+          ],
+          "ocrConfidence": 0.0911
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 3,
+      "itemIndex": 3,
+      "coord": [
+        616,
+        2524,
+        176,
+        176
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "止痛",
+          "coord": [
+            674,
+            2576,
+            78,
+            42
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "持续",
+          "coord": [
+            616,
+            2584,
+            62,
+            31
+          ],
+          "ocrConfidence": 0.6765
+        },
+        {
+          "text": "头痛",
+          "coord": [
+            688,
+            2633,
+            60,
+            34
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "牙痛",
+          "coord": [
+            690,
+            2676,
+            56,
+            24
+          ],
+          "ocrConfidence": 0.9989
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 3,
+      "itemIndex": 4,
+      "coord": [
+        802,
+        2524,
+        176,
+        176
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "感康",
+          "coord": [
+            815,
+            2630,
+            32,
+            14
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "复方氨酚烷胺",
+          "coord": [
+            844,
+            2640,
+            134,
+            29
+          ],
+          "ocrConfidence": 0.9952
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 3,
+      "itemIndex": 5,
+      "coord": [
+        988,
+        2524,
+        176,
+        176
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "0I",
+          "coord": [
+            1008,
+            2640,
+            10,
+            6
+          ],
+          "ocrConfidence": 0.221
+        }
+      ]
+    }
+  ]
+}

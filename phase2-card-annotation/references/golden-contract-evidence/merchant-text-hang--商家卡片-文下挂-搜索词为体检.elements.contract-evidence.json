@@ -1,0 +1,5 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为体检.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为体检.png",
+  "requests": []
+}

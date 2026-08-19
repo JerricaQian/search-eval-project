@@ -1,0 +1,778 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/盒马.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为盒马.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        710,
+        1224,
+        720
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "品牌",
+          "coord": [
+            39,
+            713,
+            70,
+            39
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            713,
+            71,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "盒马鲜生代购(望京广顺北大街)",
+          "coord": [
+            321,
+            710,
+            661,
+            50
+          ],
+          "ocrConfidence": 0.9932
+        },
+        {
+          "text": "49分钟",
+          "coord": [
+            1067,
+            711,
+            126,
+            44
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            224,
+            778,
+            99,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "月售900+起送¥0满39免配送费",
+          "coord": [
+            341,
+            783,
+            564,
+            42
+          ],
+          "ocrConfidence": 0.9769
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1083,
+            784,
+            109,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "鲜·美·生活",
+          "coord": [
+            54,
+            840,
+            123,
+            25
+          ],
+          "ocrConfidence": 0.9283
+        },
+        {
+          "text": "可开票",
+          "coord": [
+            226,
+            847,
+            119,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "刚刚有用户下单",
+          "coord": [
+            360,
+            848,
+            274,
+            39
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "",
+          "coord": [
+            881,
+            1030,
+            7,
+            42
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "红豆薏米水",
+          "coord": [
+            900,
+            1025,
+            23,
+            102
+          ],
+          "ocrConfidence": 0.9775
+        },
+        {
+          "text": "吨燃",
+          "coord": [
+            337,
+            1044,
+            38,
+            19
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "吨燃",
+          "coord": [
+            335,
+            1057,
+            40,
+            23
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "净900",
+          "coord": [
+            907,
+            1132,
+            41,
+            16
+          ],
+          "ocrConfidence": 0.8664
+        },
+        {
+          "text": "盒马左旋肉碱",
+          "coord": [
+            224,
+            1203,
+            250,
+            43
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "黄瓜约600g",
+          "coord": [
+            500,
+            1201,
+            229,
+            51
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "盒马红豆薏米",
+          "coord": [
+            779,
+            1204,
+            248,
+            42
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "国产富士",
+          "coord": [
+            1059,
+            1206,
+            165,
+            40
+          ],
+          "ocrConfidence": 0.9907
+        },
+        {
+          "text": "水960ml",
+          "coord": [
+            225,
+            1257,
+            157,
+            40
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "水900ml",
+          "coord": [
+            780,
+            1257,
+            156,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "粒装约68",
+          "coord": [
+            1056,
+            1256,
+            168,
+            40
+          ],
+          "ocrConfidence": 0.9844
+        },
+        {
+          "text": "￥10限1件",
+          "coord": [
+            223,
+            1321,
+            167,
+            39
+          ],
+          "ocrConfidence": 0.9458
+        },
+        {
+          "text": "￥3.23限1件",
+          "coord": [
+            500,
+            1321,
+            191,
+            38
+          ],
+          "ocrConfidence": 0.9736
+        },
+        {
+          "text": "￥8.51限1件",
+          "coord": [
+            776,
+            1321,
+            187,
+            41
+          ],
+          "ocrConfidence": 0.9818
+        },
+        {
+          "text": "￥13.44限1",
+          "coord": [
+            1055,
+            1321,
+            169,
+            39
+          ],
+          "ocrConfidence": 0.9422
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1430,
+        1224,
+        655
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            1433,
+            71,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "盒马鲜生代购(望京万象汇)",
+          "coord": [
+            321,
+            1430,
+            564,
+            49
+          ],
+          "ocrConfidence": 0.9814
+        },
+        {
+          "text": "50分钟",
+          "coord": [
+            1067,
+            1431,
+            125,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "鲜·美·生活",
+          "coord": [
+            45,
+            1449,
+            132,
+            32
+          ],
+          "ocrConfidence": 0.9502
+        },
+        {
+          "text": "4.2分",
+          "coord": [
+            224,
+            1498,
+            98,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "月售300+",
+          "coord": [
+            341,
+            1503,
+            170,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "起送￥0",
+          "coord": [
+            522,
+            1505,
+            151,
+            39
+          ],
+          "ocrConfidence": 0.9101
+        },
+        {
+          "text": "满39免配送费",
+          "coord": [
+            659,
+            1503,
+            244,
+            41
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "2.1km",
+          "coord": [
+            1082,
+            1504,
+            111,
+            37
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "HEMA",
+          "coord": [
+            51,
+            1559,
+            113,
+            29
+          ],
+          "ocrConfidence": 0.9927
+        },
+        {
+          "text": "盒马工坊酱卤",
+          "coord": [
+            222,
+            1856,
+            252,
+            48
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "盒马烘焙原味",
+          "coord": [
+            500,
+            1859,
+            250,
+            43
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "盒马酸奶昔",
+          "coord": [
+            776,
+            1857,
+            212,
+            46
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "封神麻辣",
+          "coord": [
+            1056,
+            1859,
+            168,
+            43
+          ],
+          "ocrConfidence": 0.9954
+        },
+        {
+          "text": "牛腱100g",
+          "coord": [
+            222,
+            1907,
+            182,
+            51
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "&伯爵红茶味瑞",
+          "coord": [
+            503,
+            1913,
+            261,
+            38
+          ],
+          "ocrConfidence": 0.9954
+        },
+        {
+          "text": "400g",
+          "coord": [
+            776,
+            1909,
+            97,
+            50
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "虾神鲜桶",
+          "coord": [
+            1057,
+            1912,
+            158,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥15.93到手价",
+          "coord": [
+            222,
+            1974,
+            215,
+            42
+          ],
+          "ocrConfidence": 0.9659
+        },
+        {
+          "text": "￥18.5到手价",
+          "coord": [
+            497,
+            1972,
+            200,
+            46
+          ],
+          "ocrConfidence": 0.9674
+        },
+        {
+          "text": "￥9.13到手价",
+          "coord": [
+            776,
+            1974,
+            190,
+            43
+          ],
+          "ocrConfidence": 0.9882
+        },
+        {
+          "text": "￥92.68到手",
+          "coord": [
+            1056,
+            1975,
+            168,
+            39
+          ],
+          "ocrConfidence": 0.9309
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        2085,
+        1224,
+        615
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            2088,
+            71,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "盒马鲜生代购(望京广顺北大街)",
+          "coord": [
+            322,
+            2085,
+            660,
+            49
+          ],
+          "ocrConfidence": 0.984
+        },
+        {
+          "text": "48分钟",
+          "coord": [
+            1068,
+            2086,
+            126,
+            46
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            224,
+            2152,
+            97,
+            44
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "月售70+",
+          "coord": [
+            339,
+            2157,
+            147,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "起送￥0",
+          "coord": [
+            498,
+            2157,
+            130,
+            42
+          ],
+          "ocrConfidence": 0.8759
+        },
+        {
+          "text": "满39免配送费",
+          "coord": [
+            638,
+            2158,
+            242,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1083,
+            2159,
+            109,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "生鲜超",
+          "coord": [
+            45,
+            2210,
+            103,
+            30
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "市",
+          "coord": [
+            136,
+            2210,
+            42,
+            28
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "释美慧",
+          "coord": [
+            88,
+            2236,
+            49,
+            11
+          ],
+          "ocrConfidence": 0.4702
+        },
+        {
+          "text": "安心慢发酵",
+          "coord": [
+            263,
+            2300,
+            46,
+            12
+          ],
+          "ocrConfidence": 0.9088
+        },
+        {
+          "text": "米酿吐司",
+          "coord": [
+            263,
+            2312,
+            47,
+            14
+          ],
+          "ocrConfidence": 0.9301
+        },
+        {
+          "text": "盒马烘焙安心",
+          "coord": [
+            226,
+            2516,
+            246,
+            38
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "盒马有机一分",
+          "coord": [
+            500,
+            2514,
+            250,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "佳农进口有机",
+          "coord": [
+            779,
+            2516,
+            247,
+            38
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "【水果菜】",
+          "coord": [
+            1061,
+            2516,
+            163,
+            39
+          ],
+          "ocrConfidence": 0.9934
+        },
+        {
+          "text": "慢发酵米酿吐",
+          "coord": [
+            227,
+            2567,
+            233,
+            39
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "甘胡萝卜400g",
+          "coord": [
+            504,
+            2566,
+            253,
+            42
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "超糯蕉650g",
+          "coord": [
+            778,
+            2565,
+            217,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "串茄400g",
+          "coord": [
+            1057,
+            2564,
+            167,
+            46
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "￥12.65到手价",
+          "coord": [
+            224,
+            2631,
+            214,
+            39
+          ],
+          "ocrConfidence": 0.9591
+        },
+        {
+          "text": "￥4.53到手价",
+          "coord": [
+            501,
+            2633,
+            193,
+            36
+          ],
+          "ocrConfidence": 0.9797
+        },
+        {
+          "text": "￥15.9",
+          "coord": [
+            775,
+            2628,
+            100,
+            45
+          ],
+          "ocrConfidence": 0.9065
+        },
+        {
+          "text": "￥9.19到手",
+          "coord": [
+            1055,
+            2631,
+            169,
+            39
+          ],
+          "ocrConfidence": 0.972
+        }
+      ]
+    }
+  ]
+}

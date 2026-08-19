@@ -1,0 +1,618 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/啤酒.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为啤酒.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1108,
+        1224,
+        478
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "泰山原浆啤酒",
+          "coord": [
+            178,
+            1119,
+            66,
+            11
+          ],
+          "ocrConfidence": 0.963
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            1118,
+            72,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "泰山原浆啤酒10度7天新鲜",
+          "coord": [
+            492,
+            1111,
+            595,
+            50
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "TAISHAN",
+          "coord": [
+            190,
+            1129,
+            42,
+            10
+          ],
+          "ocrConfidence": 0.9967
+        },
+        {
+          "text": "720ml*3瓶",
+          "coord": [
+            396,
+            1180,
+            243,
+            47
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "酒精度:3.8%vol麦汁浓度:10P|瓶装",
+          "coord": [
+            395,
+            1253,
+            634,
+            40
+          ],
+          "ocrConfidence": 0.9615
+        },
+        {
+          "text": "￥39",
+          "coord": [
+            388,
+            1340,
+            114,
+            60
+          ],
+          "ocrConfidence": 0.9023
+        },
+        {
+          "text": "到手价/每瓶￥13",
+          "coord": [
+            495,
+            1350,
+            293,
+            48
+          ],
+          "ocrConfidence": 0.9519
+        },
+        {
+          "text": "1约15分钟",
+          "coord": [
+            996,
+            1356,
+            196,
+            42
+          ],
+          "ocrConfidence": 0.9943
+        },
+        {
+          "text": "商品详情",
+          "coord": [
+            45,
+            1394,
+            119,
+            34
+          ],
+          "ocrConfidence": 0.9934
+        },
+        {
+          "text": "图片仅参考未成年人请饮酒",
+          "coord": [
+            252,
+            1390,
+            98,
+            10
+          ],
+          "ocrConfidence": 0.8424
+        },
+        {
+          "text": "7天3瓶装",
+          "coord": [
+            206,
+            1403,
+            115,
+            25
+          ],
+          "ocrConfidence": 0.9884
+        },
+        {
+          "text": "神券40减12",
+          "coord": [
+            392,
+            1416,
+            217,
+            44
+          ],
+          "ocrConfidence": 0.9761
+        },
+        {
+          "text": "85减15",
+          "coord": [
+            630,
+            1419,
+            130,
+            39
+          ],
+          "ocrConfidence": 0.9713
+        },
+        {
+          "text": "1.4km",
+          "coord": [
+            1084,
+            1420,
+            109,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "品牌泰山原浆啤酒(望京东店)",
+          "coord": [
+            397,
+            1482,
+            500,
+            44
+          ],
+          "ocrConfidence": 0.9739
+        },
+        {
+          "text": "起送￥35",
+          "coord": [
+            395,
+            1548,
+            147,
+            38
+          ],
+          "ocrConfidence": 0.9218
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            557,
+            1549,
+            157,
+            37
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1675,
+        1224,
+        474
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "冰镇",
+          "coord": [
+            271,
+            1685,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            400,
+            1680,
+            73,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【特殊品勿拍】燕京U8啤酒8°P",
+          "coord": [
+            495,
+            1675,
+            645,
+            54
+          ],
+          "ocrConfidence": 0.9918
+        },
+        {
+          "text": "瓶装500ml*1+歪马定制无纺布袋*1(",
+          "coord": [
+            391,
+            1737,
+            784,
+            62
+          ],
+          "ocrConfidence": 0.9735
+        },
+        {
+          "text": "酒精度:≥2.5%vol|保质期:360天",
+          "coord": [
+            395,
+            1816,
+            539,
+            44
+          ],
+          "ocrConfidence": 0.9757
+        },
+        {
+          "text": "燕京U8",
+          "coord": [
+            172,
+            1863,
+            56,
+            20
+          ],
+          "ocrConfidence": 0.9715
+        },
+        {
+          "text": "广告",
+          "coord": [
+            43,
+            1909,
+            56,
+            31
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥22到手价¥29月售100+",
+          "coord": [
+            385,
+            1900,
+            499,
+            68
+          ],
+          "ocrConfidence": 0.9618
+        },
+        {
+          "text": "27分钟",
+          "coord": [
+            1064,
+            1917,
+            130,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "自营歪马送酒·正品保障",
+          "coord": [
+            46,
+            1959,
+            306,
+            34
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            392,
+            1978,
+            191,
+            44
+          ],
+          "ocrConfidence": 0.9785
+        },
+        {
+          "text": "105减22极速开票",
+          "coord": [
+            605,
+            1982,
+            325,
+            41
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1082,
+            1983,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "美团自营歪马送酒(东湖渠店）",
+          "coord": [
+            392,
+            2042,
+            506,
+            50
+          ],
+          "ocrConfidence": 0.9635
+        },
+        {
+          "text": "起送￥29",
+          "coord": [
+            395,
+            2110,
+            146,
+            39
+          ],
+          "ocrConfidence": 0.9205
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            557,
+            2112,
+            157,
+            37
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2233,
+        1224,
+        467
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            2236,
+            72,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "燕京U8啤酒8P瓶装500ml",
+          "coord": [
+            492,
+            2233,
+            600,
+            46
+          ],
+          "ocrConfidence": 0.9943
+        },
+        {
+          "text": "冰镇",
+          "coord": [
+            272,
+            2251,
+            72,
+            37
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "酒精度:≥2.5%vol|保质期:360天",
+          "coord": [
+            395,
+            2308,
+            538,
+            42
+          ],
+          "ocrConfidence": 0.9501
+        },
+        {
+          "text": "08",
+          "coord": [
+            134,
+            2328,
+            16,
+            12
+          ],
+          "ocrConfidence": 0.7578
+        },
+        {
+          "text": "U8",
+          "coord": [
+            174,
+            2323,
+            17,
+            12
+          ],
+          "ocrConfidence": 0.8256
+        },
+        {
+          "text": "UB",
+          "coord": [
+            219,
+            2329,
+            14,
+            9
+          ],
+          "ocrConfidence": 0.8039
+        },
+        {
+          "text": "￥24.9起到手价/每瓶￥4.15",
+          "coord": [
+            387,
+            2395,
+            507,
+            64
+          ],
+          "ocrConfidence": 0.9428
+        },
+        {
+          "text": "27分钟",
+          "coord": [
+            1064,
+            2409,
+            130,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "燕克",
+          "coord": [
+            80,
+            2431,
+            24,
+            15
+          ],
+          "ocrConfidence": 0.5584
+        },
+        {
+          "text": "燕",
+          "coord": [
+            115,
+            2431,
+            30,
+            19
+          ],
+          "ocrConfidence": 0.8785
+        },
+        {
+          "text": "燕京U8",
+          "coord": [
+            156,
+            2434,
+            56,
+            18
+          ],
+          "ocrConfidence": 0.9768
+        },
+        {
+          "text": "RU8",
+          "coord": [
+            224,
+            2431,
+            32,
+            19
+          ],
+          "ocrConfidence": 0.9184
+        },
+        {
+          "text": "U8",
+          "coord": [
+            266,
+            2431,
+            23,
+            15
+          ],
+          "ocrConfidence": 0.9157
+        },
+        {
+          "text": ".U8",
+          "coord": [
+            299,
+            2427,
+            19,
+            16
+          ],
+          "ocrConfidence": 0.8102
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            392,
+            2470,
+            191,
+            44
+          ],
+          "ocrConfidence": 0.9779
+        },
+        {
+          "text": "105减22极速开票",
+          "coord": [
+            605,
+            2474,
+            325,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1081,
+            2474,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "自营",
+          "coord": [
+            48,
+            2522,
+            67,
+            34
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "歪马送酒·正品保障",
+          "coord": [
+            120,
+            2526,
+            231,
+            29
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "美团自营歪马送酒(东湖渠店）",
+          "coord": [
+            393,
+            2535,
+            504,
+            46
+          ],
+          "ocrConfidence": 0.9601
+        },
+        {
+          "text": "起送￥29",
+          "coord": [
+            396,
+            2604,
+            146,
+            38
+          ],
+          "ocrConfidence": 0.8961
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            555,
+            2604,
+            159,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    }
+  ]
+}

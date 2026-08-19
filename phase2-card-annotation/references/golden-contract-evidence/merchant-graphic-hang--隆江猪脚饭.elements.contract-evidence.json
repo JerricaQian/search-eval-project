@@ -1,0 +1,436 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/隆江猪脚饭.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png",
+  "requests": [
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 1,
+      "coord": [
+        227,
+        767,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "隆江猪脚饭",
+          "coord": [
+            227,
+            777,
+            90,
+            22
+          ],
+          "ocrConfidence": 0.953
+        },
+        {
+          "text": "隆江猪脚饭",
+          "coord": [
+            227,
+            1051,
+            198,
+            40
+          ],
+          "ocrConfidence": 0.9697
+        },
+        {
+          "text": "￥19.8",
+          "coord": [
+            227,
+            1104,
+            100,
+            48
+          ],
+          "ocrConfidence": 0.9315
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 3,
+      "coord": [
+        781,
+        767,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "请以实物为",
+          "coord": [
+            1000,
+            971,
+            44,
+            9
+          ],
+          "ocrConfidence": 0.8225
+        },
+        {
+          "text": "美美团行",
+          "coord": [
+            966,
+            981,
+            76,
+            26
+          ],
+          "ocrConfidence": 0.6214
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            791,
+            991,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "雷持仅",
+          "coord": [
+            966,
+            1009,
+            40,
+            10
+          ],
+          "ocrConfidence": 0.2928
+        },
+        {
+          "text": "任性 の 隆江猪",
+          "coord": [
+            781,
+            1049,
+            248,
+            43
+          ],
+          "ocrConfidence": 0.9796
+        },
+        {
+          "text": "￥25.8神券价",
+          "coord": [
+            781,
+            1108,
+            212,
+            41
+          ],
+          "ocrConfidence": 0.9632
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 1,
+      "itemIndex": 4,
+      "coord": [
+        1058,
+        767,
+        166,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "隆江猪脚饭",
+          "coord": [
+            1058,
+            777,
+            90,
+            22
+          ],
+          "ocrConfidence": 0.964
+        },
+        {
+          "text": "隆江猪脚",
+          "coord": [
+            1058,
+            1050,
+            166,
+            40
+          ],
+          "ocrConfidence": 0.8189
+        },
+        {
+          "text": "￥19.88神",
+          "coord": [
+            1058,
+            1107,
+            166,
+            44
+          ],
+          "ocrConfidence": 0.8987
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 1,
+      "coord": [
+        227,
+        1430,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【优选套餐】招",
+          "coord": [
+            229,
+            1715,
+            232,
+            42
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "牌隆江猪脚饭",
+          "coord": [
+            227,
+            1766,
+            240,
+            42
+          ],
+          "ocrConfidence": 0.9873
+        },
+        {
+          "text": "又+",
+          "coord": [
+            449,
+            1773,
+            38,
+            27
+          ],
+          "ocrConfidence": 0.7922
+        },
+        {
+          "text": "26",
+          "coord": [
+            250,
+            1826,
+            49,
+            16
+          ],
+          "ocrConfidence": 0.9428
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 2,
+      "coord": [
+        504,
+        1430,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【优选套餐】招",
+          "coord": [
+            506,
+            1715,
+            232,
+            42
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "牌隆江猪脚饭",
+          "coord": [
+            504,
+            1766,
+            240,
+            42
+          ],
+          "ocrConfidence": 0.9873
+        },
+        {
+          "text": "又+",
+          "coord": [
+            726,
+            1773,
+            38,
+            27
+          ],
+          "ocrConfidence": 0.7922
+        },
+        {
+          "text": "26",
+          "coord": [
+            527,
+            1826,
+            50,
+            17
+          ],
+          "ocrConfidence": 0.9273
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 3,
+      "coord": [
+        781,
+        1430,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "招牌",
+          "coord": [
+            791,
+            1654,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【广东名吃",
+          "coord": [
+            783,
+            1712,
+            176,
+            44
+          ],
+          "ocrConfidence": 0.9941
+        },
+        {
+          "text": "）",
+          "coord": [
+            1007,
+            1718,
+            12,
+            32
+          ],
+          "ocrConfidence": 0.6756
+        },
+        {
+          "text": "招牌隆江豬腳",
+          "coord": [
+            781,
+            1764,
+            234,
+            42
+          ],
+          "ocrConfidence": 0.9612
+        },
+        {
+          "text": "24a神价",
+          "coord": [
+            798,
+            1826,
+            192,
+            18
+          ],
+          "ocrConfidence": 0.7264
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 2,
+      "itemIndex": 4,
+      "coord": [
+        1058,
+        1430,
+        166,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【浓郁飘香",
+          "coord": [
+            1060,
+            1713,
+            164,
+            42
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "江猪脚拼",
+          "coord": [
+            1058,
+            1764,
+            166,
+            44
+          ],
+          "ocrConfidence": 0.9634
+        },
+        {
+          "text": "26a神",
+          "coord": [
+            1075,
+            1825,
+            148,
+            19
+          ],
+          "ocrConfidence": 0.6166
+        }
+      ]
+    },
+    {
+      "kind": "incomplete_downhang_item",
+      "listPosition": 3,
+      "itemIndex": 1,
+      "coord": [
+        504,
+        2145,
+        264,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "知",
+          "coord": [
+            540,
+            2172,
+            21,
+            22
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "豬腳+肉捲+",
+          "coord": [
+            504,
+            2427,
+            226,
+            43
+          ],
+          "ocrConfidence": 0.9037
+        },
+        {
+          "text": "￥20.8神券价",
+          "coord": [
+            504,
+            2487,
+            212,
+            41
+          ],
+          "ocrConfidence": 0.9582
+        }
+      ]
+    }
+  ]
+}

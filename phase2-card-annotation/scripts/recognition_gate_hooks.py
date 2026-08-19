@@ -18,6 +18,18 @@ def _meaningful(value: str) -> str:
     return re.sub(r"[^0-9A-Za-z\u4e00-\u9fff¥￥.+%折减]", "", value)
 
 
+def _semantic_tag_group_count(text: str) -> int:
+    groups = (
+        r"神券|立减|最高膨",
+        r"全程保",
+        r"公益商家",
+        r"好评率|回头客|浏览",
+        r"榜第\d+名",
+        r"免费停车|免费水果|泰式手法|精油SPA",
+    )
+    return sum(bool(re.search(pattern, text)) for pattern in groups)
+
+
 def field_schema_hook(context: dict[str, Any]) -> list[dict[str, str]]:
     patterns = {
         "price": r"[¥￥]\s*\d{1,5}(?:\.\d+)?|\d{1,5}(?:\.\d+)?\s*元|\d{1,5}(?:\.\d+)?\s*起|[Yy#*]\s*\d{1,5}(?:\.\d+)?\s*(?:起|/人)|(?:到手价?|神价|冰爽价|前\d+件).{0,10}[#¥￥Yy*]?\d{1,5}",
@@ -149,6 +161,26 @@ def line_fragmentation_hook(context: dict[str, Any]) -> list[dict[str, str]]:
     return findings
 
 
+def semantic_atomicity_hook(context: dict[str, Any]) -> list[dict[str, str]]:
+    """Block merged fields; OCR boxes are evidence units, not UI atoms."""
+    findings = []
+    for item in context["semanticItems"]:
+        text = item["text"].strip()
+        region = item.get("region", "")
+        if len(_meaningful(text)) == 1:
+            findings.append({"hook": "semantic_atomicity", "sourceId": item["sourceId"], "reason": f"one_character_element_forbidden:{text}"})
+            continue
+        if region not in {"基础信息区", "商家信息区", "标签区"}:
+            continue
+        parts = [part.strip() for part in re.split(r"[｜|；]", text) if part.strip()]
+        if len(parts) > 1:
+            findings.append({"hook": "semantic_atomicity", "sourceId": item["sourceId"], "reason": f"delimited_fields_must_be_split:{text}"})
+            continue
+        if region == "标签区" and _semantic_tag_group_count(text) > 1:
+            findings.append({"hook": "semantic_atomicity", "sourceId": item["sourceId"], "reason": f"multiple_independent_tags_merged:{text}"})
+    return findings
+
+
 def card_semantic_contract_hook(context: dict[str, Any]) -> list[dict[str, str]]:
     findings = []
     roles_by_card = context["rolesByCard"]
@@ -160,10 +192,17 @@ def card_semantic_contract_hook(context: dict[str, Any]) -> list[dict[str, str]]
         selected = semantic_card.get("selectedCardType", {})
         card_type = selected.get("cardType", "")
         roles = roles_by_card.get(card_id, set())
-        if card_type == "商品卡片" and not ({"title", "price"} <= roles):
+        title_items = [item for item in context.get("semanticItemsByCard", {}).get(card_id, []) if item.get("role") == "title"]
+        invalid_titles = [item for item in title_items if len(_meaningful(item.get("text", ""))) < 3 or item.get("text", "").strip() in {"到店", "外卖", "上门", "景点", "酒店", "民宿"}]
+        for item in invalid_titles:
+            findings.append({"hook": "card_semantic_contract", "sourceId": item["sourceId"], "reason": f"title_candidate_is_badge_or_fragment:{item.get('text', '')}"})
+        known_complete = card_type and card_type not in {"广告卡", "异构卡"}
+        if known_complete and ("title" not in roles or not title_items or len(invalid_titles) == len(title_items)):
+            findings.append({"hook": "card_semantic_contract", "sourceId": card_id, "reason": f"complete_known_card_requires_title:cardType={card_type}:roles={','.join(sorted(roles))}"})
+        if card_type == "商品卡片" and "price" not in roles:
             findings.append({"hook": "card_semantic_contract", "sourceId": card_id, "reason": f"product_card_requires_title_and_price:roles={','.join(sorted(roles))}"})
-        elif card_type.startswith("商家卡片_") and "title" not in roles:
-            findings.append({"hook": "card_semantic_contract", "sourceId": card_id, "reason": f"merchant_card_requires_title:roles={','.join(sorted(roles))}"})
+        elif card_type == "酒店卡片" and "price" not in roles:
+            findings.append({"hook": "card_semantic_contract", "sourceId": card_id, "reason": f"hotel_card_requires_title_and_price:roles={','.join(sorted(roles))}"})
         elif card_type and not (roles & {"title", "price", "rating", "sales", "fulfillment", "location"}):
             findings.append({"hook": "card_semantic_contract", "sourceId": card_id, "reason": f"tag_only_or_no_core_semantic_anchor:roles={','.join(sorted(roles))}"})
     return findings
@@ -173,6 +212,8 @@ HOOKS: tuple[Hook, ...] = (
     field_schema_hook,
     lexical_coherence_hook,
     ocr_consensus_hook,
+    line_fragmentation_hook,
+    semantic_atomicity_hook,
     card_semantic_contract_hook,
 )
 

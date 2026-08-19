@@ -1,0 +1,5 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/product-card/安睡裤.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
+  "requests": []
+}

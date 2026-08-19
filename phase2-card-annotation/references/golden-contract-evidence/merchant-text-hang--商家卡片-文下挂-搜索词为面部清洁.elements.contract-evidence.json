@@ -1,0 +1,52 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为面部清洁.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "神券立减5望京皮肤管理销量榜第10名公益商家",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1413,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            309,
+            1425,
+            184,
+            43
+          ],
+          "ocrConfidence": 0.9835
+        },
+        {
+          "text": "望京皮肤管理销量榜第10名",
+          "coord": [
+            508,
+            1427,
+            474,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            1001,
+            1427,
+            158,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

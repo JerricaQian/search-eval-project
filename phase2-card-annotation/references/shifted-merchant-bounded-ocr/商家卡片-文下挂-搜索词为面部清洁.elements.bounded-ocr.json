@@ -1,0 +1,1076 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为面部清洁.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        843,
+        1224,
+        394
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "美丽荟西子医疗美容",
+          "coord": [
+            306,
+            870,
+            441,
+            60
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            308,
+            947,
+            104,
+            48
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "2214条",
+          "coord": [
+            420,
+            949,
+            136,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "医学美容",
+          "coord": [
+            570,
+            950,
+            160,
+            46
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "望京",
+          "coord": [
+            743,
+            950,
+            85,
+            45
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "713m",
+          "coord": [
+            1086,
+            947,
+            112,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "医疗资质",
+          "coord": [
+            311,
+            1015,
+            158,
+            46
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "放心美验真",
+          "coord": [
+            482,
+            1017,
+            200,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "神券最高膨至300",
+          "coord": [
+            696,
+            1016,
+            311,
+            44
+          ],
+          "ocrConfidence": 0.97
+        },
+        {
+          "text": "广告",
+          "coord": [
+            38,
+            1093,
+            40,
+            22
+          ],
+          "ocrConfidence": 0.9944
+        },
+        {
+          "text": "￥94",
+          "coord": [
+            324,
+            1097,
+            64,
+            42
+          ],
+          "ocrConfidence": 0.8692
+        },
+        {
+          "text": "【收缩毛孔】光子嫩肤M22全面部",
+          "coord": [
+            405,
+            1095,
+            562,
+            48
+          ],
+          "ocrConfidence": 0.9919
+        },
+        {
+          "text": "消费700+",
+          "coord": [
+            1040,
+            1097,
+            156,
+            42
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥",
+          "coord": [
+            316,
+            1106,
+            21,
+            28
+          ],
+          "ocrConfidence": 0.7556
+        },
+        {
+          "text": "￥210",
+          "coord": [
+            310,
+            1167,
+            97,
+            44
+          ],
+          "ocrConfidence": 0.9097
+        },
+        {
+          "text": "【皮肤清洁】皮肤检测+术后关怀|",
+          "coord": [
+            424,
+            1167,
+            565,
+            46
+          ],
+          "ocrConfidence": 0.9871
+        },
+        {
+          "text": "消费200+",
+          "coord": [
+            1040,
+            1169,
+            154,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1254,
+        1224,
+        394
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "哲肌祛痘·科技美肤(望京店)",
+          "coord": [
+            304,
+            1277,
+            596,
+            67
+          ],
+          "ocrConfidence": 0.9886
+        },
+        {
+          "text": "WISE",
+          "coord": [
+            32,
+            1308,
+            24,
+            9
+          ],
+          "ocrConfidence": 0.9841
+        },
+        {
+          "text": "SKIN",
+          "coord": [
+            58,
+            1308,
+            23,
+            9
+          ],
+          "ocrConfidence": 0.9894
+        },
+        {
+          "text": "哲肌",
+          "coord": [
+            178,
+            1304,
+            58,
+            18
+          ],
+          "ocrConfidence": 0.9942
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            306,
+            1353,
+            108,
+            52
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "89条",
+          "coord": [
+            406,
+            1357,
+            112,
+            49
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥173/人",
+          "coord": [
+            490,
+            1356,
+            182,
+            51
+          ],
+          "ocrConfidence": 0.9053
+        },
+        {
+          "text": "祛痘",
+          "coord": [
+            682,
+            1359,
+            90,
+            50
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "望京",
+          "coord": [
+            778,
+            1359,
+            88,
+            49
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1082,
+            1362,
+            114,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "管家服务",
+          "coord": [
+            108,
+            1387,
+            140,
+            36
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            307,
+            1422,
+            189,
+            49
+          ],
+          "ocrConfidence": 0.9847
+        },
+        {
+          "text": "望京皮肤管理销量榜第10名",
+          "coord": [
+            506,
+            1424,
+            479,
+            50
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            999,
+            1423,
+            164,
+            48
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "周到细致",
+          "coord": [
+            113,
+            1440,
+            62,
+            16
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "1V1专享",
+          "coord": [
+            182,
+            1438,
+            60,
+            18
+          ],
+          "ocrConfidence": 0.9934
+        },
+        {
+          "text": "JTI",
+          "coord": [
+            141,
+            1472,
+            139,
+            66
+          ],
+          "ocrConfidence": 0.764
+        },
+        {
+          "text": "￥33",
+          "coord": [
+            308,
+            1504,
+            80,
+            46
+          ],
+          "ocrConfidence": 0.9062
+        },
+        {
+          "text": "0.9折",
+          "coord": [
+            399,
+            1504,
+            91,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【黑头清洁】50分钟深层清洁",
+          "coord": [
+            522,
+            1508,
+            478,
+            46
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "年售200+",
+          "coord": [
+            1039,
+            1506,
+            156,
+            42
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥75",
+          "coord": [
+            309,
+            1577,
+            77,
+            44
+          ],
+          "ocrConfidence": 0.9098
+        },
+        {
+          "text": "1.9折",
+          "coord": [
+            398,
+            1577,
+            88,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "清洁补水组合|60分",
+          "coord": [
+            514,
+            1578,
+            353,
+            44
+          ],
+          "ocrConfidence": 0.958
+        },
+        {
+          "text": "全国爆卖46.4万+",
+          "coord": [
+            928,
+            1582,
+            265,
+            37
+          ],
+          "ocrConfidence": 0.9996
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1665,
+        1224,
+        394
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "I·研理肤沙龙",
+          "coord": [
+            308,
+            1695,
+            283,
+            56
+          ],
+          "ocrConfidence": 0.9865
+        },
+        {
+          "text": "能量净化情绪治疗",
+          "coord": [
+            166,
+            1753,
+            112,
+            16
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "4.7分",
+          "coord": [
+            307,
+            1767,
+            102,
+            47
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "1096条",
+          "coord": [
+            421,
+            1771,
+            134,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥815/人",
+          "coord": [
+            563,
+            1774,
+            148,
+            41
+          ],
+          "ocrConfidence": 0.9213
+        },
+        {
+          "text": "皮肤管理",
+          "coord": [
+            726,
+            1773,
+            162,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "望京",
+          "coord": [
+            898,
+            1771,
+            86,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "751m",
+          "coord": [
+            1088,
+            1771,
+            108,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "望京美容美体好评榜第6名",
+          "coord": [
+            308,
+            1835,
+            454,
+            46
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            778,
+            1837,
+            161,
+            45
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "免费停车",
+          "coord": [
+            952,
+            1833,
+            164,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "PA",
+          "coord": [
+            36,
+            1891,
+            24,
+            16
+          ],
+          "ocrConfidence": 0.8225
+        },
+        {
+          "text": "龙",
+          "coord": [
+            86,
+            1891,
+            20,
+            14
+          ],
+          "ocrConfidence": 0.9915
+        },
+        {
+          "text": "广告",
+          "coord": [
+            33,
+            1915,
+            46,
+            18
+          ],
+          "ocrConfidence": 0.9325
+        },
+        {
+          "text": "ody",
+          "coord": [
+            76,
+            1917,
+            28,
+            13
+          ],
+          "ocrConfidence": 0.9809
+        },
+        {
+          "text": "￥680",
+          "coord": [
+            309,
+            1914,
+            105,
+            47
+          ],
+          "ocrConfidence": 0.9268
+        },
+        {
+          "text": "4.4折",
+          "coord": [
+            424,
+            1915,
+            92,
+            42
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "60分钟深层清洁|海菲秀",
+          "coord": [
+            541,
+            1916,
+            434,
+            47
+          ],
+          "ocrConfidence": 0.9934
+        },
+        {
+          "text": "年售200+",
+          "coord": [
+            1038,
+            1916,
+            156,
+            44
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥980",
+          "coord": [
+            310,
+            1986,
+            105,
+            46
+          ],
+          "ocrConfidence": 0.9375
+        },
+        {
+          "text": "3.8折",
+          "coord": [
+            423,
+            1987,
+            92,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "30分钟面部紧致|韩女同款·O",
+          "coord": [
+            542,
+            1987,
+            521,
+            45
+          ],
+          "ocrConfidence": 0.9516
+        },
+        {
+          "text": "年售2",
+          "coord": [
+            1099,
+            1989,
+            96,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2076,
+        1224,
+        394
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "skin79皮肤管理中心(北京望京麒麟社店)",
+          "coord": [
+            302,
+            2094,
+            874,
+            70
+          ],
+          "ocrConfidence": 0.9913
+        },
+        {
+          "text": "skin",
+          "coord": [
+            50,
+            2138,
+            54,
+            18
+          ],
+          "ocrConfidence": 0.9898
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            308,
+            2177,
+            105,
+            48
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "259条",
+          "coord": [
+            418,
+            2178,
+            118,
+            48
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "皮肤管理",
+          "coord": [
+            545,
+            2181,
+            164,
+            45
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "望京",
+          "coord": [
+            720,
+            2180,
+            86,
+            45
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "1.6km",
+          "coord": [
+            1084,
+            2182,
+            110,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "，",
+          "coord": [
+            402,
+            2190,
+            14,
+            24
+          ],
+          "ocrConfidence": 0.5595
+        },
+        {
+          "text": "科技护肤",
+          "coord": [
+            48,
+            2205,
+            137,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "匠心守护",
+          "coord": [
+            48,
+            2242,
+            138,
+            40
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "望京皮肤管理销量榜第1名",
+          "coord": [
+            307,
+            2244,
+            456,
+            50
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            779,
+            2247,
+            160,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "从精准护肤开始.",
+          "coord": [
+            68,
+            2292,
+            84,
+            14
+          ],
+          "ocrConfidence": 0.928
+        },
+        {
+          "text": "￥29.6",
+          "coord": [
+            310,
+            2324,
+            118,
+            46
+          ],
+          "ocrConfidence": 0.9517
+        },
+        {
+          "text": "1折",
+          "coord": [
+            439,
+            2324,
+            60,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "60分钟深层清洁|小气泡",
+          "coord": [
+            525,
+            2326,
+            434,
+            48
+          ],
+          "ocrConfidence": 0.9605
+        },
+        {
+          "text": "年售3.7万+",
+          "coord": [
+            1016,
+            2328,
+            178,
+            41
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "￥76.03",
+          "coord": [
+            312,
+            2396,
+            136,
+            44
+          ],
+          "ocrConfidence": 0.9535
+        },
+        {
+          "text": "2.6折",
+          "coord": [
+            459,
+            2396,
+            91,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "60分钟面部清洁",
+          "coord": [
+            578,
+            2399,
+            286,
+            44
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "全国爆卖46.4万+",
+          "coord": [
+            928,
+            2401,
+            264,
+            36
+          ],
+          "ocrConfidence": 0.9989
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2487,
+        1224,
+        213
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "痘院士祛痘皮肤管理(望京店)",
+          "coord": [
+            306,
+            2509,
+            618,
+            62
+          ],
+          "ocrConfidence": 0.9866
+        },
+        {
+          "text": "痘院士",
+          "coord": [
+            68,
+            2555,
+            79,
+            28
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "DOU YUAN SHI",
+          "coord": [
+            69,
+            2582,
+            75,
+            9
+          ],
+          "ocrConfidence": 0.9371
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            308,
+            2587,
+            104,
+            46
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "分924条",
+          "coord": [
+            390,
+            2587,
+            145,
+            48
+          ],
+          "ocrConfidence": 0.9171
+        },
+        {
+          "text": "￥159/人",
+          "coord": [
+            542,
+            2591,
+            148,
+            43
+          ],
+          "ocrConfidence": 0.9531
+        },
+        {
+          "text": "祛痘",
+          "coord": [
+            704,
+            2589,
+            87,
+            46
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "望京",
+          "coord": [
+            801,
+            2590,
+            86,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "1.9km",
+          "coord": [
+            1084,
+            2592,
+            112,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "6G",
+          "coord": [
+            32,
+            2613,
+            12,
+            11
+          ],
+          "ocrConfidence": 0.3408
+        },
+        {
+          "text": "夏日变美",
+          "coord": [
+            38,
+            2607,
+            138,
+            54
+          ],
+          "ocrConfidence": 0.9924
+        },
+        {
+          "text": "超值低价",
+          "coord": [
+            36,
+            2641,
+            143,
+            60
+          ],
+          "ocrConfidence": 0.9966
+        },
+        {
+          "text": "神券最高膨至30",
+          "coord": [
+            308,
+            2655,
+            308,
+            44
+          ],
+          "ocrConfidence": 0.9728
+        },
+        {
+          "text": "望京皮肤管理销量榜第3名",
+          "coord": [
+            632,
+            2655,
+            454,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    }
+  ]
+}

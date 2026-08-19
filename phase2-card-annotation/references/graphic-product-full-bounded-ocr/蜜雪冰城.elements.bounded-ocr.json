@@ -1,0 +1,754 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/蜜雪冰城.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1326,
+        1224,
+        598
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "抢周边",
+          "coord": [
+            146,
+            1334,
+            48,
+            108
+          ],
+          "ocrConfidence": 0.9951
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            1328,
+            72,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "蜜雪冰城(东辛店)",
+          "coord": [
+            321,
+            1326,
+            373,
+            49
+          ],
+          "ocrConfidence": 0.9817
+        },
+        {
+          "text": "20分钟",
+          "coord": [
+            1065,
+            1326,
+            130,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            224,
+            1395,
+            100,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "月售1000+",
+          "coord": [
+            341,
+            1398,
+            190,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "起送￥26",
+          "coord": [
+            546,
+            1400,
+            151,
+            38
+          ],
+          "ocrConfidence": 0.907
+        },
+        {
+          "text": "配送￥0.4",
+          "coord": [
+            707,
+            1400,
+            158,
+            37
+          ],
+          "ocrConfidence": 0.919
+        },
+        {
+          "text": "3.1km",
+          "coord": [
+            1083,
+            1399,
+            110,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "蜜雪冰城",
+          "coord": [
+            64,
+            1451,
+            121,
+            34
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "近30天230人复购",
+          "coord": [
+            226,
+            1464,
+            304,
+            40
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "刚刚有用户下单",
+          "coord": [
+            551,
+            1464,
+            272,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券",
+          "coord": [
+            80,
+            1553,
+            66,
+            40
+          ],
+          "ocrConfidence": 0.7108
+        },
+        {
+          "text": "冰鲜柠檬水",
+          "coord": [
+            443,
+            1553,
+            39,
+            167
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "满杯果香果",
+          "coord": [
+            720,
+            1552,
+            39,
+            168
+          ],
+          "ocrConfidence": 0.9937
+        },
+        {
+          "text": "热常温",
+          "coord": [
+            519,
+            1579,
+            19,
+            67
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "冰",
+          "coord": [
+            825,
+            1580,
+            12,
+            16
+          ],
+          "ocrConfidence": 0.9872
+        },
+        {
+          "text": "冰鲜柠檬",
+          "coord": [
+            993,
+            1581,
+            33,
+            112
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "常温",
+          "coord": [
+            823,
+            1592,
+            17,
+            32
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "常温",
+          "coord": [
+            244,
+            1609,
+            15,
+            33
+          ],
+          "ocrConfidence": 0.9968
+        },
+        {
+          "text": "￥12",
+          "coord": [
+            40,
+            1639,
+            143,
+            80
+          ],
+          "ocrConfidence": 0.8785
+        },
+        {
+          "text": "冰",
+          "coord": [
+            245,
+            1654,
+            14,
+            15
+          ],
+          "ocrConfidence": 0.9874
+        },
+        {
+          "text": "冰",
+          "coord": [
+            520,
+            1652,
+            18,
+            19
+          ],
+          "ocrConfidence": 0.9904
+        },
+        {
+          "text": "大杯",
+          "coord": [
+            823,
+            1667,
+            16,
+            25
+          ],
+          "ocrConfidence": 0.9926
+        },
+        {
+          "text": "大杯",
+          "coord": [
+            240,
+            1687,
+            22,
+            32
+          ],
+          "ocrConfidence": 0.9714
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            46,
+            1734,
+            132,
+            36
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            790,
+            1762,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "美团外",
+          "coord": [
+            968,
+            1753,
+            77,
+            27
+          ],
+          "ocrConfidence": 0.9572
+        },
+        {
+          "text": "冰鲜柠檬水",
+          "coord": [
+            225,
+            1820,
+            197,
+            41
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "满杯百香果",
+          "coord": [
+            502,
+            1820,
+            197,
+            43
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "冰鲜柠檬水",
+          "coord": [
+            779,
+            1819,
+            197,
+            43
+          ],
+          "ocrConfidence": 0.9913
+        },
+        {
+          "text": "心想事\"橙",
+          "coord": [
+            1056,
+            1819,
+            168,
+            41
+          ],
+          "ocrConfidence": 0.9922
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            1845,
+            76,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥11",
+          "coord": [
+            223,
+            1875,
+            66,
+            48
+          ],
+          "ocrConfidence": 0.8333
+        },
+        {
+          "text": "￥13.4630天低价",
+          "coord": [
+            503,
+            1878,
+            262,
+            44
+          ],
+          "ocrConfidence": 0.9708
+        },
+        {
+          "text": "￥0.8",
+          "coord": [
+            780,
+            1881,
+            82,
+            40
+          ],
+          "ocrConfidence": 0.9012
+        },
+        {
+          "text": "神券价",
+          "coord": [
+            855,
+            1883,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9945
+        },
+        {
+          "text": "￥25",
+          "coord": [
+            1070,
+            1878,
+            64,
+            44
+          ],
+          "ocrConfidence": 0.833
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1060,
+            1888,
+            26,
+            29
+          ],
+          "ocrConfidence": 0.7296
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1947,
+        1224,
+        753
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "相似",
+          "coord": [
+            92,
+            1981,
+            98,
+            53
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "喜欢蜜雪冰城的人也喜欢",
+          "coord": [
+            218,
+            1990,
+            432,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "高分店铺",
+          "coord": [
+            661,
+            1989,
+            161,
+            41
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "到店",
+          "coord": [
+            225,
+            2073,
+            75,
+            43
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "茶山季(合生汇店）",
+          "coord": [
+            313,
+            2067,
+            373,
+            54
+          ],
+          "ocrConfidence": 0.9225
+        },
+        {
+          "text": "大米冰淇淋",
+          "coord": [
+            172,
+            2111,
+            18,
+            77
+          ],
+          "ocrConfidence": 0.9749
+        },
+        {
+          "text": "4.5分2629条人均¥19茶",
+          "coord": [
+            215,
+            2130,
+            446,
+            53
+          ],
+          "ocrConfidence": 0.9405
+        },
+        {
+          "text": "茶饮果汁",
+          "coord": [
+            639,
+            2139,
+            164,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "九龙山",
+          "coord": [
+            815,
+            2138,
+            119,
+            39
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "12.8km",
+          "coord": [
+            1062,
+            2137,
+            131,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "北京奶茶回头客榜第1名",
+          "coord": [
+            218,
+            2199,
+            412,
+            47
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "茶山季",
+          "coord": [
+            245,
+            2279,
+            85,
+            37
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "茶山季",
+          "coord": [
+            666,
+            2282,
+            69,
+            29
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "茶山季",
+          "coord": [
+            942,
+            2284,
+            67,
+            26
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "冰淇淋六选一",
+          "coord": [
+            690,
+            2319,
+            206,
+            30
+          ],
+          "ocrConfidence": 0.9877
+        },
+        {
+          "text": "抹茶奶茶+冰淇淋",
+          "coord": [
+            970,
+            2313,
+            192,
+            29
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "茶山季必喝四选一",
+          "coord": [
+            305,
+            2328,
+            258,
+            31
+          ],
+          "ocrConfidence": 0.9924
+        },
+        {
+          "text": "红透半边天",
+          "coord": [
+            289,
+            2393,
+            21,
+            90
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "茶山季",
+          "coord": [
+            1051,
+            2432,
+            45,
+            19
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "茶山季",
+          "coord": [
+            344,
+            2452,
+            56,
+            22
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "山桥冰",
+          "coord": [
+            889,
+            2444,
+            10,
+            40
+          ],
+          "ocrConfidence": 0.6086
+        },
+        {
+          "text": "大术冰淇",
+          "coord": [
+            709,
+            2499,
+            10,
+            32
+          ],
+          "ocrConfidence": 0.6256
+        },
+        {
+          "text": "斯里兰卡奶茶",
+          "coord": [
+            546,
+            2530,
+            20,
+            111
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "茶山季",
+          "coord": [
+            455,
+            2563,
+            62,
+            28
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "【手作冰淇",
+          "coord": [
+            682,
+            2568,
+            177,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【抹茶奶茶",
+          "coord": [
+            961,
+            2569,
+            172,
+            41
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "【茶山季必喝】四",
+          "coord": [
+            256,
+            2607,
+            291,
+            44
+          ],
+          "ocrConfidence": 0.9931
+        },
+        {
+          "text": "¥16",
+          "coord": [
+            559,
+            2610,
+            74,
+            47
+          ],
+          "ocrConfidence": 0.8265
+        },
+        {
+          "text": "￥10.8",
+          "coord": [
+            658,
+            2627,
+            103,
+            48
+          ],
+          "ocrConfidence": 0.8948
+        },
+        {
+          "text": "￥24.8",
+          "coord": [
+            949,
+            2627,
+            96,
+            47
+          ],
+          "ocrConfidence": 0.883
+        },
+        {
+          "text": "￥18",
+          "coord": [
+            753,
+            2638,
+            63,
+            34
+          ],
+          "ocrConfidence": 0.8642
+        },
+        {
+          "text": "?",
+          "coord": [
+            943,
+            2641,
+            16,
+            25
+          ],
+          "ocrConfidence": 0.6973
+        },
+        {
+          "text": "￥28",
+          "coord": [
+            1038,
+            2637,
+            62,
+            35
+          ],
+          "ocrConfidence": 0.8655
+        }
+      ]
+    }
+  ]
+}

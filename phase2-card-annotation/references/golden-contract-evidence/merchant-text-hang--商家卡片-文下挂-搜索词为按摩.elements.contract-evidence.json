@@ -1,0 +1,342 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为按摩.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为按摩.png",
+  "requests": [
+    {
+      "kind": "missing_title",
+      "listPosition": 1,
+      "coord": [
+        180,
+        881,
+        1044,
+        125
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            318,
+            885,
+            69,
+            38
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "云驰运动康复(望京SOHO店)",
+          "coord": [
+            406,
+            881,
+            623,
+            48
+          ],
+          "ocrConfidence": 0.9835
+        },
+        {
+          "text": "4.2分",
+          "coord": [
+            308,
+            949,
+            102,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "180条",
+          "coord": [
+            426,
+            951,
+            109,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥251/人",
+          "coord": [
+            548,
+            953,
+            144,
+            40
+          ],
+          "ocrConfidence": 0.9364
+        },
+        {
+          "text": "传统按摩/足疗",
+          "coord": [
+            709,
+            953,
+            249,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "望京",
+          "coord": [
+            974,
+            951,
+            85,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "1.5km",
+          "coord": [
+            1085,
+            953,
+            108,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "kind": "missing_title",
+      "listPosition": 2,
+      "coord": [
+        180,
+        1356,
+        1044,
+        125
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            318,
+            1360,
+            69,
+            38
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "北派修脚·采耳·养生(望京SOHO店)",
+          "coord": [
+            406,
+            1356,
+            768,
+            48
+          ],
+          "ocrConfidence": 0.9874
+        },
+        {
+          "text": "北派",
+          "coord": [
+            236,
+            1371,
+            34,
+            16
+          ],
+          "ocrConfidence": 0.9955
+        },
+        {
+          "text": "beipaia",
+          "coord": [
+            237,
+            1386,
+            30,
+            8
+          ],
+          "ocrConfidence": 0.7378
+        },
+        {
+          "text": "护理，",
+          "coord": [
+            180,
+            1392,
+            82,
+            54
+          ],
+          "ocrConfidence": 0.8638
+        },
+        {
+          "text": "4.0分",
+          "coord": [
+            308,
+            1423,
+            102,
+            45
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "482条",
+          "coord": [
+            423,
+            1426,
+            112,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥55/人",
+          "coord": [
+            546,
+            1428,
+            122,
+            40
+          ],
+          "ocrConfidence": 0.9379
+        },
+        {
+          "text": "传统按摩/足疗",
+          "coord": [
+            686,
+            1427,
+            249,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "望京",
+          "coord": [
+            951,
+            1424,
+            86,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "1.4km",
+          "coord": [
+            1086,
+            1429,
+            107,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "解决",
+          "coord": [
+            180,
+            1446,
+            76,
+            34
+          ],
+          "ocrConfidence": 0.9871
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券最高膨至50↑望京足部护理销量榜第3名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1478,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至50↑",
+          "coord": [
+            309,
+            1491,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9152
+        },
+        {
+          "text": "望京足部护理销量榜第3名",
+          "coord": [
+            635,
+            1492,
+            451,
+            41
+          ],
+          "ocrConfidence": 0.9818
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "神券最高膨至50↑望京推拿养生销量榜第10名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1888,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至50↑",
+          "coord": [
+            309,
+            1901,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9196
+        },
+        {
+          "text": "望京推拿养生销量榜第10名",
+          "coord": [
+            635,
+            1902,
+            473,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 4,
+      "legacyText": "神券立减36泰式手法",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        2363,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减36",
+          "coord": [
+            309,
+            2375,
+            208,
+            42
+          ],
+          "ocrConfidence": 0.9682
+        },
+        {
+          "text": "泰式手法",
+          "coord": [
+            529,
+            2376,
+            161,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

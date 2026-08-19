@@ -1,0 +1,144 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为手机维修.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "神券立减5全程保公益商家近期好评率100%",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1003,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "全程保",
+          "coord": [
+            309,
+            1017,
+            120,
+            42
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            443,
+            1015,
+            186,
+            43
+          ],
+          "ocrConfidence": 0.9662
+        },
+        {
+          "text": "近期好评率100%",
+          "coord": [
+            646,
+            1019,
+            292,
+            38
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            955,
+            1017,
+            158,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券最高膨至40全程保近期好评率100%",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1478,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "全程保",
+          "coord": [
+            309,
+            1492,
+            120,
+            42
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "神券最高膨至40",
+          "coord": [
+            444,
+            1491,
+            311,
+            43
+          ],
+          "ocrConfidence": 0.9631
+        },
+        {
+          "text": "近期好评率100%",
+          "coord": [
+            771,
+            1492,
+            294,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "神券立减5北京手机维修销量榜第1名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        2428,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "北京手机维修销量榜第1名",
+          "coord": [
+            311,
+            2443,
+            448,
+            39
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            777,
+            2440,
+            186,
+            44
+          ],
+          "ocrConfidence": 0.9798
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "contractVersion": "phase2.performance-movie.v1",
+  "contractVersion": "phase2.golden-structural-truth.v2",
   "cardType": "电影卡",
   "pageStructure": {
     "components": [
@@ -9,56 +9,495 @@
         "elements": [
           {
             "elementType": "搜索关键词",
-            "visibleText": "给阿嫲的情书"
+            "visibleText": "给阿嫲的情书",
+            "coord": [
+              157,
+              158,
+              280,
+              64
+            ],
+            "sourceRegion": "搜索框",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "搜索框",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "给阿嫲的情书",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F1F1F2",
+              "textColor": "#000000",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "搜索框",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
+        ],
+        "status": "confirmed",
+        "coord": [
+          0,
+          122,
+          1224,
+          128
         ]
       },
       {
         "order": 2,
-        "componentType": "tab"
+        "componentType": "tab",
+        "status": "confirmed"
       },
       {
         "order": 3,
         "componentType": "movie_primary_info",
         "elements": [
           {
-            "elementType": "电影海报"
+            "elementType": "电影海报",
+            "coord": [
+              64,
+              410,
+              269,
+              359
+            ],
+            "sourceRegion": "电影主信息区",
+            "visibleText": "",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": true,
+              "isSystemUi": false
+            },
+            "visual": {
+              "entityKind": "image",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "unknown",
+              "backgroundColor": "",
+              "textColor": "",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "image|unknown|photo|电影主信息区|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+            }
           },
           {
-            "elementType": "电影横幅/轮播"
+            "elementType": "电影横幅/轮播",
+            "coord": [
+              345,
+              410,
+              810,
+              359
+            ],
+            "sourceRegion": "电影主信息区",
+            "visibleText": "",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": true,
+              "isSystemUi": false
+            },
+            "visual": {
+              "entityKind": "image",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "unknown",
+              "backgroundColor": "",
+              "textColor": "",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "image|unknown|photo|电影主信息区|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+            }
           },
           {
             "elementType": "电影名",
-            "visibleText": "给阿嫲的情书"
+            "visibleText": "给阿嫲的情书",
+            "coord": [
+              65,
+              805,
+              340,
+              55
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "给阿嫲的情书",
+              "textStatus": "complete",
+              "semanticRole": "title",
+              "emphasisLevel": "primary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#111111",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|title|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "上映信息",
-            "visibleText": "2026.04.30 / 118分钟 / 剧情 喜剧 / 蓝鸿春"
+            "visibleText": "2026.04.30 / 118分钟 / 剧情 喜剧 / 蓝鸿春",
+            "coord": [
+              65,
+              878,
+              730,
+              48
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "2026.04.30 / 118分钟 / 剧情 喜剧 / 蓝鸿春",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "medium",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#777777",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "演员",
-            "visibleText": "李思澄 王彦桐 吴少卿"
+            "visibleText": "李思澄 王彦桐 吴少卿",
+            "coord": [
+              65,
+              940,
+              370,
+              42
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "李思澄 王彦桐 吴少卿",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "medium",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#797979",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "好评率",
-            "visibleText": "好于99%的电影"
+            "visibleText": "好于99%的电影",
+            "coord": [
+              65,
+              1001,
+              270,
+              48
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "好于99%的电影",
+              "textStatus": "complete",
+              "semanticRole": "rating",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "medium",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#777777",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|rating|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "评分",
-            "visibleText": "9.7"
+            "visibleText": "9.7",
+            "coord": [
+              955,
+              887,
+              145,
+              65
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "9.7",
+              "textStatus": "complete",
+              "semanticRole": "rating",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "red"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": true,
+              "isShaped": false,
+              "colorRole": "red",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#EF3054",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|red|rating|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "评论数",
-            "visibleText": "10.62万条评论"
+            "visibleText": "10.62万条评论",
+            "coord": [
+              920,
+              966,
+              215,
+              38
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "10.62万条评论",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "medium",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#7E7E7E",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "热映计数",
-            "visibleText": "75部热映电影"
+            "visibleText": "75部热映电影",
+            "coord": [
+              195,
+              1135,
+              295,
+              55
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "75部热映电影",
+              "textStatus": "complete",
+              "semanticRole": "sales",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#141414",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|sales|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "待映计数",
-            "visibleText": "125部待映电影"
+            "visibleText": "125部待映电影",
+            "coord": [
+              730,
+              1134,
+              315,
+              55
+            ],
+            "sourceRegion": "电影主信息区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "电影主信息区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "125部待映电影",
+              "textStatus": "complete",
+              "semanticRole": "sales",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#181818",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|sales|unknown|无",
+              "sourceRegion": "电影主信息区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
+        ],
+        "status": "confirmed",
+        "coord": [
+          0,
+          398,
+          1224,
+          832
         ]
       },
       {
@@ -67,16 +506,143 @@
         "elements": [
           {
             "elementType": "日期",
-            "visibleText": "今天 7月10日"
+            "visibleText": "今天 7月10日",
+            "coord": [
+              27,
+              1276,
+              285,
+              84
+            ],
+            "sourceRegion": "日期筛选区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "日期筛选区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "今天 7月10日",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFADB",
+              "textColor": "#111111",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "日期筛选区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "日期",
-            "visibleText": "明天 7月11日"
+            "visibleText": "明天 7月11日",
+            "coord": [
+              326,
+              1276,
+              285,
+              84
+            ],
+            "sourceRegion": "日期筛选区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "日期筛选区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "明天 7月11日",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#111111",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "日期筛选区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "日期",
-            "visibleText": "后天 7月12日"
+            "visibleText": "后天 7月12日",
+            "coord": [
+              624,
+              1276,
+              285,
+              84
+            ],
+            "sourceRegion": "日期筛选区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "日期筛选区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "后天 7月12日",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#111111",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "日期筛选区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
+        ],
+        "status": "confirmed",
+        "coord": [
+          0,
+          1253,
+          1224,
+          126
         ]
       },
       {
@@ -86,13 +652,198 @@
           {
             "componentType": "result_card",
             "listPosition": 1,
-            "cardType": "电影影院卡",
+            "cardType": "演出电影卡片",
+            "coord": [
+              0,
+              1395,
+              1224,
+              230
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "variant": "cinema",
             "regions": {
               "标题区": {
                 "elements": [
                   {
-                    "elementType": "影院名",
-                    "visibleText": "北京万达影城(望京激光巨幕店)"
+                    "elementType": "电影标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      26,
+                      1419,
+                      667,
+                      64
+                    ],
+                    "visibleText": "北京万达影城（望京激光巨幕店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "北京万达影城（望京激光巨幕店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#000000",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      30,
+                      1570,
+                      279,
+                      44
+                    ],
+                    "visibleText": "近期场次：18:50",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近期场次：18:50",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "地址",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      30,
+                      1505,
+                      966,
+                      46
+                    ],
+                    "visibleText": "朝阳区望京东园一区120号楼新荟城五层万达影城望京店",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "朝阳区望京东园一区120号楼新荟城五层万达影城望京店",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7C7C7C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1085,
+                      1508,
+                      109,
+                      40
+                    ],
+                    "visibleText": "1.2km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "1.2km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#606060",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
@@ -100,38 +851,297 @@
                 "elements": [
                   {
                     "elementType": "起价",
-                    "visibleText": "¥37.5起"
-                  }
-                ]
-              },
-              "商家信息区": {
-                "elements": [
-                  {
-                    "elementType": "地址",
-                    "visibleText": "朝阳区望京东园一区120号楼新荟城五层万达影城望京店"
-                  },
-                  {
-                    "elementType": "距离",
-                    "visibleText": "1.2km"
-                  },
-                  {
-                    "elementType": "近期场次",
-                    "visibleText": "近期场次：18:50"
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1002,
+                      1405,
+                      205,
+                      86
+                    ],
+                    "visibleText": "¥37.5起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥37.5起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
             "listPosition": 2,
-            "cardType": "电影影院卡",
+            "cardType": "演出电影卡片",
+            "coord": [
+              0,
+              1655,
+              1224,
+              239
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "variant": "cinema",
             "regions": {
               "标题区": {
                 "elements": [
                   {
-                    "elementType": "影院名",
-                    "visibleText": "中影CFR国际影城(望京万科时代中心店)"
+                    "elementType": "电影标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      28,
+                      1689,
+                      867,
+                      62
+                    ],
+                    "visibleText": "中影CFR国际影城（望京万科时代中心店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "中影CFR国际影城（望京万科时代中心店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#000000",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      31,
+                      1841,
+                      251,
+                      40
+                    ],
+                    "visibleText": "近期场次:18:25",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近期场次:18:25",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      307,
+                      1841,
+                      126,
+                      40
+                    ],
+                    "visibleText": "20:45",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "20:45",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#737373",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "地址",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      30,
+                      1774,
+                      680,
+                      46
+                    ],
+                    "visibleText": "朝阳区望京街9号万科时代中心F座B1层",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "朝阳区望京街9号万科时代中心F座B1层",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#828282",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1079,
+                      1771,
+                      118,
+                      48
+                    ],
+                    "visibleText": "2.2km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.2km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4E4E4E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
@@ -139,31 +1149,1088 @@
                 "elements": [
                   {
                     "elementType": "起价",
-                    "visibleText": "¥30.9起"
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      998,
+                      1675,
+                      208,
+                      84
+                    ],
+                    "visibleText": "¥30.9起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥30.9起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 3,
+            "cardType": "演出电影卡片",
+            "coord": [
+              0,
+              1916,
+              1224,
+              247
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "variant": "cinema",
+            "regions": {
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "电影标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      28,
+                      1958,
+                      851,
+                      62
+                    ],
+                    "visibleText": "中影星光影城（全VIP沙发望京悠乐汇店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "中影星光影城（全VIP沙发望京悠乐汇店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#000000",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "地址",
-                    "visibleText": "朝阳区望京街9号万科时代中心F座B1层"
-                  },
-                  {
-                    "elementType": "距离",
-                    "visibleText": "2.2km"
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      30,
+                      2110,
+                      224,
+                      42
+                    ],
+                    "visibleText": "近期场次:15:50",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近期场次:15:50",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#717171",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
                     "elementType": "近期场次",
-                    "visibleText": "近期场次：18:25"
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      276,
+                      2110,
+                      134,
+                      42
+                    ],
+                    "visibleText": "17:555",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "17:555",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#808080",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      433,
+                      2110,
+                      112,
+                      42
+                    ],
+                    "visibleText": "20:00",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "20:00",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#696969",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      567,
+                      2110,
+                      112,
+                      42
+                    ],
+                    "visibleText": "22:40",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "22:40",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6A6A6A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "地址",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      28,
+                      2042,
+                      369,
+                      48
+                    ],
+                    "visibleText": "朝阳区悠乐汇A4座2F",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "朝阳区悠乐汇A4座2F",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7B7B7B",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1079,
+                      2040,
+                      118,
+                      50
+                    ],
+                    "visibleText": "2.3km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.3km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4F4F4F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "起价",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      999,
+                      1945,
+                      205,
+                      80
+                    ],
+                    "visibleText": "¥39.9起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥39.9起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 4,
+            "cardType": "演出电影卡片",
+            "coord": [
+              0,
+              2177,
+              1224,
+              254
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "variant": "cinema",
+            "regions": {
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "电影标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      26,
+                      2225,
+                      524,
+                      64
+                    ],
+                    "visibleText": "保利万和影城（来广营店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "保利万和影城（来广营店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#000000",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      30,
+                      2379,
+                      252,
+                      40
+                    ],
+                    "visibleText": "近期场次:16:40",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近期场次:16:40",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#727272",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      307,
+                      2379,
+                      126,
+                      40
+                    ],
+                    "visibleText": "20:50",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "20:50",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6C6C6C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "地址",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      28,
+                      2309,
+                      677,
+                      48
+                    ],
+                    "visibleText": "朝阳区来广营地区来广营诚盈中心B1层",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "朝阳区来广营地区来广营诚盈中心B1层",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7C7C7C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1080,
+                      2311,
+                      116,
+                      46
+                    ],
+                    "visibleText": "2.4km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.4km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#5D5D5D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "起价",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      999,
+                      2216,
+                      206,
+                      78
+                    ],
+                    "visibleText": "¥29.9起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥29.9起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 5,
+            "cardType": "演出电影卡片",
+            "coord": [
+              0,
+              2461,
+              1224,
+              239
+            ],
+            "visibleStatus": "naturally_cropped",
+            "status": "confirmed",
+            "variant": "cinema",
+            "regions": {
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "电影标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      25,
+                      2495,
+                      478,
+                      64
+                    ],
+                    "visibleText": "光耀华纳影城（望京店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "光耀华纳影城（望京店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#000000",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      30,
+                      2646,
+                      254,
+                      44
+                    ],
+                    "visibleText": "近期场次:17:45",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近期场次:17:45",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#747474",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "近期场次",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      309,
+                      2646,
+                      127,
+                      44
+                    ],
+                    "visibleText": "20:50",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "20:50",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6C6C6C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "地址",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      28,
+                      2579,
+                      814,
+                      48
+                    ],
+                    "visibleText": "朝阳区望京西路1幢信万广场43号楼负一层影院",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "朝阳区望京西路1幢信万广场43号楼负一层影院",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7E7E7E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "距离",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1080,
+                      2579,
+                      118,
+                      48
+                    ],
+                    "visibleText": "3.1km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "3.1km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6C6C6C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "起价",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      999,
+                      2485,
+                      206,
+                      79
+                    ],
+                    "visibleText": "¥29.9起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥29.9起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           }
-        ]
+        ],
+        "status": "confirmed"
       }
     ]
   },
-  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png"
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png",
+  "legacyContractVersion": "phase2.performance-movie.v1",
+  "verification": {
+    "status": "pixel_verified",
+    "claimScope": [
+      "element_level_downhang_grouping",
+      "element_level_title",
+      "element_render_facts",
+      "element_text_facts",
+      "element_visual_color_facts",
+      "page_component_order",
+      "result_card_boundary",
+      "result_card_count",
+      "result_card_type",
+      "semantic_atomicity",
+      "visible_crop_state"
+    ],
+    "excludedClaims": [
+      "runtime_ocr_text",
+      "ocr_confidence"
+    ],
+    "reviewedAt": "2026-08-19",
+    "rawScreenshot": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png",
+    "rawSha256": "19a48d2f33ea65e15ac2ce2b6bdf89add3ad1ce771f440a4df0d9470fafb3d9b",
+    "componentAnnotation": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡-标记后.png",
+    "componentAnnotationSha256": "5903e3668f9e1006de3fdf87f4c42b964eab6778bf1232a018a7c7f367cbd5e4",
+    "elementAnnotations": [
+      {
+        "path": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡-元素标记后.png",
+        "sha256": "ded9fe94d7ebe6d268c7d349dec01a579868c6417493a2c60b94834197cb56ff",
+        "status": "reference_only_not_transcribed"
+      }
+    ],
+    "policy": "Nested elements are preserved. Their source/status fields determine whether they are human-annotated truth or runtime recognition evidence; provenance enrichment must never delete them.",
+    "elementCalibration": {
+      "status": "bounded_paddleocr_and_model_visual_reviewed",
+      "evidence": "phase2-card-annotation/references/golden-contract-evidence/performance-movie-card--电影卡.elements.contract-evidence.json",
+      "policy": "Golden-only calibration; never injected into Phase2 production recognition."
+    },
+    "visualCalibration": {
+      "status": "measured_from_current_element_boxes",
+      "method": "element_crop_border_and_foreground_pixel_median",
+      "photoPolicy": "photos retain geometry and are measured by Phase3 after exclusion masking"
+    }
+  }
 }

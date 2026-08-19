@@ -1,0 +1,3869 @@
+{
+  "contractVersion": "phase2.golden-structural-truth.v2",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第1次.png",
+  "query": "全季酒店",
+  "searchInstance": "run_1",
+  "verification": {
+    "status": "pixel_verified",
+    "claimScope": [
+      "element_level_downhang_grouping",
+      "element_level_title",
+      "element_render_facts",
+      "element_text_facts",
+      "element_visual_color_facts",
+      "page_component_order",
+      "result_card_boundary",
+      "result_card_count",
+      "result_card_type",
+      "reviewed_card_elements",
+      "semantic_atomicity",
+      "visible_crop_state"
+    ],
+    "excludedClaims": [
+      "runtime_ocr_text",
+      "unreviewed_runtime_ocr_text",
+      "ocr_confidence_as_truth"
+    ],
+    "reviewedAt": "2026-08-19",
+    "rawScreenshot": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第1次.png",
+    "rawSha256": "6e6a86747a3befb92eef9a98ae10a2d9923d91dda932c7b7fe98e3a04840e9ef",
+    "componentAnnotation": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第1次-标注后.png",
+    "componentAnnotationSha256": "db2b56acef66cd2942427328d20ceb8e90285c571380d1fec279b7f8917706f4",
+    "elementAnnotations": [],
+    "policy": "Nested elements are preserved. Their source/status fields determine whether they are human-annotated truth or runtime recognition evidence; provenance enrichment must never delete them.",
+    "boundedElementEvidence": "phase2-card-annotation/references/hotel-bounded-ocr/全季酒店-第1次.elements.bounded-ocr.json",
+    "elementCalibration": {
+      "status": "bounded_paddleocr_and_model_visual_reviewed",
+      "evidence": "phase2-card-annotation/references/golden-contract-evidence/hotel-card--全季酒店-第1次.elements.contract-evidence.json",
+      "policy": "Golden-only calibration; never injected into Phase2 production recognition."
+    },
+    "visualCalibration": {
+      "status": "measured_from_current_element_boxes",
+      "method": "element_crop_border_and_foreground_pixel_median",
+      "photoPolicy": "photos retain geometry and are measured by Phase3 after exclusion masking"
+    }
+  },
+  "pageStructure": {
+    "components": [
+      {
+        "order": 1,
+        "componentType": "search_bar",
+        "name": "搜索框",
+        "coord": [
+          0,
+          178,
+          1206,
+          127
+        ],
+        "status": "confirmed",
+        "elements": [
+          {
+            "elementType": "搜索关键词",
+            "sourceRegion": "搜索框",
+            "coord": [
+              0,
+              178,
+              1206,
+              127
+            ],
+            "visibleText": "全季酒店",
+            "status": "confirmed",
+            "source": "component_annotation",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "搜索框",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "全季酒店",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FAFAFA",
+              "textColor": "#333333",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "搜索框",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "componentType": "tab",
+        "name": "Tab",
+        "coord": [
+          0,
+          313,
+          1206,
+          108
+        ],
+        "status": "confirmed"
+      },
+      {
+        "order": 3,
+        "componentType": "sort_filter",
+        "name": "快筛",
+        "coord": [
+          0,
+          428,
+          1206,
+          107
+        ],
+        "status": "confirmed"
+      },
+      {
+        "order": 4,
+        "componentType": "results_list",
+        "name": "结果列表",
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "listPosition": 1,
+            "cardType": "酒店卡片",
+            "coord": [
+              0,
+              554,
+              1206,
+              488
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "酒店头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      30,
+                      568,
+                      330,
+                      421
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "reviewed_card_layout",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "酒店标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      358,
+                      574,
+                      775,
+                      116
+                    ],
+                    "visibleText": "全季酒店（北京望京商务区宝能中心店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "全季酒店（北京望京商务区宝能中心店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#1B3A3A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "酒店/民宿履约标识",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      364,
+                      578,
+                      68,
+                      38
+                    ],
+                    "visibleText": "酒店",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "酒店",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1E8DFC",
+                      "textColor": "#90CAF6",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店等级",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      427,
+                      646,
+                      112,
+                      44
+                    ],
+                    "visibleText": "舒适型",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "舒适型",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#999999",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "评分与推荐理由": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      357,
+                      706,
+                      94,
+                      41
+                    ],
+                    "visibleText": "4.8分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.8分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5907",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|rating|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "位置信息": {
+                "elements": [
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      358,
+                      768,
+                      254,
+                      38
+                    ],
+                    "visibleText": "距您直线2.4km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距您直线2.4km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6D6D6D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      626,
+                      769,
+                      146,
+                      36
+                    ],
+                    "visibleText": "近悠乐汇",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近悠乐汇",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#797979",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      410,
+                      823,
+                      292,
+                      46
+                    ],
+                    "visibleText": "住就送·32元券包",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "住就送·32元券包",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFF8F0",
+                      "textColor": "#6D4610",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      738,
+                      826,
+                      201,
+                      42
+                    ],
+                    "visibleText": "新开业/装修",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "新开业/装修",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#5F5F5F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      420,
+                      898,
+                      351,
+                      42
+                    ],
+                    "visibleText": "望京舒适好评榜第7名",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "望京舒适好评榜第7名",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFEDDE",
+                      "textColor": "#823D0E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|榜单标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "榜单标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1029,
+                      886,
+                      147,
+                      54
+                    ],
+                    "visibleText": "¥888起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥888起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      892,
+                      904,
+                      109,
+                      30
+                    ],
+                    "visibleText": "¥1009",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥1009",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#888888",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      360,
+                      965,
+                      248,
+                      35
+                    ],
+                    "visibleText": "1小时前有人预订",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "1小时前有人预订",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#777777",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      885,
+                      962,
+                      111,
+                      33
+                    ],
+                    "visibleText": "天天特价",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "天天特价",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF4837",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1024,
+                      962,
+                      139,
+                      33
+                    ],
+                    "visibleText": "立减121",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "立减121",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF3724",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementVerification": {
+              "status": "reviewed",
+              "ocrBackend": "paddleocr",
+              "policy": "Only explicitly accepted bounded observations are confirmed; rejected/low-confidence OCR is absent from golden truth."
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 2,
+            "cardType": "酒店卡片",
+            "coord": [
+              0,
+              1042,
+              1206,
+              395
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "酒店头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      30,
+                      1056,
+                      330,
+                      367
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "reviewed_card_layout",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "酒店/民宿履约标识",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      366,
+                      1056,
+                      64,
+                      34
+                    ],
+                    "visibleText": "酒店",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "酒店",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1D8CFB",
+                      "textColor": "#95CBF7",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      446,
+                      1046,
+                      530,
+                      53
+                    ],
+                    "visibleText": "全季酒店（北京会议中心店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "全季酒店（北京会议中心店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "酒店等级",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      980,
+                      1054,
+                      110,
+                      43
+                    ],
+                    "visibleText": "高档型",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "高档型",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#909090",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "评分与推荐理由": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      356,
+                      1114,
+                      92,
+                      42
+                    ],
+                    "visibleText": "4.7分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.7分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5C0B",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|rating|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      464,
+                      1116,
+                      250,
+                      38
+                    ],
+                    "visibleText": "设施完善且齐全",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "设施完善且齐全",
+                      "textStatus": "complete",
+                      "semanticRole": "promotion",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF7D3D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|promotion|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "位置信息": {
+                "elements": [
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      359,
+                      1176,
+                      252,
+                      37
+                    ],
+                    "visibleText": "距您直线3.4km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距您直线3.4km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6E6E6E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      627,
+                      1176,
+                      270,
+                      40
+                    ],
+                    "visibleText": "亚运村/奥体中心",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "亚运村/奥体中心",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7A7A7A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      412,
+                      1236,
+                      288,
+                      38
+                    ],
+                    "visibleText": "住就送·32元券包",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "住就送·32元券包",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFF8F0",
+                      "textColor": "#6D4610",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      738,
+                      1236,
+                      180,
+                      38
+                    ],
+                    "visibleText": "机器人服务",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "机器人服务",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#5D5D5D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      956,
+                      1235,
+                      110,
+                      39
+                    ],
+                    "visibleText": "健身房",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "健身房",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#565656",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1034,
+                      1288,
+                      142,
+                      54
+                    ],
+                    "visibleText": "¥616起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥616起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      358,
+                      1305,
+                      164,
+                      40
+                    ],
+                    "visibleText": "2万+消费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2万+消费",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6E6E6E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      912,
+                      1306,
+                      94,
+                      32
+                    ],
+                    "visibleText": "¥699",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥699",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#888888",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      360,
+                      1369,
+                      218,
+                      34
+                    ],
+                    "visibleText": "低价房仅剩1间",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "低价房仅剩1间",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF8447",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      894,
+                      1364,
+                      134,
+                      32
+                    ],
+                    "visibleText": "天天特价",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "天天特价",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF4938",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1032,
+                      1365,
+                      132,
+                      33
+                    ],
+                    "visibleText": "立减83",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "立减83",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF3926",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementVerification": {
+              "status": "reviewed",
+              "ocrBackend": "paddleocr",
+              "policy": "Only explicitly accepted bounded observations are confirmed; rejected/low-confidence OCR is absent from golden truth."
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 3,
+            "cardType": "酒店卡片",
+            "coord": [
+              0,
+              1437,
+              1206,
+              406
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "酒店头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      30,
+                      1451,
+                      330,
+                      378
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "reviewed_card_layout",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "酒店/民宿履约标识",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      366,
+                      1458,
+                      64,
+                      34
+                    ],
+                    "visibleText": "酒店",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "酒店",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1E8CFB",
+                      "textColor": "#95CBF7",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      447,
+                      1450,
+                      437,
+                      52
+                    ],
+                    "visibleText": "全季酒店（北京望京店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "全季酒店（北京望京店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "酒店等级",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      891,
+                      1457,
+                      110,
+                      42
+                    ],
+                    "visibleText": "高档型",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "高档型",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#727272",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "评分与推荐理由": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      358,
+                      1517,
+                      94,
+                      40
+                    ],
+                    "visibleText": "4.8分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.8分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5907",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|rating|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      466,
+                      1519,
+                      358,
+                      40
+                    ],
+                    "visibleText": "非常好的一次入住体验",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "非常好的一次入住体验",
+                      "textStatus": "complete",
+                      "semanticRole": "promotion",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF7632",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|promotion|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "位置信息": {
+                "elements": [
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      360,
+                      1580,
+                      249,
+                      35
+                    ],
+                    "visibleText": "距您直线2.7km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距您直线2.7km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6E6E6E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      623,
+                      1580,
+                      216,
+                      36
+                    ],
+                    "visibleText": "近朝阳区望京",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近朝阳区望京",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#797979",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      412,
+                      1637,
+                      290,
+                      43
+                    ],
+                    "visibleText": "住就送·32元券包",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "住就送·32元券包",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFF8F0",
+                      "textColor": "#6D4610",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      738,
+                      1639,
+                      179,
+                      37
+                    ],
+                    "visibleText": "机器人服务",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "机器人服务",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#5D5D5D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      956,
+                      1637,
+                      110,
+                      40
+                    ],
+                    "visibleText": "健身房",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "健身房",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#565656",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1026,
+                      1691,
+                      150,
+                      55
+                    ],
+                    "visibleText": "¥686起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥686起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      358,
+                      1708,
+                      166,
+                      39
+                    ],
+                    "visibleText": "3万+消费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "3万+消费",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6F6F6F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      909,
+                      1709,
+                      90,
+                      32
+                    ],
+                    "visibleText": "¥779",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥779",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#888888",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      358,
+                      1771,
+                      220,
+                      36
+                    ],
+                    "visibleText": "低价房仅剩1间",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "低价房仅剩1间",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF8447",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      894,
+                      1767,
+                      136,
+                      34
+                    ],
+                    "visibleText": "天天特价",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "天天特价",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF4938",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1012,
+                      1769,
+                      150,
+                      32
+                    ],
+                    "visibleText": "立减93",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "立减93",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF3825",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementVerification": {
+              "status": "reviewed",
+              "ocrBackend": "paddleocr",
+              "policy": "Only explicitly accepted bounded observations are confirmed; rejected/low-confidence OCR is absent from golden truth."
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 4,
+            "cardType": "酒店卡片",
+            "coord": [
+              0,
+              1843,
+              1206,
+              421
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "酒店头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      30,
+                      1857,
+                      330,
+                      393
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "reviewed_card_layout",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "酒店等级",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      358,
+                      1927,
+                      108,
+                      40
+                    ],
+                    "visibleText": "高档型",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "高档型",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#909090",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "酒店/民宿履约标识",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      366,
+                      1859,
+                      66,
+                      36
+                    ],
+                    "visibleText": "酒店",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "酒店",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1E8CFB",
+                      "textColor": "#91CCF7",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      446,
+                      1853,
+                      660,
+                      53
+                    ],
+                    "visibleText": "全季酒店（北京鸟巢关庄地铁站店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "全季酒店（北京鸟巢关庄地铁站店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "评分与推荐理由": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      357,
+                      1987,
+                      94,
+                      40
+                    ],
+                    "visibleText": "4.8分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.8分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5907",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|rating|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      466,
+                      1989,
+                      358,
+                      40
+                    ],
+                    "visibleText": "非常好的一次居住体验",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "非常好的一次居住体验",
+                      "textStatus": "complete",
+                      "semanticRole": "promotion",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF732E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|promotion|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "位置信息": {
+                "elements": [
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      360,
+                      2049,
+                      222,
+                      36
+                    ],
+                    "visibleText": "距您直线5km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距您直线5km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6F6F6F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      592,
+                      2049,
+                      255,
+                      38
+                    ],
+                    "visibleText": "近中华女子学院",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近中华女子学院",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7B7B7B",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      410,
+                      2101,
+                      293,
+                      50
+                    ],
+                    "visibleText": "住就送·32元券包",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "住就送·32元券包",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#714B15",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      736,
+                      2105,
+                      182,
+                      42
+                    ],
+                    "visibleText": "机器人服务",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "机器人服务",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#5D5D5D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      956,
+                      2106,
+                      146,
+                      40
+                    ],
+                    "visibleText": "商务出行",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "商务出行",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#585858",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              },
+              "价格区": {
+                "elements": [
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1024,
+                      2161,
+                      153,
+                      54
+                    ],
+                    "visibleText": "¥668起",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥668起",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      358,
+                      2177,
+                      167,
+                      40
+                    ],
+                    "visibleText": "3万+消费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "3万+消费",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6F6F6F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      907,
+                      2178,
+                      92,
+                      32
+                    ],
+                    "visibleText": "¥759",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥759",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#888888",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      360,
+                      2241,
+                      218,
+                      23
+                    ],
+                    "visibleText": "低价房仅剩1间",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "低价房仅剩1间",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "small",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF8447",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      900,
+                      2237,
+                      130,
+                      27
+                    ],
+                    "visibleText": "天天特价",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "天天特价",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "small",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF4837",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "价格与交易信息",
+                    "sourceRegion": "价格区",
+                    "coord": [
+                      1038,
+                      2237,
+                      123,
+                      26
+                    ],
+                    "visibleText": "立减91",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "价格区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "立减91",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "small",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF3825",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "价格区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementVerification": {
+              "status": "reviewed",
+              "ocrBackend": "paddleocr",
+              "policy": "Only explicitly accepted bounded observations are confirmed; rejected/low-confidence OCR is absent from golden truth."
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 5,
+            "cardType": "酒店卡片",
+            "coord": [
+              0,
+              2264,
+              1206,
+              358
+            ],
+            "visibleStatus": "naturally_cropped",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "酒店头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      30,
+                      2278,
+                      330,
+                      330
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "reviewed_card_layout",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "酒店等级",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      359,
+                      2396,
+                      108,
+                      40
+                    ],
+                    "visibleText": "高档型",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "高档型",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#909090",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "酒店/民宿履约标识",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      366,
+                      2329,
+                      64,
+                      35
+                    ],
+                    "visibleText": "酒店",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "酒店",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1E8CFB",
+                      "textColor": "#91CCF7",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      447,
+                      2322,
+                      703,
+                      52
+                    ],
+                    "visibleText": "全季酒店（北京鸟巢国家会议中心店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "全季酒店（北京鸟巢国家会议中心店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "评分与推荐理由": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      358,
+                      2456,
+                      96,
+                      42
+                    ],
+                    "visibleText": "4.6分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.6分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5A08",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|rating|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "推荐理由",
+                    "sourceRegion": "评分与推荐理由",
+                    "coord": [
+                      468,
+                      2458,
+                      307,
+                      41
+                    ],
+                    "visibleText": "服务很好，卫生干净",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "评分与推荐理由",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "服务很好，卫生干净",
+                      "textStatus": "complete",
+                      "semanticRole": "promotion",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF7A38",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|promotion|unknown|无",
+                      "sourceRegion": "评分与推荐理由",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "位置信息": {
+                "elements": [
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      360,
+                      2519,
+                      251,
+                      34
+                    ],
+                    "visibleText": "距您直线5.5km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距您直线5.5km",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#717171",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "位置信息",
+                    "sourceRegion": "位置信息",
+                    "coord": [
+                      624,
+                      2520,
+                      254,
+                      36
+                    ],
+                    "visibleText": "近中华女子学院",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "位置信息",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "近中华女子学院",
+                      "textStatus": "complete",
+                      "semanticRole": "location",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7B7B7B",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|location|unknown|无",
+                      "sourceRegion": "位置信息",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      412,
+                      2574,
+                      288,
+                      41
+                    ],
+                    "visibleText": "住就送·32元券包",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "住就送·32元券包",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFF8F0",
+                      "textColor": "#6D4610",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      738,
+                      2578,
+                      180,
+                      37
+                    ],
+                    "visibleText": "机器人服务",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "机器人服务",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#5D5D5D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "酒店标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      956,
+                      2576,
+                      146,
+                      40
+                    ],
+                    "visibleText": "商务出行",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_human_reviewed",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "商务出行",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#F5F5F5",
+                      "textColor": "#585858",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              }
+            },
+            "elementVerification": {
+              "status": "reviewed",
+              "ocrBackend": "paddleocr",
+              "policy": "Only explicitly accepted bounded observations are confirmed; rejected/low-confidence OCR is absent from golden truth."
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

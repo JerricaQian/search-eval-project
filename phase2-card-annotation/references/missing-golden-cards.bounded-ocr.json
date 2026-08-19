@@ -1,0 +1,3030 @@
+{
+  "pages": [
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/隆江猪脚饭.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png",
+      "missingCards": [
+        {
+          "listPosition": 4,
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2565,
+            1224,
+            135
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "偲雅家·隆江猪脚饭(望京店)",
+              "coord": [
+                317,
+                2583,
+                595,
+                65
+              ],
+              "ocrConfidence": 0.9443
+            },
+            {
+              "text": "外卖",
+              "coord": [
+                233,
+                2596,
+                70,
+                40
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "28分钟",
+              "coord": [
+                1064,
+                2594,
+                130,
+                48
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "偲雅家",
+              "coord": [
+                33,
+                2601,
+                72,
+                29
+              ],
+              "ocrConfidence": 0.934
+            },
+            {
+              "text": "4.6分",
+              "coord": [
+                225,
+                2661,
+                102,
+                38
+              ],
+              "ocrConfidence": 0.9906
+            },
+            {
+              "text": "月售1000+",
+              "coord": [
+                344,
+                2664,
+                190,
+                36
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "起送￥0",
+              "coord": [
+                547,
+                2665,
+                128,
+                36
+              ],
+              "ocrConfidence": 0.8948
+            },
+            {
+              "text": "免配送费",
+              "coord": [
+                690,
+                2665,
+                158,
+                36
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "3.0km",
+              "coord": [
+                1083,
+                2665,
+                110,
+                34
+              ],
+              "ocrConfidence": 0.9941
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为体检.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为体检.png",
+      "missingCards": [
+        {
+          "listPosition": 5,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2485,
+            1224,
+            215
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "美年大健康体检中心(酒仙桥分院)",
+              "coord": [
+                306,
+                2507,
+                715,
+                68
+              ],
+              "ocrConfidence": 0.9953
+            },
+            {
+              "text": "美甲大健康",
+              "coord": [
+                142,
+                2537,
+                54,
+                12
+              ],
+              "ocrConfidence": 0.8742
+            },
+            {
+              "text": "Hean10o",
+              "coord": [
+                140,
+                2547,
+                56,
+                10
+              ],
+              "ocrConfidence": 0.6225
+            },
+            {
+              "text": "618",
+              "coord": [
+                70,
+                2565,
+                166,
+                82
+              ],
+              "ocrConfidence": 0.9989
+            },
+            {
+              "text": "暂无评分",
+              "coord": [
+                310,
+                2591,
+                159,
+                44
+              ],
+              "ocrConfidence": 0.9991
+            },
+            {
+              "text": "3578条",
+              "coord": [
+                480,
+                2590,
+                136,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "体检",
+              "coord": [
+                628,
+                2589,
+                88,
+                45
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "酒仙桥商圈",
+              "coord": [
+                720,
+                2590,
+                204,
+                45
+              ],
+              "ocrConfidence": 0.9985
+            },
+            {
+              "text": "3.7km",
+              "coord": [
+                1081,
+                2591,
+                114,
+                44
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "",
+              "coord": [
+                701,
+                2597,
+                38,
+                28
+              ],
+              "ocrConfidence": 0.0
+            },
+            {
+              "text": "焕新体检",
+              "coord": [
+                70,
+                2641,
+                169,
+                47
+              ],
+              "ocrConfidence": 0.9941
+            },
+            {
+              "text": "医疗资质",
+              "coord": [
+                313,
+                2657,
+                156,
+                42
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "公益商家",
+              "coord": [
+                484,
+                2655,
+                160,
+                44
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "体检中心",
+              "coord": [
+                240,
+                2677,
+                36,
+                14
+              ],
+              "ocrConfidence": 0.9903
+            },
+            {
+              "text": "中充楼打租",
+              "coord": [
+                78,
+                2691,
+                157,
+                8
+              ],
+              "ocrConfidence": 0.2861
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为手机维修.png",
+      "missingCards": [
+        {
+          "listPosition": 4,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2289,
+            1224,
+            382
+          ],
+          "visibleStatus": "complete",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "闪修侠手机维修电脑维修北京",
+              "coord": [
+                405,
+                2299,
+                630,
+                54
+              ],
+              "ocrConfidence": 0.9784
+            },
+            {
+              "text": "",
+              "coord": [
+                42,
+                2313,
+                41,
+                34
+              ],
+              "ocrConfidence": 0.0
+            },
+            {
+              "text": "上门",
+              "coord": [
+                319,
+                2309,
+                68,
+                38
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "闷",
+              "coord": [
+                52,
+                2361,
+                83,
+                82
+              ],
+              "ocrConfidence": 0.1129
+            },
+            {
+              "text": "侠",
+              "coord": [
+                178,
+                2369,
+                81,
+                79
+              ],
+              "ocrConfidence": 0.6942
+            },
+            {
+              "text": "4.5分",
+              "coord": [
+                310,
+                2373,
+                100,
+                44
+              ],
+              "ocrConfidence": 0.9991
+            },
+            {
+              "text": "9353条",
+              "coord": [
+                422,
+                2375,
+                134,
+                44
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "手机维修",
+              "coord": [
+                568,
+                2375,
+                164,
+                48
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "修",
+              "coord": [
+                119,
+                2380,
+                76,
+                74
+              ],
+              "ocrConfidence": 0.9973
+            },
+            {
+              "text": "北京手机维修销量榜第1名",
+              "coord": [
+                310,
+                2441,
+                452,
+                46
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "神券立减5",
+              "coord": [
+                777,
+                2440,
+                186,
+                43
+              ],
+              "ocrConfidence": 0.9761
+            },
+            {
+              "text": "11周年庆",
+              "coord": [
+                82,
+                2485,
+                142,
+                35
+              ],
+              "ocrConfidence": 0.9984
+            },
+            {
+              "text": "￥25",
+              "coord": [
+                308,
+                2521,
+                80,
+                46
+              ],
+              "ocrConfidence": 0.8946
+            },
+            {
+              "text": "5折",
+              "coord": [
+                400,
+                2521,
+                61,
+                42
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "【更换尾插优惠卷】手机充电",
+              "coord": [
+                492,
+                2521,
+                470,
+                47
+              ],
+              "ocrConfidence": 0.9869
+            },
+            {
+              "text": "年售1000+",
+              "coord": [
+                1020,
+                2523,
+                174,
+                40
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "25",
+              "coord": [
+                329,
+                2593,
+                58,
+                43
+              ],
+              "ocrConfidence": 0.9977
+            },
+            {
+              "text": "5折",
+              "coord": [
+                401,
+                2592,
+                60,
+                40
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "【30代50】抵用金-苹果华为",
+              "coord": [
+                493,
+                2591,
+                471,
+                45
+              ],
+              "ocrConfidence": 0.9978
+            },
+            {
+              "text": "年售8000+",
+              "coord": [
+                1020,
+                2594,
+                172,
+                38
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "￥",
+              "coord": [
+                316,
+                2605,
+                19,
+                25
+              ],
+              "ocrConfidence": 0.7065
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为面部清洁.png",
+      "missingCards": [
+        {
+          "listPosition": 4,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2076,
+            1224,
+            394
+          ],
+          "visibleStatus": "complete",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "skin79皮肤管理中心(北京望京麒麟社店)",
+              "coord": [
+                302,
+                2094,
+                874,
+                70
+              ],
+              "ocrConfidence": 0.9913
+            },
+            {
+              "text": "skin",
+              "coord": [
+                50,
+                2138,
+                54,
+                18
+              ],
+              "ocrConfidence": 0.9898
+            },
+            {
+              "text": "4.8分",
+              "coord": [
+                308,
+                2177,
+                105,
+                48
+              ],
+              "ocrConfidence": 0.999
+            },
+            {
+              "text": "259条",
+              "coord": [
+                418,
+                2178,
+                118,
+                48
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "皮肤管理",
+              "coord": [
+                545,
+                2181,
+                164,
+                45
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "望京",
+              "coord": [
+                720,
+                2180,
+                86,
+                45
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "1.6km",
+              "coord": [
+                1084,
+                2182,
+                110,
+                43
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "，",
+              "coord": [
+                402,
+                2190,
+                14,
+                24
+              ],
+              "ocrConfidence": 0.5595
+            },
+            {
+              "text": "科技护肤",
+              "coord": [
+                48,
+                2205,
+                137,
+                40
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "匠心守护",
+              "coord": [
+                48,
+                2242,
+                138,
+                40
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "望京皮肤管理销量榜第1名",
+              "coord": [
+                307,
+                2244,
+                456,
+                50
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "公益商家",
+              "coord": [
+                779,
+                2247,
+                160,
+                43
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "从精准护肤开始.",
+              "coord": [
+                68,
+                2292,
+                84,
+                14
+              ],
+              "ocrConfidence": 0.928
+            },
+            {
+              "text": "￥29.6",
+              "coord": [
+                310,
+                2324,
+                118,
+                46
+              ],
+              "ocrConfidence": 0.9517
+            },
+            {
+              "text": "1折",
+              "coord": [
+                439,
+                2324,
+                60,
+                42
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "60分钟深层清洁|小气泡",
+              "coord": [
+                525,
+                2326,
+                434,
+                48
+              ],
+              "ocrConfidence": 0.9605
+            },
+            {
+              "text": "年售3.7万+",
+              "coord": [
+                1016,
+                2328,
+                178,
+                41
+              ],
+              "ocrConfidence": 0.9991
+            },
+            {
+              "text": "￥76.03",
+              "coord": [
+                312,
+                2396,
+                136,
+                44
+              ],
+              "ocrConfidence": 0.9535
+            },
+            {
+              "text": "2.6折",
+              "coord": [
+                459,
+                2396,
+                91,
+                42
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "60分钟面部清洁",
+              "coord": [
+                578,
+                2399,
+                286,
+                44
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "全国爆卖46.4万+",
+              "coord": [
+                928,
+                2401,
+                264,
+                36
+              ],
+              "ocrConfidence": 0.9989
+            }
+          ]
+        },
+        {
+          "listPosition": 5,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2487,
+            1224,
+            213
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "痘院士祛痘皮肤管理(望京店)",
+              "coord": [
+                306,
+                2509,
+                618,
+                62
+              ],
+              "ocrConfidence": 0.9866
+            },
+            {
+              "text": "痘院士",
+              "coord": [
+                68,
+                2555,
+                79,
+                28
+              ],
+              "ocrConfidence": 0.9979
+            },
+            {
+              "text": "DOU YUAN SHI",
+              "coord": [
+                69,
+                2582,
+                75,
+                9
+              ],
+              "ocrConfidence": 0.9371
+            },
+            {
+              "text": "4.9分",
+              "coord": [
+                308,
+                2587,
+                104,
+                46
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "分924条",
+              "coord": [
+                390,
+                2587,
+                145,
+                48
+              ],
+              "ocrConfidence": 0.9171
+            },
+            {
+              "text": "￥159/人",
+              "coord": [
+                542,
+                2591,
+                148,
+                43
+              ],
+              "ocrConfidence": 0.9531
+            },
+            {
+              "text": "祛痘",
+              "coord": [
+                704,
+                2589,
+                87,
+                46
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "望京",
+              "coord": [
+                801,
+                2590,
+                86,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "1.9km",
+              "coord": [
+                1084,
+                2592,
+                112,
+                42
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "6G",
+              "coord": [
+                32,
+                2613,
+                12,
+                11
+              ],
+              "ocrConfidence": 0.3408
+            },
+            {
+              "text": "夏日变美",
+              "coord": [
+                38,
+                2607,
+                138,
+                54
+              ],
+              "ocrConfidence": 0.9924
+            },
+            {
+              "text": "超值低价",
+              "coord": [
+                36,
+                2641,
+                143,
+                60
+              ],
+              "ocrConfidence": 0.9966
+            },
+            {
+              "text": "神券最高膨至30",
+              "coord": [
+                308,
+                2655,
+                308,
+                44
+              ],
+              "ocrConfidence": 0.9728
+            },
+            {
+              "text": "望京皮肤管理销量榜第3名",
+              "coord": [
+                632,
+                2655,
+                454,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/performance-movie-card/演出卡.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-演出卡.png",
+      "missingCards": [
+        {
+          "listPosition": 3,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1232,
+            1224,
+            472
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "北京",
+              "coord": [
+                405,
+                1232,
+                102,
+                52
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "咂摸相声专场(南锣鼓巷观乐",
+              "coord": [
+                542,
+                1234,
+                594,
+                53
+              ],
+              "ocrConfidence": 0.9954
+            },
+            {
+              "text": "演出",
+              "coord": [
+                318,
+                1242,
+                69,
+                38
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "吸摸",
+              "coord": [
+                47,
+                1270,
+                21,
+                36
+              ],
+              "ocrConfidence": 0.725
+            },
+            {
+              "text": "观乐相声茶馆",
+              "coord": [
+                66,
+                1268,
+                210,
+                38
+              ],
+              "ocrConfidence": 0.9894
+            },
+            {
+              "text": "专场）",
+              "coord": [
+                307,
+                1298,
+                120,
+                60
+              ],
+              "ocrConfidence": 0.9815
+            },
+            {
+              "text": "南锣鼓巷店",
+              "coord": [
+                82,
+                1310,
+                150,
+                26
+              ],
+              "ocrConfidence": 0.9888
+            },
+            {
+              "text": "9.7分",
+              "coord": [
+                307,
+                1370,
+                98,
+                48
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "2026-07-10至2026-07-31",
+              "coord": [
+                310,
+                1442,
+                466,
+                40
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "咂摸剧场(南锣鼓巷观乐茶馆)",
+              "coord": [
+                311,
+                1504,
+                493,
+                42
+              ],
+              "ocrConfidence": 0.9947
+            },
+            {
+              "text": "￥68-88",
+              "coord": [
+                304,
+                1576,
+                207,
+                65
+              ],
+              "ocrConfidence": 0.98
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1704,
+            1224,
+            411
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "北京",
+              "coord": [
+                405,
+                1704,
+                102,
+                53
+              ],
+              "ocrConfidence": 1.0
+            },
+            {
+              "text": "德云社相声大会-北京学院路德",
+              "coord": [
+                540,
+                1706,
+                652,
+                52
+              ],
+              "ocrConfidence": 0.9984
+            },
+            {
+              "text": "社",
+              "coord": [
+                99,
+                1711,
+                111,
+                255
+              ],
+              "ocrConfidence": 0.3712
+            },
+            {
+              "text": "演出",
+              "coord": [
+                317,
+                1712,
+                71,
+                42
+              ],
+              "ocrConfidence": 0.9986
+            },
+            {
+              "text": "鹤膏",
+              "coord": [
+                205,
+                1726,
+                80,
+                247
+              ],
+              "ocrConfidence": 0.7287
+            },
+            {
+              "text": "万亿",
+              "coord": [
+                26,
+                1754,
+                83,
+                213
+              ],
+              "ocrConfidence": 0.7984
+            },
+            {
+              "text": "云社",
+              "coord": [
+                308,
+                1772,
+                102,
+                56
+              ],
+              "ocrConfidence": 0.9989
+            },
+            {
+              "text": "2026-07-10至2026-07-19",
+              "coord": [
+                309,
+                1856,
+                469,
+                40
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "德云社学院路剧场",
+              "coord": [
+                308,
+                1916,
+                313,
+                46
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "相声",
+              "coord": [
+                138,
+                1983,
+                34,
+                20
+              ],
+              "ocrConfidence": 0.9909
+            },
+            {
+              "text": "大会",
+              "coord": [
+                138,
+                1996,
+                34,
+                22
+              ],
+              "ocrConfidence": 0.9972
+            },
+            {
+              "text": "￥60-280",
+              "coord": [
+                305,
+                1992,
+                244,
+                60
+              ],
+              "ocrConfidence": 0.9725
+            }
+          ]
+        },
+        {
+          "listPosition": 5,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2115,
+            1224,
+            404
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "北京",
+              "coord": [
+                406,
+                2115,
+                102,
+                48
+              ],
+              "ocrConfidence": 1.0
+            },
+            {
+              "text": "前门盛世园相声大会-大栅栏店",
+              "coord": [
+                540,
+                2115,
+                650,
+                51
+              ],
+              "ocrConfidence": 0.9984
+            },
+            {
+              "text": "演出",
+              "coord": [
+                318,
+                2121,
+                68,
+                39
+              ],
+              "ocrConfidence": 0.9986
+            },
+            {
+              "text": "前国盛世园",
+              "coord": [
+                105,
+                2145,
+                102,
+                22
+              ],
+              "ocrConfidence": 0.8397
+            },
+            {
+              "text": "相聲茶馆",
+              "coord": [
+                81,
+                2165,
+                150,
+                45
+              ],
+              "ocrConfidence": 0.9303
+            },
+            {
+              "text": "9.5分",
+              "coord": [
+                309,
+                2187,
+                98,
+                45
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "2026-07-10至2026-07-27",
+              "coord": [
+                310,
+                2257,
+                466,
+                38
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "北京前门盛世园相声茶馆",
+              "coord": [
+                310,
+                2317,
+                430,
+                44
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "78-980",
+              "coord": [
+                336,
+                2393,
+                207,
+                58
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "￥",
+              "coord": [
+                311,
+                2412,
+                25,
+                35
+              ],
+              "ocrConfidence": 0.6176
+            }
+          ]
+        },
+        {
+          "listPosition": 6,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2519,
+            1224,
+            181
+          ],
+          "visibleStatus": "naturally_cropped",
+          "variant": "performance",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "北京",
+              "coord": [
+                405,
+                2519,
+                102,
+                54
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "德云社相声大会——三里屯德",
+              "coord": [
+                540,
+                2519,
+                630,
+                55
+              ],
+              "ocrConfidence": 0.9869
+            },
+            {
+              "text": "演出",
+              "coord": [
+                318,
+                2529,
+                70,
+                40
+              ],
+              "ocrConfidence": 0.9986
+            },
+            {
+              "text": "里",
+              "coord": [
+                126,
+                2545,
+                68,
+                94
+              ],
+              "ocrConfidence": 0.1251
+            },
+            {
+              "text": "云社剧场",
+              "coord": [
+                310,
+                2590,
+                192,
+                51
+              ],
+              "ocrConfidence": 0.999
+            },
+            {
+              "text": "2026-07-10至2026-07-19",
+              "coord": [
+                311,
+                2671,
+                465,
+                28
+              ],
+              "ocrConfidence": 0.9994
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/performance-movie-card/电影卡.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png",
+      "missingCards": [
+        {
+          "listPosition": 3,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1916,
+            1224,
+            247
+          ],
+          "visibleStatus": "complete",
+          "variant": "cinema",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "￥39.9起",
+              "coord": [
+                999,
+                1945,
+                205,
+                80
+              ],
+              "ocrConfidence": 0.9747
+            },
+            {
+              "text": "中影星光影城(全VIP沙发望京悠乐汇店)",
+              "coord": [
+                28,
+                1958,
+                851,
+                62
+              ],
+              "ocrConfidence": 0.9928
+            },
+            {
+              "text": "朝阳区悠乐汇A4座2F",
+              "coord": [
+                28,
+                2042,
+                369,
+                48
+              ],
+              "ocrConfidence": 0.9979
+            },
+            {
+              "text": "2.3km",
+              "coord": [
+                1079,
+                2040,
+                118,
+                50
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "近期场次:15:50|17:55",
+              "coord": [
+                30,
+                2110,
+                407,
+                42
+              ],
+              "ocrConfidence": 0.912
+            },
+            {
+              "text": "5|20:00|22:40",
+              "coord": [
+                415,
+                2111,
+                264,
+                38
+              ],
+              "ocrConfidence": 0.9459
+            }
+          ]
+        },
+        {
+          "listPosition": 4,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2177,
+            1224,
+            254
+          ],
+          "visibleStatus": "complete",
+          "variant": "cinema",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "￥29.9起",
+              "coord": [
+                999,
+                2216,
+                206,
+                78
+              ],
+              "ocrConfidence": 0.9562
+            },
+            {
+              "text": "保利万和影城(来广营店）",
+              "coord": [
+                26,
+                2225,
+                524,
+                64
+              ],
+              "ocrConfidence": 0.9573
+            },
+            {
+              "text": "朝阳区来广营地区来广营诚盈中心B1层",
+              "coord": [
+                28,
+                2309,
+                677,
+                48
+              ],
+              "ocrConfidence": 0.992
+            },
+            {
+              "text": "2.4km",
+              "coord": [
+                1080,
+                2311,
+                116,
+                46
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "近期场次:16:40|20:50",
+              "coord": [
+                30,
+                2379,
+                403,
+                40
+              ],
+              "ocrConfidence": 0.926
+            }
+          ]
+        },
+        {
+          "listPosition": 5,
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2461,
+            1224,
+            239
+          ],
+          "visibleStatus": "naturally_cropped",
+          "variant": "cinema",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "￥29.9起",
+              "coord": [
+                999,
+                2485,
+                206,
+                79
+              ],
+              "ocrConfidence": 0.9623
+            },
+            {
+              "text": "光耀华纳影城(望京店)",
+              "coord": [
+                25,
+                2495,
+                478,
+                64
+              ],
+              "ocrConfidence": 0.9771
+            },
+            {
+              "text": "朝阳区望京西路1幢信万广场43号楼负一层影院",
+              "coord": [
+                28,
+                2579,
+                814,
+                48
+              ],
+              "ocrConfidence": 0.9968
+            },
+            {
+              "text": "3.1km",
+              "coord": [
+                1080,
+                2579,
+                118,
+                48
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "近期场次:17:45|20:50",
+              "coord": [
+                30,
+                2646,
+                406,
+                44
+              ],
+              "ocrConfidence": 0.933
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/primary-point-card/万达广场.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/primary-point-card/主点卡-万达广场.png",
+      "missingCards": [
+        {
+          "listPosition": 1,
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1290,
+            1224,
+            685
+          ],
+          "visibleStatus": "complete",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "茉莉奶白(北京东坝万达店)",
+              "coord": [
+                402,
+                1308,
+                570,
+                60
+              ],
+              "ocrConfidence": 0.9787
+            },
+            {
+              "text": "\"11",
+              "coord": [
+                42,
+                1325,
+                41,
+                34
+              ],
+              "ocrConfidence": 0.4418
+            },
+            {
+              "text": "到店",
+              "coord": [
+                317,
+                1322,
+                71,
+                40
+              ],
+              "ocrConfidence": 0.9963
+            },
+            {
+              "text": "東方墨白",
+              "coord": [
+                236,
+                1358,
+                41,
+                135
+              ],
+              "ocrConfidence": 0.8674
+            },
+            {
+              "text": "4.5分",
+              "coord": [
+                309,
+                1386,
+                102,
+                46
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "366条",
+              "coord": [
+                421,
+                1388,
+                114,
+                46
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "人均￥18",
+              "coord": [
+                516,
+                1388,
+                195,
+                44
+              ],
+              "ocrConfidence": 0.8957
+            },
+            {
+              "text": "茶饮果汁",
+              "coord": [
+                695,
+                1389,
+                176,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "东坝",
+              "coord": [
+                884,
+                1388,
+                84,
+                46
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "商场1F",
+              "coord": [
+                1067,
+                1388,
+                128,
+                46
+              ],
+              "ocrConfidence": 0.9985
+            },
+            {
+              "text": "东坝奶茶人气榜第10名",
+              "coord": [
+                310,
+                1453,
+                398,
+                46
+              ],
+              "ocrConfidence": 0.9817
+            },
+            {
+              "text": "线上点·到店取",
+              "coord": [
+                721,
+                1456,
+                258,
+                41
+              ],
+              "ocrConfidence": 0.9792
+            },
+            {
+              "text": "V19",
+              "coord": [
+                242,
+                1498,
+                28,
+                15
+              ],
+              "ocrConfidence": 0.8096
+            },
+            {
+              "text": "茉莉奶白",
+              "coord": [
+                174,
+                1508,
+                49,
+                26
+              ],
+              "ocrConfidence": 0.9807
+            },
+            {
+              "text": "广告",
+              "coord": [
+                42,
+                1532,
+                35,
+                18
+              ],
+              "ocrConfidence": 0.9972
+            },
+            {
+              "text": "MOLLYTEA",
+              "coord": [
+                395,
+                1558,
+                94,
+                17
+              ],
+              "ocrConfidence": 0.9912
+            },
+            {
+              "text": "MOLLYTEA",
+              "coord": [
+                948,
+                1554,
+                95,
+                17
+              ],
+              "ocrConfidence": 0.994
+            },
+            {
+              "text": "栗莉奶白/子奶白/白兰（大杯3选2）",
+              "coord": [
+                347,
+                1580,
+                185,
+                14
+              ],
+              "ocrConfidence": 0.9545
+            },
+            {
+              "text": "MOLLYTEA",
+              "coord": [
+                738,
+                1576,
+                94,
+                16
+              ],
+              "ocrConfidence": 0.9946
+            },
+            {
+              "text": "新品（3选1·赠薄巧香卡",
+              "coord": [
+                950,
+                1578,
+                92,
+                10
+              ],
+              "ocrConfidence": 0.8321
+            },
+            {
+              "text": "中杯51",
+              "coord": [
+                795,
+                1600,
+                40,
+                12
+              ],
+              "ocrConfidence": 0.8693
+            },
+            {
+              "text": "神券",
+              "coord": [
+                120,
+                1608,
+                69,
+                42
+              ],
+              "ocrConfidence": 0.7678
+            },
+            {
+              "text": "白兰",
+              "coord": [
+                1188,
+                1624,
+                14,
+                39
+              ],
+              "ocrConfidence": 0.9675
+            },
+            {
+              "text": "MOLLYTEA",
+              "coord": [
+                354,
+                1652,
+                37,
+                8
+              ],
+              "ocrConfidence": 0.9528
+            },
+            {
+              "text": "MOLLY TEA",
+              "coord": [
+                424,
+                1652,
+                38,
+                8
+              ],
+              "ocrConfidence": 0.8763
+            },
+            {
+              "text": "MOLLYTEA",
+              "coord": [
+                493,
+                1652,
+                38,
+                8
+              ],
+              "ocrConfidence": 0.9304
+            },
+            {
+              "text": "KVWD",
+              "coord": [
+                364,
+                1660,
+                17,
+                6
+              ],
+              "ocrConfidence": 0.309
+            },
+            {
+              "text": "EMMI",
+              "coord": [
+                434,
+                1660,
+                13,
+                4
+              ],
+              "ocrConfidence": 0.5439
+            },
+            {
+              "text": "2",
+              "coord": [
+                504,
+                1660,
+                18,
+                6
+              ],
+              "ocrConfidence": 0.1557
+            },
+            {
+              "text": "￥7",
+              "coord": [
+                107,
+                1694,
+                92,
+                82
+              ],
+              "ocrConfidence": 0.8801
+            },
+            {
+              "text": "HOLXTEA",
+              "coord": [
+                1028,
+                1712,
+                30,
+                8
+              ],
+              "ocrConfidence": 0.7659
+            },
+            {
+              "text": "奶白/白兰/子炉白/菜箱水茶/科王",
+              "coord": [
+                642,
+                1753,
+                156,
+                8
+              ],
+              "ocrConfidence": 0.6644
+            },
+            {
+              "text": "科#，",
+              "coord": [
+                966,
+                1772,
+                60,
+                8
+              ],
+              "ocrConfidence": 0.3013
+            },
+            {
+              "text": "满20可用",
+              "coord": [
+                88,
+                1789,
+                133,
+                36
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "茉莉奶白/栀子",
+              "coord": [
+                310,
+                1816,
+                250,
+                42
+              ],
+              "ocrConfidence": 0.9595
+            },
+            {
+              "text": "【12-15点可",
+              "coord": [
+                590,
+                1812,
+                212,
+                44
+              ],
+              "ocrConfidence": 0.9982
+            },
+            {
+              "text": "【毕业季】薄巧",
+              "coord": [
+                868,
+                1814,
+                232,
+                45
+              ],
+              "ocrConfidence": 0.9967
+            },
+            {
+              "text": "白兰",
+              "coord": [
+                1142,
+                1812,
+                81,
+                44
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "奶白/白兰(大杯",
+              "coord": [
+                310,
+                1867,
+                264,
+                44
+              ],
+              "ocrConfidence": 0.9983
+            },
+            {
+              "text": "用】超值饮品5",
+              "coord": [
+                586,
+                1864,
+                248,
+                45
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "系列3选1赠",
+              "coord": [
+                864,
+                1866,
+                229,
+                43
+              ],
+              "ocrConfidence": 0.9947
+            },
+            {
+              "text": "使用",
+              "coord": [
+                117,
+                1898,
+                75,
+                40
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "￥30.",
+              "coord": [
+                310,
+                1924,
+                82,
+                42
+              ],
+              "ocrConfidence": 0.8872
+            },
+            {
+              "text": "￥10.9￥17",
+              "coord": [
+                586,
+                1923,
+                164,
+                46
+              ],
+              "ocrConfidence": 0.8904
+            },
+            {
+              "text": "￥18.04￥22",
+              "coord": [
+                862,
+                1922,
+                182,
+                47
+              ],
+              "ocrConfidence": 0.9228
+            },
+            {
+              "text": "15",
+              "coord": [
+                1156,
+                1924,
+                57,
+                44
+              ],
+              "ocrConfidence": 0.9963
+            },
+            {
+              "text": "0.6￥42",
+              "coord": [
+                376,
+                1928,
+                102,
+                39
+              ],
+              "ocrConfidence": 0.8586
+            },
+            {
+              "text": "￥",
+              "coord": [
+                1146,
+                1934,
+                20,
+                28
+              ],
+              "ocrConfidence": 0.5399
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2015,
+            1224,
+            685
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "鸿潮汕广式鸡煲火锅(东坝金隅嘉品店",
+              "coord": [
+                402,
+                2023,
+                794,
+                63
+              ],
+              "ocrConfidence": 0.9805
+            },
+            {
+              "text": "到店",
+              "coord": [
+                318,
+                2037,
+                69,
+                38
+              ],
+              "ocrConfidence": 0.9951
+            },
+            {
+              "text": "\"1",
+              "coord": [
+                44,
+                2043,
+                40,
+                30
+              ],
+              "ocrConfidence": 0.3803
+            },
+            {
+              "text": "潮汕",
+              "coord": [
+                90,
+                2046,
+                52,
+                33
+              ],
+              "ocrConfidence": 0.869
+            },
+            {
+              "text": "鲜鸡火锅",
+              "coord": [
+                63,
+                2081,
+                58,
+                16
+              ],
+              "ocrConfidence": 0.9983
+            },
+            {
+              "text": "4.2分",
+              "coord": [
+                308,
+                2101,
+                103,
+                46
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "36条",
+              "coord": [
+                424,
+                2105,
+                90,
+                43
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "人均¥64",
+              "coord": [
+                527,
+                2105,
+                148,
+                42
+              ],
+              "ocrConfidence": 0.9022
+            },
+            {
+              "text": "港式火锅",
+              "coord": [
+                690,
+                2105,
+                158,
+                40
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "东坝",
+              "coord": [
+                864,
+                2103,
+                84,
+                44
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "距商场1.2km",
+              "coord": [
+                966,
+                2104,
+                228,
+                43
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "东坝火锅人气榜第7名",
+              "coord": [
+                310,
+                2169,
+                372,
+                44
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "出",
+              "coord": [
+                45,
+                2246,
+                32,
+                14
+              ],
+              "ocrConfidence": 0.0884
+            },
+            {
+              "text": "斑斓肠粉",
+              "coord": [
+                156,
+                2243,
+                82,
+                33
+              ],
+              "ocrConfidence": 0.922
+            },
+            {
+              "text": "CHAOSHAN",
+              "coord": [
+                44,
+                2257,
+                59,
+                16
+              ],
+              "ocrConfidence": 0.9417
+            },
+            {
+              "text": "神寿",
+              "coord": [
+                120,
+                2323,
+                68,
+                40
+              ],
+              "ocrConfidence": 0.8932
+            },
+            {
+              "text": "招牌双人餐",
+              "coord": [
+                320,
+                2339,
+                244,
+                73
+              ],
+              "ocrConfidence": 0.997
+            },
+            {
+              "text": "尝鲜双人餐",
+              "coord": [
+                599,
+                2339,
+                242,
+                74
+              ],
+              "ocrConfidence": 0.9591
+            },
+            {
+              "text": "招牌双人餐",
+              "coord": [
+                874,
+                2339,
+                246,
+                72
+              ],
+              "ocrConfidence": 0.9971
+            },
+            {
+              "text": "豪华",
+              "coord": [
+                1147,
+                2339,
+                77,
+                72
+              ],
+              "ocrConfidence": 0.8457
+            },
+            {
+              "text": "「特色尝鲜」",
+              "coord": [
+                380,
+                2405,
+                123,
+                37
+              ],
+              "ocrConfidence": 0.8477
+            },
+            {
+              "text": "『入门级鸡煲]",
+              "coord": [
+                646,
+                2405,
+                147,
+                38
+              ],
+              "ocrConfidence": 0.8949
+            },
+            {
+              "text": "「特色尝鲜」",
+              "coord": [
+                934,
+                2403,
+                122,
+                38
+              ],
+              "ocrConfidence": 0.8541
+            },
+            {
+              "text": "5",
+              "coord": [
+                146,
+                2416,
+                49,
+                69
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "￥",
+              "coord": [
+                118,
+                2433,
+                32,
+                45
+              ],
+              "ocrConfidence": 0.5838
+            },
+            {
+              "text": "无门槛",
+              "coord": [
+                106,
+                2504,
+                100,
+                36
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "【开业特惠】【特",
+              "coord": [
+                315,
+                2532,
+                252,
+                41
+              ],
+              "ocrConfidence": 0.998
+            },
+            {
+              "text": "【入门级鸡煲】",
+              "coord": [
+                590,
+                2530,
+                230,
+                43
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "【特色尝鲜】招",
+              "coord": [
+                868,
+                2531,
+                232,
+                42
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "【金榜",
+              "coord": [
+                1144,
+                2529,
+                80,
+                44
+              ],
+              "ocrConfidence": 0.899
+            },
+            {
+              "text": "色尝鲜】招牌双",
+              "coord": [
+                310,
+                2581,
+                256,
+                46
+              ],
+              "ocrConfidence": 0.998
+            },
+            {
+              "text": "尝鲜双人餐",
+              "coord": [
+                588,
+                2582,
+                194,
+                42
+              ],
+              "ocrConfidence": 0.9992
+            },
+            {
+              "text": "牌双人餐",
+              "coord": [
+                864,
+                2581,
+                158,
+                42
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "华双",
+              "coord": [
+                1139,
+                2579,
+                85,
+                45
+              ],
+              "ocrConfidence": 0.9979
+            },
+            {
+              "text": "使用",
+              "coord": [
+                117,
+                2613,
+                75,
+                40
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "￥113",
+              "coord": [
+                309,
+                2637,
+                93,
+                46
+              ],
+              "ocrConfidence": 0.8951
+            },
+            {
+              "text": "118",
+              "coord": [
+                604,
+                2641,
+                72,
+                40
+              ],
+              "ocrConfidence": 0.9972
+            },
+            {
+              "text": "￥158",
+              "coord": [
+                863,
+                2639,
+                98,
+                44
+              ],
+              "ocrConfidence": 0.8939
+            },
+            {
+              "text": "￥188",
+              "coord": [
+                1141,
+                2637,
+                83,
+                45
+              ],
+              "ocrConfidence": 0.9141
+            },
+            {
+              "text": "￥254",
+              "coord": [
+                397,
+                2644,
+                84,
+                36
+              ],
+              "ocrConfidence": 0.9142
+            },
+            {
+              "text": "￥168",
+              "coord": [
+                676,
+                2646,
+                82,
+                33
+              ],
+              "ocrConfidence": 0.8888
+            },
+            {
+              "text": "￥254",
+              "coord": [
+                958,
+                2644,
+                84,
+                36
+              ],
+              "ocrConfidence": 0.917
+            },
+            {
+              "text": "?",
+              "coord": [
+                594,
+                2651,
+                16,
+                25
+              ],
+              "ocrConfidence": 0.8038
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/primary-point-card/迪士尼.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png",
+      "missingCards": [
+        {
+          "listPosition": 1,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1950,
+            1224,
+            371
+          ],
+          "visibleStatus": "complete",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "上海乐高乐园度假区",
+              "coord": [
+                406,
+                1966,
+                435,
+                55
+              ],
+              "ocrConfidence": 0.9982
+            },
+            {
+              "text": "景点",
+              "coord": [
+                318,
+                1976,
+                70,
+                38
+              ],
+              "ocrConfidence": 0.9973
+            },
+            {
+              "text": "乐高玩乐节",
+              "coord": [
+                65,
+                1982,
+                150,
+                46
+              ],
+              "ocrConfidence": 0.9965
+            },
+            {
+              "text": "一起玩个够",
+              "coord": [
+                100,
+                2012,
+                134,
+                42
+              ],
+              "ocrConfidence": 0.9944
+            },
+            {
+              "text": "4.5分",
+              "coord": [
+                309,
+                2040,
+                98,
+                45
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "9792条",
+              "coord": [
+                420,
+                2043,
+                133,
+                42
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "金山区",
+              "coord": [
+                566,
+                2044,
+                121,
+                42
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "距景点61km",
+              "coord": [
+                974,
+                2044,
+                218,
+                46
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "La",
+              "coord": [
+                168,
+                2083,
+                19,
+                14
+              ],
+              "ocrConfidence": 0.9793
+            },
+            {
+              "text": "必玩榜",
+              "coord": [
+                310,
+                2106,
+                116,
+                44
+              ],
+              "ocrConfidence": 0.8662
+            },
+            {
+              "text": "神券最高膨至80↑",
+              "coord": [
+                436,
+                2107,
+                312,
+                46
+              ],
+              "ocrConfidence": 0.9322
+            },
+            {
+              "text": "有亲子票",
+              "coord": [
+                762,
+                2108,
+                160,
+                44
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "公园游乐场",
+              "coord": [
+                939,
+                2110,
+                196,
+                42
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "￥434",
+              "coord": [
+                311,
+                2188,
+                104,
+                44
+              ],
+              "ocrConfidence": 0.9108
+            },
+            {
+              "text": "【成人票】早鸟1日门票|无需换",
+              "coord": [
+                432,
+                2188,
+                532,
+                46
+              ],
+              "ocrConfidence": 0.9769
+            },
+            {
+              "text": "已售3000+",
+              "coord": [
+                1022,
+                2190,
+                172,
+                41
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "￥483",
+              "coord": [
+                310,
+                2259,
+                102,
+                44
+              ],
+              "ocrConfidence": 0.9132
+            },
+            {
+              "text": "【成人票】1日门票|无需换票在",
+              "coord": [
+                432,
+                2260,
+                534,
+                43
+              ],
+              "ocrConfidence": 0.9942
+            },
+            {
+              "text": "已售9000+",
+              "coord": [
+                1022,
+                2262,
+                171,
+                39
+              ],
+              "ocrConfidence": 0.9998
+            }
+          ]
+        },
+        {
+          "listPosition": 2,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2346,
+            1224,
+            354
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "上海失恋博物馆",
+              "coord": [
+                405,
+                2374,
+                342,
+                60
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "景点",
+              "coord": [
+                318,
+                2386,
+                70,
+                39
+              ],
+              "ocrConfidence": 0.9971
+            },
+            {
+              "text": "4.3分",
+              "coord": [
+                308,
+                2450,
+                100,
+                45
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "2万条",
+              "coord": [
+                420,
+                2452,
+                108,
+                45
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "南京东路商圈",
+              "coord": [
+                540,
+                2452,
+                238,
+                46
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "距景点20km",
+              "coord": [
+                976,
+                2454,
+                216,
+                42
+              ],
+              "ocrConfidence": 0.999
+            },
+            {
+              "text": "神券最高膨至80↑",
+              "coord": [
+                309,
+                2517,
+                310,
+                45
+              ],
+              "ocrConfidence": 0.9125
+            },
+            {
+              "text": "有学生票",
+              "coord": [
+                634,
+                2520,
+                160,
+                42
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "结伴出游",
+              "coord": [
+                810,
+                2520,
+                160,
+                44
+              ],
+              "ocrConfidence": 0.999
+            },
+            {
+              "text": "·互动区、",
+              "coord": [
+                361,
+                2584,
+                150,
+                42
+              ],
+              "ocrConfidence": 0.967
+            },
+            {
+              "text": "失恋档案、",
+              "coord": [
+                531,
+                2584,
+                198,
+                42
+              ],
+              "ocrConfidence": 0.9959
+            },
+            {
+              "text": "失恋回廊...等7个项目",
+              "coord": [
+                721,
+                2584,
+                364,
+                42
+              ],
+              "ocrConfidence": 0.9532
+            },
+            {
+              "text": "29.9",
+              "coord": [
+                328,
+                2663,
+                96,
+                37
+              ],
+              "ocrConfidence": 0.9986
+            },
+            {
+              "text": "5.0折",
+              "coord": [
+                439,
+                2664,
+                87,
+                36
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "【学生票】门票|无需换票",
+              "coord": [
+                559,
+                2664,
+                415,
+                36
+              ],
+              "ocrConfidence": 0.9541
+            },
+            {
+              "text": "已售3000+",
+              "coord": [
+                1021,
+                2665,
+                172,
+                35
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "￥",
+              "coord": [
+                316,
+                2676,
+                22,
+                24
+              ],
+              "ocrConfidence": 0.6213
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/product-card/布洛芬.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为布洛芬.png",
+      "missingCards": [
+        {
+          "listPosition": 1,
+          "cardType": "异构卡",
+          "coord": [
+            0,
+            849,
+            1224,
+            348
+          ],
+          "visibleStatus": "complete",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "Q 大家还在搜",
+              "coord": [
+                29,
+                876,
+                292,
+                62
+              ],
+              "ocrConfidence": 0.8521
+            },
+            {
+              "text": "布洛芬片",
+              "coord": [
+                86,
+                988,
+                166,
+                51
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "布洛芬胶囊",
+              "coord": [
+                356,
+                987,
+                206,
+                52
+              ],
+              "ocrConfidence": 0.9992
+            },
+            {
+              "text": "止痛片",
+              "coord": [
+                685,
+                985,
+                130,
+                56
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "安乃近",
+              "coord": [
+                976,
+                987,
+                129,
+                52
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "退烧药",
+              "coord": [
+                106,
+                1098,
+                127,
+                50
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "芬必得",
+              "coord": [
+                398,
+                1099,
+                126,
+                49
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "温度计",
+              "coord": [
+                685,
+                1097,
+                130,
+                52
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "止痛药",
+              "coord": [
+                976,
+                1097,
+                128,
+                52
+              ],
+              "ocrConfidence": 0.9997
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

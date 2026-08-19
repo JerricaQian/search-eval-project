@@ -231,7 +231,7 @@ def extract_elements(image: Path, taxonomy: dict[str, Any], golden_structure: di
             continue
         card = next(item for item in candidates["resultCards"] if item["id"] == semantic["cardId"])
         x, y, w, h = card["coord"]
-        regions: dict[str, Any] = {"头图区": {"elements": []}, "标题区": {"elements": []}, "商家信息区": {"elements": []}, "标签区": {"elements": []}, "下挂商品区": {"products": []}, "特殊下挂": {"elements": []}}
+        regions: dict[str, Any] = {"头图区": {"elements": []}, "标题区": {"elements": []}, "商家信息区": {"elements": []}, "标签区": {"elements": []}, "下挂商品区": {"items": []}, "特殊下挂": {"elements": []}}
         head = photo_map.get(card.get("headPhotoId", ""))
         if head:
             regions["头图区"]["elements"].append(_element("商家头图", "头图区", head["coord"], "", head["confidence"], "cv_photo"))
@@ -259,10 +259,11 @@ def extract_elements(image: Path, taxonomy: dict[str, Any], golden_structure: di
             slot_x, slot_y, slot_w, slot_h = image_coord
             name_coord = [slot_x, slot_y + slot_h + 5, slot_w, 72]
             price_coord = [slot_x, slot_y + slot_h + 77, slot_w, 52]
-            product = {"productIndex": slot["index"], "cropped": slot["cropped"], "image": _element("下挂商品图", "下挂商品区", image_coord, "", 0.78, "cv_product_slot", "uncertain" if slot["cropped"] else "confirmed"),
-                       "name": _element("下挂商品名", "下挂商品区", name_coord, _crop_ocr(image, name_coord, 6), 0.76, "local_crop_ocr", "uncertain" if slot["cropped"] else "confirmed"),
-                       "price": _element("下挂商品价格", "下挂商品区", price_coord, _crop_ocr(image, price_coord, 7), 0.76, "local_crop_ocr", "uncertain" if slot["cropped"] else "confirmed")}
-            regions["下挂商品区"]["products"].append(product)
+            product = {"itemIndex": slot["index"], "cropped": slot["cropped"],
+                       "imageElements": [_element("下挂商品图", "下挂商品区", image_coord, "", 0.78, "cv_product_slot", "uncertain" if slot["cropped"] else "confirmed")],
+                       "textElements": [_element("下挂商品名", "下挂商品区", name_coord, _crop_ocr(image, name_coord, 6), 0.76, "local_crop_ocr", "uncertain" if slot["cropped"] else "confirmed")],
+                       "priceElements": [_element("下挂商品价格", "下挂商品区", price_coord, _crop_ocr(image, price_coord, 7), 0.76, "local_crop_ocr", "uncertain" if slot["cropped"] else "confirmed")]}
+            regions["下挂商品区"]["items"].append(product)
         # A tall left-column image beneath the head is a coupon/marketing attachment.
         for photo in photo_map.values():
             px, py, pw, ph = photo["coord"]

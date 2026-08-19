@@ -46,7 +46,12 @@ def price_evidence(item: dict[str, Any], card_coord: list[int]) -> dict[str, boo
     numeric_range = color in {"red", "orange"} and not re.search(r"20\d{2}[-/.年]\d{1,2}", text) and bool(re.search(r"\d{2,4}\s*[-–]\s*\d{2,4}", text))
     contextual = contextual or numeric_range
     digits = sum(char.isdigit() for char in text)
-    horizontally_plausible = x + width * 0.20 <= tx <= x + width * 0.84
+    # Full-width list cards usually place price in the right information
+    # column, while two-column hotel cells place it near the cell's left edge.
+    # Geometry therefore rejects only text outside the card, not the first
+    # fifth of a valid narrow cell.
+    lower_price_x = x + width * (0.02 if width < 800 else 0.20)
+    horizontally_plausible = lower_price_x <= tx <= x + width * 0.92
     vertically_plausible = ty + th >= y + height * 0.20
     obvious_non_price = bool(re.search(r"分钟|公里|\bkm\b|评分|\d(?:\.\d+)?\s*分|\d+(?:\.\d+)?万?条|起送|配送费|月售|已售|20\d{2}[-/.年]|\d+(?:\.\d+)?\s*(?:ml|kg|g|片|包|袋|听|瓶|盒)|酒精|浓度|保质期", text, re.I)) and not contextual
     coupon_threshold_only = bool(re.search(r"神券.{0,8}(?:减|至)\s*\d+", text)) and not contextual
@@ -108,9 +113,11 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     joined = "\n".join(str(item.get("text", "")) for item in texts)
     title_like = []
     structured_only = re.compile(r"^(?:[¥￥]?\d[\d.]*|\d+(?:\.\d+)?(?:km|公里|分钟|条|分)|月售\d+|已售\d+)$", re.I)
+    boundary_evidence = set(card.get("evidence", []))
+    title_ceiling = y + max(100, height * (0.72 if "two_column_grid_cell_boundary" in boundary_evidence else 0.45))
     for item in texts:
         value = str(item.get("text", "")).strip()
-        if item.get("coord", [0, 0, 0, 0])[1] <= y + max(100, height * 0.45) and len(_meaningful(value)) >= 2 and not structured_only.fullmatch(value):
+        if item.get("coord", [0, 0, 0, 0])[1] <= title_ceiling and len(_meaningful(value)) >= 2 and not structured_only.fullmatch(value):
             title_like.append(item)
     left_heads = [item for item in photos if item["coord"][0] < x + width * 0.42 and item["coord"][1] < y + height * 0.68]
     seed = structure_blocks.get(str(card.get("seedBlockId", "")))
@@ -125,10 +132,16 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     graphic_hint = card.get("classificationHint", {}).get("cardType") == "商家卡片_图文下挂" or bool(card.get("attachedProductPhotoIds"))
     poster_media = any(item["coord"][3] >= item["coord"][2] * 1.18 and item["coord"][2] <= width * 0.45 for item in photos)
     price_signals = [price_evidence(item, coord) for item in texts]
-    boundary_evidence = set(card.get("evidence", []))
     repeated_list_boundary = bool({"repeated_left_image_right_text_seed", "learned_repeat_interval_backfill", "left_media_anchor_split"} & boundary_evidence)
     merchant_graphic_boundary = "left_square_merchant_head" in boundary_evidence and "right_side_attached_product_image_group" in boundary_evidence
     viewport_width = float(facts.get("viewport", {}).get("width", 0))
+    hotel_room_title = bool(re.search(r"电竞.*房|双人.*房|双床房|大床房?|整套\s*\d+\s*室|可长租", joined))
+    hotel_room_specs = bool(re.search(r"\d+(?:-\d+)?\s*m[²2]?|\d+\s*人|双床|大床|有窗|无窗", joined, re.I))
+    hotel_room_device = bool(re.search(r"\d+\s*台|\d+\s*Hz|i[3579]\s*\d+|显卡|独立音响|PS5|专线", joined, re.I))
+    homestay_identity = bool(re.search(r"民宿|金牌房源|超赞房东|入住经历", joined)) or bool(
+        re.search(r"三居|租房|整套\s*\d+\s*室", joined)
+        and re.search(r"24小时热水|免费停车|洗衣机|寄存行李|立即确认|可洗衣", joined)
+    )
     features = {
         "stable_boundary": card.get("status", "confirmed") == "confirmed" and isinstance(coord, list) and len(coord) == 4 and width > 0 and height > 0,
         "has_visible_text": bool(texts),
@@ -146,6 +159,8 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "text_downhang": bool(attached_text_blocks) and bool(re.search(service_pattern, attached_joined)),
         "service_language": bool(re.search(service_pattern, joined)),
         "hotel_identity": bool(re.search(r"酒店|民宿|住宿|经济型|舒适型|高档型|豪华型", joined)),
+        "hotel_room_identity": hotel_room_title and hotel_room_specs and (hotel_room_device or "two_column_grid_cell_boundary" in boundary_evidence),
+        "homestay_identity": homestay_identity,
         "hotel_status_or_location": bool(re.search(r"满房|预订|房型|早餐|近地铁|距您|影音房|电竞房", joined)),
         "performance_identity": bool(re.search(r"演出|电影|影院|影城|剧场|场馆|票务", joined)),
         "performance_schedule": bool(re.search(r"近期场次|开售|抢票|\d{1,2}:\d{2}|\d{4}[-/.年]\d{1,2}", joined)),
@@ -171,8 +186,8 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "product_repeat_boundary": repeated_list_boundary and not graphic_hint,
         "merchant_graphic_boundary": merchant_graphic_boundary,
         "merchant_text_boundary": repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"]),
-        "hotel_list_boundary": repeated_list_boundary and features["hotel_identity"],
-        "hotel_grid_boundary": bool(viewport_width and width <= viewport_width * 0.68) and features["hotel_identity"],
+        "hotel_list_boundary": repeated_list_boundary and (features["hotel_identity"] or features["homestay_identity"]),
+        "hotel_grid_boundary": "two_column_grid_cell_boundary" in boundary_evidence and (features["hotel_identity"] or features["hotel_room_identity"] or features["homestay_identity"]),
         "performance_poster_boundary": poster_media and features["performance_schedule"] and (repeated_list_boundary or bool(left_heads)),
         "movie_schedule_boundary": features["performance_schedule"] and features["performance_identity"] and repeated_list_boundary,
         "package_bundle_boundary": repeated_list_boundary and features["package_identity"] and features["package_summary"],
@@ -222,7 +237,7 @@ def resolve_card_type(card: dict[str, Any], facts: dict[str, Any], structure_blo
     type_priority = {
         "商家卡片_图文下挂": 60 if features.get("merchant_graphic_boundary") else 0,
         "商家卡片_文字下挂": 55 if features.get("merchant_text_boundary") else 0,
-        "演出电影卡片": 52 if features.get("performance_poster_boundary") or features.get("movie_schedule_boundary") else 0,
+        "演出电影卡片": 52 if (features.get("performance_poster_boundary") or features.get("movie_schedule_boundary")) and (features.get("performance_identity") or not (features.get("hotel_list_boundary") or features.get("hotel_grid_boundary"))) else 0,
         "度假酒店套餐卡片": 50 if features.get("package_bundle_boundary") else 0,
         "酒店卡片": 48 if features.get("hotel_list_boundary") or features.get("hotel_grid_boundary") else 0,
         "商品卡片": 10 if features.get("product_repeat_boundary") else 0,

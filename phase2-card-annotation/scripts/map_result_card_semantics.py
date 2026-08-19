@@ -34,6 +34,8 @@ def _region_evidence(card: dict[str, Any], facts: dict[str, Any], definition: di
     texts = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected" and _owned_by_card(item["coord"], card["coord"])]
     photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") != "rejected" and _owned_by_card(item["coord"], card["coord"])]
     regions: list[dict[str, Any]] = []
+    is_hotel = definition.get("id") == "酒店卡片"
+    is_grid_cell = "two_column_grid_cell_boundary" in set(card.get("evidence", [])) and is_hotel
     for index, region in enumerate(definition["regions"]):
         name = region["name"]
         evidence_ids: list[str] = []
@@ -46,19 +48,57 @@ def _region_evidence(card: dict[str, Any], facts: dict[str, Any], definition: di
             else:
                 candidates = [item for item in photos if item["coord"][0] < x + w * 0.45 and item["coord"][1] < y + h * 0.6]
                 evidence_ids = [min(candidates, key=lambda item: (item["coord"][1], item["coord"][0]))["id"]] if candidates else []
+        elif is_grid_cell:
+            # The room-grid element annotation establishes five mutually
+            # exclusive vertical bands. Ratios are deliberately broad and
+            # relative to each current cell, so head-image height can vary.
+            grid_bands = {
+                "位置信息": (0.36, 0.56),
+                "标题区": (0.52, 0.64),
+                "基础信息区（双列变体）": (0.62, 0.79),
+                "价格区": (0.77, 0.90),
+                "评分与推荐理由": (0.88, 1.01),
+                "标签区": (0.60, 0.78),
+            }
+            lower, upper = grid_bands.get(name, (0.0, 0.0))
+            evidence_ids = [
+                item["id"] for item in texts
+                if lower <= ((item["coord"][1] + item["coord"][3] / 2 - y) / max(1, h)) < upper
+            ] if upper > lower else []
+            if name == "价格区":
+                evidence_ids = [item["id"] for item in price_evidence_items([item for item in texts if item["id"] in evidence_ids], card["coord"])]
+            elif name == "评分与推荐理由":
+                evidence_ids = [item["id"] for item in texts if item["id"] in evidence_ids and re.search(r"\d(?:\.\d)?\s*分|暂无评分", str(item.get("text", "")))]
+        elif is_hotel and "评分" in name:
+            evidence_ids = [item["id"] for item in texts if re.search(r"\d(?:\.\d)?\s*分|暂无评分", str(item.get("text", "")))]
+        elif is_hotel and "位置" in name:
+            evidence_ids = [item["id"] for item in texts if re.search(r"距您|\d+(?:\.\d+)?\s*(?:km|公里|m|米)|近(?:地铁|机场|车站|商圈|大学|学院|公园|医院)", str(item.get("text", "")), re.I)]
+        elif is_hotel and "基础信息" in name:
+            evidence_ids = []
         elif "标题" in name:
             structured = re.compile(r"月售|已售|评分|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
             title_candidates = []
             for item in texts:
                 value = str(item.get("text", ""))
                 chinese = sum("\u4e00" <= char <= "\u9fff" for char in value)
-                upper = item["coord"][1] < y + max(100, h * 0.42)
+                upper_ratio = 0.72 if "two_column_grid_cell_boundary" in set(card.get("evidence", [])) else 0.42
+                upper = item["coord"][1] < y + max(100, h * upper_ratio)
                 text_side = item["coord"][0] > x + w * 0.18 or item["coord"][2] > w * 0.40
                 if upper and text_side and chinese >= 2 and not structured.search(value):
                     title_candidates.append(item)
             evidence_ids = [min(title_candidates, key=lambda item: (item["coord"][1], -sum("\u4e00" <= char <= "\u9fff" for char in str(item.get("text", "")))))["id"]] if title_candidates else []
         elif "价格" in name:
-            evidence_ids = [item["id"] for item in price_evidence_items(texts, card["coord"])]
+            price_items = price_evidence_items(texts, card["coord"])
+            if is_hotel:
+                # Hotel price regions also contain red/orange urgency and
+                # discount copy. Only exact/contextual price grammar becomes
+                # the primary price field; visual-only numbers stay promotion
+                # facts and must not be validated as prices.
+                price_items = [
+                    item for item in price_items
+                    if re.search(r"[¥￥]\s*\d|[Yy#*]\s*\d.{0,8}起|\d+(?:\.\d+)?\s*起", str(item.get("text", "")), re.I)
+                ]
+            evidence_ids = [item["id"] for item in price_items]
         else:
             vertical_start = y + int(h * (0.22 + min(index, 5) * 0.10))
             evidence_ids = [item["id"] for item in texts if item["coord"][1] >= vertical_start]
@@ -123,11 +163,18 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
         selected = resolved["selected"]
         partial_policy = {"applied": False}
         bottom = card["coord"][1] + card["coord"][3]
-        is_bottom_partial = card_index == len(result_cards) - 1 and viewport_height > 0 and bottom >= viewport_height - max(20, round(viewport_height * 0.02))
+        grid_column = str(card.get("gridColumn", ""))
+        is_bottom_partial = viewport_height > 0 and bottom >= viewport_height - max(20, round(viewport_height * 0.02)) and (card_index == len(result_cards) - 1 or bool(grid_column))
         previous = output[-1] if output else None
+        if grid_column:
+            previous = next(
+                (output[index] for index in range(len(output) - 1, -1, -1)
+                 if str(result_cards[index].get("gridColumn", "")) == grid_column),
+                None,
+            )
         previous_selected = previous.get("selectedCardType", {}) if previous else {}
         previous_type = str(previous_selected.get("cardType", ""))
-        if is_bottom_partial and previous_selected.get("status") == "confirmed" and previous_type in KNOWN_RESULT_TYPES and not resolved["features"].get("explicit_ad_marker"):
+        if is_bottom_partial and resolved["features"].get("has_media") and previous_selected.get("status") == "confirmed" and previous_type in KNOWN_RESULT_TYPES and not resolved["features"].get("explicit_ad_marker"):
             inherited_validation = next(
                 (item for item in resolved["contractEvaluations"] if item.get("cardType") == previous_type),
                 resolved["contractValidation"],

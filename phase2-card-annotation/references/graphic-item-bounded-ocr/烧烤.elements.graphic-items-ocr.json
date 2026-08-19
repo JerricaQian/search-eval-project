@@ -1,0 +1,491 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/烧烤.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            767,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            1027,
+            264,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "碳烤风味小串(",
+              "coord": [
+                227,
+                1049,
+                248,
+                40
+              ],
+              "ocrConfidence": 0.9582
+            },
+            {
+              "text": "￥0.59神券价",
+              "coord": [
+                227,
+                1107,
+                205,
+                44
+              ],
+              "ocrConfidence": 0.9677
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            767,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            1027,
+            264,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "碳烤网红面筋",
+              "coord": [
+                504,
+                1049,
+                232,
+                40
+              ],
+              "ocrConfidence": 0.9867
+            },
+            {
+              "text": "￥0.28神券价",
+              "coord": [
+                504,
+                1107,
+                204,
+                44
+              ],
+              "ocrConfidence": 0.9585
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            767,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            1027,
+            264,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "碳烤腊肠小串(",
+              "coord": [
+                781,
+                1049,
+                248,
+                40
+              ],
+              "ocrConfidence": 0.9747
+            },
+            {
+              "text": "￥0.75神券价",
+              "coord": [
+                781,
+                1107,
+                202,
+                44
+              ],
+              "ocrConfidence": 0.967
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            767,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            1027,
+            166,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "碳烤黑椒",
+              "coord": [
+                1058,
+                1049,
+                166,
+                41
+              ],
+              "ocrConfidence": 0.9929
+            },
+            {
+              "text": "￥2.63神券",
+              "coord": [
+                1058,
+                1108,
+                166,
+                42
+              ],
+              "ocrConfidence": 0.9633
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            1430,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            1690,
+            264,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "秘制牛肉串",
+              "coord": [
+                227,
+                1712,
+                194,
+                40
+              ],
+              "ocrConfidence": 0.9747
+            },
+            {
+              "text": "￥2.78新客价",
+              "coord": [
+                227,
+                1772,
+                202,
+                41
+              ],
+              "ocrConfidence": 0.9782
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            1430,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            1690,
+            264,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "烤鸡翅",
+              "coord": [
+                504,
+                1710,
+                124,
+                45
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "天生",
+              "coord": [
+                658,
+                1713,
+                89,
+                40
+              ],
+              "ocrConfidence": 0.9992
+            },
+            {
+              "text": "￥6.3新客价",
+              "coord": [
+                504,
+                1770,
+                187,
+                44
+              ],
+              "ocrConfidence": 0.9631
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            1430,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            1690,
+            264,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "【招牌】烤羊肉",
+              "coord": [
+                785,
+                1712,
+                229,
+                41
+              ],
+              "ocrConfidence": 0.9977
+            },
+            {
+              "text": "￥2.78新客价",
+              "coord": [
+                781,
+                1772,
+                202,
+                41
+              ],
+              "ocrConfidence": 0.9782
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            1430,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            1690,
+            166,
+            190
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "烤五花肉串",
+              "coord": [
+                1058,
+                1713,
+                166,
+                38
+              ],
+              "ocrConfidence": 0.9168
+            },
+            {
+              "text": "￥1.6新客价",
+              "coord": [
+                1058,
+                1772,
+                166,
+                42
+              ],
+              "ocrConfidence": 0.9598
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            2093,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            2353,
+            264,
+            187
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "店内热销 🔥 炭",
+              "coord": [
+                227,
+                2372,
+                247,
+                47
+              ],
+              "ocrConfidence": 0.9754
+            },
+            {
+              "text": "￥1.73新客价",
+              "coord": [
+                227,
+                2436,
+                195,
+                40
+              ],
+              "ocrConfidence": 0.9688
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            2093,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            2353,
+            264,
+            187
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "爆烤牛肉串",
+              "coord": [
+                504,
+                2374,
+                193,
+                41
+              ],
+              "ocrConfidence": 0.9996
+            },
+            {
+              "text": "￥1.71新客价",
+              "coord": [
+                504,
+                2436,
+                191,
+                40
+              ],
+              "ocrConfidence": 0.965
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            2093,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            2353,
+            264,
+            187
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "淄博烧烤伴侣",
+              "coord": [
+                781,
+                2374,
+                232,
+                41
+              ],
+              "ocrConfidence": 0.9594
+            },
+            {
+              "text": "￥8.99新客价",
+              "coord": [
+                781,
+                2433,
+                205,
+                43
+              ],
+              "ocrConfidence": 0.9933
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            2093,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            2353,
+            166,
+            187
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "招牌望京",
+              "coord": [
+                1058,
+                2373,
+                165,
+                41
+              ],
+              "ocrConfidence": 0.9835
+            },
+            {
+              "text": "￥1.53新客",
+              "coord": [
+                1058,
+                2435,
+                165,
+                41
+              ],
+              "ocrConfidence": 0.9618
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "items": []
+    }
+  ]
+}

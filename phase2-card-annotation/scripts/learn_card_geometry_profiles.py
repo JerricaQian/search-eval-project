@@ -24,6 +24,10 @@ ALIASES = {
     "电影影院卡": "演出电影卡片",
     "演出卡": "演出电影卡片",
 }
+LEARNABLE_CARD_TYPES = {
+    "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片",
+    "演出电影卡片", "度假酒店套餐卡片",
+}
 
 # Geometry profiles describe fully visible mobile result cards.  These broad
 # physical limits only reject broken/partial golden annotations; the learned
@@ -57,12 +61,14 @@ def golden_cards(payload: dict[str, Any]) -> list[dict[str, Any]]:
         if isinstance(value, dict):
             if value.get("componentType") == "result_card":
                 card_type = value.get("cardType")
-                if isinstance(card_type, str) and card_type:
+                normalized_type = ALIASES.get(card_type, card_type) if isinstance(card_type, str) else ""
+                if normalized_type in LEARNABLE_CARD_TYPES:
                     coord = value.get("coord")
                     cards.append({
-                        "cardType": ALIASES.get(card_type, card_type),
+                        "cardType": normalized_type,
                         "coord": coord if isinstance(coord, list) and len(coord) == 4 else None,
                         "name": value.get("name"),
+                        "visibleStatus": value.get("visibleStatus", "complete"),
                     })
             for child in value.values():
                 visit(child)
@@ -90,6 +96,9 @@ def learn(paths: list[Path]) -> dict[str, Any]:
         cards: list[dict[str, Any]] = []
         for card in source_cards:
             coord = card["coord"]
+            if card.get("visibleStatus") == "naturally_cropped":
+                excluded[card["cardType"]]["naturallyCropped"] += 1
+                continue
             if coord is None:
                 excluded[card["cardType"]]["missingCoord"] += 1
                 continue

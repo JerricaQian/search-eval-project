@@ -1,0 +1,502 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/西瓜.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为西瓜.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1037,
+        1224,
+        538
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "时令",
+          "coord": [
+            267,
+            1048,
+            79,
+            49
+          ],
+          "ocrConfidence": 0.9907
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            400,
+            1046,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【爆品半斤瓜切】店长推荐一包糖",
+          "coord": [
+            494,
+            1038,
+            689,
+            57
+          ],
+          "ocrConfidence": 0.9821
+        },
+        {
+          "text": "麒麟/吊秧/庞各庄西瓜切5g/份50份",
+          "coord": [
+            389,
+            1102,
+            792,
+            67
+          ],
+          "ocrConfidence": 0.9938
+        },
+        {
+          "text": "赠叉子|水果混合果切/果拼",
+          "coord": [
+            392,
+            1181,
+            475,
+            47
+          ],
+          "ocrConfidence": 0.9855
+        },
+        {
+          "text": "50件总价￥9.81起",
+          "coord": [
+            393,
+            1275,
+            337,
+            55
+          ],
+          "ocrConfidence": 0.9862
+        },
+        {
+          "text": "￥10月售1000+",
+          "coord": [
+            728,
+            1281,
+            271,
+            47
+          ],
+          "ocrConfidence": 0.9681
+        },
+        {
+          "text": "21分钟",
+          "coord": [
+            1064,
+            1281,
+            130,
+            49
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "小果",
+          "coord": [
+            86,
+            1326,
+            72,
+            32
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "神券立减5坏必赔",
+          "coord": [
+            392,
+            1343,
+            326,
+            47
+          ],
+          "ocrConfidence": 0.9916
+        },
+        {
+          "text": "2.5km",
+          "coord": [
+            1082,
+            1349,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "品牌果小果·鲜果切(望京店)",
+          "coord": [
+            396,
+            1411,
+            483,
+            44
+          ],
+          "ocrConfidence": 0.9589
+        },
+        {
+          "text": "起送￥0免配送费",
+          "coord": [
+            392,
+            1474,
+            302,
+            47
+          ],
+          "ocrConfidence": 0.9553
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1600,
+        1224,
+        462
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            1603,
+            72,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "一桶西瓜含桶1斤装【爆品】",
+          "coord": [
+            486,
+            1600,
+            592,
+            47
+          ],
+          "ocrConfidence": 0.9868
+        },
+        {
+          "text": "时令",
+          "coord": [
+            272,
+            1616,
+            70,
+            39
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "切果达",
+          "coord": [
+            68,
+            1661,
+            79,
+            30
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "赠叉子",
+          "coord": [
+            393,
+            1671,
+            121,
+            46
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "￥0到手价￥24.9月售400+",
+          "coord": [
+            384,
+            1758,
+            490,
+            69
+          ],
+          "ocrConfidence": 0.9399
+        },
+        {
+          "text": "水果",
+          "coord": [
+            168,
+            1776,
+            57,
+            31
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "*",
+          "coord": [
+            215,
+            1785,
+            21,
+            17
+          ],
+          "ocrConfidence": 0.2637
+        },
+        {
+          "text": "31分钟",
+          "coord": [
+            1067,
+            1776,
+            126,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "霸气桶",
+          "coord": [
+            153,
+            1798,
+            79,
+            36
+          ],
+          "ocrConfidence": 0.9079
+        },
+        {
+          "text": "神券52减1862减20坏必赔",
+          "coord": [
+            391,
+            1834,
+            507,
+            49
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1082,
+            1841,
+            110,
+            37
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "品牌切果达(望京店）",
+          "coord": [
+            394,
+            1901,
+            346,
+            45
+          ],
+          "ocrConfidence": 0.9474
+        },
+        {
+          "text": "起送￥0",
+          "coord": [
+            397,
+            1970,
+            124,
+            37
+          ],
+          "ocrConfidence": 0.8917
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            530,
+            1968,
+            162,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2092,
+        1224,
+        544
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            2102,
+            72,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【果切】一斤西瓜吃到爽(500g)",
+          "coord": [
+            495,
+            2093,
+            626,
+            57
+          ],
+          "ocrConfidence": 0.9921
+        },
+        {
+          "text": "时令",
+          "coord": [
+            271,
+            2108,
+            71,
+            39
+          ],
+          "ocrConfidence": 0.9967
+        },
+        {
+          "text": "切果乐",
+          "coord": [
+            159,
+            2120,
+            77,
+            33
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "CHEER FRUITS",
+          "coord": [
+            161,
+            2151,
+            73,
+            11
+          ],
+          "ocrConfidence": 0.9693
+        },
+        {
+          "text": "爆品",
+          "coord": [
+            390,
+            2158,
+            104,
+            57
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "赠叉子|西瓜切片/块",
+          "coord": [
+            393,
+            2236,
+            355,
+            43
+          ],
+          "ocrConfidence": 0.9864
+        },
+        {
+          "text": "￥0到手价¥19.9月售400+",
+          "coord": [
+            387,
+            2325,
+            477,
+            63
+          ],
+          "ocrConfidence": 0.9359
+        },
+        {
+          "text": "29分钟",
+          "coord": [
+            1064,
+            2338,
+            131,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "神券52减1862减20坏必赔",
+          "coord": [
+            394,
+            2400,
+            502,
+            43
+          ],
+          "ocrConfidence": 0.9928
+        },
+        {
+          "text": "2.4km",
+          "coord": [
+            1083,
+            2405,
+            109,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "品牌切果乐(望京店)",
+          "coord": [
+            397,
+            2467,
+            344,
+            41
+          ],
+          "ocrConfidence": 0.9575
+        },
+        {
+          "text": "起送￥0免配送费",
+          "coord": [
+            393,
+            2530,
+            300,
+            43
+          ],
+          "ocrConfidence": 0.9489
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2636,
+        1224,
+        64
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            400,
+            2662,
+            76,
+            38
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "【冰镇西瓜】一牙/半个麒麟瓜约",
+          "coord": [
+            497,
+            2659,
+            654,
+            41
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "时令",
+          "coord": [
+            270,
+            2670,
+            73,
+            30
+          ],
+          "ocrConfidence": 0.9991
+        }
+      ]
+    }
+  ]
+}

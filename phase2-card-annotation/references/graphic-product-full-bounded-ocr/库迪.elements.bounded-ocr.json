@@ -1,0 +1,968 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/库迪.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为库迪.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        554,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            314,
+            556,
+            74,
+            40
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "库迪咖啡(望京东地铁站店)",
+          "coord": [
+            407,
+            554,
+            560,
+            47
+          ],
+          "ocrConfidence": 0.9733
+        },
+        {
+          "text": "三",
+          "coord": [
+            42,
+            566,
+            41,
+            27
+          ],
+          "ocrConfidence": 0.6745
+        },
+        {
+          "text": "4.1分",
+          "coord": [
+            309,
+            623,
+            93,
+            43
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "17条",
+          "coord": [
+            416,
+            626,
+            90,
+            40
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "咖啡",
+          "coord": [
+            515,
+            624,
+            86,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "望京",
+          "coord": [
+            611,
+            625,
+            85,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "593m",
+          "coord": [
+            1089,
+            624,
+            104,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券最高膨至50",
+          "coord": [
+            308,
+            687,
+            307,
+            44
+          ],
+          "ocrConfidence": 0.9751
+        },
+        {
+          "text": "线上点·到店取",
+          "coord": [
+            636,
+            691,
+            255,
+            40
+          ],
+          "ocrConfidence": 0.9909
+        },
+        {
+          "text": "饮尽凡尘",
+          "coord": [
+            54,
+            738,
+            78,
+            45
+          ],
+          "ocrConfidence": 0.8727
+        },
+        {
+          "text": "觉醒斩神",
+          "coord": [
+            80,
+            737,
+            105,
+            62
+          ],
+          "ocrConfidence": 0.7561
+        },
+        {
+          "text": "RR上",
+          "coord": [
+            119,
+            773,
+            58,
+            23
+          ],
+          "ocrConfidence": 0.3686
+        },
+        {
+          "text": "Cotti Coffeo",
+          "coord": [
+            416,
+            782,
+            58,
+            16
+          ],
+          "ocrConfidence": 0.8033
+        },
+        {
+          "text": "Cotti Coffoo",
+          "coord": [
+            680,
+            783,
+            66,
+            11
+          ],
+          "ocrConfidence": 0.8118
+        },
+        {
+          "text": "CottiCoffee",
+          "coord": [
+            968,
+            778,
+            57,
+            10
+          ],
+          "ocrConfidence": 0.9086
+        },
+        {
+          "text": "造#",
+          "coord": [
+            426,
+            795,
+            37,
+            11
+          ],
+          "ocrConfidence": 0.1584
+        },
+        {
+          "text": "岸牌",
+          "coord": [
+            695,
+            794,
+            35,
+            10
+          ],
+          "ocrConfidence": 0.1558
+        },
+        {
+          "text": "5选1",
+          "coord": [
+            503,
+            810,
+            60,
+            33
+          ],
+          "ocrConfidence": 0.9966
+        },
+        {
+          "text": "咖啡随心10选1",
+          "coord": [
+            910,
+            804,
+            172,
+            30
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "【不要纯美式】特调咖啡",
+          "coord": [
+            329,
+            819,
+            176,
+            20
+          ],
+          "ocrConfidence": 0.9954
+        },
+        {
+          "text": "金奖",
+          "coord": [
+            1189,
+            814,
+            35,
+            27
+          ],
+          "ocrConfidence": 0.9755
+        },
+        {
+          "text": "□",
+          "coord": [
+            761,
+            884,
+            11,
+            9
+          ],
+          "ocrConfidence": 0.5996
+        },
+        {
+          "text": "36",
+          "coord": [
+            1007,
+            880,
+            14,
+            13
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "",
+          "coord": [
+            1027,
+            916,
+            25,
+            7
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "28",
+          "coord": [
+            898,
+            973,
+            16,
+            13
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "南",
+          "coord": [
+            1068,
+            1006,
+            20,
+            7
+          ],
+          "ocrConfidence": 0.1622
+        },
+        {
+          "text": "[不要纯美式]特",
+          "coord": [
+            311,
+            1049,
+            259,
+            40
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "来自迪迪的非",
+          "coord": [
+            586,
+            1050,
+            235,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "[10选1]库门招[一杯",
+          "coord": [
+            863,
+            1047,
+            361,
+            45
+          ],
+          "ocrConfidence": 0.9676
+        },
+        {
+          "text": "调咖啡5选1",
+          "coord": [
+            310,
+            1102,
+            221,
+            40
+          ],
+          "ocrConfidence": 0.9906
+        },
+        {
+          "text": "咖奶茶果饮8",
+          "coord": [
+            587,
+            1101,
+            225,
+            40
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "牌咖啡随心选",
+          "coord": [
+            864,
+            1102,
+            248,
+            40
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "美式",
+          "coord": [
+            1133,
+            1101,
+            88,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "v5",
+          "coord": [
+            595,
+            1165,
+            41,
+            15
+          ],
+          "ocrConfidence": 0.948
+        },
+        {
+          "text": "v5",
+          "coord": [
+            1144,
+            1161,
+            61,
+            20
+          ],
+          "ocrConfidence": 0.915
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1269,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1271,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "库迪咖啡(望京金辉国际大厦店)",
+          "coord": [
+            407,
+            1269,
+            658,
+            48
+          ],
+          "ocrConfidence": 0.9633
+        },
+        {
+          "text": "三",
+          "coord": [
+            42,
+            1281,
+            41,
+            27
+          ],
+          "ocrConfidence": 0.6745
+        },
+        {
+          "text": "3.7分61条人均¥10咖啡望京",
+          "coord": [
+            304,
+            1334,
+            563,
+            52
+          ],
+          "ocrConfidence": 0.9597
+        },
+        {
+          "text": "617m",
+          "coord": [
+            1089,
+            1339,
+            104,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券最高膨至50",
+          "coord": [
+            308,
+            1402,
+            313,
+            45
+          ],
+          "ocrConfidence": 0.9887
+        },
+        {
+          "text": "线上点·到店取",
+          "coord": [
+            634,
+            1406,
+            257,
+            40
+          ],
+          "ocrConfidence": 0.983
+        },
+        {
+          "text": "饮民凡尘",
+          "coord": [
+            54,
+            1453,
+            79,
+            47
+          ],
+          "ocrConfidence": 0.7915
+        },
+        {
+          "text": "觉醒斩神",
+          "coord": [
+            80,
+            1452,
+            105,
+            62
+          ],
+          "ocrConfidence": 0.7562
+        },
+        {
+          "text": "#上海",
+          "coord": [
+            118,
+            1487,
+            62,
+            25
+          ],
+          "ocrConfidence": 0.5105
+        },
+        {
+          "text": "Cotti Coffoe",
+          "coord": [
+            402,
+            1497,
+            68,
+            14
+          ],
+          "ocrConfidence": 0.7881
+        },
+        {
+          "text": "CottiCoffee",
+          "coord": [
+            695,
+            1500,
+            55,
+            11
+          ],
+          "ocrConfidence": 0.8362
+        },
+        {
+          "text": "Cotti Coffee",
+          "coord": [
+            968,
+            1493,
+            56,
+            11
+          ],
+          "ocrConfidence": 0.8919
+        },
+        {
+          "text": "岸牌",
+          "coord": [
+            418,
+            1509,
+            35,
+            10
+          ],
+          "ocrConfidence": 0.151
+        },
+        {
+          "text": "造",
+          "coord": [
+            703,
+            1511,
+            38,
+            10
+          ],
+          "ocrConfidence": 0.216
+        },
+        {
+          "text": "5选1",
+          "coord": [
+            778,
+            1525,
+            60,
+            33
+          ],
+          "ocrConfidence": 0.992
+        },
+        {
+          "text": "咖啡随心10选1",
+          "coord": [
+            911,
+            1519,
+            171,
+            30
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "【不要纯美式】特调咖啡",
+          "coord": [
+            607,
+            1533,
+            177,
+            23
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "金奖",
+          "coord": [
+            1189,
+            1529,
+            35,
+            27
+          ],
+          "ocrConfidence": 0.9757
+        },
+        {
+          "text": "36",
+          "coord": [
+            1006,
+            1595,
+            15,
+            13
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "",
+          "coord": [
+            1027,
+            1631,
+            25,
+            7
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "28",
+          "coord": [
+            897,
+            1686,
+            18,
+            17
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "",
+          "coord": [
+            990,
+            1722,
+            30,
+            6
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "南",
+          "coord": [
+            1068,
+            1721,
+            20,
+            7
+          ],
+          "ocrConfidence": 0.1622
+        },
+        {
+          "text": "来自迪迪的非",
+          "coord": [
+            310,
+            1765,
+            235,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "[不要纯美式]特",
+          "coord": [
+            588,
+            1764,
+            264,
+            43
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "[10选1]库门招[一杯",
+          "coord": [
+            861,
+            1762,
+            363,
+            43
+          ],
+          "ocrConfidence": 0.9448
+        },
+        {
+          "text": "咖奶茶果饮8",
+          "coord": [
+            311,
+            1817,
+            226,
+            40
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "调咖啡5选1",
+          "coord": [
+            588,
+            1817,
+            220,
+            40
+          ],
+          "ocrConfidence": 0.983
+        },
+        {
+          "text": "牌咖啡随心选",
+          "coord": [
+            863,
+            1816,
+            251,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "选美式",
+          "coord": [
+            1093,
+            1813,
+            129,
+            45
+          ],
+          "ocrConfidence": 0.9561
+        },
+        {
+          "text": "v5",
+          "coord": [
+            1144,
+            1876,
+            61,
+            20
+          ],
+          "ocrConfidence": 0.915
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1984,
+        1224,
+        651
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            315,
+            1986,
+            75,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "库迪咖啡(望京金辉国际大",
+          "coord": [
+            407,
+            1984,
+            544,
+            49
+          ],
+          "ocrConfidence": 0.9936
+        },
+        {
+          "text": "1约15分钟",
+          "coord": [
+            995,
+            1984,
+            197,
+            45
+          ],
+          "ocrConfidence": 0.9911
+        },
+        {
+          "text": "1",
+          "coord": [
+            44,
+            1998,
+            37,
+            24
+          ],
+          "ocrConfidence": 0.5551
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            309,
+            2052,
+            101,
+            45
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "月售800+起送¥0免配送费",
+          "coord": [
+            425,
+            2056,
+            482,
+            42
+          ],
+          "ocrConfidence": 0.9588
+        },
+        {
+          "text": "996m",
+          "coord": [
+            1089,
+            2055,
+            104,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "近30天186人复购",
+          "coord": [
+            309,
+            2120,
+            309,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "刚刚有用户下单",
+          "coord": [
+            630,
+            2119,
+            277,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "饮尽凡尘",
+          "coord": [
+            55,
+            2167,
+            80,
+            47
+          ],
+          "ocrConfidence": 0.9026
+        },
+        {
+          "text": "觉醒斩神",
+          "coord": [
+            80,
+            2165,
+            107,
+            65
+          ],
+          "ocrConfidence": 0.7085
+        },
+        {
+          "text": "EHRAN",
+          "coord": [
+            121,
+            2204,
+            52,
+            22
+          ],
+          "ocrConfidence": 0.6912
+        },
+        {
+          "text": "神券",
+          "coord": [
+            122,
+            2273,
+            66,
+            40
+          ],
+          "ocrConfidence": 0.7108
+        },
+        {
+          "text": "￥12",
+          "coord": [
+            86,
+            2340,
+            136,
+            78
+          ],
+          "ocrConfidence": 0.8897
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            87,
+            2431,
+            135,
+            38
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "生椰拿铁",
+          "coord": [
+            310,
+            2479,
+            157,
+            40
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "杨枝甘露",
+          "coord": [
+            586,
+            2478,
+            159,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "金奖深烘美式",
+          "coord": [
+            865,
+            2479,
+            233,
+            39
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "小黄",
+          "coord": [
+            1139,
+            2476,
+            85,
+            46
+          ],
+          "ocrConfidence": 0.9479
+        },
+        {
+          "text": "使用",
+          "coord": [
+            117,
+            2519,
+            76,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥15.830天低价",
+          "coord": [
+            310,
+            2536,
+            243,
+            45
+          ],
+          "ocrConfidence": 0.965
+        },
+        {
+          "text": "￥14.4",
+          "coord": [
+            586,
+            2535,
+            99,
+            45
+          ],
+          "ocrConfidence": 0.9238
+        },
+        {
+          "text": "￥8.99神券价",
+          "coord": [
+            867,
+            2539,
+            201,
+            39
+          ],
+          "ocrConfidence": 0.9681
+        },
+        {
+          "text": "￥15.5",
+          "coord": [
+            1139,
+            2534,
+            85,
+            46
+          ],
+          "ocrConfidence": 0.8489
+        }
+      ]
+    }
+  ]
+}

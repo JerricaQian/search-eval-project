@@ -1,0 +1,942 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/hotel-card/国庆节酒店-混排.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为国庆节酒店.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        554,
+        1206,
+        670
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "北京望京凯悦酒店·MarketCafé咖",
+          "coord": [
+            446,
+            582,
+            689,
+            54
+          ],
+          "ocrConfidence": 0.9845
+        },
+        {
+          "text": "到店",
+          "coord": [
+            366,
+            591,
+            66,
+            36
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "4.3分",
+          "coord": [
+            357,
+            652,
+            97,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "5645条人均￥250综合自助望京",
+          "coord": [
+            458,
+            648,
+            557,
+            48
+          ],
+          "ocrConfidence": 0.9807
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1067,
+            650,
+            111,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "望京自助餐好评榜第6名",
+          "coord": [
+            417,
+            716,
+            356,
+            34
+          ],
+          "ocrConfidence": 0.9774
+        },
+        {
+          "text": "二",
+          "coord": [
+            479,
+            800,
+            18,
+            4
+          ],
+          "ocrConfidence": 0.5218
+        },
+        {
+          "text": "神券",
+          "coord": [
+            147,
+            926,
+            66,
+            40
+          ],
+          "ocrConfidence": 0.6304
+        },
+        {
+          "text": "￥5",
+          "coord": [
+            133,
+            983,
+            92,
+            74
+          ],
+          "ocrConfidence": 0.8432
+        },
+        {
+          "text": "庆通用",
+          "coord": [
+            358,
+            998,
+            64,
+            24
+          ],
+          "ocrConfidence": 0.8654
+        },
+        {
+          "text": "家庭自助餐包含2大1小",
+          "coord": [
+            426,
+            999,
+            138,
+            15
+          ],
+          "ocrConfidence": 0.9959
+        },
+        {
+          "text": "8.21-8.30马来西亚美食节赔间通用",
+          "coord": [
+            426,
+            1016,
+            147,
+            10
+          ],
+          "ocrConfidence": 0.9117
+        },
+        {
+          "text": "【中秋国庆通用",
+          "coord": [
+            362,
+            1046,
+            230,
+            42
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "【周一至周四】",
+          "coord": [
+            617,
+            1046,
+            210,
+            40
+          ],
+          "ocrConfidence": 0.9833
+        },
+        {
+          "text": "单人自助餐(8.",
+          "coord": [
+            868,
+            1045,
+            225,
+            42
+          ],
+          "ocrConfidence": 0.9877
+        },
+        {
+          "text": "【南洋",
+          "coord": [
+            1126,
+            1044,
+            80,
+            41
+          ],
+          "ocrConfidence": 0.9842
+        },
+        {
+          "text": "无门槛",
+          "coord": [
+            134,
+            1064,
+            92,
+            34
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "】家庭自助餐(",
+          "coord": [
+            358,
+            1093,
+            214,
+            44
+          ],
+          "ocrConfidence": 0.96
+        },
+        {
+          "text": "商务晚餐半自",
+          "coord": [
+            616,
+            1096,
+            210,
+            36
+          ],
+          "ocrConfidence": 0.9903
+        },
+        {
+          "text": "21-8.30马来西",
+          "coord": [
+            869,
+            1094,
+            240,
+            36
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "来西",
+          "coord": [
+            1122,
+            1094,
+            84,
+            38
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "使用",
+          "coord": [
+            144,
+            1142,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "523",
+          "coord": [
+            377,
+            1148,
+            78,
+            39
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "￥163",
+          "coord": [
+            614,
+            1148,
+            91,
+            40
+          ],
+          "ocrConfidence": 0.8783
+        },
+        {
+          "text": "233",
+          "coord": [
+            886,
+            1148,
+            79,
+            39
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "￥820",
+          "coord": [
+            452,
+            1152,
+            90,
+            32
+          ],
+          "ocrConfidence": 0.9049
+        },
+        {
+          "text": "￥328",
+          "coord": [
+            964,
+            1153,
+            89,
+            32
+          ],
+          "ocrConfidence": 0.918
+        },
+        {
+          "text": "￥163",
+          "coord": [
+            1124,
+            1146,
+            82,
+            41
+          ],
+          "ocrConfidence": 0.9089
+        },
+        {
+          "text": "￥198",
+          "coord": [
+            704,
+            1154,
+            83,
+            31
+          ],
+          "ocrConfidence": 0.9161
+        },
+        {
+          "text": "￥",
+          "coord": [
+            366,
+            1158,
+            19,
+            23
+          ],
+          "ocrConfidence": 0.772
+        },
+        {
+          "text": "￥",
+          "coord": [
+            872,
+            1156,
+            24,
+            28
+          ],
+          "ocrConfidence": 0.6407
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1247,
+        1206,
+        574
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "商都酒店餐饮",
+          "coord": [
+            447,
+            1265,
+            271,
+            50
+          ],
+          "ocrConfidence": 0.9905
+        },
+        {
+          "text": "到店",
+          "coord": [
+            366,
+            1271,
+            66,
+            36
+          ],
+          "ocrConfidence": 0.9966
+        },
+        {
+          "text": "商",
+          "coord": [
+            70,
+            1309,
+            226,
+            198
+          ],
+          "ocrConfidence": 0.6588
+        },
+        {
+          "text": "4.1分",
+          "coord": [
+            358,
+            1332,
+            87,
+            40
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "227条人均￥116",
+          "coord": [
+            450,
+            1333,
+            281,
+            39
+          ],
+          "ocrConfidence": 0.9628
+        },
+        {
+          "text": "6豫菜",
+          "coord": [
+            711,
+            1335,
+            96,
+            36
+          ],
+          "ocrConfidence": 0.9886
+        },
+        {
+          "text": "18.6km",
+          "coord": [
+            1050,
+            1331,
+            128,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "?",
+          "coord": [
+            1184,
+            1511,
+            22,
+            36
+          ],
+          "ocrConfidence": 0.7682
+        },
+        {
+          "text": "随时",
+          "coord": [
+            1150,
+            1596,
+            56,
+            34
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "【十一】【食尚风",
+          "coord": [
+            362,
+            1666,
+            232,
+            42
+          ],
+          "ocrConfidence": 0.9561
+        },
+        {
+          "text": "【地方特色】黄",
+          "coord": [
+            618,
+            1667,
+            212,
+            40
+          ],
+          "ocrConfidence": 0.9638
+        },
+        {
+          "text": "【食全食美】羊",
+          "coord": [
+            872,
+            1667,
+            212,
+            40
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "100元",
+          "coord": [
+            1122,
+            1666,
+            84,
+            37
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "味】豫东熬炒鸡",
+          "coord": [
+            360,
+            1714,
+            233,
+            39
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "河大鲤鱼+郑",
+          "coord": [
+            613,
+            1715,
+            214,
+            38
+          ],
+          "ocrConfidence": 0.9921
+        },
+        {
+          "text": "肉烩面双人餐(",
+          "coord": [
+            871,
+            1714,
+            226,
+            40
+          ],
+          "ocrConfidence": 0.9845
+        },
+        {
+          "text": "288",
+          "coord": [
+            376,
+            1768,
+            78,
+            40
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "￥480",
+          "coord": [
+            615,
+            1769,
+            94,
+            38
+          ],
+          "ocrConfidence": 0.8983
+        },
+        {
+          "text": "￥148",
+          "coord": [
+            868,
+            1767,
+            91,
+            41
+          ],
+          "ocrConfidence": 0.8838
+        },
+        {
+          "text": "95",
+          "coord": [
+            1144,
+            1767,
+            54,
+            39
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "￥428",
+          "coord": [
+            454,
+            1773,
+            90,
+            32
+          ],
+          "ocrConfidence": 0.9229
+        },
+        {
+          "text": "￥731",
+          "coord": [
+            710,
+            1773,
+            80,
+            30
+          ],
+          "ocrConfidence": 0.9231
+        },
+        {
+          "text": "￥278",
+          "coord": [
+            960,
+            1774,
+            85,
+            31
+          ],
+          "ocrConfidence": 0.9209
+        },
+        {
+          "text": "￥",
+          "coord": [
+            364,
+            1779,
+            19,
+            24
+          ],
+          "ocrConfidence": 0.6371
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1128,
+            1778,
+            18,
+            26
+          ],
+          "ocrConfidence": 0.6844
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        1843,
+        1206,
+        464
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【怡园】E2地铁近国贸CBD直达北海",
+          "coord": [
+            451,
+            1855,
+            709,
+            54
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "金牌房源",
+          "coord": [
+            38,
+            1863,
+            122,
+            34
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "民宿",
+          "coord": [
+            368,
+            1861,
+            62,
+            36
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "南锣鼓巷舒适明亮三居·可洗衣·租房·套",
+          "coord": [
+            358,
+            1921,
+            784,
+            52
+          ],
+          "ocrConfidence": 0.9846
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            358,
+            1990,
+            94,
+            40
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "老板人很好，",
+          "coord": [
+            467,
+            1992,
+            212,
+            38
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "总体是一次很好的入住经历",
+          "coord": [
+            676,
+            1991,
+            434,
+            38
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "距您直线14.4km",
+          "coord": [
+            360,
+            2051,
+            268,
+            38
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "传媒大学/管庄",
+          "coord": [
+            644,
+            2053,
+            236,
+            38
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "实拍",
+          "coord": [
+            370,
+            2109,
+            75,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "超赞房东",
+          "coord": [
+            482,
+            2111,
+            144,
+            38
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "近地铁",
+          "coord": [
+            662,
+            2109,
+            113,
+            42
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "寄存行李",
+          "coord": [
+            812,
+            2111,
+            144,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "474",
+          "coord": [
+            1032,
+            2163,
+            106,
+            55
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "700+消费",
+          "coord": [
+            358,
+            2181,
+            165,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "¥712",
+          "coord": [
+            921,
+            2181,
+            85,
+            32
+          ],
+          "ocrConfidence": 0.9186
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1016,
+            2179,
+            20,
+            30
+          ],
+          "ocrConfidence": 0.6245
+        },
+        {
+          "text": "起",
+          "coord": [
+            1138,
+            2177,
+            39,
+            38
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "今夜特价|立减238",
+          "coord": [
+            874,
+            2240,
+            288,
+            32
+          ],
+          "ocrConfidence": 0.9706
+        },
+        {
+          "text": "44分钟前有人收藏",
+          "coord": [
+            360,
+            2245,
+            274,
+            32
+          ],
+          "ocrConfidence": 0.9987
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        2307,
+        1206,
+        315
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "北野！大兴机场！明亮宽敞三居！十一",
+          "coord": [
+            446,
+            2322,
+            714,
+            53
+          ],
+          "ocrConfidence": 0.9487
+        },
+        {
+          "text": "金牌房源",
+          "coord": [
+            37,
+            2331,
+            124,
+            35
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "民宿",
+          "coord": [
+            368,
+            2330,
+            64,
+            36
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "特惠！24小时热水无线！免费停车！·近北",
+          "coord": [
+            356,
+            2387,
+            798,
+            56
+          ],
+          "ocrConfidence": 0.9681
+        },
+        {
+          "text": "4.7分",
+          "coord": [
+            358,
+            2459,
+            91,
+            40
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "卫生特别干净，住得特别放心",
+          "coord": [
+            463,
+            2457,
+            466,
+            42
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "距您直线56.2km",
+          "coord": [
+            359,
+            2519,
+            276,
+            38
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "北京大兴国际机场",
+          "coord": [
+            646,
+            2519,
+            289,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "超赞房东",
+          "coord": [
+            370,
+            2579,
+            145,
+            40
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "立即确认",
+          "coord": [
+            554,
+            2579,
+            146,
+            38
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "寄存行李",
+          "coord": [
+            736,
+            2579,
+            146,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "洗衣机",
+          "coord": [
+            918,
+            2578,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9992
+        }
+      ]
+    }
+  ]
+}

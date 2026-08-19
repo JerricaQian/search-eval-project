@@ -78,7 +78,7 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
     """
     x, y, width, height = candidate["coord"]
     output = {source_id: dict(value) for source_id, value in semantic_by_source.items()}
-    structured = re.compile(r"月售|已售|评分|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
+    structured = re.compile(r"月售|已售|评分|到店|外卖|上门|景点|酒店|民宿|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
     possible_titles = []
     for item in text_candidates:
         value = str(item.get("text", "")).strip()
@@ -86,11 +86,13 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
         if item["coord"][1] <= y + max(100, height * 0.42) and chinese >= 2 and not structured.search(value):
             possible_titles.append(item)
     if possible_titles and not any(value.get("semanticRoleCandidate") == "title" and value.get("status") == "confirmed" for value in output.values()):
-        title = min(possible_titles, key=lambda item: (item["coord"][1], -sum("\u4e00" <= char <= "\u9fff" for char in str(item.get("text", "")))))
+        top = min(item["coord"][1] for item in possible_titles)
+        same_title_row = [item for item in possible_titles if item["coord"][1] <= top + max(28, item["coord"][3])]
+        title = max(same_title_row, key=lambda item: (sum("\u4e00" <= char <= "\u9fff" for char in str(item.get("text", ""))), item["coord"][2]))
         output[title["id"]] = {**output.get(title["id"], {}), "semanticRoleCandidate": "title", "regionCandidate": "标题区", "status": "confirmed", "evidence": ["card_local_upper_cjk_title"]}
     fallback_region = {
         "商家卡片_图文下挂": "下挂商品区",
-        "商家卡片_文字下挂": "下挂区",
+        "商家卡片_文字下挂": "文字下挂区",
         "演出电影卡片": "演出信息区",
         "酒店卡片": "基础信息区",
         "度假酒店套餐卡片": "套餐概要",
@@ -188,6 +190,55 @@ def image_element(card_id: str, item: dict[str, Any], index: int, region: str = 
         "render": render, "visual": visual}
 
 
+def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: str) -> list[dict[str, Any]]:
+    """Keep image/text/price facts owned by one visible appended item.
+
+    The flat ``elements`` array remains for Phase3 compatibility; itemGroups is
+    the lossless ownership layer and every appended element must occur in
+    exactly one group.  Text-hang rows are clustered vertically. Graphic-hang
+    products use their image columns as anchors.
+    """
+    if region not in {"下挂商品区", "文字下挂区", "下挂区", "服务下挂"} or not elements:
+        return []
+    images = [item for item in elements if item.get("元素类型") == "图片"]
+    texts = [item for item in elements if item.get("元素类型") != "图片"]
+    anchors: list[list[dict[str, Any]]]
+    if card_type == "商家卡片_图文下挂" and images:
+        anchors = [[item] for item in sorted(images, key=lambda value: value["坐标"][0])]
+        for item in texts:
+            center = item["坐标"][0] + item["坐标"][2] / 2
+            target = min(anchors, key=lambda group: abs(center - (group[0]["坐标"][0] + group[0]["坐标"][2] / 2)))
+            target.append(item)
+    else:
+        anchors = []
+        for item in sorted(elements, key=lambda value: (value["坐标"][1], value["坐标"][0])):
+            center = item["坐标"][1] + item["坐标"][3] / 2
+            target = next((group for group in anchors if abs(center - sum(value["坐标"][1] + value["坐标"][3] / 2 for value in group) / len(group)) <= max(item["坐标"][3], 28)), None)
+            if target is None:
+                anchors.append([item])
+            else:
+                target.append(item)
+    groups = []
+    for index, members in enumerate(anchors, 1):
+        # The first element was accidentally duplicated by neither branch: the
+        # expression above appends only when an existing row is found.
+        members = list(dict.fromkeys(item["id"] for item in members))
+        resolved = [next(item for item in elements if item["id"] == member_id) for member_id in members]
+        image_ids = [item["id"] for item in resolved if item.get("元素类型") == "图片"]
+        price_ids = [item["id"] for item in resolved if item.get("textFacts", {}).get("semanticRole") == "price"]
+        text_ids = [item["id"] for item in resolved if item["id"] not in image_ids and item["id"] not in price_ids]
+        groups.append({
+            "itemIndex": index,
+            "coord": union([item["坐标"] for item in resolved], resolved[0]["坐标"]),
+            "elementIds": [item["id"] for item in resolved],
+            "imageElementIds": image_ids,
+            "textElementIds": text_ids,
+            "priceElementIds": price_ids,
+            "visibleStatus": "confirmed" if all(item.get("render", {}).get("visibleStatus") == "confirmed" for item in resolved) else "uncertain",
+        })
+    return groups
+
+
 def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[str, Any], text_semantics: dict[str, Any]) -> dict[str, Any]:
     card_id, coord = candidate["id"], candidate["coord"]
     selected = semantic.get("selectedCardType", {})
@@ -232,7 +283,13 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
             emitted_head_image_ids.append(element["id"])
     if not regions:
         regions["基础信息区"] = []
-    region_rows = [{"name": name, "coord": union([e["坐标"] for e in elements], coord), "elements": elements} for name, elements in regions.items()]
+    region_rows = []
+    for name, region_elements in regions.items():
+        row = {"name": name, "coord": union([e["坐标"] for e in region_elements], coord), "elements": region_elements}
+        groups = append_item_groups(name, region_elements, selected_type)
+        if groups:
+            row["itemGroups"] = groups
+        region_rows.append(row)
     elements = [element for row in region_rows for element in row["elements"]]
     uncertain = unresolved_ids + [element["id"] for element in elements if element["render"]["visibleStatus"] != "confirmed"]
     titles = [e for e in elements if e.get("textFacts", {}).get("semanticRole") == "title"]
@@ -260,7 +317,11 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
         "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_repeated_type"] if partial else [])},
         "visualInventory": {"complete": complete and all(e.get("visual", {}).get("visualStatus") == "confirmed" for e in tags), "regions": inventory_regions,
             "tagScanChecklist": [{"candidate": "local_cv_tag_icon_candidates", "status": "found" if tags else "not_found", "checkedRegions": list(regions), "elementIds": [e["id"] for e in tags], "visualBasis": "local CV/OCR candidate scan"}]},
-        "_relations": [{"relationType": "title_to_image", "from": title["id"], "to": image["id"], "status": "confirmed", "evidence": "same confirmed result card and card-type head-image topology"} for title in titles for image in head_images]}
+        "_relations": (
+            [{"relationType": "title_to_image", "from": title["id"], "to": image["id"], "status": "confirmed", "evidence": "same confirmed result card and card-type head-image topology"} for title in titles for image in head_images]
+            + [{"relationType": "title_to_append", "from": title["id"], "to": element_id, "status": "confirmed", "evidence": "same confirmed appended item group"}
+               for title in titles for row in region_rows for group in row.get("itemGroups", []) for element_id in group["elementIds"]]
+        )}
 
 
 def recognition_state(facts: dict[str, Any], card_semantics: dict[str, Any], gate: dict[str, Any] | None, card_ids: list[str]) -> dict[str, Any]:

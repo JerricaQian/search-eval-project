@@ -1,0 +1,812 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为手机维修.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        843,
+        1224,
+        443
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "m",
+          "coord": [
+            32,
+            879,
+            65,
+            49
+          ],
+          "ocrConfidence": 0.2068
+        },
+        {
+          "text": "到店",
+          "coord": [
+            313,
+            880,
+            80,
+            46
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "果粉师傅苹果维修回收(望京店)",
+          "coord": [
+            402,
+            873,
+            664,
+            58
+          ],
+          "ocrConfidence": 0.9675
+        },
+        {
+          "text": "全国直营门店",
+          "coord": [
+            88,
+            899,
+            153,
+            31
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "北京20+线下门店",
+          "coord": [
+            106,
+            936,
+            108,
+            17
+          ],
+          "ocrConfidence": 0.9947
+        },
+        {
+          "text": "4.7分5556条￥286/人手机维修",
+          "coord": [
+            304,
+            944,
+            585,
+            52
+          ],
+          "ocrConfidence": 0.9726
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1081,
+            952,
+            114,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "全程保神券立减5近期好评率100%公益商家",
+          "coord": [
+            307,
+            1011,
+            806,
+            50
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "OFR",
+          "coord": [
+            59,
+            1046,
+            57,
+            10
+          ],
+          "ocrConfidence": 0.6879
+        },
+        {
+          "text": "维修很专业，好评",
+          "coord": [
+            354,
+            1080,
+            315,
+            44
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "￥172",
+          "coord": [
+            311,
+            1160,
+            94,
+            44
+          ],
+          "ocrConfidence": 0.8988
+        },
+        {
+          "text": "0.8折",
+          "coord": [
+            413,
+            1158,
+            92,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【外屏碎】手机维修6-16换",
+          "coord": [
+            536,
+            1158,
+            451,
+            46
+          ],
+          "ocrConfidence": 0.9955
+        },
+        {
+          "text": "年售300+",
+          "coord": [
+            1040,
+            1163,
+            153,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥111",
+          "coord": [
+            309,
+            1231,
+            83,
+            45
+          ],
+          "ocrConfidence": 0.8632
+        },
+        {
+          "text": "1.6折",
+          "coord": [
+            405,
+            1230,
+            90,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【维修】苹果手机iPhoneXs-",
+          "coord": [
+            526,
+            1230,
+            464,
+            45
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "年售300+",
+          "coord": [
+            1039,
+            1235,
+            154,
+            37
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1325,
+        1224,
+        442
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            314,
+            1356,
+            78,
+            45
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "速达电脑手机维修·数据恢复(五道口",
+          "coord": [
+            404,
+            1348,
+            763,
+            58
+          ],
+          "ocrConfidence": 0.9877
+        },
+        {
+          "text": "速达快修",
+          "coord": [
+            107,
+            1408,
+            160,
+            38
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            308,
+            1424,
+            103,
+            43
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "467条￥103/人电脑维修五道口",
+          "coord": [
+            419,
+            1425,
+            583,
+            45
+          ],
+          "ocrConfidence": 0.9763
+        },
+        {
+          "text": "12.6km",
+          "coord": [
+            1062,
+            1430,
+            129,
+            35
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "24h极速到达快速维修",
+          "coord": [
+            132,
+            1450,
+            93,
+            13
+          ],
+          "ocrConfidence": 0.9519
+        },
+        {
+          "text": "手机·电脑·硬盘",
+          "coord": [
+            48,
+            1491,
+            220,
+            33
+          ],
+          "ocrConfidence": 0.9701
+        },
+        {
+          "text": "全程保",
+          "coord": [
+            309,
+            1491,
+            123,
+            43
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "神券最高膨至40近期好评率100%",
+          "coord": [
+            442,
+            1492,
+            622,
+            40
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "找速达",
+          "coord": [
+            156,
+            1566,
+            85,
+            31
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "非常专业、维修技术好",
+          "coord": [
+            354,
+            1557,
+            391,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "修电脑",
+          "coord": [
+            69,
+            1568,
+            82,
+            27
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "￥25",
+          "coord": [
+            309,
+            1635,
+            81,
+            45
+          ],
+          "ocrConfidence": 0.8818
+        },
+        {
+          "text": "2.5折",
+          "coord": [
+            399,
+            1635,
+            90,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "手机维修换屏升级解锁",
+          "coord": [
+            517,
+            1635,
+            391,
+            42
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "年售1",
+          "coord": [
+            1098,
+            1637,
+            95,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥25",
+          "coord": [
+            308,
+            1706,
+            81,
+            46
+          ],
+          "ocrConfidence": 0.885
+        },
+        {
+          "text": "2.5折",
+          "coord": [
+            400,
+            1707,
+            89,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "小米手机维修",
+          "coord": [
+            517,
+            1708,
+            236,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "年售1",
+          "coord": [
+            1096,
+            1705,
+            98,
+            46
+          ],
+          "ocrConfidence": 0.999
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1807,
+        1224,
+        441
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "上门",
+          "coord": [
+            310,
+            1828,
+            96,
+            48
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "京东服务家电维修安装北京",
+          "coord": [
+            402,
+            1825,
+            595,
+            50
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "京东服务",
+          "coord": [
+            120,
+            1854,
+            70,
+            18
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "4.5分4.8万条家电维修",
+          "coord": [
+            307,
+            1897,
+            426,
+            46
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "维修选京东",
+          "coord": [
+            50,
+            1909,
+            210,
+            41
+          ],
+          "ocrConfidence": 0.9947
+        },
+        {
+          "text": "收费更透明",
+          "coord": [
+            53,
+            1959,
+            204,
+            34
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "北京家电维修好评榜第1名",
+          "coord": [
+            312,
+            1967,
+            447,
+            37
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            774,
+            1963,
+            188,
+            45
+          ],
+          "ocrConfidence": 0.9863
+        },
+        {
+          "text": "一次上门全面解决",
+          "coord": [
+            74,
+            2021,
+            164,
+            19
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "搞定了棘手问题，推荐",
+          "coord": [
+            354,
+            2031,
+            391,
+            41
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "告",
+          "coord": [
+            56,
+            2046,
+            20,
+            17
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "￥37",
+          "coord": [
+            309,
+            2109,
+            77,
+            47
+          ],
+          "ocrConfidence": 0.9012
+        },
+        {
+          "text": "5.2折",
+          "coord": [
+            396,
+            2108,
+            91,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "安卓手机检测故障维修手机",
+          "coord": [
+            514,
+            2110,
+            468,
+            40
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "年售200+",
+          "coord": [
+            1039,
+            2111,
+            154,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥26",
+          "coord": [
+            308,
+            2179,
+            85,
+            49
+          ],
+          "ocrConfidence": 0.8877
+        },
+        {
+          "text": "3.5折",
+          "coord": [
+            396,
+            2179,
+            93,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "苹果手机维修上门检测故障",
+          "coord": [
+            518,
+            2182,
+            468,
+            39
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "年售300+",
+          "coord": [
+            1039,
+            2184,
+            154,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2289,
+        1224,
+        382
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "上门",
+          "coord": [
+            311,
+            2303,
+            87,
+            50
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "闪修侠手机维修电脑维修北京",
+          "coord": [
+            405,
+            2298,
+            627,
+            54
+          ],
+          "ocrConfidence": 0.9915
+        },
+        {
+          "text": "三",
+          "coord": [
+            42,
+            2316,
+            41,
+            30
+          ],
+          "ocrConfidence": 0.5217
+        },
+        {
+          "text": "闪修侠",
+          "coord": [
+            41,
+            2352,
+            229,
+            110
+          ],
+          "ocrConfidence": 0.8699
+        },
+        {
+          "text": "4.5分",
+          "coord": [
+            310,
+            2376,
+            102,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "9353条手机维修",
+          "coord": [
+            408,
+            2377,
+            321,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "北京手机维修销量榜第1名",
+          "coord": [
+            311,
+            2442,
+            452,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            775,
+            2440,
+            187,
+            41
+          ],
+          "ocrConfidence": 0.9687
+        },
+        {
+          "text": "11周年庆",
+          "coord": [
+            83,
+            2485,
+            142,
+            35
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "￥25",
+          "coord": [
+            308,
+            2520,
+            81,
+            46
+          ],
+          "ocrConfidence": 0.885
+        },
+        {
+          "text": "5折",
+          "coord": [
+            401,
+            2520,
+            60,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【更换尾插优惠卷】手机充电",
+          "coord": [
+            494,
+            2521,
+            465,
+            42
+          ],
+          "ocrConfidence": 0.9933
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1018,
+            2522,
+            175,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥25",
+          "coord": [
+            307,
+            2588,
+            83,
+            50
+          ],
+          "ocrConfidence": 0.8735
+        },
+        {
+          "text": "5折",
+          "coord": [
+            400,
+            2589,
+            61,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【30代50】抵用金-苹果华为",
+          "coord": [
+            495,
+            2593,
+            466,
+            41
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "年售8000+",
+          "coord": [
+            1020,
+            2594,
+            173,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

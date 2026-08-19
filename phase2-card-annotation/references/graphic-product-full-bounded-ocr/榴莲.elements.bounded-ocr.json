@@ -1,0 +1,572 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/榴莲.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为榴莲.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1077,
+        1224,
+        393
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            398,
+            1107,
+            79,
+            47
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "泰国金枕榴莲(约)2kg称重",
+          "coord": [
+            490,
+            1102,
+            558,
+            55
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "时令",
+          "coord": [
+            267,
+            1119,
+            82,
+            48
+          ],
+          "ocrConfidence": 0.9906
+        },
+        {
+          "text": "￥65到手价￥97.5月售26",
+          "coord": [
+            387,
+            1203,
+            480,
+            69
+          ],
+          "ocrConfidence": 0.959
+        },
+        {
+          "text": "48分钟",
+          "coord": [
+            1068,
+            1222,
+            126,
+            46
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "神券79减16坏必赔",
+          "coord": [
+            394,
+            1283,
+            350,
+            45
+          ],
+          "ocrConfidence": 0.9829
+        },
+        {
+          "text": "4.0km",
+          "coord": [
+            1082,
+            1287,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "品牌京客隆(大山子店)",
+          "coord": [
+            398,
+            1351,
+            381,
+            39
+          ],
+          "ocrConfidence": 0.9476
+        },
+        {
+          "text": "广告",
+          "coord": [
+            43,
+            1398,
+            56,
+            31
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "起送￥19满39配送￥3",
+          "coord": [
+            394,
+            1414,
+            370,
+            42
+          ],
+          "ocrConfidence": 0.9465
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1511,
+        1224,
+        518
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "早恋",
+          "coord": [
+            41,
+            1547,
+            118,
+            53
+          ],
+          "ocrConfidence": 0.6471
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            399,
+            1546,
+            75,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【下单现剥】AA泰国树上熟金枕",
+          "coord": [
+            494,
+            1539,
+            654,
+            58
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "时令",
+          "coord": [
+            270,
+            1552,
+            75,
+            44
+          ],
+          "ocrConfidence": 0.9951
+        },
+        {
+          "text": "榴莲3-6斤(大果默认剥肉装盒)",
+          "coord": [
+            392,
+            1606,
+            661,
+            59
+          ],
+          "ocrConfidence": 0.9748
+        },
+        {
+          "text": "约2kg以下",
+          "coord": [
+            393,
+            1681,
+            184,
+            48
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "￥35.8起",
+          "coord": [
+            385,
+            1767,
+            195,
+            69
+          ],
+          "ocrConfidence": 0.967
+        },
+        {
+          "text": "冰爽价",
+          "coord": [
+            599,
+            1778,
+            113,
+            45
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "35.8",
+          "coord": [
+            60,
+            1794,
+            74,
+            37
+          ],
+          "ocrConfidence": 0.9856
+        },
+        {
+          "text": "￥49.9月售27",
+          "coord": [
+            737,
+            1785,
+            232,
+            44
+          ],
+          "ocrConfidence": 0.9702
+        },
+        {
+          "text": "38分钟",
+          "coord": [
+            1066,
+            1785,
+            126,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥",
+          "coord": [
+            49,
+            1802,
+            24,
+            25
+          ],
+          "ocrConfidence": 0.7799
+        },
+        {
+          "text": "8月31日",
+          "coord": [
+            242,
+            1807,
+            76,
+            23
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "闪购冰爽价",
+          "coord": [
+            44,
+            1840,
+            103,
+            24
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "活动结束",
+          "coord": [
+            235,
+            1840,
+            89,
+            28
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券52减18",
+          "coord": [
+            392,
+            1846,
+            218,
+            44
+          ],
+          "ocrConfidence": 0.975
+        },
+        {
+          "text": "62减20坏必赔",
+          "coord": [
+            630,
+            1849,
+            267,
+            41
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "4.4km",
+          "coord": [
+            1083,
+            1852,
+            109,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "品牌梵果恋·果切·果捞·礼盒(南湖渠店)",
+          "coord": [
+            396,
+            1914,
+            677,
+            40
+          ],
+          "ocrConfidence": 0.9542
+        },
+        {
+          "text": "起送￥20",
+          "coord": [
+            394,
+            1978,
+            150,
+            42
+          ],
+          "ocrConfidence": 0.9022
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            555,
+            1980,
+            159,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2068,
+        1224,
+        518
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            398,
+            2107,
+            79,
+            48
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【世界杯特惠榴莲】(鲜 AA 果)3-4",
+          "coord": [
+            491,
+            2105,
+            681,
+            55
+          ],
+          "ocrConfidence": 0.9586
+        },
+        {
+          "text": "榴鲜宝",
+          "coord": [
+            59,
+            2124,
+            86,
+            33
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "当季鲜果",
+          "coord": [
+            158,
+            2116,
+            118,
+            46
+          ],
+          "ocrConfidence": 0.8468
+        },
+        {
+          "text": "时令",
+          "coord": [
+            270,
+            2116,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "斤泰国进口树熟【金枕榴莲】3-4斤(香",
+          "coord": [
+            391,
+            2167,
+            786,
+            67
+          ],
+          "ocrConfidence": 0.9812
+        },
+        {
+          "text": "赠手套|约2kg以下",
+          "coord": [
+            391,
+            2245,
+            331,
+            50
+          ],
+          "ocrConfidence": 0.9573
+        },
+        {
+          "text": "￥67起神价¥288月售300+",
+          "coord": [
+            385,
+            2330,
+            517,
+            71
+          ],
+          "ocrConfidence": 0.9592
+        },
+        {
+          "text": "WIN",
+          "coord": [
+            80,
+            2349,
+            40,
+            18
+          ],
+          "ocrConfidence": 0.9947
+        },
+        {
+          "text": "足球无界·激情共享",
+          "coord": [
+            164,
+            2348,
+            154,
+            20
+          ],
+          "ocrConfidence": 0.9824
+        },
+        {
+          "text": "27分钟",
+          "coord": [
+            1065,
+            2349,
+            128,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "严选泰国金枕3-4斤",
+          "coord": [
+            73,
+            2372,
+            254,
+            37
+          ],
+          "ocrConfidence": 0.9851
+        },
+        {
+          "text": "神券立减5坏必赔",
+          "coord": [
+            391,
+            2407,
+            327,
+            49
+          ],
+          "ocrConfidence": 0.9865
+        },
+        {
+          "text": "2.5km",
+          "coord": [
+            1083,
+            2415,
+            109,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "品牌榴鲜宝榴莲店(望京店）",
+          "coord": [
+            393,
+            2474,
+            466,
+            47
+          ],
+          "ocrConfidence": 0.9427
+        },
+        {
+          "text": "起送¥20",
+          "coord": [
+            395,
+            2542,
+            149,
+            40
+          ],
+          "ocrConfidence": 0.908
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            555,
+            2544,
+            159,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2628,
+        1224,
+        72
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            403,
+            2674,
+            71,
+            26
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "【现剥山】现剥金枕榴莲肉",
+          "coord": [
+            498,
+            2668,
+            474,
+            31
+          ],
+          "ocrConfidence": 0.9222
+        },
+        {
+          "text": "时",
+          "coord": [
+            275,
+            2682,
+            37,
+            18
+          ],
+          "ocrConfidence": 0.9934
+        }
+      ]
+    }
+  ]
+}

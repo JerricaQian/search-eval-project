@@ -1,0 +1,952 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/喜力啤酒整箱.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为喜力啤酒整箱.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        710,
+        1224,
+        563
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "冰镇",
+          "coord": [
+            269,
+            722,
+            79,
+            46
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            399,
+            718,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【整箱】喜力啤酒500ml*12瓶",
+          "coord": [
+            496,
+            713,
+            616,
+            50
+          ],
+          "ocrConfidence": 0.9735
+        },
+        {
+          "text": "11.4°P",
+          "coord": [
+            392,
+            775,
+            149,
+            55
+          ],
+          "ocrConfidence": 0.9397
+        },
+        {
+          "text": "酒精度：4.0%v0l保质期:12个月|箱装",
+          "coord": [
+            395,
+            855,
+            639,
+            42
+          ],
+          "ocrConfidence": 0.911
+        },
+        {
+          "text": "Heineken",
+          "coord": [
+            249,
+            914,
+            72,
+            18
+          ],
+          "ocrConfidence": 0.987
+        },
+        {
+          "text": "￥55",
+          "coord": [
+            386,
+            938,
+            138,
+            67
+          ],
+          "ocrConfidence": 0.8828
+        },
+        {
+          "text": "冰爽价",
+          "coord": [
+            520,
+            948,
+            123,
+            47
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "￥55",
+          "coord": [
+            44,
+            965,
+            71,
+            37
+          ],
+          "ocrConfidence": 0.9119
+        },
+        {
+          "text": "/每瓶￥4.59月售95",
+          "coord": [
+            657,
+            957,
+            330,
+            40
+          ],
+          "ocrConfidence": 0.9631
+        },
+        {
+          "text": "31分钟",
+          "coord": [
+            1065,
+            954,
+            129,
+            49
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "8月31日",
+          "coord": [
+            241,
+            978,
+            78,
+            24
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "闪购冰爽价",
+          "coord": [
+            45,
+            1011,
+            102,
+            24
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "活动结束",
+          "coord": [
+            237,
+            1013,
+            87,
+            24
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "不冰必赔",
+          "coord": [
+            396,
+            1019,
+            157,
+            42
+          ],
+          "ocrConfidence": 0.9738
+        },
+        {
+          "text": "3.1km",
+          "coord": [
+            1082,
+            1022,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "品牌廿肆灯火生活超市(望京店)",
+          "coord": [
+            397,
+            1085,
+            536,
+            39
+          ],
+          "ocrConfidence": 0.9549
+        },
+        {
+          "text": "起送￥12.9免配送费",
+          "coord": [
+            394,
+            1149,
+            351,
+            41
+          ],
+          "ocrConfidence": 0.9238
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1273,
+        1224,
+        563
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            398,
+            1280,
+            78,
+            45
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "喜力(Heineken)11.4°P啤酒",
+          "coord": [
+            489,
+            1274,
+            597,
+            55
+          ],
+          "ocrConfidence": 0.9677
+        },
+        {
+          "text": "冰镇",
+          "coord": [
+            273,
+            1290,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "EN",
+          "coord": [
+            89,
+            1341,
+            30,
+            27
+          ],
+          "ocrConfidence": 0.7878
+        },
+        {
+          "text": "OR",
+          "coord": [
+            121,
+            1340,
+            41,
+            33
+          ],
+          "ocrConfidence": 0.9824
+        },
+        {
+          "text": "500ml*12听/箱",
+          "coord": [
+            395,
+            1343,
+            339,
+            54
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "酒精度:5%vol|保质期:365天|箱装",
+          "coord": [
+            396,
+            1417,
+            592,
+            46
+          ],
+          "ocrConfidence": 0.9236
+        },
+        {
+          "text": "Heine",
+          "coord": [
+            144,
+            1446,
+            98,
+            66
+          ],
+          "ocrConfidence": 0.9914
+        },
+        {
+          "text": "nel",
+          "coord": [
+            80,
+            1457,
+            84,
+            49
+          ],
+          "ocrConfidence": 0.9009
+        },
+        {
+          "text": "ken",
+          "coord": [
+            225,
+            1465,
+            60,
+            39
+          ],
+          "ocrConfidence": 0.9866
+        },
+        {
+          "text": "82/",
+          "coord": [
+            529,
+            1504,
+            94,
+            62
+          ],
+          "ocrConfidence": 0.9073
+        },
+        {
+          "text": "前2件￥",
+          "coord": [
+            394,
+            1517,
+            149,
+            45
+          ],
+          "ocrConfidence": 0.9273
+        },
+        {
+          "text": "/件",
+          "coord": [
+            605,
+            1519,
+            62,
+            43
+          ],
+          "ocrConfidence": 0.9929
+        },
+        {
+          "text": "￥90月售12",
+          "coord": [
+            669,
+            1521,
+            211,
+            41
+          ],
+          "ocrConfidence": 0.9595
+        },
+        {
+          "text": "54分钟",
+          "coord": [
+            1065,
+            1518,
+            128,
+            45
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "核速配送·正品行货·正规发票",
+          "coord": [
+            64,
+            1572,
+            265,
+            23
+          ],
+          "ocrConfidence": 0.9544
+        },
+        {
+          "text": "不冰必赔",
+          "coord": [
+            396,
+            1583,
+            157,
+            42
+          ],
+          "ocrConfidence": 0.9915
+        },
+        {
+          "text": "11.2km",
+          "coord": [
+            1064,
+            1585,
+            129,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "品牌华致名酒库(朝阳大悦城店）",
+          "coord": [
+            396,
+            1647,
+            540,
+            43
+          ],
+          "ocrConfidence": 0.9498
+        },
+        {
+          "text": "起送￥158",
+          "coord": [
+            394,
+            1713,
+            171,
+            40
+          ],
+          "ocrConfidence": 0.9362
+        },
+        {
+          "text": "配送￥12",
+          "coord": [
+            578,
+            1713,
+            147,
+            41
+          ],
+          "ocrConfidence": 0.903
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1836,
+        1224,
+        515
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "cineken",
+          "coord": [
+            181,
+            1836,
+            59,
+            28
+          ],
+          "ocrConfidence": 0.9761
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            400,
+            1844,
+            75,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【整箱】喜力11.4度听装啤酒",
+          "coord": [
+            495,
+            1838,
+            594,
+            53
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "Hei",
+          "coord": [
+            277,
+            1860,
+            37,
+            30
+          ],
+          "ocrConfidence": 0.9887
+        },
+        {
+          "text": "Heineken",
+          "coord": [
+            41,
+            1870,
+            68,
+            14
+          ],
+          "ocrConfidence": 0.9891
+        },
+        {
+          "text": "国产经典罐装500mlx12听",
+          "coord": [
+            79,
+            1880,
+            221,
+            22
+          ],
+          "ocrConfidence": 0.9864
+        },
+        {
+          "text": "500ml*12罐/箱",
+          "coord": [
+            395,
+            1906,
+            339,
+            52
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "N",
+          "coord": [
+            106,
+            1937,
+            21,
+            19
+          ],
+          "ocrConfidence": 0.9911
+        },
+        {
+          "text": "ORI",
+          "coord": [
+            126,
+            1934,
+            37,
+            27
+          ],
+          "ocrConfidence": 0.9077
+        },
+        {
+          "text": "享",
+          "coord": [
+            167,
+            1940,
+            7,
+            7
+          ],
+          "ocrConfidence": 0.1083
+        },
+        {
+          "text": "NONONNO",
+          "coord": [
+            172,
+            1933,
+            122,
+            20
+          ],
+          "ocrConfidence": 0.4948
+        },
+        {
+          "text": "酒精度：5%vol|麦汁浓度:11.4°P|保质期:365天",
+          "coord": [
+            397,
+            1982,
+            784,
+            40
+          ],
+          "ocrConfidence": 0.9131
+        },
+        {
+          "text": "inek",
+          "coord": [
+            88,
+            2038,
+            79,
+            41
+          ],
+          "ocrConfidence": 0.7826
+        },
+        {
+          "text": "inel",
+          "coord": [
+            157,
+            2051,
+            41,
+            19
+          ],
+          "ocrConfidence": 0.7761
+        },
+        {
+          "text": "Heinek",
+          "coord": [
+            198,
+            2055,
+            103,
+            29
+          ],
+          "ocrConfidence": 0.9909
+        },
+        {
+          "text": "￥64.9神价/每罐￥5.41月售91",
+          "coord": [
+            390,
+            2069,
+            557,
+            62
+          ],
+          "ocrConfidence": 0.9629
+        },
+        {
+          "text": "30分钟",
+          "coord": [
+            1065,
+            2082,
+            127,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "喜力啤酒",
+          "coord": [
+            41,
+            2134,
+            98,
+            25
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "黄啤麦汁浓度11.4°P",
+          "coord": [
+            142,
+            2133,
+            214,
+            27
+          ],
+          "ocrConfidence": 0.9536
+        },
+        {
+          "text": "品牌吉惠达超市(望京店）",
+          "coord": [
+            398,
+            2151,
+            420,
+            40
+          ],
+          "ocrConfidence": 0.931
+        },
+        {
+          "text": "3.4km",
+          "coord": [
+            1083,
+            2153,
+            109,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "起送￥18.9免配送费",
+          "coord": [
+            395,
+            2215,
+            350,
+            41
+          ],
+          "ocrConfidence": 0.9541
+        },
+        {
+          "text": "",
+          "coord": [
+            492,
+            2331,
+            252,
+            20
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "O",
+          "coord": [
+            757,
+            2332,
+            184,
+            17
+          ],
+          "ocrConfidence": 0.3842
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2351,
+        1224,
+        349
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "严选",
+          "coord": [
+            281,
+            2354,
+            61,
+            39
+          ],
+          "ocrConfidence": 0.9671
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            399,
+            2351,
+            75,
+            31
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "喜力啤酒11.4P听装500ml*12",
+          "coord": [
+            490,
+            2351,
+            670,
+            35
+          ],
+          "ocrConfidence": 0.9772
+        },
+        {
+          "text": "EN",
+          "coord": [
+            50,
+            2394,
+            43,
+            35
+          ],
+          "ocrConfidence": 0.988
+        },
+        {
+          "text": "ORI",
+          "coord": [
+            92,
+            2389,
+            59,
+            50
+          ],
+          "ocrConfidence": 0.9019
+        },
+        {
+          "text": "ORENORNORENORENONNO",
+          "coord": [
+            149,
+            2409,
+            195,
+            35
+          ],
+          "ocrConfidence": 0.6529
+        },
+        {
+          "text": "麦香浓郁｜口感均衡",
+          "coord": [
+            396,
+            2413,
+            351,
+            41
+          ],
+          "ocrConfidence": 0.9353
+        },
+        {
+          "text": "ENOR",
+          "coord": [
+            157,
+            2497,
+            43,
+            18
+          ],
+          "ocrConfidence": 0.9902
+        },
+        {
+          "text": "国",
+          "coord": [
+            216,
+            2494,
+            14,
+            15
+          ],
+          "ocrConfidence": 0.3036
+        },
+        {
+          "text": "78",
+          "coord": [
+            417,
+            2495,
+            80,
+            62
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "1873",
+          "coord": [
+            126,
+            2508,
+            15,
+            12
+          ],
+          "ocrConfidence": 0.898
+        },
+        {
+          "text": "￥",
+          "coord": [
+            400,
+            2514,
+            25,
+            36
+          ],
+          "ocrConfidence": 0.6191
+        },
+        {
+          "text": "月售50+",
+          "coord": [
+            502,
+            2514,
+            149,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "30分钟",
+          "coord": [
+            1064,
+            2513,
+            130,
+            45
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "喜力",
+          "coord": [
+            210,
+            2523,
+            34,
+            19
+          ],
+          "ocrConfidence": 0.9791
+        },
+        {
+          "text": "inek",
+          "coord": [
+            41,
+            2548,
+            114,
+            62
+          ],
+          "ocrConfidence": 0.8172
+        },
+        {
+          "text": "500mL12",
+          "coord": [
+            209,
+            2543,
+            36,
+            13
+          ],
+          "ocrConfidence": 0.6577
+        },
+        {
+          "text": "9含",
+          "coord": [
+            219,
+            2539,
+            17,
+            7
+          ],
+          "ocrConfidence": 0.3626
+        },
+        {
+          "text": "inel",
+          "coord": [
+            150,
+            2565,
+            54,
+            33
+          ],
+          "ocrConfidence": 0.9449
+        },
+        {
+          "text": "Heinek",
+          "coord": [
+            200,
+            2575,
+            152,
+            41
+          ],
+          "ocrConfidence": 0.9913
+        },
+        {
+          "text": "自营小象超市(原美团买菜)-博泰站",
+          "coord": [
+            395,
+            2577,
+            597,
+            48
+          ],
+          "ocrConfidence": 0.9722
+        },
+        {
+          "text": "2.0km",
+          "coord": [
+            1082,
+            2583,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "自营",
+          "coord": [
+            50,
+            2625,
+            66,
+            34
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "小象超市·极速送达",
+          "coord": [
+            122,
+            2630,
+            229,
+            30
+          ],
+          "ocrConfidence": 0.9946
+        },
+        {
+          "text": "起送￥0",
+          "coord": [
+            397,
+            2648,
+            126,
+            36
+          ],
+          "ocrConfidence": 0.8728
+        },
+        {
+          "text": "满39免配送费",
+          "coord": [
+            530,
+            2645,
+            245,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    }
+  ]
+}

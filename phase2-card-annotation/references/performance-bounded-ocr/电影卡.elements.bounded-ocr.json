@@ -1,0 +1,134 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/performance-movie-card/电影卡.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "演出电影卡片",
+      "coord": [
+        0,
+        1395,
+        1224,
+        230
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "￥37.5起",
+          "coord": [
+            1002,
+            1405,
+            205,
+            86
+          ],
+          "ocrConfidence": 0.9605
+        },
+        {
+          "text": "北京万达影城(望京激光巨幕店)",
+          "coord": [
+            26,
+            1419,
+            667,
+            64
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "朝阳区望京东园一区120号楼新荟城五层万达影城望京店",
+          "coord": [
+            30,
+            1505,
+            966,
+            46
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "1.2km",
+          "coord": [
+            1085,
+            1508,
+            109,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "近期场次：18:50",
+          "coord": [
+            30,
+            1570,
+            279,
+            44
+          ],
+          "ocrConfidence": 0.9175
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "演出电影卡片",
+      "coord": [
+        0,
+        1655,
+        1224,
+        239
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "￥30.9起",
+          "coord": [
+            998,
+            1675,
+            208,
+            84
+          ],
+          "ocrConfidence": 0.9528
+        },
+        {
+          "text": "中影CFR国际影城(望京万科时代中心店)",
+          "coord": [
+            28,
+            1689,
+            867,
+            62
+          ],
+          "ocrConfidence": 0.9915
+        },
+        {
+          "text": "朝阳区望京街9号万科时代中心F座B1层",
+          "coord": [
+            30,
+            1774,
+            680,
+            46
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1079,
+            1771,
+            118,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "近期场次:18:25|20:45",
+          "coord": [
+            31,
+            1841,
+            402,
+            40
+          ],
+          "ocrConfidence": 0.9258
+        }
+      ]
+    }
+  ]
+}

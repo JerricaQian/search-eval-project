@@ -1,5 +1,5 @@
 {
-  "contractVersion": "phase2.primary-point-card.v1",
+  "contractVersion": "phase2.golden-structural-truth.v2",
   "primaryPointType": "景点主点卡",
   "pageStructure": {
     "components": [
@@ -9,32 +9,247 @@
         "elements": [
           {
             "elementType": "搜索关键词",
-            "visibleText": "迪士尼"
+            "visibleText": "迪士尼",
+            "coord": [
+              158,
+              168,
+              133,
+              42
+            ],
+            "sourceRegion": "搜索框",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "搜索框",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "迪士尼",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "medium",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#111111",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "搜索框",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
+        ],
+        "status": "confirmed",
+        "coord": [
+          0,
+          122,
+          1224,
+          128
         ]
       },
       {
         "order": 2,
-        "componentType": "tab"
+        "componentType": "tab",
+        "status": "confirmed"
       },
       {
         "order": 3,
         "componentType": "heterogeneous_live_card",
         "elements": [
           {
-            "elementType": "直播视频"
+            "elementType": "直播视频",
+            "coord": [
+              0,
+              376,
+              1224,
+              775
+            ],
+            "sourceRegion": "直播区",
+            "visibleText": "",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "直播区",
+              "isPhoto": true,
+              "isSystemUi": false
+            },
+            "visual": {
+              "entityKind": "image",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "unknown",
+              "backgroundColor": "",
+              "textColor": "",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "image|unknown|photo|直播区|无",
+              "sourceRegion": "直播区",
+              "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+            }
           },
           {
             "elementType": "直播状态",
-            "visibleText": "美团官方直播"
+            "visibleText": "美团官方直播",
+            "coord": [
+              46,
+              390,
+              360,
+              108
+            ],
+            "sourceRegion": "直播区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "直播区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "美团官方直播",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "multicolor"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": true,
+              "isShaped": false,
+              "colorRole": "multicolor",
+              "backgroundColor": "#B2B19C",
+              "textColor": "#A38E81",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|multicolor|业务标签|unknown|无",
+              "sourceRegion": "直播区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "业务标签",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           },
           {
             "elementType": "观看人数",
-            "visibleText": "5754观看"
+            "visibleText": "5754观看",
+            "coord": [
+              175,
+              447,
+              200,
+              50
+            ],
+            "sourceRegion": "直播区",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "直播区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "5754观看",
+              "textStatus": "complete",
+              "semanticRole": "sales",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "multicolor"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": true,
+              "isShaped": false,
+              "colorRole": "multicolor",
+              "backgroundColor": "#C2AF9E",
+              "textColor": "#AC9888",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|multicolor|sales|unknown|无",
+              "sourceRegion": "直播区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
-            "elementType": "直播商品横滑项"
+            "elementType": "直播商品横滑项",
+            "coord": [
+              33,
+              938,
+              1170,
+              210
+            ],
+            "sourceRegion": "直播区",
+            "visibleText": "",
+            "status": "confirmed",
+            "source": "committed_element_annotation_model_calibrated",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "直播区",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#787F68",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "直播区",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
+        ],
+        "status": "confirmed",
+        "coord": [
+          0,
+          376,
+          1224,
+          775
         ]
       },
       {
@@ -45,7 +260,39 @@
           "头图区": {
             "elements": [
               {
-                "elementType": "景点头图"
+                "elementType": "景点头图",
+                "coord": [
+                  64,
+                  1192,
+                  247,
+                  247
+                ],
+                "sourceRegion": "头图区",
+                "visibleText": "",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "头图区",
+                  "isPhoto": true,
+                  "isSystemUi": false
+                },
+                "visual": {
+                  "entityKind": "image",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "unknown",
+                  "backgroundColor": "",
+                  "textColor": "",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "image|unknown|photo|头图区|无",
+                  "sourceRegion": "头图区",
+                  "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                }
               }
             ]
           },
@@ -53,7 +300,47 @@
             "elements": [
               {
                 "elementType": "主点标题",
-                "visibleText": "上海迪士尼度假区"
+                "visibleText": "上海迪士尼度假区",
+                "coord": [
+                  346,
+                  1188,
+                  378,
+                  45
+                ],
+                "sourceRegion": "标题区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "标题区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "上海迪士尼度假区",
+                  "textStatus": "complete",
+                  "semanticRole": "title",
+                  "emphasisLevel": "primary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "neutral"
+                },
+                "visual": {
+                  "entityKind": "text",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "neutral",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#111111",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "text|neutral|title|unknown|无",
+                  "sourceRegion": "标题区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                }
               }
             ]
           },
@@ -61,15 +348,135 @@
             "elements": [
               {
                 "elementType": "评分",
-                "visibleText": "4.7分"
+                "visibleText": "4.7分",
+                "coord": [
+                  344,
+                  1263,
+                  88,
+                  45
+                ],
+                "sourceRegion": "基础信息区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "基础信息区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "4.7分",
+                  "textStatus": "complete",
+                  "semanticRole": "rating",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "red"
+                },
+                "visual": {
+                  "entityKind": "text",
+                  "visualStatus": "confirmed",
+                  "isColored": true,
+                  "isShaped": false,
+                  "colorRole": "red",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#FF5500",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "text|red|rating|unknown|无",
+                  "sourceRegion": "基础信息区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                }
               },
               {
                 "elementType": "评价条数",
-                "visibleText": "48.2万条"
+                "visibleText": "48.2万条",
+                "coord": [
+                  454,
+                  1264,
+                  180,
+                  38
+                ],
+                "sourceRegion": "基础信息区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "基础信息区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "48.2万条",
+                  "textStatus": "complete",
+                  "semanticRole": "other",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "neutral"
+                },
+                "visual": {
+                  "entityKind": "text",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "neutral",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#545454",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "text|neutral|other|unknown|无",
+                  "sourceRegion": "基础信息区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                }
               },
               {
                 "elementType": "AOI",
-                "visibleText": "上海"
+                "visibleText": "上海",
+                "coord": [
+                  1084,
+                  1248,
+                  78,
+                  69
+                ],
+                "sourceRegion": "基础信息区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "基础信息区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "上海",
+                  "textStatus": "complete",
+                  "semanticRole": "location",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "large",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "neutral"
+                },
+                "visual": {
+                  "entityKind": "text",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "neutral",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#3B3B3B",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "text|neutral|location|unknown|无",
+                  "sourceRegion": "基础信息区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                }
               }
             ]
           },
@@ -77,19 +484,207 @@
             "elements": [
               {
                 "elementType": "榜单标签",
-                "visibleText": "玩榜"
+                "visibleText": "玩榜",
+                "coord": [
+                  344,
+                  1325,
+                  110,
+                  48
+                ],
+                "sourceRegion": "标签区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "标签区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "玩榜",
+                  "textStatus": "complete",
+                  "semanticRole": "promotion",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "neutral"
+                },
+                "visual": {
+                  "entityKind": "tag",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "neutral",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#595940",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "tag|neutral|榜单标|unknown|无",
+                  "sourceRegion": "标签区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                  "semanticRole": "榜单标",
+                  "containerShape": "unknown",
+                  "graphicAssistRole": "无",
+                  "countedInComplexity": true,
+                  "countDecision": "独立元素框及当前截图像素确认",
+                  "dedupDecision": "未与其他可见实体合并",
+                  "dedupWithElementIds": []
+                }
               },
               {
                 "elementType": "属性标签",
-                "visibleText": "游客量适中"
+                "visibleText": "游客量适中",
+                "coord": [
+                  475,
+                  1325,
+                  240,
+                  48
+                ],
+                "sourceRegion": "标签区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "标签区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "游客量适中",
+                  "textStatus": "complete",
+                  "semanticRole": "other",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "orange"
+                },
+                "visual": {
+                  "entityKind": "tag",
+                  "visualStatus": "confirmed",
+                  "isColored": true,
+                  "isShaped": false,
+                  "colorRole": "orange",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#FFA509",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "tag|orange|业务标签|unknown|无",
+                  "sourceRegion": "标签区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                  "semanticRole": "业务标签",
+                  "containerShape": "unknown",
+                  "graphicAssistRole": "无",
+                  "countedInComplexity": true,
+                  "countDecision": "独立元素框及当前截图像素确认",
+                  "dedupDecision": "未与其他可见实体合并",
+                  "dedupWithElementIds": []
+                }
               },
               {
                 "elementType": "属性标签",
-                "visibleText": "小火车"
+                "visibleText": "小火车",
+                "coord": [
+                  740,
+                  1325,
+                  120,
+                  48
+                ],
+                "sourceRegion": "标签区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "标签区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "小火车",
+                  "textStatus": "complete",
+                  "semanticRole": "other",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "neutral"
+                },
+                "visual": {
+                  "entityKind": "tag",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "neutral",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#6E6E6E",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "tag|neutral|业务标签|unknown|无",
+                  "sourceRegion": "标签区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                  "semanticRole": "业务标签",
+                  "containerShape": "unknown",
+                  "graphicAssistRole": "无",
+                  "countedInComplexity": true,
+                  "countDecision": "独立元素框及当前截图像素确认",
+                  "dedupDecision": "未与其他可见实体合并",
+                  "dedupWithElementIds": []
+                }
               },
               {
                 "elementType": "属性标签",
-                "visibleText": "有亲子票"
+                "visibleText": "有亲子票",
+                "coord": [
+                  875,
+                  1325,
+                  150,
+                  48
+                ],
+                "sourceRegion": "标签区",
+                "status": "confirmed",
+                "source": "committed_element_annotation_model_calibrated",
+                "render": {
+                  "visibleStatus": "confirmed",
+                  "renderState": "normal",
+                  "sourceRegion": "标签区",
+                  "isPhoto": false,
+                  "isSystemUi": true
+                },
+                "textFacts": {
+                  "rawText": "有亲子票",
+                  "textStatus": "complete",
+                  "semanticRole": "other",
+                  "emphasisLevel": "secondary",
+                  "fontSizeBucket": "medium",
+                  "fontWeightBucket": "unknown",
+                  "textColorRole": "neutral"
+                },
+                "visual": {
+                  "entityKind": "tag",
+                  "visualStatus": "confirmed",
+                  "isColored": false,
+                  "isShaped": false,
+                  "colorRole": "neutral",
+                  "backgroundColor": "#FFFFFF",
+                  "textColor": "#6E6E6E",
+                  "borderColor": "",
+                  "hasGraphicAssist": false,
+                  "graphicType": "无",
+                  "styleKey": "tag|neutral|业务标签|unknown|无",
+                  "sourceRegion": "标签区",
+                  "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                  "semanticRole": "业务标签",
+                  "containerShape": "unknown",
+                  "graphicAssistRole": "无",
+                  "countedInComplexity": true,
+                  "countDecision": "独立元素框及当前截图像素确认",
+                  "dedupDecision": "未与其他可见实体合并",
+                  "dedupWithElementIds": []
+                }
               }
             ]
           },
@@ -97,34 +692,1461 @@
             "items": [
               {
                 "itemIndex": 1,
-                "price": {
-                  "visibleText": "¥659"
-                },
-                "name": {
-                  "visibleText": "[成人]1日票｜无需换票…"
-                },
-                "sales": {
-                  "visibleText": "已售357.6万+"
-                }
+                "coord": [
+                  344,
+                  1484,
+                  851,
+                  51
+                ],
+                "imageElements": [],
+                "textElements": [
+                  {
+                    "elementType": "下挂商品名",
+                    "sourceRegion": "文字下挂区",
+                    "coord": [
+                      470,
+                      1484,
+                      500,
+                      48
+                    ],
+                    "visibleText": "[成人]1日票|无需换票…",
+                    "status": "confirmed",
+                    "source": "committed_element_annotation_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "naturally_cropped",
+                      "sourceRegion": "文字下挂区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "[成人]1日票|无需换票…",
+                      "textStatus": "naturally_ellipsized",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "文字下挂区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ],
+                "priceElements": [
+                  {
+                    "elementType": "下挂商品价格",
+                    "sourceRegion": "文字下挂区",
+                    "coord": [
+                      344,
+                      1485,
+                      105,
+                      48
+                    ],
+                    "visibleText": "¥659",
+                    "status": "confirmed",
+                    "source": "committed_element_annotation_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "文字下挂区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "¥659",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2C1A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "文字下挂区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ],
+                "auxiliaryElements": [
+                  {
+                    "elementType": "下挂商品销量",
+                    "sourceRegion": "文字下挂区",
+                    "coord": [
+                      1020,
+                      1487,
+                      175,
+                      42
+                    ],
+                    "visibleText": "已售357.6万+",
+                    "status": "confirmed",
+                    "source": "committed_element_annotation_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "文字下挂区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "已售357.6万+",
+                      "textStatus": "complete",
+                      "semanticRole": "sales",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7A7A7A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|sales|unknown|无",
+                      "sourceRegion": "文字下挂区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ],
+                "visibleStatus": "confirmed"
               }
             ]
           }
-        }
+        },
+        "status": "confirmed",
+        "coord": [
+          0,
+          1170,
+          1224,
+          407
+        ],
+        "visibleStatus": "complete"
       },
       {
         "order": 5,
-        "componentType": "business_image_filter"
+        "componentType": "business_image_filter",
+        "status": "confirmed"
       },
       {
         "order": 6,
-        "componentType": "sort_filter"
+        "componentType": "sort_filter",
+        "status": "confirmed"
       },
       {
         "order": 7,
         "componentType": "results_list",
-        "status": "confirmed"
+        "status": "confirmed",
+        "components": [
+          {
+            "componentType": "result_card",
+            "listPosition": 1,
+            "cardType": "商家卡片_文字下挂",
+            "coord": [
+              0,
+              1950,
+              1224,
+              371
+            ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      1978,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      318,
+                      1976,
+                      70,
+                      38
+                    ],
+                    "visibleText": "景点",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "景点",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1F8DFA",
+                      "textColor": "#9FCFF8",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      406,
+                      1966,
+                      435,
+                      55
+                    ],
+                    "visibleText": "上海乐高乐园度假区",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "上海乐高乐园度假区",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      309,
+                      2040,
+                      98,
+                      45
+                    ],
+                    "visibleText": "4.5分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.5分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5519",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|rating|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      420,
+                      2043,
+                      133,
+                      42
+                    ],
+                    "visibleText": "9792条",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "9792条",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4B4B4B",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      566,
+                      2044,
+                      121,
+                      42
+                    ],
+                    "visibleText": "金山区",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "金山区",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#585858",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      974,
+                      2044,
+                      218,
+                      46
+                    ],
+                    "visibleText": "距景点61km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距景点61km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#626262",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      310,
+                      2106,
+                      116,
+                      44
+                    ],
+                    "visibleText": "必玩榜",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "必玩榜",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#595940",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|榜单标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "榜单标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      436,
+                      2107,
+                      312,
+                      46
+                    ],
+                    "visibleText": "神券最高膨至80↑",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "神券最高膨至80↑",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF3160",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|red|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      762,
+                      2108,
+                      160,
+                      44
+                    ],
+                    "visibleText": "有亲子票",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "有亲子票",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      939,
+                      2110,
+                      196,
+                      42
+                    ],
+                    "visibleText": "公园游乐场",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "公园游乐场",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#757575",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 2,
+            "cardType": "商家卡片_文字下挂",
+            "coord": [
+              0,
+              2346,
+              1224,
+              354
+            ],
+            "visibleStatus": "naturally_cropped",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2374,
+                      247,
+                      247
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      318,
+                      2386,
+                      70,
+                      39
+                    ],
+                    "visibleText": "景点",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "景点",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#1F8DFA",
+                      "textColor": "#9FCFF8",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|blue|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      405,
+                      2374,
+                      342,
+                      60
+                    ],
+                    "visibleText": "上海失恋博物馆",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "上海失恋博物馆",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "评分",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      308,
+                      2450,
+                      100,
+                      45
+                    ],
+                    "visibleText": "4.3分",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "4.3分",
+                      "textStatus": "complete",
+                      "semanticRole": "rating",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5519",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|rating|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      420,
+                      2452,
+                      108,
+                      45
+                    ],
+                    "visibleText": "2万条",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2万条",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4D4D4D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      540,
+                      2452,
+                      238,
+                      46
+                    ],
+                    "visibleText": "南京东路商圈",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "南京东路商圈",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#5C5C5C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      976,
+                      2454,
+                      216,
+                      42
+                    ],
+                    "visibleText": "距景点20km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "距景点20km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#555555",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标签区": {
+                "elements": [
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      309,
+                      2517,
+                      310,
+                      45
+                    ],
+                    "visibleText": "神券最高膨至80↑",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "神券最高膨至80↑",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF3160",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|red|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      634,
+                      2520,
+                      160,
+                      42
+                    ],
+                    "visibleText": "有学生票",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "有学生票",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7B7B7B",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      810,
+                      2520,
+                      160,
+                      44
+                    ],
+                    "visibleText": "结伴出游",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "结伴出游",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7C7C7C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              },
+              "文字下挂区": {
+                "items": [
+                  {
+                    "itemIndex": 1,
+                    "coord": [
+                      328,
+                      2663,
+                      865,
+                      37
+                    ],
+                    "imageElements": [],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "文字下挂区",
+                        "coord": [
+                          559,
+                          2664,
+                          242,
+                          36
+                        ],
+                        "visibleText": "【学生票】门票",
+                        "status": "confirmed",
+                        "source": "model_semantic_split_from_pixel_verified_line",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "文字下挂区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "【学生票】门票",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "文字下挂区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      },
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "文字下挂区",
+                        "coord": [
+                          836,
+                          2664,
+                          138,
+                          36
+                        ],
+                        "visibleText": "无需换票",
+                        "status": "confirmed",
+                        "source": "model_semantic_split_from_pixel_verified_line",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "文字下挂区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "无需换票",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "文字下挂区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "文字下挂区",
+                        "coord": [
+                          328,
+                          2663,
+                          198,
+                          37
+                        ],
+                        "visibleText": "¥29.95.0折",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "文字下挂区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥29.95.0折",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFF1F0",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "文字下挂区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [
+                      {
+                        "elementType": "下挂商品销量",
+                        "sourceRegion": "文字下挂区",
+                        "coord": [
+                          1021,
+                          2665,
+                          172,
+                          35
+                        ],
+                        "visibleText": "已售3000+",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "文字下挂区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "已售3000+",
+                          "textStatus": "complete",
+                          "semanticRole": "sales",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#777777",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|sales|unknown|无",
+                          "sourceRegion": "文字下挂区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "visibleStatus": "confirmed"
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          }
+        ]
       }
     ]
   },
-  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png"
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png",
+  "legacyContractVersion": "phase2.primary-point-card.v1",
+  "verification": {
+    "status": "pixel_verified",
+    "claimScope": [
+      "element_level_downhang_grouping",
+      "element_level_title",
+      "element_render_facts",
+      "element_text_facts",
+      "element_visual_color_facts",
+      "page_component_order",
+      "result_card_boundary",
+      "result_card_count",
+      "result_card_type",
+      "semantic_atomicity",
+      "visible_crop_state"
+    ],
+    "excludedClaims": [
+      "runtime_ocr_text",
+      "ocr_confidence"
+    ],
+    "reviewedAt": "2026-08-19",
+    "rawScreenshot": "phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png",
+    "rawSha256": "9317d732bdc7813c8c4a75dbda79600077369c52f23a9f26c0f280abff7ca774",
+    "componentAnnotation": "phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼-标记后.png",
+    "componentAnnotationSha256": "8a5635b4549aefdf5bb3dce405c07962761253a69af88bb1f42ad646226fa2fe",
+    "elementAnnotations": [],
+    "policy": "Nested elements are preserved. Their source/status fields determine whether they are human-annotated truth or runtime recognition evidence; provenance enrichment must never delete them.",
+    "elementCalibration": {
+      "status": "bounded_paddleocr_and_model_visual_reviewed",
+      "evidence": "phase2-card-annotation/references/golden-contract-evidence/primary-point-card--迪士尼.elements.contract-evidence.json",
+      "policy": "Golden-only calibration; never injected into Phase2 production recognition."
+    },
+    "visualCalibration": {
+      "status": "measured_from_current_element_boxes",
+      "method": "element_crop_border_and_foreground_pixel_median",
+      "photoPolicy": "photos retain geometry and are measured by Phase3 after exclusion masking"
+    }
+  }
 }

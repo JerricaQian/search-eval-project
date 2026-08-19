@@ -1,0 +1,584 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/生日蛋糕.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为生日蛋糕.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1513,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            1515,
+            72,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "Foko法式蛋糕(动物奶油.生日蛋",
+          "coord": [
+            322,
+            1513,
+            676,
+            50
+          ],
+          "ocrConfidence": 0.9834
+        },
+        {
+          "text": "35分钟",
+          "coord": [
+            1067,
+            1515,
+            126,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "DES",
+          "coord": [
+            90,
+            1533,
+            42,
+            21
+          ],
+          "ocrConfidence": 0.9908
+        },
+        {
+          "text": "福",
+          "coord": [
+            88,
+            1571,
+            47,
+            42
+          ],
+          "ocrConfidence": 0.9753
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            224,
+            1582,
+            102,
+            43
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "月售400+起送¥0免配送费",
+          "coord": [
+            341,
+            1582,
+            484,
+            47
+          ],
+          "ocrConfidence": 0.9628
+        },
+        {
+          "text": "3.1km",
+          "coord": [
+            1082,
+            1583,
+            111,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "foko",
+          "coord": [
+            86,
+            1621,
+            56,
+            17
+          ],
+          "ocrConfidence": 0.8443
+        },
+        {
+          "text": "正式面糕",
+          "coord": [
+            93,
+            1641,
+            45,
+            11
+          ],
+          "ocrConfidence": 0.6888
+        },
+        {
+          "text": "冰甜安",
+          "coord": [
+            41,
+            1659,
+            143,
+            14
+          ],
+          "ocrConfidence": 0.6535
+        },
+        {
+          "text": "最近24小时10+人下单",
+          "coord": [
+            225,
+            1651,
+            384,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "神寿",
+          "coord": [
+            78,
+            1740,
+            68,
+            41
+          ],
+          "ocrConfidence": 0.8433
+        },
+        {
+          "text": "￥12",
+          "coord": [
+            40,
+            1827,
+            143,
+            79
+          ],
+          "ocrConfidence": 0.8982
+        },
+        {
+          "text": "裕",
+          "coord": [
+            427,
+            1880,
+            48,
+            42
+          ],
+          "ocrConfidence": 0.4496
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            46,
+            1922,
+            131,
+            35
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "Foko",
+          "coord": [
+            431,
+            1918,
+            30,
+            14
+          ],
+          "ocrConfidence": 0.9125
+        },
+        {
+          "text": "美团外",
+          "coord": [
+            962,
+            1936,
+            85,
+            32
+          ],
+          "ocrConfidence": 0.991
+        },
+        {
+          "text": "BIRTHDAY",
+          "coord": [
+            842,
+            1953,
+            112,
+            37
+          ],
+          "ocrConfidence": 0.9526
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            1067,
+            1949,
+            69,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "『心之所愿』法",
+          "coord": [
+            226,
+            2006,
+            236,
+            44
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "“玫瑰之心”I",
+          "coord": [
+            501,
+            2008,
+            224,
+            40
+          ],
+          "ocrConfidence": 0.9205
+        },
+        {
+          "text": "“幸运星”表",
+          "coord": [
+            776,
+            2010,
+            241,
+            37
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "“旋梦蝶礼",
+          "coord": [
+            1056,
+            2008,
+            168,
+            41
+          ],
+          "ocrConfidence": 0.9954
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            2032,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥282",
+          "coord": [
+            225,
+            2066,
+            105,
+            43
+          ],
+          "ocrConfidence": 0.922
+        },
+        {
+          "text": "新客价",
+          "coord": [
+            325,
+            2069,
+            113,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥85",
+          "coord": [
+            504,
+            2067,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.8937
+        },
+        {
+          "text": "新客价",
+          "coord": [
+            576,
+            2069,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥113",
+          "coord": [
+            781,
+            2068,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.8948
+        },
+        {
+          "text": "新客价",
+          "coord": [
+            867,
+            2069,
+            111,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥143",
+          "coord": [
+            1058,
+            2068,
+            98,
+            40
+          ],
+          "ocrConfidence": 0.8905
+        },
+        {
+          "text": "新客",
+          "coord": [
+            1150,
+            2069,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        2176,
+        1224,
+        524
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "1",
+          "coord": [
+            37,
+            2181,
+            53,
+            38
+          ],
+          "ocrConfidence": 0.2463
+        },
+        {
+          "text": "到店",
+          "coord": [
+            234,
+            2179,
+            70,
+            40
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "维尔纳斯·生日蛋糕动物奶油冰淇淋蛋糕(",
+          "coord": [
+            322,
+            2176,
+            860,
+            50
+          ],
+          "ocrConfidence": 0.9883
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            225,
+            2246,
+            99,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "604条人均¥95面包蛋糕望京",
+          "coord": [
+            336,
+            2246,
+            548,
+            47
+          ],
+          "ocrConfidence": 0.9638
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1082,
+            2248,
+            111,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券最高膨至50",
+          "coord": [
+            224,
+            2310,
+            317,
+            45
+          ],
+          "ocrConfidence": 0.9843
+        },
+        {
+          "text": "望京面包甜点好评榜第5名",
+          "coord": [
+            550,
+            2316,
+            451,
+            38
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "可配送",
+          "coord": [
+            1018,
+            2311,
+            122,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "维尔纳斯",
+          "coord": [
+            238,
+            2413,
+            53,
+            22
+          ],
+          "ocrConfidence": 0.993
+        },
+        {
+          "text": "伯牙绝弦",
+          "coord": [
+            453,
+            2473,
+            14,
+            64
+          ],
+          "ocrConfidence": 0.7884
+        },
+        {
+          "text": "山润茉莉",
+          "coord": [
+            728,
+            2468,
+            17,
+            66
+          ],
+          "ocrConfidence": 0.7836
+        },
+        {
+          "text": "玫珑瓜",
+          "coord": [
+            743,
+            2488,
+            18,
+            43
+          ],
+          "ocrConfidence": 0.8742
+        },
+        {
+          "text": "维尔纳斯品牌大使",
+          "coord": [
+            313,
+            2631,
+            91,
+            14
+          ],
+          "ocrConfidence": 0.9942
+        },
+        {
+          "text": "「董璇」同款",
+          "coord": [
+            409,
+            2628,
+            68,
+            18
+          ],
+          "ocrConfidence": 0.8868
+        },
+        {
+          "text": "维尔纳斯品牌大使",
+          "coord": [
+            862,
+            2633,
+            93,
+            15
+          ],
+          "ocrConfidence": 0.9251
+        },
+        {
+          "text": "董璐",
+          "coord": [
+            961,
+            2632,
+            42,
+            16
+          ],
+          "ocrConfidence": 0.5866
+        },
+        {
+          "text": "推荐",
+          "coord": [
+            1005,
+            2634,
+            25,
+            13
+          ],
+          "ocrConfidence": 0.9661
+        },
+        {
+          "text": "【蛋糕】4英寸冷",
+          "coord": [
+            232,
+            2672,
+            258,
+            28
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "【山涧茉莉】6英",
+          "coord": [
+            504,
+            2672,
+            266,
+            28
+          ],
+          "ocrConfidence": 0.9838
+        },
+        {
+          "text": "【生日蛋糕】明",
+          "coord": [
+            781,
+            2672,
+            234,
+            28
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "【纵享丝滑",
+          "coord": [
+            1062,
+            2671,
+            162,
+            29
+          ],
+          "ocrConfidence": 0.9913
+        }
+      ]
+    }
+  ]
+}

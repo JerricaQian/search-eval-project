@@ -2,6 +2,8 @@
 
 本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径只使用本地 CV/OCR、卡型契约和确定性门控，不让视觉模型补读 OCR，不生成整页标注图，也不执行 IMD 操作。
 
+生产 Phase2 与离线黄金校准是两条隔离流程，但共享同一元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。黄金校准允许有界 Paddle 与模型视觉复核并保留证据，生产 Phase2 不允许模型或黄金值补读当前截图，契约不满足即阻断。
+
 详细执行纪律见 `SKILL.md`；卡型边界与最小证据以 `references/card_recognition_contracts.v1.json` 为准。
 
 ## 输入与输出
@@ -52,7 +54,9 @@ python3 scripts/validate_element_manifest.py \
 
 结果流最后一张重复卡自然触底时，可在无广告证据的前提下继承上一张已确认已知卡型。只豁免因截断不可见的必需字段；已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 
-不同卡型的边界策略不得混用：商品卡按单商品主图/标题/价格重复切分；商家图文下挂吸附商品图组；商家文字下挂吸附服务文字块；酒店、演出/电影、套餐和主点卡分别使用自己的拓扑契约。
+不同卡型的边界策略不得混用：商品卡按单商品主图/标题/价格重复切分；商家图文下挂吸附商品图组；商家文字下挂吸附服务文字块；酒店单列按逐卡头图/标题锚切分、双列按独立网格单元逐格切分，头图高度逐卡测量；演出/电影、套餐和主点卡分别使用自己的拓扑契约。酒店细则见 `references/hotel_card_algorithm.v1.md`。
+
+搜索词不是页面模板主键。同一搜索词的多次截图分别生成 JSON，允许结果模块和卡片不同；同页混排时逐卡判型，不能用页面多数卡型覆盖单卡。双列酒店页尾截断格只从同列上一张已确认酒店卡继承。
 
 ## Phase3 事实
 
@@ -62,7 +66,7 @@ python3 scripts/validate_element_manifest.py \
 
 ## 回归与经验沉淀
 
-黄金样本只用于推理后的回归和清洗后的归一化几何学习，不能向当前截图注入人工卡型、坐标或字段值：
+黄金样本只用于推理后的回归和清洗后的归一化几何学习，不能向当前截图注入人工卡型、坐标或字段值。酒店样本位于 `golden-samples/hotel-card/`；相同 query 的不同 `searchInstance` 不得合并：
 
 ```bash
 python3 phase2-card-annotation/scripts/learn_card_geometry_profiles.py \
@@ -72,7 +76,7 @@ python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
   --output-dir .artifacts/golden-cv-rerun
 ```
 
-模型辅助校准只允许写入 `references/golden_page_truth.v2.json`，且只在整条推理完成后比较模块、卡数、卡型和边界 IoU。回归目录中每个截图子目录各有一个 `elements.json`；顶层 `index.json` 仅做索引和指标汇总。
+模型辅助校准只允许发生在离线黄金流：卡片边界写入 `references/golden_page_truth.v2.json`；有界 Paddle 与模型逐像素复核后的元素写入对应 `golden-sample-results/*.elements.json`，并保存 `golden-contract-evidence` 等证据。任何黄金字段都不得传入生产 Phase2。更新后必须运行 `scripts/validate_golden_element_contract.py`，只有 34 文件的卡数、边界、标题、元素字段、下挂分组和语义原子全部通过才算完成。回归目录中每个截图子目录各有一个 `elements.json`；顶层 `index.json` 仅做索引和指标汇总。
 
 ## 历史兼容文件
 

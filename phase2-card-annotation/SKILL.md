@@ -9,6 +9,46 @@ description: "对搜索结果页截图执行 Phase2 轻量识别：仅以本地 
 
 Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元素、坐标、可见原文与视觉规格。它为 Phase3 提供唯一事实源。
 
+## 两条流程、一个元素契约（硬约束）
+
+必须明确区分两条流程：
+
+1. **黄金样本校准流（离线）**：允许在已经确认的截图/卡片边界内使用 PaddleOCR，并允许模型视觉能力逐像素复核标题、元素语义归属和分组。所有改写都必须保留 bounded evidence 与校准来源。该流程只更新 `golden-sample-results/` 和离线回归引用，绝不能被生产入口导入。
+2. **用户截图 Phase2 生产流**：只使用当前截图的本地 CV/OCR、卡型契约与门控；视觉模型和黄金字段值不得补读、猜测或注入。失败时有界重跑 Paddle/Tesseract，仍不满足契约就阻断，不发布伪完整 JSON。
+
+两条流程允许的证据不同，但输出必须遵循同一个元素级契约：
+
+- 完整且已知卡型的卡片必须有位于 `标题区` 的主标题元素。履约标签、配送时长、影院属性等不能代替标题。商家卡、商品卡、酒店卡、演出/电影卡都适用。
+- 下挂按可见供给逐项分组：`items[0]` 只拥有下挂1的 `imageElements`、`textElements`、`priceElements`、`auxiliaryElements`，`items[1]` 只拥有下挂2；禁止把多项图片、文字、价格平铺到一个 region 后丢失归属。文字下挂未渲染图片时 `imageElements=[]`，不得伪造图片。
+- `基础信息区`、`商家信息区`、`标签区` 必须按独立语义字段/独立视觉 chip 拆分；例如 `15-25m²｜2人｜双床` 是面积、人数、床型三个元素。不得按整行合并，也不得按单字切分。
+- 元素边界以独立视觉实体为准，不以 OCR 返回的一行文字为准。同行但颜色、间距、容器、图形辅助或交互含义不同的标签必须分别建元素；参照“面部清洁”黄金样本中“美丽荟西子医疗美容”的三个标签。
+- 文字/标签不得成为单字符元素；`起`、`¥` 等后缀或符号必须与所属价格合并。图片元素可使用空 `visibleText`。
+- 任何一条不满足，黄金校准不得标记完成，生产识别不得设置 `phase3Ready=true`。
+- **结构完整不等于文字正确。** 每个 `status=confirmed` 的标题和下挂文字/价格必须有同一原图范围内的完整可见像素证据。仅通过 schema、字段非空或卡片数量检查，不得宣称黄金样本正确。
+- 标题、文字下挂、常规图文下挂、异构下挂的长期识别规则采用“已校准黄金样本的结构范例 + 当前截图像素证据”，不用某张图的坐标、槽位宽高、列数或字段值充当规则。具体范例与 JSON 骨架见 `references/golden_structure_exemplars.v1.md`。
+- 黄金样本只在文档明确标注的结构范围内作为范例。例如引用“茶山季（合生汇店）”是为了说明异构下挂和常规图文下挂的表达方式，不代表复制该卡的文字、位置、数量、顺序或其他区域标注。
+- 黄金校准明确要求 PaddleOCR 时，实际后端不是 `paddleocr` 必须立即失败；禁止静默回退 Tesseract 后仍把产物标成 Paddle 证据。
+- 黄金发布 JSON 的文字事实只保留元素级 `visibleText`；`boundedEvidence` 仅保留像素坐标溯源，不重复发布 observation `text`，也不发布 `ocrConfidence`。OCR 原文与置信度只允许存在于离线过程证据目录，不能成为黄金或 Phase2 最终 JSON 的消费字段。
+- 图片内部的包装字、品牌字和装饰字属于图片像素，不另建 UI 文本或标签元素；只有与图片分离、承担界面语义的可见文字才拆成元素。
+
+### 结构参照法（优先于坐标模板和 OCR 行形状）
+
+识别顺序必须是：**判断卡型 → 判断区域 → 按可见边界枚举每个下挂项 → 为每项选择最接近的黄金结构范例 → 在当前截图中定位该项的实际语义元素 → 使用当前流程允许的 OCR/模型证据复核可见原文**。OCR 是读取已经定位的元素，不负责凭文字行形状创造卡片结构。
+
+使用黄金范例时遵守四条原则：
+
+1. **学习结构，不复制答案。** 范例规定字段怎样归属、哪些元素可选、异构如何表达；当前截图独立决定文字、坐标、数量、顺序和裁切状态。
+2. **按项判断，不按区域套一种模板。** 同一下挂区域中的每个可见项分别选择结构；一个项与范例匹配，不构成停止识别其余可见项的条件。
+3. **语义角色不是固定槽位。** 商品/服务文字、现价、价格折扣、原价、销量等由视觉关系和语义决定，可换行、移位或缺省；它们没有跨截图固定的像素宽高或相对偏移。
+4. **只记录可见事实。** 页面边缘项按当前可见内容建立同样的元素结构并标记裁切，不补造屏外文字；证据不足则 `uncertain`，不得用范例字段值填空。
+5. **先分视觉实体，再读实体文字。** OCR 合并框只是候选；当前截图中独立的颜色段、容器、间隔或功能单元具有更高的分元素优先级。多个 OCR 后端冲突时，选择与独立视觉实体边界一致且覆盖完整字形的证据，不选择“文本更长”的合并框。
+
+遇到新布局时，先在 `references/golden_structure_exemplars.v1.md` 中寻找同层级结构；只有视觉结构确实不同才新增异构结构及对应黄金范例。实现层的坐标扩框、卡片底边裁剪和遍历控制只是保障上述原则的手段，不能反过来定义业务规则。
+
+### 规则沉淀层级
+
+从错误案例更新规则时，按 **根因 → 可迁移的结构原则 → 具名黄金样本及 JSON 正例 → 适用边界 → 实现防回归** 记录。主 Skill 和结构范例描述前四层；像素阈值、裁剪扩框、循环退出条件等只进入算法实现或测试。除非数值本身属于输出协议，不把单张截图的像素经验提升为长期业务规则。
+
 只做：**每张截图 → 本地 CV/OCR 候选 → 卡型/元素识别 → 整页门控 → 该图独立元素清单 JSON → schema 校验**。
 
 不做：整页画框 PNG、IMD/设计稿操作、体验评级、问题结论、人工复核任务、跨截图坐标复用，以及用黄金样本补造当前截图事实。
@@ -30,6 +70,9 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 | 页面模块与结果流顺序 | `references/search_result_page_taxonomy.v1.json` |
 | 卡型、分区与元素候选 | `references/search_card_taxonomy.v1.json` |
 | 卡型边界与最小证据 | `references/card_recognition_contracts.v1.json` |
+| 酒店单列/双列/民宿与混排细则 | `references/hotel_card_algorithm.v1.md` 与 `references/hotel_card_element_contract.v1.json` |
+| 标题、文字下挂、图文下挂与异构下挂结构范例 | `references/golden_structure_exemplars.v1.md`；只学习结构，当前截图独立取证 |
+| UI/图标检测、OCR 与颜色事实融合 | `references/screen_parser_backend.v1.md`；处理非文本 UI、图标漏检或评估 OmniParser 时读取 |
 | 黄金样本聚合几何经验 | `references/learned_card_geometry_profiles.v1.json`；只作软证据 |
 | OCR 文本角色候选 | `references/search_page_semantic_rules.v1.json` |
 | 清单及审计 schema | `scripts/validate_element_manifest.py` |
@@ -87,6 +130,8 @@ Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不
 
 PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的标题/价格/信息列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。主入口会在初次门控失败时自动尝试这一轮；本地模型不存在或初始化失败时退回有界 Tesseract，设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可完全关闭 Paddle。线程默认由 `PHASE2_OCR_THREADS=2` 限制。
 
+非文本 UI/图标候选与 OCR 分工按 `references/screen_parser_backend.v1.md` 执行。OmniParser 只可作为可选的本地候选检测后端：它提供图标/交互区域框及可选语义描述，不能替代 PaddleOCR、卡型契约、逐元素颜色测量或最终语义归属。依赖、权重或许可条件未满足时不得宣称已启用，也不得让其缺失阻断现有确定性 CV/OCR 流程。
+
 ## 4. 事实源、校验与参数化纪律（阻断）
 
 1. 元素、模块/卡片边界、业务归属、原文、渲染或视觉事实有误，必须修正 Phase2 manifest；不得在 Phase3/4 结果中打补丁。
@@ -94,14 +139,17 @@ PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到
 3. 收到 Phase3 回退请求时，保留旧 manifest/audit/过程候选，按新证据重建 Phase2，再重跑受影响的 Phase3；不得只改下游结论。
 4. 禁止固定搜索词、机器路径、历史 `/tmp` 或场景脚本输出作为生产入口。
 5. `validate_phase2_recognition.py` 是整页发布门控：OCR 碎片比例超限、异常文字、无结果卡、卡内可用事实不足、卡型未确认或未通过卡型最小契约时，必须写出 blocked JSON 并重跑本地 CV/OCR。它不读取 OCR 置信度，也不触发模型读图。
-6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
+6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同行碎片、语义原子性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
 7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`references/golden_page_truth.v2.json` 是允许模型辅助校准的离线回归真值，只能在推理结束后比较卡数、卡型、模块与 IoU，禁止传入生产命令。允许离线聚合经过清洗的归一化几何分布；缺坐标、整页误框和页尾残片必须排除。该分布只给已通过最小契约的卡型增加少量辅助分，不能补齐缺失证据或单独否决新布局。每次更新黄金样本后运行：
+9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`references/golden_page_truth.v2.json` 是允许模型辅助校准的离线回归真值，只能在推理结束后比较卡数、卡型、模块与 IoU，禁止传入生产命令。黄金元素校准可使用 `scripts/extract_golden_contract_evidence.py` 的有界 Paddle 证据与模型视觉复核，再由 `scripts/calibrate_golden_element_contract.py` 写回；这两个脚本禁止由生产入口调用。允许离线聚合经过清洗的归一化几何分布；缺坐标、整页误框和页尾残片必须排除。该分布只给已通过最小契约的卡型增加少量辅助分，不能补齐缺失证据或单独否决新布局。每次更新黄金样本后运行：
+
+   黄金文本发布以结构范例和当前卡片的完整像素证据共同门控：标题与下挂不能由预设槽位生成；文字元素非空并不代表正确，必须能追溯到同卡、同元素且覆盖完整可见字形的 bounded observation；校准命令指定 `--require-backend paddleocr` 时任何后端降级均阻断。已有非空标题也必须按标题结构重新核验。
 
 ```bash
 python3 phase2-card-annotation/scripts/learn_card_geometry_profiles.py \
   --output phase2-card-annotation/references/learned_card_geometry_profiles.v1.json
+python3 phase2-card-annotation/scripts/enrich_golden_visual_facts.py
 ```
 
 10. 黄金回归只在整条推理完成后做 `expectedCardTypes`/`predictedCards` 对照，绝不能向生产识别传入期望卡型：
@@ -177,7 +225,9 @@ python3 scripts/validate_element_manifest.py \
 2. 没有已知卡型通过且存在明确广告标时归 `广告卡`。
 3. 否则，只要是稳定独立渲染单元且有可见内容，归 `异构卡`；禁止输出 `unknown`。
 
-不同卡型必须使用各自边界策略：商品卡以单商品主图、标题和价格重复为界；商家图文下挂必须吸附下一商家头图前的商品图组；商家文字下挂必须吸附下一商家头图前的服务文字块；酒店按酒店头图纵向重复或双列网格切分；演出按竖版海报、电影按影院标题和场次块切分；套餐保持主图、概要和价格在同一卡内；主点卡位于普通结果列表前且不占 `listPosition`。完整细则只以卡型契约文件为准。
+不同卡型必须使用各自边界策略：商品卡以单商品主图、标题和价格重复为界；商家图文下挂必须吸附下一商家头图前的商品图组；商家文字下挂必须吸附下一商家头图前的服务文字块；酒店单列按逐卡头图/标题锚切分，双列按独立网格单元逐格切分，头图高度逐卡量取；演出按竖版海报、电影按影院标题和场次块切分；套餐保持主图、概要和价格在同一卡内；主点卡位于普通结果列表前且不占 `listPosition`。完整细则只以卡型契约文件为准。
+
+query 只写入输出上下文，不是卡型或页面结构主键。同一 query 的不同截图必须独立识别；混排页必须逐卡应用契约。酒店页尾截断格只可从同列上一张已确认酒店卡继承，不能从行内相邻异构卡继承。处理酒店样本或酒店识别失败时，读取 `references/hotel_card_algorithm.v1.md`；需要双列房型元素分区时再读取 `references/hotel_card_element_contract.v1.json`。
 
 同一 `comparisonGroupKey` 中有两张以上 `visibleStatus=complete` 的结果卡时，每卡必须提供 `layoutAnchors.image/title/primaryInfo` 与 `layoutAnchorRelation`。它们只描述卡内相对位置，不能写评测结论。
 
@@ -201,7 +251,7 @@ python3 scripts/validate_element_manifest.py \
 }
 ```
 
-`visual.textColor` 可记录 CV 的前景像素中位色（例如 `#D93838`），同时保留 `colorRole` 与 `colorEvidence`；未测得背景/边框色必须保留空字符串，不能从业务词推断。图片不在 Phase2 预计算综合色数，必须写 `render.isPhoto=true` 和准确坐标，Phase3 再据此建立排除 mask 并运行其确定性像素统计。
+每个非图片元素必须记录当前元素框实测的 `visual.textColor`、`backgroundColor`、`colorRole` 与 `colorEvidence`；测量失败时保留空字符串、`unknown` 和失败证据，并阻断依赖该字段的 Phase3，不得省略字段或从业务词推断。标签/icon 还必须记录 `containerShape`、图形辅助和是否计入复杂度。图片不在 Phase2 预计算综合色数，必须写 `render.isPhoto=true`、准确坐标及 `photo_excluded_phase3_pixel_measurement_required`，Phase3 再据此建立排除 mask 并运行确定性像素统计。
 
 - `renderState`：`normal | placeholder | blank | load_failed | naturally_cropped | abnormal_clipped | garbled | uncertain`；它是事实，不是结论。
 - `textStatus`：`complete | naturally_ellipsized | abnormal_clipped | garbled | uncertain`。看不清就留空/`uncertain`，不得猜测。

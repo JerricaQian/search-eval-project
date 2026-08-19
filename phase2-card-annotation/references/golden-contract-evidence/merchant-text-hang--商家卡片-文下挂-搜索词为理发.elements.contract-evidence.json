@@ -1,0 +1,254 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为理发.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为理发.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "神券最高膨至30↑望京美发回头客榜第2名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1003,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至30↑",
+          "coord": [
+            309,
+            1016,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9178
+        },
+        {
+          "text": "望京美发回头客榜第2名",
+          "coord": [
+            635,
+            1018,
+            410,
+            40
+          ],
+          "ocrConfidence": 0.9983
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券最高膨至30望京烫染销量榜第3名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1478,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至30",
+          "coord": [
+            309,
+            1491,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9673
+        },
+        {
+          "text": "望京烫染销量榜第3名",
+          "coord": [
+            635,
+            1493,
+            372,
+            40
+          ],
+          "ocrConfidence": 0.999
+        }
+      ]
+    },
+    {
+      "kind": "missing_title",
+      "listPosition": 3,
+      "coord": [
+        180,
+        1831,
+        1044,
+        125
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            318,
+            1835,
+            69,
+            37
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "PAYA",
+          "coord": [
+            408,
+            1831,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "HAIR(望京旗舰店)",
+          "coord": [
+            532,
+            1831,
+            388,
+            48
+          ],
+          "ocrConfidence": 0.967
+        },
+        {
+          "text": "4.3分",
+          "coord": [
+            308,
+            1899,
+            102,
+            43
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "7436条",
+          "coord": [
+            425,
+            1901,
+            132,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "美发¥190/人",
+          "coord": [
+            571,
+            1901,
+            220,
+            42
+          ],
+          "ocrConfidence": 0.9081
+        },
+        {
+          "text": "美发",
+          "coord": [
+            808,
+            1901,
+            84,
+            45
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "望京",
+          "coord": [
+            904,
+            1901,
+            85,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "1.4km",
+          "coord": [
+            1085,
+            1904,
+            110,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "神券最高膨至30100百大发型师",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1953,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "100百大发型师",
+          "coord": [
+            311,
+            1969,
+            194,
+            37
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "神券最高膨至30",
+          "coord": [
+            523,
+            1965,
+            311,
+            44
+          ],
+          "ocrConfidence": 0.9714
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 4,
+      "legacyText": "神券最高膨至30望京烫染销量榜第4名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        2428,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至30",
+          "coord": [
+            309,
+            2441,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9673
+        },
+        {
+          "text": "望京烫染销量榜第4名",
+          "coord": [
+            635,
+            2443,
+            372,
+            40
+          ],
+          "ocrConfidence": 0.999
+        }
+      ]
+    }
+  ]
+}

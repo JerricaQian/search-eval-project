@@ -1,0 +1,500 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/药店.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为药店.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            1094,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            1354,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[济川药业]蒲地",
+              "coord": [
+                227,
+                1376,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "蓝消炎口服液1",
+              "coord": [
+                227,
+                1430,
+                261,
+                38
+              ],
+              "ocrConfidence": 0.9925
+            },
+            {
+              "text": "￥42.21",
+              "coord": [
+                227,
+                1487,
+                117,
+                42
+              ],
+              "ocrConfidence": 0.9215
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            1094,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            1354,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[京都念慈菴]京",
+              "coord": [
+                504,
+                1376,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9986
+            },
+            {
+              "text": "都念慈菴蜜炼",
+              "coord": [
+                504,
+                1429,
+                233,
+                38
+              ],
+              "ocrConfidence": 0.9944
+            },
+            {
+              "text": "￥27.4",
+              "coord": [
+                512,
+                1482,
+                97,
+                50
+              ],
+              "ocrConfidence": 0.9233
+            },
+            {
+              "text": "￥",
+              "coord": [
+                506,
+                1494,
+                25,
+                31
+              ],
+              "ocrConfidence": 0.7447
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            1094,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            1354,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[同仁堂]感冒清",
+              "coord": [
+                781,
+                1376,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "热颗粒12g*10",
+              "coord": [
+                781,
+                1428,
+                255,
+                42
+              ],
+              "ocrConfidence": 0.9989
+            },
+            {
+              "text": "¥18.78",
+              "coord": [
+                781,
+                1486,
+                113,
+                45
+              ],
+              "ocrConfidence": 0.914
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            1094,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            1354,
+            166,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[江中]复方",
+              "coord": [
+                1058,
+                1375,
+                166,
+                42
+              ],
+              "ocrConfidence": 0.972
+            },
+            {
+              "text": "沥液10ml",
+              "coord": [
+                1058,
+                1429,
+                166,
+                39
+              ],
+              "ocrConfidence": 0.9897
+            },
+            {
+              "text": "¥16.8",
+              "coord": [
+                1058,
+                1485,
+                99,
+                46
+              ],
+              "ocrConfidence": 0.8979
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            1810,
+            264,
+            240
+          ],
+          "coord": [
+            227,
+            2046,
+            264,
+            265
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[仁和]布洛芬缓",
+              "coord": [
+                227,
+                2089,
+                260,
+                43
+              ],
+              "ocrConfidence": 0.9989
+            },
+            {
+              "text": "释胶囊0.3g*11",
+              "coord": [
+                227,
+                2142,
+                259,
+                43
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "￥20.5",
+              "coord": [
+                227,
+                2198,
+                106,
+                49
+              ],
+              "ocrConfidence": 0.9105
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            1810,
+            264,
+            240
+          ],
+          "coord": [
+            504,
+            2046,
+            264,
+            265
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[神威]藿香正气",
+              "coord": [
+                505,
+                2092,
+                258,
+                39
+              ],
+              "ocrConfidence": 0.9939
+            },
+            {
+              "text": "软胶囊0.45g*1",
+              "coord": [
+                504,
+                2141,
+                259,
+                46
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "￥22.5",
+              "coord": [
+                504,
+                2197,
+                106,
+                49
+              ],
+              "ocrConfidence": 0.927
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            1810,
+            264,
+            240
+          ],
+          "coord": [
+            781,
+            2046,
+            264,
+            265
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[京都念",
+              "coord": [
+                781,
+                2087,
+                151,
+                47
+              ],
+              "ocrConfidence": 0.9405
+            },
+            {
+              "text": "都念慈菴",
+              "coord": [
+                781,
+                2139,
+                159,
+                46
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "￥32.9",
+              "coord": [
+                781,
+                2201,
+                102,
+                43
+              ],
+              "ocrConfidence": 0.9362
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            1810,
+            166,
+            240
+          ],
+          "coord": [
+            1058,
+            2046,
+            166,
+            265
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "问医生",
+              "coord": [
+                1078,
+                2068,
+                121,
+                44
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "24小时",
+              "coord": [
+                1079,
+                2125,
+                116,
+                37
+              ],
+              "ocrConfidence": 0.9984
+            },
+            {
+              "text": "￥36.2",
+              "coord": [
+                1058,
+                2201,
+                103,
+                43
+              ],
+              "ocrConfidence": 0.9337
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            244,
+            2524,
+            176,
+            176
+          ],
+          "coord": [
+            244,
+            2696,
+            176,
+            4
+          ],
+          "backend": "paddleocr_empty_naturally_cropped",
+          "observations": []
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            430,
+            2524,
+            176,
+            176
+          ],
+          "coord": [
+            430,
+            2696,
+            176,
+            4
+          ],
+          "backend": "paddleocr_empty_naturally_cropped",
+          "observations": []
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            616,
+            2524,
+            176,
+            176
+          ],
+          "coord": [
+            616,
+            2696,
+            176,
+            4
+          ],
+          "backend": "paddleocr_empty_naturally_cropped",
+          "observations": []
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            802,
+            2524,
+            176,
+            176
+          ],
+          "coord": [
+            802,
+            2696,
+            176,
+            4
+          ],
+          "backend": "paddleocr_empty_naturally_cropped",
+          "observations": []
+        },
+        {
+          "itemIndex": 5,
+          "imageCoord": [
+            988,
+            2524,
+            176,
+            176
+          ],
+          "coord": [
+            988,
+            2696,
+            176,
+            4
+          ],
+          "backend": "paddleocr_empty_naturally_cropped",
+          "observations": []
+        }
+      ]
+    }
+  ]
+}

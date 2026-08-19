@@ -1,0 +1,148 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/product-card/榴莲.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为榴莲.png",
+  "requests": [
+    {
+      "kind": "missing_title",
+      "listPosition": 1,
+      "coord": [
+        360,
+        988,
+        864,
+        150
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "网527或TO",
+          "coord": [
+            362,
+            988,
+            150,
+            16
+          ],
+          "ocrConfidence": 0.6793
+        },
+        {
+          "text": "市边",
+          "coord": [
+            1044,
+            988,
+            74,
+            16
+          ],
+          "ocrConfidence": 0.573
+        },
+        {
+          "text": "泰国金枕榴莲(约)2ka称重",
+          "coord": [
+            491,
+            1100,
+            558,
+            38
+          ],
+          "ocrConfidence": 0.9656
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            404,
+            1112,
+            66,
+            26
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "kind": "missing_title",
+      "listPosition": 2,
+      "coord": [
+        360,
+        1539,
+        864,
+        150
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【下单现剥】AA泰国树上熟金枕",
+          "coord": [
+            496,
+            1541,
+            651,
+            53
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            402,
+            1547,
+            70,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "榴莲3-6斤(大果默认剥肉装盒)",
+          "coord": [
+            392,
+            1606,
+            662,
+            58
+          ],
+          "ocrConfidence": 0.9707
+        }
+      ]
+    },
+    {
+      "kind": "missing_title",
+      "listPosition": 3,
+      "coord": [
+        360,
+        2102,
+        864,
+        150
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "【世界杯特惠榴莲】(鲜AA 果)3-4",
+          "coord": [
+            495,
+            2102,
+            680,
+            56
+          ],
+          "ocrConfidence": 0.9704
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            403,
+            2112,
+            68,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "斤泰国进口树熟【金枕榴莲】3-4斤(香",
+          "coord": [
+            396,
+            2168,
+            781,
+            58
+          ],
+          "ocrConfidence": 0.9826
+        }
+      ]
+    }
+  ]
+}

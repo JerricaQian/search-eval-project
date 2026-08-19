@@ -1,0 +1,1016 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/hotel-card/全季酒店-第1次.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第1次.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        554,
+        1206,
+        488
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "酒店",
+          "coord": [
+            364,
+            578,
+            68,
+            38
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "全季酒店(北京望京商务区宝能中心",
+          "coord": [
+            447,
+            574,
+            686,
+            50
+          ],
+          "ocrConfidence": 0.9652
+        },
+        {
+          "text": "11.",
+          "coord": [
+            37,
+            580,
+            42,
+            34
+          ],
+          "ocrConfidence": 0.477
+        },
+        {
+          "text": "店）",
+          "coord": [
+            358,
+            640,
+            66,
+            50
+          ],
+          "ocrConfidence": 0.8962
+        },
+        {
+          "text": "舒适型",
+          "coord": [
+            427,
+            646,
+            112,
+            44
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "全罕酒店",
+          "coord": [
+            194,
+            698,
+            17,
+            88
+          ],
+          "ocrConfidence": 0.7737
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            357,
+            706,
+            94,
+            41
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "距您直线2.4km",
+          "coord": [
+            358,
+            768,
+            254,
+            38
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "近悠乐汇",
+          "coord": [
+            626,
+            769,
+            146,
+            36
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "住就送·32元券包",
+          "coord": [
+            410,
+            823,
+            292,
+            46
+          ],
+          "ocrConfidence": 0.9854
+        },
+        {
+          "text": "新开业/装修",
+          "coord": [
+            738,
+            826,
+            201,
+            42
+          ],
+          "ocrConfidence": 0.994
+        },
+        {
+          "text": "888",
+          "coord": [
+            1029,
+            886,
+            107,
+            54
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "望京舒适好评榜第７名",
+          "coord": [
+            420,
+            898,
+            351,
+            42
+          ],
+          "ocrConfidence": 0.9546
+        },
+        {
+          "text": "¥1009",
+          "coord": [
+            892,
+            904,
+            109,
+            30
+          ],
+          "ocrConfidence": 0.9713
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1010,
+            902,
+            30,
+            32
+          ],
+          "ocrConfidence": 0.5911
+        },
+        {
+          "text": "起",
+          "coord": [
+            1138,
+            900,
+            38,
+            38
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "1小时前有人预订",
+          "coord": [
+            360,
+            965,
+            248,
+            35
+          ],
+          "ocrConfidence": 0.9955
+        },
+        {
+          "text": "天天特价|立减121",
+          "coord": [
+            885,
+            962,
+            278,
+            33
+          ],
+          "ocrConfidence": 0.9787
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        1042,
+        1206,
+        395
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "全季酒店(北京会议中心店）",
+          "coord": [
+            446,
+            1046,
+            530,
+            53
+          ],
+          "ocrConfidence": 0.9311
+        },
+        {
+          "text": "酒店",
+          "coord": [
+            366,
+            1056,
+            64,
+            34
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "高档型",
+          "coord": [
+            980,
+            1054,
+            110,
+            43
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "4.7分",
+          "coord": [
+            356,
+            1114,
+            92,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "设施完善且齐全",
+          "coord": [
+            464,
+            1116,
+            250,
+            38
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "全季酒店",
+          "coord": [
+            129,
+            1142,
+            164,
+            64
+          ],
+          "ocrConfidence": 0.9956
+        },
+        {
+          "text": "距您直线3.4km",
+          "coord": [
+            359,
+            1176,
+            252,
+            37
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "亚运村/奥体中心",
+          "coord": [
+            627,
+            1176,
+            270,
+            40
+          ],
+          "ocrConfidence": 0.9917
+        },
+        {
+          "text": "IIHOTEL",
+          "coord": [
+            170,
+            1205,
+            72,
+            18
+          ],
+          "ocrConfidence": 0.8412
+        },
+        {
+          "text": "住就送·32元券包",
+          "coord": [
+            412,
+            1236,
+            288,
+            38
+          ],
+          "ocrConfidence": 0.9857
+        },
+        {
+          "text": "机器人服务",
+          "coord": [
+            738,
+            1236,
+            180,
+            38
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "健身房",
+          "coord": [
+            956,
+            1235,
+            110,
+            39
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "616",
+          "coord": [
+            1034,
+            1288,
+            100,
+            54
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "2万+消费",
+          "coord": [
+            358,
+            1305,
+            164,
+            40
+          ],
+          "ocrConfidence": 0.9854
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1015,
+            1306,
+            22,
+            30
+          ],
+          "ocrConfidence": 0.5734
+        },
+        {
+          "text": "起",
+          "coord": [
+            1136,
+            1302,
+            40,
+            40
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "¥699",
+          "coord": [
+            912,
+            1306,
+            94,
+            32
+          ],
+          "ocrConfidence": 0.9067
+        },
+        {
+          "text": "低价房仅剩1间",
+          "coord": [
+            360,
+            1369,
+            218,
+            34
+          ],
+          "ocrConfidence": 0.9941
+        },
+        {
+          "text": "天天特价",
+          "coord": [
+            894,
+            1364,
+            134,
+            32
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "1立减83",
+          "coord": [
+            1032,
+            1365,
+            132,
+            33
+          ],
+          "ocrConfidence": 0.8978
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        1437,
+        1206,
+        406
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "全季酒店(北京望京店)",
+          "coord": [
+            447,
+            1450,
+            437,
+            52
+          ],
+          "ocrConfidence": 0.9421
+        },
+        {
+          "text": "酒店",
+          "coord": [
+            366,
+            1458,
+            64,
+            34
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "高档型",
+          "coord": [
+            891,
+            1457,
+            110,
+            42
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            358,
+            1517,
+            94,
+            40
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "非常好的一次入住体验",
+          "coord": [
+            466,
+            1519,
+            358,
+            40
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "距您直线2.7km",
+          "coord": [
+            360,
+            1580,
+            249,
+            35
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "近朝阳区望京",
+          "coord": [
+            623,
+            1580,
+            216,
+            36
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "全季酒店",
+          "coord": [
+            112,
+            1627,
+            107,
+            22
+          ],
+          "ocrConfidence": 0.9555
+        },
+        {
+          "text": "住就送·32元券包",
+          "coord": [
+            412,
+            1637,
+            290,
+            43
+          ],
+          "ocrConfidence": 0.9787
+        },
+        {
+          "text": "机器人服务",
+          "coord": [
+            738,
+            1639,
+            179,
+            37
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "健身房",
+          "coord": [
+            956,
+            1637,
+            110,
+            40
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "MHOTEL",
+          "coord": [
+            130,
+            1660,
+            71,
+            8
+          ],
+          "ocrConfidence": 0.9136
+        },
+        {
+          "text": "686",
+          "coord": [
+            1026,
+            1691,
+            110,
+            55
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "3万+消费",
+          "coord": [
+            358,
+            1708,
+            166,
+            39
+          ],
+          "ocrConfidence": 0.9866
+        },
+        {
+          "text": "¥779",
+          "coord": [
+            909,
+            1709,
+            90,
+            32
+          ],
+          "ocrConfidence": 0.9212
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1006,
+            1709,
+            23,
+            30
+          ],
+          "ocrConfidence": 0.7014
+        },
+        {
+          "text": "起",
+          "coord": [
+            1137,
+            1705,
+            39,
+            39
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "低价房仅剩1间",
+          "coord": [
+            358,
+            1771,
+            220,
+            36
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "天天特价",
+          "coord": [
+            894,
+            1767,
+            136,
+            34
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "立减93",
+          "coord": [
+            1012,
+            1769,
+            150,
+            32
+          ],
+          "ocrConfidence": 0.9968
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        1843,
+        1206,
+        421
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "酒店",
+          "coord": [
+            366,
+            1859,
+            66,
+            36
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "全季酒店(北京鸟巢关庄地铁站店）",
+          "coord": [
+            446,
+            1853,
+            660,
+            53
+          ],
+          "ocrConfidence": 0.9464
+        },
+        {
+          "text": "高档型",
+          "coord": [
+            358,
+            1927,
+            108,
+            40
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "主华酒店",
+          "coord": [
+            103,
+            1970,
+            18,
+            102
+          ],
+          "ocrConfidence": 0.7813
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            357,
+            1987,
+            94,
+            40
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "非常好的一次居住体验",
+          "coord": [
+            466,
+            1989,
+            358,
+            40
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "距您直线5km",
+          "coord": [
+            360,
+            2049,
+            222,
+            36
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "近中华女子学院",
+          "coord": [
+            592,
+            2049,
+            255,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "住就送·32元券包",
+          "coord": [
+            410,
+            2101,
+            293,
+            50
+          ],
+          "ocrConfidence": 0.9809
+        },
+        {
+          "text": "机器人服务",
+          "coord": [
+            736,
+            2105,
+            182,
+            42
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "商务出行",
+          "coord": [
+            956,
+            2106,
+            146,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "668",
+          "coord": [
+            1024,
+            2161,
+            111,
+            54
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "3万+消费",
+          "coord": [
+            358,
+            2177,
+            167,
+            40
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "¥759",
+          "coord": [
+            907,
+            2178,
+            92,
+            32
+          ],
+          "ocrConfidence": 0.9059
+        },
+        {
+          "text": "起",
+          "coord": [
+            1138,
+            2175,
+            39,
+            39
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "全李店",
+          "coord": [
+            188,
+            2194,
+            45,
+            12
+          ],
+          "ocrConfidence": 0.7872
+        },
+        {
+          "text": "意绣品",
+          "coord": [
+            300,
+            2195,
+            30,
+            15
+          ],
+          "ocrConfidence": 0.2191
+        },
+        {
+          "text": "低价房仅剩1间",
+          "coord": [
+            360,
+            2241,
+            218,
+            23
+          ],
+          "ocrConfidence": 0.9929
+        },
+        {
+          "text": "天天特价",
+          "coord": [
+            900,
+            2237,
+            130,
+            27
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "|立减91",
+          "coord": [
+            1038,
+            2237,
+            123,
+            26
+          ],
+          "ocrConfidence": 0.918
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        2264,
+        1206,
+        358
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "",
+          "coord": [
+            365,
+            2264,
+            212,
+            8
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "",
+          "coord": [
+            968,
+            2264,
+            125,
+            7
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "全季酒店(北京鸟巢国家会议中心店）",
+          "coord": [
+            447,
+            2322,
+            703,
+            52
+          ],
+          "ocrConfidence": 0.9543
+        },
+        {
+          "text": "\"1",
+          "coord": [
+            38,
+            2329,
+            42,
+            35
+          ],
+          "ocrConfidence": 0.4077
+        },
+        {
+          "text": "酒店",
+          "coord": [
+            366,
+            2329,
+            64,
+            35
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "全季酒店",
+          "coord": [
+            42,
+            2372,
+            274,
+            51
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "高档型",
+          "coord": [
+            359,
+            2396,
+            108,
+            40
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "IIHOTEL",
+          "coord": [
+            89,
+            2432,
+            181,
+            26
+          ],
+          "ocrConfidence": 0.815
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            358,
+            2456,
+            96,
+            42
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "服务很好，卫生干净",
+          "coord": [
+            468,
+            2458,
+            307,
+            41
+          ],
+          "ocrConfidence": 0.9905
+        },
+        {
+          "text": "距您直线5.5km",
+          "coord": [
+            360,
+            2519,
+            251,
+            34
+          ],
+          "ocrConfidence": 0.9876
+        },
+        {
+          "text": "近中华女子学院",
+          "coord": [
+            624,
+            2520,
+            254,
+            36
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "",
+          "coord": [
+            601,
+            2526,
+            35,
+            22
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "住就送·32元券包",
+          "coord": [
+            412,
+            2574,
+            288,
+            41
+          ],
+          "ocrConfidence": 0.9811
+        },
+        {
+          "text": "机器人服务",
+          "coord": [
+            738,
+            2578,
+            180,
+            37
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "商务出行",
+          "coord": [
+            956,
+            2576,
+            146,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

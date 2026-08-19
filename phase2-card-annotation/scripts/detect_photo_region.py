@@ -170,6 +170,37 @@ def detect_photos(img_path, min_area=0, h_gap=20, v_gap=15):
             continue
         out.append(dict(x=int(x), y=int(y), w=int(w), h=int(h),
                         area=int(area), rule=rule))
+
+    # Two-column hotel-room grids often connect the photo edge to overlay
+    # text, causing contour classification to retain only the left image.
+    # A detected near-half-width left photo establishes a *geometric* paired
+    # slot.  Accept the mirrored slot only when its own pixels independently
+    # show photo texture and chroma; this does not assume a card type or copy a
+    # golden coordinate.  Text-only recommendation tiles fail these checks.
+    existing = [(item["x"], item["y"], item["w"], item["h"]) for item in out]
+    paired = []
+    for item in list(out):
+        x, y, w, h = item["x"], item["y"], item["w"], item["h"]
+        if x > W * 0.08 or not W * 0.38 <= w <= W * 0.52 or h < H * 0.10:
+            continue
+        mirror_x = W - x - w
+        if mirror_x <= W * 0.50 or mirror_x + w > W:
+            continue
+        if any(abs(ex - mirror_x) <= 12 and abs(ey - y) <= 12 for ex, ey, _, _ in existing):
+            continue
+        crop = arr[y:y + h, mirror_x:mirror_x + w, :]
+        if crop.size == 0:
+            continue
+        stats = _contour_stats(crop)
+        gray = cv2.cvtColor(crop, cv2.COLOR_RGB2GRAY)
+        edge_ratio = float((cv2.Canny(gray, 80, 160) > 0).mean())
+        if stats["rgb_std"] < 35 or stats["chrom_ratio"] < 0.10 or edge_ratio < 0.04:
+            continue
+        paired.append(dict(
+            x=int(mirror_x), y=int(y), w=int(w), h=int(h), area=int(w * h),
+            rule="paired_grid_texture",
+        ))
+    out.extend(paired)
     out.sort(key=lambda d: (d["y"], d["x"]))
     return out, (W, H)
 

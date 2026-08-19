@@ -1,0 +1,862 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/安睡裤.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        952,
+        1224,
+        477
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            402,
+            962,
+            70,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【L号】苏菲",
+          "coord": [
+            496,
+            955,
+            232,
+            52
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "超熟睡安心裤5片/包",
+          "coord": [
+            733,
+            954,
+            448,
+            50
+          ],
+          "ocrConfidence": 0.9941
+        },
+        {
+          "text": "0.1cr",
+          "coord": [
+            35,
+            1015,
+            61,
+            44
+          ],
+          "ocrConfidence": 0.9046
+        },
+        {
+          "text": "奢薄",
+          "coord": [
+            106,
+            1023,
+            64,
+            38
+          ],
+          "ocrConfidence": 0.9858
+        },
+        {
+          "text": "超薄裤型卫生巾",
+          "coord": [
+            397,
+            1024,
+            332,
+            47
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "南",
+          "coord": [
+            315,
+            1037,
+            20,
+            8
+          ],
+          "ocrConfidence": 0.1813
+        },
+        {
+          "text": "透气安心",
+          "coord": [
+            36,
+            1061,
+            122,
+            41
+          ],
+          "ocrConfidence": 0.9966
+        },
+        {
+          "text": "苏菲",
+          "coord": [
+            244,
+            1070,
+            36,
+            15
+          ],
+          "ocrConfidence": 0.9897
+        },
+        {
+          "text": "超熟睡安心裤",
+          "coord": [
+            187,
+            1094,
+            153,
+            38
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "￥10.9神价/每片¥2.18月售46",
+          "coord": [
+            385,
+            1120,
+            558,
+            68
+          ],
+          "ocrConfidence": 0.9285
+        },
+        {
+          "text": "0.1cm奢薄",
+          "coord": [
+            219,
+            1138,
+            58,
+            17
+          ],
+          "ocrConfidence": 0.9206
+        },
+        {
+          "text": "30分钟",
+          "coord": [
+            1065,
+            1137,
+            129,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "L5",
+          "coord": [
+            188,
+            1171,
+            25,
+            12
+          ],
+          "ocrConfidence": 0.9892
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            392,
+            1198,
+            190,
+            44
+          ],
+          "ocrConfidence": 0.9751
+        },
+        {
+          "text": "45減12",
+          "coord": [
+            604,
+            1201,
+            131,
+            39
+          ],
+          "ocrConfidence": 0.9011
+        },
+        {
+          "text": "1.5km",
+          "coord": [
+            1083,
+            1201,
+            109,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "L5条",
+          "coord": [
+            33,
+            1215,
+            72,
+            34
+          ],
+          "ocrConfidence": 0.9883
+        },
+        {
+          "text": "安心裤引领者",
+          "coord": [
+            144,
+            1236,
+            208,
+            40
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "超薄款",
+          "coord": [
+            33,
+            1250,
+            94,
+            33
+          ],
+          "ocrConfidence": 0.9927
+        },
+        {
+          "text": "品牌熊本便利店(望京店)",
+          "coord": [
+            397,
+            1266,
+            422,
+            41
+          ],
+          "ocrConfidence": 0.9369
+        },
+        {
+          "text": "起送￥14.9",
+          "coord": [
+            396,
+            1333,
+            186,
+            37
+          ],
+          "ocrConfidence": 0.9299
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            583,
+            1333,
+            161,
+            37
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1454,
+        1224,
+        532
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "HERLAB",
+          "coord": [
+            117,
+            1463,
+            44,
+            7
+          ],
+          "ocrConfidence": 0.9252
+        },
+        {
+          "text": "防漏",
+          "coord": [
+            265,
+            1460,
+            83,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            398,
+            1461,
+            76,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "她研社春眠小裤安睡裤M-L码/",
+          "coord": [
+            493,
+            1459,
+            657,
+            46
+          ],
+          "ocrConfidence": 0.9964
+        },
+        {
+          "text": "她研社",
+          "coord": [
+            108,
+            1470,
+            61,
+            21
+          ],
+          "ocrConfidence": 0.9701
+        },
+        {
+          "text": "春眠小裤好梦不觉晓",
+          "coord": [
+            38,
+            1505,
+            206,
+            28
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "安睡",
+          "coord": [
+            266,
+            1505,
+            81,
+            41
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "XL码3条",
+          "coord": [
+            392,
+            1524,
+            212,
+            51
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "包裹",
+          "coord": [
+            289,
+            1575,
+            40,
+            14
+          ],
+          "ocrConfidence": 0.8941
+        },
+        {
+          "text": "15",
+          "coord": [
+            288,
+            1586,
+            37,
+            23
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "3片",
+          "coord": [
+            391,
+            1596,
+            67,
+            47
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "春眠小裤",
+          "coord": [
+            108,
+            1617,
+            64,
+            18
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "",
+          "coord": [
+            146,
+            1636,
+            24,
+            7
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "2+1",
+          "coord": [
+            168,
+            1673,
+            22,
+            11
+          ],
+          "ocrConfidence": 0.8996
+        },
+        {
+          "text": "M/L号",
+          "coord": [
+            277,
+            1687,
+            64,
+            25
+          ],
+          "ocrConfidence": 0.9862
+        },
+        {
+          "text": "￥4.27起到手价/每条¥1.43已售72",
+          "coord": [
+            388,
+            1689,
+            633,
+            59
+          ],
+          "ocrConfidence": 0.9603
+        },
+        {
+          "text": "46分钟",
+          "coord": [
+            1066,
+            1700,
+            128,
+            45
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "专业权威",
+          "coord": [
+            40,
+            1710,
+            33,
+            11
+          ],
+          "ocrConfidence": 0.7787
+        },
+        {
+          "text": "机构检测",
+          "coord": [
+            40,
+            1719,
+            34,
+            10
+          ],
+          "ocrConfidence": 0.9122
+        },
+        {
+          "text": "PH值<6.5无添加可迁移性荧光剂、甲醛",
+          "coord": [
+            73,
+            1711,
+            174,
+            18
+          ],
+          "ocrConfidence": 0.9437
+        },
+        {
+          "text": "3",
+          "coord": [
+            276,
+            1717,
+            45,
+            60
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "广告",
+          "coord": [
+            51,
+            1751,
+            39,
+            19
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "量大必入",
+          "coord": [
+            85,
+            1747,
+            106,
+            28
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "条",
+          "coord": [
+            306,
+            1742,
+            35,
+            32
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            392,
+            1761,
+            189,
+            44
+          ],
+          "ocrConfidence": 0.9806
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1082,
+            1765,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "品牌叁慕诗全球美妆集合店(朝阳望京店)",
+          "coord": [
+            397,
+            1830,
+            693,
+            40
+          ],
+          "ocrConfidence": 0.9674
+        },
+        {
+          "text": "起送￥8.8免配送费",
+          "coord": [
+            393,
+            1893,
+            330,
+            42
+          ],
+          "ocrConfidence": 0.9666
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2017,
+        1224,
+        530
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            402,
+            2028,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "全棉时代奈丝公主M码安睡裤3",
+          "coord": [
+            492,
+            2019,
+            672,
+            52
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "Purcotton",
+          "coord": [
+            54,
+            2031,
+            65,
+            20
+          ],
+          "ocrConfidence": 0.9805
+        },
+        {
+          "text": "全棉时代",
+          "coord": [
+            65,
+            2048,
+            44,
+            14
+          ],
+          "ocrConfidence": 0.9575
+        },
+        {
+          "text": "片/包",
+          "coord": [
+            394,
+            2084,
+            118,
+            56
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "自在轻盈",
+          "coord": [
+            175,
+            2130,
+            20,
+            68
+          ],
+          "ocrConfidence": 0.9944
+        },
+        {
+          "text": "3",
+          "coord": [
+            279,
+            2131,
+            11,
+            9
+          ],
+          "ocrConfidence": 0.9943
+        },
+        {
+          "text": "奈丝公主",
+          "coord": [
+            203,
+            2169,
+            62,
+            24
+          ],
+          "ocrConfidence": 0.9645
+        },
+        {
+          "text": "。",
+          "coord": [
+            284,
+            2180,
+            8,
+            11
+          ],
+          "ocrConfidence": 0.282
+        },
+        {
+          "text": "m",
+          "coord": [
+            394,
+            2172,
+            36,
+            30
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "少女裤",
+          "coord": [
+            221,
+            2190,
+            27,
+            12
+          ],
+          "ocrConfidence": 0.9685
+        },
+        {
+          "text": "",
+          "coord": [
+            277,
+            2190,
+            18,
+            37
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "无",
+          "coord": [
+            179,
+            2205,
+            31,
+            10
+          ],
+          "ocrConfidence": 0.4373
+        },
+        {
+          "text": "100%",
+          "coord": [
+            250,
+            2224,
+            43,
+            18
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "￥11.9买2件¥9.4/件已售6",
+          "coord": [
+            384,
+            2247,
+            493,
+            66
+          ],
+          "ocrConfidence": 0.9452
+        },
+        {
+          "text": "贴臀无束缚",
+          "coord": [
+            44,
+            2257,
+            171,
+            41
+          ],
+          "ocrConfidence": 0.994
+        },
+        {
+          "text": "1约15分钟",
+          "coord": [
+            996,
+            2264,
+            196,
+            41
+          ],
+          "ocrConfidence": 0.9932
+        },
+        {
+          "text": "更懂少女心",
+          "coord": [
+            47,
+            2299,
+            166,
+            34
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            392,
+            2323,
+            190,
+            45
+          ],
+          "ocrConfidence": 0.98
+        },
+        {
+          "text": "2.1km",
+          "coord": [
+            1081,
+            2327,
+            113,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "官方全棉时代(北京望京万象汇店）",
+          "coord": [
+            398,
+            2392,
+            574,
+            39
+          ],
+          "ocrConfidence": 0.9567
+        },
+        {
+          "text": "起送￥20满29免配送费",
+          "coord": [
+            396,
+            2457,
+            399,
+            39
+          ],
+          "ocrConfidence": 0.9647
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2547,
+        1224,
+        153
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            2589,
+            72,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【M-L号】她研社深藏BLUE安睡",
+          "coord": [
+            496,
+            2581,
+            685,
+            51
+          ],
+          "ocrConfidence": 0.9945
+        },
+        {
+          "text": "她研社·U先试用",
+          "coord": [
+            133,
+            2594,
+            127,
+            19
+          ],
+          "ocrConfidence": 0.9748
+        },
+        {
+          "text": "3条",
+          "coord": [
+            68,
+            2630,
+            80,
+            54
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "超值尝鲜装",
+          "coord": [
+            158,
+            2627,
+            175,
+            37
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "裤3条/包",
+          "coord": [
+            394,
+            2649,
+            209,
+            51
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "深藏BLUE安睡裤M-L码3条",
+          "coord": [
+            161,
+            2667,
+            170,
+            14
+          ],
+          "ocrConfidence": 0.9944
+        }
+      ]
+    }
+  ]
+}

@@ -196,8 +196,12 @@ def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = N
         if x1 <= x0 or y1 <= y0:
             return [], "unavailable", "invalid_region"
         crop = source.crop((x0, y0, x1, y1))
-        # Upscaling improves dense, small mobile UI glyphs before detection.
-        crop = crop.resize((crop.width * 2, crop.height * 2), Image.Resampling.LANCZOS)
+        # Upscaling improves tiny crops, but full-width card crops already have
+        # 35-50 px glyphs.  Golden calibration may opt into scale=1 to avoid a
+        # 4x pixel-cost penalty without changing the bounded source region.
+        scale = max(1, min(2, int(os.environ.get("PHASE2_BOUNDED_OCR_SCALE", "2"))))
+        if scale != 1:
+            crop = crop.resize((crop.width * scale, crop.height * scale), Image.Resampling.LANCZOS)
         import tempfile
         with tempfile.NamedTemporaryFile(suffix=".png") as handle:
             crop.save(handle.name)
@@ -216,10 +220,10 @@ def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = N
                     enhanced.save(enhanced_handle.name)
                     entries, error = _run_tesseract(Path(enhanced_handle.name), tesseract_psm)
                 backend = "tesseract_threshold" if entries and not error else "unavailable"
-    # Undo the 2x scale and translate coordinates to the source page.
+    # Undo the bounded-crop scale and translate coordinates to the source page.
     for item in entries:
         cx, cy, cw, ch = item["coord"]
-        item["coord"] = [x0 + round(cx / 2), y0 + round(cy / 2), round(cw / 2), round(ch / 2)]
+        item["coord"] = [x0 + round(cx / scale), y0 + round(cy / scale), round(cw / scale), round(ch / scale)]
     return entries, backend, error
 
 
@@ -617,7 +621,7 @@ def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, 
         # colourful region and one stable content row is enough to propose a
         # photo, never enough to assign its semantic role.
         row_hits = sum(1 for row in rows if _near_row(box, row))
-        detector_confidence = 0.82 if item["rule"] == "large" else 0.8 if item["rule"] == "low_hue_textured" else 0.72 if item["rule"] == "colorful" else 0.62
+        detector_confidence = 0.86 if item["rule"] == "paired_grid_texture" else 0.82 if item["rule"] == "large" else 0.8 if item["rule"] == "low_hue_textured" else 0.72 if item["rule"] == "colorful" else 0.62
         geometry_confidence = 0.9 if row_hits <= 3 else 0.65
         confidence = min(detector_confidence, geometry_confidence)
         reasons = []

@@ -1,0 +1,726 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为露营.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为露营.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        910,
+        1224,
+        381
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "工",
+          "coord": [
+            320,
+            910,
+            64,
+            10
+          ],
+          "ocrConfidence": 0.7319
+        },
+        {
+          "text": "正告医告",
+          "coord": [
+            393,
+            910,
+            546,
+            18
+          ],
+          "ocrConfidence": 0.284
+        },
+        {
+          "text": "4.2分5176条￥137/人休闲园区",
+          "coord": [
+            306,
+            946,
+            585,
+            53
+          ],
+          "ocrConfidence": 0.9653
+        },
+        {
+          "text": "4.3km",
+          "coord": [
+            1083,
+            953,
+            110,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            308,
+            1014,
+            189,
+            43
+          ],
+          "ocrConfidence": 0.9934
+        },
+        {
+          "text": "5朝阳区休闲园区销量榜第1名",
+          "coord": [
+            481,
+            1019,
+            516,
+            37
+          ],
+          "ocrConfidence": 0.9955
+        },
+        {
+          "text": "聖露莊園",
+          "coord": [
+            76,
+            1049,
+            158,
+            34
+          ],
+          "ocrConfidence": 0.9306
+        },
+        {
+          "text": "¥193",
+          "coord": [
+            309,
+            1093,
+            98,
+            48
+          ],
+          "ocrConfidence": 0.8673
+        },
+        {
+          "text": "5.1折",
+          "coord": [
+            419,
+            1096,
+            89,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "营地搭建好的天幕租赁(不",
+          "coord": [
+            539,
+            1098,
+            439,
+            39
+          ],
+          "ocrConfidence": 0.985
+        },
+        {
+          "text": "年售100+",
+          "coord": [
+            1040,
+            1099,
+            153,
+            37
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥145",
+          "coord": [
+            310,
+            1167,
+            97,
+            44
+          ],
+          "ocrConfidence": 0.8833
+        },
+        {
+          "text": "自扎营费用-扎营位-指定营位区域(",
+          "coord": [
+            425,
+            1168,
+            605,
+            40
+          ],
+          "ocrConfidence": 0.9484
+        },
+        {
+          "text": "年售20",
+          "coord": [
+            1078,
+            1169,
+            116,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1291,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "浩华营地",
+          "coord": [
+            127,
+            1298,
+            51,
+            16
+          ],
+          "ocrConfidence": 0.743
+        },
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1293,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "浩华营地·室内轰趴.户外团建·自助B",
+          "coord": [
+            408,
+            1291,
+            773,
+            46
+          ],
+          "ocrConfidence": 0.9925
+        },
+        {
+          "text": "4.9分760条￥156/人团建拓展马泉营",
+          "coord": [
+            304,
+            1354,
+            700,
+            56
+          ],
+          "ocrConfidence": 0.9781
+        },
+        {
+          "text": "2.5km",
+          "coord": [
+            1081,
+            1363,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "北京团建拓展销量榜第1名神券最高膨至25",
+          "coord": [
+            310,
+            1426,
+            776,
+            41
+          ],
+          "ocrConfidence": 0.9919
+        },
+        {
+          "text": "非常满意，下次还要再来",
+          "coord": [
+            355,
+            1492,
+            429,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥83",
+          "coord": [
+            309,
+            1570,
+            80,
+            46
+          ],
+          "ocrConfidence": 0.9168
+        },
+        {
+          "text": "3.8折",
+          "coord": [
+            398,
+            1571,
+            90,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【露营】自带食材单人门票|",
+          "coord": [
+            521,
+            1573,
+            447,
+            40
+          ],
+          "ocrConfidence": 0.9815
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1020,
+            1573,
+            172,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥173",
+          "coord": [
+            309,
+            1640,
+            97,
+            48
+          ],
+          "ocrConfidence": 0.9054
+        },
+        {
+          "text": "4.7折",
+          "coord": [
+            416,
+            1641,
+            89,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【强烈推荐】自助BBQ畅吃",
+          "coord": [
+            537,
+            1641,
+            443,
+            43
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "年售2000+",
+          "coord": [
+            1019,
+            1644,
+            174,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1766,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            314,
+            1767,
+            75,
+            42
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "半醒小院·公司小聚·生日派对·露天",
+          "coord": [
+            407,
+            1766,
+            744,
+            49
+          ],
+          "ocrConfidence": 0.9895
+        },
+        {
+          "text": "3.0分141条¥99/人团建拓展",
+          "coord": [
+            304,
+            1828,
+            543,
+            56
+          ],
+          "ocrConfidence": 0.9501
+        },
+        {
+          "text": "4.4km",
+          "coord": [
+            1083,
+            1839,
+            110,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券立减5朝阳区团建拓展人气榜第9名",
+          "coord": [
+            305,
+            1896,
+            695,
+            53
+          ],
+          "ocrConfidence": 0.9939
+        },
+        {
+          "text": "￥163",
+          "coord": [
+            309,
+            1979,
+            100,
+            47
+          ],
+          "ocrConfidence": 0.8673
+        },
+        {
+          "text": "4.5折",
+          "coord": [
+            417,
+            1978,
+            93,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "双人烤串套餐营地",
+          "coord": [
+            534,
+            1981,
+            317,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "年售60+",
+          "coord": [
+            1058,
+            1981,
+            136,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥393",
+          "coord": [
+            310,
+            2051,
+            104,
+            44
+          ],
+          "ocrConfidence": 0.9213
+        },
+        {
+          "text": "6.6折",
+          "coord": [
+            424,
+            2051,
+            93,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "四人烤串套餐",
+          "coord": [
+            544,
+            2053,
+            235,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "年售80+",
+          "coord": [
+            1058,
+            2053,
+            136,
+            41
+          ],
+          "ocrConfidence": 0.9994
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2176,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            2178,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "半醒花园·团建场地·户外简餐·星空",
+          "coord": [
+            409,
+            2176,
+            742,
+            45
+          ],
+          "ocrConfidence": 0.9927
+        },
+        {
+          "text": "3.7分",
+          "coord": [
+            307,
+            2244,
+            101,
+            43
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "5条",
+          "coord": [
+            416,
+            2246,
+            90,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "休闲园区",
+          "coord": [
+            495,
+            2246,
+            164,
+            44
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "4.2km",
+          "coord": [
+            1083,
+            2249,
+            110,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            308,
+            2308,
+            185,
+            45
+          ],
+          "ocrConfidence": 0.9892
+        },
+        {
+          "text": "近期500+人浏览免费停车",
+          "coord": [
+            507,
+            2312,
+            460,
+            42
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "￥163",
+          "coord": [
+            310,
+            2391,
+            96,
+            44
+          ],
+          "ocrConfidence": 0.8691
+        },
+        {
+          "text": "4.5折",
+          "coord": [
+            419,
+            2390,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "双人烤串套餐(需提前一天预约",
+          "coord": [
+            536,
+            2392,
+            520,
+            42
+          ],
+          "ocrConfidence": 0.9908
+        },
+        {
+          "text": "年售3",
+          "coord": [
+            1097,
+            2393,
+            97,
+            39
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "￥393",
+          "coord": [
+            310,
+            2462,
+            103,
+            43
+          ],
+          "ocrConfidence": 0.9223
+        },
+        {
+          "text": "6.6折",
+          "coord": [
+            426,
+            2463,
+            89,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "四人烤串套餐(需提前一天预",
+          "coord": [
+            548,
+            2466,
+            477,
+            36
+          ],
+          "ocrConfidence": 0.9911
+        },
+        {
+          "text": "年售2",
+          "coord": [
+            1098,
+            2464,
+            97,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2586,
+        1224,
+        114
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "景点",
+          "coord": [
+            317,
+            2590,
+            72,
+            39
+          ],
+          "ocrConfidence": 0.9965
+        },
+        {
+          "text": "蟹岛绿色生态度假村4A",
+          "coord": [
+            407,
+            2586,
+            491,
+            46
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "3.9分",
+          "coord": [
+            307,
+            2653,
+            100,
+            45
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "5986条",
+          "coord": [
+            418,
+            2656,
+            134,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "免费入园",
+          "coord": [
+            565,
+            2657,
+            167,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "金盏",
+          "coord": [
+            734,
+            2656,
+            87,
+            40
+          ],
+          "ocrConfidence": 0.989
+        },
+        {
+          "text": "5.6km",
+          "coord": [
+            1082,
+            2656,
+            112,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

@@ -1,50 +1,1638 @@
 {
   "contractVersion": "phase2.golden-page-truth.v2",
-  "sourcePolicy": "离线模型辅助读取当前截图后，以可见像素、重复边界和屏幕底边校准；只用于推理后的回归评估，禁止作为生产卡型、坐标或字段输入。完整卡与底部自然截断卡均记录。",
+  "sourcePolicy": "34张离线组件标注图逐图校准；只用于推理后的卡数、卡型、边界与截断状态回归，禁止作为生产识别输入。哈希变化必须重新核验。",
   "pages": {
-    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png": {
-      "calibrationStatus": "model_assisted_verified",
+    "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第1次.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/hotel-card/全季酒店-第1次.elements.json",
+      "rawSha256": "6e6a86747a3befb92eef9a98ae10a2d9923d91dda932c7b7fe98e3a04840e9ef",
+      "componentAnnotationSha256": "db2b56acef66cd2942427328d20ceb8e90285c571380d1fec279b7f8917706f4",
       "resultCards": [
-        {"cardType": "商家卡片_图文下挂", "coord": [0, 554, 1224, 627], "visibleStatus": "complete"},
-        {"cardType": "商家卡片_图文下挂", "coord": [0, 1217, 1224, 627], "visibleStatus": "complete"},
-        {"cardType": "商家卡片_图文下挂", "coord": [0, 1880, 1224, 627], "visibleStatus": "complete"},
-        {"cardType": "商家卡片_图文下挂", "coord": [0, 2540, 1224, 160], "visibleStatus": "naturally_cropped"}
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            554,
+            1206,
+            488
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1042,
+            1206,
+            395
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1437,
+            1206,
+            406
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1843,
+            1206,
+            421
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            2264,
+            1206,
+            358
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为全季酒店-第2次.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/hotel-card/全季酒店-第2次.elements.json",
+      "rawSha256": "e8086117be6eb30bddfac6eca1bb8f08005ee72321182a24fbf8f438177b0ea2",
+      "componentAnnotationSha256": "05330733944beab13729f4a44a94d3bd65d712968e97dbcbbcd03bd4466c17cc",
+      "resultCards": [
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1465,
+            1224,
+            509
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1974,
+            1224,
+            509
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            2483,
+            1224,
+            217
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为国庆节酒店.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/hotel-card/国庆节酒店-混排.elements.json",
+      "rawSha256": "b5cfeb72b86915b3fda5b87a3b34e79569a039dbb7dbd6c566ea632bfe77dad2",
+      "componentAnnotationSha256": "f9b39872476d870dc71989534ef9046846cddc9e77ec18a31516be10c4097a2b",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            554,
+            1206,
+            670
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1247,
+            1206,
+            574
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1843,
+            1206,
+            464
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            2307,
+            1206,
+            315
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为酒店.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/hotel-card/酒店.elements.json",
+      "rawSha256": "75aaee55beee440a2b51851bb52ce95dcf794ccbe2cc09942823e4e50cd0078f",
+      "componentAnnotationSha256": "8092bf8a270db52db0d1d4c8e0a158b575bd2bd30e481bd85246641232f6e2a6",
+      "resultCards": [
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1450,
+            1224,
+            509
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            1959,
+            1224,
+            509
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            0,
+            2468,
+            1224,
+            232
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-双列-搜索词为电竞房.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/hotel-card/电竞房-双列.elements.json",
+      "rawSha256": "402a97ca14180bf78918e70fcf72d9181aec05e622d021e60de43573a5cfa256",
+      "componentAnnotationSha256": "3a164795fa2433615f859ee0b05da6c0caeac061ffca01a1ae9732a7fb95b6f5",
+      "resultCards": [
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            17,
+            508,
+            595,
+            820
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            612,
+            508,
+            595,
+            820
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            17,
+            1354,
+            595,
+            820
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            612,
+            1354,
+            595,
+            820
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "酒店卡片",
+          "coord": [
+            17,
+            2200,
+            595,
+            500
+          ],
+          "visibleStatus": "naturally_cropped"
+        },
+        {
+          "cardType": "异构卡",
+          "coord": [
+            612,
+            2200,
+            595,
+            500
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为库迪.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/库迪.elements.json",
+      "rawSha256": "1d7e299e116e4f0b858fd2e0743869dbc2ff4ea20e50f1a1fad0dc1c9e99208f",
+      "componentAnnotationSha256": "7f9d5c1a9d85a3056737783d488d90ef65e43a38013773f057f5c087d6e4f20d",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            554,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1269,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1984,
+            1224,
+            651
+          ],
+          "visibleStatus": "complete"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/烧烤.elements.json",
+      "rawSha256": "440faadb1efb0e60f50503b957cbae9d49cd34b2bf1675af9b6ad2c988a34c26",
+      "componentAnnotationSha256": "f9c2e6612e1c8033d15a54481ff49ba2c06583dbd6089efaae56a5d604581168",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            554,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1217,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1880,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2540,
+            1224,
+            160
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为生日蛋糕.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/生日蛋糕.elements.json",
+      "rawSha256": "55f8e26bdae68da7b3f0ce3e95e95c49927c03cd5397176cf91d67fa0a1a880a",
+      "componentAnnotationSha256": "ba5e788c97b6820f08efc0e6468fb2a4b939e149398055843c58c646a12521fc",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1513,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2176,
+            1224,
+            524
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为盒马.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/盒马.elements.json",
+      "rawSha256": "d6e94a6c623b12759865a3b9788d4f18ffea31d7ab5d104bddfc91bc3a079a04",
+      "componentAnnotationSha256": "4a25b35b76ada9781823dae395a5f0a9680bc8fedd4741700ff6dcf29d7e6e43",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            710,
+            1224,
+            720
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1430,
+            1224,
+            655
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2085,
+            1224,
+            615
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为药店.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/药店.elements.json",
+      "rawSha256": "ab4c6271908b33077e72509b11b533511d4a923020cc2a1113546a0621a61c0f",
+      "componentAnnotationSha256": "74ada2080794cb851b51706ba73e1ce809a7ec8fadb5bae908eee5c414d1b25f",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            881,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1596,
+            1224,
+            715
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2311,
+            1224,
+            389
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/蜜雪冰城.elements.json",
+      "rawSha256": "3a127d0da1cba2c31f17853edcd206f472312f0fe15d667a4cb4420627ac4d90",
+      "componentAnnotationSha256": "e0361ed370bda07f1e807a95179cbc5a4ad2711fcf116a437eb26d6b6dc72228",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1326,
+            1224,
+            598
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1947,
+            1224,
+            753
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/隆江猪脚饭.elements.json",
+      "rawSha256": "7460dfa1bab2c10cf3109d020d01211ef60368c7ff0beacfae031b2088868be6",
+      "componentAnnotationSha256": "239d85f3df46929c4dbf84cc7644250f98f1e73d7b4cde624373092ca60fb13b",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            554,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1217,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1932,
+            1224,
+            627
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2565,
+            1224,
+            135
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为体检.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为体检.elements.json",
+      "rawSha256": "6090e46c0477a5d4d27e44d398df85531cb8670b332cfd09770a33e97626b073",
+      "componentAnnotationSha256": "15b4ded57a71beee32d34c2c531f7dd7fafcb33b677c3c6013e5d27b0511c96a",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            849,
+            1224,
+            386
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1258,
+            1224,
+            386
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1667,
+            1224,
+            386
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2071,
+            1224,
+            391
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2485,
+            1224,
+            215
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为剧本杀.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为剧本杀.elements.json",
+      "rawSha256": "8bb9ecb9266a4811847f922dbd56773f2ac8236bbd36ce7869c8c4f9203f8386",
+      "componentAnnotationSha256": "016b75ef9b1d352cc9633ebdd0405e03c97555984b287bdc9db050fff5036236",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1073,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1548,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2023,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2433,
+            1224,
+            267
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为手机维修.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.elements.json",
+      "rawSha256": "7a2f8c74a93f80e124c60b580d2a74a3a891b6611356d63437c474083571e769",
+      "componentAnnotationSha256": "83655c91d01df0fbab25bddc49890a64f4d543f8cebb6b3dc1888e1c8753fff3",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            843,
+            1224,
+            443
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1325,
+            1224,
+            442
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1807,
+            1224,
+            441
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2289,
+            1224,
+            382
+          ],
+          "visibleStatus": "complete"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为按摩.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为按摩.elements.json",
+      "rawSha256": "a5238a2466bad1d74495911c566d2cbfd1b1565a1231e64e5bc5896ae27a7560",
+      "componentAnnotationSha256": "65fbc36b6f6748b4f5996971abd8d7efeb44b3066617fa06e8d97f9bab9b06c4",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            881,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1356,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1766,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2241,
+            1224,
+            459
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为游乐场.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为游乐场.elements.json",
+      "rawSha256": "ca73bc04bffb4ae3ea214afaa26e7ca3531f5135a315b67a3a4e3e5cbf314f65",
+      "componentAnnotationSha256": "7a98acaf35767302cf455ecad55073fc01182c836118e18696f88ecd0eab2d93",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            765,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1175,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1585,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1995,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2405,
+            1224,
+            295
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为漂流.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.elements.json",
+      "rawSha256": "aa593a0988ed730b1a80e8299c6f6bd3c3e3060609d55b2a39ecae741178a078",
+      "componentAnnotationSha256": "31dae9a905a7be8cb2a73923c3dcac3cc64860067ee73df51a6e22881e1f3f18",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            849,
+            1224,
+            318
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1167,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1642,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2052,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2527,
+            1224,
+            173
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为理发.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为理发.elements.json",
+      "rawSha256": "64e3505cb7b8dece790cc71f4a15d8635281afb4f74e875999b829dd0b77a5ff",
+      "componentAnnotationSha256": "4e45c56ad4c66dd1205ecc1dd68c1ab9b9e29973375069ac8207e1ae173f1e17",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            881,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1356,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1831,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2306,
+            1224,
+            394
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为空调清洗.elements.json",
+      "rawSha256": "88def2576f7eaa91a22ab11efd93aa5d2c9a57a26abc655e16b79d75ecad40a2",
+      "componentAnnotationSha256": "3dbb0584f04fa72a29ac6062602292aed0df4c2d046bfd045ea8a874d77f9385",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1037,
+            1224,
+            317
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1354,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1829,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2304,
+            1224,
+            396
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为解压体验馆.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为解压体验馆.elements.json",
+      "rawSha256": "cbb0375bdbdec2755171ec7e1da05a13477814ffc6fc1760193049e6ea753773",
+      "componentAnnotationSha256": "204a330d945218c37eef6fe258af3a3d0104dce44fcab11516997f22d70b2d10",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            554,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1029,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1504,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1979,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2454,
+            1224,
+            246
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为露营.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为露营.elements.json",
+      "rawSha256": "3cf7953d6de8fe9a428016406b25914c4e7f533c5bfcce97a4aec935ab472879",
+      "componentAnnotationSha256": "ddad61f0198acc827726956a03aae0c91c4802682804d17337c05a65c6ebe75a",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            910,
+            1224,
+            381
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1291,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1766,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2176,
+            1224,
+            410
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2586,
+            1224,
+            114
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为面部清洁.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.elements.json",
+      "rawSha256": "1d02fe034302b2dcf5dcec31e9de4b37074d1be1d30d2d7f0d73ed260e996ec9",
+      "componentAnnotationSha256": "bf2729bd02eda98cf1ac90a2140814576dacde88630320efb956349f9ca9da37",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            843,
+            1224,
+            394
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1254,
+            1224,
+            394
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1665,
+            1224,
+            394
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2076,
+            1224,
+            394
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2487,
+            1224,
+            213
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
       ]
     },
     "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-演出卡.png": {
-      "calibrationStatus": "model_assisted_verified",
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/performance-movie-card/演出卡.elements.json",
+      "rawSha256": "3b46ba906ba661f19307ffb0b69be80cc1e31995d7811991df67a90ba33990fe",
+      "componentAnnotationSha256": "dcc507bbe0fcd59b4635d9c000a0ed3edea58b1dfa7f8f174607047e9afcefed",
       "resultCards": [
-        {"cardType": "演出电影卡片", "coord": [0, 414, 1224, 404], "visibleStatus": "complete"},
-        {"cardType": "演出电影卡片", "coord": [0, 818, 1224, 414], "visibleStatus": "complete"},
-        {"cardType": "演出电影卡片", "coord": [0, 1232, 1224, 472], "visibleStatus": "complete"},
-        {"cardType": "演出电影卡片", "coord": [0, 1704, 1224, 411], "visibleStatus": "complete"},
-        {"cardType": "演出电影卡片", "coord": [0, 2115, 1224, 404], "visibleStatus": "complete"},
-        {"cardType": "演出电影卡片", "coord": [0, 2519, 1224, 181], "visibleStatus": "naturally_cropped"}
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            414,
+            1224,
+            404
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            818,
+            1224,
+            414
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1232,
+            1224,
+            472
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1704,
+            1224,
+            411
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2115,
+            1224,
+            404
+          ],
+          "visibleStatus": "complete",
+          "variant": "performance"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2519,
+            1224,
+            181
+          ],
+          "visibleStatus": "naturally_cropped",
+          "variant": "performance"
+        }
       ]
     },
-    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png": {
-      "calibrationStatus": "model_assisted_verified",
+    "phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-电影卡.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/performance-movie-card/电影卡.elements.json",
+      "rawSha256": "19a48d2f33ea65e15ac2ce2b6bdf89add3ad1ce771f440a4df0d9470fafb3d9b",
+      "componentAnnotationSha256": "5903e3668f9e1006de3fdf87f4c42b964eab6778bf1232a018a7c7f367cbd5e4",
       "resultCards": [
-        {"cardType": "商品卡片", "coord": [0, 554, 1224, 502], "visibleStatus": "complete"},
-        {"cardType": "商品卡片", "coord": [0, 1056, 1224, 502], "visibleStatus": "complete"},
-        {"cardType": "商品卡片", "coord": [0, 1558, 1224, 487], "visibleStatus": "complete"},
-        {"cardType": "商品卡片", "coord": [0, 2045, 1224, 517], "visibleStatus": "complete"},
-        {"cardType": "商品卡片", "coord": [0, 2562, 1224, 138], "visibleStatus": "naturally_cropped"}
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1395,
+            1224,
+            230
+          ],
+          "visibleStatus": "complete",
+          "variant": "cinema"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1655,
+            1224,
+            239
+          ],
+          "visibleStatus": "complete",
+          "variant": "cinema"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            1916,
+            1224,
+            247
+          ],
+          "visibleStatus": "complete",
+          "variant": "cinema"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2177,
+            1224,
+            254
+          ],
+          "visibleStatus": "complete",
+          "variant": "cinema"
+        },
+        {
+          "cardType": "演出电影卡片",
+          "coord": [
+            0,
+            2461,
+            1224,
+            239
+          ],
+          "visibleStatus": "naturally_cropped",
+          "variant": "cinema"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/primary-point-card/主点卡-万达广场.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/primary-point-card/万达广场.elements.json",
+      "rawSha256": "352edaffa25d5a603be012082a62f7ab1f5c3fcd502131b8fa57d4e4279c0989",
+      "componentAnnotationSha256": "df30d77c7a0c4a1315525223206f867175c643ab255317c5f545410ce19dffe3",
+      "resultCards": [
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1290,
+            1224,
+            685
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2015,
+            1224,
+            685
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
       ]
     },
     "phase2-card-annotation/golden-samples/primary-point-card/主点卡-迪士尼.png": {
-      "calibrationStatus": "model_assisted_verified",
-      "pageModules": [
-        {"moduleType": "live_card", "coord": [0, 0, 1224, 1188], "visibleStatus": "complete"},
-        {"moduleType": "search_bar", "coord": [117, 119, 946, 128], "visibleStatus": "complete"},
-        {"moduleType": "tab", "coord": [32, 280, 1160, 120], "visibleStatus": "complete"},
-        {"moduleType": "main_poi_card", "coord": [0, 1188, 1224, 417], "visibleStatus": "complete"},
-        {"moduleType": "business_image_filter", "coord": [0, 1605, 1224, 237], "visibleStatus": "complete"},
-        {"moduleType": "sort_filter", "coord": [0, 1842, 1224, 128], "visibleStatus": "complete"}
-      ],
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/primary-point-card/迪士尼.elements.json",
+      "rawSha256": "9317d732bdc7813c8c4a75dbda79600077369c52f23a9f26c0f280abff7ca774",
+      "componentAnnotationSha256": "8a5635b4549aefdf5bb3dce405c07962761253a69af88bb1f42ad646226fa2fe",
       "resultCards": [
-        {"cardType": "商家卡片_文字下挂", "coord": [0, 1970, 1224, 410], "visibleStatus": "complete"},
-        {"cardType": "商家卡片_文字下挂", "coord": [0, 2380, 1224, 320], "visibleStatus": "naturally_cropped"}
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            1950,
+            1224,
+            371
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            2346,
+            1224,
+            354
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为啤酒.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/啤酒.elements.json",
+      "rawSha256": "05af188e02b1dedc1639c86d7120c48902b3fc28427586cf0625bb7a2b0c6f0a",
+      "componentAnnotationSha256": "63ada7c39359f2a71c7531c906469ef75c19cf54e5e3f6d0fb9adcbf1c2cfb9b",
+      "resultCards": [
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1108,
+            1224,
+            478
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1675,
+            1224,
+            474
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2233,
+            1224,
+            467
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为喜力啤酒整箱.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/喜力啤酒整箱.elements.json",
+      "rawSha256": "9806cd4f4f04c63686009753958ba1eb07981e35e0f6335a055da7068484f894",
+      "componentAnnotationSha256": "51d217a7cacc35289f2ebeb8f041cd6bacbe8511239e523aacb2ed0ed314eafc",
+      "resultCards": [
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            710,
+            1224,
+            563
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1273,
+            1224,
+            563
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1836,
+            1224,
+            515
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2351,
+            1224,
+            349
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/安睡裤.elements.json",
+      "rawSha256": "67aca39c78c3bbaf914a5ec8d1dab021bf3aca1fa22c3e868e1a31f600b963dc",
+      "componentAnnotationSha256": "12f5295fa825c2908d3a1f7cb8acb27c7cd198920f0f822fd7590e5038b4c6a7",
+      "resultCards": [
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            952,
+            1224,
+            477
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1454,
+            1224,
+            532
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2017,
+            1224,
+            530
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2547,
+            1224,
+            153
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为布洛芬.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/布洛芬.elements.json",
+      "rawSha256": "5e92b421d03cf5f93454c7598b22a7db14db8c75485476cae3144b5fd2a04e31",
+      "componentAnnotationSha256": "ab0c2edb86974086b1fbc41783360210911ec30295b35195c1457e0252dc22bc",
+      "resultCards": [
+        {
+          "cardType": "异构卡",
+          "coord": [
+            0,
+            849,
+            1224,
+            348
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1256,
+            1224,
+            502
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1758,
+            1224,
+            502
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2260,
+            1224,
+            440
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为榴莲.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/榴莲.elements.json",
+      "rawSha256": "9e78421a2cb7f4dd14c282ecd33a32879f96346d76c522876fec2b1eade2d507",
+      "componentAnnotationSha256": "4d1fea4c387405ed08a0040cdbb822de148e41ce2b9e83f3821d97fc0fb4927b",
+      "resultCards": [
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1077,
+            1224,
+            393
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1511,
+            1224,
+            518
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2068,
+            1224,
+            518
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2628,
+            1224,
+            72
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/生理盐水.elements.json",
+      "rawSha256": "d4c6493c6f4ded1922ec173d3ef39b7277c18b27dca255028b6d61a619344f59",
+      "componentAnnotationSha256": "7a6a7f9978e91b2b96e1a4866744457ba50e3861f567d0e0c39f386d7d3ccc25",
+      "resultCards": [
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            554,
+            1224,
+            502
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1056,
+            1224,
+            502
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1558,
+            1224,
+            487
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2045,
+            1224,
+            517
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2562,
+            1224,
+            138
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
+      ]
+    },
+    "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为西瓜.png": {
+      "calibrationStatus": "component_annotation_pixel_verified",
+      "sourceGolden": "phase2-card-annotation/golden-sample-results/product-card/西瓜.elements.json",
+      "rawSha256": "6be1d17806fa2083b672756977942bb75a2ae2bcefbd1cc71c77356a10c9f321",
+      "componentAnnotationSha256": "53c6f19435e83ec132d7625b8191a5e6552ca395bb4eb0a5dd97610a733067a2",
+      "resultCards": [
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1037,
+            1224,
+            538
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            1600,
+            1224,
+            462
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2092,
+            1224,
+            544
+          ],
+          "visibleStatus": "complete"
+        },
+        {
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2636,
+            1224,
+            64
+          ],
+          "visibleStatus": "naturally_cropped"
+        }
       ]
     }
   }

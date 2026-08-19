@@ -1,0 +1,832 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/布洛芬.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为布洛芬.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "异构卡",
+      "coord": [
+        0,
+        849,
+        1224,
+        348
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "Q大家还在搜",
+          "coord": [
+            29,
+            877,
+            289,
+            57
+          ],
+          "ocrConfidence": 0.9591
+        },
+        {
+          "text": "布洛芬片",
+          "coord": [
+            87,
+            988,
+            164,
+            50
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "布洛芬胶囊",
+          "coord": [
+            358,
+            988,
+            204,
+            49
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "止痛片",
+          "coord": [
+            686,
+            987,
+            126,
+            52
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "安乃近",
+          "coord": [
+            975,
+            986,
+            131,
+            54
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "退烧药",
+          "coord": [
+            104,
+            1096,
+            130,
+            53
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "芬必得",
+          "coord": [
+            398,
+            1098,
+            126,
+            49
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "温度计",
+          "coord": [
+            684,
+            1097,
+            129,
+            51
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "止痛药",
+          "coord": [
+            976,
+            1097,
+            128,
+            52
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1256,
+        1224,
+        502
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            1267,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "[芬必得]布洛芬咀嚼片0.2g*10",
+          "coord": [
+            493,
+            1260,
+            648,
+            53
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "芬必得",
+          "coord": [
+            34,
+            1273,
+            73,
+            16
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "医保个账",
+          "coord": [
+            210,
+            1275,
+            131,
+            34
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "嚼一嚼止痛",
+          "coord": [
+            105,
+            1308,
+            239,
+            53
+          ],
+          "ocrConfidence": 0.9966
+        },
+        {
+          "text": "片/板/盒",
+          "coord": [
+            395,
+            1324,
+            186,
+            55
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "",
+          "coord": [
+            67,
+            1403,
+            36,
+            13
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "超90人回购",
+          "coord": [
+            393,
+            1400,
+            205,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "痛经牙痛|头痛|感冒发热",
+          "coord": [
+            614,
+            1400,
+            479,
+            42
+          ],
+          "ocrConfidence": 0.954
+        },
+        {
+          "text": "布洛芬咀嚼片",
+          "coord": [
+            66,
+            1420,
+            93,
+            29
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "快速崩解",
+          "coord": [
+            233,
+            1432,
+            125,
+            35
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "无需用水",
+          "coord": [
+            232,
+            1464,
+            128,
+            36
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "30分钟",
+          "coord": [
+            1064,
+            1502,
+            130,
+            45
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "",
+          "coord": [
+            102,
+            1514,
+            28,
+            10
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "品牌111医药馆(望京西园分店）",
+          "coord": [
+            396,
+            1569,
+            536,
+            43
+          ],
+          "ocrConfidence": 0.9544
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1081,
+            1569,
+            114,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "起送￥20",
+          "coord": [
+            397,
+            1635,
+            149,
+            39
+          ],
+          "ocrConfidence": 0.9066
+        },
+        {
+          "text": "）免配送费",
+          "coord": [
+            531,
+            1635,
+            184,
+            41
+          ],
+          "ocrConfidence": 0.9982
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1758,
+        1224,
+        502
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            402,
+            1769,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "[芬必得]布洛芬缓释胶囊0.3g*12",
+          "coord": [
+            493,
+            1762,
+            696,
+            53
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "芬必得",
+          "coord": [
+            35,
+            1776,
+            72,
+            16
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "12",
+          "coord": [
+            60,
+            1818,
+            63,
+            57
+          ],
+          "ocrConfidence": 0.9589
+        },
+        {
+          "text": "止痛",
+          "coord": [
+            248,
+            1823,
+            96,
+            54
+          ],
+          "ocrConfidence": 0.9956
+        },
+        {
+          "text": "粒*2板/盒",
+          "coord": [
+            390,
+            1825,
+            229,
+            58
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "小时持续",
+          "coord": [
+            118,
+            1835,
+            135,
+            39
+          ],
+          "ocrConfidence": 0.9936
+        },
+        {
+          "text": "头痛",
+          "coord": [
+            274,
+            1899,
+            66,
+            38
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "特得",
+          "coord": [
+            70,
+            1910,
+            37,
+            13
+          ],
+          "ocrConfidence": 0.3521
+        },
+        {
+          "text": "原研药",
+          "coord": [
+            397,
+            1904,
+            117,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "超60人加购|流感退烧|牙疼头疼痛经",
+          "coord": [
+            535,
+            1903,
+            648,
+            42
+          ],
+          "ocrConfidence": 0.9631
+        },
+        {
+          "text": "布洛芬缓释胶囊",
+          "coord": [
+            69,
+            1925,
+            107,
+            31
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "牙痛",
+          "coord": [
+            274,
+            1950,
+            66,
+            37
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "12",
+          "coord": [
+            74,
+            1981,
+            15,
+            15
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "HA",
+          "coord": [
+            75,
+            1974,
+            12,
+            7
+          ],
+          "ocrConfidence": 0.3992
+        },
+        {
+          "text": "原研",
+          "coord": [
+            179,
+            1994,
+            59,
+            34
+          ],
+          "ocrConfidence": 0.9946
+        },
+        {
+          "text": "￥23.98",
+          "coord": [
+            389,
+            1987,
+            177,
+            64
+          ],
+          "ocrConfidence": 0.9462
+        },
+        {
+          "text": "退烧",
+          "coord": [
+            272,
+            1998,
+            70,
+            41
+          ],
+          "ocrConfidence": 0.998
+        },
+        {
+          "text": "已优惠￥14.02已售41",
+          "coord": [
+            563,
+            2002,
+            376,
+            46
+          ],
+          "ocrConfidence": 0.9597
+        },
+        {
+          "text": "26分钟",
+          "coord": [
+            1065,
+            2005,
+            129,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "",
+          "coord": [
+            69,
+            2016,
+            65,
+            20
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "地产化",
+          "coord": [
+            190,
+            2025,
+            33,
+            13
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "品牌健康云药房(望京店）",
+          "coord": [
+            395,
+            2070,
+            424,
+            45
+          ],
+          "ocrConfidence": 0.9461
+        },
+        {
+          "text": "问医生",
+          "coord": [
+            1077,
+            2069,
+            122,
+            43
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "24小时",
+          "coord": [
+            1077,
+            2124,
+            119,
+            39
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "起送¥20",
+          "coord": [
+            396,
+            2137,
+            146,
+            39
+          ],
+          "ocrConfidence": 0.9006
+        },
+        {
+          "text": "配送约￥2",
+          "coord": [
+            556,
+            2138,
+            163,
+            39
+          ],
+          "ocrConfidence": 0.9327
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2260,
+        1224,
+        440
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            401,
+            2271,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "[芬必得]布洛芬缓释胶囊0.3g*12",
+          "coord": [
+            493,
+            2264,
+            696,
+            53
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "芬必得",
+          "coord": [
+            34,
+            2278,
+            73,
+            16
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "医保个账",
+          "coord": [
+            210,
+            2278,
+            132,
+            35
+          ],
+          "ocrConfidence": 0.9967
+        },
+        {
+          "text": "记2",
+          "coord": [
+            60,
+            2316,
+            65,
+            62
+          ],
+          "ocrConfidence": 0.6666
+        },
+        {
+          "text": "止痛",
+          "coord": [
+            245,
+            2326,
+            96,
+            52
+          ],
+          "ocrConfidence": 0.9967
+        },
+        {
+          "text": "粒*2板/盒",
+          "coord": [
+            392,
+            2329,
+            226,
+            54
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "小时持续",
+          "coord": [
+            120,
+            2339,
+            131,
+            34
+          ],
+          "ocrConfidence": 0.9932
+        },
+        {
+          "text": "头痛",
+          "coord": [
+            274,
+            2401,
+            66,
+            38
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "得",
+          "coord": [
+            70,
+            2412,
+            37,
+            13
+          ],
+          "ocrConfidence": 0.5944
+        },
+        {
+          "text": "原研药",
+          "coord": [
+            394,
+            2404,
+            121,
+            45
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "超30人好评|流感退烧|牙疼头疼痛经",
+          "coord": [
+            535,
+            2405,
+            648,
+            42
+          ],
+          "ocrConfidence": 0.9866
+        },
+        {
+          "text": "布洛芬缓释胶囊",
+          "coord": [
+            69,
+            2428,
+            107,
+            30
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "牙痛",
+          "coord": [
+            275,
+            2453,
+            64,
+            35
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "12",
+          "coord": [
+            73,
+            2474,
+            17,
+            26
+          ],
+          "ocrConfidence": 0.7454
+        },
+        {
+          "text": "原研",
+          "coord": [
+            180,
+            2498,
+            57,
+            30
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "退烧",
+          "coord": [
+            274,
+            2502,
+            67,
+            37
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "44分钟",
+          "coord": [
+            1066,
+            2507,
+            128,
+            45
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "地产化",
+          "coord": [
+            190,
+            2526,
+            34,
+            14
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "品牌高济百康药房(花家地药店)",
+          "coord": [
+            396,
+            2573,
+            540,
+            44
+          ],
+          "ocrConfidence": 0.9673
+        },
+        {
+          "text": "4.1km",
+          "coord": [
+            1081,
+            2573,
+            114,
+            43
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "起送￥20",
+          "coord": [
+            396,
+            2640,
+            146,
+            38
+          ],
+          "ocrConfidence": 0.8956
+        },
+        {
+          "text": "配送约￥3",
+          "coord": [
+            555,
+            2640,
+            165,
+            38
+          ],
+          "ocrConfidence": 0.9505
+        }
+      ]
+    }
+  ]
+}

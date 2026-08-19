@@ -1,0 +1,5 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/hotel-card/国庆节酒店-混排.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为国庆节酒店.png",
+  "requests": []
+}

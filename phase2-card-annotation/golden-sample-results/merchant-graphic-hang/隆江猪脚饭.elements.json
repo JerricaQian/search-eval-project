@@ -1,8 +1,7 @@
 {
-  "contractVersion": "phase2.merchant-graphic-hang-elements.v1",
+  "contractVersion": "phase2.golden-structural-truth.v2",
   "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png",
   "pageStructure": {
-    "source": "gold_component_annotation",
     "components": [
       {
         "order": 1,
@@ -22,7 +21,38 @@
             ],
             "visibleText": "隆江猪脚饭",
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "搜索框",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "隆江猪脚饭",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F1F1F2",
+              "textColor": "#000000",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "搜索框",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
         ]
       },
@@ -49,17 +79,15 @@
         "components": [
           {
             "componentType": "result_card",
-            "name": "商卡1-图文下挂",
             "listPosition": 1,
-            "cardId": "C1",
-            "cardType": "商家卡片-图文下挂",
+            "cardType": "商家卡片_图文下挂",
             "coord": [
               0,
               554,
               1224,
               627
             ],
-            "cropped": false,
+            "visibleStatus": "complete",
             "status": "confirmed",
             "regions": {
               "头图区": {
@@ -70,325 +98,1050 @@
                     "coord": [
                       32,
                       554,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
               "标题区": {
                 "elements": [
                   {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      232,
+                      556,
+                      73,
+                      41
+                    ],
+                    "visibleText": "外卖",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          232,
+                          556,
+                          73,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE32A",
+                      "textColor": "#877A19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
                     "elementType": "商家标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      310,
-                      546,
-                      709,
-                      68
+                      323,
+                      554,
+                      563,
+                      50
                     ],
-                    "visibleText": "隆江猪脚饭(扭各麒麟性店)",
+                    "visibleText": "隆江猪脚饭（望京麒麟社店）",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送时长",
-                    "sourceRegion": "标题区",
-                    "coord": [
-                      1034,
-                      546,
-                      180,
-                      68
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          323,
+                          554,
+                          563,
+                          50
+                        ]
+                      }
                     ],
-                    "visibleText": "26分钟",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "隆江猪脚饭（望京麒麟社店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "评分/新店",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      616,
-                      142,
-                      72
+                      341,
+                      626,
+                      222,
+                      42
                     ],
-                    "visibleText": "4.4分",
+                    "visibleText": "月售3000+走",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          341,
+                          626,
+                          222,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "月售3000+走",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4F4F4F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "销量",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      393,
-                      616,
-                      248,
-                      72
+                      542,
+                      627,
+                      303,
+                      41
                     ],
-                    "visibleText": "月售3000+",
+                    "visibleText": "起送￥0免配送费",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          542,
+                          627,
+                          303,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "起送￥0免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#505050",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "起送费",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      677,
-                      616,
-                      142,
-                      72
-                    ],
-                    "visibleText": "起送¥0",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送费",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      854,
-                      616,
-                      142,
-                      72
-                    ],
-                    "visibleText": "免配送费",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送距离",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      1031,
-                      616,
-                      178,
-                      72
+                      1082,
+                      624,
+                      111,
+                      42
                     ],
                     "visibleText": "2.3km",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1082,
+                          624,
+                          111,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.3km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4F4F4F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标签区": {
-                "elements": []
-              },
-              "下挂商品区": {
-                "products": [
+                "elements": [
                   {
-                    "productIndex": 1,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        227,
-                        767,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      543,
+                      693,
+                      362,
+                      40
+                    ],
+                    "visibleText": "超500人1个月内回购",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          543,
+                          693,
+                          362,
+                          40
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        227,
-                        1036,
-                        264,
-                        72
-                      ],
-                      "visibleText": "十",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "超500人1个月内回购",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        227,
-                        1108,
-                        264,
-                        52
-                      ],
-                      "visibleText": "¥19.8",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    }
-                  },
-                  {
-                    "productIndex": 2,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        767,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        1036,
-                        264,
-                        72
-                      ],
-                      "visibleText": "隆江 L3H Hall Thx { 至",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        1108,
-                        264,
-                        52
-                      ],
-                      "visibleText": "¥17.5",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    }
-                  },
-                  {
-                    "productIndex": 3,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        767,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        1036,
-                        264,
-                        72
-                      ],
-                      "visibleText": "任性 OD 隆江猫",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        1108,
-                        264,
-                        52
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
-                    }
-                  },
-                  {
-                    "productIndex": 4,
-                    "cropped": true,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        767,
-                        166,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "cv_product_slot"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        1036,
-                        166,
-                        72
-                      ],
-                      "visibleText": "月",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        1108,
-                        166,
-                        52
-                      ],
-                      "visibleText": "¥19.88 42",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   }
                 ]
               },
-              "特殊下挂": {
-                "elements": [
+              "下挂商品区": {
+                "items": [
                   {
-                    "elementType": "神券/代金券特殊下挂",
-                    "sourceRegion": "特殊下挂",
+                    "itemIndex": 1,
                     "coord": [
-                      32,
-                      765,
-                      163,
-                      387
+                      227,
+                      767,
+                      264,
+                      384
                     ],
-                    "visibleText": "",
-                    "status": "confirmed",
-                    "source": "cv_photo"
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          227,
+                          767,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          227,
+                          1047,
+                          226,
+                          43
+                        ],
+                        "visibleText": "隆江猪脚饭+",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              227,
+                              1047,
+                              226,
+                              43
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "隆江猪脚饭+",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#161616",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          227,
+                          1106,
+                          97,
+                          45
+                        ],
+                        "visibleText": "¥19.8",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              227,
+                              1106,
+                              97,
+                              45
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥19.8",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      504,
+                      767,
+                      264,
+                      384
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          767,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          1048,
+                          254,
+                          42
+                        ],
+                        "visibleText": "隆江猪腳饭【堂",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              504,
+                              1048,
+                              254,
+                              42
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "隆江猪腳饭【堂",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          1104,
+                          94,
+                          47
+                        ],
+                        "visibleText": "¥17.5",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              504,
+                              1104,
+                              94,
+                              47
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥17.5",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 3,
+                    "coord": [
+                      781,
+                      767,
+                      264,
+                      385
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          767,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          1049,
+                          249,
+                          40
+                        ],
+                        "visibleText": "任性 の隆江猪",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              781,
+                              1049,
+                              249,
+                              40
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "任性 の隆江猪",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          1104,
+                          214,
+                          48
+                        ],
+                        "visibleText": "¥25.8神券价",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              781,
+                              1104,
+                              214,
+                              48
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥25.8神券价",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF3623",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 4,
+                    "coord": [
+                      1058,
+                      767,
+                      166,
+                      383
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          767,
+                          166,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          1048,
+                          166,
+                          41
+                        ],
+                        "visibleText": "隆江猪脚...",
+                        "status": "naturally_cropped",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              1058,
+                              1048,
+                              166,
+                              41
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "uncertain",
+                          "renderState": "naturally_cropped",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "隆江猪脚...",
+                          "textStatus": "naturally_ellipsized",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "uncertain",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#131313",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          1106,
+                          166,
+                          44
+                        ],
+                        "visibleText": "¥19.88神...",
+                        "status": "naturally_cropped",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              1058,
+                              1106,
+                              166,
+                              44
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "uncertain",
+                          "renderState": "naturally_cropped",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥19.88神...",
+                          "textStatus": "naturally_ellipsized",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "uncertain",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "naturally_cropped"
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商卡2-图文下挂",
             "listPosition": 2,
-            "cardId": "C2",
-            "cardType": "商家卡片-图文下挂",
+            "cardType": "商家卡片_图文下挂",
             "coord": [
               0,
               1217,
               1224,
               627
             ],
-            "cropped": false,
+            "visibleStatus": "complete",
             "status": "confirmed",
             "regions": {
               "头图区": {
@@ -399,338 +1152,1089 @@
                     "coord": [
                       32,
                       1217,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
               "标题区": {
                 "elements": [
                   {
-                    "elementType": "履约标识",
+                    "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      215,
-                      1209,
-                      90,
-                      68
+                      232,
+                      1220,
+                      73,
+                      41
                     ],
                     "visibleText": "外卖",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          232,
+                          1220,
+                          73,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE329",
+                      "textColor": "#887C1A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   },
                   {
                     "elementType": "商家标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      310,
-                      1209,
-                      709,
-                      68
+                      324,
+                      1217,
+                      704,
+                      49
                     ],
-                    "visibleText": "4% Ree Bes FL 8 Bal th (Se A THA FS TS",
+                    "visibleText": "阿祥嫂隆江猪脚饭（望京东湖渠店）",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送时长",
-                    "sourceRegion": "标题区",
-                    "coord": [
-                      1034,
-                      1209,
-                      180,
-                      68
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          324,
+                          1217,
+                          704,
+                          49
+                        ]
+                      }
                     ],
-                    "visibleText": "22分钟",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "阿祥嫂隆江猪脚饭（望京东湖渠店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "评分/新店",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      1279,
-                      142,
-                      72
+                      337,
+                      1289,
+                      506,
+                      44
                     ],
-                    "visibleText": "4.7分",
+                    "visibleText": "月售3000+起送¥0免配送费",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          337,
+                          1289,
+                          506,
+                          44
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "月售3000+起送¥0免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#505050",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "销量",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      393,
-                      1279,
-                      248,
-                      72
-                    ],
-                    "visibleText": "月售3000+",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "起送费",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      677,
-                      1279,
-                      142,
-                      72
-                    ],
-                    "visibleText": "起送¥0",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送费",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      854,
-                      1279,
-                      142,
-                      72
-                    ],
-                    "visibleText": "免配送费",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送距离",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      1031,
-                      1279,
-                      178,
-                      72
+                      1081,
+                      1287,
+                      112,
+                      42
                     ],
                     "visibleText": "2.7km",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1081,
+                          1287,
+                          112,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.7km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#595959",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标签区": {
-                "elements": []
-              },
-              "下挂商品区": {
-                "products": [
+                "elements": [
                   {
-                    "productIndex": 1,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        227,
-                        1430,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      357,
+                      1356,
+                      309,
+                      41
+                    ],
+                    "visibleText": "457位当地人常点",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          357,
+                          1356,
+                          309,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        227,
-                        1699,
-                        264,
-                        72
-                      ],
-                      "visibleText": "优选矢餐】招",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "457位当地人常点",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        227,
-                        1771,
-                        264,
-                        52
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#747474",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   },
                   {
-                    "productIndex": 2,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        1430,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      677,
+                      1354,
+                      260,
+                      43
+                    ],
+                    "visibleText": "超千人回购3次",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          677,
+                          1354,
+                          260,
+                          43
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        1699,
-                        264,
-                        72
-                      ],
-                      "visibleText": "优选矢餐】招",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "超千人回购3次",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        1771,
-                        264,
-                        52
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
-                    }
-                  },
-                  {
-                    "productIndex": 3,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        1430,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        1699,
-                        264,
-                        72
-                      ],
-                      "visibleText": "广东名吃 @ )",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        1771,
-                        264,
-                        52
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
-                    }
-                  },
-                  {
-                    "productIndex": 4,
-                    "cropped": true,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        1430,
-                        166,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "cv_product_slot"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        1699,
-                        166,
-                        72
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        1771,
-                        166,
-                        52
-                      ],
-                      "visibleText": "7L 4B HAN IT:",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6E6E6E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   }
                 ]
               },
-              "特殊下挂": {
-                "elements": [
+              "下挂商品区": {
+                "items": [
                   {
-                    "elementType": "神券/代金券特殊下挂",
-                    "sourceRegion": "特殊下挂",
+                    "itemIndex": 1,
                     "coord": [
-                      32,
-                      1428,
-                      163,
-                      439
+                      227,
+                      1430,
+                      264,
+                      414
                     ],
-                    "visibleText": "",
-                    "status": "confirmed",
-                    "source": "cv_photo"
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          227,
+                          1430,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          227,
+                          1713,
+                          264,
+                          90
+                        ],
+                        "visibleText": "【优选套餐】招牌隆江猪脚饭+",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              230,
+                              1713,
+                              231,
+                              39
+                            ]
+                          },
+                          {
+                            "coord": [
+                              227,
+                              1765,
+                              264,
+                              38
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "【优选套餐】招牌隆江猪脚饭+",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "large",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          236,
+                          1819,
+                          98,
+                          25
+                        ],
+                        "visibleText": "¥26.2",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              236,
+                              1819,
+                              98,
+                              49
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥26.2",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "small",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      504,
+                      1430,
+                      264,
+                      414
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          1430,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          1713,
+                          264,
+                          90
+                        ],
+                        "visibleText": "【优选套餐】招牌隆江猪脚饭+",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              507,
+                              1713,
+                              231,
+                              39
+                            ]
+                          },
+                          {
+                            "coord": [
+                              504,
+                              1765,
+                              264,
+                              38
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "【优选套餐】招牌隆江猪脚饭+",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "large",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          515,
+                          1820,
+                          94,
+                          24
+                        ],
+                        "visibleText": "¥26.8",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              515,
+                              1820,
+                              94,
+                              47
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥26.8",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "small",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 3,
+                    "coord": [
+                      781,
+                      1430,
+                      264,
+                      414
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          1430,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          1711,
+                          233,
+                          93
+                        ],
+                        "visibleText": "【广东名吃招牌隆江豬腳",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              783,
+                              1711,
+                              176,
+                              43
+                            ]
+                          },
+                          {
+                            "coord": [
+                              781,
+                              1765,
+                              233,
+                              39
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "【广东名吃招牌隆江豬腳",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "large",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#352121",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          1822,
+                          213,
+                          22
+                        ],
+                        "visibleText": "¥24.8神券价",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              781,
+                              1822,
+                              213,
+                              43
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥24.8神券价",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "small",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FD3D2A",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 4,
+                    "coord": [
+                      1058,
+                      1430,
+                      166,
+                      414
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          1430,
+                          166,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          1713,
+                          166,
+                          91
+                        ],
+                        "visibleText": "【浓郁飘香...江猪脚拼...",
+                        "status": "naturally_cropped",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              1060,
+                              1713,
+                              164,
+                              39
+                            ]
+                          },
+                          {
+                            "coord": [
+                              1058,
+                              1765,
+                              166,
+                              39
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "uncertain",
+                          "renderState": "naturally_cropped",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "【浓郁飘香...江猪脚拼...",
+                          "textStatus": "naturally_ellipsized",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "large",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "uncertain",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          1820,
+                          166,
+                          24
+                        ],
+                        "visibleText": "¥26.8神券...",
+                        "status": "naturally_cropped",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              1058,
+                              1820,
+                              166,
+                              46
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "uncertain",
+                          "renderState": "naturally_cropped",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥26.8神券...",
+                          "textStatus": "naturally_ellipsized",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "small",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "uncertain",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2F1B",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "naturally_cropped"
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商卡3-图文下挂",
             "listPosition": 3,
-            "cardId": "C3",
-            "cardType": "商家卡片-图文下挂",
+            "cardType": "商家卡片_图文下挂",
             "coord": [
               0,
               1932,
               1224,
               627
             ],
-            "cropped": true,
+            "visibleStatus": "complete",
             "status": "confirmed",
             "regions": {
               "头图区": {
@@ -741,254 +2245,1219 @@
                     "coord": [
                       32,
                       1932,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
               "标题区": {
                 "elements": [
                   {
-                    "elementType": "配送时长",
+                    "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      1034,
-                      1924,
-                      180,
-                      68
+                      233,
+                      1936,
+                      71,
+                      38
                     ],
-                    "visibleText": "22分钟",
+                    "visibleText": "外卖",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          233,
+                          1936,
+                          71,
+                          38
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE32A",
+                      "textColor": "#7E741A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      330,
+                      1932,
+                      650,
+                      50
+                    ],
+                    "visibleText": "粤知一二隆江猪脚饭烧腊（保利广场店）",
+                    "status": "confirmed",
+                    "source": "model_pixel_calibrated",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "粤知一二隆江猪脚饭烧腊（保利广场店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "评分/新店",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      1994,
-                      137,
-                      72
+                      341,
+                      2004,
+                      527,
+                      43
                     ],
-                    "visibleText": "4.8分",
+                    "visibleText": "月售3000+起送¥15免配送费",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          341,
+                          2004,
+                          527,
+                          43
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "月售3000+起送¥15免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#535353",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "销量",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      386,
-                      1994,
-                      240,
-                      72
-                    ],
-                    "visibleText": "月售3000+",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "起送费",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      661,
-                      1994,
-                      171,
-                      72
-                    ],
-                    "visibleText": "起送¥15",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送费",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      866,
-                      1994,
-                      137,
-                      72
-                    ],
-                    "visibleText": "免配送费",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送距离",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      1038,
-                      1994,
-                      171,
-                      72
+                      1082,
+                      2002,
+                      111,
+                      42
                     ],
                     "visibleText": "2.8km",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1082,
+                          2002,
+                          111,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.8km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4F4F4F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标签区": {
-                "elements": []
-              },
-              "下挂商品区": {
-                "products": [
+                "elements": [
                   {
-                    "productIndex": 1,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        2145,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      355,
+                      2068,
+                      311,
+                      43
+                    ],
+                    "visibleText": "373位当地人常点",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          355,
+                          2068,
+                          311,
+                          43
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        2414,
-                        264,
-                        72
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
+                    "textFacts": {
+                      "rawText": "373位当地人常点",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        504,
-                        2486,
-                        264,
-                        52
-                      ],
-                      "visibleText": "¥20.8 神券价",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6E6E6E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   },
                   {
-                    "productIndex": 2,
-                    "cropped": false,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        2145,
-                        264,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "confirmed",
-                      "source": "cv_product_slot"
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      677,
+                      2070,
+                      364,
+                      42
+                    ],
+                    "visibleText": "超500人1个月内回购",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          677,
+                          2070,
+                          364,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        2414,
-                        264,
-                        72
-                      ],
-                      "visibleText": "正宗隆; he L348 Ail",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "超500人1个月内回购",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        781,
-                        2486,
-                        264,
-                        52
-                      ],
-                      "visibleText": "¥19.8 HAY)",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    }
-                  },
-                  {
-                    "productIndex": 3,
-                    "cropped": true,
-                    "image": {
-                      "elementType": "下挂商品图",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        2145,
-                        166,
-                        264
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "cv_product_slot"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        2414,
-                        166,
-                        72
-                      ],
-                      "visibleText": "猪脚 + SZ}",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "下挂商品区",
-                      "coord": [
-                        1058,
-                        2486,
-                        166,
-                        52
-                      ],
-                      "visibleText": "¥26.8 *H¥",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#717171",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   }
                 ]
               },
-              "特殊下挂": {
-                "elements": [
+              "下挂商品区": {
+                "items": [
                   {
-                    "elementType": "神券/代金券特殊下挂",
-                    "sourceRegion": "特殊下挂",
+                    "itemIndex": 1,
                     "coord": [
-                      32,
-                      2143,
-                      163,
-                      387
+                      504,
+                      2145,
+                      264,
+                      382
                     ],
-                    "visibleText": "",
-                    "status": "confirmed",
-                    "source": "cv_photo"
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          2145,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          2426,
+                          224,
+                          42
+                        ],
+                        "visibleText": "豬腳+肉捲+",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              504,
+                              2426,
+                              224,
+                              42
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "豬腳+肉捲+",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          504,
+                          2485,
+                          212,
+                          42
+                        ],
+                        "visibleText": "¥20.8神券价",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              504,
+                              2485,
+                              212,
+                              42
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥20.8神券价",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF3623",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 2,
+                    "coord": [
+                      781,
+                      2145,
+                      264,
+                      383
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          2145,
+                          264,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          2428,
+                          232,
+                          38
+                        ],
+                        "visibleText": "正宗隆江豬脚",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              781,
+                              2428,
+                              232,
+                              38
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "正宗隆江豬脚",
+                          "textStatus": "complete",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          781,
+                          2485,
+                          204,
+                          43
+                        ],
+                        "visibleText": "¥19.8神券价",
+                        "status": "confirmed",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              781,
+                              2485,
+                              204,
+                              43
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥19.8神券价",
+                          "textStatus": "complete",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "confirmed",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FE3C2A",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "confirmed"
+                  },
+                  {
+                    "itemIndex": 3,
+                    "coord": [
+                      1058,
+                      2145,
+                      166,
+                      384
+                    ],
+                    "imageElements": [
+                      {
+                        "elementType": "下挂商品图片",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          2145,
+                          166,
+                          264
+                        ],
+                        "visibleText": "",
+                        "status": "confirmed",
+                        "source": "model_reviewed_card_geometry",
+                        "render": {
+                          "visibleStatus": "confirmed",
+                          "renderState": "normal",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": true,
+                          "isSystemUi": false
+                        },
+                        "visual": {
+                          "entityKind": "image",
+                          "visualStatus": "confirmed",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "unknown",
+                          "backgroundColor": "",
+                          "textColor": "",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "image|unknown|photo|下挂商品区|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                        }
+                      }
+                    ],
+                    "textElements": [
+                      {
+                        "elementType": "下挂商品名",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          2426,
+                          166,
+                          42
+                        ],
+                        "visibleText": "猪脚+叉火...",
+                        "status": "naturally_cropped",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              1058,
+                              2426,
+                              166,
+                              42
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "uncertain",
+                          "renderState": "naturally_cropped",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "猪脚+叉火...",
+                          "textStatus": "naturally_ellipsized",
+                          "semanticRole": "other",
+                          "emphasisLevel": "secondary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "neutral"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "uncertain",
+                          "isColored": false,
+                          "isShaped": false,
+                          "colorRole": "neutral",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#111111",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|neutral|other|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "priceElements": [
+                      {
+                        "elementType": "下挂商品价格",
+                        "sourceRegion": "下挂商品区",
+                        "coord": [
+                          1058,
+                          2485,
+                          166,
+                          44
+                        ],
+                        "visibleText": "¥26.8神券...",
+                        "status": "naturally_cropped",
+                        "source": "bounded_paddleocr_model_calibrated",
+                        "boundedEvidence": [
+                          {
+                            "coord": [
+                              1058,
+                              2485,
+                              166,
+                              44
+                            ]
+                          }
+                        ],
+                        "render": {
+                          "visibleStatus": "uncertain",
+                          "renderState": "naturally_cropped",
+                          "sourceRegion": "下挂商品区",
+                          "isPhoto": false,
+                          "isSystemUi": true
+                        },
+                        "textFacts": {
+                          "rawText": "¥26.8神券...",
+                          "textStatus": "naturally_ellipsized",
+                          "semanticRole": "price",
+                          "emphasisLevel": "primary",
+                          "fontSizeBucket": "medium",
+                          "fontWeightBucket": "unknown",
+                          "textColorRole": "red"
+                        },
+                        "visual": {
+                          "entityKind": "text",
+                          "visualStatus": "uncertain",
+                          "isColored": true,
+                          "isShaped": false,
+                          "colorRole": "red",
+                          "backgroundColor": "#FFFFFF",
+                          "textColor": "#FF2D19",
+                          "borderColor": "",
+                          "hasGraphicAssist": false,
+                          "graphicType": "无",
+                          "styleKey": "text|red|price|unknown|无",
+                          "sourceRegion": "下挂商品区",
+                          "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                        }
+                      }
+                    ],
+                    "auxiliaryElements": [],
+                    "visibleStatus": "naturally_cropped"
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 4,
+            "cardType": "商家卡片_图文下挂",
+            "coord": [
+              0,
+              2565,
+              1224,
+              135
+            ],
+            "visibleStatus": "naturally_cropped",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商家头图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2593,
+                      247,
+                      95
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      233,
+                      2597,
+                      72,
+                      40
+                    ],
+                    "visibleText": "外卖",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          233,
+                          2597,
+                          72,
+                          40
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE32A",
+                      "textColor": "#84791A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      324,
+                      2592,
+                      583,
+                      47
+                    ],
+                    "visibleText": "偲雅家·隆江猪脚饭（望京店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          324,
+                          2592,
+                          583,
+                          47
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "偲雅家·隆江猪脚饭（望京店）",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "商家信息区": {
+                "elements": [
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      346,
+                      2665,
+                      187,
+                      35
+                    ],
+                    "visibleText": "月售1000+",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          346,
+                          2665,
+                          187,
+                          35
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "月售1000+",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#545454",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      549,
+                      2665,
+                      298,
+                      35
+                    ],
+                    "visibleText": "起送￥0免配送费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          549,
+                          2665,
+                          298,
+                          35
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "起送￥0免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#535353",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      1083,
+                      2667,
+                      109,
+                      33
+                    ],
+                    "visibleText": "3.0km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1083,
+                          2667,
+                          109,
+                          33
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "3.0km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4F4F4F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           }
         ]
@@ -1051,5 +3520,43 @@
   ],
   "routing": {
     "rule": "元素为 OCR/CV 伪标注候选；uncertain 不代表缺失、问题、不达标、优秀或人工复核任务。"
+  },
+  "legacyContractVersion": "phase2.merchant-graphic-hang-elements.v1",
+  "verification": {
+    "status": "pixel_verified",
+    "claimScope": [
+      "element_level_downhang_grouping",
+      "element_level_title",
+      "element_render_facts",
+      "element_text_facts",
+      "element_visual_color_facts",
+      "page_component_order",
+      "result_card_boundary",
+      "result_card_count",
+      "result_card_type",
+      "semantic_atomicity",
+      "visible_crop_state"
+    ],
+    "excludedClaims": [
+      "runtime_ocr_text",
+      "ocr_confidence"
+    ],
+    "reviewedAt": "2026-08-19",
+    "rawScreenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png",
+    "rawSha256": "7460dfa1bab2c10cf3109d020d01211ef60368c7ff0beacfae031b2088868be6",
+    "componentAnnotation": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭-标注后.png",
+    "componentAnnotationSha256": "239d85f3df46929c4dbf84cc7644250f98f1e73d7b4cde624373092ca60fb13b",
+    "elementAnnotations": [],
+    "policy": "Nested elements are preserved. Their source/status fields determine whether they are human-annotated truth or runtime recognition evidence; provenance enrichment must never delete them.",
+    "elementCalibration": {
+      "status": "bounded_paddleocr_and_model_visual_reviewed",
+      "evidence": "phase2-card-annotation/references/golden-contract-evidence/merchant-graphic-hang--隆江猪脚饭.elements.contract-evidence.json",
+      "policy": "Golden-only calibration; never injected into Phase2 production recognition."
+    },
+    "visualCalibration": {
+      "status": "measured_from_current_element_boxes",
+      "method": "element_crop_border_and_foreground_pixel_median",
+      "photoPolicy": "photos retain geometry and are measured by Phase3 after exclusion masking"
+    }
   }
 }

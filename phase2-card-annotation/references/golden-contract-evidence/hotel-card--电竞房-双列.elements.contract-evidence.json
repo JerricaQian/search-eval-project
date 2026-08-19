@@ -1,0 +1,156 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/hotel-card/电竞房-双列.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-双列-搜索词为电竞房.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "15-25m²｜2人｜双床",
+      "sourceRegion": "基础信息区",
+      "coord": [
+        41,
+        1049,
+        345,
+        50
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "15-25m2|2人|双床",
+          "coord": [
+            43,
+            1053,
+            342,
+            46
+          ],
+          "ocrConfidence": 0.9457
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "15-20m²｜2人｜有窗",
+      "sourceRegion": "基础信息区",
+      "coord": [
+        631,
+        1048,
+        345,
+        51
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "15-20m²|2人|有窗",
+          "coord": [
+            633,
+            1052,
+            343,
+            48
+          ],
+          "ocrConfidence": 0.9009
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "15m²｜2人｜大床｜有窗",
+      "sourceRegion": "基础信息区",
+      "coord": [
+        42,
+        1898,
+        386,
+        50
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "15m²|2人|大床|有窗",
+          "coord": [
+            43,
+            1901,
+            384,
+            46
+          ],
+          "ocrConfidence": 0.9247
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "2台｜i5 12400",
+      "sourceRegion": "基础信息区",
+      "coord": [
+        41,
+        1955,
+        344,
+        53
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "2台",
+          "coord": [
+            87,
+            1961,
+            66,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "0i5",
+          "coord": [
+            151,
+            1959,
+            106,
+            44
+          ],
+          "ocrConfidence": 0.694
+        },
+        {
+          "text": "12400",
+          "coord": [
+            266,
+            1965,
+            109,
+            35
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 4,
+      "legacyText": "整套1室｜2人",
+      "sourceRegion": "基础信息区",
+      "coord": [
+        632,
+        1904,
+        228,
+        44
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "整套1室|2人",
+          "coord": [
+            632,
+            1904,
+            227,
+            40
+          ],
+          "ocrConfidence": 0.9805
+        }
+      ]
+    }
+  ]
+}

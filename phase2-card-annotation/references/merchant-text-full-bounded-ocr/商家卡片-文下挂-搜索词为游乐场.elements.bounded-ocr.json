@@ -1,0 +1,836 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为游乐场.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为游乐场.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        765,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            316,
+            769,
+            71,
+            37
+          ],
+          "ocrConfidence": 0.9967
+        },
+        {
+          "text": "奈尔宝·儿童乐园·亲子餐厅(北京东坝",
+          "coord": [
+            405,
+            765,
+            788,
+            51
+          ],
+          "ocrConfidence": 0.9831
+        },
+        {
+          "text": "奈尔宝",
+          "coord": [
+            62,
+            775,
+            38,
+            15
+          ],
+          "ocrConfidence": 0.9069
+        },
+        {
+          "text": "NEOBIO",
+          "coord": [
+            62,
+            784,
+            38,
+            14
+          ],
+          "ocrConfidence": 0.9826
+        },
+        {
+          "text": "超大空间",
+          "coord": [
+            34,
+            797,
+            214,
+            93
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "3.6分",
+          "coord": [
+            309,
+            834,
+            104,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "1.2万条￥190/人儿童乐园东坝",
+          "coord": [
+            423,
+            836,
+            569,
+            45
+          ],
+          "ocrConfidence": 0.9715
+        },
+        {
+          "text": "7.2km",
+          "coord": [
+            1081,
+            839,
+            112,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "15000m",
+          "coord": [
+            46,
+            866,
+            160,
+            66
+          ],
+          "ocrConfidence": 0.9968
+        },
+        {
+          "text": "神券立减5",
+          "coord": [
+            308,
+            898,
+            188,
+            44
+          ],
+          "ocrConfidence": 0.9744
+        },
+        {
+          "text": "朝阳区儿童乐园人气趋势榜第4名",
+          "coord": [
+            504,
+            902,
+            571,
+            42
+          ],
+          "ocrConfidence": 0.9952
+        },
+        {
+          "text": "200+种玩法",
+          "coord": [
+            64,
+            917,
+            99,
+            34
+          ],
+          "ocrConfidence": 0.992
+        },
+        {
+          "text": "天玩不够",
+          "coord": [
+            86,
+            935,
+            77,
+            32
+          ],
+          "ocrConfidence": 0.9959
+        },
+        {
+          "text": "¥190",
+          "coord": [
+            311,
+            980,
+            97,
+            43
+          ],
+          "ocrConfidence": 0.8696
+        },
+        {
+          "text": "4.3折",
+          "coord": [
+            419,
+            980,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【儿童乐园】1大1小单次",
+          "coord": [
+            543,
+            983,
+            410,
+            40
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "年售1.4万+",
+          "coord": [
+            1017,
+            983,
+            176,
+            38
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥53",
+          "coord": [
+            308,
+            1051,
+            81,
+            45
+          ],
+          "ocrConfidence": 0.9075
+        },
+        {
+          "text": "5.3折",
+          "coord": [
+            401,
+            1051,
+            87,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "成人陪同票·周末节假日通",
+          "coord": [
+            519,
+            1054,
+            448,
+            39
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "年售3.9万+",
+          "coord": [
+            1017,
+            1054,
+            176,
+            37
+          ],
+          "ocrConfidence": 0.9995
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1175,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1176,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.9968
+        },
+        {
+          "text": "嗨酷蹦床运动乐园·团建·轰趴·亲子",
+          "coord": [
+            406,
+            1175,
+            745,
+            49
+          ],
+          "ocrConfidence": 0.9902
+        },
+        {
+          "text": "4.2分",
+          "coord": [
+            308,
+            1242,
+            105,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "4916条￥98/人儿童乐园",
+          "coord": [
+            419,
+            1243,
+            449,
+            46
+          ],
+          "ocrConfidence": 0.9679
+        },
+        {
+          "text": "19.5km",
+          "coord": [
+            1064,
+            1248,
+            128,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "神券最高膨至5022%顾客是回头客",
+          "coord": [
+            306,
+            1306,
+            639,
+            49
+          ],
+          "ocrConfidence": 0.9852
+        },
+        {
+          "text": "￥941.3折",
+          "coord": [
+            308,
+            1385,
+            185,
+            50
+          ],
+          "ocrConfidence": 0.9327
+        },
+        {
+          "text": "【单人畅玩】-全天畅玩",
+          "coord": [
+            520,
+            1390,
+            371,
+            43
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "年售2000+",
+          "coord": [
+            1020,
+            1393,
+            173,
+            37
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥179.54",
+          "coord": [
+            313,
+            1461,
+            155,
+            41
+          ],
+          "ocrConfidence": 0.9318
+        },
+        {
+          "text": "2.8折",
+          "coord": [
+            476,
+            1459,
+            94,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【双人票】-全天畅玩",
+          "coord": [
+            601,
+            1462,
+            328,
+            40
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "年售4000+",
+          "coord": [
+            1020,
+            1464,
+            174,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1585,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1587,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "觉醒之秘·沉浸式探秘游戏基地",
+          "coord": [
+            406,
+            1585,
+            650,
+            49
+          ],
+          "ocrConfidence": 0.9959
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            308,
+            1653,
+            104,
+            43
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "1319条￥218/人儿童乐园",
+          "coord": [
+            420,
+            1657,
+            468,
+            43
+          ],
+          "ocrConfidence": 0.9647
+        },
+        {
+          "text": "6.1km",
+          "coord": [
+            1082,
+            1658,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "朝阳区儿童乐园人气趋势榜第2名",
+          "coord": [
+            308,
+            1720,
+            569,
+            45
+          ],
+          "ocrConfidence": 0.9927
+        },
+        {
+          "text": "宽醒之秘",
+          "coord": [
+            46,
+            1737,
+            222,
+            77
+          ],
+          "ocrConfidence": 0.7986
+        },
+        {
+          "text": "宽醒之沉浸式探秘游戏基地",
+          "coord": [
+            61,
+            1806,
+            187,
+            17
+          ],
+          "ocrConfidence": 0.9494
+        },
+        {
+          "text": "￥83",
+          "coord": [
+            310,
+            1801,
+            77,
+            42
+          ],
+          "ocrConfidence": 0.9163
+        },
+        {
+          "text": "4.2折",
+          "coord": [
+            397,
+            1798,
+            92,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【含觉醒能量60】大小通用单",
+          "coord": [
+            519,
+            1799,
+            481,
+            45
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "年售500+",
+          "coord": [
+            1038,
+            1803,
+            154,
+            37
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "¥150",
+          "coord": [
+            310,
+            1871,
+            97,
+            44
+          ],
+          "ocrConfidence": 0.8653
+        },
+        {
+          "text": "4.6折",
+          "coord": [
+            419,
+            1871,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "【含觉醒能量120】大小通",
+          "coord": [
+            539,
+            1869,
+            424,
+            46
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1020,
+            1874,
+            173,
+            37
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1995,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1997,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "疯狂冒险家-亲子密室-东坝店(金隅嘉",
+          "coord": [
+            406,
+            1995,
+            784,
+            48
+          ],
+          "ocrConfidence": 0.9895
+        },
+        {
+          "text": "4.6分905条￥104/人儿童乐园东坝",
+          "coord": [
+            305,
+            2060,
+            664,
+            55
+          ],
+          "ocrConfidence": 0.9734
+        },
+        {
+          "text": "8.1km",
+          "coord": [
+            1082,
+            2068,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "近期好评率98%",
+          "coord": [
+            309,
+            2132,
+            272,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "¥130",
+          "coord": [
+            312,
+            2212,
+            96,
+            40
+          ],
+          "ocrConfidence": 0.8673
+        },
+        {
+          "text": "6.6折",
+          "coord": [
+            419,
+            2210,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【游乐场】2大1小|周末节",
+          "coord": [
+            542,
+            2213,
+            437,
+            40
+          ],
+          "ocrConfidence": 0.9789
+        },
+        {
+          "text": "年售900+",
+          "coord": [
+            1040,
+            2213,
+            153,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥14.9",
+          "coord": [
+            310,
+            2280,
+            107,
+            45
+          ],
+          "ocrConfidence": 0.9111
+        },
+        {
+          "text": "5折",
+          "coord": [
+            430,
+            2281,
+            61,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【室内游乐场】10分钟格子|",
+          "coord": [
+            525,
+            2283,
+            457,
+            40
+          ],
+          "ocrConfidence": 0.9926
+        },
+        {
+          "text": "年售400+",
+          "coord": [
+            1037,
+            2281,
+            156,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2405,
+        1224,
+        295
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "三1",
+          "coord": [
+            41,
+            2411,
+            43,
+            35
+          ],
+          "ocrConfidence": 0.3414
+        },
+        {
+          "text": "景点",
+          "coord": [
+            317,
+            2408,
+            71,
+            40
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "北京环球度假区",
+          "coord": [
+            409,
+            2405,
+            334,
+            45
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "4.7分",
+          "coord": [
+            310,
+            2474,
+            93,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "14.8万条",
+          "coord": [
+            419,
+            2479,
+            159,
+            36
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "梨园商圈",
+          "coord": [
+            561,
+            2478,
+            185,
+            39
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "23.7km",
+          "coord": [
+            1059,
+            2475,
+            134,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "UNIVERSAL",
+          "coord": [
+            50,
+            2497,
+            191,
+            77
+          ],
+          "ocrConfidence": 0.9658
+        },
+        {
+          "text": "必玩榜",
+          "coord": [
+            311,
+            2540,
+            114,
+            40
+          ],
+          "ocrConfidence": 0.9466
+        },
+        {
+          "text": "大型游乐场小火车",
+          "coord": [
+            430,
+            2542,
+            338,
+            39
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥548",
+          "coord": [
+            312,
+            2622,
+            101,
+            41
+          ],
+          "ocrConfidence": 0.9113
+        },
+        {
+          "text": "【标准(成人)票】北京环球影城",
+          "coord": [
+            431,
+            2622,
+            493,
+            41
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "已售213.4万+",
+          "coord": [
+            978,
+            2624,
+            214,
+            35
+          ],
+          "ocrConfidence": 0.9996
+        }
+      ]
+    }
+  ]
+}

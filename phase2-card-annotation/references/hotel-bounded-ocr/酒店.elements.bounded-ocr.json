@@ -1,0 +1,578 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/hotel-card/酒店.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/hotel-card/component-level/酒店卡片-单列-搜索词为酒店.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        1450,
+        1224,
+        509
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "全季酒店（北京会议中心北苑东路",
+          "coord": [
+            483,
+            1464,
+            693,
+            54
+          ],
+          "ocrConfidence": 0.9828
+        },
+        {
+          "text": "酒店",
+          "coord": [
+            396,
+            1476,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "店）",
+          "coord": [
+            386,
+            1532,
+            91,
+            60
+          ],
+          "ocrConfidence": 0.8807
+        },
+        {
+          "text": "高档型",
+          "coord": [
+            462,
+            1540,
+            124,
+            48
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "全季酒店",
+          "coord": [
+            46,
+            1580,
+            40,
+            140
+          ],
+          "ocrConfidence": 0.9399
+        },
+        {
+          "text": "4.7分",
+          "coord": [
+            386,
+            1604,
+            100,
+            48
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "距您直线4.7km",
+          "coord": [
+            388,
+            1672,
+            267,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "亚运村/奥体中心",
+          "coord": [
+            667,
+            1674,
+            292,
+            44
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "积分可抵￥21",
+          "coord": [
+            432,
+            1738,
+            222,
+            42
+          ],
+          "ocrConfidence": 0.9373
+        },
+        {
+          "text": "机器人服务",
+          "coord": [
+            674,
+            1738,
+            198,
+            42
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "零压助眠房",
+          "coord": [
+            889,
+            1738,
+            196,
+            42
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "466",
+          "coord": [
+            1028,
+            1802,
+            123,
+            60
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "5000+消费",
+          "coord": [
+            389,
+            1816,
+            189,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥529",
+          "coord": [
+            908,
+            1818,
+            94,
+            40
+          ],
+          "ocrConfidence": 0.9021
+        },
+        {
+          "text": "起",
+          "coord": [
+            1148,
+            1816,
+            45,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1012,
+            1822,
+            23,
+            30
+          ],
+          "ocrConfidence": 0.5568
+        },
+        {
+          "text": "55分钟前有人预订",
+          "coord": [
+            390,
+            1882,
+            283,
+            36
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "天天特价",
+          "coord": [
+            916,
+            1880,
+            144,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "立减63",
+          "coord": [
+            1082,
+            1880,
+            112,
+            37
+          ],
+          "ocrConfidence": 0.9282
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        1959,
+        1224,
+        509
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "麗枫酒店(北京望京SOHO科技园",
+          "coord": [
+            484,
+            1972,
+            704,
+            58
+          ],
+          "ocrConfidence": 0.9831
+        },
+        {
+          "text": "1",
+          "coord": [
+            42,
+            1981,
+            40,
+            32
+          ],
+          "ocrConfidence": 0.3059
+        },
+        {
+          "text": "酒店",
+          "coord": [
+            396,
+            1985,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "店）",
+          "coord": [
+            386,
+            2041,
+            78,
+            58
+          ],
+          "ocrConfidence": 0.9712
+        },
+        {
+          "text": "高档型",
+          "coord": [
+            462,
+            2049,
+            124,
+            48
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            386,
+            2111,
+            104,
+            49
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "服务很好非常喜欢",
+          "coord": [
+            503,
+            2119,
+            313,
+            41
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "麗枫酒店",
+          "coord": [
+            106,
+            2152,
+            96,
+            52
+          ],
+          "ocrConfidence": 0.8261
+        },
+        {
+          "text": "LAVANDE",
+          "coord": [
+            108,
+            2174,
+            88,
+            39
+          ],
+          "ocrConfidence": 0.9694
+        },
+        {
+          "text": "距您直线853m",
+          "coord": [
+            389,
+            2181,
+            258,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "近科技园公共汽车站",
+          "coord": [
+            661,
+            2183,
+            354,
+            42
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "积分可抵￥21",
+          "coord": [
+            432,
+            2247,
+            222,
+            42
+          ],
+          "ocrConfidence": 0.9314
+        },
+        {
+          "text": "机器人服务",
+          "coord": [
+            674,
+            2247,
+            198,
+            43
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "健身房",
+          "coord": [
+            887,
+            2245,
+            120,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "375",
+          "coord": [
+            1036,
+            2311,
+            114,
+            60
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "3万+消费",
+          "coord": [
+            388,
+            2325,
+            164,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥404",
+          "coord": [
+            914,
+            2327,
+            94,
+            38
+          ],
+          "ocrConfidence": 0.9191
+        },
+        {
+          "text": "￥",
+          "coord": [
+            1016,
+            2330,
+            26,
+            33
+          ],
+          "ocrConfidence": 0.5521
+        },
+        {
+          "text": "起",
+          "coord": [
+            1150,
+            2327,
+            44,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "低价房仅剩2间",
+          "coord": [
+            390,
+            2389,
+            228,
+            38
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "夏日特惠",
+          "coord": [
+            872,
+            2389,
+            142,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "立享9.3折",
+          "coord": [
+            1038,
+            2388,
+            156,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "酒店卡片",
+      "coord": [
+        0,
+        2468,
+        1224,
+        232
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "全季酒店(北京望京店)高档型",
+          "coord": [
+            482,
+            2474,
+            603,
+            60
+          ],
+          "ocrConfidence": 0.9535
+        },
+        {
+          "text": "酒店",
+          "coord": [
+            396,
+            2488,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            388,
+            2552,
+            100,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "非常好的一次入住体验",
+          "coord": [
+            504,
+            2552,
+            393,
+            45
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "距您直线2.7km 近朝阳区望京",
+          "coord": [
+            388,
+            2618,
+            518,
+            44
+          ],
+          "ocrConfidence": 0.9723
+        },
+        {
+          "text": "全季酒",
+          "coord": [
+            122,
+            2674,
+            87,
+            24
+          ],
+          "ocrConfidence": 0.9593
+        },
+        {
+          "text": "店",
+          "coord": [
+            216,
+            2676,
+            18,
+            16
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "V",
+          "coord": [
+            513,
+            2687,
+            136,
+            12
+          ],
+          "ocrConfidence": 0.3728
+        },
+        {
+          "text": "大",
+          "coord": [
+            676,
+            2684,
+            33,
+            16
+          ],
+          "ocrConfidence": 0.2941
+        },
+        {
+          "text": "□□",
+          "coord": [
+            716,
+            2686,
+            34,
+            14
+          ],
+          "ocrConfidence": 0.8856
+        },
+        {
+          "text": "P人",
+          "coord": [
+            796,
+            2686,
+            56,
+            13
+          ],
+          "ocrConfidence": 0.4979
+        },
+        {
+          "text": "亿白户",
+          "coord": [
+            892,
+            2684,
+            110,
+            16
+          ],
+          "ocrConfidence": 0.5736
+        }
+      ]
+    }
+  ]
+}

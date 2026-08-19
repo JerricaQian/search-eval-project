@@ -1,0 +1,1142 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/烧烤.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        554,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "自",
+          "coord": [
+            42,
+            555,
+            113,
+            7
+          ],
+          "ocrConfidence": 0.3125
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            558,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "锦州烧烤(悠乐汇店)",
+          "coord": [
+            323,
+            554,
+            420,
+            47
+          ],
+          "ocrConfidence": 0.9811
+        },
+        {
+          "text": "26分钟",
+          "coord": [
+            1065,
+            554,
+            130,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "锦州烧烤",
+          "coord": [
+            36,
+            571,
+            130,
+            34
+          ],
+          "ocrConfidence": 0.9965
+        },
+        {
+          "text": "4.5分",
+          "coord": [
+            224,
+            623,
+            101,
+            43
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "月售600+",
+          "coord": [
+            341,
+            626,
+            198,
+            41
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "起送￥38",
+          "coord": [
+            518,
+            627,
+            155,
+            39
+          ],
+          "ocrConfidence": 0.932
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            686,
+            627,
+            158,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "2.5km",
+          "coord": [
+            1082,
+            626,
+            111,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "炭火烤更好吃",
+          "coord": [
+            38,
+            686,
+            148,
+            34
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "最近24小时10+人下单",
+          "coord": [
+            225,
+            691,
+            384,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "锦州烧烤",
+          "coord": [
+            225,
+            766,
+            151,
+            40
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "锦州烧烤",
+          "coord": [
+            498,
+            768,
+            136,
+            44
+          ],
+          "ocrConfidence": 0.8816
+        },
+        {
+          "text": "锦州烧烤",
+          "coord": [
+            780,
+            767,
+            160,
+            38
+          ],
+          "ocrConfidence": 0.9676
+        },
+        {
+          "text": "神寿",
+          "coord": [
+            78,
+            781,
+            68,
+            41
+          ],
+          "ocrConfidence": 0.8513
+        },
+        {
+          "text": "现烤鲜肉现穿",
+          "coord": [
+            244,
+            805,
+            100,
+            14
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "碳烤鲜肉现穿",
+          "coord": [
+            519,
+            811,
+            98,
+            17
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "现烤鲜肉现穿",
+          "coord": [
+            798,
+            808,
+            114,
+            13
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "22",
+          "coord": [
+            74,
+            869,
+            107,
+            76
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "￥",
+          "coord": [
+            50,
+            892,
+            33,
+            43
+          ],
+          "ocrConfidence": 0.6249
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            46,
+            963,
+            132,
+            35
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            1067,
+            990,
+            69,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "碳烤风味小串(",
+          "coord": [
+            226,
+            1049,
+            249,
+            40
+          ],
+          "ocrConfidence": 0.962
+        },
+        {
+          "text": "碳烤网红面筋",
+          "coord": [
+            503,
+            1051,
+            233,
+            37
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "碳烤腊肠小串(",
+          "coord": [
+            781,
+            1050,
+            247,
+            37
+          ],
+          "ocrConfidence": 0.9482
+        },
+        {
+          "text": "碳烤黑椒",
+          "coord": [
+            1057,
+            1049,
+            167,
+            41
+          ],
+          "ocrConfidence": 0.9881
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            1073,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥0.59神券价",
+          "coord": [
+            226,
+            1108,
+            206,
+            43
+          ],
+          "ocrConfidence": 0.9656
+        },
+        {
+          "text": "￥0.28神券价",
+          "coord": [
+            504,
+            1109,
+            204,
+            41
+          ],
+          "ocrConfidence": 0.9586
+        },
+        {
+          "text": "￥0.75神券价",
+          "coord": [
+            781,
+            1109,
+            201,
+            41
+          ],
+          "ocrConfidence": 0.9574
+        },
+        {
+          "text": "￥2.63神券",
+          "coord": [
+            1057,
+            1107,
+            167,
+            44
+          ],
+          "ocrConfidence": 0.9682
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1217,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            1221,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "锦州烧烤(望京店)",
+          "coord": [
+            321,
+            1217,
+            373,
+            50
+          ],
+          "ocrConfidence": 0.9931
+        },
+        {
+          "text": "33分钟",
+          "coord": [
+            1068,
+            1219,
+            126,
+            44
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "海鲜",
+          "coord": [
+            93,
+            1241,
+            23,
+            11
+          ],
+          "ocrConfidence": 0.9319
+        },
+        {
+          "text": "小龙虾",
+          "coord": [
+            117,
+            1238,
+            39,
+            25
+          ],
+          "ocrConfidence": 0.9964
+        },
+        {
+          "text": "烧烤",
+          "coord": [
+            62,
+            1242,
+            30,
+            22
+          ],
+          "ocrConfidence": 0.6163
+        },
+        {
+          "text": "锦州烧烤",
+          "coord": [
+            38,
+            1260,
+            148,
+            41
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            223,
+            1283,
+            103,
+            47
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "月售2000+",
+          "coord": [
+            344,
+            1289,
+            210,
+            42
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "起送￥20免配送费",
+          "coord": [
+            546,
+            1290,
+            323,
+            41
+          ],
+          "ocrConfidence": 0.9545
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1083,
+            1289,
+            110,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "真材实料1用心制作",
+          "coord": [
+            48,
+            1300,
+            123,
+            17
+          ],
+          "ocrConfidence": 0.9235
+        },
+        {
+          "text": "美报点",
+          "coord": [
+            79,
+            1324,
+            61,
+            10
+          ],
+          "ocrConfidence": 0.596
+        },
+        {
+          "text": "用心为您烤好每一串",
+          "coord": [
+            37,
+            1352,
+            152,
+            17
+          ],
+          "ocrConfidence": 0.993
+        },
+        {
+          "text": "明廚亮灶",
+          "coord": [
+            226,
+            1354,
+            161,
+            41
+          ],
+          "ocrConfidence": 0.8886
+        },
+        {
+          "text": "184位当地人常点",
+          "coord": [
+            402,
+            1357,
+            303,
+            37
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "近30天225人复购",
+          "coord": [
+            716,
+            1357,
+            308,
+            37
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "神寿",
+          "coord": [
+            78,
+            1444,
+            68,
+            41
+          ],
+          "ocrConfidence": 0.8433
+        },
+        {
+          "text": "享",
+          "coord": [
+            513,
+            1441,
+            5,
+            7
+          ],
+          "ocrConfidence": 0.1615
+        },
+        {
+          "text": "江湖串吧",
+          "coord": [
+            521,
+            1436,
+            88,
+            27
+          ],
+          "ocrConfidence": 0.9964
+        },
+        {
+          "text": "春北",
+          "coord": [
+            1062,
+            1437,
+            15,
+            25
+          ],
+          "ocrConfidence": 0.4228
+        },
+        {
+          "text": "江湖串吧",
+          "coord": [
+            1077,
+            1437,
+            87,
+            25
+          ],
+          "ocrConfidence": 0.9957
+        },
+        {
+          "text": "北",
+          "coord": [
+            511,
+            1448,
+            9,
+            12
+          ],
+          "ocrConfidence": 0.1361
+        },
+        {
+          "text": "￥14",
+          "coord": [
+            41,
+            1532,
+            143,
+            79
+          ],
+          "ocrConfidence": 0.8964
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            46,
+            1626,
+            132,
+            35
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "秘制牛肉串",
+          "coord": [
+            225,
+            1713,
+            196,
+            40
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "烤鸡翅",
+          "coord": [
+            500,
+            1709,
+            123,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "天生",
+          "coord": [
+            665,
+            1713,
+            84,
+            41
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "【招牌】烤羊肉",
+          "coord": [
+            785,
+            1711,
+            230,
+            43
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "烤五花肉串",
+          "coord": [
+            1056,
+            1713,
+            168,
+            38
+          ],
+          "ocrConfidence": 0.9209
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            1736,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥2.78新客价",
+          "coord": [
+            225,
+            1771,
+            204,
+            44
+          ],
+          "ocrConfidence": 0.983
+        },
+        {
+          "text": "￥6.3新客价",
+          "coord": [
+            504,
+            1772,
+            187,
+            42
+          ],
+          "ocrConfidence": 0.9644
+        },
+        {
+          "text": "￥2.78新客价",
+          "coord": [
+            779,
+            1770,
+            205,
+            44
+          ],
+          "ocrConfidence": 0.9846
+        },
+        {
+          "text": "￥1.6新客价",
+          "coord": [
+            1059,
+            1772,
+            165,
+            42
+          ],
+          "ocrConfidence": 0.9614
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1880,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            1882,
+            72,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "望京小腰·烧烤(望京店)",
+          "coord": [
+            322,
+            1880,
+            490,
+            49
+          ],
+          "ocrConfidence": 0.969
+        },
+        {
+          "text": "34分钟",
+          "coord": [
+            1066,
+            1881,
+            128,
+            45
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "望京小腰",
+          "coord": [
+            29,
+            1934,
+            166,
+            56
+          ],
+          "ocrConfidence": 0.9869
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            224,
+            1949,
+            102,
+            43
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "月售3000+",
+          "coord": [
+            343,
+            1952,
+            214,
+            42
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "起送￥45",
+          "coord": [
+            546,
+            1953,
+            156,
+            39
+          ],
+          "ocrConfidence": 0.8964
+        },
+        {
+          "text": "配送￥0.9",
+          "coord": [
+            707,
+            1952,
+            158,
+            39
+          ],
+          "ocrConfidence": 0.929
+        },
+        {
+          "text": "2.9km",
+          "coord": [
+            1082,
+            1952,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "明厨亮灶",
+          "coord": [
+            225,
+            2015,
+            164,
+            44
+          ],
+          "ocrConfidence": 0.9146
+        },
+        {
+          "text": "244位当地人常点",
+          "coord": [
+            398,
+            2021,
+            304,
+            37
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "近30天318人复购",
+          "coord": [
+            717,
+            2017,
+            308,
+            42
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "神券",
+          "coord": [
+            78,
+            2107,
+            68,
+            42
+          ],
+          "ocrConfidence": 0.7128
+        },
+        {
+          "text": "京小腰",
+          "coord": [
+            1056,
+            2130,
+            139,
+            45
+          ],
+          "ocrConfidence": 0.9972
+        },
+        {
+          "text": "￥14",
+          "coord": [
+            41,
+            2195,
+            143,
+            79
+          ],
+          "ocrConfidence": 0.8964
+        },
+        {
+          "text": "E",
+          "coord": [
+            770,
+            2234,
+            10,
+            83
+          ],
+          "ocrConfidence": 0.2536
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            44,
+            2285,
+            135,
+            41
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            1067,
+            2316,
+            69,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "店内热销",
+          "coord": [
+            227,
+            2376,
+            158,
+            41
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "炭",
+          "coord": [
+            427,
+            2378,
+            44,
+            39
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "爆烤牛肉串",
+          "coord": [
+            501,
+            2375,
+            198,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "淄博烧烤伴侣",
+          "coord": [
+            781,
+            2376,
+            233,
+            40
+          ],
+          "ocrConfidence": 0.988
+        },
+        {
+          "text": "招牌望京",
+          "coord": [
+            1056,
+            2375,
+            168,
+            41
+          ],
+          "ocrConfidence": 0.9837
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            2399,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥1.73新客价",
+          "coord": [
+            226,
+            2434,
+            197,
+            44
+          ],
+          "ocrConfidence": 0.9624
+        },
+        {
+          "text": "￥1.71新客价",
+          "coord": [
+            504,
+            2435,
+            192,
+            42
+          ],
+          "ocrConfidence": 0.9678
+        },
+        {
+          "text": "￥8.99新客价",
+          "coord": [
+            782,
+            2435,
+            203,
+            41
+          ],
+          "ocrConfidence": 0.9838
+        },
+        {
+          "text": "￥1.53新客",
+          "coord": [
+            1058,
+            2435,
+            165,
+            42
+          ],
+          "ocrConfidence": 0.9642
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        2540,
+        1224,
+        160
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            2546,
+            70,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "肉串汪(望京店)",
+          "coord": [
+            324,
+            2540,
+            320,
+            49
+          ],
+          "ocrConfidence": 0.9696
+        },
+        {
+          "text": "21分钟",
+          "coord": [
+            1066,
+            2544,
+            128,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "WM",
+          "coord": [
+            83,
+            2590,
+            59,
+            31
+          ],
+          "ocrConfidence": 0.5425
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            225,
+            2612,
+            99,
+            41
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "月售2000+",
+          "coord": [
+            341,
+            2615,
+            197,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "起送￥30免配送费",
+          "coord": [
+            545,
+            2614,
+            323,
+            41
+          ],
+          "ocrConfidence": 0.9615
+        },
+        {
+          "text": "1.5km",
+          "coord": [
+            1083,
+            2615,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "WRANGLERBBO",
+          "coord": [
+            57,
+            2628,
+            110,
+            10
+          ],
+          "ocrConfidence": 0.9179
+        },
+        {
+          "text": "肉串汪",
+          "coord": [
+            74,
+            2641,
+            76,
+            18
+          ],
+          "ocrConfidence": 0.9669
+        },
+        {
+          "text": "必う榜",
+          "coord": [
+            224,
+            2676,
+            106,
+            24
+          ],
+          "ocrConfidence": 0.7178
+        },
+        {
+          "text": "可常食",
+          "coord": [
+            348,
+            2681,
+            109,
+            19
+          ],
+          "ocrConfidence": 0.7513
+        },
+        {
+          "text": "313位当地人党占近30天415人复购",
+          "coord": [
+            480,
+            2680,
+            625,
+            20
+          ],
+          "ocrConfidence": 0.8115
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "contractVersion": "phase2.hotel-card-element-contract.v1",
+  "source": "golden-samples/hotel-card/element-level/酒店卡片-双列-搜索词为电竞房-元素标注后.png",
+  "sourceUse": "offline_partition_reference_only",
+  "variants": {
+    "single_column_hotel_merchant": {
+      "layoutMode": "left_image_right_text",
+      "regions": ["头图区", "标题区", "评分与推荐理由", "位置信息", "标签区", "价格区"],
+      "boundaryFacts": ["以当前卡头图/标题锚开始", "下一同列稳定卡头结束", "头图高度逐卡测量而非固定"]
+    },
+    "two_column_room_grid": {
+      "layoutMode": "two_column_grid_cell",
+      "regionsInVisualOrder": ["头图区", "标题区", "基础信息区", "价格区", "评分区"],
+      "boundaryFacts": ["每个网格单元独立成卡", "同一行左右卡不得合并", "同列下一单元结束当前卡", "右列异构单元不得改变左列酒店卡类型"],
+      "regionElements": {
+        "头图区": ["房间头图", "距离", "商圈/位置", "可选视频/营销/资质角标"],
+        "标题区": ["房型标题"],
+        "基础信息区": ["面积", "入住人数", "床型/窗型", "电脑数量", "CPU/显卡/刷新率", "网络/音响等设备"],
+        "价格区": ["现价", "起", "销量"],
+        "评分区": ["评分", "酒店/公寓名称", "进入详情指示"]
+      },
+      "elementFacts": [
+        {"region": "头图区", "elementType": "图片", "semanticRole": "hotel_room_head_image", "renderIsPhoto": true},
+        {"region": "头图区", "elementType": "文本", "semanticRole": "location", "examples": ["2km·望京", "4.2km·酒仙桥/798"]},
+        {"region": "标题区", "elementType": "文本", "semanticRole": "title", "examples": ["特惠双人电竞兄弟房", "畅游电竞双床房"]},
+        {"region": "基础信息区", "elementType": "文本", "semanticRole": "subtitle", "examples": ["15-25m² | 2人 | 双床", "2台 | 240Hz及以上"]},
+        {"region": "价格区", "elementType": "文本", "semanticRole": "price", "examples": ["¥354 起", "¥714 起"]},
+        {"region": "价格区", "elementType": "文本", "semanticRole": "sales", "examples": ["已售500+", "已售141"]},
+        {"region": "评分区", "elementType": "文本", "semanticRole": "rating", "examples": ["4.9分", "4.8分"]}
+      ]
+    }
+  },
+  "variationRules": [
+    "query 不是卡型或页面结构的主键",
+    "同一 query 的不同 searchInstance 可以有不同模块、卡数、文本与图片",
+    "同页允许逐卡混排不同 cardType",
+    "头图宽高由当前卡局部像素测量，同卡型也不得固定高度"
+  ]
+}

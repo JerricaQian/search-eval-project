@@ -1,0 +1,662 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为理发.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为理发.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        881,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            882,
+            75,
+            43
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "藤野造型(烫染望京新荟城店)",
+          "coord": [
+            404,
+            881,
+            615,
+            51
+          ],
+          "ocrConfidence": 0.9931
+        },
+        {
+          "text": "1",
+          "coord": [
+            42,
+            891,
+            41,
+            29
+          ],
+          "ocrConfidence": 0.5208
+        },
+        {
+          "text": "4.9分2.2万条美发¥34/人美发望京",
+          "coord": [
+            303,
+            942,
+            668,
+            61
+          ],
+          "ocrConfidence": 0.9802
+        },
+        {
+          "text": "1.2km",
+          "coord": [
+            1083,
+            953,
+            110,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券最高膨至30→望京美发回头客榜第2名",
+          "coord": [
+            307,
+            1012,
+            741,
+            51
+          ],
+          "ocrConfidence": 0.987
+        },
+        {
+          "text": "独特舒适氛围，专业服务",
+          "coord": [
+            352,
+            1078,
+            433,
+            48
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "￥18.92.2折",
+          "coord": [
+            308,
+            1155,
+            215,
+            52
+          ],
+          "ocrConfidence": 0.9594
+        },
+        {
+          "text": "【剪发理发】【设计师理发",
+          "coord": [
+            551,
+            1163,
+            406,
+            41
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "年售47.6万+",
+          "coord": [
+            998,
+            1164,
+            195,
+            38
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "￥36.1",
+          "coord": [
+            312,
+            1232,
+            106,
+            44
+          ],
+          "ocrConfidence": 0.9367
+        },
+        {
+          "text": "【美发】毕业季【美团专属】女神",
+          "coord": [
+            436,
+            1232,
+            505,
+            43
+          ],
+          "ocrConfidence": 0.9936
+        },
+        {
+          "text": "年售22.4万+",
+          "coord": [
+            995,
+            1233,
+            198,
+            40
+          ],
+          "ocrConfidence": 0.9994
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1356,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1357,
+            75,
+            43
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "GH男士理发馆(麒麟社店)",
+          "coord": [
+            405,
+            1356,
+            548,
+            51
+          ],
+          "ocrConfidence": 0.9839
+        },
+        {
+          "text": "4.8分3114条美发¥92/人美发望京",
+          "coord": [
+            303,
+            1418,
+            663,
+            59
+          ],
+          "ocrConfidence": 0.9906
+        },
+        {
+          "text": "1.5km",
+          "coord": [
+            1083,
+            1428,
+            110,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券最高膨至30→望京烫染销量榜第3名",
+          "coord": [
+            307,
+            1487,
+            701,
+            51
+          ],
+          "ocrConfidence": 0.9847
+        },
+        {
+          "text": "满意的剪发，技术棒",
+          "coord": [
+            353,
+            1554,
+            356,
+            46
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥29.99",
+          "coord": [
+            310,
+            1634,
+            141,
+            45
+          ],
+          "ocrConfidence": 0.9594
+        },
+        {
+          "text": "6.3折",
+          "coord": [
+            461,
+            1636,
+            92,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【不限等级】【理发】GH造",
+          "coord": [
+            586,
+            1638,
+            413,
+            41
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "年售100+",
+          "coord": [
+            1039,
+            1639,
+            153,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥40.85",
+          "coord": [
+            310,
+            1704,
+            139,
+            46
+          ],
+          "ocrConfidence": 0.9496
+        },
+        {
+          "text": "3折",
+          "coord": [
+            459,
+            1705,
+            65,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【理发】【高级设计师】洗",
+          "coord": [
+            558,
+            1708,
+            385,
+            41
+          ],
+          "ocrConfidence": 0.992
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1018,
+            1708,
+            175,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1831,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            316,
+            1833,
+            73,
+            42
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "PAYAHAIR(望京旗舰店)",
+          "coord": [
+            406,
+            1831,
+            514,
+            50
+          ],
+          "ocrConfidence": 0.9894
+        },
+        {
+          "text": "4.3分",
+          "coord": [
+            309,
+            1900,
+            102,
+            41
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "7436条",
+          "coord": [
+            423,
+            1903,
+            163,
+            39
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "美发¥190/人美发望京",
+          "coord": [
+            564,
+            1900,
+            425,
+            47
+          ],
+          "ocrConfidence": 0.9511
+        },
+        {
+          "text": "1.4km",
+          "coord": [
+            1083,
+            1901,
+            110,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "100百大发型师",
+          "coord": [
+            313,
+            1970,
+            193,
+            34
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "神券最高膨至30",
+          "coord": [
+            523,
+            1969,
+            307,
+            37
+          ],
+          "ocrConfidence": 0.9576
+        },
+        {
+          "text": "店里很干净，值得推荐",
+          "coord": [
+            355,
+            2031,
+            390,
+            43
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "￥11",
+          "coord": [
+            310,
+            2111,
+            63,
+            44
+          ],
+          "ocrConfidence": 0.8221
+        },
+        {
+          "text": "1.1折",
+          "coord": [
+            387,
+            2110,
+            89,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【美发】【推荐】单人接发设计",
+          "coord": [
+            508,
+            2113,
+            465,
+            40
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "年售200+",
+          "coord": [
+            1039,
+            2112,
+            153,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥64.9",
+          "coord": [
+            310,
+            2181,
+            114,
+            45
+          ],
+          "ocrConfidence": 0.9395
+        },
+        {
+          "text": "【美发】【清爽出行】洗吹+造型",
+          "coord": [
+            445,
+            2183,
+            500,
+            41
+          ],
+          "ocrConfidence": 0.9811
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1018,
+            2183,
+            175,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2306,
+        1224,
+        394
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "川",
+          "coord": [
+            41,
+            2313,
+            42,
+            34
+          ],
+          "ocrConfidence": 0.2774
+        },
+        {
+          "text": "HeHe",
+          "coord": [
+            217,
+            2312,
+            38,
+            15
+          ],
+          "ocrConfidence": 0.9862
+        },
+        {
+          "text": "到店",
+          "coord": [
+            317,
+            2309,
+            71,
+            40
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "HH·呵呵造型(望京店)",
+          "coord": [
+            406,
+            2306,
+            470,
+            52
+          ],
+          "ocrConfidence": 0.9899
+        },
+        {
+          "text": "hairsalon",
+          "coord": [
+            218,
+            2329,
+            59,
+            11
+          ],
+          "ocrConfidence": 0.9748
+        },
+        {
+          "text": "4.7分2",
+          "coord": [
+            310,
+            2376,
+            121,
+            41
+          ],
+          "ocrConfidence": 0.882
+        },
+        {
+          "text": "2565条美发¥41/人美发望京",
+          "coord": [
+            413,
+            2376,
+            548,
+            47
+          ],
+          "ocrConfidence": 0.9774
+        },
+        {
+          "text": "1.8km",
+          "coord": [
+            1082,
+            2376,
+            111,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "",
+          "coord": [
+            50,
+            2439,
+            29,
+            10
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "神券最高膨至30→望京烫染销量榜第4名",
+          "coord": [
+            308,
+            2438,
+            700,
+            50
+          ],
+          "ocrConfidence": 0.9838
+        },
+        {
+          "text": "高级定制专业服务",
+          "coord": [
+            123,
+            2472,
+            145,
+            22
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "iairSalon",
+          "coord": [
+            52,
+            2512,
+            224,
+            43
+          ],
+          "ocrConfidence": 0.8831
+        },
+        {
+          "text": "￥34(星级设计师)洗剪吹+造型",
+          "coord": [
+            312,
+            2522,
+            544,
+            43
+          ],
+          "ocrConfidence": 0.9366
+        },
+        {
+          "text": "年售7000+",
+          "coord": [
+            1021,
+            2525,
+            171,
+            35
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "¥54",
+          "coord": [
+            313,
+            2595,
+            80,
+            39
+          ],
+          "ocrConfidence": 0.8537
+        },
+        {
+          "text": "首席设计师洗剪吹+造型",
+          "coord": [
+            402,
+            2593,
+            426,
+            41
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1020,
+            2593,
+            172,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    }
+  ]
+}

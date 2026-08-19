@@ -1,0 +1,114 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/product-card/生理盐水.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png",
+  "requests": [
+    {
+      "kind": "missing_title",
+      "listPosition": 3,
+      "coord": [
+        360,
+        1558,
+        864,
+        150
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "[霖恩盐水]清洗液(0.9%NaCl(生",
+          "coord": [
+            490,
+            1558,
+            682,
+            55
+          ],
+          "ocrConfidence": 0.9633
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            403,
+            1568,
+            68,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "理盐水)15ml*20支/盒伤口清洁温和",
+          "coord": [
+            392,
+            1624,
+            764,
+            58
+          ],
+          "ocrConfidence": 0.9924
+        }
+      ]
+    },
+    {
+      "kind": "missing_title",
+      "listPosition": 4,
+      "coord": [
+        360,
+        2060,
+        864,
+        150
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "[KL]生理氯化钠溶液(",
+          "coord": [
+            492,
+            2062,
+            442,
+            51
+          ],
+          "ocrConfidence": 0.9548
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            402,
+            2068,
+            70,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "问医生",
+          "coord": [
+            1080,
+            2069,
+            119,
+            43
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "24小时",
+          "coord": [
+            1080,
+            2124,
+            116,
+            38
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": ")*500ml/瓶",
+          "coord": [
+            395,
+            2130,
+            244,
+            50
+          ],
+          "ocrConfidence": 0.9982
+        }
+      ]
+    }
+  ]
+}

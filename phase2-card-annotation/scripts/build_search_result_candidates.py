@@ -123,6 +123,7 @@ def _merchant_graphic_hang_cards(facts: dict[str, Any], results_start_y: int) ->
     """
     viewport_width = int(facts["viewport"]["width"])
     photos = sorted(facts.get("candidates", {}).get("photos", []), key=lambda item: item["coord"][1])
+    texts = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected"]
     heads = []
     for item in photos:
         x, y, w, h = item["coord"]
@@ -131,15 +132,35 @@ def _merchant_graphic_hang_cards(facts: dict[str, Any], results_start_y: int) ->
         # around x=227 on a 1224px reference canvas, so 16% keeps them apart.
         if y < results_start_y or x > viewport_width * 0.16 or w < 88 or h < 88 or not 0.65 <= ratio <= 1.35:
             continue
-        heads.append(item)
+        # Coupon artwork and a product tile can be square in the same left
+        # column.  A merchant head additionally needs a local merchant-metric
+        # line beside it; this keeps internal down-hang media from becoming a
+        # new card boundary.
+        local = [
+            text for text in texts
+            if y - 100 <= text["coord"][1] <= y + h * 0.52
+            and text["coord"][0] >= x + w * 0.72
+        ]
+        local_text = "\n".join(str(text.get("text", "")) for text in local)
+        has_merchant_metric = bool(re.search(r"(?:\d(?:\.\d)?\s*分|暂无评分|新店|人均|\d+\s*条|\d+(?:\.\d+)?\s*km|到店)", local_text, re.I))
+        has_nearby_right_group = any(
+            photo["coord"][0] >= viewport_width * 0.18
+            and y + h * 0.35 <= photo["coord"][1] < y + h * 1.60
+            and photo["coord"][2] >= 96 and photo["coord"][3] >= 96
+            for photo in photos
+        )
+        if not (has_merchant_metric or has_nearby_right_group):
+            continue
+        heads.append({**item, "anchorY": min([y] + [text["coord"][1] for text in local])})
     cards: list[dict[str, Any]] = []
     for index, head in enumerate(heads):
         x, y, w, h = head["coord"]
-        next_y = heads[index + 1]["coord"][1] if index + 1 < len(heads) else int(facts["viewport"]["height"])
+        anchor_y = int(head["anchorY"])
+        next_y = int(heads[index + 1]["anchorY"]) if index + 1 < len(heads) else int(facts["viewport"]["height"])
         product_groups = []
         for photo in photos:
             px, py, pw, ph = photo["coord"]
-            if py < y + h * 0.70 or py >= next_y or px < viewport_width * 0.18 or pw < 96 or ph < 96:
+            if py < y + h * 0.35 or py >= next_y or px < viewport_width * 0.18 or pw < 96 or ph < 96:
                 continue
             product_groups.append(photo)
         # The down-hang can be one detector region containing a whole product
@@ -150,9 +171,9 @@ def _merchant_graphic_hang_cards(facts: dict[str, Any], results_start_y: int) ->
         # anchored before 70% of the viewport (often x≈227/311 on 1224px).
         if not product_groups or not any(photo["coord"][0] < viewport_width * 0.70 for photo in product_groups):
             continue
-        bottom = min(next_y, max(photo["coord"][1] + photo["coord"][3] for photo in product_groups) + 150)
+        bottom = next_y if index + 1 < len(heads) else min(next_y, max(photo["coord"][1] + photo["coord"][3] for photo in product_groups) + 150)
         cards.append({
-            "id": f"G{len(cards) + 1}", "coord": [0, y, viewport_width, bottom - y],
+            "id": f"G{len(cards) + 1}", "coord": [0, anchor_y, viewport_width, bottom - anchor_y],
             "seedBlockId": "", "memberBlockIds": [], "confidence": 0.90, "status": "confirmed",
             "classificationHint": {"cardType": "商家卡片_图文下挂", "confidence": 0.90},
             "evidence": ["left_square_merchant_head", "right_side_attached_product_image_group", "left_coupon_art_excluded"],
@@ -173,7 +194,7 @@ def _split_cards_on_left_media_anchors(cards: list[dict[str, Any]], facts: dict[
     viewport_width = int(facts["viewport"]["width"])
     photos = [
         item for item in facts.get("candidates", {}).get("photos", [])
-        if item.get("route") == "accepted" and item["coord"][0] < viewport_width * 0.40
+        if item.get("route") == "accepted" and item["coord"][0] < viewport_width * 0.18
         and item["coord"][2] >= 96 and item["coord"][3] >= 96
     ]
     output: list[dict[str, Any]] = []
@@ -203,6 +224,62 @@ def _split_cards_on_left_media_anchors(cards: list[dict[str, Any]], facts: dict[
                 "id": f"{card['id']}S{part_index}", "coord": coord,
                 "memberBlockIds": [member["id"] for member in members],
                 "evidence": sorted(set(card.get("evidence", [])) | {"left_media_anchor_split"}),
+            })
+    return output
+
+
+def _split_two_column_grid_cards(cards: list[dict[str, Any]], facts: dict[str, Any], blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Split repeated full-width rows into independent two-column cells.
+
+    The trigger is screenshot-local: at least two rows contain paired
+    near-half-width photo slots.  Card cells are then emitted row-major, so a
+    text-only heterogeneous tile in one cell cannot absorb its hotel neighbour.
+    Image height is intentionally not part of the contract.
+    """
+    viewport_width = int(facts["viewport"]["width"])
+    photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted"]
+
+    def paired_media(card: dict[str, Any]) -> bool:
+        y0, y1 = card["coord"][1], card["coord"][1] + card["coord"][3]
+        local = [item for item in photos if y0 <= item["coord"][1] < y1 and viewport_width * 0.38 <= item["coord"][2] <= viewport_width * 0.52]
+        return any(item["coord"][0] < viewport_width * 0.10 for item in local) and any(item["coord"][0] >= viewport_width * 0.50 for item in local)
+
+    full_rows = [card for card in cards if card["coord"][2] >= viewport_width * 0.90]
+    if sum(paired_media(card) for card in full_rows) < 2:
+        return cards
+
+    margin = max(0, round(viewport_width * 0.014))
+    midpoint = viewport_width // 2
+    cell_width = midpoint - margin
+    output: list[dict[str, Any]] = []
+    for card in cards:
+        if card not in full_rows:
+            output.append(card)
+            continue
+        y, height = card["coord"][1], card["coord"][3]
+        for column, x in (("left", margin), ("right", midpoint)):
+            coord = [x, y, cell_width, height]
+            local_text = [
+                item for item in facts.get("candidates", {}).get("text", [])
+                if item.get("route") != "rejected"
+                and item["coord"][0] < x + cell_width and item["coord"][0] + item["coord"][2] > x
+                and _overlap_y(item["coord"], coord)
+            ]
+            local_media = [
+                item for item in photos
+                if item["coord"][0] < x + cell_width and item["coord"][0] + item["coord"][2] > x
+                and _overlap_y(item["coord"], coord)
+            ]
+            if not local_text and not local_media:
+                continue
+            members = [block for block in blocks if _overlap_y(block["coord"], coord)]
+            output.append({
+                **card,
+                "id": f"{card['id']}-{column}",
+                "coord": coord,
+                "memberBlockIds": [member["id"] for member in members],
+                "evidence": sorted(set(card.get("evidence", [])) | {"two_column_grid_cell_boundary", f"grid_column:{column}"}),
+                "gridColumn": column,
             })
     return output
 
@@ -275,6 +352,7 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
                 "evidence": ["learned_repeat_interval_backfill", "current_screenshot_two_card_periodicity"],
             })
     cards = _split_cards_on_left_media_anchors(cards, facts, blocks)
+    cards = _split_two_column_grid_cards(cards, facts, blocks)
     graphic_cards = _merchant_graphic_hang_cards(facts, results_start_y)
     if graphic_cards:
         # The specialised detector owns intervals it can explain. Keep generic
@@ -283,6 +361,27 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
             cy0, cy1 = card["coord"][1], card["coord"][1] + card["coord"][3]
             return any(cy0 < special["coord"][1] + special["coord"][3] and cy1 > special["coord"][1] for special in graphic_cards)
         cards = graphic_cards + [card for card in cards if not overlaps_special(card)]
+        # Preserve a final naturally cropped repetition even when it has no
+        # visible right-side product group. The preceding complete specialised
+        # cards establish the topology; semantic mapping still applies the
+        # normal bottom-partial inheritance and gate policy.
+        viewport_height = int(facts["viewport"]["height"])
+        for photo in facts.get("candidates", {}).get("photos", []):
+            px, py, pw, ph = photo["coord"]
+            ratio = pw / ph if ph else 0
+            if photo.get("route") != "accepted" or px > int(facts["viewport"]["width"]) * 0.18 or not 0.65 <= ratio <= 1.35:
+                continue
+            if py + ph < viewport_height - max(20, round(viewport_height * 0.02)):
+                continue
+            proposed = [0, py, int(facts["viewport"]["width"]), viewport_height - py]
+            if any(_overlap_y(proposed, card["coord"]) for card in cards):
+                continue
+            cards.append({
+                "id": "partial", "coord": proposed, "seedBlockId": "", "memberBlockIds": [],
+                "confidence": 0.78, "status": "confirmed",
+                "evidence": ["left_media_anchor_split", "screen_bottom_natural_crop", "repeated_graphic_card_partial_head"],
+                "headPhotoId": photo["id"],
+            })
     cards.sort(key=lambda card: card["coord"][1])
     for index, card in enumerate(cards, start=1):
         card["id"] = f"C{index}"

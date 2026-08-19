@@ -1,0 +1,195 @@
+{
+  "pages": [
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为解压体验馆.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为解压体验馆.png",
+      "missingCards": [
+        {
+          "listPosition": 1,
+          "cardType": "商家卡片_文字下挂",
+          "coord": [
+            0,
+            554,
+            1224,
+            475
+          ],
+          "visibleStatus": "complete",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "到店",
+              "coord": [
+                316,
+                557,
+                72,
+                39
+              ],
+              "ocrConfidence": 0.9971
+            },
+            {
+              "text": "枕溪月·商务·舞蹈SPA(天通东苑店）",
+              "coord": [
+                406,
+                554,
+                753,
+                48
+              ],
+              "ocrConfidence": 0.9471
+            },
+            {
+              "text": "SPＡ",
+              "coord": [
+                49,
+                575,
+                124,
+                50
+              ],
+              "ocrConfidence": 0.6955
+            },
+            {
+              "text": "4.4分",
+              "coord": [
+                309,
+                621,
+                103,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "160条传统按摩/足疗天通苑",
+              "coord": [
+                419,
+                622,
+                515,
+                47
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "7.9km",
+              "coord": [
+                1083,
+                626,
+                110,
+                40
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "月光漫舞",
+              "coord": [
+                49,
+                643,
+                218,
+                73
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "神券立减36天通苑按摩/足疗人气榜第9名",
+              "coord": [
+                308,
+                688,
+                728,
+                43
+              ],
+              "ocrConfidence": 0.998
+            },
+            {
+              "text": "休闲区",
+              "coord": [
+                1045,
+                692,
+                128,
+                38
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "ILEL ARWARS NIRETING",
+              "coord": [
+                161,
+                718,
+                101,
+                10
+              ],
+              "ocrConfidence": 0.6654
+            },
+            {
+              "text": "HIRTHERAND",
+              "coord": [
+                207,
+                728,
+                56,
+                7
+              ],
+              "ocrConfidence": 0.7771
+            },
+            {
+              "text": "沉浸夜晚的静谧与优雅",
+              "coord": [
+                56,
+                743,
+                113,
+                14
+              ],
+              "ocrConfidence": 0.9728
+            },
+            {
+              "text": "技师手法到位，力度合适",
+              "coord": [
+                354,
+                754,
+                430,
+                44
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "￥1756【spa】祛火100分钟|星曜顶奢瑜伽享骑3",
+              "coord": [
+                311,
+                833,
+                844,
+                45
+              ],
+              "ocrConfidence": 0.9681
+            },
+            {
+              "text": "¥437",
+              "coord": [
+                313,
+                907,
+                101,
+                40
+              ],
+              "ocrConfidence": 0.8832
+            },
+            {
+              "text": "【SPA】水缦·尊雅栖心|92min放松",
+              "coord": [
+                429,
+                904,
+                580,
+                43
+              ],
+              "ocrConfidence": 0.9977
+            },
+            {
+              "text": "年售31",
+              "coord": [
+                1077,
+                906,
+                113,
+                39
+              ],
+              "ocrConfidence": 0.9997
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

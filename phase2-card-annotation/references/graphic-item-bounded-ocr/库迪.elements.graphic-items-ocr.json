@@ -1,0 +1,577 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/库迪.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为库迪.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            311,
+            767,
+            264,
+            264
+          ],
+          "coord": [
+            311,
+            1027,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[不要纯美式]特",
+              "coord": [
+                311,
+                1049,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9945
+            },
+            {
+              "text": "调咖啡5选1",
+              "coord": [
+                311,
+                1099,
+                222,
+                44
+              ],
+              "ocrConfidence": 0.9896
+            },
+            {
+              "text": "￥5.88￥26",
+              "coord": [
+                311,
+                1161,
+                160,
+                41
+              ],
+              "ocrConfidence": 0.9102
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            588,
+            767,
+            264,
+            264
+          ],
+          "coord": [
+            588,
+            1027,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "来自迪迪的非",
+              "coord": [
+                588,
+                1050,
+                233,
+                38
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "咖奶茶果饮8",
+              "coord": [
+                588,
+                1102,
+                226,
+                38
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "￥5.33￥26",
+              "coord": [
+                588,
+                1159,
+                161,
+                44
+              ],
+              "ocrConfidence": 0.8926
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            865,
+            767,
+            264,
+            264
+          ],
+          "coord": [
+            865,
+            1027,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[10选1]库门招",
+              "coord": [
+                865,
+                1048,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9974
+            },
+            {
+              "text": "牌咖啡随心选",
+              "coord": [
+                865,
+                1102,
+                244,
+                38
+              ],
+              "ocrConfidence": 0.9991
+            },
+            {
+              "text": "￥6.66 ￥26",
+              "coord": [
+                865,
+                1162,
+                161,
+                40
+              ],
+              "ocrConfidence": 0.8729
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1142,
+            767,
+            82,
+            264
+          ],
+          "coord": [
+            1142,
+            1027,
+            82,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[一杯",
+              "coord": [
+                1142,
+                1047,
+                82,
+                45
+              ],
+              "ocrConfidence": 0.9656
+            },
+            {
+              "text": "美式",
+              "coord": [
+                1142,
+                1099,
+                80,
+                45
+              ],
+              "ocrConfidence": 1.0
+            },
+            {
+              "text": "￥5.9",
+              "coord": [
+                1142,
+                1158,
+                79,
+                46
+              ],
+              "ocrConfidence": 0.9219
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            311,
+            1482,
+            264,
+            264
+          ],
+          "coord": [
+            311,
+            1742,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "来自迪迪的非",
+              "coord": [
+                311,
+                1765,
+                233,
+                38
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "咖奶茶果饮8",
+              "coord": [
+                311,
+                1817,
+                226,
+                38
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "￥5.33￥26",
+              "coord": [
+                311,
+                1874,
+                161,
+                44
+              ],
+              "ocrConfidence": 0.8926
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            588,
+            1482,
+            264,
+            264
+          ],
+          "coord": [
+            588,
+            1742,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[不要纯美式]特",
+              "coord": [
+                588,
+                1764,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9945
+            },
+            {
+              "text": "调咖啡5选1",
+              "coord": [
+                588,
+                1814,
+                222,
+                44
+              ],
+              "ocrConfidence": 0.9896
+            },
+            {
+              "text": "￥5.88￥26",
+              "coord": [
+                588,
+                1876,
+                160,
+                41
+              ],
+              "ocrConfidence": 0.9102
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            865,
+            1482,
+            264,
+            264
+          ],
+          "coord": [
+            865,
+            1742,
+            264,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[10选1]库门招",
+              "coord": [
+                865,
+                1763,
+                260,
+                41
+              ],
+              "ocrConfidence": 0.9974
+            },
+            {
+              "text": "牌咖啡随心选",
+              "coord": [
+                865,
+                1817,
+                244,
+                38
+              ],
+              "ocrConfidence": 0.9991
+            },
+            {
+              "text": "￥6.66 ￥26",
+              "coord": [
+                865,
+                1877,
+                161,
+                40
+              ],
+              "ocrConfidence": 0.8729
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1142,
+            1482,
+            82,
+            264
+          ],
+          "coord": [
+            1142,
+            1742,
+            82,
+            242
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "[一杯",
+              "coord": [
+                1142,
+                1762,
+                82,
+                45
+              ],
+              "ocrConfidence": 0.9656
+            },
+            {
+              "text": "美式",
+              "coord": [
+                1142,
+                1814,
+                80,
+                45
+              ],
+              "ocrConfidence": 1.0
+            },
+            {
+              "text": "￥5.9",
+              "coord": [
+                1142,
+                1873,
+                79,
+                46
+              ],
+              "ocrConfidence": 0.9219
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            311,
+            2197,
+            264,
+            264
+          ],
+          "coord": [
+            311,
+            2457,
+            264,
+            243
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "生椰拿铁",
+              "coord": [
+                311,
+                2479,
+                156,
+                41
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "￥15.830天低价",
+              "coord": [
+                311,
+                2538,
+                241,
+                42
+              ],
+              "ocrConfidence": 0.9583
+            },
+            {
+              "text": "查看",
+              "coord": [
+                489,
+                2644,
+                86,
+                52
+              ],
+              "ocrConfidence": 0.9977
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            588,
+            2197,
+            264,
+            264
+          ],
+          "coord": [
+            588,
+            2457,
+            264,
+            243
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "杨枝甘露",
+              "coord": [
+                588,
+                2479,
+                156,
+                41
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "￥14.4",
+              "coord": [
+                588,
+                2537,
+                97,
+                42
+              ],
+              "ocrConfidence": 0.9336
+            },
+            {
+              "text": "更多",
+              "coord": [
+                588,
+                2642,
+                91,
+                56
+              ],
+              "ocrConfidence": 0.9973
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            865,
+            2197,
+            264,
+            264
+          ],
+          "coord": [
+            865,
+            2457,
+            264,
+            243
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "金奖深烘美式",
+              "coord": [
+                865,
+                2479,
+                233,
+                40
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "￥8.99神券价",
+              "coord": [
+                865,
+                2540,
+                204,
+                39
+              ],
+              "ocrConfidence": 0.9778
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1142,
+            2197,
+            82,
+            264
+          ],
+          "coord": [
+            1142,
+            2457,
+            82,
+            243
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "小黄",
+              "coord": [
+                1142,
+                2478,
+                82,
+                43
+              ],
+              "ocrConfidence": 0.9558
+            },
+            {
+              "text": "￥15.",
+              "coord": [
+                1142,
+                2536,
+                82,
+                43
+              ],
+              "ocrConfidence": 0.8269
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

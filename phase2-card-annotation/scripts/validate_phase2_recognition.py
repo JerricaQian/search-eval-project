@@ -30,6 +30,7 @@ def _role_from_card_region(region_name: str) -> str | None:
     mappings = (
         ("标题", "title"), ("价格", "price"), ("评分", "rating"),
         ("位置", "location"), ("履约", "fulfillment"), ("销量", "sales"),
+        ("基础信息", "subtitle"), ("主要信息", "title"), ("标签", "tag"),
     )
     return next((role for marker, role in mappings if marker in region_name), None)
 
@@ -68,6 +69,17 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
     # still send the underlying OCR text through every semantic hook below.
     accepted_by_id = {item.get("id"): item for item in accepted}
     text_ids = set(accepted_by_id)
+    # Page-block roles are deliberately coarse. Inside a confirmed card,
+    # discard a structured page role unless the text itself has that field's
+    # grammar; precise card regions below may then assign the correct role.
+    for source_id, item in list(mapped.items()):
+        source = accepted_by_id.get(source_id)
+        if not source:
+            continue
+        inside_card = any(overlap(source.get("coord", []), card.get("coord", [])) for card in candidates.get("resultCards", []))
+        hinted_role = str(item.get("semanticRoleCandidate", ""))
+        if inside_card and hinted_role in {"price", "rating", "sales", "location", "fulfillment", "tag"} and not _structured_role_dominates_text(hinted_role, str(source.get("text", ""))):
+            del mapped[source_id]
     for semantic_card in card_semantics.get("cards", []):
         for region in semantic_card.get("regions", []):
             if region.get("status") != "confirmed":
@@ -76,7 +88,7 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
             if not role:
                 continue
             for source_id in region.get("evidenceSourceIds", []):
-                if source_id in text_ids and source_id not in mapped:
+                if source_id in text_ids:
                     source_role = role
                     page_hint = all_semantic_candidates.get(source_id, {})
                     hinted_role = page_hint.get("semanticRoleCandidate")
@@ -122,13 +134,22 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
         if not any(item.get("id") in mapped for item in local_text) and not partial_allowed:
             errors.append(f"{card_id}:no_confirmed_semantic_anchor")
     facts_by_id = {item.get("id"): item for item in accepted}
-    semantic_items = [{"sourceId": source_id, "text": str(facts_by_id.get(source_id, {}).get("text", item.get("text", ""))), "role": str(item.get("semanticRoleCandidate", "other"))} for source_id, item in mapped.items()]
+    semantic_items = [{
+        "sourceId": source_id,
+        "text": str(facts_by_id.get(source_id, {}).get("text", item.get("text", ""))),
+        "role": str(item.get("semanticRoleCandidate", "other")),
+        "region": str(item.get("regionCandidate", "")),
+    } for source_id, item in mapped.items()]
     roles_by_card: dict[str, set[str]] = {}
+    semantic_items_by_card: dict[str, list[dict[str, str]]] = {}
     for card in cards:
         card_id, bounds = str(card.get("id", "")), card.get("coord", [])
-        roles_by_card[card_id] = {item["role"] for item in semantic_items if item["sourceId"] in facts_by_id and isinstance(bounds, list) and len(bounds) == 4 and overlap(facts_by_id[item["sourceId"]]["coord"], bounds)}
+        owned_items = [item for item in semantic_items if item["sourceId"] in facts_by_id and isinstance(bounds, list) and len(bounds) == 4 and overlap(facts_by_id[item["sourceId"]]["coord"], bounds)]
+        semantic_items_by_card[card_id] = owned_items
+        roles_by_card[card_id] = {item["role"] for item in owned_items}
     hook_findings = run_hooks({"semanticItems": semantic_items, "factsById": facts_by_id, "acceptedText": accepted,
-                               "rolesByCard": roles_by_card, "cards": cards, "cardSemantics": semantics})
+                               "rolesByCard": roles_by_card, "semanticItemsByCard": semantic_items_by_card,
+                               "cards": cards, "cardSemantics": semantics})
     errors.extend(f"semantic_hook:{item['hook']}:{item['sourceId']}:{item['reason']}" for item in hook_findings)
     role_by_source = {item["sourceId"]: item["role"] for item in semantic_items}
     reprocess_targets = [

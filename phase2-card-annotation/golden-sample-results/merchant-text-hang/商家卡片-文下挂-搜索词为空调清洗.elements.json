@@ -1,8 +1,7 @@
 {
-  "contractVersion": "phase2.merchant-text-hang-elements.v1",
+  "contractVersion": "phase2.golden-structural-truth.v2",
   "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗.png",
   "pageStructure": {
-    "source": "cv_local_crop",
     "components": [
       {
         "order": 1,
@@ -24,17 +23,16 @@
         "components": [
           {
             "componentType": "result_card",
-            "name": "商卡1-文字下挂",
             "listPosition": 1,
-            "cardType": "商家卡片-文字下挂",
+            "cardType": "商家卡片_文字下挂",
             "coord": [
               0,
               1037,
               1224,
               317
             ],
+            "visibleStatus": "complete",
             "status": "confirmed",
-            "cropped": false,
             "regions": {
               "头图区": {
                 "elements": [
@@ -44,12 +42,34 @@
                     "coord": [
                       32,
                       1037,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
@@ -59,208 +79,251 @@
                     "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      215,
-                      1031,
-                      92,
-                      62
+                      234,
+                      1039,
+                      74,
+                      41
                     ],
                     "visibleText": "上门",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          234,
+                          1039,
+                          74,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "上门",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "yellow"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "yellow",
+                      "backgroundColor": "#FFE327",
+                      "textColor": "#9F9116",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|yellow|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   },
                   {
                     "elementType": "商家标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      311,
-                      1031,
-                      889,
-                      62
+                      323,
+                      1037,
+                      542,
+                      47
                     ],
-                    "visibleText": "空调维修移机北京老班长",
+                    "visibleText": "北京老班长空调维修移机",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          323,
+                          1037,
+                          542,
+                          47
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "北京老班长空调维修移机",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "评价条数",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      1095,
-                      269,
-                      64
+                      398,
+                      1108,
+                      93,
+                      41
                     ],
                     "visibleText": "23条",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "标签区": {
-                "elements": []
-              },
-              "AI推荐理由区": {
-                "elements": [
-                  {
-                    "elementType": "AI推荐理由",
-                    "sourceRegion": "AI推荐理由区",
-                    "coord": [
-                      215,
-                      1221,
-                      985,
-                      58
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          398,
+                          1108,
+                          93,
+                          41
+                        ]
+                      }
                     ],
-                    "visibleText": "好评维修很专业，",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "文字下挂区": {
-                "items": [
-                  {
-                    "itemIndex": 1,
-                    "coord": [
-                      215,
-                      1279,
-                      985,
-                      54
-                    ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        1279,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        1279,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "23条",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        1279,
-                        609,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        1279,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4A4A4A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
                     }
                   },
                   {
-                    "itemIndex": 2,
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      1349,
-                      985,
-                      54
+                      497,
+                      1109,
+                      163,
+                      42
                     ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        1349,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
+                    "visibleText": "家电维修",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          497,
+                          1109,
+                          163,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        1349,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
+                    "textFacts": {
+                      "rawText": "家电维修",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        1349,
-                        609,
-                        54
-                      ],
-                      "visibleText": "速修专业空调维修移机",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        1349,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#595959",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
                     }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商卡2-文字下挂",
             "listPosition": 2,
-            "cardType": "商家卡片-文字下挂",
+            "cardType": "商家卡片_文字下挂",
             "coord": [
               0,
               1354,
               1224,
               475
             ],
+            "visibleStatus": "complete",
             "status": "confirmed",
-            "cropped": false,
             "regions": {
               "头图区": {
                 "elements": [
@@ -270,12 +333,34 @@
                     "coord": [
                       32,
                       1354,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
@@ -285,235 +370,139 @@
                     "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      215,
-                      1348,
-                      92,
-                      62
+                      232,
+                      1354,
+                      79,
+                      46
                     ],
                     "visibleText": "上门",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          232,
+                          1354,
+                          79,
+                          46
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "上门",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "yellow"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "yellow",
+                      "backgroundColor": "#FFE644",
+                      "textColor": "#FCDE17",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|yellow|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   },
                   {
                     "elementType": "商家标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      311,
-                      1348,
-                      889,
-                      62
+                      322,
+                      1354,
+                      578,
+                      48
                     ],
                     "visibleText": "同城速修专业空调维修移机",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "商家信息区": {
-                "elements": [
-                  {
-                    "elementType": "评分/新店",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      215,
-                      1412,
-                      328,
-                      64
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          322,
+                          1354,
+                          578,
+                          48
+                        ]
+                      }
                     ],
-                    "visibleText": "4.5分",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "评价条数",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      872,
-                      1412,
-                      328,
-                      64
-                    ],
-                    "visibleText": "195条",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "标签区": {
-                "elements": [
-                  {
-                    "elementType": "标签",
-                    "sourceRegion": "标签区",
-                    "coord": [
-                      215,
-                      1476,
-                      985,
-                      62
-                    ],
-                    "visibleText": "神券立减5近期100+人好评",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "AI推荐理由区": {
-                "elements": [
-                  {
-                    "elementType": "AI推荐理由",
-                    "sourceRegion": "AI推荐理由区",
-                    "coord": [
-                      215,
-                      1538,
-                      985,
-                      58
-                    ],
-                    "visibleText": "非常专业，维修技术好",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "文字下挂区": {
-                "items": [
-                  {
-                    "itemIndex": 1,
-                    "coord": [
-                      215,
-                      1596,
-                      985,
-                      54
-                    ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        1596,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        1596,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "同城速修专业空调维修移机",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        1596,
-                        609,
-                        54
-                      ],
-                      "visibleText": "机洗深产专生",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        1596,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    }
-                  },
-                  {
-                    "itemIndex": 2,
-                    "coord": [
-                      215,
-                      1666,
-                      985,
-                      54
-                    ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        1666,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        1666,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        1666,
-                        609,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        1666,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
                     }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商卡3-文字下挂",
             "listPosition": 3,
-            "cardType": "商家卡片-文字下挂",
+            "cardType": "商家卡片_文字下挂",
             "coord": [
               0,
               1829,
               1224,
               475
             ],
+            "visibleStatus": "complete",
             "status": "confirmed",
-            "cropped": false,
             "regions": {
               "头图区": {
                 "elements": [
@@ -523,12 +512,34 @@
                     "coord": [
                       32,
                       1829,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
@@ -538,235 +549,262 @@
                     "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      215,
-                      1823,
-                      92,
-                      62
+                      234,
+                      1831,
+                      75,
+                      42
                     ],
                     "visibleText": "上门",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          234,
+                          1831,
+                          75,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "上门",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "yellow"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "yellow",
+                      "backgroundColor": "#FFE329",
+                      "textColor": "#A39613",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|yellow|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   },
                   {
                     "elementType": "商家标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      311,
-                      1823,
-                      889,
-                      62
+                      322,
+                      1829,
+                      591,
+                      47
                     ],
-                    "visibleText": "家电清洗维修北京美的服务",
+                    "visibleText": "美的服务家电清洗维修北京",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          322,
+                          1829,
+                          591,
+                          47
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "美的服务家电清洗维修北京",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "评分/新店",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      1887,
-                      328,
-                      64
+                      333,
+                      1899,
+                      288,
+                      44
                     ],
-                    "visibleText": "3.9分",
+                    "visibleText": "382条家电维修",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "评价条数",
-                    "sourceRegion": "商家信息区",
-                    "coord": [
-                      872,
-                      1887,
-                      328,
-                      64
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          333,
+                          1899,
+                          288,
+                          44
+                        ]
+                      }
                     ],
-                    "visibleText": "382条",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "382条家电维修",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#535353",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标签区": {
                 "elements": [
                   {
-                    "elementType": "标签",
+                    "elementType": "商家标签",
                     "sourceRegion": "标签区",
                     "coord": [
-                      215,
-                      1951,
-                      985,
-                      62
+                      413,
+                      2032,
+                      221,
+                      37
                     ],
-                    "visibleText": "神券立减5家电清洗近期好评率96%",
+                    "visibleText": "服务高标准！",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "AI推荐理由区": {
-                "elements": [
-                  {
-                    "elementType": "AI推荐理由",
-                    "sourceRegion": "AI推荐理由区",
-                    "coord": [
-                      215,
-                      2013,
-                      985,
-                      58
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          413,
+                          2032,
+                          221,
+                          37
+                        ]
+                      }
                     ],
-                    "visibleText": "速度赞，服务高标准！",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "文字下挂区": {
-                "items": [
-                  {
-                    "itemIndex": 1,
-                    "coord": [
-                      215,
-                      2071,
-                      985,
-                      54
-                    ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        2071,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        2071,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "服务高标准！",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        2071,
-                        609,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        2071,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    }
-                  },
-                  {
-                    "itemIndex": 2,
-                    "coord": [
-                      215,
-                      2141,
-                      985,
-                      54
-                    ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        2141,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        2141,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        2141,
-                        609,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        2141,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#916A45",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|orange|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商卡4-文字下挂",
             "listPosition": 4,
-            "cardType": "商家卡片-文字下挂",
+            "cardType": "商家卡片_文字下挂",
             "coord": [
               0,
               2304,
               1224,
               396
             ],
+            "visibleStatus": "naturally_cropped",
             "status": "confirmed",
-            "cropped": true,
             "regions": {
               "头图区": {
                 "elements": [
@@ -776,12 +814,34 @@
                     "coord": [
                       32,
                       2304,
-                      163,
-                      163
+                      247,
+                      247
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": true,
+                      "isSystemUi": false
+                    },
+                    "visual": {
+                      "entityKind": "image",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "unknown",
+                      "backgroundColor": "",
+                      "textColor": "",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "image|unknown|photo|头图区|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+                    }
                   }
                 ]
               },
@@ -791,207 +851,546 @@
                     "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      215,
-                      2298,
-                      92,
-                      62
+                      235,
+                      2306,
+                      73,
+                      40
                     ],
                     "visibleText": "上门",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          235,
+                          2306,
+                          73,
+                          40
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "上门",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "yellow"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "yellow",
+                      "backgroundColor": "#FFE225",
+                      "textColor": "#A6981F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|yellow|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   },
                   {
                     "elementType": "商家标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      311,
-                      2298,
-                      889,
-                      62
+                      326,
+                      2304,
+                      599,
+                      46
                     ],
-                    "visibleText": "北京自如家服家政保洁清洗",
+                    "visibleText": "自如家服家政保洁清洗北京",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          326,
+                          2304,
+                          599,
+                          46
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "自如家服家政保洁清洗北京",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "商家信息区": {
                 "elements": [
                   {
-                    "elementType": "评分/新店",
+                    "elementType": "商家基础信息",
                     "sourceRegion": "商家信息区",
                     "coord": [
-                      215,
-                      2362,
-                      303,
-                      64
+                      333,
+                      2375,
+                      144,
+                      39
                     ],
-                    "visibleText": "4.4分",
+                    "visibleText": "2.1万条",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          333,
+                          2375,
+                          144,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.1万条",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#555555",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商家基础信息",
+                    "sourceRegion": "商家信息区",
+                    "coord": [
+                      461,
+                      2376,
+                      186,
+                      39
+                    ],
+                    "visibleText": "保洁清洗",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          461,
+                          2376,
+                          186,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "商家信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "保洁清洗",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "商家信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标签区": {
                 "elements": [
                   {
-                    "elementType": "标签",
+                    "elementType": "商家标签",
                     "sourceRegion": "标签区",
                     "coord": [
-                      215,
-                      2426,
-                      985,
-                      62
+                      693,
+                      2441,
+                      310,
+                      38
                     ],
-                    "visibleText": "神券最高膨至40北京保洁清洗好评榜第4名",
+                    "visibleText": "神券最高膨至40",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "AI推荐理由区": {
-                "elements": [
-                  {
-                    "elementType": "AI推荐理由",
-                    "sourceRegion": "AI推荐理由区",
-                    "coord": [
-                      215,
-                      2488,
-                      985,
-                      58
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          693,
+                          2441,
+                          310,
+                          38
+                        ]
+                      }
                     ],
-                    "visibleText": "空调清洗】1台挂机深层拆洗￥573.4折年售8000+",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "文字下挂区": {
-                "items": [
-                  {
-                    "itemIndex": 1,
-                    "coord": [
-                      215,
-                      2546,
-                      985,
-                      54
-                    ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        2546,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        2546,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "神券最高膨至40",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        2546,
-                        609,
-                        54
-                      ],
-                      "visibleText": "法G",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
-                    },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        2546,
-                        156,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF3262",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|red|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   },
                   {
-                    "itemIndex": 2,
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
                     "coord": [
-                      215,
-                      2616,
-                      985,
-                      54
+                      313,
+                      2520,
+                      89,
+                      38
                     ],
-                    "price": {
-                      "elementType": "下挂商品价格",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        215,
-                        2616,
-                        100,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "legacy_ocr_rejected_by_text_hygiene"
+                    "visibleText": "3.4折",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          313,
+                          2520,
+                          89,
+                          38
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "discount": {
-                      "elementType": "下挂价格折扣标签",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        317,
-                        2616,
-                        110,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "3.4折",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
                     },
-                    "name": {
-                      "elementType": "下挂商品名",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        429,
-                        2616,
-                        609,
-                        54
-                      ],
-                      "visibleText": "",
-                      "status": "uncertain",
-                      "source": "local_crop_ocr"
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFF1F0",
+                      "textColor": "#FF331F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|red|券标|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "券标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      436,
+                      2520,
+                      347,
+                      41
+                    ],
+                    "visibleText": "【空调清洗】1台挂机",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          436,
+                          2520,
+                          520,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
                     },
-                    "sales": {
-                      "elementType": "下挂商品销量",
-                      "sourceRegion": "文字下挂区",
-                      "coord": [
-                        1044,
-                        2616,
-                        156,
-                        54
-                      ],
-                      "visibleText": "2009",
-                      "status": "confirmed",
-                      "source": "local_crop_ocr"
+                    "textFacts": {
+                      "rawText": "【空调清洗】1台挂机",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      817,
+                      2520,
+                      139,
+                      41
+                    ],
+                    "visibleText": "深层拆洗",
+                    "status": "confirmed",
+                    "source": "model_semantic_split_from_pixel_verified_line",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          436,
+                          2520,
+                          520,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "深层拆洗",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#161616",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  },
+                  {
+                    "elementType": "商家标签",
+                    "sourceRegion": "标签区",
+                    "coord": [
+                      1021,
+                      2523,
+                      170,
+                      36
+                    ],
+                    "visibleText": "年售8000+",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1021,
+                          2523,
+                          170,
+                          36
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标签区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "年售8000+",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#777777",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|neutral|业务标签|unknown|无",
+                      "sourceRegion": "标签区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "业务标签",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
                     }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           }
         ]
@@ -1000,5 +1399,49 @@
   },
   "routing": {
     "rule": "文字下挂按服务行分组；uncertain 不表示缺失、问题、不达标、优秀或人工复核。"
+  },
+  "legacyContractVersion": "phase2.merchant-text-hang-elements.v1",
+  "verification": {
+    "status": "pixel_verified",
+    "claimScope": [
+      "element_level_downhang_grouping",
+      "element_level_title",
+      "element_render_facts",
+      "element_text_facts",
+      "element_visual_color_facts",
+      "page_component_order",
+      "result_card_boundary",
+      "result_card_count",
+      "result_card_type",
+      "semantic_atomicity",
+      "visible_crop_state"
+    ],
+    "excludedClaims": [
+      "runtime_ocr_text",
+      "ocr_confidence"
+    ],
+    "reviewedAt": "2026-08-19",
+    "rawScreenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗.png",
+    "rawSha256": "88def2576f7eaa91a22ab11efd93aa5d2c9a57a26abc655e16b79d75ecad40a2",
+    "componentAnnotation": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为空调清洗-标注后.png",
+    "componentAnnotationSha256": "3dbb0584f04fa72a29ac6062602292aed0df4c2d046bfd045ea8a874d77f9385",
+    "elementAnnotations": [
+      {
+        "path": "phase2-card-annotation/golden-samples/merchant-text-hang/element-level/商家卡片-文下挂-搜索词为空调清洗-标注后-2.png",
+        "sha256": "b50dd70cfaaa8238702f72254d18353d395219606ec976cd4c5c3fd8251d7929",
+        "status": "reference_only_not_transcribed"
+      }
+    ],
+    "policy": "Nested elements are preserved. Their source/status fields determine whether they are human-annotated truth or runtime recognition evidence; provenance enrichment must never delete them.",
+    "elementCalibration": {
+      "status": "bounded_paddleocr_and_model_visual_reviewed",
+      "evidence": "phase2-card-annotation/references/golden-contract-evidence/merchant-text-hang--商家卡片-文下挂-搜索词为空调清洗.elements.contract-evidence.json",
+      "policy": "Golden-only calibration; never injected into Phase2 production recognition."
+    },
+    "visualCalibration": {
+      "status": "measured_from_current_element_boxes",
+      "method": "element_crop_border_and_foreground_pixel_median",
+      "photoPolicy": "photos retain geometry and are measured by Phase3 after exclusion masking"
+    }
   }
 }

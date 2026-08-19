@@ -1,0 +1,919 @@
+{
+  "pages": [
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/烧烤.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png",
+      "missingCards": [
+        {
+          "listPosition": 4,
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            2540,
+            1224,
+            160
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "肉串汪(望京店)",
+              "coord": [
+                324,
+                2540,
+                321,
+                52
+              ],
+              "ocrConfidence": 0.9688
+            },
+            {
+              "text": "外卖",
+              "coord": [
+                233,
+                2546,
+                70,
+                40
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "21分钟",
+              "coord": [
+                1064,
+                2542,
+                132,
+                46
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "W",
+              "coord": [
+                84,
+                2591,
+                58,
+                30
+              ],
+              "ocrConfidence": 0.8332
+            },
+            {
+              "text": "4.8分",
+              "coord": [
+                226,
+                2610,
+                100,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "月售2000+",
+              "coord": [
+                342,
+                2614,
+                187,
+                40
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "起送￥30",
+              "coord": [
+                547,
+                2616,
+                146,
+                39
+              ],
+              "ocrConfidence": 0.9283
+            },
+            {
+              "text": "免配送费",
+              "coord": [
+                709,
+                2613,
+                158,
+                42
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "1.5km",
+              "coord": [
+                1085,
+                2614,
+                110,
+                41
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "WRANGLERBBQ",
+              "coord": [
+                58,
+                2628,
+                109,
+                10
+              ],
+              "ocrConfidence": 0.948
+            },
+            {
+              "text": "肉串汪",
+              "coord": [
+                76,
+                2642,
+                73,
+                16
+              ],
+              "ocrConfidence": 0.9751
+            },
+            {
+              "text": "必う榜",
+              "coord": [
+                228,
+                2680,
+                102,
+                20
+              ],
+              "ocrConfidence": 0.445
+            },
+            {
+              "text": "可党食",
+              "coord": [
+                346,
+                2680,
+                114,
+                20
+              ],
+              "ocrConfidence": 0.7366
+            },
+            {
+              "text": "13位当车",
+              "coord": [
+                501,
+                2681,
+                161,
+                18
+              ],
+              "ocrConfidence": 0.6675
+            },
+            {
+              "text": "占",
+              "coord": [
+                703,
+                2682,
+                74,
+                16
+              ],
+              "ocrConfidence": 0.5932
+            },
+            {
+              "text": "近30天415人复购",
+              "coord": [
+                810,
+                2680,
+                294,
+                20
+              ],
+              "ocrConfidence": 0.7174
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/蜜雪冰城.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png",
+      "missingCards": [
+        {
+          "listPosition": 2,
+          "cardType": "商家卡片_图文下挂",
+          "coord": [
+            0,
+            1947,
+            1224,
+            753
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "相似",
+              "coord": [
+                92,
+                1981,
+                100,
+                55
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "喜欢蜜雪冰城的人也喜欢",
+              "coord": [
+                215,
+                1985,
+                436,
+                48
+              ],
+              "ocrConfidence": 0.998
+            },
+            {
+              "text": "高分店铺",
+              "coord": [
+                666,
+                1989,
+                158,
+                42
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "茶山季（合生汇店）",
+              "coord": [
+                314,
+                2064,
+                374,
+                58
+              ],
+              "ocrConfidence": 0.953
+            },
+            {
+              "text": "到店",
+              "coord": [
+                227,
+                2075,
+                71,
+                40
+              ],
+              "ocrConfidence": 0.9962
+            },
+            {
+              "text": "大米冰淇淋",
+              "coord": [
+                174,
+                2111,
+                16,
+                76
+              ],
+              "ocrConfidence": 0.9218
+            },
+            {
+              "text": "4.5分",
+              "coord": [
+                219,
+                2133,
+                102,
+                45
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "2629条",
+              "coord": [
+                330,
+                2133,
+                138,
+                47
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "人均￥19",
+              "coord": [
+                477,
+                2135,
+                154,
+                46
+              ],
+              "ocrConfidence": 0.8842
+            },
+            {
+              "text": "茶饮果汁",
+              "coord": [
+                642,
+                2137,
+                160,
+                42
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "九龙山",
+              "coord": [
+                816,
+                2135,
+                122,
+                46
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "12.8km",
+              "coord": [
+                1060,
+                2135,
+                136,
+                44
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "北京奶茶回头客榜第1名",
+              "coord": [
+                217,
+                2197,
+                416,
+                54
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                246,
+                2281,
+                83,
+                34
+              ],
+              "ocrConfidence": 0.9963
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                668,
+                2284,
+                67,
+                27
+              ],
+              "ocrConfidence": 0.998
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                942,
+                2283,
+                66,
+                28
+              ],
+              "ocrConfidence": 0.9971
+            },
+            {
+              "text": "TEAMT",
+              "coord": [
+                274,
+                2309,
+                28,
+                7
+              ],
+              "ocrConfidence": 0.9615
+            },
+            {
+              "text": "冰淇淋六选一",
+              "coord": [
+                689,
+                2318,
+                207,
+                32
+              ],
+              "ocrConfidence": 0.9935
+            },
+            {
+              "text": "抹茶奶茶+冰淇淋",
+              "coord": [
+                972,
+                2314,
+                192,
+                28
+              ],
+              "ocrConfidence": 0.9982
+            },
+            {
+              "text": "茶山季必喝四选一",
+              "coord": [
+                306,
+                2329,
+                256,
+                30
+              ],
+              "ocrConfidence": 0.9972
+            },
+            {
+              "text": "蜂素荣莉冰刮菜",
+              "coord": [
+                752,
+                2353,
+                12,
+                58
+              ],
+              "ocrConfidence": 0.4194
+            },
+            {
+              "text": "草海法淇滩",
+              "coord": [
+                866,
+                2361,
+                10,
+                42
+              ],
+              "ocrConfidence": 0.4102
+            },
+            {
+              "text": "红透半边天",
+              "coord": [
+                290,
+                2395,
+                18,
+                87
+              ],
+              "ocrConfidence": 0.9975
+            },
+            {
+              "text": "袜茶冰淇淋",
+              "coord": [
+                690,
+                2410,
+                9,
+                38
+              ],
+              "ocrConfidence": 0.4875
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                1052,
+                2432,
+                45,
+                18
+              ],
+              "ocrConfidence": 0.9962
+            },
+            {
+              "text": "山桂旅洪",
+              "coord": [
+                890,
+                2445,
+                9,
+                36
+              ],
+              "ocrConfidence": 0.4145
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                344,
+                2451,
+                55,
+                22
+              ],
+              "ocrConfidence": 0.9984
+            },
+            {
+              "text": "TIXMI",
+              "coord": [
+                363,
+                2471,
+                16,
+                4
+              ],
+              "ocrConfidence": 0.4885
+            },
+            {
+              "text": "真精欢线冰断",
+              "coord": [
+                840,
+                2491,
+                7,
+                41
+              ],
+              "ocrConfidence": 0.3042
+            },
+            {
+              "text": "大米冰淇淋",
+              "coord": [
+                710,
+                2496,
+                9,
+                42
+              ],
+              "ocrConfidence": 0.8764
+            },
+            {
+              "text": "斯里兰卡奶茶",
+              "coord": [
+                547,
+                2531,
+                18,
+                106
+              ],
+              "ocrConfidence": 0.9945
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                457,
+                2567,
+                58,
+                24
+              ],
+              "ocrConfidence": 0.9962
+            },
+            {
+              "text": "【手作冰淇",
+              "coord": [
+                683,
+                2569,
+                175,
+                44
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "【抹茶奶茶",
+              "coord": [
+                960,
+                2570,
+                174,
+                42
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "【茶山季必喝】",
+              "coord": [
+                256,
+                2609,
+                232,
+                43
+              ],
+              "ocrConfidence": 0.991
+            },
+            {
+              "text": "四",
+              "coord": [
+                505,
+                2612,
+                39,
+                36
+              ],
+              "ocrConfidence": 1.0
+            },
+            {
+              "text": "16",
+              "coord": [
+                582,
+                2613,
+                50,
+                42
+              ],
+              "ocrConfidence": 1.0
+            },
+            {
+              "text": "￥",
+              "coord": [
+                564,
+                2623,
+                20,
+                28
+              ],
+              "ocrConfidence": 0.6515
+            },
+            {
+              "text": "10.8",
+              "coord": [
+                675,
+                2627,
+                88,
+                49
+              ],
+              "ocrConfidence": 0.9983
+            },
+            {
+              "text": "￥24.8",
+              "coord": [
+                936,
+                2629,
+                110,
+                47
+              ],
+              "ocrConfidence": 0.9473
+            },
+            {
+              "text": "￥",
+              "coord": [
+                665,
+                2641,
+                18,
+                26
+              ],
+              "ocrConfidence": 0.6911
+            },
+            {
+              "text": "￥18",
+              "coord": [
+                755,
+                2639,
+                62,
+                32
+              ],
+              "ocrConfidence": 0.8527
+            },
+            {
+              "text": "￥28",
+              "coord": [
+                1038,
+                2638,
+                62,
+                34
+              ],
+              "ocrConfidence": 0.8843
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/product-card/安睡裤.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
+      "missingCards": [
+        {
+          "listPosition": 4,
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2547,
+            1224,
+            153
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "【M-L号】她研社",
+              "coord": [
+                492,
+                2577,
+                352,
+                62
+              ],
+              "ocrConfidence": 0.9961
+            },
+            {
+              "text": "深藏BLUE安睡",
+              "coord": [
+                836,
+                2575,
+                352,
+                64
+              ],
+              "ocrConfidence": 0.9976
+            },
+            {
+              "text": "HERLAS",
+              "coord": [
+                142,
+                2589,
+                35,
+                6
+              ],
+              "ocrConfidence": 0.6833
+            },
+            {
+              "text": "外卖",
+              "coord": [
+                401,
+                2588,
+                72,
+                41
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "她研社·U先试用",
+              "coord": [
+                136,
+                2595,
+                124,
+                18
+              ],
+              "ocrConfidence": 0.9785
+            },
+            {
+              "text": "−",
+              "coord": [
+                831,
+                2605,
+                11,
+                12
+              ],
+              "ocrConfidence": 0.4039
+            },
+            {
+              "text": "3条",
+              "coord": [
+                69,
+                2631,
+                80,
+                52
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "超值尝鲜装",
+              "coord": [
+                160,
+                2627,
+                172,
+                36
+              ],
+              "ocrConfidence": 0.9994
+            },
+            {
+              "text": "裤3条/包",
+              "coord": [
+                393,
+                2649,
+                210,
+                51
+              ],
+              "ocrConfidence": 0.9919
+            },
+            {
+              "text": "深藏BLUE安睡裤M-L码3条",
+              "coord": [
+                162,
+                2667,
+                170,
+                14
+              ],
+              "ocrConfidence": 0.9922
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/product-card/生理盐水.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png",
+      "missingCards": [
+        {
+          "listPosition": 5,
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2562,
+            1224,
+            138
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "生理盐水清洗液【15支/1支】[妮",
+              "coord": [
+                488,
+                2562,
+                678,
+                56
+              ],
+              "ocrConfidence": 0.9883
+            },
+            {
+              "text": "妮蓓莉",
+              "coord": [
+                38,
+                2568,
+                66,
+                32
+              ],
+              "ocrConfidence": 0.9527
+            },
+            {
+              "text": "外卖",
+              "coord": [
+                402,
+                2570,
+                70,
+                40
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "0.9%",
+              "coord": [
+                42,
+                2612,
+                140,
+                54
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "蓓莉]待测物清洗液(0.9%盐水清洗液)",
+              "coord": [
+                392,
+                2628,
+                794,
+                58
+              ],
+              "ocrConfidence": 0.9879
+            },
+            {
+              "text": "18",
+              "coord": [
+                238,
+                2656,
+                24,
+                16
+              ],
+              "ocrConfidence": 0.2096
+            },
+            {
+              "text": "1",
+              "coord": [
+                258,
+                2658,
+                10,
+                10
+              ],
+              "ocrConfidence": 0.0733
+            },
+            {
+              "text": "生理性盐水",
+              "coord": [
+                43,
+                2667,
+                135,
+                30
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "盐水清洗",
+              "coord": [
+                237,
+                2676,
+                31,
+                8
+              ],
+              "ocrConfidence": 0.8485
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "golden": "phase2-card-annotation/golden-sample-results/product-card/西瓜.elements.json",
+      "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为西瓜.png",
+      "missingCards": [
+        {
+          "listPosition": 4,
+          "cardType": "商品卡片",
+          "coord": [
+            0,
+            2636,
+            1224,
+            64
+          ],
+          "visibleStatus": "naturally_cropped",
+          "backend": "paddleocr",
+          "error": "",
+          "observations": [
+            {
+              "text": "【冰镇西瓜】一牙/半个麒麟瓜约",
+              "coord": [
+                496,
+                2652,
+                658,
+                48
+              ],
+              "ocrConfidence": 0.9881
+            },
+            {
+              "text": "外卖",
+              "coord": [
+                402,
+                2664,
+                70,
+                36
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "时令",
+              "coord": [
+                276,
+                2673,
+                66,
+                27
+              ],
+              "ocrConfidence": 0.9988
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

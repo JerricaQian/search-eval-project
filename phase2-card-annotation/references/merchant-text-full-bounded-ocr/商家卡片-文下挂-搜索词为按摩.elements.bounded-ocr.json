@@ -1,0 +1,762 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为按摩.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为按摩.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        881,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            883,
+            74,
+            43
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "云驰运动康复(望京 SOHO店)",
+          "coord": [
+            407,
+            881,
+            628,
+            50
+          ],
+          "ocrConfidence": 0.971
+        },
+        {
+          "text": "4.2分180条 ¥251/人传统按摩/足疗望京1.5km",
+          "coord": [
+            303,
+            942,
+            893,
+            62
+          ],
+          "ocrConfidence": 0.9664
+        },
+        {
+          "text": "望京康复矫正销量榜第2名休闲区全程无推销",
+          "coord": [
+            307,
+            1014,
+            805,
+            49
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "全身都轻松了，环境舒适",
+          "coord": [
+            353,
+            1081,
+            433,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥160【按摩养生】冲击波/超声按摩仪",
+          "coord": [
+            312,
+            1163,
+            631,
+            41
+          ],
+          "ocrConfidence": 0.9767
+        },
+        {
+          "text": "年售60+",
+          "coord": [
+            1060,
+            1163,
+            133,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥280",
+          "coord": [
+            309,
+            1230,
+            106,
+            48
+          ],
+          "ocrConfidence": 0.917
+        },
+        {
+          "text": "4.7折",
+          "coord": [
+            424,
+            1232,
+            91,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "寒假专训青少年体态脊柱侧",
+          "coord": [
+            543,
+            1233,
+            479,
+            40
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "年售14",
+          "coord": [
+            1078,
+            1234,
+            117,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1356,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1358,
+            74,
+            41
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "北派修脚·采耳·养生(望京SOHO店)",
+          "coord": [
+            406,
+            1356,
+            766,
+            49
+          ],
+          "ocrConfidence": 0.9886
+        },
+        {
+          "text": "北派",
+          "coord": [
+            235,
+            1369,
+            34,
+            20
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "德系护理，",
+          "coord": [
+            38,
+            1366,
+            232,
+            110
+          ],
+          "ocrConfidence": 0.959
+        },
+        {
+          "text": "4.0分",
+          "coord": [
+            309,
+            1424,
+            102,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "482条￥55/人传统按摩/足疗望京",
+          "coord": [
+            419,
+            1425,
+            620,
+            47
+          ],
+          "ocrConfidence": 0.9807
+        },
+        {
+          "text": "1.4km",
+          "coord": [
+            1080,
+            1430,
+            110,
+            35
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "一站解决，",
+          "coord": [
+            107,
+            1445,
+            156,
+            54
+          ],
+          "ocrConfidence": 0.9885
+        },
+        {
+          "text": "不加价",
+          "coord": [
+            190,
+            1497,
+            82,
+            49
+          ],
+          "ocrConfidence": 0.9875
+        },
+        {
+          "text": "神券最高膨至50→望京足部护理销量榜第3名",
+          "coord": [
+            308,
+            1489,
+            777,
+            47
+          ],
+          "ocrConfidence": 0.9828
+        },
+        {
+          "text": "脚部问题",
+          "coord": [
+            44,
+            1496,
+            157,
+            57
+          ],
+          "ocrConfidence": 0.9973
+        },
+        {
+          "text": "朝阳团队",
+          "coord": [
+            118,
+            1569,
+            74,
+            17
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "￥59",
+          "coord": [
+            306,
+            1568,
+            83,
+            50
+          ],
+          "ocrConfidence": 0.9003
+        },
+        {
+          "text": "3.8折",
+          "coord": [
+            400,
+            1570,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【超值套餐】15点前可用|足疗",
+          "coord": [
+            521,
+            1571,
+            505,
+            43
+          ],
+          "ocrConfidence": 0.995
+        },
+        {
+          "text": "年售8",
+          "coord": [
+            1098,
+            1573,
+            97,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥45",
+          "coord": [
+            310,
+            1642,
+            80,
+            45
+          ],
+          "ocrConfidence": 0.8523
+        },
+        {
+          "text": "6.5折",
+          "coord": [
+            400,
+            1641,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【非遗传承】15点前可用|北派",
+          "coord": [
+            523,
+            1643,
+            503,
+            40
+          ],
+          "ocrConfidence": 0.9914
+        },
+        {
+          "text": "年售15",
+          "coord": [
+            1079,
+            1644,
+            115,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1766,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "REJOY",
+          "coord": [
+            122,
+            1774,
+            67,
+            18
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1767,
+            75,
+            43
+          ],
+          "ocrConfidence": 0.9978
+        },
+        {
+          "text": "REJOY柔己·推拿正脊SPA(望京店)",
+          "coord": [
+            404,
+            1766,
+            747,
+            52
+          ],
+          "ocrConfidence": 0.9839
+        },
+        {
+          "text": "柔己精鞋推草",
+          "coord": [
+            122,
+            1789,
+            66,
+            14
+          ],
+          "ocrConfidence": 0.6826
+        },
+        {
+          "text": "精准",
+          "coord": [
+            146,
+            1822,
+            95,
+            56
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "4.7分1874条¥117/人传统按摩/足疗",
+          "coord": [
+            304,
+            1828,
+            674,
+            57
+          ],
+          "ocrConfidence": 0.9792
+        },
+        {
+          "text": "1.8km",
+          "coord": [
+            1083,
+            1839,
+            110,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "按摩",
+          "coord": [
+            146,
+            1866,
+            94,
+            52
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "2",
+          "coord": [
+            137,
+            1901,
+            9,
+            7
+          ],
+          "ocrConfidence": 0.0933
+        },
+        {
+          "text": "神券最高膨至50→望京推拿养生销量榜第10名",
+          "coord": [
+            308,
+            1899,
+            799,
+            46
+          ],
+          "ocrConfidence": 0.9824
+        },
+        {
+          "text": "SPA",
+          "coord": [
+            149,
+            1911,
+            91,
+            44
+          ],
+          "ocrConfidence": 0.9964
+        },
+        {
+          "text": "专业按摩，舒服体验",
+          "coord": [
+            355,
+            1967,
+            352,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "我的更准",
+          "coord": [
+            90,
+            1992,
+            34,
+            7
+          ],
+          "ocrConfidence": 0.6824
+        },
+        {
+          "text": "更选，更放松不满原，全免",
+          "coord": [
+            121,
+            1991,
+            114,
+            10
+          ],
+          "ocrConfidence": 0.7816
+        },
+        {
+          "text": "￥108",
+          "coord": [
+            310,
+            2045,
+            98,
+            45
+          ],
+          "ocrConfidence": 0.8694
+        },
+        {
+          "text": "4.4折",
+          "coord": [
+            417,
+            2045,
+            90,
+            41
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【按摩推拿】【按摩】全身推",
+          "coord": [
+            541,
+            2048,
+            426,
+            40
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "年售5000+",
+          "coord": [
+            1020,
+            2049,
+            172,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "￥90",
+          "coord": [
+            310,
+            2116,
+            80,
+            46
+          ],
+          "ocrConfidence": 0.9082
+        },
+        {
+          "text": "4.6折",
+          "coord": [
+            400,
+            2116,
+            89,
+            41
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【推拿按摩】肩颈放松·肩颈",
+          "coord": [
+            522,
+            2117,
+            446,
+            43
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "年售1000+",
+          "coord": [
+            1020,
+            2119,
+            173,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2241,
+        1224,
+        459
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            316,
+            2243,
+            72,
+            40
+          ],
+          "ocrConfidence": 0.9963
+        },
+        {
+          "text": "新印伽·云澜意境SPA·养生足道(望京",
+          "coord": [
+            405,
+            2241,
+            786,
+            48
+          ],
+          "ocrConfidence": 0.9732
+        },
+        {
+          "text": "新印伽云澜",
+          "coord": [
+            114,
+            2297,
+            81,
+            18
+          ],
+          "ocrConfidence": 0.9916
+        },
+        {
+          "text": "3.9分1406条￥184/人传统按摩/足疗",
+          "coord": [
+            304,
+            2302,
+            676,
+            56
+          ],
+          "ocrConfidence": 0.9828
+        },
+        {
+          "text": "1.3km",
+          "coord": [
+            1084,
+            2314,
+            107,
+            37
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "勇敢尝试",
+          "coord": [
+            65,
+            2335,
+            180,
+            47
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "神券立减36泰式手法",
+          "coord": [
+            308,
+            2372,
+            382,
+            48
+          ],
+          "ocrConfidence": 0.9932
+        },
+        {
+          "text": "才有惊XI",
+          "coord": [
+            101,
+            2399,
+            107,
+            25
+          ],
+          "ocrConfidence": 0.9316
+        },
+        {
+          "text": "技师手法到位，力度合适",
+          "coord": [
+            353,
+            2441,
+            431,
+            44
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥98",
+          "coord": [
+            310,
+            2521,
+            80,
+            43
+          ],
+          "ocrConfidence": 0.9318
+        },
+        {
+          "text": "4.5折",
+          "coord": [
+            398,
+            2522,
+            89,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "「中式按摩养生放松·全身",
+          "coord": [
+            519,
+            2522,
+            446,
+            41
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "年售400+",
+          "coord": [
+            1041,
+            2525,
+            151,
+            36
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥734",
+          "coord": [
+            310,
+            2591,
+            103,
+            45
+          ],
+          "ocrConfidence": 0.9347
+        },
+        {
+          "text": "4.9折",
+          "coord": [
+            423,
+            2591,
+            89,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【足疗】101分钟|专业按摩",
+          "coord": [
+            545,
+            2593,
+            447,
+            41
+          ],
+          "ocrConfidence": 0.9931
+        },
+        {
+          "text": "年售200+",
+          "coord": [
+            1039,
+            2594,
+            154,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    }
+  ]
+}

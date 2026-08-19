@@ -1,8 +1,7 @@
 {
-  "contractVersion": "phase2.product-card-elements.v1",
+  "contractVersion": "phase2.golden-structural-truth.v2",
   "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
   "pageStructure": {
-    "source": "gold_component_annotation",
     "components": [
       {
         "order": 1,
@@ -22,7 +21,38 @@
             ],
             "visibleText": "安睡裤",
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "搜索框",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "安睡裤",
+              "textStatus": "complete",
+              "semanticRole": "other",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F1F1F2",
+              "textColor": "#000000",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|other|unknown|无",
+              "sourceRegion": "搜索框",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           }
         ]
       },
@@ -52,7 +82,38 @@
             "visibleText": "品牌",
             "status": "confirmed",
             "source": "gold_component_annotation",
-            "selected": true
+            "selected": true,
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "品牌",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#111111",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|filter|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "图筛Tab",
@@ -66,7 +127,38 @@
             "visibleText": "类型",
             "status": "confirmed",
             "source": "gold_component_annotation",
-            "selected": false
+            "selected": false,
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "类型",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "text",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#FFFFFF",
+              "textColor": "#888888",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "text|neutral|filter|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+            }
           },
           {
             "elementType": "图筛项",
@@ -89,7 +181,29 @@
               ],
               "visibleText": "",
               "status": "confirmed",
-              "source": "cv_photo"
+              "source": "cv_photo",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": true,
+                "isSystemUi": false
+              },
+              "visual": {
+                "entityKind": "image",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "unknown",
+                "backgroundColor": "",
+                "textColor": "",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "image|unknown|photo|图筛|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+              }
             },
             "text": {
               "elementType": "图筛文本",
@@ -102,10 +216,80 @@
               ],
               "visibleText": "自由点",
               "status": "confirmed",
-              "source": "gold_component_annotation"
+              "source": "gold_component_annotation",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": false,
+                "isSystemUi": true
+              },
+              "textFacts": {
+                "rawText": "自由点",
+                "textStatus": "complete",
+                "semanticRole": "filter",
+                "emphasisLevel": "secondary",
+                "fontSizeBucket": "large",
+                "fontWeightBucket": "unknown",
+                "textColorRole": "neutral"
+              },
+              "visual": {
+                "entityKind": "text",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "neutral",
+                "backgroundColor": "#F7F7F7",
+                "textColor": "#232323",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "text|neutral|filter|unknown|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+              }
             },
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "visibleText": "",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "multicolor"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": true,
+              "isShaped": false,
+              "colorRole": "multicolor",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#C0AE8E",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|multicolor|筛选项|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "筛选项",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           },
           {
             "elementType": "图筛项",
@@ -128,7 +312,29 @@
               ],
               "visibleText": "",
               "status": "confirmed",
-              "source": "cv_photo"
+              "source": "cv_photo",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": true,
+                "isSystemUi": false
+              },
+              "visual": {
+                "entityKind": "image",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "unknown",
+                "backgroundColor": "",
+                "textColor": "",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "image|unknown|photo|图筛|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+              }
             },
             "text": {
               "elementType": "图筛文本",
@@ -141,10 +347,80 @@
               ],
               "visibleText": "苏菲",
               "status": "confirmed",
-              "source": "gold_component_annotation"
+              "source": "gold_component_annotation",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": false,
+                "isSystemUi": true
+              },
+              "textFacts": {
+                "rawText": "苏菲",
+                "textStatus": "complete",
+                "semanticRole": "filter",
+                "emphasisLevel": "secondary",
+                "fontSizeBucket": "large",
+                "fontWeightBucket": "unknown",
+                "textColorRole": "neutral"
+              },
+              "visual": {
+                "entityKind": "text",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "neutral",
+                "backgroundColor": "#FFFFFF",
+                "textColor": "#303030",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "text|neutral|filter|unknown|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+              }
             },
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "visibleText": "",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#735C76",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|neutral|筛选项|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "筛选项",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           },
           {
             "elementType": "图筛项",
@@ -167,7 +443,29 @@
               ],
               "visibleText": "",
               "status": "confirmed",
-              "source": "cv_photo"
+              "source": "cv_photo",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": true,
+                "isSystemUi": false
+              },
+              "visual": {
+                "entityKind": "image",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "unknown",
+                "backgroundColor": "",
+                "textColor": "",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "image|unknown|photo|图筛|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+              }
             },
             "text": {
               "elementType": "图筛文本",
@@ -180,10 +478,80 @@
               ],
               "visibleText": "护舒宝",
               "status": "confirmed",
-              "source": "gold_component_annotation"
+              "source": "gold_component_annotation",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": false,
+                "isSystemUi": true
+              },
+              "textFacts": {
+                "rawText": "护舒宝",
+                "textStatus": "complete",
+                "semanticRole": "filter",
+                "emphasisLevel": "secondary",
+                "fontSizeBucket": "large",
+                "fontWeightBucket": "unknown",
+                "textColorRole": "neutral"
+              },
+              "visual": {
+                "entityKind": "text",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "neutral",
+                "backgroundColor": "#F7F7F7",
+                "textColor": "#1A1A1A",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "text|neutral|filter|unknown|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+              }
             },
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "visibleText": "",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#867689",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|neutral|筛选项|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "筛选项",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           },
           {
             "elementType": "图筛项",
@@ -206,7 +574,29 @@
               ],
               "visibleText": "",
               "status": "confirmed",
-              "source": "cv_photo"
+              "source": "cv_photo",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": true,
+                "isSystemUi": false
+              },
+              "visual": {
+                "entityKind": "image",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "unknown",
+                "backgroundColor": "",
+                "textColor": "",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "image|unknown|photo|图筛|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+              }
             },
             "text": {
               "elementType": "图筛文本",
@@ -219,10 +609,80 @@
               ],
               "visibleText": "高洁丝",
               "status": "confirmed",
-              "source": "gold_component_annotation"
+              "source": "gold_component_annotation",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": false,
+                "isSystemUi": true
+              },
+              "textFacts": {
+                "rawText": "高洁丝",
+                "textStatus": "complete",
+                "semanticRole": "filter",
+                "emphasisLevel": "secondary",
+                "fontSizeBucket": "large",
+                "fontWeightBucket": "unknown",
+                "textColorRole": "neutral"
+              },
+              "visual": {
+                "entityKind": "text",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "neutral",
+                "backgroundColor": "#FBFBFB",
+                "textColor": "#2A2A2A",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "text|neutral|filter|unknown|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+              }
             },
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "visibleText": "",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "blue"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": true,
+              "isShaped": false,
+              "colorRole": "blue",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#2A3E4E",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|blue|筛选项|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "筛选项",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           },
           {
             "elementType": "图筛项",
@@ -245,7 +705,29 @@
               ],
               "visibleText": "",
               "status": "confirmed",
-              "source": "cv_photo"
+              "source": "cv_photo",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": true,
+                "isSystemUi": false
+              },
+              "visual": {
+                "entityKind": "image",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "unknown",
+                "backgroundColor": "",
+                "textColor": "",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "image|unknown|photo|图筛|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+              }
             },
             "text": {
               "elementType": "图筛文本",
@@ -258,10 +740,80 @@
               ],
               "visibleText": "七度空间",
               "status": "confirmed",
-              "source": "gold_component_annotation"
+              "source": "gold_component_annotation",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": false,
+                "isSystemUi": true
+              },
+              "textFacts": {
+                "rawText": "七度空间",
+                "textStatus": "complete",
+                "semanticRole": "filter",
+                "emphasisLevel": "secondary",
+                "fontSizeBucket": "large",
+                "fontWeightBucket": "unknown",
+                "textColorRole": "neutral"
+              },
+              "visual": {
+                "entityKind": "text",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "neutral",
+                "backgroundColor": "#F7F7F7",
+                "textColor": "#111111",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "text|neutral|filter|unknown|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+              }
             },
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "visibleText": "",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F6F6",
+              "textColor": "#8B7A9B",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|neutral|筛选项|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "筛选项",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           },
           {
             "elementType": "图筛项",
@@ -284,7 +836,29 @@
               ],
               "visibleText": "",
               "status": "confirmed",
-              "source": "cv_photo"
+              "source": "cv_photo",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": true,
+                "isSystemUi": false
+              },
+              "visual": {
+                "entityKind": "image",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "unknown",
+                "backgroundColor": "",
+                "textColor": "",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "image|unknown|photo|图筛|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "photo_excluded_phase3_pixel_measurement_required"
+              }
             },
             "text": {
               "elementType": "图筛文本",
@@ -297,10 +871,80 @@
               ],
               "visibleText": "花王",
               "status": "confirmed",
-              "source": "gold_component_annotation"
+              "source": "gold_component_annotation",
+              "render": {
+                "visibleStatus": "confirmed",
+                "renderState": "normal",
+                "sourceRegion": "图筛",
+                "isPhoto": false,
+                "isSystemUi": true
+              },
+              "textFacts": {
+                "rawText": "花王",
+                "textStatus": "complete",
+                "semanticRole": "filter",
+                "emphasisLevel": "secondary",
+                "fontSizeBucket": "large",
+                "fontWeightBucket": "unknown",
+                "textColorRole": "neutral"
+              },
+              "visual": {
+                "entityKind": "text",
+                "visualStatus": "confirmed",
+                "isColored": false,
+                "isShaped": false,
+                "colorRole": "neutral",
+                "backgroundColor": "#FFFFFF",
+                "textColor": "#111111",
+                "borderColor": "",
+                "hasGraphicAssist": false,
+                "graphicType": "无",
+                "styleKey": "text|neutral|filter|unknown|无",
+                "sourceRegion": "图筛",
+                "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+              }
             },
             "status": "confirmed",
-            "source": "gold_component_annotation"
+            "source": "gold_component_annotation",
+            "visibleText": "",
+            "render": {
+              "visibleStatus": "confirmed",
+              "renderState": "normal",
+              "sourceRegion": "图筛",
+              "isPhoto": false,
+              "isSystemUi": true
+            },
+            "textFacts": {
+              "rawText": "",
+              "textStatus": "complete",
+              "semanticRole": "filter",
+              "emphasisLevel": "secondary",
+              "fontSizeBucket": "large",
+              "fontWeightBucket": "unknown",
+              "textColorRole": "neutral"
+            },
+            "visual": {
+              "entityKind": "tag",
+              "visualStatus": "confirmed",
+              "isColored": false,
+              "isShaped": false,
+              "colorRole": "neutral",
+              "backgroundColor": "#F7F7F7",
+              "textColor": "#AA9CAC",
+              "borderColor": "",
+              "hasGraphicAssist": false,
+              "graphicType": "无",
+              "styleKey": "tag|neutral|筛选项|unknown|无",
+              "sourceRegion": "图筛",
+              "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+              "semanticRole": "筛选项",
+              "containerShape": "unknown",
+              "graphicAssistRole": "无",
+              "countedInComplexity": true,
+              "countDecision": "独立元素框及当前截图像素确认",
+              "dedupDecision": "未与其他可见实体合并",
+              "dedupWithElementIds": []
+            }
           }
         ]
       },
@@ -320,17 +964,16 @@
         "components": [
           {
             "componentType": "result_card",
-            "name": "商品卡1",
             "listPosition": 1,
-            "cropped": false,
-            "status": "confirmed",
             "cardType": "商品卡片",
             "coord": [
               0,
               952,
               1224,
-              502
+              477
             ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
             "regions": {
               "头图区": {
                 "elements": [
@@ -345,183 +988,632 @@
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "cv_photo",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#3B3B6F",
+                      "textColor": "#6F5C8C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|blue|other|unknown|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标题区": {
                 "elements": [
                   {
-                    "elementType": "履约标签",
-                    "sourceRegion": "标题区",
-                    "coord": [
-                      388,
-                      952,
-                      92,
-                      62
-                    ],
-                    "visibleText": "外卖",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
                     "elementType": "商品标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      388,
-                      952,
-                      812,
-                      132
+                      397,
+                      954,
+                      784,
+                      117
                     ],
-                    "visibleText": "【L号】苏菲超熟睡安心裤5片/包裤型卫生巾",
+                    "visibleText": "【L号】苏菲 超熟睡安心裤5片/包 超薄裤型卫生巾",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "model_pixel_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          733,
+                          954,
+                          448,
+                          50
+                        ]
+                      },
+                      {
+                        "coord": [
+                          496,
+                          955,
+                          232,
+                          52
+                        ]
+                      },
+                      {
+                        "coord": [
+                          397,
+                          1024,
+                          332,
+                          47
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "【L号】苏菲 超熟睡安心裤5片/包 超薄裤型卫生巾",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      402,
+                      962,
+                      70,
+                      39
+                    ],
+                    "visibleText": "外卖",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          402,
+                          962,
+                          70,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE32B",
+                      "textColor": "#807517",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   }
                 ]
               },
-              "副标题区": {
-                "elements": []
-              },
-              "价格区": {
+              "基础信息区": {
                 "elements": [
                   {
-                    "elementType": "商品价格",
-                    "sourceRegion": "价格区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      388,
-                      1154,
-                      107,
-                      100
+                      385,
+                      1120,
+                      558,
+                      68
                     ],
-                    "visibleText": "￥10.9",
+                    "visibleText": "￥10.9神价/每片¥2.18月售46",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          385,
+                          1120,
+                          558,
+                          68
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "￥10.9神价/每片¥2.18月售46",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF5549",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "商品价格",
-                    "sourceRegion": "价格区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      602,
-                      1154,
-                      107,
-                      100
-                    ],
-                    "visibleText": "￥2.18",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "价格说明",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      495,
-                      1154,
-                      43,
-                      100
-                    ],
-                    "visibleText": "",
-                    "status": "uncertain",
-                    "source": "legacy_ocr_rejected_by_text_hygiene"
-                  },
-                  {
-                    "elementType": "销量数据",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      709,
-                      1154,
-                      128,
-                      100
-                    ],
-                    "visibleText": "月售4630",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "神券",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      879,
-                      1154,
-                      278,
-                      100
-                    ],
-                    "visibleText": "神券立减545减121.5",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "商家区": {
-                "elements": [
-                  {
-                    "elementType": "起送费",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      388,
-                      1349,
-                      430,
-                      54
-                    ],
-                    "visibleText": "起送￥14.9",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送费",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      388,
-                      1349,
-                      430,
-                      54
-                    ],
-                    "visibleText": "免配送费",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "配送时长",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      1050,
-                      1154,
-                      150,
-                      58
+                      1065,
+                      1137,
+                      129,
+                      46
                     ],
                     "visibleText": "30分钟",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1065,
+                          1137,
+                          129,
+                          46
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "30分钟",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF7700",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "距离",
-                    "sourceRegion": "商家区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      1050,
-                      1214,
-                      150,
-                      58
+                      392,
+                      1198,
+                      190,
+                      44
+                    ],
+                    "visibleText": "神券立减5",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          392,
+                          1198,
+                          190,
+                          44
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "神券立减5",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D6D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      604,
+                      1201,
+                      131,
+                      39
+                    ],
+                    "visibleText": "45減12",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          604,
+                          1201,
+                          131,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "45減12",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D19",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      1083,
+                      1201,
+                      109,
+                      39
                     ],
                     "visibleText": "1.5km",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1083,
+                          1201,
+                          109,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "1.5km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      397,
+                      1266,
+                      422,
+                      41
+                    ],
+                    "visibleText": "品牌熊本便利店(望京店)",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          397,
+                          1266,
+                          422,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "品牌熊本便利店(望京店)",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#7B5555",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      396,
+                      1333,
+                      186,
+                      37
+                    ],
+                    "visibleText": "起送￥14.9",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          396,
+                          1333,
+                          186,
+                          37
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "起送￥14.9",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#808080",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      583,
+                      1333,
+                      161,
+                      37
+                    ],
+                    "visibleText": "免配送费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          583,
+                          1333,
+                          161,
+                          37
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#707070",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商品卡2",
             "listPosition": 2,
-            "cropped": false,
-            "status": "confirmed",
             "cardType": "商品卡片",
             "coord": [
               0,
               1454,
               1224,
-              563
+              532
             ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
             "regions": {
               "头图区": {
                 "elements": [
@@ -536,210 +1628,570 @@
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "cv_photo",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#A193BA",
+                      "textColor": "#9D95A0",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
               "标题区": {
                 "elements": [
                   {
-                    "elementType": "履约标签",
-                    "sourceRegion": "标题区",
-                    "coord": [
-                      388,
-                      1454,
-                      92,
-                      62
-                    ],
-                    "visibleText": "外卖",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
                     "elementType": "商品标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      388,
-                      1454,
-                      812,
-                      132
+                      392,
+                      1459,
+                      758,
+                      116
                     ],
-                    "visibleText": "她研社春眠小裤安睡裤M-L码/马3条",
+                    "visibleText": "她研社春眠小裤安睡裤M-L码/XL码3条",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          493,
+                          1459,
+                          657,
+                          46
+                        ]
+                      },
+                      {
+                        "coord": [
+                          392,
+                          1524,
+                          212,
+                          51
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "她研社春眠小裤安睡裤M-L码/XL码3条",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      398,
+                      1461,
+                      76,
+                      44
+                    ],
+                    "visibleText": "外卖",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          398,
+                          1461,
+                          76,
+                          44
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE32B",
+                      "textColor": "#958916",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   }
                 ]
               },
-              "副标题区": {
+              "基础信息区": {
                 "elements": [
                   {
-                    "elementType": "属性说明",
-                    "sourceRegion": "副标题区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      388,
-                      1586,
-                      812,
-                      70
+                      391,
+                      1596,
+                      67,
+                      47
                     ],
                     "visibleText": "3片",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "价格区": {
-                "elements": [
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          391,
+                          1596,
+                          67,
+                          47
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "3片",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#6E6E6E",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
                   {
-                    "elementType": "商品价格",
-                    "sourceRegion": "价格区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
                       388,
-                      1656,
-                      62,
-                      100
+                      1689,
+                      633,
+                      59
                     ],
-                    "visibleText": "￥4",
+                    "visibleText": "￥4.27起到手价/每条¥1.43已售72",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          388,
+                          1689,
+                          633,
+                          59
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "￥4.27起到手价/每条¥1.43已售72",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF554C",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "商品价格",
-                    "sourceRegion": "价格区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      794,
-                      1656,
-                      156,
-                      100
-                    ],
-                    "visibleText": "￥1.43",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "价格说明",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      607,
-                      1656,
-                      94,
-                      100
-                    ],
-                    "visibleText": "",
-                    "status": "uncertain",
-                    "source": "legacy_ocr_rejected_by_text_hygiene"
-                  },
-                  {
-                    "elementType": "销量数据",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      950,
-                      1656,
-                      187,
-                      100
-                    ],
-                    "visibleText": "已售7246",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  }
-                ]
-              },
-              "商家区": {
-                "elements": [
-                  {
-                    "elementType": "商家标签",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      388,
-                      1791,
-                      82,
-                      54
-                    ],
-                    "visibleText": "品牌",
-                    "status": "confirmed",
-                    "source": "gold_element_annotation"
-                  },
-                  {
-                    "elementType": "商家名",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      476,
-                      1791,
-                      562,
-                      54
-                    ],
-                    "visibleText": "参慕诗全球美妆集合店(朝阳望京店)",
-                    "status": "confirmed",
-                    "source": "gold_element_annotation"
-                  },
-                  {
-                    "elementType": "起送费",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      388,
-                      1851,
-                      430,
-                      54
-                    ],
-                    "visibleText": "起送¥8.8",
-                    "status": "confirmed",
-                    "source": "gold_element_annotation"
-                  },
-                  {
-                    "elementType": "配送费",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      388,
-                      1851,
-                      430,
-                      54
-                    ],
-                    "visibleText": "免配送费",
-                    "status": "confirmed",
-                    "source": "gold_element_annotation"
-                  },
-                  {
-                    "elementType": "配送时长",
-                    "sourceRegion": "商家区",
-                    "coord": [
-                      1050,
-                      1656,
-                      150,
-                      58
+                      1066,
+                      1700,
+                      128,
+                      45
                     ],
                     "visibleText": "46分钟",
                     "status": "confirmed",
-                    "source": "gold_element_annotation"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1066,
+                          1700,
+                          128,
+                          45
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "46分钟",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#606060",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   },
                   {
-                    "elementType": "距离",
-                    "sourceRegion": "商家区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      1050,
-                      1716,
-                      150,
-                      58
+                      392,
+                      1761,
+                      189,
+                      44
+                    ],
+                    "visibleText": "神券立减5",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          392,
+                          1761,
+                          189,
+                          44
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "神券立减5",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D6D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      1082,
+                      1765,
+                      111,
+                      39
                     ],
                     "visibleText": "2.3km",
                     "status": "confirmed",
-                    "source": "gold_element_annotation"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1082,
+                          1765,
+                          111,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.3km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#4F4F4F",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      397,
+                      1830,
+                      693,
+                      40
+                    ],
+                    "visibleText": "品牌叁慕诗全球美妆集合店(朝阳望京店)",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          397,
+                          1830,
+                          693,
+                          40
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "品牌叁慕诗全球美妆集合店(朝阳望京店)",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#615555",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      393,
+                      1893,
+                      330,
+                      42
+                    ],
+                    "visibleText": "起送￥8.8免配送费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          393,
+                          1893,
+                          330,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "起送￥8.8免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#747474",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
             }
           },
           {
             "componentType": "result_card",
-            "name": "商品卡3",
             "listPosition": 3,
-            "cropped": false,
-            "status": "confirmed",
             "cardType": "商品卡片",
             "coord": [
               0,
               2017,
               1224,
-              683
+              530
             ],
+            "visibleStatus": "complete",
+            "status": "confirmed",
             "regions": {
               "头图区": {
                 "elements": [
@@ -754,7 +2206,562 @@
                     ],
                     "visibleText": "",
                     "status": "confirmed",
-                    "source": "cv_photo"
+                    "source": "cv_photo",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#F7D4D7",
+                      "textColor": "#EFB8C3",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|other|unknown|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              },
+              "标题区": {
+                "elements": [
+                  {
+                    "elementType": "商品标题",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      394,
+                      2019,
+                      770,
+                      121
+                    ],
+                    "visibleText": "全棉时代奈丝公主M码安睡裤3片/包",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          492,
+                          2019,
+                          672,
+                          52
+                        ]
+                      },
+                      {
+                        "coord": [
+                          394,
+                          2084,
+                          118,
+                          56
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "全棉时代奈丝公主M码安睡裤3片/包",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "履约标签",
+                    "sourceRegion": "标题区",
+                    "coord": [
+                      402,
+                      2028,
+                      70,
+                      38
+                    ],
+                    "visibleText": "外卖",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          402,
+                          2028,
+                          70,
+                          38
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE42B",
+                      "textColor": "#817617",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
+                  }
+                ]
+              },
+              "基础信息区": {
+                "elements": [
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      384,
+                      2247,
+                      493,
+                      66
+                    ],
+                    "visibleText": "￥11.9买2件¥9.4/件已售6",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          384,
+                          2247,
+                          493,
+                          66
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "￥11.9买2件¥9.4/件已售6",
+                      "textStatus": "complete",
+                      "semanticRole": "price",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF402A",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|price|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      996,
+                      2264,
+                      196,
+                      41
+                    ],
+                    "visibleText": "1约15分钟",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          996,
+                          2264,
+                          196,
+                          41
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "1约15分钟",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "orange"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "orange",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF7801",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|orange|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      392,
+                      2323,
+                      190,
+                      45
+                    ],
+                    "visibleText": "神券立减5",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          392,
+                          2323,
+                          190,
+                          45
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "神券立减5",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "red"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "red",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#FF2D6D",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|red|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      1081,
+                      2327,
+                      113,
+                      42
+                    ],
+                    "visibleText": "2.1km",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          1081,
+                          2327,
+                          113,
+                          42
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "2.1km",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#606060",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      398,
+                      2392,
+                      574,
+                      39
+                    ],
+                    "visibleText": "官方全棉时代(北京望京万象汇店）",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          398,
+                          2392,
+                          574,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "官方全棉时代(北京望京万象汇店）",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#655555",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  },
+                  {
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
+                    "coord": [
+                      396,
+                      2457,
+                      399,
+                      39
+                    ],
+                    "visibleText": "起送￥20满29免配送费",
+                    "status": "confirmed",
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          396,
+                          2457,
+                          399,
+                          39
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "起送￥20满29免配送费",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#737373",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
+                  }
+                ]
+              }
+            },
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
+          },
+          {
+            "componentType": "result_card",
+            "listPosition": 4,
+            "cardType": "商品卡片",
+            "coord": [
+              0,
+              2547,
+              1224,
+              153
+            ],
+            "visibleStatus": "naturally_cropped",
+            "status": "confirmed",
+            "regions": {
+              "头图区": {
+                "elements": [
+                  {
+                    "elementType": "商品主图",
+                    "sourceRegion": "头图区",
+                    "coord": [
+                      32,
+                      2547,
+                      330,
+                      153
+                    ],
+                    "visibleText": "",
+                    "status": "confirmed",
+                    "source": "model_reviewed_card_geometry",
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "头图区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "blue"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "blue",
+                      "backgroundColor": "#D2DEF0",
+                      "textColor": "#324D83",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|blue|other|unknown|无",
+                      "sourceRegion": "头图区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
@@ -764,114 +2771,184 @@
                     "elementType": "履约标签",
                     "sourceRegion": "标题区",
                     "coord": [
-                      388,
-                      2017,
-                      92,
-                      62
+                      401,
+                      2589,
+                      72,
+                      40
                     ],
                     "visibleText": "外卖",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          401,
+                          2589,
+                          72,
+                          40
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "外卖",
+                      "textStatus": "complete",
+                      "semanticRole": "fulfillment",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "medium",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "multicolor"
+                    },
+                    "visual": {
+                      "entityKind": "tag",
+                      "visualStatus": "confirmed",
+                      "isColored": true,
+                      "isShaped": false,
+                      "colorRole": "multicolor",
+                      "backgroundColor": "#FFE32B",
+                      "textColor": "#877A16",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "tag|multicolor|履约标|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median",
+                      "semanticRole": "履约标",
+                      "containerShape": "unknown",
+                      "graphicAssistRole": "无",
+                      "countedInComplexity": true,
+                      "countDecision": "独立元素框及当前截图像素确认",
+                      "dedupDecision": "未与其他可见实体合并",
+                      "dedupWithElementIds": []
+                    }
                   },
                   {
                     "elementType": "商品标题",
                     "sourceRegion": "标题区",
                     "coord": [
-                      388,
-                      2017,
-                      812,
-                      132
+                      496,
+                      2581,
+                      685,
+                      51
                     ],
-                    "visibleText": "全棉时代奈丝公主M码安睡裤3包",
+                    "visibleText": "【M-L号】她研社 深藏BLUE安睡裤3条/包",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "source": "model_pixel_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          496,
+                          2581,
+                          685,
+                          51
+                        ]
+                      }
+                    ],
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "标题区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "【M-L号】她研社 深藏BLUE安睡裤3条/包",
+                      "textStatus": "complete",
+                      "semanticRole": "title",
+                      "emphasisLevel": "primary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|title|unknown|无",
+                      "sourceRegion": "标题区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
               },
-              "副标题区": {
-                "elements": []
-              },
-              "价格区": {
+              "基础信息区": {
                 "elements": [
                   {
-                    "elementType": "商品价格",
-                    "sourceRegion": "价格区",
+                    "elementType": "商品基础信息",
+                    "sourceRegion": "基础信息区",
                     "coord": [
-                      388,
-                      2219,
-                      177,
-                      100
+                      394,
+                      2649,
+                      209,
+                      51
                     ],
-                    "visibleText": "￥11.9",
+                    "visibleText": "裤3条/包",
                     "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "商品价格",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      670,
-                      2219,
-                      141,
-                      100
+                    "source": "bounded_paddleocr_model_calibrated",
+                    "boundedEvidence": [
+                      {
+                        "coord": [
+                          394,
+                          2649,
+                          209,
+                          51
+                        ]
+                      }
                     ],
-                    "visibleText": "¥9.4",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "价格说明",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      565,
-                      2219,
-                      318,
-                      100
-                    ],
-                    "visibleText": "买2件¥9.4/件",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
-                  },
-                  {
-                    "elementType": "销量数据",
-                    "sourceRegion": "价格区",
-                    "coord": [
-                      882,
-                      2219,
-                      141,
-                      100
-                    ],
-                    "visibleText": "已售61",
-                    "status": "confirmed",
-                    "source": "local_crop_ocr"
+                    "render": {
+                      "visibleStatus": "confirmed",
+                      "renderState": "normal",
+                      "sourceRegion": "基础信息区",
+                      "isPhoto": false,
+                      "isSystemUi": true
+                    },
+                    "textFacts": {
+                      "rawText": "裤3条/包",
+                      "textStatus": "complete",
+                      "semanticRole": "other",
+                      "emphasisLevel": "secondary",
+                      "fontSizeBucket": "large",
+                      "fontWeightBucket": "unknown",
+                      "textColorRole": "neutral"
+                    },
+                    "visual": {
+                      "entityKind": "text",
+                      "visualStatus": "confirmed",
+                      "isColored": false,
+                      "isShaped": false,
+                      "colorRole": "neutral",
+                      "backgroundColor": "#FFFFFF",
+                      "textColor": "#111111",
+                      "borderColor": "",
+                      "hasGraphicAssist": false,
+                      "graphicType": "无",
+                      "styleKey": "text|neutral|other|unknown|无",
+                      "sourceRegion": "基础信息区",
+                      "colorEvidence": "element_crop_border_and_foreground_pixel_median"
+                    }
                   }
                 ]
-              },
-              "商家区": {
-                "elements": []
-              }
-            }
-          },
-          {
-            "componentType": "result_card",
-            "name": "商品卡4",
-            "listPosition": 4,
-            "cardType": "商品卡片",
-            "coord": [
-              0,
-              0,
-              1224,
-              2700
-            ],
-            "cropped": true,
-            "status": "confirmed",
-            "recognitionStatus": "uncertain",
-            "regions": {
-              "标题区": {
-                "elements": []
               }
             },
-            "source": "gold_component_annotation"
+            "elementContract": {
+              "version": "golden.element-level.v3",
+              "titleRequiredForCompleteKnownCard": true,
+              "downhangGrouping": "one item owns imageElements/textElements/priceElements/auxiliaryElements",
+              "semanticAtomicity": "basic-info and tags split by semantic field; one-character elements forbidden"
+            }
           }
         ]
       }
@@ -882,5 +2959,49 @@
   },
   "routing": {
     "rule": "uncertain only records insufficient local recognition; it never means absent, defective, failing, excellent, or a human-review task."
+  },
+  "legacyContractVersion": "phase2.product-card-elements.v1",
+  "verification": {
+    "status": "pixel_verified",
+    "claimScope": [
+      "element_level_downhang_grouping",
+      "element_level_title",
+      "element_render_facts",
+      "element_text_facts",
+      "element_visual_color_facts",
+      "page_component_order",
+      "result_card_boundary",
+      "result_card_count",
+      "result_card_type",
+      "semantic_atomicity",
+      "visible_crop_state"
+    ],
+    "excludedClaims": [
+      "runtime_ocr_text",
+      "ocr_confidence"
+    ],
+    "reviewedAt": "2026-08-19",
+    "rawScreenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤.png",
+    "rawSha256": "67aca39c78c3bbaf914a5ec8d1dab021bf3aca1fa22c3e868e1a31f600b963dc",
+    "componentAnnotation": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为安睡裤-标注后.png",
+    "componentAnnotationSha256": "12f5295fa825c2908d3a1f7cb8acb27c7cd198920f0f822fd7590e5038b4c6a7",
+    "elementAnnotations": [
+      {
+        "path": "phase2-card-annotation/golden-samples/product-card/element-level/商品卡片-搜索词为安睡裤-元素标注后.png",
+        "sha256": "37e164a080b7614ad08b50d4f59421244a42e16137fcf7dfecf8784f9f1dbb63",
+        "status": "reference_only_not_transcribed"
+      }
+    ],
+    "policy": "Nested elements are preserved. Their source/status fields determine whether they are human-annotated truth or runtime recognition evidence; provenance enrichment must never delete them.",
+    "elementCalibration": {
+      "status": "bounded_paddleocr_and_model_visual_reviewed",
+      "evidence": "phase2-card-annotation/references/golden-contract-evidence/product-card--安睡裤.elements.contract-evidence.json",
+      "policy": "Golden-only calibration; never injected into Phase2 production recognition."
+    },
+    "visualCalibration": {
+      "status": "measured_from_current_element_boxes",
+      "method": "element_crop_border_and_foreground_pixel_median",
+      "photoPolicy": "photos retain geometry and are measured by Phase3 after exclusion masking"
+    }
   }
 }

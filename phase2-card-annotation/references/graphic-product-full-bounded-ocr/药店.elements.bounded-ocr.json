@@ -1,0 +1,1238 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/药店.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为药店.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        881,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "品牌",
+          "coord": [
+            37,
+            881,
+            75,
+            44
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            885,
+            70,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "111医药馆(望京西园分店)",
+          "coord": [
+            323,
+            881,
+            558,
+            50
+          ],
+          "ocrConfidence": 0.9942
+        },
+        {
+          "text": "31分钟",
+          "coord": [
+            1066,
+            882,
+            128,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "111医药馆",
+          "coord": [
+            35,
+            947,
+            153,
+            27
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            224,
+            950,
+            97,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "月售2万+",
+          "coord": [
+            337,
+            952,
+            186,
+            41
+          ],
+          "ocrConfidence": 0.9949
+        },
+        {
+          "text": "起送￥20免配送费",
+          "coord": [
+            512,
+            953,
+            325,
+            43
+          ],
+          "ocrConfidence": 0.9472
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1082,
+            953,
+            111,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "24小时营业",
+          "coord": [
+            31,
+            1005,
+            164,
+            39
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "医保个账",
+          "coord": [
+            227,
+            1015,
+            158,
+            44
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "点评收录10年",
+          "coord": [
+            400,
+            1019,
+            244,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "店铺回头客13万+",
+          "coord": [
+            657,
+            1021,
+            303,
+            37
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "JUMPCAN",
+          "coord": [
+            266,
+            1105,
+            43,
+            11
+          ],
+          "ocrConfidence": 0.9789
+        },
+        {
+          "text": "OTC",
+          "coord": [
+            446,
+            1107,
+            25,
+            11
+          ],
+          "ocrConfidence": 0.9863
+        },
+        {
+          "text": "扫码验真·数据可查",
+          "coord": [
+            507,
+            1101,
+            116,
+            17
+          ],
+          "ocrConfidence": 0.9832
+        },
+        {
+          "text": "MM",
+          "coord": [
+            268,
+            1115,
+            28,
+            7
+          ],
+          "ocrConfidence": 0.498
+        },
+        {
+          "text": "嗓子不适",
+          "coord": [
+            286,
+            1131,
+            111,
+            30
+          ],
+          "ocrConfidence": 0.9833
+        },
+        {
+          "text": "1",
+          "coord": [
+            816,
+            1145,
+            13,
+            7
+          ],
+          "ocrConfidence": 0.1164
+        },
+        {
+          "text": "就喝蒲地蓝",
+          "coord": [
+            270,
+            1159,
+            141,
+            28
+          ],
+          "ocrConfidence": 0.9718
+        },
+        {
+          "text": "感冒清热颗粒",
+          "coord": [
+            849,
+            1153,
+            148,
+            27
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "练川贝吧音",
+          "coord": [
+            586,
+            1170,
+            40,
+            10
+          ],
+          "ocrConfidence": 0.5137
+        },
+        {
+          "text": "R",
+          "coord": [
+            812,
+            1169,
+            7,
+            58
+          ],
+          "ocrConfidence": 0.2474
+        },
+        {
+          "text": "北京月仁堂",
+          "coord": [
+            818,
+            1164,
+            14,
+            67
+          ],
+          "ocrConfidence": 0.8576
+        },
+        {
+          "text": "GanmaoQingreKell",
+          "coord": [
+            855,
+            1180,
+            83,
+            13
+          ],
+          "ocrConfidence": 0.91
+        },
+        {
+          "text": "江中",
+          "coord": [
+            1104,
+            1177,
+            21,
+            12
+          ],
+          "ocrConfidence": 0.8
+        },
+        {
+          "text": "复方鲜竹",
+          "coord": [
+            1128,
+            1178,
+            96,
+            24
+          ],
+          "ocrConfidence": 0.9945
+        },
+        {
+          "text": "眉于肿、酸炎、扁桃",
+          "coord": [
+            298,
+            1188,
+            80,
+            23
+          ],
+          "ocrConfidence": 0.5399
+        },
+        {
+          "text": "CRAKOA",
+          "coord": [
+            590,
+            1195,
+            34,
+            7
+          ],
+          "ocrConfidence": 0.5821
+        },
+        {
+          "text": "流风散寒解表清热",
+          "coord": [
+            848,
+            1193,
+            76,
+            15
+          ],
+          "ocrConfidence": 0.9196
+        },
+        {
+          "text": "蒲",
+          "coord": [
+            245,
+            1225,
+            66,
+            82
+          ],
+          "ocrConfidence": 0.994
+        },
+        {
+          "text": "地蓝清炎口服液",
+          "coord": [
+            325,
+            1236,
+            77,
+            14
+          ],
+          "ocrConfidence": 0.9519
+        },
+        {
+          "text": "请，止",
+          "coord": [
+            1105,
+            1229,
+            49,
+            7
+          ],
+          "ocrConfidence": 0.422
+        },
+        {
+          "text": "1CR:MR T ",
+          "coord": [
+            326,
+            1257,
+            75,
+            12
+          ],
+          "ocrConfidence": 0.3501
+        },
+        {
+          "text": "74*2006",
+          "coord": [
+            328,
+            1268,
+            32,
+            7
+          ],
+          "ocrConfidence": 0.3619
+        },
+        {
+          "text": "1",
+          "coord": [
+            806,
+            1273,
+            30,
+            7
+          ],
+          "ocrConfidence": 0.5373
+        },
+        {
+          "text": "063.1",
+          "coord": [
+            347,
+            1286,
+            41,
+            9
+          ],
+          "ocrConfidence": 0.559
+        },
+        {
+          "text": "司",
+          "coord": [
+            333,
+            1300,
+            69,
+            13
+          ],
+          "ocrConfidence": 0.422
+        },
+        {
+          "text": "I",
+          "coord": [
+            414,
+            1298,
+            9,
+            10
+          ],
+          "ocrConfidence": 0.3667
+        },
+        {
+          "text": "功能主治：润肺化痰、止咳平喘",
+          "coord": [
+            543,
+            1306,
+            147,
+            13
+          ],
+          "ocrConfidence": 0.9894
+        },
+        {
+          "text": "0",
+          "coord": [
+            269,
+            1336,
+            14,
+            6
+          ],
+          "ocrConfidence": 0.1202
+        },
+        {
+          "text": "药房同款·现货速发",
+          "coord": [
+            514,
+            1327,
+            201,
+            23
+          ],
+          "ocrConfidence": 0.9896
+        },
+        {
+          "text": "[济川药业]蒲地[京都念慈菴]京",
+          "coord": [
+            228,
+            1377,
+            534,
+            39
+          ],
+          "ocrConfidence": 0.9874
+        },
+        {
+          "text": "[同仁堂]感冒清",
+          "coord": [
+            782,
+            1377,
+            260,
+            37
+          ],
+          "ocrConfidence": 0.9908
+        },
+        {
+          "text": "[江中]复方",
+          "coord": [
+            1054,
+            1377,
+            169,
+            38
+          ],
+          "ocrConfidence": 0.9742
+        },
+        {
+          "text": "蓝消炎口服液1都念慈菴蜜炼",
+          "coord": [
+            227,
+            1429,
+            509,
+            38
+          ],
+          "ocrConfidence": 0.9902
+        },
+        {
+          "text": "热颗粒12g*10",
+          "coord": [
+            779,
+            1428,
+            260,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "沥液10m",
+          "coord": [
+            1054,
+            1430,
+            168,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "v422",
+          "coord": [
+            232,
+            1488,
+            91,
+            20
+          ],
+          "ocrConfidence": 0.8349
+        },
+        {
+          "text": "v27",
+          "coord": [
+            509,
+            1489,
+            67,
+            18
+          ],
+          "ocrConfidence": 0.9856
+        },
+        {
+          "text": "v1879",
+          "coord": [
+            783,
+            1485,
+            101,
+            23
+          ],
+          "ocrConfidence": 0.7025
+        },
+        {
+          "text": "v16",
+          "coord": [
+            1061,
+            1488,
+            79,
+            20
+          ],
+          "ocrConfidence": 0.941
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1596,
+        1224,
+        715
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "品牌",
+          "coord": [
+            38,
+            1598,
+            73,
+            43
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "当",
+          "coord": [
+            112,
+            1601,
+            62,
+            69
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            1598,
+            73,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "叮当智慧药房(望京店)",
+          "coord": [
+            321,
+            1596,
+            469,
+            52
+          ],
+          "ocrConfidence": 0.9844
+        },
+        {
+          "text": "115分钟",
+          "coord": [
+            1034,
+            1597,
+            159,
+            44
+          ],
+          "ocrConfidence": 0.9853
+        },
+        {
+          "text": "快药",
+          "coord": [
+            64,
+            1667,
+            96,
+            49
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "5.0分",
+          "coord": [
+            225,
+            1666,
+            95,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "月售1000+起送￥20配送约￥1",
+          "coord": [
+            337,
+            1669,
+            530,
+            41
+          ],
+          "ocrConfidence": 0.9392
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1082,
+            1668,
+            111,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "24小时快送",
+          "coord": [
+            33,
+            1726,
+            161,
+            31
+          ],
+          "ocrConfidence": 0.9942
+        },
+        {
+          "text": "医保个账",
+          "coord": [
+            227,
+            1730,
+            158,
+            45
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "店铺回头客2千+",
+          "coord": [
+            401,
+            1735,
+            284,
+            39
+          ],
+          "ocrConfidence": 0.9923
+        },
+        {
+          "text": "店铺好评数超1万",
+          "coord": [
+            698,
+            1735,
+            293,
+            39
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "京都念慈巷",
+          "coord": [
+            899,
+            1851,
+            62,
+            22
+          ],
+          "ocrConfidence": 0.9646
+        },
+        {
+          "text": "神威",
+          "coord": [
+            527,
+            1870,
+            27,
+            15
+          ],
+          "ocrConfidence": 0.9776
+        },
+        {
+          "text": "蜜炼川贝枇杷膏",
+          "coord": [
+            871,
+            1876,
+            89,
+            19
+          ],
+          "ocrConfidence": 0.976
+        },
+        {
+          "text": "布洛芬缓释胶囊",
+          "coord": [
+            288,
+            1892,
+            175,
+            35
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "藿香正气软胶囊",
+          "coord": [
+            539,
+            1893,
+            149,
+            28
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "药必博",
+          "coord": [
+            1096,
+            1885,
+            37,
+            11
+          ],
+          "ocrConfidence": 0.1975
+        },
+        {
+          "text": "仁和",
+          "coord": [
+            253,
+            1902,
+            36,
+            19
+          ],
+          "ocrConfidence": 0.9957
+        },
+        {
+          "text": "布洛芬缓释胶囊",
+          "coord": [
+            1072,
+            1897,
+            150,
+            33
+          ],
+          "ocrConfidence": 0.9969
+        },
+        {
+          "text": "NINJIOM",
+          "coord": [
+            885,
+            1907,
+            62,
+            14
+          ],
+          "ocrConfidence": 0.9794
+        },
+        {
+          "text": "【功能主治】",
+          "coord": [
+            541,
+            1928,
+            50,
+            11
+          ],
+          "ocrConfidence": 0.9206
+        },
+        {
+          "text": "PEIPA KOA",
+          "coord": [
+            878,
+            1925,
+            77,
+            12
+          ],
+          "ocrConfidence": 0.9487
+        },
+        {
+          "text": "0.4克",
+          "coord": [
+            1075,
+            1959,
+            34,
+            14
+          ],
+          "ocrConfidence": 0.9792
+        },
+        {
+          "text": "京都全慈总厂有限公司",
+          "coord": [
+            868,
+            1973,
+            98,
+            13
+          ],
+          "ocrConfidence": 0.866
+        },
+        {
+          "text": "布洛芬",
+          "coord": [
+            1077,
+            1971,
+            30,
+            11
+          ],
+          "ocrConfidence": 0.7742
+        },
+        {
+          "text": "12X3板",
+          "coord": [
+            702,
+            1998,
+            36,
+            11
+          ],
+          "ocrConfidence": 0.8655
+        },
+        {
+          "text": "中国香港制造",
+          "coord": [
+            885,
+            2005,
+            63,
+            11
+          ],
+          "ocrConfidence": 0.9837
+        },
+        {
+          "text": "问医生",
+          "coord": [
+            1078,
+            2068,
+            121,
+            44
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "[仁和]布洛芬缓[神威]藿香正气[京都念",
+          "coord": [
+            227,
+            2090,
+            702,
+            40
+          ],
+          "ocrConfidence": 0.9643
+        },
+        {
+          "text": "24小时",
+          "coord": [
+            1077,
+            2122,
+            118,
+            40
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "释胶囊0.3g*11软胶囊0.45g*1都念慈菴",
+          "coord": [
+            224,
+            2139,
+            714,
+            47
+          ],
+          "ocrConfidence": 0.9722
+        },
+        {
+          "text": "￥20.5",
+          "coord": [
+            224,
+            2197,
+            108,
+            49
+          ],
+          "ocrConfidence": 0.9303
+        },
+        {
+          "text": "￥22.5",
+          "coord": [
+            501,
+            2197,
+            108,
+            48
+          ],
+          "ocrConfidence": 0.9384
+        },
+        {
+          "text": "￥32.9",
+          "coord": [
+            779,
+            2198,
+            105,
+            46
+          ],
+          "ocrConfidence": 0.9469
+        },
+        {
+          "text": "￥36.2",
+          "coord": [
+            1054,
+            2197,
+            109,
+            50
+          ],
+          "ocrConfidence": 0.9408
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        2311,
+        1224,
+        389
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "品牌",
+          "coord": [
+            38,
+            2313,
+            73,
+            43
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "当",
+          "coord": [
+            112,
+            2316,
+            61,
+            69
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            2313,
+            73,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "叮当快药(北京望京东店)",
+          "coord": [
+            321,
+            2311,
+            519,
+            52
+          ],
+          "ocrConfidence": 0.9915
+        },
+        {
+          "text": "31分钟",
+          "coord": [
+            1066,
+            2311,
+            128,
+            47
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "快药",
+          "coord": [
+            65,
+            2383,
+            96,
+            49
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "4.5分",
+          "coord": [
+            224,
+            2379,
+            98,
+            44
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "月售2000+起送￥20满59免配送费",
+          "coord": [
+            338,
+            2383,
+            608,
+            41
+          ],
+          "ocrConfidence": 0.9684
+        },
+        {
+          "text": "1.8km",
+          "coord": [
+            1085,
+            2385,
+            107,
+            36
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "24小时快送",
+          "coord": [
+            33,
+            2441,
+            161,
+            31
+          ],
+          "ocrConfidence": 0.9946
+        },
+        {
+          "text": "点评收录7年",
+          "coord": [
+            228,
+            2448,
+            219,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "店铺回头客4万+",
+          "coord": [
+            458,
+            2449,
+            304,
+            38
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "店铺好评数超3万",
+          "coord": [
+            757,
+            2449,
+            295,
+            40
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "芬必得",
+          "coord": [
+            506,
+            2538,
+            58,
+            14
+          ],
+          "ocrConfidence": 0.9686
+        },
+        {
+          "text": "999",
+          "coord": [
+            256,
+            2563,
+            37,
+            25
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "12小时持续",
+          "coord": [
+            521,
+            2571,
+            164,
+            49
+          ],
+          "ocrConfidence": 0.9873
+        },
+        {
+          "text": "止痛",
+          "coord": [
+            674,
+            2576,
+            78,
+            43
+          ],
+          "ocrConfidence": 0.9954
+        },
+        {
+          "text": "京都念慈",
+          "coord": [
+            1175,
+            2567,
+            49,
+            23
+          ],
+          "ocrConfidence": 0.9787
+        },
+        {
+          "text": "感冒灵颗粒",
+          "coord": [
+            298,
+            2587,
+            169,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "蜜炼川贝枇杷",
+          "coord": [
+            1145,
+            2590,
+            79,
+            21
+          ],
+          "ocrConfidence": 0.9783
+        },
+        {
+          "text": "感康",
+          "coord": [
+            814,
+            2630,
+            34,
+            14
+          ],
+          "ocrConfidence": 0.991
+        },
+        {
+          "text": "NINJIOM",
+          "coord": [
+            1162,
+            2622,
+            61,
+            14
+          ],
+          "ocrConfidence": 0.9778
+        },
+        {
+          "text": "用于感冒引起的头痛，发热，肩塞，流涕，咽痛等。",
+          "coord": [
+            278,
+            2634,
+            187,
+            13
+          ],
+          "ocrConfidence": 0.8922
+        },
+        {
+          "text": "酒",
+          "coord": [
+            534,
+            2643,
+            30,
+            14
+          ],
+          "ocrConfidence": 0.1201
+        },
+        {
+          "text": "头痛",
+          "coord": [
+            688,
+            2635,
+            59,
+            32
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "复方氨酚烷胺片",
+          "coord": [
+            843,
+            2640,
+            150,
+            30
+          ],
+          "ocrConfidence": 0.9905
+        },
+        {
+          "text": "PEI PA KO",
+          "coord": [
+            1155,
+            2638,
+            67,
+            14
+          ],
+          "ocrConfidence": 0.9043
+        },
+        {
+          "text": "布洛芬缓释胶囊",
+          "coord": [
+            533,
+            2656,
+            94,
+            25
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "牙痛",
+          "coord": [
+            690,
+            2676,
+            56,
+            24
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "京都全总厂有",
+          "coord": [
+            1145,
+            2689,
+            68,
+            10
+          ],
+          "ocrConfidence": 0.8954
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/product-card/喜力啤酒整箱.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为喜力啤酒整箱.png",
+  "requests": [
+    {
+      "kind": "missing_title",
+      "listPosition": 2,
+      "coord": [
+        360,
+        1273,
+        864,
+        150
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "喜力(Heineken)11.4°P啤酒",
+          "coord": [
+            489,
+            1273,
+            600,
+            58
+          ],
+          "ocrConfidence": 0.9768
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            403,
+            1283,
+            68,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "500ml*12听/箱",
+          "coord": [
+            396,
+            1343,
+            337,
+            50
+          ],
+          "ocrConfidence": 0.9995
+        }
+      ]
+    }
+  ]
+}

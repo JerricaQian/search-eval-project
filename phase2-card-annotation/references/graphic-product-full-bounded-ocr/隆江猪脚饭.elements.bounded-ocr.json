@@ -1,0 +1,1042 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/隆江猪脚饭.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为隆江猪脚饭.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        554,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "拒绝隔夜",
+          "coord": [
+            30,
+            554,
+            157,
+            40
+          ],
+          "ocrConfidence": 0.9854
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            556,
+            73,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "隆江猪脚饭(望京麒麟社店)",
+          "coord": [
+            323,
+            554,
+            563,
+            50
+          ],
+          "ocrConfidence": 0.9703
+        },
+        {
+          "text": "26分钟",
+          "coord": [
+            1064,
+            554,
+            131,
+            47
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "财记隆江猪胸饭",
+          "coord": [
+            36,
+            588,
+            83,
+            16
+          ],
+          "ocrConfidence": 0.8659
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            224,
+            623,
+            101,
+            43
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "月售3000+走",
+          "coord": [
+            341,
+            626,
+            222,
+            42
+          ],
+          "ocrConfidence": 0.9404
+        },
+        {
+          "text": "起送￥0免配送费",
+          "coord": [
+            542,
+            627,
+            303,
+            41
+          ],
+          "ocrConfidence": 0.9436
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1082,
+            624,
+            111,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "当日现卤",
+          "coord": [
+            34,
+            678,
+            150,
+            39
+          ],
+          "ocrConfidence": 0.9965
+        },
+        {
+          "text": "363位当地人常点",
+          "coord": [
+            224,
+            690,
+            305,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "超500人1个月内回购",
+          "coord": [
+            543,
+            693,
+            362,
+            40
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "神寿",
+          "coord": [
+            78,
+            781,
+            68,
+            41
+          ],
+          "ocrConfidence": 0.8513
+        },
+        {
+          "text": "隆江猪脚饭",
+          "coord": [
+            225,
+            777,
+            91,
+            21
+          ],
+          "ocrConfidence": 0.9681
+        },
+        {
+          "text": "隆江猪脚饭",
+          "coord": [
+            1058,
+            777,
+            88,
+            21
+          ],
+          "ocrConfidence": 0.9641
+        },
+        {
+          "text": "￥12",
+          "coord": [
+            40,
+            868,
+            143,
+            79
+          ],
+          "ocrConfidence": 0.8982
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            46,
+            963,
+            131,
+            35
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "美团外",
+          "coord": [
+            417,
+            981,
+            74,
+            25
+          ],
+          "ocrConfidence": 0.9103
+        },
+        {
+          "text": "美团节",
+          "coord": [
+            689,
+            977,
+            80,
+            32
+          ],
+          "ocrConfidence": 0.8301
+        },
+        {
+          "text": "美国团",
+          "coord": [
+            965,
+            978,
+            80,
+            29
+          ],
+          "ocrConfidence": 0.5235
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            790,
+            990,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "片仅",
+          "coord": [
+            965,
+            1006,
+            41,
+            15
+          ],
+          "ocrConfidence": 0.6207
+        },
+        {
+          "text": "隆江猪脚饭+",
+          "coord": [
+            226,
+            1049,
+            227,
+            41
+          ],
+          "ocrConfidence": 0.9663
+        },
+        {
+          "text": "隆江猪脚饭【堂",
+          "coord": [
+            504,
+            1050,
+            254,
+            40
+          ],
+          "ocrConfidence": 0.9761
+        },
+        {
+          "text": "任性 の隆江猪",
+          "coord": [
+            780,
+            1051,
+            248,
+            37
+          ],
+          "ocrConfidence": 0.9781
+        },
+        {
+          "text": "隆江猪脚",
+          "coord": [
+            1057,
+            1049,
+            167,
+            41
+          ],
+          "ocrConfidence": 0.78
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            1073,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥19.8",
+          "coord": [
+            222,
+            1102,
+            104,
+            51
+          ],
+          "ocrConfidence": 0.9306
+        },
+        {
+          "text": "¥17.5",
+          "coord": [
+            501,
+            1103,
+            98,
+            49
+          ],
+          "ocrConfidence": 0.8918
+        },
+        {
+          "text": "￥25.8神券价",
+          "coord": [
+            777,
+            1105,
+            218,
+            46
+          ],
+          "ocrConfidence": 0.9776
+        },
+        {
+          "text": "￥19.88神",
+          "coord": [
+            1057,
+            1106,
+            167,
+            45
+          ],
+          "ocrConfidence": 0.9459
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1217,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "阿祥嫂",
+          "coord": [
+            33,
+            1218,
+            67,
+            27
+          ],
+          "ocrConfidence": 0.9776
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            232,
+            1220,
+            73,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "阿祥嫂隆江猪脚饭(望京东湖渠店)",
+          "coord": [
+            324,
+            1217,
+            704,
+            49
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "22分钟",
+          "coord": [
+            1066,
+            1217,
+            129,
+            45
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "4.7分",
+          "coord": [
+            223,
+            1287,
+            100,
+            43
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "月售3000+起送¥0免配送费",
+          "coord": [
+            337,
+            1289,
+            506,
+            44
+          ],
+          "ocrConfidence": 0.9859
+        },
+        {
+          "text": "2.7km",
+          "coord": [
+            1081,
+            1287,
+            112,
+            42
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "就是隆江那个味",
+          "coord": [
+            41,
+            1349,
+            143,
+            24
+          ],
+          "ocrConfidence": 0.9945
+        },
+        {
+          "text": "可堂食",
+          "coord": [
+            225,
+            1354,
+            123,
+            42
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "457位当地人常点",
+          "coord": [
+            357,
+            1356,
+            309,
+            41
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "超千人回购3次",
+          "coord": [
+            677,
+            1354,
+            260,
+            43
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "神寿",
+          "coord": [
+            78,
+            1444,
+            68,
+            41
+          ],
+          "ocrConfidence": 0.8433
+        },
+        {
+          "text": "`*",
+          "coord": [
+            42,
+            1563,
+            59,
+            66
+          ],
+          "ocrConfidence": 0.6849
+        },
+        {
+          "text": "12",
+          "coord": [
+            74,
+            1559,
+            107,
+            75
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            44,
+            1648,
+            135,
+            40
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            790,
+            1653,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【优选套餐】招",
+          "coord": [
+            231,
+            1713,
+            231,
+            40
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "【优选套餐】招",
+          "coord": [
+            506,
+            1713,
+            232,
+            41
+          ],
+          "ocrConfidence": 0.9987
+        },
+        {
+          "text": "【广东名吃",
+          "coord": [
+            783,
+            1710,
+            175,
+            44
+          ],
+          "ocrConfidence": 0.9938
+        },
+        {
+          "text": "】",
+          "coord": [
+            966,
+            1711,
+            59,
+            44
+          ],
+          "ocrConfidence": 0.9155
+        },
+        {
+          "text": "【浓郁飘香",
+          "coord": [
+            1060,
+            1712,
+            164,
+            41
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "牌隆江猪脚饭+牌隆江猪脚饭",
+          "coord": [
+            228,
+            1767,
+            513,
+            36
+          ],
+          "ocrConfidence": 0.9911
+        },
+        {
+          "text": "+",
+          "coord": [
+            732,
+            1772,
+            34,
+            25
+          ],
+          "ocrConfidence": 0.9343
+        },
+        {
+          "text": "招牌隆江猪脚",
+          "coord": [
+            777,
+            1765,
+            237,
+            40
+          ],
+          "ocrConfidence": 0.9548
+        },
+        {
+          "text": "江猪脚拼",
+          "coord": [
+            1057,
+            1766,
+            167,
+            38
+          ],
+          "ocrConfidence": 0.9733
+        },
+        {
+          "text": "使用",
+          "coord": [
+            73,
+            1787,
+            78,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "v26",
+          "coord": [
+            228,
+            1823,
+            88,
+            21
+          ],
+          "ocrConfidence": 0.9323
+        },
+        {
+          "text": "v26",
+          "coord": [
+            508,
+            1824,
+            85,
+            20
+          ],
+          "ocrConfidence": 0.9174
+        },
+        {
+          "text": "v24o油价",
+          "coord": [
+            787,
+            1826,
+            201,
+            17
+          ],
+          "ocrConfidence": 0.7297
+        },
+        {
+          "text": "La油关",
+          "coord": [
+            1108,
+            1826,
+            114,
+            17
+          ],
+          "ocrConfidence": 0.2868
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        1932,
+        1224,
+        627
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "隆江猪脚饭",
+          "coord": [
+            32,
+            1940,
+            161,
+            33
+          ],
+          "ocrConfidence": 0.9881
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            1936,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "粤知一二隆江猪脚饭烧腊(保利广",
+          "coord": [
+            323,
+            1933,
+            688,
+            46
+          ],
+          "ocrConfidence": 0.9901
+        },
+        {
+          "text": "22分钟",
+          "coord": [
+            1066,
+            1933,
+            129,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "传承30年",
+          "coord": [
+            36,
+            1970,
+            94,
+            14
+          ],
+          "ocrConfidence": 0.9407
+        },
+        {
+          "text": "口隆江味品",
+          "coord": [
+            124,
+            1970,
+            67,
+            14
+          ],
+          "ocrConfidence": 0.8897
+        },
+        {
+          "text": "4.8分",
+          "coord": [
+            224,
+            2001,
+            101,
+            44
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "月售3000+起送¥15免配送费",
+          "coord": [
+            341,
+            2004,
+            527,
+            43
+          ],
+          "ocrConfidence": 0.9789
+        },
+        {
+          "text": "2.8km",
+          "coord": [
+            1082,
+            2002,
+            111,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "知二",
+          "coord": [
+            169,
+            2055,
+            16,
+            29
+          ],
+          "ocrConfidence": 0.9886
+        },
+        {
+          "text": "可堂食",
+          "coord": [
+            227,
+            2070,
+            123,
+            39
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "373位当地人常点",
+          "coord": [
+            355,
+            2068,
+            311,
+            43
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "-",
+          "coord": [
+            337,
+            2080,
+            28,
+            21
+          ],
+          "ocrConfidence": 0.2934
+        },
+        {
+          "text": "超500人1个月内回购",
+          "coord": [
+            677,
+            2070,
+            364,
+            42
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "神券",
+          "coord": [
+            78,
+            2159,
+            68,
+            42
+          ],
+          "ocrConfidence": 0.7128
+        },
+        {
+          "text": "生",
+          "coord": [
+            523,
+            2175,
+            9,
+            10
+          ],
+          "ocrConfidence": 0.3612
+        },
+        {
+          "text": "￥12",
+          "coord": [
+            40,
+            2246,
+            142,
+            79
+          ],
+          "ocrConfidence": 0.9061
+        },
+        {
+          "text": "美团外卖",
+          "coord": [
+            274,
+            2306,
+            169,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "满38可用",
+          "coord": [
+            46,
+            2341,
+            131,
+            35
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "招牌",
+          "coord": [
+            790,
+            2368,
+            71,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "隆江猪脚饭(大",
+          "coord": [
+            225,
+            2426,
+            249,
+            43
+          ],
+          "ocrConfidence": 0.9225
+        },
+        {
+          "text": "猪脚+肉卷+",
+          "coord": [
+            501,
+            2427,
+            227,
+            40
+          ],
+          "ocrConfidence": 0.8416
+        },
+        {
+          "text": "正宗隆江豬腳",
+          "coord": [
+            781,
+            2428,
+            234,
+            40
+          ],
+          "ocrConfidence": 0.9393
+        },
+        {
+          "text": "猪脚+叉火",
+          "coord": [
+            1055,
+            2425,
+            169,
+            44
+          ],
+          "ocrConfidence": 0.9414
+        },
+        {
+          "text": "使用",
+          "coord": [
+            74,
+            2451,
+            76,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥24.2",
+          "coord": [
+            225,
+            2485,
+            106,
+            43
+          ],
+          "ocrConfidence": 0.9387
+        },
+        {
+          "text": "￥20.8神券价",
+          "coord": [
+            502,
+            2483,
+            215,
+            48
+          ],
+          "ocrConfidence": 0.9751
+        },
+        {
+          "text": "￥19.8神券价",
+          "coord": [
+            779,
+            2485,
+            208,
+            44
+          ],
+          "ocrConfidence": 0.9498
+        },
+        {
+          "text": "￥26.8神券",
+          "coord": [
+            1056,
+            2484,
+            168,
+            45
+          ],
+          "ocrConfidence": 0.961
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_图文下挂",
+      "coord": [
+        0,
+        2565,
+        1224,
+        135
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "偲雅家",
+          "coord": [
+            34,
+            2601,
+            70,
+            27
+          ],
+          "ocrConfidence": 0.924
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            2597,
+            72,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "偲雅家·隆江猪脚饭(望京店)",
+          "coord": [
+            324,
+            2592,
+            583,
+            47
+          ],
+          "ocrConfidence": 0.9846
+        },
+        {
+          "text": "28分钟",
+          "coord": [
+            1066,
+            2595,
+            128,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            224,
+            2662,
+            103,
+            38
+          ],
+          "ocrConfidence": 0.9935
+        },
+        {
+          "text": "月售1000+",
+          "coord": [
+            346,
+            2665,
+            187,
+            35
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "起送￥0免配送费",
+          "coord": [
+            549,
+            2665,
+            298,
+            35
+          ],
+          "ocrConfidence": 0.9328
+        },
+        {
+          "text": "3.0km",
+          "coord": [
+            1083,
+            2667,
+            109,
+            33
+          ],
+          "ocrConfidence": 0.9981
+        }
+      ]
+    }
+  ]
+}

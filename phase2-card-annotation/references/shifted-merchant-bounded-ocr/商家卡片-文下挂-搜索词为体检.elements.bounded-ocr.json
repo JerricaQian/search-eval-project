@@ -1,0 +1,1096 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为体检.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为体检.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        849,
+        1224,
+        386
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "慈铭体检(望京分院)",
+          "coord": [
+            306,
+            869,
+            428,
+            66
+          ],
+          "ocrConfidence": 0.9979
+        },
+        {
+          "text": "4.5分",
+          "coord": [
+            308,
+            946,
+            105,
+            48
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "2836条",
+          "coord": [
+            404,
+            947,
+            153,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "体检",
+          "coord": [
+            566,
+            949,
+            88,
+            48
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "望京",
+          "coord": [
+            664,
+            949,
+            87,
+            48
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "1.8km",
+          "coord": [
+            1083,
+            950,
+            114,
+            46
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "医疗资质",
+          "coord": [
+            312,
+            1015,
+            158,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "北京男性体检销量榜第2名",
+          "coord": [
+            483,
+            1015,
+            454,
+            47
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "体检",
+          "coord": [
+            950,
+            1011,
+            88,
+            50
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "休息中",
+          "coord": [
+            110,
+            1085,
+            90,
+            34
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "￥138",
+          "coord": [
+            310,
+            1096,
+            96,
+            44
+          ],
+          "ocrConfidence": 0.8838
+        },
+        {
+          "text": "4.1折",
+          "coord": [
+            418,
+            1096,
+            90,
+            41
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "入职体检 |次日出报告|入",
+          "coord": [
+            536,
+            1097,
+            444,
+            46
+          ],
+          "ocrConfidence": 0.9461
+        },
+        {
+          "text": "年售7000+",
+          "coord": [
+            1019,
+            1097,
+            176,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥180",
+          "coord": [
+            310,
+            1167,
+            94,
+            45
+          ],
+          "ocrConfidence": 0.8772
+        },
+        {
+          "text": "3.5折",
+          "coord": [
+            418,
+            1167,
+            89,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "入职体检|次日出报告|入",
+          "coord": [
+            538,
+            1169,
+            442,
+            43
+          ],
+          "ocrConfidence": 0.9754
+        },
+        {
+          "text": "年售8000+",
+          "coord": [
+            1020,
+            1169,
+            173,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1258,
+        1224,
+        386
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "京东体检(望京店)",
+          "coord": [
+            305,
+            1278,
+            378,
+            64
+          ],
+          "ocrConfidence": 0.9656
+        },
+        {
+          "text": "京东体检",
+          "coord": [
+            64,
+            1308,
+            164,
+            42
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            308,
+            1356,
+            104,
+            48
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "138条",
+          "coord": [
+            422,
+            1357,
+            114,
+            48
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "体检",
+          "coord": [
+            544,
+            1358,
+            88,
+            50
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "感恩季限时福利",
+          "coord": [
+            96,
+            1364,
+            132,
+            16
+          ],
+          "ocrConfidence": 0.9974
+        },
+        {
+          "text": "望京",
+          "coord": [
+            642,
+            1360,
+            86,
+            46
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "2.2km",
+          "coord": [
+            1082,
+            1362,
+            114,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "成人综合体检",
+          "coord": [
+            76,
+            1398,
+            172,
+            30
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "医疗资质",
+          "coord": [
+            313,
+            1426,
+            156,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "朝阳区父母体检销量榜第5名",
+          "coord": [
+            482,
+            1425,
+            495,
+            49
+          ],
+          "ocrConfidence": 0.9965
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            992,
+            1423,
+            163,
+            48
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "第二件",
+          "coord": [
+            42,
+            1431,
+            38,
+            106
+          ],
+          "ocrConfidence": 0.9852
+        },
+        {
+          "text": "0元",
+          "coord": [
+            95,
+            1446,
+            133,
+            80
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "￥1699",
+          "coord": [
+            311,
+            1506,
+            120,
+            44
+          ],
+          "ocrConfidence": 0.9167
+        },
+        {
+          "text": "4.5折",
+          "coord": [
+            446,
+            1506,
+            88,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【暑期健康检】父母体检|",
+          "coord": [
+            566,
+            1507,
+            412,
+            48
+          ],
+          "ocrConfidence": 0.993
+        },
+        {
+          "text": "年售700+",
+          "coord": [
+            1040,
+            1507,
+            155,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥140",
+          "coord": [
+            312,
+            1578,
+            92,
+            42
+          ],
+          "ocrConfidence": 0.8662
+        },
+        {
+          "text": "4.1折",
+          "coord": [
+            420,
+            1578,
+            88,
+            39
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "【体检入职】【身体检查】入",
+          "coord": [
+            540,
+            1578,
+            428,
+            46
+          ],
+          "ocrConfidence": 0.9971
+        },
+        {
+          "text": "年售7000+",
+          "coord": [
+            1020,
+            1578,
+            174,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1667,
+        1224,
+        386
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "爱康国宾体检中心(望之京首开广场分院)",
+          "coord": [
+            305,
+            1689,
+            858,
+            64
+          ],
+          "ocrConfidence": 0.9898
+        },
+        {
+          "text": "iKang爱康",
+          "coord": [
+            90,
+            1707,
+            60,
+            18
+          ],
+          "ocrConfidence": 0.9812
+        },
+        {
+          "text": "爱康体检宝",
+          "coord": [
+            172,
+            1710,
+            47,
+            12
+          ],
+          "ocrConfidence": 0.8435
+        },
+        {
+          "text": "暑期健康狂欢",
+          "coord": [
+            40,
+            1729,
+            231,
+            67
+          ],
+          "ocrConfidence": 0.9932
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            308,
+            1767,
+            104,
+            46
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "分715条",
+          "coord": [
+            393,
+            1767,
+            142,
+            48
+          ],
+          "ocrConfidence": 0.8869
+        },
+        {
+          "text": "体检",
+          "coord": [
+            544,
+            1768,
+            89,
+            50
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "望京",
+          "coord": [
+            641,
+            1769,
+            88,
+            48
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "2.1km",
+          "coord": [
+            1082,
+            1773,
+            112,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "夏日特惠抢超值套餐",
+          "coord": [
+            96,
+            1795,
+            122,
+            12
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "医疗资质",
+          "coord": [
+            312,
+            1837,
+            156,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "朝阳区父母体检销量榜第3名",
+          "coord": [
+            482,
+            1835,
+            493,
+            48
+          ],
+          "ocrConfidence": 0.9975
+        },
+        {
+          "text": "入职体检",
+          "coord": [
+            992,
+            1834,
+            160,
+            46
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "15:00休息",
+          "coord": [
+            88,
+            1907,
+            134,
+            32
+          ],
+          "ocrConfidence": 0.9673
+        },
+        {
+          "text": "￥500",
+          "coord": [
+            310,
+            1915,
+            104,
+            46
+          ],
+          "ocrConfidence": 0.9122
+        },
+        {
+          "text": "5折",
+          "coord": [
+            426,
+            1915,
+            62,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "【中青年】臻爱优选健康体",
+          "coord": [
+            519,
+            1915,
+            430,
+            48
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "年售2000+",
+          "coord": [
+            1020,
+            1918,
+            174,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥520",
+          "coord": [
+            310,
+            1987,
+            102,
+            43
+          ],
+          "ocrConfidence": 0.9162
+        },
+        {
+          "text": "4.3折",
+          "coord": [
+            427,
+            1987,
+            88,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "【女性体检】体检套餐|TCT+",
+          "coord": [
+            546,
+            1987,
+            466,
+            46
+          ],
+          "ocrConfidence": 0.9907
+        },
+        {
+          "text": "年售90+",
+          "coord": [
+            1058,
+            1987,
+            136,
+            43
+          ],
+          "ocrConfidence": 0.9991
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2071,
+        1224,
+        391
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "问医生",
+          "coord": [
+            1078,
+            2071,
+            121,
+            42
+          ],
+          "ocrConfidence": 0.9986
+        },
+        {
+          "text": "兔途体检(望京南湖东园店)",
+          "coord": [
+            306,
+            2099,
+            568,
+            62
+          ],
+          "ocrConfidence": 0.9784
+        },
+        {
+          "text": "兔途健康",
+          "coord": [
+            42,
+            2115,
+            85,
+            23
+          ],
+          "ocrConfidence": 0.9593
+        },
+        {
+          "text": "24小时",
+          "coord": [
+            1080,
+            2125,
+            116,
+            38
+          ],
+          "ocrConfidence": 0.9976
+        },
+        {
+          "text": "入职体检",
+          "coord": [
+            43,
+            2163,
+            226,
+            59
+          ],
+          "ocrConfidence": 0.9929
+        },
+        {
+          "text": "3.9分",
+          "coord": [
+            308,
+            2175,
+            106,
+            49
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "1027条",
+          "coord": [
+            420,
+            2177,
+            136,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "体检",
+          "coord": [
+            566,
+            2179,
+            88,
+            49
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "望京",
+          "coord": [
+            662,
+            2179,
+            88,
+            49
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "`",
+          "coord": [
+            400,
+            2187,
+            19,
+            26
+          ],
+          "ocrConfidence": 0.9248
+        },
+        {
+          "text": "1.9km",
+          "coord": [
+            1086,
+            2183,
+            108,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "健康证",
+          "coord": [
+            68,
+            2225,
+            172,
+            60
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "医疗资质",
+          "coord": [
+            313,
+            2247,
+            156,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "朝阳区体检销量榜第1名",
+          "coord": [
+            482,
+            2245,
+            416,
+            48
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            916,
+            2247,
+            158,
+            43
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "特价门店",
+          "coord": [
+            72,
+            2307,
+            167,
+            48
+          ],
+          "ocrConfidence": 0.9948
+        },
+        {
+          "text": "￥61.2",
+          "coord": [
+            310,
+            2325,
+            107,
+            46
+          ],
+          "ocrConfidence": 0.9403
+        },
+        {
+          "text": "4.2折",
+          "coord": [
+            432,
+            2327,
+            88,
+            40
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "入职体检|可约今日|当",
+          "coord": [
+            548,
+            2327,
+            405,
+            47
+          ],
+          "ocrConfidence": 0.9264
+        },
+        {
+          "text": "年售5000+",
+          "coord": [
+            1019,
+            2327,
+            176,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "85",
+          "coord": [
+            330,
+            2398,
+            56,
+            42
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "6.2折",
+          "coord": [
+            400,
+            2399,
+            87,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "入职体检|可约今日当日出",
+          "coord": [
+            518,
+            2398,
+            482,
+            42
+          ],
+          "ocrConfidence": 0.9853
+        },
+        {
+          "text": "年售400+",
+          "coord": [
+            1039,
+            2399,
+            155,
+            40
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "￥",
+          "coord": [
+            316,
+            2409,
+            21,
+            26
+          ],
+          "ocrConfidence": 0.636
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2485,
+        1224,
+        215
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "美年大健康体检中心(酒仙桥分院)",
+          "coord": [
+            306,
+            2507,
+            715,
+            68
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "美甲大健康",
+          "coord": [
+            142,
+            2537,
+            54,
+            12
+          ],
+          "ocrConfidence": 0.8742
+        },
+        {
+          "text": "Hean10o",
+          "coord": [
+            140,
+            2547,
+            56,
+            10
+          ],
+          "ocrConfidence": 0.6225
+        },
+        {
+          "text": "618",
+          "coord": [
+            70,
+            2565,
+            166,
+            82
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "暂无评分",
+          "coord": [
+            310,
+            2591,
+            159,
+            44
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "3578条",
+          "coord": [
+            480,
+            2590,
+            136,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "体检",
+          "coord": [
+            628,
+            2589,
+            88,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "酒仙桥商圈",
+          "coord": [
+            720,
+            2590,
+            204,
+            45
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "3.7km",
+          "coord": [
+            1081,
+            2591,
+            114,
+            44
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "",
+          "coord": [
+            701,
+            2597,
+            38,
+            28
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "焕新体检",
+          "coord": [
+            70,
+            2641,
+            169,
+            47
+          ],
+          "ocrConfidence": 0.9941
+        },
+        {
+          "text": "医疗资质",
+          "coord": [
+            313,
+            2657,
+            156,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "公益商家",
+          "coord": [
+            484,
+            2655,
+            160,
+            44
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "体检中心",
+          "coord": [
+            240,
+            2677,
+            36,
+            14
+          ],
+          "ocrConfidence": 0.9903
+        },
+        {
+          "text": "中充楼打租",
+          "coord": [
+            78,
+            2691,
+            157,
+            8
+          ],
+          "ocrConfidence": 0.2861
+        }
+      ]
+    }
+  ]
+}

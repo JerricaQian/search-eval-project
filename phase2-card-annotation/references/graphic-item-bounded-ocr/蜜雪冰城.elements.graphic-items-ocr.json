@@ -1,0 +1,369 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/蜜雪冰城.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            1538,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            1798,
+            264,
+            149
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "冰鲜柠檬水",
+              "coord": [
+                227,
+                1820,
+                195,
+                42
+              ],
+              "ocrConfidence": 0.9956
+            },
+            {
+              "text": "¥11",
+              "coord": [
+                227,
+                1877,
+                64,
+                45
+              ],
+              "ocrConfidence": 0.8363
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            1538,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            1798,
+            264,
+            149
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "满杯百香果",
+              "coord": [
+                504,
+                1820,
+                196,
+                42
+              ],
+              "ocrConfidence": 0.9993
+            },
+            {
+              "text": "￥13.4630天低价",
+              "coord": [
+                504,
+                1880,
+                261,
+                41
+              ],
+              "ocrConfidence": 0.9602
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            1538,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            1798,
+            264,
+            149
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "冰鲜柠檬水",
+              "coord": [
+                781,
+                1820,
+                195,
+                42
+              ],
+              "ocrConfidence": 0.9956
+            },
+            {
+              "text": "￥0.8神券价",
+              "coord": [
+                781,
+                1882,
+                187,
+                39
+              ],
+              "ocrConfidence": 0.9438
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            1538,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            1798,
+            166,
+            149
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "心想事\"橙",
+              "coord": [
+                1058,
+                1818,
+                166,
+                45
+              ],
+              "ocrConfidence": 0.9872
+            },
+            {
+              "text": "?",
+              "coord": [
+                1060,
+                1887,
+                20,
+                30
+              ],
+              "ocrConfidence": 0.6464
+            },
+            {
+              "text": "25",
+              "coord": [
+                1074,
+                1878,
+                61,
+                45
+              ],
+              "ocrConfidence": 0.9975
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            310,
+            2212,
+            264,
+            240
+          ],
+          "coord": [
+            310,
+            2448,
+            264,
+            252
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "茶山季",
+              "coord": [
+                342,
+                2448,
+                59,
+                25
+              ],
+              "ocrConfidence": 0.9968
+            },
+            {
+              "text": "斯里兰卡奶茶",
+              "coord": [
+                545,
+                2530,
+                21,
+                111
+              ],
+              "ocrConfidence": 0.9957
+            },
+            {
+              "text": "茶山季",
+              "coord": [
+                454,
+                2566,
+                62,
+                25
+              ],
+              "ocrConfidence": 0.9983
+            },
+            {
+              "text": "山季必喝】",
+              "coord": [
+                311,
+                2607,
+                173,
+                42
+              ],
+              "ocrConfidence": 0.9911
+            },
+            {
+              "text": "四",
+              "coord": [
+                507,
+                2609,
+                37,
+                39
+              ],
+              "ocrConfidence": 0.9999
+            },
+            {
+              "text": "A",
+              "coord": [
+                565,
+                2624,
+                7,
+                22
+              ],
+              "ocrConfidence": 0.1528
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            587,
+            2212,
+            264,
+            240
+          ],
+          "coord": [
+            587,
+            2448,
+            264,
+            252
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "【手作冰淇",
+              "coord": [
+                683,
+                2566,
+                168,
+                44
+              ],
+              "ocrConfidence": 0.993
+            },
+            {
+              "text": "16",
+              "coord": [
+                587,
+                2611,
+                45,
+                46
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "￥10.8",
+              "coord": [
+                659,
+                2629,
+                102,
+                44
+              ],
+              "ocrConfidence": 0.9045
+            },
+            {
+              "text": "￥18",
+              "coord": [
+                753,
+                2638,
+                64,
+                33
+              ],
+              "ocrConfidence": 0.8859
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            864,
+            2212,
+            264,
+            240
+          ],
+          "coord": [
+            864,
+            2448,
+            264,
+            252
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "【抹茶奶茶",
+              "coord": [
+                959,
+                2567,
+                169,
+                44
+              ],
+              "ocrConfidence": 0.999
+            },
+            {
+              "text": "￥24.8￥28",
+              "coord": [
+                934,
+                2628,
+                169,
+                47
+              ],
+              "ocrConfidence": 0.932
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1141,
+            2212,
+            83,
+            240
+          ],
+          "coord": [
+            1141,
+            2448,
+            83,
+            252
+          ],
+          "backend": "paddleocr_empty_naturally_cropped",
+          "observations": []
+        }
+      ]
+    }
+  ]
+}

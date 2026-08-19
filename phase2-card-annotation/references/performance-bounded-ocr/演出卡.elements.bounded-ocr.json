@@ -1,0 +1,264 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/performance-movie-card/演出卡.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/performance-movie-card/演出电影卡-演出卡.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "演出电影卡片",
+      "coord": [
+        0,
+        414,
+        1224,
+        404
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "北京",
+          "coord": [
+            405,
+            414,
+            102,
+            50
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "听云轩麒麟新天地相声专场",
+          "coord": [
+            542,
+            414,
+            577,
+            52
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "云轩",
+          "coord": [
+            127,
+            420,
+            103,
+            71
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "演出",
+          "coord": [
+            318,
+            420,
+            69,
+            39
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "听",
+          "coord": [
+            80,
+            434,
+            66,
+            62
+          ],
+          "ocrConfidence": 0.9863
+        },
+        {
+          "text": "9.2分",
+          "coord": [
+            308,
+            486,
+            100,
+            46
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "妖料好大学",
+          "coord": [
+            244,
+            500,
+            9,
+            43
+          ],
+          "ocrConfidence": 0.3801
+        },
+        {
+          "text": "美声专场",
+          "coord": [
+            236,
+            505,
+            8,
+            36
+          ],
+          "ocrConfidence": 0.1335
+        },
+        {
+          "text": "2026-07-10至2026-07-31",
+          "coord": [
+            310,
+            557,
+            464,
+            38
+          ],
+          "ocrConfidence": 0.9785
+        },
+        {
+          "text": "听云轩望京麒麟社",
+          "coord": [
+            312,
+            618,
+            312,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "68-299",
+          "coord": [
+            337,
+            692,
+            212,
+            58
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "?",
+          "coord": [
+            312,
+            710,
+            23,
+            32
+          ],
+          "ocrConfidence": 0.7534
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "演出电影卡片",
+      "coord": [
+        0,
+        818,
+        1224,
+        414
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "北京",
+          "coord": [
+            406,
+            818,
+            102,
+            53
+          ],
+          "ocrConfidence": 1.0
+        },
+        {
+          "text": "德云社相声大会-德云社广德楼",
+          "coord": [
+            540,
+            820,
+            652,
+            52
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "演出",
+          "coord": [
+            318,
+            828,
+            69,
+            39
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "#雲",
+          "coord": [
+            106,
+            835,
+            98,
+            236
+          ],
+          "ocrConfidence": 0.2644
+        },
+        {
+          "text": "戏园",
+          "coord": [
+            308,
+            886,
+            102,
+            54
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "2026-07-10至2026-07-12",
+          "coord": [
+            310,
+            970,
+            467,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "相声大会",
+          "coord": [
+            178,
+            1034,
+            18,
+            56
+          ],
+          "ocrConfidence": 0.9853
+        },
+        {
+          "text": "德云社-广德楼戏园",
+          "coord": [
+            310,
+            1031,
+            331,
+            42
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "150-350",
+          "coord": [
+            336,
+            1105,
+            240,
+            60
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "广德楼剧场",
+          "coord": [
+            110,
+            1122,
+            92,
+            23
+          ],
+          "ocrConfidence": 0.9911
+        },
+        {
+          "text": "￥",
+          "coord": [
+            311,
+            1124,
+            26,
+            36
+          ],
+          "ocrConfidence": 0.6372
+        }
+      ]
+    }
+  ]
+}

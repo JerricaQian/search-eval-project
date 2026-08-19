@@ -1,0 +1,896 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/product-card/生理盐水.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/product-card/component-level/商品卡片-搜索词为生理盐水.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        554,
+        1224,
+        502
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "INOHV",
+          "coord": [
+            35,
+            559,
+            65,
+            18
+          ],
+          "ocrConfidence": 0.9903
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            400,
+            562,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "海氏海诺英诺威医用生理盐水清",
+          "coord": [
+            491,
+            558,
+            674,
+            50
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "英诺威",
+          "coord": [
+            50,
+            575,
+            32,
+            14
+          ],
+          "ocrConfidence": 0.9578
+        },
+        {
+          "text": "0.9%",
+          "coord": [
+            39,
+            591,
+            173,
+            66
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "洗液250ml0.9%氯化钠清洗液清洁",
+          "coord": [
+            392,
+            622,
+            756,
+            57
+          ],
+          "ocrConfidence": 0.9946
+        },
+        {
+          "text": "生理性盐水",
+          "coord": [
+            47,
+            660,
+            156,
+            34
+          ],
+          "ocrConfidence": 0.9994
+        },
+        {
+          "text": "清洗清洁",
+          "coord": [
+            66,
+            706,
+            104,
+            31
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "一类医疗器械|超30人回购",
+          "coord": [
+            397,
+            700,
+            460,
+            43
+          ],
+          "ocrConfidence": 0.9937
+        },
+        {
+          "text": "一瓶多用",
+          "coord": [
+            67,
+            744,
+            104,
+            34
+          ],
+          "ocrConfidence": 0.9829
+        },
+        {
+          "text": "250ml",
+          "coord": [
+            80,
+            787,
+            77,
+            28
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "￥6.5",
+          "coord": [
+            394,
+            787,
+            112,
+            60
+          ],
+          "ocrConfidence": 0.9134
+        },
+        {
+          "text": "5已优惠￥1已售700+",
+          "coord": [
+            482,
+            800,
+            368,
+            43
+          ],
+          "ocrConfidence": 0.9567
+        },
+        {
+          "text": "32分钟",
+          "coord": [
+            1065,
+            799,
+            129,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "医用级",
+          "coord": [
+            35,
+            846,
+            102,
+            39
+          ],
+          "ocrConfidence": 0.9991
+        },
+        {
+          "text": "盐水清洗液",
+          "coord": [
+            152,
+            846,
+            201,
+            40
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "品牌惠百堂医疗器械(望京店)",
+          "coord": [
+            396,
+            866,
+            503,
+            45
+          ],
+          "ocrConfidence": 0.9778
+        },
+        {
+          "text": "2.4km",
+          "coord": [
+            1082,
+            870,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "起送￥9.9免配送费",
+          "coord": [
+            393,
+            930,
+            331,
+            46
+          ],
+          "ocrConfidence": 0.9583
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1056,
+        1224,
+        502
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            400,
+            1065,
+            73,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "[霖恩盐水]清洗液(0.9%NaCI)(生",
+          "coord": [
+            492,
+            1059,
+            678,
+            55
+          ],
+          "ocrConfidence": 0.9618
+        },
+        {
+          "text": "0.9%NaCl",
+          "coord": [
+            157,
+            1070,
+            187,
+            63
+          ],
+          "ocrConfidence": 0.9026
+        },
+        {
+          "text": "霖恩盐水",
+          "coord": [
+            68,
+            1108,
+            68,
+            21
+          ],
+          "ocrConfidence": 0.985
+        },
+        {
+          "text": "生理盐水",
+          "coord": [
+            163,
+            1129,
+            180,
+            44
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "理盐水)15ml*20支/盒生理盐水棒清",
+          "coord": [
+            394,
+            1128,
+            760,
+            53
+          ],
+          "ocrConfidence": 0.9988
+        },
+        {
+          "text": "H",
+          "coord": [
+            269,
+            1198,
+            16,
+            14
+          ],
+          "ocrConfidence": 0.0529
+        },
+        {
+          "text": "一类医疗器械|超20人回购",
+          "coord": [
+            395,
+            1201,
+            462,
+            45
+          ],
+          "ocrConfidence": 0.9845
+        },
+        {
+          "text": "BRING CLEANNG LIOUD",
+          "coord": [
+            130,
+            1222,
+            74,
+            10
+          ],
+          "ocrConfidence": 0.8868
+        },
+        {
+          "text": "清洗液",
+          "coord": [
+            130,
+            1232,
+            29,
+            11
+          ],
+          "ocrConfidence": 0.8951
+        },
+        {
+          "text": "(44",
+          "coord": [
+            167,
+            1233,
+            29,
+            7
+          ],
+          "ocrConfidence": 0.3225
+        },
+        {
+          "text": "oAmAL",
+          "coord": [
+            153,
+            1267,
+            27,
+            7
+          ],
+          "ocrConfidence": 0.4827
+        },
+        {
+          "text": "SALnE",
+          "coord": [
+            177,
+            1266,
+            27,
+            10
+          ],
+          "ocrConfidence": 0.7517
+        },
+        {
+          "text": "￥15.9已优惠¥2已售700+",
+          "coord": [
+            388,
+            1281,
+            495,
+            80
+          ],
+          "ocrConfidence": 0.9191
+        },
+        {
+          "text": "告文号：广（文第",
+          "coord": [
+            50,
+            1295,
+            93,
+            7
+          ],
+          "ocrConfidence": 0.6739
+        },
+        {
+          "text": "32分钟",
+          "coord": [
+            1065,
+            1301,
+            129,
+            48
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "反应体系的请，以使手时物质进行体外检测，不包含单用手仅器",
+          "coord": [
+            118,
+            1329,
+            230,
+            9
+          ],
+          "ocrConfidence": 0.6479
+        },
+        {
+          "text": "药监生产20230001号",
+          "coord": [
+            125,
+            1321,
+            105,
+            10
+          ],
+          "ocrConfidence": 0.9016
+        },
+        {
+          "text": "书成在务人员下购买和便用，内成者注事项请说",
+          "coord": [
+            106,
+            1347,
+            227,
+            7
+          ],
+          "ocrConfidence": 0.5379
+        },
+        {
+          "text": "20230002",
+          "coord": [
+            123,
+            1365,
+            45,
+            7
+          ],
+          "ocrConfidence": 0.8231
+        },
+        {
+          "text": "品牌闪叮叮医疗器械(望京店）",
+          "coord": [
+            395,
+            1368,
+            503,
+            45
+          ],
+          "ocrConfidence": 0.9422
+        },
+        {
+          "text": "2.4km",
+          "coord": [
+            1082,
+            1372,
+            111,
+            38
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "起送￥15.9免配送费",
+          "coord": [
+            393,
+            1431,
+            353,
+            47
+          ],
+          "ocrConfidence": 0.9595
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        1558,
+        1224,
+        487
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            402,
+            1568,
+            70,
+            39
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "[霖恩盐水]清洗液(0.9%NaCI)(生",
+          "coord": [
+            493,
+            1561,
+            677,
+            54
+          ],
+          "ocrConfidence": 0.9668
+        },
+        {
+          "text": "医疗器械生理盐水",
+          "coord": [
+            70,
+            1592,
+            251,
+            32
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "独立包装小巧便携",
+          "coord": [
+            171,
+            1635,
+            147,
+            24
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "理盐水)15ml*20支/盒伤口清洁温和",
+          "coord": [
+            395,
+            1629,
+            758,
+            51
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "0.9%NaCl",
+          "coord": [
+            87,
+            1639,
+            72,
+            18
+          ],
+          "ocrConfidence": 0.9071
+        },
+        {
+          "text": "一类医疗器械",
+          "coord": [
+            394,
+            1702,
+            237,
+            44
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "LEANINGLIQUID",
+          "coord": [
+            147,
+            1725,
+            66,
+            15
+          ],
+          "ocrConfidence": 0.9504
+        },
+        {
+          "text": "Ctet10d",
+          "coord": [
+            149,
+            1739,
+            54,
+            12
+          ],
+          "ocrConfidence": 0.2777
+        },
+        {
+          "text": "AMALSALINE",
+          "coord": [
+            149,
+            1786,
+            66,
+            20
+          ],
+          "ocrConfidence": 0.736
+        },
+        {
+          "text": "￥11.5",
+          "coord": [
+            390,
+            1782,
+            138,
+            72
+          ],
+          "ocrConfidence": 0.9131
+        },
+        {
+          "text": "5满2件10.35/件已售2",
+          "coord": [
+            502,
+            1805,
+            390,
+            44
+          ],
+          "ocrConfidence": 0.9961
+        },
+        {
+          "text": "115分钟",
+          "coord": [
+            1034,
+            1806,
+            159,
+            42
+          ],
+          "ocrConfidence": 0.9897
+        },
+        {
+          "text": "药房",
+          "coord": [
+            49,
+            1837,
+            49,
+            26
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "同款",
+          "coord": [
+            49,
+            1860,
+            49,
+            28
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "无菌包装温和舒适",
+          "coord": [
+            152,
+            1853,
+            180,
+            25
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "品牌叮当优品器械健康用品店(望京...",
+          "coord": [
+            397,
+            1873,
+            644,
+            41
+          ],
+          "ocrConfidence": 0.961
+        },
+        {
+          "text": "1.7km",
+          "coord": [
+            1084,
+            1875,
+            107,
+            36
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "起送￥9.9",
+          "coord": [
+            397,
+            1939,
+            155,
+            36
+          ],
+          "ocrConfidence": 0.9271
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            563,
+            1938,
+            159,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2045,
+        1224,
+        517
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            398,
+            2065,
+            78,
+            47
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "[KL]生理氯化钠溶液",
+          "coord": [
+            490,
+            2061,
+            437,
+            52
+          ],
+          "ocrConfidence": 0.9977
+        },
+        {
+          "text": "问医生",
+          "coord": [
+            1076,
+            2066,
+            123,
+            45
+          ],
+          "ocrConfidence": 0.9982
+        },
+        {
+          "text": ")*500ml/瓶",
+          "coord": [
+            392,
+            2129,
+            247,
+            52
+          ],
+          "ocrConfidence": 0.9965
+        },
+        {
+          "text": "24小时",
+          "coord": [
+            1078,
+            2123,
+            119,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        },
+        {
+          "text": "超300人回购|处方药|西药",
+          "coord": [
+            395,
+            2205,
+            471,
+            41
+          ],
+          "ocrConfidence": 0.9864
+        },
+        {
+          "text": "￥4.9已售4000+",
+          "coord": [
+            392,
+            2290,
+            308,
+            70
+          ],
+          "ocrConfidence": 0.981
+        },
+        {
+          "text": "30分钟",
+          "coord": [
+            1064,
+            2306,
+            131,
+            46
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "品牌111医药馆(望京西园分店）",
+          "coord": [
+            397,
+            2373,
+            534,
+            42
+          ],
+          "ocrConfidence": 0.9611
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1082,
+            2375,
+            112,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "起送￥20",
+          "coord": [
+            396,
+            2440,
+            150,
+            38
+          ],
+          "ocrConfidence": 0.8911
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            555,
+            2440,
+            158,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        }
+      ]
+    },
+    {
+      "listPosition": 5,
+      "cardType": "商品卡片",
+      "coord": [
+        0,
+        2562,
+        1224,
+        138
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "妮蓓莉",
+          "coord": [
+            36,
+            2565,
+            71,
+            40
+          ],
+          "ocrConfidence": 0.8652
+        },
+        {
+          "text": "外卖",
+          "coord": [
+            403,
+            2573,
+            69,
+            36
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "生理盐水清洗液【15支/1支】[妮",
+          "coord": [
+            494,
+            2566,
+            666,
+            48
+          ],
+          "ocrConfidence": 0.9882
+        },
+        {
+          "text": "0.9%",
+          "coord": [
+            41,
+            2613,
+            139,
+            55
+          ],
+          "ocrConfidence": 0.9985
+        },
+        {
+          "text": "蓓莉]待测物清洗液(0.9%盐水清洗液)",
+          "coord": [
+            397,
+            2634,
+            785,
+            48
+          ],
+          "ocrConfidence": 0.9713
+        },
+        {
+          "text": "68M",
+          "coord": [
+            235,
+            2653,
+            37,
+            21
+          ],
+          "ocrConfidence": 0.2019
+        },
+        {
+          "text": "生理性盐水",
+          "coord": [
+            42,
+            2667,
+            135,
+            30
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "盐水清洗",
+          "coord": [
+            237,
+            2675,
+            35,
+            11
+          ],
+          "ocrConfidence": 0.9005
+        }
+      ]
+    }
+  ]
+}

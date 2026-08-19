@@ -1,0 +1,100 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/蜜雪冰城.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为蜜雪冰城.png",
+  "requests": [
+    {
+      "kind": "missing_title",
+      "listPosition": 1,
+      "coord": [
+        180,
+        1326,
+        1044,
+        125
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            1328,
+            70,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "蜜雪冰城(东辛店)",
+          "coord": [
+            322,
+            1326,
+            372,
+            50
+          ],
+          "ocrConfidence": 0.9741
+        },
+        {
+          "text": "20分钟",
+          "coord": [
+            1064,
+            1326,
+            132,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "4.9分",
+          "coord": [
+            224,
+            1394,
+            100,
+            44
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "月售1000+",
+          "coord": [
+            340,
+            1396,
+            190,
+            45
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "起送￥26",
+          "coord": [
+            544,
+            1397,
+            148,
+            41
+          ],
+          "ocrConfidence": 0.8607
+        },
+        {
+          "text": "配送￥0.4",
+          "coord": [
+            708,
+            1396,
+            160,
+            44
+          ],
+          "ocrConfidence": 0.9146
+        },
+        {
+          "text": "3.1km",
+          "coord": [
+            1082,
+            1397,
+            113,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    }
+  ]
+}

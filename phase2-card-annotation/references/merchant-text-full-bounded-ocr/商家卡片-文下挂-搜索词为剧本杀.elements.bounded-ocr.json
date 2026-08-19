@@ -1,0 +1,632 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为剧本杀.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为剧本杀.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1073,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1075,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "贝克街推理馆·剧本杀跑团血染钟楼",
+          "coord": [
+            407,
+            1073,
+            746,
+            50
+          ],
+          "ocrConfidence": 0.9967
+        },
+        {
+          "text": "4.1分",
+          "coord": [
+            309,
+            1140,
+            104,
+            45
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "1949条¥145/人剧本杀望京",
+          "coord": [
+            410,
+            1141,
+            530,
+            50
+          ],
+          "ocrConfidence": 0.9649
+        },
+        {
+          "text": "1.6km",
+          "coord": [
+            1083,
+            1144,
+            109,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券最高膨至50→望京剧本杀回头客榜第2名",
+          "coord": [
+            308,
+            1206,
+            777,
+            47
+          ],
+          "ocrConfidence": 0.9769
+        },
+        {
+          "text": "KING",
+          "coord": [
+            184,
+            1270,
+            91,
+            48
+          ],
+          "ocrConfidence": 0.9918
+        },
+        {
+          "text": "体验非常棒，超乎预期！",
+          "coord": [
+            355,
+            1275,
+            403,
+            39
+          ],
+          "ocrConfidence": 0.9946
+        },
+        {
+          "text": "￥148【剧本推理】【恐怖】雪乡连环杀人",
+          "coord": [
+            313,
+            1355,
+            654,
+            41
+          ],
+          "ocrConfidence": 0.9753
+        },
+        {
+          "text": "已订300+",
+          "coord": [
+            1041,
+            1356,
+            152,
+            38
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "¥148【剧本推理】【恐怖】剧本杀《上路》|",
+          "coord": [
+            312,
+            1426,
+            686,
+            41
+          ],
+          "ocrConfidence": 0.9472
+        },
+        {
+          "text": "已订25",
+          "coord": [
+            1081,
+            1428,
+            112,
+            36
+          ],
+          "ocrConfidence": 0.9973
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        1548,
+        1224,
+        475
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            315,
+            1550,
+            74,
+            42
+          ],
+          "ocrConfidence": 0.997
+        },
+        {
+          "text": "鹿屿沉浸式剧本杀",
+          "coord": [
+            408,
+            1548,
+            383,
+            48
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "不良少女",
+          "coord": [
+            122,
+            1567,
+            109,
+            56
+          ],
+          "ocrConfidence": 0.9667
+        },
+        {
+          "text": "",
+          "coord": [
+            223,
+            1582,
+            48,
+            22
+          ],
+          "ocrConfidence": 0.0
+        },
+        {
+          "text": "与独眼Kitty猫",
+          "coord": [
+            140,
+            1599,
+            139,
+            46
+          ],
+          "ocrConfidence": 0.8764
+        },
+        {
+          "text": "4.4分",
+          "coord": [
+            309,
+            1615,
+            103,
+            45
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "1228条 ￥139/人剧本杀 望京",
+          "coord": [
+            423,
+            1619,
+            524,
+            44
+          ],
+          "ocrConfidence": 0.9373
+        },
+        {
+          "text": "1.5km",
+          "coord": [
+            1082,
+            1618,
+            111,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "神券立减5望京剧本杀人气榜第1名",
+          "coord": [
+            307,
+            1679,
+            614,
+            51
+          ],
+          "ocrConfidence": 0.9932
+        },
+        {
+          "text": "房间宽，装修很有创意",
+          "coord": [
+            354,
+            1748,
+            431,
+            43
+          ],
+          "ocrConfidence": 0.9984
+        },
+        {
+          "text": "￥93",
+          "coord": [
+            309,
+            1827,
+            81,
+            46
+          ],
+          "ocrConfidence": 0.9225
+        },
+        {
+          "text": "6.8折",
+          "coord": [
+            400,
+            1828,
+            89,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【剧本杀】【工作日】盒装剧本闲",
+          "coord": [
+            521,
+            1828,
+            506,
+            43
+          ],
+          "ocrConfidence": 0.9968
+        },
+        {
+          "text": "年售15",
+          "coord": [
+            1078,
+            1830,
+            115,
+            39
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥143",
+          "coord": [
+            310,
+            1898,
+            96,
+            45
+          ],
+          "ocrConfidence": 0.8864
+        },
+        {
+          "text": "5.8折",
+          "coord": [
+            420,
+            1898,
+            88,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "【精品盒装】周末单人4H",
+          "coord": [
+            543,
+            1901,
+            405,
+            41
+          ],
+          "ocrConfidence": 0.9983
+        },
+        {
+          "text": "年售2000+",
+          "coord": [
+            1020,
+            1901,
+            173,
+            38
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2023,
+        1224,
+        410
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "到店",
+          "coord": [
+            316,
+            2025,
+            73,
+            41
+          ],
+          "ocrConfidence": 0.9962
+        },
+        {
+          "text": "LIENOW来闹·沉浸剧本探案馆(望京",
+          "coord": [
+            407,
+            2023,
+            767,
+            49
+          ],
+          "ocrConfidence": 0.9953
+        },
+        {
+          "text": "LIENOW",
+          "coord": [
+            167,
+            2066,
+            59,
+            14
+          ],
+          "ocrConfidence": 0.9919
+        },
+        {
+          "text": "探案沉浸",
+          "coord": [
+            78,
+            2082,
+            145,
+            32
+          ],
+          "ocrConfidence": 0.9958
+        },
+        {
+          "text": "4.2分",
+          "coord": [
+            308,
+            2091,
+            106,
+            43
+          ],
+          "ocrConfidence": 0.9996
+        },
+        {
+          "text": "2225条 ¥130/人剧本杀望",
+          "coord": [
+            419,
+            2092,
+            529,
+            46
+          ],
+          "ocrConfidence": 0.9405
+        },
+        {
+          "text": "2.0km",
+          "coord": [
+            1082,
+            2096,
+            110,
+            39
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "LIENOW来闹",
+          "coord": [
+            90,
+            2128,
+            143,
+            27
+          ],
+          "ocrConfidence": 0.99
+        },
+        {
+          "text": "神券最高膨至50→望京剧本杀人气榜第2名",
+          "coord": [
+            308,
+            2156,
+            739,
+            47
+          ],
+          "ocrConfidence": 0.9792
+        },
+        {
+          "text": "￥113",
+          "coord": [
+            312,
+            2240,
+            90,
+            40
+          ],
+          "ocrConfidence": 0.8792
+        },
+        {
+          "text": "来闹·盒装剧本·单人券【周中】",
+          "coord": [
+            411,
+            2239,
+            512,
+            43
+          ],
+          "ocrConfidence": 0.9807
+        },
+        {
+          "text": "年售300+",
+          "coord": [
+            1040,
+            2241,
+            153,
+            38
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "￥128",
+          "coord": [
+            311,
+            2309,
+            96,
+            44
+          ],
+          "ocrConfidence": 0.8881
+        },
+        {
+          "text": "雪乡连环杀人事件",
+          "coord": [
+            421,
+            2310,
+            313,
+            40
+          ],
+          "ocrConfidence": 0.9981
+        },
+        {
+          "text": "已订700+",
+          "coord": [
+            1041,
+            2312,
+            153,
+            37
+          ],
+          "ocrConfidence": 0.9984
+        }
+      ]
+    },
+    {
+      "listPosition": 4,
+      "cardType": "商家卡片_文字下挂",
+      "coord": [
+        0,
+        2433,
+        1224,
+        267
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "剧中有你",
+          "coord": [
+            41,
+            2437,
+            58,
+            206
+          ],
+          "ocrConfidence": 0.9942
+        },
+        {
+          "text": "SCRIPT",
+          "coord": [
+            96,
+            2440,
+            38,
+            156
+          ],
+          "ocrConfidence": 0.9989
+        },
+        {
+          "text": "到店",
+          "coord": [
+            317,
+            2436,
+            71,
+            40
+          ],
+          "ocrConfidence": 0.996
+        },
+        {
+          "text": "剧中有你剧场·沉浸推理剧本杀·声光",
+          "coord": [
+            407,
+            2433,
+            769,
+            49
+          ],
+          "ocrConfidence": 0.9939
+        },
+        {
+          "text": "4.2分",
+          "coord": [
+            310,
+            2502,
+            102,
+            42
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "3079条¥130/人剧本杀亚运村商圈",
+          "coord": [
+            420,
+            2503,
+            646,
+            45
+          ],
+          "ocrConfidence": 0.975
+        },
+        {
+          "text": "图6.0km",
+          "coord": [
+            1050,
+            2507,
+            140,
+            37
+          ],
+          "ocrConfidence": 0.9743
+        },
+        {
+          "text": "神券立减5亚运村商圈剧本杀销量榜第1名",
+          "coord": [
+            307,
+            2564,
+            731,
+            51
+          ],
+          "ocrConfidence": 0.9956
+        },
+        {
+          "text": "沉浸式剧本杀·专业DM等您来",
+          "coord": [
+            38,
+            2654,
+            238,
+            21
+          ],
+          "ocrConfidence": 0.9788
+        },
+        {
+          "text": "￥148",
+          "coord": [
+            310,
+            2647,
+            97,
+            46
+          ],
+          "ocrConfidence": 0.8999
+        },
+        {
+          "text": "立方馆谋杀始末",
+          "coord": [
+            421,
+            2648,
+            275,
+            43
+          ],
+          "ocrConfidence": 0.999
+        },
+        {
+          "text": "已订6",
+          "coord": [
+            1101,
+            2650,
+            94,
+            39
+          ],
+          "ocrConfidence": 0.9982
+        }
+      ]
+    }
+  ]
+}

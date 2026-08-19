@@ -1,0 +1,150 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-text-hang/商家卡片-文下挂-搜索词为剧本杀.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-text-hang/component-level/商家卡片-文下挂-搜索词为剧本杀.png",
+  "requests": [
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 1,
+      "legacyText": "神券最高膨至50↑望京剧本杀回头客榜第2名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1195,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至50↑",
+          "coord": [
+            309,
+            1208,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9135
+        },
+        {
+          "text": "望京剧本杀回头客榜第2名",
+          "coord": [
+            635,
+            1209,
+            450,
+            40
+          ],
+          "ocrConfidence": 0.9993
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 2,
+      "legacyText": "神券立减5望京剧本杀人气榜第1名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        1670,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            309,
+            1682,
+            184,
+            43
+          ],
+          "ocrConfidence": 0.9829
+        },
+        {
+          "text": "望京剧本杀人气榜第1名",
+          "coord": [
+            508,
+            1684,
+            413,
+            42
+          ],
+          "ocrConfidence": 0.9974
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 3,
+      "legacyText": "神券最高膨至50↑望京剧本杀人气榜第2名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        2145,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券最高膨至50↑",
+          "coord": [
+            309,
+            2158,
+            310,
+            43
+          ],
+          "ocrConfidence": 0.9103
+        },
+        {
+          "text": "望京剧本杀人气榜第2名",
+          "coord": [
+            635,
+            2159,
+            412,
+            41
+          ],
+          "ocrConfidence": 0.9991
+        }
+      ]
+    },
+    {
+      "kind": "merged_semantic_region",
+      "listPosition": 4,
+      "legacyText": "神券立减5亚运村商圈剧本杀销量榜第1名",
+      "sourceRegion": "标签区",
+      "coord": [
+        299,
+        2555,
+        901,
+        62
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "神券立减5",
+          "coord": [
+            309,
+            2567,
+            184,
+            43
+          ],
+          "ocrConfidence": 0.9868
+        },
+        {
+          "text": "亚运村商圈剧本杀销量榜第1名",
+          "coord": [
+            510,
+            2570,
+            527,
+            39
+          ],
+          "ocrConfidence": 0.9991
+        }
+      ]
+    }
+  ]
+}

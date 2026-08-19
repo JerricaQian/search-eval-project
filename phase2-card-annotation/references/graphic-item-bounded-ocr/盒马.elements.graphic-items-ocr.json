@@ -1,0 +1,587 @@
+{
+  "golden": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-sample-results/merchant-graphic-hang/盒马.elements.json",
+  "screenshot": "/Users/qianjing/Documents/ChatGPT/workproject_3/phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为盒马.png",
+  "cards": [
+    {
+      "listPosition": 1,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            923,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            1183,
+            264,
+            247
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马左旋肉碱",
+              "coord": [
+                227,
+                1203,
+                246,
+                44
+              ],
+              "ocrConfidence": 0.9991
+            },
+            {
+              "text": "水960ml",
+              "coord": [
+                227,
+                1258,
+                156,
+                38
+              ],
+              "ocrConfidence": 0.999
+            },
+            {
+              "text": "￥10限1件",
+              "coord": [
+                227,
+                1322,
+                162,
+                38
+              ],
+              "ocrConfidence": 0.9164
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            923,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            1183,
+            264,
+            247
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "黄瓜约600g",
+              "coord": [
+                504,
+                1201,
+                226,
+                50
+              ],
+              "ocrConfidence": 0.9981
+            },
+            {
+              "text": "￥3.23限1件",
+              "coord": [
+                504,
+                1321,
+                188,
+                40
+              ],
+              "ocrConfidence": 0.9449
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            923,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            1183,
+            264,
+            247
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马红豆薏米",
+              "coord": [
+                781,
+                1203,
+                246,
+                44
+              ],
+              "ocrConfidence": 0.9989
+            },
+            {
+              "text": "水900ml",
+              "coord": [
+                781,
+                1258,
+                156,
+                38
+              ],
+              "ocrConfidence": 0.9992
+            },
+            {
+              "text": "￥8.51限1件",
+              "coord": [
+                781,
+                1321,
+                182,
+                40
+              ],
+              "ocrConfidence": 0.9483
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            923,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            1183,
+            166,
+            247
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "国产富士",
+              "coord": [
+                1058,
+                1204,
+                166,
+                41
+              ],
+              "ocrConfidence": 0.9854
+            },
+            {
+              "text": "粒装约68",
+              "coord": [
+                1058,
+                1257,
+                166,
+                41
+              ],
+              "ocrConfidence": 0.973
+            },
+            {
+              "text": "￥13.44限1",
+              "coord": [
+                1058,
+                1317,
+                166,
+                45
+              ],
+              "ocrConfidence": 0.9396
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 2,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            1579,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            1839,
+            264,
+            246
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马工坊酱卤",
+              "coord": [
+                227,
+                1858,
+                245,
+                43
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "牛腱100g",
+              "coord": [
+                227,
+                1910,
+                176,
+                46
+              ],
+              "ocrConfidence": 0.9997
+            },
+            {
+              "text": "￥15.93到手价",
+              "coord": [
+                227,
+                1974,
+                210,
+                44
+              ],
+              "ocrConfidence": 0.9469
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            1579,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            1839,
+            264,
+            246
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马烘焙原味",
+              "coord": [
+                504,
+                1857,
+                246,
+                44
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "&伯爵红茶味瑞",
+              "coord": [
+                504,
+                1912,
+                260,
+                39
+              ],
+              "ocrConfidence": 0.997
+            },
+            {
+              "text": "￥18.5到手价",
+              "coord": [
+                504,
+                1974,
+                193,
+                44
+              ],
+              "ocrConfidence": 0.9491
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            1579,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            1839,
+            264,
+            246
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马酸奶昔",
+              "coord": [
+                781,
+                1856,
+                208,
+                47
+              ],
+              "ocrConfidence": 0.9952
+            },
+            {
+              "text": "400g",
+              "coord": [
+                781,
+                1907,
+                95,
+                53
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "￥9.13到手价",
+              "coord": [
+                781,
+                1975,
+                186,
+                41
+              ],
+              "ocrConfidence": 0.9647
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            1579,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            1839,
+            166,
+            246
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "封神麻辣",
+              "coord": [
+                1058,
+                1859,
+                166,
+                41
+              ],
+              "ocrConfidence": 0.9936
+            },
+            {
+              "text": "虾神鲜桶",
+              "coord": [
+                1058,
+                1913,
+                160,
+                40
+              ],
+              "ocrConfidence": 0.9995
+            },
+            {
+              "text": "￥92.68到手",
+              "coord": [
+                1058,
+                1976,
+                166,
+                38
+              ],
+              "ocrConfidence": 0.938
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "listPosition": 3,
+      "items": [
+        {
+          "itemIndex": 1,
+          "imageCoord": [
+            227,
+            2217,
+            264,
+            264
+          ],
+          "coord": [
+            227,
+            2477,
+            264,
+            223
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马烘焙安心",
+              "coord": [
+                227,
+                2515,
+                244,
+                41
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "慢发酵米酿吐",
+              "coord": [
+                227,
+                2567,
+                234,
+                40
+              ],
+              "ocrConfidence": 0.9987
+            },
+            {
+              "text": "￥12.65到手价",
+              "coord": [
+                227,
+                2631,
+                210,
+                38
+              ],
+              "ocrConfidence": 0.9597
+            }
+          ]
+        },
+        {
+          "itemIndex": 2,
+          "imageCoord": [
+            504,
+            2217,
+            264,
+            264
+          ],
+          "coord": [
+            504,
+            2477,
+            264,
+            223
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "盒马有机一分",
+              "coord": [
+                504,
+                2514,
+                244,
+                42
+              ],
+              "ocrConfidence": 0.9978
+            },
+            {
+              "text": "甘胡萝卜400g",
+              "coord": [
+                504,
+                2564,
+                254,
+                49
+              ],
+              "ocrConfidence": 0.9983
+            },
+            {
+              "text": "￥4.53到手价",
+              "coord": [
+                504,
+                2630,
+                191,
+                41
+              ],
+              "ocrConfidence": 0.9658
+            }
+          ]
+        },
+        {
+          "itemIndex": 3,
+          "imageCoord": [
+            781,
+            2217,
+            264,
+            264
+          ],
+          "coord": [
+            781,
+            2477,
+            264,
+            223
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "佳农进口有机",
+              "coord": [
+                781,
+                2514,
+                245,
+                42
+              ],
+              "ocrConfidence": 0.9988
+            },
+            {
+              "text": "超糯蕉650g",
+              "coord": [
+                781,
+                2563,
+                215,
+                50
+              ],
+              "ocrConfidence": 0.9998
+            },
+            {
+              "text": "¥15.9",
+              "coord": [
+                781,
+                2627,
+                95,
+                48
+              ],
+              "ocrConfidence": 0.8965
+            }
+          ]
+        },
+        {
+          "itemIndex": 4,
+          "imageCoord": [
+            1058,
+            2217,
+            166,
+            264
+          ],
+          "coord": [
+            1058,
+            2477,
+            166,
+            223
+          ],
+          "backend": "paddleocr",
+          "observations": [
+            {
+              "text": "【水果菜】",
+              "coord": [
+                1058,
+                2514,
+                166,
+                45
+              ],
+              "ocrConfidence": 0.9952
+            },
+            {
+              "text": "串茄400g",
+              "coord": [
+                1058,
+                2564,
+                166,
+                47
+              ],
+              "ocrConfidence": 0.9969
+            },
+            {
+              "text": "￥9.19到手",
+              "coord": [
+                1058,
+                2631,
+                166,
+                38
+              ],
+              "ocrConfidence": 0.9584
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

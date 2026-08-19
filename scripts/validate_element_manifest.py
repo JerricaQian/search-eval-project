@@ -25,6 +25,7 @@ BUSINESS_CODES = {
 OWNERSHIP_SCOPES = {"business", "platform", "mixed", "unknown"}
 CONFIDENCE_LEVELS = {"high", "medium", "low", "unknown"}
 REGION_KEYS = {"name", "coord", "elements"}
+OPTIONAL_REGION_KEYS = {"itemGroups"}
 ELEMENT_KEYS = {"id", "所属组件", "元素类型", "内容简述", "坐标", "isExcluded", "excludeReason"}
 OPTIONAL_ELEMENT_VISUAL_KEYS = {"visual", "render", "textFacts"}
 VISUAL_ENTITY_KINDS = {"tag", "icon", "text", "image"}
@@ -109,6 +110,18 @@ def is_within(inner: list[float], outer: list[float], tolerance: float = 2) -> b
 def normalized_visible_text(value: str) -> str:
     """Normalize copied visible text only for conservative duplicate-supply candidates."""
     return re.sub(r"[\s\W_]+", "", value.removeprefix("原文:")).lower()
+
+
+def semantic_tag_group_count(text: str) -> int:
+    groups = (
+        r"神券|立减|最高膨",
+        r"全程保",
+        r"公益商家",
+        r"好评率|回头客|浏览",
+        r"榜第\d+名",
+        r"免费停车|免费水果|泰式手法|精油SPA",
+    )
+    return sum(bool(re.search(pattern, text)) for pattern in groups)
 
 
 def main() -> int:
@@ -231,7 +244,7 @@ def main() -> int:
         card_elements_by_id[str(card_id)] = card_elements
         for ri, region in enumerate(regions, 1):
             rprefix = f"{prefix}.regions[{ri}]"
-            if not isinstance(region, dict) or set(region) != REGION_KEYS:
+            if not isinstance(region, dict) or not REGION_KEYS.issubset(region) or not set(region).issubset(REGION_KEYS | OPTIONAL_REGION_KEYS):
                 errors.append(f"{rprefix}:region_keys_invalid")
                 continue
             if region.get("name") not in REGION_NAMES:
@@ -289,8 +302,17 @@ def main() -> int:
                     # 标签/徽标必须是最小独立视觉元素；分隔符通常意味着多个独立 chip 被错误合并。
                     # 连续文本允许包含普通标点，故仅对标签元素的明确 UI 分隔符阻断。
                     raw = content.removeprefix("原文:") if isinstance(content, str) else ""
+                    compact_raw = re.sub(r"\s+", "", raw)
+                    if element.get("元素类型") in {"文本", "标签"} and len(compact_raw) == 1:
+                        errors.append(f"{eprefix}:one_character_semantic_element_forbidden")
                     if element.get("元素类型") == "标签" and any(separator in raw for separator in ("｜", "|", "；")):
                         errors.append(f"{eprefix}:tag_must_be_split_into_minimum_independent_elements")
+                    if region.get("name") in {"基础信息区", "商家信息区", "标签区"}:
+                        atomic_parts = [part.strip() for part in re.split(r"[｜|；]", raw) if part.strip()]
+                        if len(atomic_parts) > 1:
+                            errors.append(f"{eprefix}:semantic_fields_must_be_atomic_not_delimited_bundle")
+                        if region.get("name") == "标签区" and semantic_tag_group_count(raw) > 1:
+                            errors.append(f"{eprefix}:multiple_independent_tags_merged")
                     active.append(element)
                     card_elements.append(element)
                 render = element.get("render")
@@ -335,8 +357,48 @@ def main() -> int:
                                 or not isinstance(visual.get("dedupWithElementIds"), list)
                             ):
                                 errors.append(f"{eprefix}:visual_complexity_fields_invalid")
-                            elif any(not isinstance(item, str) or not item.strip() for item in visual["dedupWithElementIds"]):
-                                errors.append(f"{eprefix}:visual_dedup_reference_invalid")
+                        elif visual.get("dedupWithElementIds") is not None and any(not isinstance(item, str) or not item.strip() for item in visual.get("dedupWithElementIds", [])):
+                            errors.append(f"{eprefix}:visual_dedup_reference_invalid")
+
+            if region.get("name") in {"下挂商品区", "文字下挂区", "下挂区", "服务下挂"} and elements:
+                groups = region.get("itemGroups")
+                if not isinstance(groups, list) or not groups:
+                    errors.append(f"{rprefix}:appended_elements_must_be_owned_by_item_groups")
+                else:
+                    region_ids = [str(item.get("id")) for item in elements if isinstance(item, dict)]
+                    grouped_ids: list[str] = []
+                    for gi, group in enumerate(groups, 1):
+                        gprefix = f"{rprefix}.itemGroups[{gi}]"
+                        required = {"itemIndex", "coord", "elementIds", "imageElementIds", "textElementIds", "priceElementIds", "visibleStatus"}
+                        if not isinstance(group, dict) or set(group) != required:
+                            errors.append(f"{gprefix}:item_group_schema_invalid")
+                            continue
+                        if group.get("itemIndex") != gi or not coord_ok(group.get("coord")) or group.get("visibleStatus") not in {"confirmed", "uncertain"}:
+                            errors.append(f"{gprefix}:item_group_identity_invalid")
+                        ids = group.get("elementIds")
+                        role_lists = [group.get(key) for key in ("imageElementIds", "textElementIds", "priceElementIds")]
+                        if not isinstance(ids, list) or not all(isinstance(values, list) for values in role_lists):
+                            errors.append(f"{gprefix}:item_group_element_lists_invalid")
+                            continue
+                        if set(ids) != set().union(*(set(values) for values in role_lists)) or any(item not in region_ids for item in ids):
+                            errors.append(f"{gprefix}:item_group_roles_must_partition_owned_elements")
+                        if not group.get("textElementIds") or not group.get("priceElementIds"):
+                            errors.append(f"{gprefix}:appended_item_requires_text_and_price")
+                        if card.get("卡片类型") == "商家卡片-图文下挂" and not group.get("imageElementIds"):
+                            errors.append(f"{gprefix}:graphic_appended_item_requires_image")
+                        grouped_ids.extend(str(item) for item in ids)
+                    if sorted(grouped_ids) != sorted(region_ids) or len(grouped_ids) != len(set(grouped_ids)):
+                        errors.append(f"{rprefix}:every_appended_element_must_belong_to_exactly_one_item")
+
+        if isinstance(structure, dict) and structure.get("isResultListItem") and structure.get("visibleStatus") == "complete" and card.get("卡片类型") not in {"特殊广告卡", "异构卡", "宏观组件"}:
+            title_elements = [
+                item for item in card_elements
+                if isinstance(item.get("textFacts"), dict)
+                and item["textFacts"].get("semanticRole") == "title"
+                and item.get("render", {}).get("sourceRegion") == "标题区"
+            ]
+            if not title_elements:
+                errors.append(f"{prefix}:complete_known_card_requires_title_element")
 
         if args.require_hierarchy_facts and isinstance(structure, dict) and structure.get("isResultListItem") and structure.get("visibleStatus") == "complete":
             missing: list[str] = []

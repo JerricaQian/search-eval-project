@@ -1,0 +1,194 @@
+{
+  "golden": "phase2-card-annotation/golden-sample-results/merchant-graphic-hang/烧烤.elements.json",
+  "screenshot": "phase2-card-annotation/golden-samples/merchant-graphic-hang/component-level/商家卡片-图文下挂-搜索词为烧烤.png",
+  "requests": [
+    {
+      "kind": "missing_title",
+      "listPosition": 1,
+      "coord": [
+        180,
+        554,
+        1044,
+        125
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            556,
+            70,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "锦州烧烤(悠乐汇店)",
+          "coord": [
+            322,
+            554,
+            420,
+            50
+          ],
+          "ocrConfidence": 0.9641
+        },
+        {
+          "text": "26分钟",
+          "coord": [
+            1064,
+            554,
+            132,
+            46
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "4.5分",
+          "coord": [
+            225,
+            622,
+            101,
+            44
+          ],
+          "ocrConfidence": 0.9992
+        },
+        {
+          "text": "月售600+",
+          "coord": [
+            340,
+            624,
+            168,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "起送￥38",
+          "coord": [
+            524,
+            626,
+            148,
+            42
+          ],
+          "ocrConfidence": 0.9378
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            688,
+            626,
+            158,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "2.5km",
+          "coord": [
+            1082,
+            625,
+            112,
+            42
+          ],
+          "ocrConfidence": 0.9999
+        }
+      ]
+    },
+    {
+      "kind": "missing_title",
+      "listPosition": 2,
+      "coord": [
+        180,
+        1217,
+        1044,
+        125
+      ],
+      "backend": "paddleocr",
+      "error": "",
+      "observations": [
+        {
+          "text": "外卖",
+          "coord": [
+            233,
+            1219,
+            70,
+            40
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "锦州烧烤(望京店)",
+          "coord": [
+            322,
+            1217,
+            372,
+            50
+          ],
+          "ocrConfidence": 0.9898
+        },
+        {
+          "text": "33分钟",
+          "coord": [
+            1066,
+            1217,
+            129,
+            47
+          ],
+          "ocrConfidence": 0.9997
+        },
+        {
+          "text": "4.6分",
+          "coord": [
+            224,
+            1284,
+            104,
+            45
+          ],
+          "ocrConfidence": 0.9995
+        },
+        {
+          "text": "月售2000+",
+          "coord": [
+            344,
+            1289,
+            188,
+            41
+          ],
+          "ocrConfidence": 0.9999
+        },
+        {
+          "text": "起送￥20",
+          "coord": [
+            548,
+            1289,
+            148,
+            41
+          ],
+          "ocrConfidence": 0.9075
+        },
+        {
+          "text": "免配送费",
+          "coord": [
+            711,
+            1287,
+            158,
+            43
+          ],
+          "ocrConfidence": 0.9998
+        },
+        {
+          "text": "2.3km",
+          "coord": [
+            1082,
+            1289,
+            114,
+            42
+          ],
+          "ocrConfidence": 0.9997
+        }
+      ]
+    }
+  ]
+}
