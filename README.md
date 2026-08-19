@@ -1,7 +1,27 @@
 # 美团搜索结果页标准化评测 Agent
 
-三维度、可组合、开箱即跑的端到端评测工作流：**截图 → Phase2 轻量识别 → 多维度评测 → 问题证据 → 合并 HTML 报告**。
-共享资源在顶层，每个维度只放自己的 eval-skills，工作流自动发现。换电脑/换人只需跑一次 `setup.sh`。
+这是一个面向美团搜索结果页的、可复用的评测系统。1.0 把用户任务拆成两个独立职责：**Screenshot Agent** 负责获取或发现截图，**Evaluation Agent** 负责将已确认截图依次完成识别、评测、证据与报告。Workflow 只做按需询问和调度，不承载评分逻辑。
+
+它既支持“一次完成截图和评测”，也支持“今天截图、数天后再选图评测”。底层仍保留严格且可追溯的事实链：**截图 → Phase2 轻量识别 → 多维度评测 → 问题证据 → HTML 报告**。
+
+## 1.0 架构与优势
+
+```text
+用户
+  └─ Workflow（只询问必要参数、编排、批次控制）
+       ├─ Screenshot Agent（Phase1：截图 / 已有截图发现）
+       └─ Evaluation Agent（Phase2 → Phase3 → Phase4 → Phase5）
+```
+
+| 优势 | 具体表现 |
+|---|---|
+| 截图与评测解耦 | 已有截图可单独发现、选择和评测；不需要重新连接设备或重复输入搜索词。 |
+| 参数按需收集 | 仅截图不询问维度和报告；仅评测不询问搜索词、Tab、屏数或设备。 |
+| 职责可维护 | Screenshot Agent 不碰评测事实；Evaluation Agent 不负责设备和截图操作；Workflow 不参与业务判断。 |
+| 结果可追溯 | 每张图独立 manifest，逐阶段校验，过程文件按批次与搜索词隔离保留。 |
+| 评测可扩展 | 19 个 Skill 按目录自动发现；增加评测项无需修改 Workflow。 |
+
+> 1.0 暂不包含 Runtime Guard、自动反思或经验库。现有确定性校验器仍由 Evaluation Agent 在 Phase2～4 内严格执行。
 
 ---
 
@@ -19,10 +39,12 @@
 
 ## 快速开始
 
-### 第1步：放桌面
+### 第 1 步：准备项目与环境
+
 整个 `search-eval-project/` 可放在任意目录下（不再要求固定为 `~/Desktop/search-eval-project/`）。工作流不再提供 `projectDir` 兜底默认值，**运行时必须显式传入 `projectDir` 为项目实际所在的绝对路径**，否则会直接报错阻断。
 
-### 第2步：配置环境（每台机器一次）
+每台机器首次运行：
+
 ```bash
 # 评已有截图：检查 Python、Node、图像依赖和项目结构
 bash ~/Desktop/search-eval-project/setup.sh
@@ -32,7 +54,56 @@ bash ~/Desktop/search-eval-project/setup.sh --with-device
 ```
 默认模式不要求连接手机，适合复用已有截图；现场截图时才需要 Android 真机。若缺 Python 图像依赖，在项目根目录执行 `python3 -m pip install -r requirements.txt`。
 
-### Phase2 本地 OCR（推荐）
+### 第 2 步：选择任务模式
+
+先让用户选择一项；不要提前询问其他模式才需要的参数。
+
+| 用户选择 | 系统执行 | 此时才询问 |
+|---|---|---|
+| **仅自动化截图** | Workflow → Screenshot Agent | 搜索词、Tab、屏数 |
+| **仅评测已有截图** | Workflow → Screenshot Agent（只读发现）→ Evaluation Agent | 截图范围、评测维度、报告出口 |
+| **自动化截图 + 评测** | Workflow → Screenshot Agent → Evaluation Agent | 先问搜索词、Tab、屏数；截图成功后才问维度、报告出口 |
+
+**仅评测已有截图**时，系统先扫描 `screenshots/` 并返回截图组；用户选择文件后，搜索词、Tab、屏号从命名规则 `<搜索词>_<Tab>_<屏>.png` 自动推导。用户不必重复填写这些信息。
+
+### 第 3 步：按模式调用 Workflow
+
+Workflow 是依赖宿主 API 的 DSL，不能直接通过 `node` 执行。完整调用方式见 [`.claude/skills/run-eval.md`](.claude/skills/run-eval.md)。常用参数如下：
+
+```json
+// 仅截图
+{
+  "mode": "capture_only",
+  "projectDir": "<项目绝对路径>",
+  "query": "库迪",
+  "tabs": ["全部", "外卖"],
+  "screens": ["1", "2"]
+}
+```
+
+```json
+// 仅评测：第一轮发现截图
+{
+  "mode": "evaluate_only",
+  "projectDir": "<项目绝对路径>",
+  "discoveryOnly": true
+}
+```
+
+```json
+// 仅评测：用户选图后执行
+{
+  "mode": "evaluate_only",
+  "projectDir": "<项目绝对路径>",
+  "selectedScreenshots": ["<截图绝对路径>"],
+  "dimensions": ["phase3-card_or_component-eval"],
+  "reportOutlet": "local_html"
+}
+```
+
+显式 `capture_and_evaluate` 会在截图成功后返回 `awaiting_evaluation_config`，然后再由用户确认评测维度与报告出口，避免无效截图进入评测。
+
+### Phase2 本地 OCR（按需安装）
 
 Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出该图自己的 `elements.json`。它不读取 OCR 置信度，也不让视觉模型补读失败字段。初次整页使用 Tesseract；门控失败时主入口自动执行一次卡内有界重识别，本地 Paddle 模型存在时只加载一次并顺序处理失败裁剪（默认 2 线程），不会运行整页 Paddle：
 
@@ -46,25 +117,7 @@ python3 -m venv .venv
 **手机端（仅现场截图）**：USB 连电脑 + 「传输文件」模式 + 开启 USB 调试 + 安装并登录美团 App。
 **macOS 权限（关键）**：系统设置 → 隐私与安全性 → 完全磁盘访问权限 → 添加 CatPaw → **完全退出并重启应用**。不做这步评测子进程可能读不到桌面截图，报告会全空。
 
-### 第3步：选择执行模式并运行
-
-本项目支持两种**等价**执行模式：
-
-1. **显式 Workflow（优先）**：当前 CatPaw / Claude Code 会话提供 Workflow 工具时，调用 `workflow/meituan_eval_workflow.js`；
-2. **Agent 任务编排（回退）**：Workflow 工具不可用或用户要求逐阶段运行时，Agent 仍按 phase1 → phase2 → phase3 → phase4 → phase5 执行对应 skill、确定性审计和报告渲染。编排前确认是否执行 Phase2 轻量识别、评测哪些维度、仅交付本地 HTML 还是继续生成 NoCode 报告。
-
-> `workflow/meituan_eval_workflow.js` 是依赖 Workflow 宿主 API 的 DSL，不能直接通过 `node` 执行。它不可用不代表评测不可执行，应切换为 Agent 任务编排。选择 NoCode 时仍须先完成本地 HTML 或批量治理数据集，再按 NoCode 流程处理线上发布。
-
-在 Claude Code 里说：
-> 帮我跑美团评测工作流，搜「库迪」，跑 card_or_component 维度，3个tab×3屏
-
-或用 Workflow 工具：
-```
-scriptPath: ~/Desktop/search-eval-project/workflow/meituan_eval_workflow.js
-args: { "query": "库迪", "dimensions": ["phase3-card_or_component-eval"], "tabs": ["全部","外卖","团购"], "screens": ["1","2","3"], "skipScreenshot": false }
-```
-
-跑完后 HTML 报告在 `reports/`，截图在 `screenshots/`，每张截图各自的元素清单在 `screenshots-out/`。
+选择 `reportOutlet=nocode` 时，也必须先完成本地 HTML 和治理数据集；线上导入与证据上传仍按 `phase5-report/nocode-dashboard/SKILL.md` 在获得授权后执行。
 
 ---
 
@@ -78,6 +131,12 @@ search-eval-project/
 ├── requirements.txt                # Python 图像/YAML 依赖
 ├── .gitignore                      # 代码与运行产物隔离规则
 ├── ADBKeyboard.apk                 # 中文输入法（现场截图时使用）
+├── .claude/
+│   ├── agents/screenshot-agent.md   # 只负责截图或发现已有截图
+│   ├── agents/evaluation-agent.md   # 对外评测入口，内部执行 Phase2～5
+│   ├── agents/phase2345-query-pipeline.md # Evaluation Agent 的既有内部流水线
+│   ├── contracts/                   # Workflow 与 Agent 的输入/输出契约
+│   └── skills/run-eval.md           # 1.0 三模式调用说明
 ├── phase1-screenshot/               # phase1 共享截图能力
 │   ├── SKILL.md                    # 截图流程+坐标+陷阱表
 │   └── scripts/{run_scroll.sh, loop_screenshot.sh}
@@ -95,49 +154,49 @@ search-eval-project/
 │   ├── SKILL.md                            # 本地 HTML / GOVERNANCE_DASHBOARD_V1
 │   └── nocode-dashboard/SKILL.md           # NoCode 导入、证据图发布与部署
 ├── scripts/
+│   ├── discover_screenshot_groups.py # 只读聚合可复用截图
 │   ├── build_experience_dashboard.py       # 批量本地治理看板 + 数据集生成器
 │   └── import_to_nocode.py                 # 治理数据集导入 NoCode
 ├── workflow/
-│   └── meituan_eval_workflow.js    # 标准化工作流（截图→识别→评测→证据→报告）
+│   └── meituan_eval_workflow.js    # 1.0 模式路由与 Agent 编排
 ├── screenshots/                    # phase1 截图输出 / phase2 输入
 ├── screenshots-out/                # phase2 每图元素清单；phase4 问题证据图
 ├── .artifacts/过程文件-评测结果与审计/ # 按批次、搜索词、阶段隔离的评测结果与审计
 └── reports/                        # phase5 HTML 与批量治理数据集输出
 ```
 
-> **数据流向**：`screenshots/` ──Phase2 轻量识别──▶ `screenshots-out/`（每张截图一个独立元素清单）──Phase3 评测──▶ `.artifacts/过程文件-评测结果与审计/` ──Phase4 证据──▶ `screenshots-out/evidence/` ──Phase5──▶ `reports/`。Phase3 只消费与当前截图对应且 `recognition.phase3Ready=true` 的清单；批量 `index.json` 不是事实源。详见 `CLAUDE.md`。
+> **对外与对内数据流**：Screenshot Agent 可把新截图写入 `screenshots/`，或只读发现该目录中的历史截图；Evaluation Agent 消费用户已选中的截图，按 `screenshots/` ──Phase2──▶ `screenshots-out/` ──Phase3──▶ `.artifacts/过程文件-评测结果与审计/` ──Phase4──▶ `screenshots-out/evidence/` ──Phase5──▶ `reports/` 输出结果。Phase3 只消费与当前截图对应且 `recognition.phase3Ready=true` 的清单；批量 `index.json` 不是事实源。详见 `CLAUDE.md`。
 
 ---
 
-## 工作流参数（args）
+## Workflow 参数（1.0）
+
+### 模式路由参数
+
+| 参数 | 适用模式 | 说明 |
+|---|---|---|
+| `mode` | 全部 | 必填语义：`capture_only`、`evaluate_only`、`capture_and_evaluate`。未传时兼容旧的 `skipScreenshot` 调用。 |
+| `projectDir` | 全部 | 必填，项目根绝对路径。 |
+| `discoveryOnly` | 仅评测已有截图 | `true` 时只读扫描 `screenshots/` 并返回截图组，不进入评测。 |
+| `selectedScreenshots` | 仅评测已有截图 | 用户从截图组中选择的一组绝对路径。系统从名称推导搜索词。 |
+| `query` | 仅截图、截图+评测 | 搜索词；仅评测已有截图时由截图名称推导，除非名称无法解析。 |
+| `tabs` / `screens` | 仅截图、截图+评测 | 要截图的 Tab 与屏号。 |
+| `dimensions` | 需要评测时 | 要执行的维度目录数组；默认组件/卡片维度。 |
+| `reportOutlet` | 需要评测时 | `local_html` 或 `nocode`；NoCode 仍需后续授权。 |
+
+### Evaluation Agent 参数
 
 | 参数 | 默认 | 说明 |
-|------|------|------|
-| query | 库迪 | 搜索词 |
-| dimensions | ["phase3-card_or_component-eval"] | 要跑的维度文件夹名数组，可多选组合 |
-| tabs | ["全部","外卖","团购"] | 要评测的 tab |
-| screens | ["1","2","3"] | 要评测的屏 |
-| skipScreenshot | true | true=用已有图评测；false=现场 ADB 截图 |
-| annotate | true | 默认先跑 Phase2；仅 `false` 显式跳过（标准工作流的元素级评测通常不应跳过） |
-| phase2Mode | lightweight | 兼容参数；当前生产路径只允许 `lightweight` |
-| granularity | element | 标准工作流固定 `element`，确保三维度共用统一事实源 |
-| projectDir | 必填，无默认值 | 项目根绝对路径；调用方必须显式传入 |
-| screenshotDir | projectDir/screenshots | phase1 截图目录 / phase2 输入目录 |
-| annotatedDir | projectDir/screenshots-out | Phase2 每张截图独立元素清单的输出目录 |
-| reportDir | projectDir/reports | 报告目录 |
-| shotSkillDir | projectDir/phase1-screenshot | 截图 skill 目录 |
-| imdSkillDir | projectDir/phase2-card-annotation | Phase2 轻量识别 skill 目录（参数名为历史兼容） |
-| issueEvidenceSkillDir | projectDir/phase4-issue-evidence | Phase4 问题证据 skill 目录 |
-| reportSkillDir | projectDir/phase5-report | Phase5 汇总 skill 目录 |
-| batchId | 单词运行 | 当前批次标识；批量治理报告必须显式传入 |
-| tag | "" | 区分同一搜索词的多份截图与产物后缀 |
+|---|---|---|
+| `phase2Mode` | `lightweight` | 生产路径只允许本地轻量识别。 |
+| `annotate` | `true` | 默认执行 Phase2；仅在已有单图 manifest 已验证时才可显式跳过。 |
+| `granularity` | `element` | 固定元素级统一事实源，组件与页面维度再按 Skill 聚合。 |
+| `screenshotDir` | `projectDir/screenshots` | Screenshot Agent 的输出与发现目录，也是 Phase2 输入。 |
+| `annotatedDir` | `projectDir/screenshots-out` | 单图 manifest 和 Phase4 证据目录。 |
+| `reportDir` | `projectDir/reports` | 最终报告目录。 |
+| `batchId` / `tag` | `单词运行` / 空 | 隔离批次和同词复跑产物。 |
 
-**典型用法**：
-- 现场截图 + 单维度评测：`{ "query": "库迪", "dimensions": ["phase3-card_or_component-eval"], "skipScreenshot": false }`
-- 只评测已有截图：`{ "query": "库迪", "skipScreenshot": true }`
-- 多维度组合：`{ "query": "库迪", "dimensions": ["phase3-card_or_component-eval","phase3-single_element-eval"] }`
-- 显式执行 Phase2 本地识别：`{ "query": "库迪", "annotate": true }`（`annotate` 是历史兼容参数名）
-- 批量截图（不经工作流）：`bash phase1-screenshot/scripts/loop_screenshot.sh`
+`skipScreenshot` 是兼容旧调用的参数；新任务应使用 `mode` 表达意图。批量截图仍可直接运行 `phase1-screenshot/scripts/loop_screenshot.sh`。
 
 ---
 
@@ -165,7 +224,9 @@ metadata: ...
 
 ---
 
-## 工作流各 phase（5 步）
+## Evaluation Agent 内部的五阶段事实链
+
+Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用 Evaluation Agent；一旦进入 Evaluation Agent，以下五阶段顺序、事实来源和校验规则不变：
 
 1. **① 截图**：ADB 现场截图或复用已有图（9 张/词）。设备离线守卫，避免 0 字节覆盖。
 2. **② Phase2 轻量识别（默认）**：默认 `annotate=true`、`phase2Mode=lightweight`，对 `screenshots/` 中每张图分别产出一个元素清单及审计到 `screenshots-out/`。每个清单都必须通过整页门控和 `validate_element_manifest.py`，才可进入评测。
@@ -173,7 +234,7 @@ metadata: ...
 4. **④ 问题证据**：只消费已通过 Phase3 校验的待优化问题。`phase3-single_element-eval` 保留元素级判定与精确定位，但红框展示所属完整组件/商卡上下文，并回写 `evidenceTargetElementId`、`evidenceTargetCoord`；组件/卡片维度同样框选完整聚合区块。生成原尺寸整页红框图并回写 `evidenceImage` 后，以 `validate_eval_results.py --require-evidence` 再次验收。
 5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name`，确定性输出 `GOVERNANCE_DASHBOARD_V1` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务按搜索词或按指标浏览问题明细与证据。
 
-> **启动 Agent 任务编排前的确认**：Claude 会确认三项——① 是否执行 Phase2（默认 lightweight）；② 要跑哪些维度（卡片/组件、单一元素、页面框架，可多选）；③ 仅生成本地 HTML，还是继续生成 NoCode 报告。显式 Workflow 由调用参数决定。
+> **1.0 的确认规则**：仅截图只确认搜索词、Tab 和屏数；仅评测只确认截图范围、评测维度和报告出口；截图+评测在截图成功后才确认评测维度和报告出口。Phase2 默认 lightweight，不作为每次任务的额外选择。
 
 ---
 
@@ -217,7 +278,7 @@ metadata: ...
 
 ## 模型选择
 
-工作流将 Phase2 与后续阶段严格隔离：Phase2 只运行本地 CV/OCR 脚本，不使用模型补读或改写 manifest；同一个 phase2345 子 agent 在 Phase3/4 还需要按各 Skill 核对截图和问题证据，因此该 agent 的 `SUBAGENT_MODEL` 仍必须具备多模态能力。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
+Evaluation Agent 将 Phase2 与后续阶段严格隔离：Phase2 只运行本地 CV/OCR 脚本，不使用模型补读或改写 manifest；同一个内部流水线在 Phase3/4 还需要按各 Skill 核对截图与问题证据，因此仍必须使用多模态模型。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
 
 | agent | 模型（默认/可选） | 原因 |
 |------|------|------|
@@ -245,6 +306,15 @@ metadata: ...
 ---
 
 ## 常见问题
+
+**Q: 我几天前截的图，怎样只评测而不重新截图？**
+A: 使用 `mode=evaluate_only, discoveryOnly=true` 先发现 `screenshots/` 中的截图组；选择同一组 `files` 后，用它们作为 `selectedScreenshots` 发起评测。系统会从文件名推导搜索词、Tab 和屏号。
+
+**Q: 为什么“截图 + 评测”截图完成后会停下来？**
+A: 这是 1.0 的刻意设计。截图通过完整性检查后，Workflow 返回 `awaiting_evaluation_config`，此时才确认评测维度与报告出口；失败或不需要的截图不会进入 Evaluation Agent。
+
+**Q: 仅自动化截图为什么不生成报告？**
+A: `capture_only` 的职责是稳定采集可复用截图，结果只写入 `screenshots/`。需要评测时再选择“仅评测已有截图”。
 
 **Q: 评测报告全是空数据 / 评测 agent 报错**
 A: 99% 是 macOS 权限没给。完全磁盘访问权限里加终端 App，**重启终端**再跑。

@@ -1,8 +1,8 @@
 export const meta = {
   name: 'meituan-search-eval',
-  description: '美团搜索结果页 标准化评测 Agent：截图→Phase2/3/4/5 单词全链路子代理→合并HTML报告',
+  description: '美团搜索结果页 1.0：按需截图、发现已有截图或执行 Phase2/3/4/5 评测流水线',
   phases: [
-    { title: '① 截图', detail: 'ADB现场截图或复用已有图，9张/词' },
+    { title: '① Screenshot Agent', detail: 'ADB现场截图，或只读发现已有截图' },
     { title: '② 发现评测项', detail: '自动发现所选维度的 eval skill（纯 frontmatter 解析，JS 级并行）' },
     { title: '③ Phase2+3+4+5 单词全链路', detail: '单图本地识别→多维度评测→问题证据→报告渲染，四阶段在同一子代理内顺序完成' },
     { title: '④ Manifest 质量侧审计', detail: '可选：单图元素清单 L1/L2/L3 合规率统计，仅记录不阻断' },
@@ -15,6 +15,75 @@ if (typeof A === 'string') { try { A = JSON.parse(A) } catch (e) { A = {} } }
 if (!A || typeof A !== 'object') A = {}
 log('args=' + JSON.stringify(A))
 log('批量调度纪律：当前实例仅处理 1 个搜索词；外层每批最多 3 个词级子代理，必须批次屏障后再继续。')
+
+// 1.0 对外任务模式。未传 mode 时保留旧参数语义：skipScreenshot=false
+// 表示截图后评测，其余旧调用仍按“复用已有截图后评测”执行。
+const VALID_MODES = ['capture_only', 'evaluate_only', 'capture_and_evaluate']
+const mode = A.mode || (A.skipScreenshot === false ? 'capture_and_evaluate' : 'evaluate_only')
+if (!VALID_MODES.includes(mode)) {
+  throw new Error('mode 只允许 ' + VALID_MODES.join('/') + '，收到: ' + mode)
+}
+const selectedScreenshots = A.selectedScreenshots || []
+if (!Array.isArray(selectedScreenshots) || !selectedScreenshots.every(item => typeof item === 'string' && item.trim())) {
+  throw new Error('selectedScreenshots 必须是非空绝对路径字符串数组；仅评测已有截图时由截图发现结果填入')
+}
+if (!A.projectDir) throw new Error('必须显式传入 projectDir（项目根绝对路径），不再提供兜底默认值')
+const projectDir = A.projectDir
+const screenshotDir = (A.screenshotDir ? A.screenshotDir : projectDir + '/screenshots')
+
+function inferQueryFromScreenshots(paths) {
+  const queries = paths.map(path => {
+    const filename = path.split('/').pop().replace(/\.[^.]+$/, '')
+    const parts = filename.split('_')
+    if (parts.length < 3 || !/^\d+$/.test(parts[parts.length - 1])) return ''
+    return parts.slice(0, -2).join('_').trim()
+  }).filter(Boolean)
+  return queries.length && queries.every(value => value === queries[0]) ? queries[0] : ''
+}
+
+let query = (typeof A.query === 'string' ? A.query.trim() : '')
+if (!query && selectedScreenshots.length) query = inferQueryFromScreenshots(selectedScreenshots)
+
+// “仅评测已有截图”的第一轮调用不要求用户输入搜索词/Tab/屏数。调用方可先用
+// discoveryOnly=true 获得可选分组，再将用户选中的 files 作为 selectedScreenshots 发起评测。
+if (mode === 'evaluate_only' && (A.discoveryOnly === true || (!query && selectedScreenshots.length === 0))) {
+  phase('发现已有截图')
+  const discoveryPrompt = `你是 screenshot-agent。只读扫描已有截图，不连接设备、不修改任何文件。用 Bash 执行：
+\`\`\`bash
+python3 "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "${screenshotDir}"
+\`\`\`
+将 stdout JSON 原样映射到 schema 返回。`
+  const discoveryResult = await agent(discoveryPrompt, {
+    label: '发现已有截图',
+    phase: '发现已有截图',
+    model: 'claude-sonnet-5',
+    agentType: 'screenshot-agent',
+    schema: {
+      type: 'object',
+      properties: {
+        screenshotDir: { type: 'string' },
+        groups: { type: 'array' },
+        invalidFiles: { type: 'array' },
+        unparseableFiles: { type: 'array' },
+        error: { type: 'string' },
+      },
+      required: ['screenshotDir', 'groups', 'invalidFiles', 'unparseableFiles', 'error'],
+    },
+  })
+  return {
+    mode,
+    status: 'awaiting_screenshot_selection',
+    discoveredGroups: (discoveryResult && discoveryResult.groups) || [],
+    invalidFiles: (discoveryResult && discoveryResult.invalidFiles) || [],
+    unparseableFiles: (discoveryResult && discoveryResult.unparseableFiles) || [],
+    error: (discoveryResult && discoveryResult.error) || '',
+  }
+}
+if (!query) {
+  throw new Error(mode === 'evaluate_only'
+    ? '无法从 selectedScreenshots 推导唯一搜索词；请先 discoveryOnly=true 发现截图并选择同一搜索词，或由调用方传入推导出的 query'
+    : '自动化截图模式必须显式传入非空字符串 query')
+}
 
 // Phase2 本身只运行本地 CV/OCR；同一子代理在后续 Phase3/4 仍需核对截图与问题证据，故模型须具备多模态能力。
 // 白名单以 Dr. Pie 模型目录中已验证具备识图能力的模型为准（该目录当前未收录 Gemini 系列）；
@@ -34,13 +103,11 @@ const SINGLE_QUERY_PER_AGENT = true
 if (Array.isArray(A.queries)) {
   throw new Error('当前工作流只接受单个 query；请由外层调度器将 queries 切分为单词任务（每批最多 3 个，等待整批完成后再派下一批）')
 }
-if (!A.query || typeof A.query !== 'string' || !A.query.trim()) {
-  throw new Error('当前工作流必须显式传入非空字符串 query')
-}
-const query = A.query.trim()
 const tabs = A.tabs ? A.tabs : ['全部', '外卖', '团购']
 const screens = A.screens ? A.screens : ['1', '2', '3']
-const skipScreenshot = A.skipScreenshot === false ? false : true
+// capture_only 必定现场截图；仅评测已有截图必定禁止启动截图脚本。
+// 截图+评测模式默认现场截图；旧调用未传 mode 时仍由上方 mode 推导保持原有语义。
+const skipScreenshot = mode === 'evaluate_only' ? true : (mode === 'capture_only' ? false : A.skipScreenshot === true)
 // 维度文件夹名数组（顶层目录下的维度目录）。默认只跑 phase3-card_or_component-eval。
 let dimensions = A.dimensions ? A.dimensions : ['phase3-card_or_component-eval']
 if (typeof dimensions === 'string') dimensions = [dimensions]
@@ -58,13 +125,14 @@ if (annotateScenes.length) throw new Error('annotateScenes 已停用：Phase2 �
 const granularity = A.granularity ? A.granularity : 'element'
 if (granularity !== 'element') throw new Error('当前标准工作流只接受 granularity=element；组件/卡片与页面框架评测也必须消费同一份最小元素清单，再按各 Skill 聚合')
 const enableAnnotationAudit = A.enableAnnotationAudit !== false
+const reportOutlet = A.reportOutlet ? A.reportOutlet : 'local_html'
+if (!['local_html', 'nocode'].includes(reportOutlet)) {
+  throw new Error('reportOutlet 只允许 local_html/nocode，收到: ' + reportOutlet)
+}
 // tag：同一截图需要保留不同批次识别时作为单图 manifest 后缀；截图文件名本身用于区分多图。
 const tag = A.tag ? A.tag : ''
 const tagSuffix = tag ? '_' + tag : ''
 
-if (!A.projectDir) throw new Error('必须显式传入 projectDir（项目根绝对路径），不再提供兜底默认值')
-const projectDir = A.projectDir
-const screenshotDir = (A.screenshotDir ? A.screenshotDir : projectDir + '/screenshots')
 // annotatedDir：Phase2 单图元素清单输出目录；Phase2 不生成整页标注 PNG。
 const annotatedDir = (A.annotatedDir ? A.annotatedDir : projectDir + '/screenshots-out')
 const reportDir = (A.reportDir ? A.reportDir : projectDir + '/reports')
@@ -96,6 +164,7 @@ const SHOT_SCHEMA = {
   properties: {
     ok: { type: 'boolean' },
     screenshots: { type: 'array', items: { type: 'string' } },
+    missing: { type: 'array', items: { type: 'string' } },
     error: { type: 'string' },
   },
   required: ['ok', 'screenshots'],
@@ -192,14 +261,18 @@ const PIPELINE_SCHEMA = {
   required: ['ok', 'query'],
 }
 
-// ---------- Phase 1: 截图 ----------
+// ---------- Screenshot Agent ----------
 phase('截图')
-log('工作流步骤：① 截图 → ② 发现评测项 → ③ Phase2+3+4+5 单词全链路子代理 → ④ Manifest 质量侧审计（可选）')
-log('Phase 1 截图: query=' + query + ' skip=' + skipScreenshot)
+log('工作流模式=' + mode + '；步骤：Screenshot Agent → 发现评测项 → Evaluation Agent(Phase2+3+4+5)')
+log('Screenshot Agent: query=' + query + ' skip=' + skipScreenshot)
 
 const shotPrompt = `你是美团搜索截图执行 Agent。任务：为搜索词「${query}」获取 ${tabs.join('/')} × 第${screens.join('/')}屏 截图，目录 ${screenshotDir}。
 
-${skipScreenshot ? `## 跳过截图模式（用已有截图，禁止运行 run_scroll.sh）
+${mode === 'evaluate_only' && selectedScreenshots.length ? `## 已选择已有截图（禁止运行 run_scroll.sh）
+用户已从截图发现结果选择以下文件：
+${selectedScreenshots.map(path => '- ' + path).join('\n')}
+
+对每个路径用 stat -f%z 校验存在且 >5000 字节；不要扫描、替换或删除其他文件。把有效绝对路径收集到 screenshots；缺失/过小文件写入 missing 和 error。只要至少一张有效图就 ok=true。` : skipScreenshot ? `## 跳过截图模式（用已有截图，禁止运行 run_scroll.sh）
 用 Bash 执行：
   ls -la ${screenshotDir}/${query}_*.png 2>/dev/null
 对每个 tab×屏 组合（tab∈{${tabs.join(',')}}，屏∈{${screens.join(',')}}）用 stat -f%z 校验文件存在且 >5000 字节。
@@ -227,12 +300,37 @@ ${skipScreenshot ? `## 跳过截图模式（用已有截图，禁止运行 run_s
 
 严格按 schema 输出。`
 
-const shotResult = await agent(shotPrompt, { label: '截图', phase: '截图', schema: SHOT_SCHEMA, model: SUBAGENT_MODEL })
+const shotResult = await agent(shotPrompt, { label: 'Screenshot Agent', phase: '截图', schema: SHOT_SCHEMA, model: SUBAGENT_MODEL, agentType: 'screenshot-agent' })
 if (!shotResult || !shotResult.ok) {
   throw new Error('截图阶段失败: ' + (shotResult && shotResult.error ? shotResult.error : 'agent 无返回'))
 }
 const screenshots = shotResult.screenshots
-log('Phase 1 完成: ' + screenshots.length + ' 张截图')
+log('Screenshot Agent 完成: ' + screenshots.length + ' 张截图')
+
+if (mode === 'capture_only') {
+  return {
+    mode,
+    status: 'completed',
+    query,
+    screenshots,
+    screenshotsCount: screenshots.length,
+    missing: shotResult.missing || [],
+    error: shotResult.error || '',
+  }
+}
+
+// 显式选择“截图+评测”时先落盘并等待用户确认评测维度和报告出口。旧调用（未传 mode）
+// 仍可使用 skipScreenshot=false 一次性跑完，避免破坏既有自动化入口。
+if (mode === 'capture_and_evaluate' && A.mode === 'capture_and_evaluate' && A.evaluationConfirmed !== true) {
+  return {
+    mode,
+    status: 'awaiting_evaluation_config',
+    query,
+    screenshots,
+    screenshotsCount: screenshots.length,
+    nextRequired: ['dimensions', 'reportOutlet'],
+  }
+}
 
 // ---------- Phase2 固定产物路径：每张截图一个主 JSON，禁止多图合并 ----------
 const phase2InputPaths = screenshots
@@ -314,7 +412,7 @@ if (evalTargets.length === 0) {
 const skillDirs = {}
 dimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
 
-// ---------- Phase 2+3+4+5: 单词全链路合并子代理 ----------
+// ---------- Evaluation Agent: Phase 2+3+4+5 ----------
 // 原 phase2-annotator / phase3-evaluator / phase4-issue-evidence / phase5-report-renderer
 // 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
 // Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
@@ -359,7 +457,7 @@ const mergedInputs = {
   batchArtifactDir,
 }
 
-const mergedPrompt = `你正在以 phase2345-query-pipeline agentType 执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。严格按你的 agent 定义文件执行所有阶段级规则（Phase2 本地识别隔离、八键单图清单、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 本地识别隔离、八键单图清单、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json
@@ -367,7 +465,7 @@ ${JSON.stringify(mergedInputs, null, 2)}
 \`\`\`
 严格按你的输出 schema 一次性回传结果，不要提前中断或跳过阶段。`
 
-const pipelineResult = await agent(mergedPrompt, { label: 'Phase2345全链路:' + query, phase: '评测', schema: PIPELINE_SCHEMA, model: SUBAGENT_MODEL, agentType: 'phase2345-query-pipeline' })
+const pipelineResult = await agent(mergedPrompt, { label: 'Evaluation Agent:' + query, phase: '评测', schema: PIPELINE_SCHEMA, model: SUBAGENT_MODEL, agentType: 'evaluation-agent' })
 if (!pipelineResult || !pipelineResult.ok) {
   throw new Error('Phase2+3+4+5 单词全链路子代理未通过：blockedAt=' + (pipelineResult && pipelineResult.blockedAt) + ' error=' + (pipelineResult && pipelineResult.error))
 }
@@ -566,7 +664,10 @@ PYEOF
 
 log('全部完成: 报告已生成 → ' + stageD.reportPath)
 return {
+  mode: mode,
+  status: 'completed',
   query: query,
+  reportOutlet: reportOutlet,
   dimensions: dimensions,
   screenshotsCount: screenshots.length,
   annotatedCount: annotatedPaths.length,

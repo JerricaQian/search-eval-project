@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evaluation Agent result",
+  "type": "object",
+  "properties": {
+    "ok": {"type": "boolean"},
+    "query": {"type": "string"},
+    "manifestPaths": {"type": "array", "items": {"type": "string"}},
+    "resultsPath": {"type": "string"},
+    "evidenceImages": {"type": "array", "items": {"type": "string"}},
+    "reportPath": {"type": "string"},
+    "blockedAt": {"type": "string"},
+    "error": {"type": "string"}
+  },
+  "required": ["ok", "query", "blockedAt", "error"]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workflow status",
+  "type": "object",
+  "properties": {
+    "runId": {"type": "string"},
+    "mode": {"enum": ["capture_only", "evaluate_only", "capture_and_evaluate"]},
+    "status": {"enum": ["queued", "screenshots_ready", "evaluation_running", "completed", "blocked", "failed", "awaiting_evaluation_config"]},
+    "query": {"type": "string"},
+    "error": {"type": "string"}
+  },
+  "required": ["mode", "status"]
+}

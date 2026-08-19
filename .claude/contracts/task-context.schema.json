@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Search evaluation task context",
+  "type": "object",
+  "properties": {
+    "mode": {"enum": ["capture_only", "evaluate_only", "capture_and_evaluate"]},
+    "projectDir": {"type": "string"},
+    "runId": {"type": "string"},
+    "query": {"type": "string"},
+    "tabs": {"type": "array", "items": {"type": "string"}},
+    "screens": {"type": "array", "items": {"type": "string"}},
+    "selectedScreenshots": {"type": "array", "items": {"type": "string"}},
+    "dimensions": {"type": "array", "items": {"type": "string"}},
+    "reportOutlet": {"enum": ["local_html", "nocode"]}
+  },
+  "required": ["mode", "projectDir"]
+}

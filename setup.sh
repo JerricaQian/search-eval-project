@@ -53,7 +53,7 @@ for required_path in \
   "$PROJECT_DIR/workflow/meituan_eval_workflow.js" \
   "$PROJECT_DIR/phase1-screenshot/SKILL.md" \
   "$PROJECT_DIR/phase2-card-annotation/SKILL.md" \
-  "$PROJECT_DIR/phase4-report/SKILL.md" \
+  "$PROJECT_DIR/phase5-report/SKILL.md" \
   "$PROJECT_DIR/requirements.txt"; do
   if [ -r "$required_path" ]; then
     ok "可读取: ${required_path#$PROJECT_DIR/}"

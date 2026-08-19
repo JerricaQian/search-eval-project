@@ -1,84 +1,116 @@
 ---
 name: run-eval
-description: 使用本项目五阶段评测工作流；Phase2 为每张截图生成独立轻量识别 JSON，随后执行 Phase3 评测、Phase4 问题证据和 Phase5 报告。
+description: 使用美团搜索评测 1.0 Workflow：仅截图、仅评测已有截图，或截图后确认评测的全流程。
 ---
 
-# 运行评测工作流
+# 运行评测工作流（1.0）
 
-用户要求运行本项目评测、对已有截图评测、现场截图后评测或生成报告时使用本技能。
-
-## 执行入口与回退
-
-优先使用项目根目录下的显式 Workflow：
+用户请求截图、评测已有截图、现场截图后评测或生成报告时使用本技能。入口为：
 
 ```text
 workflow/meituan_eval_workflow.js
 ```
 
-当当前会话提供 Workflow 工具时，传入本 Skill 的 args 调用该脚本。它依赖宿主注入 `args`、`agent`、`parallel`、`phase`、`log`，因此不能直接用 Node.js 执行。
+该 Workflow 依赖宿主注入的 `args`、`agent`、`parallel`、`phase`、`log`，不能直接使用 Node 运行。
 
-若 Workflow 工具未注入、宿主运行时不可用，或用户明确要求逐阶段执行，必须改用 **Agent 任务编排** 完整执行相同的 phase1 → phase2 → phase3 → phase4 → phase5。开始前确认：① 是否执行默认 Phase2 轻量识别；② 要评测哪些维度；③ 仅交付本地 HTML 还是继续 NoCode。Phase2 必须为每张截图分别生成并校验 manifest；不得跳过清单、整页门控、`validate_element_manifest.py`、`validate_eval_results.py`、Phase4 问题证据或 Phase5 报告契约。
+## 先确认任务模式
 
-### 批量调度与过程保留纪律
+先让用户选择一项：
 
-- 多搜索词任务严格按批次执行：每批最多并发 **3 个子代理**，每个子代理只处理 **1 个搜索词**；必须等待整批完成后再启动下一批。不得把多个词交给一个子代理，也不得按单个 eval skill 拆出超出词级上限的并发。
-- 为每个子代理 prompt 明示批次号、唯一搜索词、输入截图和目标输出目录；某词失败时只重试该词。
-- 不删除过程文件、图片、裁剪图、扫描输出、审计结果或失败产物。需要隔离的中间文件一律写到 `.artifacts/过程文件-评测结果与审计/<批次>/<搜索词>/<阶段>/`，保留路径及失败原因供复盘。
+1. **仅自动化截图**
+2. **仅评测已有截图**
+3. **自动化截图 + 评测**
 
-## 运行前检查
+只询问当前模式需要的参数，不能提前追问无关项目。
 
-1. 默认复用已有截图：`skipScreenshot=true`。确认 `screenshots/` 下存在目标搜索词截图。
-2. 用户明确要求现场截图时才设 `skipScreenshot=false`；先运行 `bash setup.sh --with-device`，确认 Android 设备在线、美团 App 已登录。
-3. Phase2 默认运行轻量识别（`annotate` 省略或为 true，`phase2Mode=lightweight`），为每张截图分别输出元素清单 JSON 到项目级 `screenshots-out/`；不支持整页标注 PNG 或多图合并 manifest。
-4. 过程文件由工作流写入 `.artifacts/过程文件-评测结果与审计/`，最终 HTML 只写入 `reports/`。
+| 模式 | 询问 | 不询问 |
+|---|---|---|
+| 仅自动化截图 | 搜索词、Tab、屏数 | 评测维度、报告出口 |
+| 仅评测已有截图 | 截图范围、评测维度、报告出口 | 搜索词、Tab、屏数、设备参数 |
+| 截图 + 评测 | 先问搜索词、Tab、屏数；截图成功后再问维度、报告出口 | — |
 
-## 默认参数
+## 调用方式
+
+所有调用必须显式传入 `projectDir`。
+
+### 1. 仅自动化截图
 
 ```json
 {
-  "query": "<用户给定搜索词>",
+  "mode": "capture_only",
+  "projectDir": "<项目绝对路径>",
+  "query": "库迪",
+  "tabs": ["全部", "外卖"],
+  "screens": ["1", "2"]
+}
+```
+
+Workflow 只调用 Screenshot Agent，返回 `screenshots/` 中本次有效图片的路径。
+
+### 2. 仅评测已有截图
+
+第一轮只发现截图，不输入搜索词：
+
+```json
+{
+  "mode": "evaluate_only",
+  "projectDir": "<项目绝对路径>",
+  "discoveryOnly": true
+}
+```
+
+Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` 后再调用。`query` 由文件名推导，不需向用户重复询问：
+
+```json
+{
+  "mode": "evaluate_only",
+  "projectDir": "<项目绝对路径>",
+  "selectedScreenshots": ["<截图绝对路径>"],
   "dimensions": ["phase3-card_or_component-eval"],
-  "tabs": ["全部"],
-  "screens": ["1"],
-  "skipScreenshot": true,
+  "reportOutlet": "local_html",
   "phase2Mode": "lightweight"
 }
 ```
 
-除非用户明确要求，不要擅自扩大到多个 Tab、多个屏或所有评测维度。三类维度均可组合：`phase3-single_element-eval`、`phase3-card_or_component-eval`、`phase3-page_framework-eval`。
+截图命名必须为 `<搜索词>_<Tab>_<屏>.png`。无法解析时，由调用方补充系统推导出的 `query`，而不是要求用户重复输入搜索词。
 
-## 常用场景
+### 3. 自动化截图 + 评测
 
-### 评已有截图
-
-```json
-{
-  "query": "库迪",
-  "dimensions": ["phase3-card_or_component-eval"],
-  "tabs": ["全部"],
-  "screens": ["1"],
-  "skipScreenshot": true,
-  "phase2Mode": "lightweight"
-}
-```
-
-### 现场截图后评测
+第一轮只执行截图：
 
 ```json
 {
+  "mode": "capture_and_evaluate",
+  "projectDir": "<项目绝对路径>",
   "query": "库迪",
-  "dimensions": ["phase3-card_or_component-eval"],
   "tabs": ["全部", "外卖", "团购"],
-  "screens": ["1", "2", "3"],
-  "skipScreenshot": false,
+  "screens": ["1", "2", "3"]
+}
+```
+
+它返回 `awaiting_evaluation_config` 及截图路径。截图成功后，再询问用户评测维度和报告出口，并使用返回的路径发起第二轮：
+
+```json
+{
+  "mode": "evaluate_only",
+  "projectDir": "<项目绝对路径>",
+  "selectedScreenshots": ["<第一轮返回的截图绝对路径>"],
+  "dimensions": ["phase3-card_or_component-eval"],
+  "reportOutlet": "local_html",
   "phase2Mode": "lightweight"
 }
 ```
 
-## 完成标准
+`reportOutlet` 可为 `local_html` 或 `nocode`。选择 `nocode` 时，仍须先完成本地 HTML 和治理数据集，再按 `phase5-report/nocode-dashboard/SKILL.md` 获得用户授权后处理线上出口。
 
-- 返回最终 HTML 的绝对路径；
-- 说明使用的截图数、Phase2 模式（轻量/全量）、Phase4 局部证据数量、各维度数量；
-- 若失败，说明失败阶段与可执行的修复动作；
-- 不把 `.artifacts/` 的过程文件当作最终交付物。
-- 用户要求跨词治理、NoCode 线上看板或部署时：先确保由 `scripts/build_experience_dashboard.py` 生成本地治理 HTML 与同批 `.governance_dataset_<批次>.json`，再切换到 `phase5-report/nocode-dashboard/SKILL.md` 处理数据导入、证据图发布和部署；不要由本 Skill 绕过该出口。
+## Evaluation Agent 的固定约束
+
+Evaluation Agent 在同一上下文内执行 Phase2 → Phase3 → Phase4 → Phase5：
+
+- 每张截图一个独立 manifest；
+- Phase2 默认本地轻量识别，必须通过 `validate_element_manifest.py`；
+- Phase3/4 必须通过 `validate_eval_results.py`，Phase4 使用 `--require-evidence`；
+- Phase5 只消费验收结果；
+- 不删除或覆盖截图、过程文件、证据或历史报告。
+
+多搜索词仍由外层按批次处理：每批最多 3 个词，每个词一个 Evaluation Agent，上批完成后才可继续。

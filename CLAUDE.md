@@ -1,6 +1,14 @@
 # 项目工作流声明（search-eval-project）
 
-本仓库是美团搜索结果页标准化评测工作流：**截图 → phase2 轻量识别 → phase3 多维度评测 → phase4 问题证据标注 → phase5 合并报告**。完整参数与用法见 `README.md`，本文件只声明阶段、目录与数据流向，供每个 Claude Code 会话快速对齐。
+本仓库是美团搜索结果页标准化评测系统。1.0 对外由 **Workflow → Screenshot Agent / Evaluation Agent** 编排：Screenshot Agent 负责 Phase1 的现场截图或已有截图发现；Evaluation Agent 在同一上下文内执行 **Phase2 轻量识别 → Phase3 多维度评测 → Phase4 问题证据 → Phase5 报告**。完整参数与用法见 `README.md`，本文件只声明阶段、目录与数据流向，供每个 Claude Code 会话快速对齐。
+
+## 1.0 任务模式与职责边界
+
+- `capture_only`：只调用 Screenshot Agent；只向用户确认搜索词、Tab、屏数。
+- `evaluate_only`：Screenshot Agent 只读发现 `screenshots/`；用户选择截图后才调用 Evaluation Agent，只确认评测维度和报告出口，不要求用户重复搜索词、Tab、屏数或设备参数。
+- `capture_and_evaluate`：先调用 Screenshot Agent；截图通过基本完整性检查后，返回 `awaiting_evaluation_config`，再确认评测维度和报告出口后调用 Evaluation Agent。
+- Workflow 只做条件询问、模式路由、单词隔离、批次屏障和状态汇总；不得运行 OCR、评测、评分、证据或报告业务逻辑。
+- 1.0 不存在 Runtime Guard、自动反思或经验库。Phase2～4 的既有确定性校验器仍在 Evaluation Agent 内执行。
 
 ## 阶段与目录
 
@@ -57,19 +65,15 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 
 两种模式共用同一套**子代理分派结构**，不是各自随意拆分：
 
-- **phase1 独立**：截图（现场 ADB 或复用已有图）单独一次 Agent 调用，不与其它 phase 混入同一上下文。
-- **phase2+3+4+5 合并进同一个子代理**：本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5），在同一上下文内按序完成。Phase2 在该上下文中仍只运行本地脚本，并为每张截图分别生成清单；多模态能力只能用于后续阶段。
+- **Screenshot Agent 独立**：`capture_only` 时执行现场 ADB 截图；`evaluate_only` 时只读运行 `scripts/discover_screenshot_groups.py` 发现、聚合和校验已有截图；不与其它 phase 混入同一上下文。
+- **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 在该上下文中仍只运行本地脚本，并为每张截图分别生成清单；多模态能力只能用于后续阶段。
 - **回退模式的具体派发机制**：Agent 任务编排没有 `agentType:` 参数机制，因此对 phase2+3+4+5 发起的这**唯一一次** `Agent` 工具调用，其 prompt 必须完整拼入 `.claude/agents/phase2345-query-pipeline.md` 的正文全部内容（Stage A~D 的输入契约、执行硬约束、输出 schema 逐条原文，不得摘要、简化或用自己的话复述替代），再附加当次 query/screenshots/路径等具体参数。禁止只截取该文件的部分小节、禁止凭记忆转述其中的校验命令或字段名。
 - **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：`--require-hierarchy-facts` 等 4 项前置事实校验命令，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
 - 跨维度共享契约：phase3 评测前必须先读对应维度的共享契约文件（单一元素维度读 `phase3-single_element-eval/单一元素评测通用契约.md`，组件/卡片维度读 `phase3-card_or_component-eval/组件卡片评测通用契约.md`，页面框架维度读 `phase3-page_framework-eval/页面框架评测通用契约.md`；契约文件与各维度 `eval-skills/` 同级共存），再读该 skill 自身 SKILL.md；SKILL.md 中标注"见共享契约"的条款以共享契约原文为准。
 
-Agent 任务编排**启动前必须先向用户确认**以下三项，确认后才创建 TODO 并进入 phase1：
+Agent 任务编排先要求用户选择 `capture_only`、`evaluate_only` 或 `capture_and_evaluate`，再按模式询问必要参数。仅评测已有截图时先发现截图组，不询问搜索词、Tab、屏数；截图+评测时必须在截图成功后才询问评测维度与报告出口。Phase2 默认 lightweight，不作为额外确认项。
 
-1. 是否在评测前执行 Phase2 轻量识别（是 / 否）；
-2. 评测维度（可多选）：单一元素（`phase3-single_element-eval`）、组件/卡片（`phase3-card_or_component-eval`）、页面框架（`phase3-page_framework-eval`）；
-3. 交付出口：仅生成本地 HTML 报告，或生成本地 HTML 后继续按 `phase5-report/nocode-dashboard/SKILL.md` 导入、发布证据并部署 NoCode 报告。
-
-Agent 任务编排的固定顺序：① phase1 校验/复用或现场截图（独立 Agent 调用）；② 单个 Agent 调用（`phase2345-query-pipeline` 或等价的单实例连续执行）依次完成：phase2 默认轻量识别并为每张截图分别将一个元素清单及其审计写入项目级 `screenshots-out/`，不生成整页标注 PNG → phase3 逐维度先读共享契约再读所有目标 `eval-*/SKILL.md`，按截图消费对应清单、确定性计数并将原始结果和审计写入 `.artifacts/过程文件-评测结果与审计/` → phase4 只为不达标区域在 `screenshots-out/evidence/` 生成整页红框证据图并回写结果 → phase5 按 `phase5-report/SKILL.md` 渲染 `reports/` 本地 HTML；用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。除显式 Workflow 的宿主调度方式外，两种模式不得产生不同的数据流、评分口径、输出路径或子代理分派结构。
+Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 对需要评测的已选截图，单个 Evaluation Agent 调用（内部复用 `phase2345-query-pipeline`）依次完成：phase2 默认轻量识别并为每张截图分别将一个元素清单及其审计写入项目级 `screenshots-out/`，不生成整页标注 PNG → phase3 逐维度先读共享契约再读所有目标 `eval-*/SKILL.md`，按截图消费对应清单、确定性计数并将原始结果和审计写入 `.artifacts/过程文件-评测结果与审计/` → phase4 只为不达标区域在 `screenshots-out/evidence/` 生成整页红框证据图并回写结果 → phase5 按 `phase5-report/SKILL.md` 渲染 `reports/` 本地 HTML；用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。除显式 Workflow 的宿主调度方式外，两种模式不得产生不同的数据流、评分口径、输出路径或子代理分派结构。
 
 ### 批量子代理调度纪律（铁律）
 
@@ -97,7 +101,7 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 |---|---|---|---|
 | CLAUDE.md（本文件） | 项目根 | 声明阶段/数据流/规范/契约，每次会话自动加载 | 全局、每会话 |
 | Rules | `.claude/rules/*.md` | 按文件类型约束（SKILL.md 契约、命名/路径规范） | 按需：碰对应文件才加载，不碰不占 token |
-| Subagents | `.claude/agents/*.md` | Phase2 轻量识别、Phase3 评测、Phase4 证据和 Phase5 报告渲染的独立上下文分身 | 按阶段执行、并行评测或交互式单跑 |
+| Subagents | `.claude/agents/*.md` | Screenshot Agent 负责截图/发现；Evaluation Agent 负责 Phase2～5，内部保留阶段职责定义 | 按任务模式和单词边界执行 |
 | Hooks | `.claude/settings.json` | SKILL.md 编辑后自动校验 frontmatter（确定性） | 每次 Edit/Write SKILL.md 后 |
 | Output Styles | `.claude/output-styles/eval-strict.md` | 评测模式人设，强制评级/计数/输出一致性 | 切到 eval-strict 模式时 |
 | Skills | 项目 `phase*/SKILL.md` | 每个截图、识别、评测、报告与 NoCode 部署步骤的口径手册 | 工作流按路径读，或交互调用 |
@@ -105,7 +109,7 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 
 ### 已落地
 - **Rules**：`.claude/rules/skill-frontmatter.md`（SKILL.md frontmatter 契约）、`.claude/rules/project-conventions.md`（命名+路径+评级规范）。
-- **Subagents**：`.claude/agents/phase2345-query-pipeline.md`（phase2 轻量识别+phase3 全维度评测+phase4 问题证据+phase5 报告渲染，单词单实例、单一子代理上下文顺序完成四阶段）。Phase2 只运行本地 CV/OCR；多模态能力供后续评测/证据阶段使用，不能用于补读 Phase2 OCR。
+- **Subagents**：`.claude/agents/screenshot-agent.md`（截图/已有截图发现）与 `.claude/agents/evaluation-agent.md`（对外评测入口）；后者复用 `.claude/agents/phase2345-query-pipeline.md`（单词单实例、Phase2～5 顺序完成）。Phase2 只运行本地 CV/OCR；多模态能力供后续评测/证据阶段使用，不能用于补读 Phase2 OCR。
 - **Hooks**：`.claude/settings.json` + `scripts/validate_skill_frontmatter.py`（编辑 SKILL.md 后自动校验四键，非阻断）。
 - **Output Style**：`.claude/output-styles/eval-strict.md`。
 - **运行入口**：`.claude/skills/run-eval.md`，以保守默认参数调用工作流。

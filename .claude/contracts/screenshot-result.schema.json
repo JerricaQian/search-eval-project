@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Screenshot Agent result",
+  "type": "object",
+  "properties": {
+    "ok": {"type": "boolean"},
+    "mode": {"enum": ["capture", "discover"]},
+    "query": {"type": "string"},
+    "screenshots": {"type": "array", "items": {"type": "string"}},
+    "discoveredGroups": {"type": "array"},
+    "missing": {"type": "array", "items": {"type": "string"}},
+    "error": {"type": "string"}
+  },
+  "required": ["ok", "mode", "screenshots", "error"]
+}
