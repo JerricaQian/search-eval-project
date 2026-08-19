@@ -78,7 +78,7 @@ python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
   --output-dir .artifacts/golden-cv-rerun
 ```
 
-仓库只保留 `golden-atomic-v3/` 下最新的 34 份页面可重建黄金 JSON 和一个汇总 `index.json`。旧 `golden-sample-results/**/*.elements.json` 已外部归档，逐 manifest audit sidecar 已删除；审计摘要集中保存在索引中。迁移脚本只有在显式恢复并传入旧源目录时才可运行，不能在仓库中重新落旧格式 JSON。没有 CV/OCR 或组件真值外框的 module-only 组件不写 `bounds`，由索引中的 `missingModuleBounds` 明示。
+仓库只保留 `golden-atomic-v3/` 下最新的 34 份页面可重建黄金 JSON 和一个汇总 `index.json`，这 34 份 atomic v3 同时也是后续重建的原始输入。`scripts/build_atomic_manifest_v3_goldens.py` 默认重新校验并规范化写出它们、重建索引，不依赖旧格式。旧 `golden-sample-results/**/*.elements.json` 已外部归档；只有一次性追溯迁移时才显式传入 `--legacy-source-root`。逐 manifest audit sidecar 已删除，审计摘要集中保存在索引中。
 
 ## 历史兼容文件
 

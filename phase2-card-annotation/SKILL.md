@@ -147,17 +147,17 @@ PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到
 6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同行碎片、语义原子性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
 7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`golden-atomic-v3/` 只用于离线回归，禁止传入生产命令。旧格式迁移脚本只有在显式提供外部归档的 `--source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
+9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`golden-atomic-v3/` 只用于离线回归，禁止传入生产命令。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
 
    黄金文本发布以结构范例和当前卡片的完整像素证据共同门控：标题与下挂不能由预设槽位生成；文字元素非空并不代表正确，必须能追溯到同卡、同元素且覆盖完整可见字形的 bounded observation；校准命令指定 `--require-backend paddleocr` 时任何后端降级均阻断。已有非空标题也必须按标题结构重新核验。
 
 Phase3 通过 `scripts/phase2_bundle_loader.py` 读取 atomic v3，完成枚举、哈希和 publication 门禁后只在内存中建立兼容视图。禁止持久化 Phase3 派生投影。
 
-`phase2.atomic-manifest.v3` 是页面可重建的原子结构投影。34 份离线黄金投影统一由
-`scripts/build_atomic_manifest_v3_goldens.py` 生成到 `golden-atomic-v3/`：corrected/示例 JSON
-只提供 module/card/region/slot 结构词汇，严禁读取其坐标；card、region、element、图筛项坐标
-只能复制现有逐像素复核 golden 与 bounded CV/OCR 证据。仅建模块若没有可靠外框则省略
-`bounds`，不得按屏幕比例、固定高度或相邻模块均分补框。审计摘要只保留在批量
+`phase2.atomic-manifest.v3` 是页面可重建的原子结构投影，也是当前黄金源。34 份离线黄金
+统一保存在 `golden-atomic-v3/`。`scripts/build_atomic_manifest_v3_goldens.py` 默认以这 34 份
+atomic v3 为输入，重新执行枚举、截图哈希和结构校验，保持坐标与原子事实不变，并重建
+汇总索引；不再依赖旧 `elements.json`。仅建模块若没有可靠外框则省略 `bounds`，不得按
+屏幕比例、固定高度或相邻模块均分补框。审计摘要只保留在批量
 `index.json`，不再生成逐 manifest audit sidecar；索引必须保持 34 图、135 卡的回归基线。
 
 所有 Phase2 JSON 在写出前必须加载 `references/search_card_taxonomy.v1.json` 执行枚举校验；
@@ -178,16 +178,7 @@ Phase3 通过 `scripts/phase2_bundle_loader.py` 读取 atomic v3，完成枚举�
 python3 phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py
 ```
 
-迁移完成后，Phase3 通过确定性测量入口直接消费两份文件；入口会先核对 sidecar 文件名、规范 JSON SHA-256、截图哈希及卡内/页面元素 ID 索引，任一不一致立即失败：
-
-```bash
-python3 scripts/extract_component_metrics.py \
-  --project-dir <projectDir> --scenes <sample> --skill <eval-skill> \
-  --normalized-input <sample>.golden.json \
-  --evidence-input <sample>.evidence.json
-```
-
-`countDecision`、`dedupDecision` 等可由结构化字段直接推导的解释性文案不写入规范化主文件、证据 sidecar 或 Phase3 内存视图；只保留 `countedInComplexity` 与 `dedupWithElementIds`。
+Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口核对枚举哈希、截图哈希、publication 状态及元素引用，任一不一致立即失败。`countDecision`、`dedupDecision` 等 Phase3 派生字段不得写回黄金 JSON。
 
 10. 黄金回归只在整条推理完成后做 `expectedCardTypes`/`predictedCards` 对照，绝不能向生产识别传入期望卡型：
 

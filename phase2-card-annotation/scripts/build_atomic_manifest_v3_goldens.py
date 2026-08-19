@@ -490,7 +490,66 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def rebuild_from_atomic(source_root: Path, output_root: Path, taxonomy_path: Path = DEFAULT_TAXONOMY) -> dict[str, Any]:
+    """Rebuild the retained golden set from atomic v3 as the canonical source."""
+    global TAXONOMY_ENUMS
+    TAXONOMY_ENUMS = load_taxonomy(taxonomy_path)
+    sources = sorted(source_root.rglob("*.atomic.v3.json"))
+    if len(sources) != 34:
+        raise ValueError(f"expected 34 atomic v3 golden inputs, found {len(sources)}")
+    loaded = [(source, json.loads(source.read_text(encoding="utf-8"))) for source in sources]
+    records: list[dict[str, Any]] = []
+    totals = Counter()
+    for source, manifest in loaded:
+        result = validate(manifest, taxonomy_path)
+        if not result["valid"]:
+            raise ValueError(f"{source}: " + ";".join(result["errors"]))
+        screenshot = Path(str(manifest["source"]["screenshot"]))
+        if not screenshot.is_absolute():
+            screenshot = ROOT / screenshot
+        if not screenshot.is_file():
+            raise ValueError(f"{source}: source_screenshot_missing")
+        if sha256(screenshot) != manifest["source"]["sha256"]:
+            raise ValueError(f"{source}: source_screenshot_sha256_mismatch")
+        title_affixes, title_affix_errors = title_affix_audit(manifest)
+        if title_affix_errors:
+            raise ValueError(f"{source}: " + ";".join(title_affix_errors))
+        missing_bounds = [module_id for module_id, module in manifest["modulesById"].items() if "bounds" not in module]
+        relative_source = source.relative_to(source_root)
+        output = output_root / relative_source
+        write_json(output, manifest)
+        card_count = len(manifest["cardsById"])
+        region_count = len(manifest["regionsById"])
+        element_count = len(manifest["elementsById"])
+        totals.update({
+            "images": 1, "cards": card_count, "regions": region_count, "elements": element_count,
+            "missingModuleBounds": len(missing_bounds), "titleAffixes": len(title_affixes), "titleAffixErrors": 0,
+        })
+        records.append({
+            "manifest": relative(output), "valid": True,
+            "taxonomy": manifest["taxonomy"], "taxonomyValidation": "passed",
+            "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
+            "missingModuleBounds": missing_bounds, "titleAffixes": title_affixes, "titleAffixErrors": [],
+            "cards": card_count, "regions": region_count, "elements": element_count,
+        })
+    index = {
+        "schemaVersion": "phase2.atomic-manifest.v3.batch-index",
+        "taxonomy": {
+            "contractVersion": TAXONOMY_ENUMS["contractVersion"],
+            "file": relative(TAXONOMY_ENUMS["path"]),
+            "sha256": TAXONOMY_ENUMS["sha256"],
+        },
+        "taxonomyValidation": "passed",
+        "coordinatePolicy": "canonical atomic v3 coordinates retained unchanged; screenshots and hashes revalidated",
+        "retentionPolicy": "latest atomic manifests are the canonical golden inputs; legacy element JSON is optional migration evidence only",
+        "totals": dict(totals), "samples": records,
+    }
+    write_json(output_root / "index.json", index)
+    return index
+
+
 def build_all(source_root: Path, output_root: Path, taxonomy_path: Path = DEFAULT_TAXONOMY) -> dict[str, Any]:
+    """One-time migration from a restored legacy elements.json archive."""
     global TAXONOMY_ENUMS
     TAXONOMY_ENUMS = load_taxonomy(taxonomy_path)
     sources = sorted(source_root.rglob("*.elements.json"))
@@ -526,12 +585,16 @@ def build_all(source_root: Path, output_root: Path, taxonomy_path: Path = DEFAUL
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Build atomic-manifest.v3 for all 34 golden screenshots")
-    parser.add_argument("--source-root", type=Path, required=True, help="restored legacy elements.json root; not retained in the repository")
+    parser = argparse.ArgumentParser(description="Rebuild and validate the 34 retained atomic-manifest.v3 goldens")
+    parser.add_argument("--source-root", type=Path, default=DEFAULT_OUTPUT, help="canonical atomic v3 golden root")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--legacy-source-root", type=Path, help="optional restored legacy elements.json root for one-time migration")
     parser.add_argument("--taxonomy", type=Path, default=DEFAULT_TAXONOMY)
     args = parser.parse_args()
-    result = build_all(args.source_root.resolve(), args.output_root.resolve(), args.taxonomy.resolve())
+    if args.legacy_source_root:
+        result = build_all(args.legacy_source_root.resolve(), args.output_root.resolve(), args.taxonomy.resolve())
+    else:
+        result = rebuild_from_atomic(args.source_root.resolve(), args.output_root.resolve(), args.taxonomy.resolve())
     print(json.dumps({"valid": True, **result["totals"], "output": relative(args.output_root)}, ensure_ascii=False))
     return 0
 

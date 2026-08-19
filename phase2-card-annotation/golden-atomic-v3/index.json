@@ -6,7 +6,8 @@
     "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
   },
   "taxonomyValidation": "passed",
-  "coordinatePolicy": "pixel-verified golden CV/OCR coordinates only; corrected reference JSON coordinates ignored",
+  "coordinatePolicy": "canonical atomic v3 coordinates retained unchanged; screenshots and hashes revalidated",
+  "retentionPolicy": "latest atomic manifests are the canonical golden inputs; legacy element JSON is optional migration evidence only",
   "totals": {
     "images": 34,
     "cards": 135,
@@ -26,8 +27,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [],
       "titleAffixes": [
         {
@@ -125,8 +125,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [],
       "titleAffixes": [
         {
@@ -192,8 +191,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [],
       "titleAffixes": [
         {
@@ -243,8 +241,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [],
       "titleAffixes": [],
       "titleAffixErrors": [],
@@ -261,8 +258,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [],
       "titleAffixes": [
         {
@@ -320,8 +316,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3"
@@ -366,8 +361,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3"
@@ -428,8 +422,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3",
@@ -467,8 +460,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3",
@@ -514,8 +506,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M4",
@@ -561,8 +552,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3",
@@ -592,8 +582,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3"
@@ -646,8 +635,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -667,8 +655,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -721,8 +708,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -775,8 +761,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -829,8 +814,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -891,8 +875,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -961,8 +944,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -1015,8 +997,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -1069,8 +1050,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -1131,8 +1111,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -1193,8 +1172,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M1",
         "M2"
@@ -1214,8 +1192,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2"
       ],
@@ -1331,8 +1308,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2"
       ],
@@ -1351,8 +1327,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M5",
@@ -1390,8 +1365,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M5",
@@ -1429,8 +1403,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M4",
@@ -1476,8 +1449,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3",
@@ -1531,8 +1503,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M4"
@@ -1585,8 +1556,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M4",
@@ -1632,8 +1602,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M4",
@@ -1687,8 +1656,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M3",
@@ -1750,8 +1718,7 @@
         "sha256": "c6ecbcdaf2869a5021b5a6d1e823bb072fcf49efb469e74efd29f7648bdf910c"
       },
       "taxonomyValidation": "passed",
-      "coordinatePolicy": "card/element/filter coordinates copied from pixel-verified golden CV/OCR facts; no manual scale estimation",
-      "verificationStatus": "pixel_verified",
+      "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
       "missingModuleBounds": [
         "M2",
         "M4",
@@ -1796,6 +1763,5 @@
       "regions": 23,
       "elements": 61
     }
-  ],
-  "retentionPolicy": "latest atomic manifests and consolidated index only; legacy element JSON and per-manifest audit sidecars are not retained"
+  ]
 }

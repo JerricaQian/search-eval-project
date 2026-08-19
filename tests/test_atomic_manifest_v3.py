@@ -4,6 +4,7 @@ import copy
 import importlib.util
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -11,6 +12,7 @@ from pathlib import Path
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 EXAMPLE = PROJECT_DIR / "phase2-card-annotation/references/phase2_atomic_manifest.v3.example.json"
 VALIDATOR = PROJECT_DIR / "phase2-card-annotation/scripts/validate_atomic_manifest_v3.py"
+BUILDER = PROJECT_DIR / "phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py"
 GOLDEN_ROOT = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3"
 
 
@@ -110,6 +112,25 @@ class AtomicManifestV3Test(unittest.TestCase):
         self.assertEqual(len(manifests), 34)
         self.assertEqual(audits, [])
         self.assertTrue(all(self.module.validate(json.loads(path.read_text(encoding="utf-8")))["valid"] for path in manifests))
+
+    def test_latest_atomic_goldens_can_rebuild_the_complete_batch(self) -> None:
+        script_dir = str(BUILDER.parent)
+        if script_dir not in sys.path:
+            sys.path.insert(0, script_dir)
+        spec = importlib.util.spec_from_file_location("build_atomic_manifest_v3_test", BUILDER)
+        assert spec and spec.loader
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        with tempfile.TemporaryDirectory() as directory:
+            output_root = Path(directory)
+            index = builder.rebuild_from_atomic(GOLDEN_ROOT, output_root)
+            self.assertEqual(index["totals"]["images"], 34)
+            self.assertEqual(index["totals"]["cards"], 135)
+            rebuilt = sorted(output_root.rglob("*.atomic.v3.json"))
+            self.assertEqual(len(rebuilt), 34)
+            for output in rebuilt:
+                source = GOLDEN_ROOT / output.relative_to(output_root)
+                self.assertEqual(json.loads(output.read_text(encoding="utf-8")), json.loads(source.read_text(encoding="utf-8")))
 
     def test_batch_durian_uses_verified_coordinates_and_no_redundant_roles(self) -> None:
         path = PROJECT_DIR / "phase2-card-annotation/golden-atomic-v3/product-card/榴莲.atomic.v3.json"
