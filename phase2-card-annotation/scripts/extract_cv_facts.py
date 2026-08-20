@@ -196,10 +196,12 @@ def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = N
         if x1 <= x0 or y1 <= y0:
             return [], "unavailable", "invalid_region"
         crop = source.crop((x0, y0, x1, y1))
-        # Upscaling improves tiny crops, but full-width card crops already have
-        # 35-50 px glyphs.  Golden calibration may opt into scale=1 to avoid a
-        # 4x pixel-cost penalty without changing the bounded source region.
-        scale = max(1, min(2, int(os.environ.get("PHASE2_BOUNDED_OCR_SCALE", "2"))))
+        # Confirmed card regions in the mobile layout already contain 35–50px
+        # glyphs.  Keep the default at native scale: 2× quadruples Paddle's
+        # detector pixels and was the main avoidable CPU/latency cost. A
+        # caller may still set PHASE2_BOUNDED_OCR_SCALE=2 for a demonstrably
+        # tiny-text regression.
+        scale = max(1, min(2, int(os.environ.get("PHASE2_BOUNDED_OCR_SCALE", "1"))))
         if scale != 1:
             crop = crop.resize((crop.width * scale, crop.height * scale), Image.Resampling.LANCZOS)
         import tempfile
@@ -542,16 +544,31 @@ def _text_hygiene_reasons(text: str, box: Box, row_hits: int) -> list[str]:
     reasons: list[str] = []
     if box.h < 10 or box.w < 8:
         reasons.append("ocr_box_too_small")
-    if len(meaningful) == 1 and not meaningful[0].isdigit():
+    if len(meaningful) == 1:
         reasons.append("ocr_single_glyph_fragment")
     if row_hits != 1:
         reasons.append("text_box_row_alignment_ambiguous")
+    chinese = sum("\u4e00" <= char <= "\u9fff" for char in compact)
+    latin = sum(char.isascii() and char.isalpha() for char in compact)
+    # An untranslated OCR token is not a visible UI fact. Keep established
+    # Latin units only when it is attached to a field-shaped numeric value.
+    field_latin = bool(re.fullmatch(r"\d+(?:\.\d+)?\s*(?:km|m|min|s|ml|kg)", compact, re.I))
+    if chinese == 0 and latin >= 2 and not field_latin:
+        reasons.append("ocr_non_cjk_noise")
+    if 0 < chinese <= 1 and latin >= 2:
+        reasons.append("ocr_mixed_fragment")
+    if chinese >= 2 and latin >= 4 and not re.search(r"(?:ml|kg|km|KTV|SPA|PLUS|Pro)", compact, re.I):
+        reasons.append("ocr_mixed_script_noise")
+    suspicious_punctuation = sum(char in "|[]【】…" for char in compact)
+    if suspicious_punctuation >= 3 or (suspicious_punctuation >= 2 and chinese < 4):
+        reasons.append("ocr_delimited_or_truncated_bundle")
     return reasons
 
 
 def _text_candidates(ocr: list[dict[str, Any]], rows: list[dict[str, Any]], rgb: np.ndarray, width: int, height: int) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
-    for index, item in enumerate(ocr, start=1):
+    next_index = 1
+    for item in ocr:
         x, y, w, h = (int(value) for value in item["coord"])
         box = _clamp_box(x, y, w, h, width, height)
         if not box:
@@ -559,23 +576,47 @@ def _text_candidates(ocr: list[dict[str, Any]], rows: list[dict[str, Any]], rgb:
         overlaps = sum(1 for row in rows if _near_row(box, row))
         reasons = _text_hygiene_reasons(str(item["text"]), box, overlaps)
         hint = _text_color_hint(rgb, box)
-        accepted = not reasons
-        candidates.append({
-            "id": f"T{index}", "kind": "text", "text": item["text"], "coord": box.as_list(),
+        raw_text = str(item["text"])
+        parts = [part.strip() for part in re.split(r"[|｜]", raw_text) if len(re.findall(r"[0-9A-Za-z\u4e00-\u9fff]", part)) >= 2]
+        segments = hint.get("horizontalForegroundSegments", [])
+        # The separator itself is not a semantic field. Only split when local
+        # foreground pixels independently prove the sibling visual groups.
+        atoms: list[tuple[str, Box, dict[str, Any] | None]] = [(raw_text, box, None)]
+        if len(parts) >= 2 and len(segments) >= len(parts):
+            atoms = []
+            for part, segment in zip(parts, segments):
+                atom_box = _clamp_box(box.x + int(segment["xOffset"]), box.y, int(segment["width"]), box.h, width, height)
+                if atom_box:
+                    atoms.append((part, atom_box, {"method": "delimiter_and_local_foreground_segments", "sourceText": raw_text}))
+        elif len(segments) >= 3:
+            # Multiple independently measured visual groups flattened into a
+            # single OCR string cannot be a published atomic UI element.
+            reasons.append("ocr_multiple_visual_groups_unseparated")
+        for atom_text, atom_box, split_evidence in atoms:
+            atom_reasons = list(dict.fromkeys(reasons + _text_hygiene_reasons(atom_text, atom_box, sum(1 for row in rows if _near_row(atom_box, row)))) )
+            atom_hint = _text_color_hint(rgb, atom_box)
+            accepted = not atom_reasons
+            candidate = {
+            "id": f"T{next_index}", "kind": "text", "text": atom_text, "coord": atom_box.as_list(),
             # Independent Tesseract layout modes are kept as gate evidence.
             # They never replace the primary OCR string or trigger model OCR.
-            "ocrConsensus": item.get("ocrConsensus", {
-                "status": "unavailable", "primaryText": item.get("text", ""), "secondaryText": "",
-            }),
-            "geometry": {"rowAlignment": "single_row" if overlaps == 1 else "ambiguous"},
-            "visualHint": hint,
+            "ocrConsensus": ({"status": "confirmed", "primaryText": atom_text, "secondaryText": raw_text,
+                              "method": "delimiter_and_local_foreground_segments"} if split_evidence else item.get("ocrConsensus", {
+                "status": "unavailable", "primaryText": atom_text, "secondaryText": "",
+            })),
+            "geometry": {"rowAlignment": "single_row" if sum(1 for row in rows if _near_row(atom_box, row)) == 1 else "ambiguous"},
+            "visualHint": atom_hint,
             # These direct CV facts use the Phase3 names. Later stages only
             # add ownership, region and semantic role; they must not replace
             # the colour/pixel evidence with a guess.
-            "phase3Facts": _direct_text_phase3_facts(item["text"], box, hint, accepted),
+            "phase3Facts": _direct_text_phase3_facts(atom_text, atom_box, atom_hint, accepted),
             **({"ocrRefinement": item["ocrRefinement"]} if item.get("ocrRefinement") else {}),
-            "route": "accepted" if accepted else "rejected", "rejectionReasons": reasons,
-        })
+            "route": "accepted" if accepted else "rejected", "rejectionReasons": atom_reasons,
+            }
+            if split_evidence:
+                candidate["atomSplit"] = split_evidence
+            candidates.append(candidate)
+            next_index += 1
     return candidates
 
 
@@ -663,12 +704,16 @@ def _bounded_price_refinements(rgb: np.ndarray, candidates: list[dict[str, Any]]
     return refined
 
 
-def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, height: int) -> list[dict[str, Any]]:
+def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, height: int, excluded_top: int = 0) -> list[dict[str, Any]]:
     photos, _ = detect_photos(str(image_path))
     candidates: list[dict[str, Any]] = []
     for index, item in enumerate(photos, start=1):
         box = _clamp_box(item["x"], item["y"], item["w"], item["h"], width, height)
         if not box:
+            continue
+        if box.y + box.h <= excluded_top:
+            # Status bars and developer overlays are outside the assessable
+            # page canvas; do not let detector output promote them to facts.
             continue
         # Existing detector's rules are deliberately weak evidence.  A large or
         # colourful region and one stable content row is enough to propose a
@@ -698,16 +743,39 @@ def _photo_candidates(image_path: Path, rows: list[dict[str, Any]], width: int, 
     return candidates
 
 
+def _ocr_without_top_overlay(image_path: Path, width: int, height: int, excluded_top: int) -> tuple[list[dict[str, Any]], str, str | None]:
+    """OCR the assessable canvas only, then restore screenshot coordinates."""
+    if excluded_top <= 0:
+        return _ocr(image_path)
+    with Image.open(image_path) as image:
+        cropped = image.crop((0, excluded_top, width, height))
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as handle:
+            crop_path = Path(handle.name)
+        try:
+            cropped.save(crop_path)
+            entries, backend, error = _ocr(crop_path)
+        finally:
+            crop_path.unlink(missing_ok=True)
+    for entry in entries:
+        coord = entry.get("coord")
+        if isinstance(coord, list) and len(coord) == 4:
+            coord[1] = int(coord[1]) + excluded_top
+    return entries, backend, error
+
+
 def extract(image_path: Path) -> dict[str, Any]:
     with Image.open(image_path) as image:
         rgb = np.asarray(image.convert("RGB"))
     height, width, _ = rgb.shape
     whitespace, rows = _content_rows(rgb)
-    ocr, ocr_backend, backend_error = _ocr(image_path)
+    # The first screen slice commonly contains OS status text and a debug
+    # inspector. They are neither search results nor valid OCR candidates.
+    excluded_top = min(height, min(220, max(0, round(height * 0.075))))
+    ocr, ocr_backend, backend_error = _ocr_without_top_overlay(image_path, width, height, excluded_top)
     independent_layout_refinements = sum(bool(item.get("ocrRefinement", {}).get("applied")) for item in ocr)
     text = _text_candidates(ocr, rows, rgb, width, height)
     bounded_price_refinements = _bounded_price_refinements(rgb, text)
-    photos = _photo_candidates(image_path, rows, width, height)
+    photos = _photo_candidates(image_path, rows, width, height, excluded_top)
     unresolved = [item["id"] for item in text + photos if item["route"] != "accepted"]
     missing_capabilities: list[str] = []
     if backend_error:
@@ -724,6 +792,7 @@ def extract(image_path: Path) -> dict[str, Any]:
         "candidates": {"text": text, "photos": photos},
         "routing": {
             "policy": "cv_only_gated_v1", "unresolvedCandidateIds": unresolved,
+            "ocrExclusionBands": [{"coord": [0, 0, width, excluded_top], "reason": "system_status_and_debug_overlay"}] if excluded_top else [],
             "missingCapabilities": missing_capabilities,
             "rule": "Rejected OCR/CV candidates are not sent to a model. They are evidence that the page-level recognition gate must reprocess or block this manifest; they cannot establish absence, defects, or excellence.",
         },

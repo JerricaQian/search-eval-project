@@ -113,14 +113,22 @@ def _topology_type_candidate(card: dict[str, Any], facts: dict[str, Any], struct
     if not member_ids:
         return None
     seed = structure_blocks.get(card.get("seedBlockId", ""))
-    if not seed:
-        return None
-    seed_bottom = seed["coord"][1] + seed["coord"][3]
+    if seed:
+        seed_bottom = seed["coord"][1] + seed["coord"][3]
+    else:
+        # Merchant-head interval recovery deliberately has no OCR block seed:
+        # its start is the verified repeated square head photo. That is still
+        # a valid topology anchor for the attached horizontal product rail.
+        head_id = str(card.get("headPhotoId", ""))
+        head = next((item for item in facts.get("candidates", {}).get("photos", []) if item.get("id") == head_id), None)
+        if not head:
+            return None
+        seed_bottom = head["coord"][1] + head["coord"][3]
     attached = [structure_blocks[item_id] for item_id in member_ids if item_id in structure_blocks and structure_blocks[item_id]["coord"][1] >= seed_bottom]
     attached_text_blocks = [block for block in attached if block.get("layoutCandidate") == "text_only"]
     card_text = [item for item in facts.get("candidates", {}).get("text", []) if _overlap(item["coord"], card["coord"])]
     joined_text = "\n".join(str(item.get("text", "")) for item in card_text)
-    attached_photos = [item for item in facts.get("candidates", {}).get("photos", []) if item["coord"][1] >= seed_bottom and _overlap(item["coord"], card["coord"])]
+    attached_photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted" and item["coord"][1] >= seed_bottom and _overlap(item["coord"], card["coord"])]
     if attached_photos and len(card_text) >= 2:
         return {"cardType": "商家卡片_图文下挂", "confidence": 0.82, "evidence": ["topology:merchant_body_plus_attached_product_image", "local_text_present"]}
     merchant_anchor = re.search(r"(?:\d(?:\.\d)?\s*分|暂无评分|新店(?:入驻)?|\d+\s*条|人均)", joined_text, re.I)
@@ -174,6 +182,13 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
             )
         previous_selected = previous.get("selectedCardType", {}) if previous else {}
         previous_type = str(previous_selected.get("cardType", ""))
+        if is_bottom_partial and resolved["features"].get("has_media"):
+            partial_policy = {
+                "applied": True, "visibleStatus": "naturally_cropped", "screenEdge": "bottom",
+                "waivedOnly": ["missing_required_field", "missing_semantic_anchor"],
+                "stillBlocking": ["malformed_visible_text", "ocr_consensus_failure", "explicit_ad_conflict"],
+                "unobservableReasons": ["viewport_bottom_natural_crop"],
+            }
         if is_bottom_partial and resolved["features"].get("has_media") and previous_selected.get("status") == "confirmed" and previous_type in KNOWN_RESULT_TYPES and not resolved["features"].get("explicit_ad_marker"):
             inherited_validation = next(
                 (item for item in resolved["contractEvaluations"] if item.get("cardType") == previous_type),
@@ -188,12 +203,12 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
             }
             resolved["contractValidation"] = inherited_validation
             resolved["nearestKnownCardType"] = previous_type
-            partial_policy = {
+            partial_policy.update({
                 "applied": True, "visibleStatus": "naturally_cropped", "screenEdge": "bottom",
                 "inheritedFromCardId": previous["cardId"], "inheritedCardType": previous_type,
                 "waivedOnly": ["missing_required_field", "missing_semantic_anchor"],
                 "stillBlocking": ["malformed_visible_text", "ocr_consensus_failure", "explicit_ad_conflict"],
-            }
+            })
         definition = definitions.get(selected["cardType"]) if selected["status"] == "confirmed" else None
         output.append({
             "cardId": card["id"], "coord": card["coord"], "cardTypeCandidates": type_result["candidates"], "selectedCardType": selected,

@@ -14,6 +14,7 @@ tools: Read, Bash, Write, Grep, Glob
 - 输入截图必须是用户或 Screenshot Agent 已确认的绝对路径数组。
 - `query` 可由截图发现结果推导，不应要求用户在“仅评测已有截图”模式中重复输入。
 - 执行前读取并遵守 `.claude/agents/phase2345-query-pipeline.md`。
+- 不接受未经 Workflow 路由和用户范围确认的原始图片作为“人工评测”任务；若上游缺少截图发现结果、所选维度或报告出口，返回可行动的缺失项，不得自行改为目视评分。
 
 ## 硬约束
 
@@ -21,6 +22,7 @@ tools: Read, Bash, Write, Grep, Glob
 - 不跳过 `validate_element_manifest.py`、`validate_eval_results.py`、`--require-evidence`。
 - 不修改历史截图或过程产物；本次运行使用新的批次/过程目录。
 - Phase4/5 不增加新的业务判断，只消费已验收的上游结果。
+- 对输入、OCR、证据或规则产生的质疑只能作为复核记录；需要改变事实、坐标、评级或计数时，必须回退对应正式阶段重跑，不能以人工判断覆盖既有结果。
 
 ## 输出
 

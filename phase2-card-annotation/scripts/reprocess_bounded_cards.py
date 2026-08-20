@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 import re
+import time
 from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
@@ -217,7 +218,44 @@ def _crop(card: dict[str, Any], facts: dict[str, Any], region: str) -> list[int]
     return [text_x, top, max(1, right - text_x), max(1, bottom - top)]
 
 
-def plan_targets(facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any], gate: dict[str, Any]) -> list[dict[str, Any]]:
+def _component_targets(facts: dict[str, Any], candidates: dict[str, Any]) -> list[dict[str, Any]]:
+    """Bound Paddle work to three non-overlapping semantic bands per card.
+
+    The old single ``downhang`` crop mixed product artwork, its printed
+    packaging, overlay labels, product titles and prices.  That guarantees
+    false positives even when Paddle's text recognition is correct.  CV's
+    accepted attached-photo anchor gives the carousel's actual top edge, so
+    we read (1) header/promo, (2) the image-overlay band and (3) the
+    title/price metadata separately.  One Paddle instance still processes
+    every crop sequentially; the total is capped at three per card.
+    """
+    targets = []
+    photos = {str(item.get("id")): item for item in facts.get("candidates", {}).get("photos", [])}
+    for card in candidates.get("resultCards", []):
+        x, y, width, height = card["coord"]
+        # The attached carousel starts after the left coupon/photo; its text
+        # column is independent from the small merchant head image above.
+        body_x = x + round(width * 0.206)
+        attached = [photos.get(str(photo_id)) for photo_id in card.get("attachedProductPhotoIds", [])]
+        attached = [item for item in attached if item and item.get("route") != "rejected"]
+        gallery_top = min((item["coord"][1] for item in attached), default=y + min(max(180, round(height * 0.34)), 300))
+        gallery_top = max(y + 96, min(y + height, gallery_top))
+        image_height = min(300, max(96, round(width * 0.224)))
+        gallery_bottom = min(y + height, gallery_top + image_height)
+        targets.append({"cardId": card["id"], "cardType": "", "region": "main_info", "semanticRegion": "",
+                        "coord": [body_x, y, max(32, x + width - body_x), max(48, gallery_top - y)], "sourceIds": []})
+        if gallery_bottom - gallery_top >= 48:
+            targets.append({"cardId": card["id"], "cardType": "", "region": "downhang_overlay", "semanticRegion": "",
+                            "coord": [body_x, gallery_top, max(32, x + width - body_x), gallery_bottom - gallery_top], "sourceIds": []})
+        if y + height - gallery_bottom >= 48:
+            targets.append({"cardId": card["id"], "cardType": "", "region": "product_meta", "semanticRegion": "",
+                            "coord": [body_x, gallery_bottom, max(32, x + width - body_x), y + height - gallery_bottom], "sourceIds": []})
+    return targets
+
+
+def plan_targets(facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any], gate: dict[str, Any], all_components: bool = False) -> list[dict[str, Any]]:
+    if all_components:
+        return _component_targets(facts, candidates)
     cards = candidates.get("resultCards", [])
     by_card = {item.get("cardId"): item for item in semantics.get("cards", [])}
     facts_by_id = {item.get("id"): item for item in facts.get("candidates", {}).get("text", [])}
@@ -270,10 +308,27 @@ def plan_targets(facts: dict[str, Any], candidates: dict[str, Any], semantics: d
         if "source_line" in regions:
             sources = [facts_by_id[source_id] for source_id in source_ids.get((card_id, "source_line"), set()) if source_id in facts_by_id]
             if sources:
+                text_column = _text_column(card, facts)
+                body_sources = [item for item in sources if item["coord"][0] + item["coord"][2] > text_column]
+                rejected_sources = [item for item in sources if item not in body_sources]
+                for item in rejected_sources:
+                    item["route"] = "rejected"
+                    item.setdefault("rejectionReasons", []).append("source_left_of_body_text_column_non_body_evidence")
+                if rejected_sources:
+                    facts.setdefault("routing", {}).setdefault("nonBodyEvidenceIds", []).extend(item["id"] for item in rejected_sources)
+                # A source wholly inside the head photo cannot be repaired by
+                # moving its left edge to the body column: that creates a 1px
+                # crop and invents body evidence. Reclassify it as non-body
+                # evidence and use a normal title crop only when needed.
+                sources = body_sources
+                if not sources:
+                    requested.setdefault(card_id, set()).add("title")
+                    regions = sorted((set(regions) - {"source_line"}) | {"title"}, key=lambda item: order[item])
+            if sources:
                 # A full-image OCR box may merge the left logo/photo with the
                 # merchant title. The bounded retry must start at the inferred
                 # text column or it simply reproduces the same corruption.
-                x0 = max(_text_column(card, facts), max(card["coord"][0], min(item["coord"][0] for item in sources) - 24))
+                x0 = max(text_column, max(card["coord"][0], min(item["coord"][0] for item in sources) - 24))
                 # Full-page OCR boxes may legitimately extend a few pixels
                 # above the CV card boundary. Preserve that glyph cap-height
                 # instead of clipping the first title row at the card edge.
@@ -293,7 +348,8 @@ def plan_targets(facts: dict[str, Any], candidates: dict[str, Any], semantics: d
                     y1 = min(int(facts.get("viewport", {}).get("height", card["coord"][1] + card["coord"][3])), y0 + max(minimum_height, round(source_height * factor)))
                 else:
                     y1 = min(int(facts.get("viewport", {}).get("height", card["coord"][1] + card["coord"][3])), max(item["coord"][1] + item["coord"][3] for item in sources) + 14)
-                result.append({"cardId": card_id, "cardType": card_type, "region": "source_line", "semanticRegion": semantic_region, "coord": [x0, y0, x1 - x0, y1 - y0], "sourceIds": sorted(item["id"] for item in sources)})
+                if x1 - x0 >= 32 and y1 - y0 >= 20:
+                    result.append({"cardId": card_id, "cardType": card_type, "region": "source_line", "semanticRegion": semantic_region, "coord": [x0, y0, x1 - x0, y1 - y0], "sourceIds": sorted(item["id"] for item in sources)})
         specific = [region for region in regions if region not in {"source_line", "full"}]
         for region in specific[:2]:
             result.append({"cardId": card_id, "region": region, "coord": _crop(card, facts, region), "sourceIds": []})
@@ -319,13 +375,26 @@ def _candidate(entry: dict[str, Any], rgb: np.ndarray, width: int, height: int, 
     if effective_region != "source_line" and mixed_script_gibberish(text):
         return None
     hint = _text_color_hint(rgb, box)
+    # Paddle returns line boxes, not guaranteed visual-atom boxes.  A merged
+    # gray-pill or price row must not be published as one element just because
+    # its transcription is plausible.  Delimiter-based atom splitting is
+    # handled by the full-page parser; component OCR has no equally reliable
+    # text-to-segment mapping, so retain it only as audit evidence for the
+    # local pixel reviewer.
+    visual_segments = hint.get("horizontalForegroundSegments", [])
+    merged_visual_entities = len(visual_segments) >= 2 and (
+        len(re.split(r"[|｜]", text)) < len(visual_segments)
+    )
     consensus = entry.get("ocrConsensus") if isinstance(entry.get("ocrConsensus"), dict) else {"status": "bounded_single_observation", "primaryText": text, "secondaryText": ""}
     return {
         "id": candidate_id, "kind": "text", "text": text, "coord": box.as_list(),
+        "ocrGeometry": {"lineBox": box.as_list(), "wordBoxes": entry.get("wordBoxes", []), "characterBoxes": entry.get("characterBoxes", []),
+                        "granularity": "line_with_optional_word_or_character_boxes"},
         "ocrConsensus": consensus,
         "geometry": {"rowAlignment": "bounded_card_region"}, "visualHint": hint,
         "phase3Facts": _direct_text_phase3_facts(text, box, hint, True),
-        "route": "accepted", "rejectionReasons": [],
+        "route": "rejected" if merged_visual_entities else "accepted",
+        "rejectionReasons": (["multiple_independent_visual_entities_require_local_pixel_split"] if merged_visual_entities else []),
         "boundedReprocess": {"cardId": target["cardId"], "region": effective_region, "semanticRegion": effective_semantic_region, "crop": target["coord"], "backend": backend, "sourceIds": target.get("sourceIds", [])},
     }
 
@@ -360,6 +429,75 @@ def _deduplicate_active_visual_entities(facts: dict[str, Any]) -> int:
             rejected += 1
             if loser is left:
                 break
+    return rejected
+
+
+def _exclude_photo_inner_ocr(facts: dict[str, Any], candidates: dict[str, Any]) -> int:
+    """Reject OCR glyphs printed *inside* the product artwork.
+
+    Component OCR quite correctly reads package lettering, restaurant signs and
+    watermark copy.  Those glyphs are not UI text atoms.  Repeated merchant
+    cards expose a stable, screenshot-local geometry: the attached carousel
+    begins at the accepted left coupon/product photo and its product images
+    occupy one square cell to the right.  This rule uses only those CV facts;
+    it does not infer text from a template.  Explicit platform overlay badges
+    are retained for the later semantic/pixel review.
+    """
+    photos = {str(item.get("id")): item for item in facts.get("candidates", {}).get("photos", [])}
+    rejected = 0
+    for card in candidates.get("resultCards", []):
+        card_id = str(card.get("id", ""))
+        attached = [photos.get(str(photo_id)) for photo_id in card.get("attachedProductPhotoIds", [])]
+        attached = [item for item in attached if item and item.get("route") != "rejected"]
+        if not attached:
+            continue
+        x, y, width, _ = card.get("coord", [0, 0, 0, 0])
+        # Must match ``_component_targets`` rather than the header's text
+        # column: the carousel begins left of the merchant information column.
+        text_x = x + round(width * 0.206)
+        gallery_top = min(item["coord"][1] for item in attached)
+        # The carousel images are square; constrain the inferred height so a
+        # tall coupon card on the left cannot swallow product title/price rows.
+        image_height = min(300, max(96, round(width * 0.224)))
+        gallery = [text_x, gallery_top, max(1, x + width - text_x), image_height]
+        for item in facts.get("candidates", {}).get("text", []):
+            if item.get("route") == "rejected" or not overlap(item.get("coord", [0, 0, 0, 0]), gallery):
+                continue
+            text = str(item.get("text", "")).strip()
+            # These are rendered platform badges over the carousel, not the
+            # merchandise packaging itself.  Their atomic/semantic decision is
+            # intentionally deferred rather than silently discarded.
+            if re.fullmatch(r"(?:点评推荐|神券|神抢手|减\d+(?:\.\d+)?)", text):
+                continue
+            item["route"] = "rejected"
+            item.setdefault("rejectionReasons", []).append(
+                f"photo_inner_text_not_ui_atom:{card_id}:{gallery}"
+            )
+            rejected += 1
+    return rejected
+
+
+def _reject_unsplittable_container_lines(facts: dict[str, Any]) -> int:
+    """Do not publish several gray pills as a single OCR sentence.
+
+    Paddle's detector may join neighbouring rounded containers when their
+    backgrounds nearly touch.  Quote-delimited/prefix-truncated strings are
+    direct evidence of that failure, not an atom whose text is merely noisy.
+    Keep them in the audit and let the local pixel review provide individual
+    fields.
+    """
+    rejected = 0
+    for item in facts.get("candidates", {}).get("text", []):
+        if item.get("route") == "rejected":
+            continue
+        text = str(item.get("text", "")).strip()
+        box = item.get("coord", [0, 0, 0, 0])
+        quote_count = text.count("“") + text.count("”") + text.count('"')
+        malformed_quote_bundle = quote_count >= 2 or (quote_count == 1 and box[2] >= 100)
+        if malformed_quote_bundle or ("..." in text and box[2] >= 120):
+            item["route"] = "rejected"
+            item.setdefault("rejectionReasons", []).append("container_line_requires_local_pixel_split")
+            rejected += 1
     return rejected
 
 
@@ -449,9 +587,10 @@ def merge_observations(facts: dict[str, Any], observations: list[dict[str, Any]]
     return added, corroborated
 
 
-def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any], gate: dict[str, Any], require_backend: str = "") -> tuple[dict[str, Any], dict[str, Any]]:
+def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any], gate: dict[str, Any], require_backend: str = "", all_components: bool = False) -> tuple[dict[str, Any], dict[str, Any]]:
+    started_at = time.perf_counter()
     previous_fingerprint = str(facts.get("routing", {}).get("boundedCardReprocess", {}).get("fingerprint", ""))
-    targets = plan_targets(facts, candidates, semantics, gate)
+    targets = plan_targets(facts, candidates, semantics, gate, all_components)
     with Image.open(screenshot) as image:
         rgb = np.asarray(image.convert("RGB"))
     height, width, _ = rgb.shape
@@ -459,6 +598,7 @@ def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any
     backend_counts: dict[str, int] = {}
     crop_reports: list[dict[str, Any]] = []
     for target in targets:
+        crop_started_at = time.perf_counter()
         psm = 6 if target.get("semanticRegion") == "title" and target.get("cardType") == "演出电影卡片" else 7 if target["region"] in {"source_line", "title", "price"} else 6
         entries, backend, error = ocr_region(screenshot, target["coord"], tesseract_psm=psm)
         if target.get("semanticRegion") == "title":
@@ -481,9 +621,14 @@ def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any
             "tesseractPsm": psm,
             "error": error or "",
             "observations": len(observations) - before,
+            "durationMs": round((time.perf_counter() - crop_started_at) * 1000),
         })
     target_source_ids = {source_id for target in targets for source_id in target.get("sourceIds", [])}
     added, corroborated = merge_observations(facts, observations, target_source_ids)
+    image_inner_rejected = _exclude_photo_inner_ocr(facts, candidates)
+    container_line_rejected = _reject_unsplittable_container_lines(facts)
+    facts.setdefault("routing", {})["photoInnerTextRejected"] = image_inner_rejected
+    facts["routing"]["containerLineRejected"] = container_line_rejected
     backends = facts.setdefault("backends", {})
     backends["boundedCardReprocessAttempts"] = 1 if targets else 0
     backends["boundedCardReprocessCrops"] = len(targets)
@@ -510,11 +655,14 @@ def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any
         "added": added,
         "corroborated": corroborated,
         "deduplicated": facts.get("routing", {}).get("boundedCardReprocessDeduplicated", 0),
+        "photoInnerTextRejected": facts.get("routing", {}).get("photoInnerTextRejected", 0),
+        "containerLineRejected": facts.get("routing", {}).get("containerLineRejected", 0),
         "backendCounts": backend_counts,
         "backendMismatches": backend_mismatches,
         "retryFingerprint": fingerprint,
         "previousRetryFingerprint": previous_fingerprint,
         "noProgress": no_progress,
+        "durationMs": round((time.perf_counter() - started_at) * 1000),
     }
     return facts, report
 
@@ -529,6 +677,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--require-backend", choices=("paddleocr", "tesseract"), default="", help="Fail if any bounded crop uses a different backend")
+    parser.add_argument("--all-components", action="store_true", help="Read title/info/price crops for every structurally confirmed card")
     args = parser.parse_args()
     result, report = reprocess(
         args.screenshot,
@@ -537,6 +686,7 @@ def main() -> int:
         json.loads(args.card_semantics.read_text(encoding="utf-8")),
         json.loads(args.recognition_gate.read_text(encoding="utf-8")),
         args.require_backend,
+        args.all_components,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

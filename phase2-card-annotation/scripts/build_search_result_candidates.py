@@ -33,6 +33,43 @@ def _union(boxes: list[list[int]]) -> list[int]:
     return [x0, y0, x1 - x0, y1 - y0]
 
 
+def _repeated_merchant_head_cards(facts: dict[str, Any], blocks: list[dict[str, Any]], results_start_y: int) -> list[dict[str, Any]]:
+    """Recover merchant-card boundaries from repeated left square heads.
+
+    A merchant card owns both its summary and the horizontal product rail.
+    Treating the rail's next image as a new card seed split every merchant
+    into two cards. Repeated head-photo geometry is stronger current-screen
+    evidence for the card start, so it owns the interval until the next head.
+    """
+    width, height = int(facts["viewport"]["width"]), int(facts["viewport"]["height"])
+    heads = []
+    for photo in facts.get("candidates", {}).get("photos", []):
+        x, y, w, h = photo.get("coord", [0, 0, 0, 0])
+        ratio = w / h if h else 0
+        if photo.get("route") == "accepted" and y >= results_start_y and x <= width * 0.10 and 90 <= w <= 240 and 90 <= h <= 240 and 0.72 <= ratio <= 1.30:
+            heads.append(photo)
+    heads.sort(key=lambda item: item["coord"][1])
+    # De-duplicate any detector variants on the same head image.
+    unique = [head for head in heads if not any(abs(head["coord"][1] - earlier["coord"][1]) < 45 for earlier in heads[:heads.index(head)])]
+    if len(unique) < 2:
+        return []
+    cards = []
+    for index, head in enumerate(unique):
+        top = head["coord"][1]
+        bottom = unique[index + 1]["coord"][1] if index + 1 < len(unique) else height
+        if bottom - top < 180:
+            continue
+        coord = [0, top, width, bottom - top]
+        members = [block["id"] for block in blocks if _overlap_y(block["coord"], coord)]
+        attached_product_ids = [photo["id"] for photo in facts.get("candidates", {}).get("photos", [])
+                                if photo.get("route") == "accepted" and photo.get("id") != head["id"]
+                                and photo["coord"][1] >= top + head["coord"][3] and _overlap_y(photo["coord"], coord)]
+        cards.append({"id": f"merchant-head-{index + 1}", "coord": coord, "seedBlockId": "", "memberBlockIds": members,
+                      "headPhotoId": head["id"], "attachedProductPhotoIds": attached_product_ids, "confidence": 0.91, "status": "confirmed",
+                      "evidence": ["repeated_left_square_merchant_head", "left_square_merchant_head", "right_side_attached_product_image_group", "next_repeated_head_boundary", "summary_and_product_rail_owned_together"]})
+    return cards
+
+
 def _module_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> list[dict[str, Any]]:
     texts = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected"]
     photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted"]
@@ -353,8 +390,11 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
             })
     cards = _split_cards_on_left_media_anchors(cards, facts, blocks)
     cards = _split_two_column_grid_cards(cards, facts, blocks)
+    merchant_head_cards = _repeated_merchant_head_cards(facts, blocks, results_start_y)
+    if merchant_head_cards:
+        cards = merchant_head_cards
     graphic_cards = _merchant_graphic_hang_cards(facts, results_start_y)
-    if graphic_cards:
+    if graphic_cards and not merchant_head_cards:
         # The specialised detector owns intervals it can explain. Keep generic
         # cards only for non-overlapping list sections, avoiding duplicates.
         def overlaps_special(card: dict[str, Any]) -> bool:

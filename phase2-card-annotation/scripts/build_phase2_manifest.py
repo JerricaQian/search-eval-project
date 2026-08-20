@@ -56,6 +56,11 @@ def usable_text(candidate: dict[str, Any], semantic: dict[str, Any]) -> bool:
     fragments from becoming false UI atoms while keeping the evidence visible.
     """
     raw = str(candidate.get("text", "")).strip()
+    # The current-pixel reviewer may record a visibly truncated product title
+    # with typographic brackets/ellipsis. That is a valid visible atom, not
+    # OCR debris; its render state remains naturally_cropped downstream.
+    if candidate.get("visualReview"):
+        return bool(raw)
     compact = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff¥￥.+%折减]", "", raw)
     chinese = sum("\u4e00" <= char <= "\u9fff" for char in compact)
     latin = sum(char.isascii() and char.isalpha() for char in compact)
@@ -152,10 +157,10 @@ def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], i
     role = semantic.get("semanticRoleCandidate", "other")
     region = semantic.get("regionCandidate", "基础信息区")
     element_type = "标签" if role == "tag" else "文本"
-    visible = status(item)
     direct = item.get("phase3Facts", {}) if isinstance(item.get("phase3Facts"), dict) else {}
     render = dict(direct.get("render", {}))
-    render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "uncertain", "sourceRegion": region, "isPhoto": False, "isSystemUi": True})
+    visible = render.get("visibleStatus") if render.get("visibleStatus") in {"confirmed", "naturally_cropped", "uncertain"} else status(item)
+    render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "partial" if visible == "naturally_cropped" else "uncertain", "sourceRegion": region, "isPhoto": False, "isSystemUi": True})
     element: dict[str, Any] = {
         "id": f"{card_id}-T{index}", "所属组件": card_id, "元素类型": element_type,
         "内容简述": f"原文:{item.get('text', '')}", "坐标": item["coord"], "isExcluded": False, "excludeReason": "",
@@ -164,7 +169,7 @@ def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], i
     if element_type == "文本":
         facts = dict(direct.get("textFacts", {}))
         color = item.get("visualHint", {}).get("colorRole", facts.get("textColorRole", "unknown"))
-        facts.update({"rawText": item.get("text", ""), "textStatus": "complete" if visible == "confirmed" else "uncertain",
+        facts.update({"rawText": item.get("text", ""), "textStatus": "complete" if visible == "confirmed" else "naturally_cropped" if visible == "naturally_cropped" else "uncertain",
                       "semanticRole": role, "emphasisLevel": "primary" if role in {"title", "price"} else "secondary", "textColorRole": color})
         facts.setdefault("fontSizeBucket", "unknown"); facts.setdefault("fontWeightBucket", "unknown")
         element["textFacts"] = facts
@@ -179,9 +184,10 @@ def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], i
 
 
 def image_element(card_id: str, item: dict[str, Any], index: int, region: str = "头图区") -> dict[str, Any]:
-    visible = status(item)
     direct = item.get("phase3Facts", {}) if isinstance(item.get("phase3Facts"), dict) else {}
-    render = dict(direct.get("render", {})); render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "uncertain", "sourceRegion": region, "isPhoto": True, "isSystemUi": False})
+    render = dict(direct.get("render", {}))
+    visible = render.get("visibleStatus") if render.get("visibleStatus") in {"confirmed", "naturally_cropped", "uncertain"} else status(item)
+    render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "partial" if visible == "naturally_cropped" else "uncertain", "sourceRegion": region, "isPhoto": True, "isSystemUi": False})
     visual = dict(direct.get("visual", {})) or visual_hint(item, "image", region, "photo")
     visual.update({"entityKind": "image", "sourceRegion": region, "styleKey": f"image|unknown|photo|{region}|无"})
     return {"id": f"{card_id}-P{index}", "所属组件": card_id, "元素类型": "图片",
@@ -226,6 +232,12 @@ def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: s
         image_ids = [item["id"] for item in resolved if item.get("元素类型") == "图片"]
         price_ids = [item["id"] for item in resolved if item.get("textFacts", {}).get("semanticRole") == "price"]
         text_ids = [item["id"] for item in resolved if item["id"] not in image_ids and item["id"] not in price_ids]
+        price_confirmed = any(item.get("render", {}).get("visibleStatus") == "confirmed" for item in resolved if item["id"] in price_ids)
+        requires_price_confirmation = region == "下挂商品区" and bool(image_ids)
+        # Keep this object deliberately within the Phase3 item-group contract.
+        # Observability of a missing price is represented by ``visibleStatus``;
+        # the validator intentionally disallows extra per-group keys so that a
+        # downstream consumer cannot silently ignore them.
         groups.append({
             "itemIndex": index,
             "coord": union([item["坐标"] for item in resolved], resolved[0]["坐标"]),
@@ -233,7 +245,7 @@ def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: s
             "imageElementIds": image_ids,
             "textElementIds": text_ids,
             "priceElementIds": price_ids,
-            "visibleStatus": "confirmed" if all(item.get("render", {}).get("visibleStatus") == "confirmed" for item in resolved) else "uncertain",
+            "visibleStatus": "confirmed" if all(item.get("render", {}).get("visibleStatus") == "confirmed" for item in resolved) and (not requires_price_confirmation or price_confirmed) else "uncertain",
         })
     return groups
 
@@ -245,8 +257,11 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
     confirmed_type = selected.get("status") == "confirmed"
     card_type = TYPE_NAMES.get(selected_type, "异构卡")
     regions: dict[str, list[dict[str, Any]]] = {}
-    text_candidates = [x for x in facts["candidates"]["text"] if overlap(x["coord"], coord)]
-    photo_candidates = [x for x in facts["candidates"]["photos"] if overlap(x["coord"], coord)]
+    # Rejected OCR/CV observations are audit evidence only. They must never
+    # leak back into the published element array simply because they overlap a
+    # card boundary.
+    text_candidates = [x for x in facts["candidates"]["text"] if x.get("route") == "accepted" and overlap(x["coord"], coord)]
+    photo_candidates = [x for x in facts["candidates"]["photos"] if x.get("route") == "accepted" and overlap(x["coord"], coord)]
     semantic_by_source = card_local_semantics(
         candidate, selected_type, text_candidates,
         {item.get("sourceId"): item for item in text_semantics.get("candidates", [])},
@@ -267,7 +282,7 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
     for index, item in enumerate(photo_candidates, 1):
         if status(item) != "confirmed":
             continue
-        if item["id"] in attached_photo_ids:
+        if item["id"] in attached_photo_ids or (selected_type == "商家卡片_图文下挂" and item["id"] != head_photo_id):
             image_region = "下挂商品区"
         elif item["id"] == head_photo_id or (not head_photo_id and not emitted_head_image_ids):
             image_region = "头图区"
@@ -379,8 +394,11 @@ def recognition_audit(query: str, screenshot: str, manifest: str, facts: dict[st
                     fields.append({"cardId": card_id, "elementId": item.get("id", ""), "field": "color_role",
                         "visibleText": str(item["visualHint"].get("colorRole", "unknown")), "status": status(item), "source": "full_image",
                         "reason": "local foreground-pixel colour estimate; requires local review before any stronger visual conclusion"})
+    review = facts.get("routing", {}).get("visualReview", {})
+    local_reads = int(review.get("localReviewReadCount", 0)) if isinstance(review, dict) else 0
     return {"query": query, "screenshot": screenshot, "manifest": manifest, "fullImageReadCount": 1,
-        "localReviewReadCount": 0, "totalImageReadCount": 1, "fields": fields}
+        "localReviewReadCount": local_reads, "totalImageReadCount": 1 + local_reads,
+        "localReviewEvidence": review if local_reads else [], "fields": fields}
 
 
 def main() -> int:

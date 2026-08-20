@@ -388,6 +388,27 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertLessEqual(len(targets), 3)
         self.assertTrue(all(item["cardId"] == "C1" for item in targets))
         self.assertIn("price", {item["region"] for item in targets})
+
+    def test_bounded_retry_rejects_head_photo_source_instead_of_one_pixel_crop(self) -> None:
+        script_dir = REPROCESS_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_bounded_retry_head_photo_test", REPROCESS_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+        facts = {"routing": {}, "candidates": {"photos": [{"id": "P1", "coord": [50, 1500, 256, 150], "route": "accepted"}], "text": [{"id": "T38", "text": "图片内文字", "coord": [124, 1582, 76, 25], "route": "accepted"}]}}
+        candidates = {"resultCards": [{"id": "C4", "coord": [0, 1500, 1200, 400]}]}
+        semantics = {"cards": [{"cardId": "C4", "selectedCardType": {"status": "uncertain"}, "contractValidation": {"missingEvidenceGroups": []}}]}
+        targets = module.plan_targets(facts, candidates, semantics, {"errors": [], "reprocessTargets": [{"sourceId": "T38", "hook": "ocr_consensus", "role": "title"}]})
+        self.assertEqual(module._text_column(candidates["resultCards"][0], facts), 322)
+        self.assertEqual(facts["candidates"]["text"][0]["route"], "rejected")
+        self.assertIn("T38", facts["routing"]["nonBodyEvidenceIds"])
+        self.assertNotIn("source_line", {item["region"] for item in targets})
+        self.assertTrue(all(item["coord"][2] >= 32 and item["coord"][3] >= 20 for item in targets))
         self.assertTrue(module.compatible_text("近30天318人复购", "HBT近30天318人复购"))
         self.assertEqual(module.corroborated_title_span("oem|he)锦州烧烤(悠乐汇店)", "钊州烧烤(您乐汇店)"), "锦州烧烤(悠乐汇店)")
         grouped = module.group_bounded_title_entries([
@@ -440,6 +461,40 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertEqual(corroborated, 1)
         self.assertEqual(len(active), 1)
         self.assertEqual(facts["routing"]["boundedCardReprocessDeduplicated"], 1)
+
+    def test_component_ocr_separates_product_artwork_from_product_metadata(self) -> None:
+        """A merchant carousel must not be OCRed as one image/text soup."""
+        script_dir = REPROCESS_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_component_band_test", REPROCESS_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+        facts = {"candidates": {"photos": [
+            {"id": "P1", "coord": [58, 547, 163, 163], "route": "accepted"},
+            {"id": "P2", "coord": [58, 845, 274, 395], "route": "accepted"},
+        ]}}
+        candidates = {"resultCards": [{"id": "C1", "coord": [0, 547, 1224, 770], "headPhotoId": "P1", "attachedProductPhotoIds": ["P2"]}]}
+        targets = module._component_targets(facts, candidates)
+        self.assertEqual([item["region"] for item in targets], ["main_info", "downhang_overlay", "product_meta"])
+        self.assertEqual(targets[0]["coord"], [252, 547, 972, 298])
+        self.assertEqual(targets[1]["coord"], [252, 845, 972, 274])
+        self.assertEqual(targets[2]["coord"], [252, 1119, 972, 198])
+
+        facts["candidates"]["text"] = [
+            {"id": "T1", "text": "包装内文字", "coord": [256, 933, 60, 20], "route": "accepted"},
+            {"id": "T2", "text": "点评推荐", "coord": [838, 1082, 100, 24], "route": "accepted"},
+            {"id": "T3", "text": "刚刚有用户看过“下次还点(oo)”", "coord": [436, 1451, 478, 59], "route": "accepted"},
+        ]
+        self.assertEqual(module._exclude_photo_inner_ocr(facts, candidates), 1)
+        self.assertEqual(facts["candidates"]["text"][0]["route"], "rejected")
+        self.assertEqual(facts["candidates"]["text"][1]["route"], "accepted")
+        self.assertEqual(module._reject_unsplittable_container_lines(facts), 1)
+        self.assertEqual(facts["candidates"]["text"][2]["route"], "rejected")
 
     def test_gate_hook_accepts_minute_fulfillment_and_rejects_conflicting_price(self) -> None:
         spec = importlib.util.spec_from_file_location("phase2_gate_hooks_test", GATE_HOOKS_SCRIPT)

@@ -31,6 +31,7 @@
   --output <one-screenshot-elements.json> \
   --artifacts-dir <one-screenshot-artifact-dir> \
   --recognition-audit <one-screenshot-elements.recognition-audit.json> \
+  --visual-review <current-screenshot-main-session-review.json> \
   --require-bounded-paddleocr
 
 .venv/bin/python phase2-card-annotation/scripts/build_current_image_calibration_audit.py \
@@ -57,6 +58,8 @@
 9. 模型读取当前整图一次，结合本次 Paddle/CV 产物全量复核卡片、区域、下挂项、标签边界、字面和漏标；冲突处才读局部裁图。
 10. `build_current_image_calibration_audit.py` 与 `validate_element_manifest.py`：逐元素交叉核对当前像素证据，并校验 Phase3 所需事实与整页状态。
 
+第 3 步之后先做结构门禁；第 7 步使用同一个 Paddle 实例，按每张卡“主信息区 / 下挂区”顺序读取（通常每卡 2 裁剪，最多 3），输出行框及可用的词/字符框和绝对坐标，不按失败字段逐个重启 OCR。第 9 步是必须提供的主会话局部复核，不是可选人工备注。最后任一 `itemGroups`、枚举、schema 或审计校验失败都会回写主 JSON 的 `recognition.phase3Ready=false`。
+
 主流程不读取 OCR 置信度。疑似价格只允许在数值锚一致时做有界遮罩复读或选择更连贯的独立布局文本，并保留原始文本和接受理由。PaddleOCR 只在初次门控失败后自动加载一次，顺序处理门控给出的失败卡裁剪，不能处理整页长图；设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可关闭，`PHASE2_OCR_THREADS` 默认是 `2`。
 
 ## 卡型与页尾规则
@@ -66,6 +69,10 @@
 结果流最后一张重复卡自然触底时，可在无广告证据的前提下继承上一张已确认已知卡型。只豁免因截断不可见的必需字段；已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 
 不同卡型的边界策略不得混用：商品卡按单商品主图/标题/价格重复切分；商家图文下挂吸附商品图组；商家文字下挂吸附服务文字块；酒店单列按逐卡头图/标题锚切分、双列按独立网格单元逐格切分，头图高度逐卡测量；演出/电影、套餐和主点卡分别使用自己的拓扑契约。酒店细则见 `references/hotel_card_algorithm.v1.md`。
+
+### 已知失败模式与回归口径（2026-08-20）
+
+“隆江猪脚饭”样本验证了以下必须同时满足的发布条件：顶部状态/调试层不参与 OCR；图片内来源不生成正文列退化裁剪；重复商家头图之间的摘要和横滑商品区是一张 `商家卡片_图文下挂`，不能退回异构卡；确认该卡型后商品图归“下挂商品区”而非“特殊下挂”；横滑商品必须逐项拥有图片/文字/价格所有权，没有确认价格的项为 `uncertain`；底部卡仅对屏幕外部分标 `naturally_cropped`。主会话局部复核的字段必须进入 recognition audit，并且 OCR 门控、manifest schema、itemGroups 所有权与枚举校验全通过后才可进入 Phase3。
 
 搜索词不是页面模板主键。同一搜索词的多次截图分别生成 JSON，允许结果模块和卡片不同；同页混排时逐卡判型，不能用页面多数卡型覆盖单卡。双列酒店页尾截断格只从同列上一张已确认酒店卡继承。
 

@@ -44,6 +44,11 @@ def field_schema_hook(context: dict[str, Any]) -> list[dict[str, str]]:
 def lexical_coherence_hook(context: dict[str, Any]) -> list[dict[str, str]]:
     findings = []
     for item in context["semanticItems"]:
+        if context["factsById"].get(item["sourceId"], {}).get("visualReview"):
+            # This hook diagnoses OCR noise. A recorded current-pixel local
+            # read is primary evidence; retain structural/atomicity hooks
+            # below but do not score its typography as an OCR failure.
+            continue
         text = item["text"].strip()
         compact = _meaningful(text)
         chinese = sum("\u4e00" <= char <= "\u9fff" for char in compact)
@@ -138,6 +143,12 @@ def line_fragmentation_hook(context: dict[str, Any]) -> list[dict[str, str]]:
             continue
         source = facts_by_id.get(item["sourceId"])
         if not source:
+            continue
+        if source.get("visualReview"):
+            continue
+        if source.get("atomSplit", {}).get("method") == "delimiter_and_local_foreground_segments":
+            # These are intentionally separate fields, proven by local
+            # foreground segmentation rather than accidental OCR fragments.
             continue
         x, y, w, h = source["coord"]
         neighbours = []

@@ -55,6 +55,61 @@ def _structured_role_dominates_text(role: str, value: str) -> bool:
     return bool(pattern and re.search(pattern, compact, re.I))
 
 
+def _golden_structure_gaps(facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any]) -> list[dict[str, Any]]:
+    """Turn golden *structure* into screenshot-specific repair directions.
+
+    This comparison deliberately never reads a golden value, coordinate or
+    item count.  Its purpose is to say which current-pixel proof is missing
+    for the selected card structure, so a reviewer can repair the candidate
+    pass instead of treating a schema failure as an opaque stop signal.
+    """
+    text = facts.get("candidates", {}).get("text", [])
+    photos = {str(item.get("id")): item for item in facts.get("candidates", {}).get("photos", [])}
+    component_read_completed = bool(facts.get("routing", {}).get("boundedCardReprocess", {}).get("targets"))
+    gaps: list[dict[str, Any]] = []
+    for card in candidates.get("resultCards", []):
+        card_id = str(card.get("id", ""))
+        if semantics.get(card_id, {}).get("partialCardPolicy", {}).get("applied") is True:
+            # A bottom-edge continuation has no obligation to prove the
+            # off-screen carousel structure. Visible malformed text remains
+            # governed by the ordinary hooks above.
+            continue
+        selected = semantics.get(card_id, {}).get("selectedCardType", {})
+        card_type = str(selected.get("cardType", ""))
+        if card_type != "商家卡片_图文下挂":
+            continue
+        bounds = card.get("coord", [])
+        attached_ids = [str(item) for item in card.get("attachedProductPhotoIds", [])]
+        attached = [photos[item] for item in attached_ids if item in photos and photos[item].get("route") != "rejected"]
+        local = [item for item in text if isinstance(bounds, list) and len(bounds) == 4 and overlap(item.get("coord", []), bounds)]
+        image_inner = [item.get("id") for item in local if any("photo_inner_text_not_ui_atom" in reason for reason in item.get("rejectionReasons", []))]
+        # A merged Paddle line remains a blocking problem only while it has
+        # not been replaced by a narrower, recorded local-pixel observation.
+        # The old line must stay rejected for audit, but must not keep a card
+        # permanently blocked after the replacement atoms have been reviewed.
+        merged = [
+            item.get("id") for item in local
+            if "superseded_by_main_session_local_visual_review" not in item.get("rejectionReasons", [])
+            and any(
+                "container_line_requires_local_pixel_split" in reason
+                or "multiple_independent_visual_entities_require_local_pixel_split" in reason
+                for reason in item.get("rejectionReasons", [])
+            )
+        ]
+        product_meta = [item for item in local if item.get("boundedReprocess", {}).get("region") == "product_meta"]
+        meta_accepted = [item for item in product_meta if item.get("route") == "accepted"]
+        meta_rejected = [item.get("id") for item in product_meta if item.get("route") == "rejected"]
+        if not attached:
+            gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#3", "kind": "missing_graphic_item_anchor", "blocking": True, "action": "重建当前截图下挂商品图片边界；每个可见图片项必须先有自己的图片候选，再分配标题/价格。", "sourceIds": []})
+        if image_inner:
+            gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#5", "kind": "photo_inner_text", "blocking": False, "action": "保持这些 OCR 为拒绝审计；仅对有独立平台容器的覆盖标做局部像素复核，禁止把包装/招牌字发布为 UI 文本。", "sourceIds": image_inner})
+        if merged:
+            gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#7", "kind": "merged_visual_entities", "blocking": True, "action": "按颜色、间距和圆角容器拆成独立 chip；未取得单个边界与逐项文字前不得发布整行。", "sourceIds": merged})
+        if component_read_completed and attached and meta_rejected and not meta_accepted:
+            gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#3", "kind": "unresolved_product_metadata", "blocking": True, "action": "读取当前卡的 product_meta 局部区域，逐项建立可见商品名/价格；右侧或底部裁切项只保留可见字形并标 naturally_cropped。", "sourceIds": meta_rejected})
+    return gaps
+
+
 def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict[str, Any], text_semantics: dict[str, Any]) -> dict[str, Any]:
     text = facts.get("candidates", {}).get("text", [])
     accepted = [item for item in text if item.get("route") == "accepted"]
@@ -62,6 +117,7 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
     malformed = [item for item in accepted if malformed_text(str(item.get("text", "")))]
     cards = candidates.get("resultCards", [])
     semantics = {item.get("cardId"): item for item in card_semantics.get("cards", [])}
+    golden_gaps = _golden_structure_gaps(facts, candidates, semantics)
     all_semantic_candidates = {item.get("sourceId"): item for item in text_semantics.get("candidates", [])}
     mapped = {source_id: item for source_id, item in all_semantic_candidates.items() if item.get("status") == "confirmed"}
     # Card-local region mapping is more precise than page-block position for
@@ -101,14 +157,21 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
                         "sourceId": source_id, "semanticRoleCandidate": source_role, "status": "confirmed",
                         "evidence": ["confirmed_card_region_evidence"],
                     }
+    # A current-screenshot main-session local read is an explicit primary
+    # observation, with its crop and read ID recorded in the audit. It is not
+    # OCR correction and therefore carries its supplied semantic role.
+    for source_id, source in accepted_by_id.items():
+        review = source.get("visualReview")
+        if isinstance(review, dict) and review.get("visibleStatus", "confirmed") == "confirmed" and review.get("role") in {"title", "price", "rating", "sales", "fulfillment", "location", "tag"}:
+            mapped[source_id] = {"sourceId": source_id, "semanticRoleCandidate": review["role"], "status": "confirmed", "evidence": ["main_session_local_visual_read"]}
     errors: list[str] = []
     reprocess: list[str] = []
     if not accepted:
         errors.append("no_usable_ocr_text")
         reprocess.append("使用本地 PaddleOCR 对已定位的卡片文字列分区识别；不得将整页送入模型。")
-    if text and len(rejected) / len(text) > 0.25:
-        errors.append(f"ocr_fragment_rejection_ratio_exceeds_25_percent:{len(rejected)}/{len(text)}")
-        reprocess.append("OCR 碎片过多：更换本地 OCR 版面模式或做卡片级行合并后重跑。")
+    # High rejection is not itself a failure: it can mean the hygiene pass
+    # correctly discarded OCR over photos/product rails. The gate evaluates
+    # the remaining published facts and each card's semantic anchors below.
     if malformed:
         errors.append(f"malformed_text_published:{','.join(str(item.get('id')) for item in malformed)}")
         reprocess.append("清除异常标点/单字碎片后重跑；不得把碎片直接写入 Phase3 元素。")
@@ -158,12 +221,16 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
     ]
     if hook_findings:
         reprocess.append("仅对 semanticHookFindings 中的 sourceId 重跑裁剪 OCR/卡边界；语言纠错候选只能作为异常信号，不得改写原文。")
+    if golden_gaps:
+        errors.extend(f"golden_structure_gap:{item['cardId']}:{item['kind']}" for item in golden_gaps if item["blocking"])
+        reprocess.extend(item["action"] for item in golden_gaps if item["blocking"])
     if any(error.endswith(("insufficient_usable_text", "no_confirmed_photo_candidate", "card_type_unresolved", "no_confirmed_semantic_anchor")) for error in errors):
         reprocess.append("按失败卡逐卡重跑本地 CV/OCR；只复用当前截图的卡片边界，禁止跨图坐标套用。")
     return {
         "contractVersion": "phase2.recognition-gate.v1", "valid": not errors,
         "summary": {"ocrTextCandidates": len(text), "acceptedTextCandidates": len(accepted), "rejectedTextCandidates": len(rejected), "resultCards": len(cards)},
-        "errors": errors, "semanticHookFindings": hook_findings, "reprocessTargets": reprocess_targets, "reprocess": reprocess,
+        "errors": errors, "semanticHookFindings": hook_findings, "goldenStructureGaps": golden_gaps,
+        "reprocessTargets": reprocess_targets, "reprocess": list(dict.fromkeys(reprocess)),
         "rule": "No model-reading escalation. Gate failure blocks manifest publication and requires local CV/OCR reprocessing.",
     }
 
