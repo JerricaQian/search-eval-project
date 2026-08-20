@@ -30,6 +30,18 @@ if (!Array.isArray(selectedScreenshots) || !selectedScreenshots.every(item => ty
 if (!A.projectDir) throw new Error('必须显式传入 projectDir（项目根绝对路径），不再提供兜底默认值')
 const projectDir = A.projectDir
 const screenshotDir = (A.screenshotDir ? A.screenshotDir : projectDir + '/screenshots')
+const externalScreenshotDir = typeof A.externalScreenshotDir === 'string' ? A.externalScreenshotDir.trim() : ''
+if (externalScreenshotDir && mode !== 'evaluate_only') {
+  throw new Error('externalScreenshotDir 只适用于 evaluate_only；现场截图请使用 capture_only 或 capture_and_evaluate')
+}
+
+function isProjectScreenshot(path) {
+  const normalizedRoot = screenshotDir.replace(/\\/+$/, '') + '/'
+  return path.startsWith(normalizedRoot)
+}
+if (mode === 'evaluate_only' && selectedScreenshots.length && !selectedScreenshots.every(isProjectScreenshot)) {
+  throw new Error('项目外截图必须先复制到项目 screenshots/，再通过发现结果选择；不直接评测项目外路径')
+}
 
 function inferQueryFromScreenshots(paths) {
   const queries = paths.map(path => {
@@ -44,9 +56,47 @@ function inferQueryFromScreenshots(paths) {
 let query = (typeof A.query === 'string' ? A.query.trim() : '')
 if (!query && selectedScreenshots.length) query = inferQueryFromScreenshots(selectedScreenshots)
 
+const COPY_SCHEMA = {
+  type: 'object',
+  properties: {
+    ok: { type: 'boolean' },
+    copied: { type: 'array' },
+    alreadyPresent: { type: 'array' },
+    renamed: { type: 'array' },
+    error: { type: 'string' },
+  },
+  required: ['ok', 'copied', 'alreadyPresent', 'renamed', 'error'],
+}
+
+let copySummary = null
+if (mode === 'evaluate_only' && externalScreenshotDir) {
+  phase('复制外部截图')
+  const copyPrompt = `你是 screenshot-agent。把用户指定的外部图片或目录直接复制到项目 screenshots；绝不修改、移动、删除或重命名源文件，也不生成 Intake manifest 或规范化副本名。
+
+执行：
+\`\`\`bash
+python3 "${projectDir}/scripts/ingest_external_screenshots.py" \\
+  --source-dir "${externalScreenshotDir}" \\
+  --screenshot-dir "${screenshotDir}"
+\`\`\`
+
+脚本按原文件名复制。若目标同名但字节不同，脚本追加递增的“副本”序号并在 renamed 中记录；不会覆盖或阻断。图片有效性、命名可解析性与分组由之后的发现阶段输出，不在复制阶段阻断。把 stdout 的 copied、alreadyPresent、renamed 数组原样填回 schema，不要自行挑选截图或评测。`
+  const copyResult = await agent(copyPrompt, {
+    label: '复制外部截图',
+    phase: '复制外部截图',
+    model: 'claude-sonnet-5',
+    agentType: 'screenshot-agent',
+    schema: COPY_SCHEMA,
+  })
+  if (!copyResult || !copyResult.ok) {
+    throw new Error('外部截图复制失败: ' + (copyResult && copyResult.error ? copyResult.error : 'agent 无返回'))
+  }
+  copySummary = copyResult
+}
+
 // “仅评测已有截图”的第一轮调用不要求用户输入搜索词/Tab/屏数。调用方可先用
 // discoveryOnly=true 获得可选分组，再将用户选中的 files 作为 selectedScreenshots 发起评测。
-if (mode === 'evaluate_only' && (A.discoveryOnly === true || (!query && selectedScreenshots.length === 0))) {
+if (mode === 'evaluate_only' && (A.discoveryOnly === true || selectedScreenshots.length === 0)) {
   phase('发现已有截图')
   const discoveryPrompt = `你是 screenshot-agent。只读扫描已有截图，不连接设备、不修改任何文件。用 Bash 执行：
 \`\`\`bash
@@ -76,6 +126,7 @@ python3 "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "
     discoveredGroups: (discoveryResult && discoveryResult.groups) || [],
     invalidFiles: (discoveryResult && discoveryResult.invalidFiles) || [],
     unparseableFiles: (discoveryResult && discoveryResult.unparseableFiles) || [],
+    copy: copySummary,
     error: (discoveryResult && discoveryResult.error) || '',
   }
 }

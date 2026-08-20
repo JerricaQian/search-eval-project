@@ -36,7 +36,7 @@
 | 复核已有报告 | 读取其输入、单图 manifest、阶段结果、证据与校验记录；必要时回退并重跑受影响阶段 | 标明复核范围及是否会产生新批次产物；不得用新的人工评分覆盖旧结果 |
 | 询问系统能力 | 只读取项目说明和已注册技能，回答支持的输入、维度、产物与限制 | 明确这是能力说明，未对任何截图运行评测 |
 
-用户直接给出项目外图片路径时，必须先说明该图将以不修改原文件的方式纳入 `screenshots/` 的可追溯输入集，并按命名/分组规则完成发现；不能绕过 Phase1/发现流程直接判图。
+用户直接给出项目外图片路径时，先以不修改原文件的方式将图片直接复制到 `screenshots/`。复制保留原文件名，不生成 Intake manifest，也不做名称规范化；发现阶段负责报告无效或无法解析的文件。目标同名但字节不同则追加递增的副本序号保留两份，绝不覆盖，并作为独立截图而非同一屏，不能直接判图。
 
 ## 阶段与目录
 
@@ -127,7 +127,8 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 
 | 手段 | 位置 | 作用 | 生效时机 |
 |---|---|---|---|
-| CLAUDE.md（本文件） | 项目根 | 声明阶段/数据流/规范/契约，每次会话自动加载 | 全局、每会话 |
+| CLAUDE.md（本文件） | 项目根 | 声明阶段/数据流/规范/契约 | Claude Code 全局、每会话 |
+| AGENTS.md | 项目根 | 为 Codex 等通用 Agent 声明同一入口门禁与可移植前置入口 | 支持 AGENTS.md 的宿主、每会话 |
 | Rules | `.claude/rules/*.md` | 按文件类型约束（SKILL.md 契约、命名/路径规范） | 按需：碰对应文件才加载，不碰不占 token |
 | Subagents | `.claude/agents/*.md` | Screenshot Agent 负责截图/发现；Evaluation Agent 负责 Phase2～5，内部保留阶段职责定义 | 按任务模式和单词边界执行 |
 | Hooks | `.claude/settings.json` | SKILL.md 编辑后自动校验 frontmatter（确定性） | 每次 Edit/Write SKILL.md 后 |
@@ -137,13 +138,14 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 
 ### 已落地
 - **Rules**：`.claude/rules/skill-frontmatter.md`（SKILL.md frontmatter 契约）、`.claude/rules/project-conventions.md`（命名+路径+评级规范）。
-- **Subagents**：`.claude/agents/screenshot-agent.md`（截图/已有截图发现）与 `.claude/agents/evaluation-agent.md`（对外评测入口）；后者复用 `.claude/agents/phase2345-query-pipeline.md`（单词单实例、Phase2～5 顺序完成）。Phase2 只运行本地 CV/OCR；多模态能力供后续评测/证据阶段使用，不能用于补读 Phase2 OCR。
+- **Subagents**：`.claude/agents/screenshot-agent.md`（截图/外部图片复制/已有截图发现）与 `.claude/agents/evaluation-agent.md`（对外评测入口）；后者复用 `.claude/agents/phase2345-query-pipeline.md`（单词单实例、Phase2～5 顺序完成）。Phase2 的候选提取只运行本地 CV/OCR；其受审计的当前像素校准可由多模态模型核对整图或有界裁图，但只能确认可见边界、类型、归属和原文，不能补写 OCR、注入黄金字段或做任何评测判断。
 - **Hooks**：`.claude/settings.json` + `scripts/validate_skill_frontmatter.py`（编辑 SKILL.md 后自动校验四键，非阻断）。
 - **Output Style**：`.claude/output-styles/eval-strict.md`。
 - **运行入口**：`.claude/skills/run-eval.md`，以保守默认参数调用工作流。
 
-### 可按需补齐
-- `PreToolUse` 钩子：跑评测前自动校验 `screenshots/` 有非空截图 + macOS 完全磁盘访问权限，避免报告全空。
+### 已落地的运行前入口
+- `workflow/eval_cli.py`：在没有 Workflow DSL 宿主的环境中完成外部截图直接复制、发现与 `MEITUAN_EVAL_HANDOFF_V1` 交接参数生成；它不伪装为可执行 LLM 评测器。
+- `scripts/ingest_external_screenshots.py`：外部截图直接复制工具；保留原文件名，冲突不覆盖。
 
 ### 职责边界（不可由 LLM 替代）
 - `scripts/validate_element_manifest.py` 是 Phase2 清单的确定性验收入口；Phase2 agent 只负责识别和产出清单，校验失败必须阻断 Phase3。

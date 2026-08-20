@@ -37,6 +37,21 @@ workflow/meituan_eval_workflow.js
 
 项目外的用户图片必须以不改动原件的方式进入项目级 `screenshots/` 输入集，再按发现流程处理；不能直接根据外部路径进行手工评判。
 
+### 项目外截图的直接复制（必经）
+
+用户给出项目外目录时，先用可移植前置入口导入；不要要求用户手工改名，也不要将外部路径直接写入 `selectedScreenshots`：
+
+```bash
+python3 workflow/eval_cli.py prepare-evaluate \
+  --project-dir <项目绝对路径> \
+  --source-dir <外部截图目录>
+```
+
+该命令保留源文件，并将图片按原文件名直接复制到 `screenshots/`，不生成 Intake
+manifest，也不重命名。命令输出 `MEITUAN_EVAL_HANDOFF_V1`：无 `--query` 时返回可供
+用户选择的截图组；带 `--query` 时返回可传给宿主 Workflow 的 `evaluate_only` 参数。
+发现阶段报告无效或无法解析的文件；同名不同字节时自动追加递增的副本序号，保留两份文件，并视为独立截图而非原截图的同一屏。
+
 ## 先确认任务模式
 
 先让用户选择一项：
@@ -79,6 +94,7 @@ Workflow 只调用 Screenshot Agent，返回 `screenshots/` 中本次有效图�
 {
   "mode": "evaluate_only",
   "projectDir": "<项目绝对路径>",
+  "externalScreenshotDir": "<项目外截图目录>",
   "discoveryOnly": true
 }
 ```

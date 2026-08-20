@@ -19,6 +19,20 @@
 
 外部图片会保留原件，并以可追溯副本纳入项目级 `screenshots/` 后再进入评测。能力咨询和缺少必要输入的请求都会得到明确回复，但不会被静默改成主观截图点评。
 
+项目外目录可用跨宿主前置入口接入。它会保留源文件，并按原文件名直接复制到
+`screenshots/`；它只负责复制与发现，不伪装为能替代宿主 LLM 的评测器：
+
+```bash
+python3 workflow/eval_cli.py prepare-evaluate \
+  --project-dir "$(pwd)" \
+  --source-dir "/path/to/external/screenshots"
+```
+
+不带 `--query` 时会返回可选分组；加入 `--query 库迪` 后会返回
+`MEITUAN_EVAL_HANDOFF_V1.workflowArgs`，可交给支持 `workflow/meituan_eval_workflow.js`
+的宿主继续执行。外部文件 `库迪_全部_1_副本.png` 会在项目中保留为
+`screenshots/库迪_全部_1_副本.png`；若同名目标已存在但字节不同，复制会追加递增的副本序号而不覆盖，并将其作为独立截图处理。
+
 ## 1.0 架构与优势
 
 ```text
@@ -36,7 +50,8 @@
 | 结果可追溯 | 每张图独立 manifest，逐阶段校验，过程文件按批次与搜索词隔离保留。 |
 | 评测可扩展 | 19 个 Skill 按目录自动发现；增加评测项无需修改 Workflow。 |
 
-> 1.0 暂不包含 Runtime Guard、自动反思或经验库。现有确定性校验器仍由 Evaluation Agent 在 Phase2～4 内严格执行。
+> 1.0 暂不包含自动反思或经验库。所有宿主共享的输入运行前检查由
+> `workflow/eval_cli.py` 完成；现有确定性校验器仍由 Evaluation Agent 在 Phase2～4 内严格执行。
 
 ---
 
@@ -86,7 +101,9 @@ bash ~/Desktop/search-eval-project/setup.sh --with-ocr
 
 ### 第 3 步：按模式调用 Workflow
 
-Workflow 是依赖宿主 API 的 DSL，不能直接通过 `node` 执行。完整调用方式见 [`.claude/skills/run-eval.md`](.claude/skills/run-eval.md)。常用参数如下：
+Workflow 是依赖宿主 API 的 DSL，不能直接通过 `node` 执行。`workflow/eval_cli.py`
+提供可执行的复制、发现和宿主交接层，但完整的 Phase3 多模态判断仍需要一个
+支持 `agent/parallel/phase/log` 注入的宿主。完整调用方式见 [`.claude/skills/run-eval.md`](.claude/skills/run-eval.md)。常用参数如下：
 
 ```json
 // 仅截图
