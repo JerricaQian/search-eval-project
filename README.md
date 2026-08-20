@@ -201,7 +201,7 @@ search-eval-project/
 ├── phase4-issue-evidence/                 # Phase4：为问题生成整页红框证据图
 │   └── SKILL.md
 ├── phase5-report/                         # Phase5：本地报告、治理数据集与线上看板出口
-│   ├── SKILL.md                            # 本地 HTML / GOVERNANCE_DASHBOARD_V1
+│   ├── SKILL.md                            # 本地 HTML / GOVERNANCE_DASHBOARD_V2（按问题、Adaptive SaaS）
 │   └── nocode-dashboard/SKILL.md           # NoCode 导入、证据图发布与部署
 ├── scripts/
 │   ├── discover_screenshot_groups.py # 只读聚合可复用截图
@@ -282,7 +282,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 2. **② Phase2 轻量识别（默认）**：默认 `annotate=true`、`phase2Mode=lightweight`，对 `screenshots/` 中每张图分别产出一个元素清单及审计到 `screenshots-out/`。每个清单都必须通过整页门控和 `validate_element_manifest.py`，才可进入评测。
 3. **③ 评测**：先自动发现所选维度的全部 eval skill（读 frontmatter），再按清单及其结构化事实评测，每项按 `aggregate` 聚合到 Tab 级评级 + 加权分，并将原始结果和审计写入当前批次 `.artifacts/过程文件-评测结果与审计/<batch>/<query>/results/`。
 4. **④ 问题证据**：只消费已通过 Phase3 校验的待优化问题。`phase3-single_element-eval` 保留元素级判定与精确定位，但红框展示所属完整组件/商卡上下文，并回写 `evidenceTargetElementId`、`evidenceTargetCoord`；组件/卡片维度同样框选完整聚合区块。生成原尺寸整页红框图并回写 `evidenceImage` 后，以 `validate_eval_results.py --require-evidence` 再次验收。
-5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name`，确定性输出 `GOVERNANCE_DASHBOARD_V1` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务按搜索词或按指标浏览问题明细与证据。
+5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name`，确定性输出 `GOVERNANCE_DASHBOARD_V2` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务默认按问题，且可切换按搜索词或按指标浏览问题明细与证据。
 
 > **1.0 的确认规则**：仅截图只确认搜索词、Tab 和屏数；仅评测只确认截图范围、评测维度和报告出口；截图+评测在截图成功后才确认评测维度和报告出口。Phase2 默认 lightweight，不作为每次任务的额外选择。
 
@@ -290,7 +290,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 
 ## 批量治理看板与 NoCode 部署（可选）
 
-当需要跨两个及以上搜索词汇总治理时，先用 `scripts/build_experience_dashboard.py` 生成本地 `GOVERNANCE_DASHBOARD_V1` HTML 与同批 `.governance_dataset_<批次>.json`；HTML 与数据集必须同批次，且前端不重新计算分数或问题率。
+当需要跨两个及以上搜索词汇总治理时，先用 `scripts/build_experience_dashboard.py` 生成本地 `GOVERNANCE_DASHBOARD_V2` HTML 与同批 `.governance_dataset_<批次>.json`；HTML 与数据集必须同批次，且前端不重新计算分数或问题率。
 
 若需上线，改用 `phase5-report/nocode-dashboard/SKILL.md`：导入脚本以新建批次返回的真实 `batch_id` 关联六张看板表；上线前需验证浏览器匿名角色能读取当前批次。典型证据来自项目根 `screenshots-out/evidence/` 的 Phase4 整页红框图；线上页面不能读取本机 `file://` 路径，必须在取得用户授权后上传实际引用图片到 NoCode 工程的 `public/evidence/`，以 `/evidence/<原文件名>` 展示缩略图并点击打开大图。
 

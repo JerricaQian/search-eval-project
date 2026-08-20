@@ -103,7 +103,7 @@ Stage A 产物：`elementListPaths[]`、`elementAuditPaths[]`、全部非排除�
 
 ### Stage B：Phase3 全维度评测（对应原 `phase3-evaluator`，在本次调用内对 `evalTargets` 逐项执行）
 
-B0. **FACT_GATES 前置事实验收**：对 `evalTargets` 中命中以下任一 skill 的项，必须先执行对应校验命令，`valid=true` 才可评测该 skill，否则阻断并返回原因：
+B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manifest 继续使用下列 `validate_element_manifest.py` 门禁；Atomic v3 不得投影成或要求 legacy `recognition.wholePageGate`、`pageFactInventory`、`layoutAnchors` 字段。对 Atomic v3，先运行 `scripts/build_phase3_atomic_fact_pack.py <manifest> --output <artifactRunDir>/phase3/atomic-facts.json`，再运行 `scripts/validate_phase3_atomic_fact_pack.py <fact-pack> --require hierarchy --require alignment`。事实包是 Phase3 派生产物，绝不改写 Atomic/Phase2 manifest；合法 Atomic 的适配缺口只重跑对应 Phase3 提取，不触发 Phase2 回退。
     - `eval-5-info-hierarchy` → `--require-hierarchy-facts`
     - `eval-2-visual-order-alignment` → `--require-alignment-facts --require-alignment-anchors`
     对 `elementListPaths[]` 中每份清单分别执行，命令形如：
@@ -111,11 +111,11 @@ B0. **FACT_GATES 前置事实验收**：对 `evalTargets` 中命中以下任一 
     python3 "${projectDir}/scripts/validate_element_manifest.py" "<manifest>" --audit "<audit>" <flag>
     ```
 B1. **先读维度共享契约，再读 skill 的 SKILL.md（各只读一次）**：按 `evalTargets[i].dimension` 定位共享契约文件与 `skillDirs[dimension]/${skill}/SKILL.md`。
-B2. **按评测颗粒度使用唯一事实源**：`overview.total`（非页面框架维度）必须用下方确定性脚本算出，禁止人工推导或按截图重新数；所有 skill 共用同一个 total，必须一致：
+B2. **按评测颗粒度使用唯一事实源**：`sourceManifestTotal` 是原子清单总数，仅用于追溯；`overview.total` 必须等于当前 Skill 的 `evaluatedUnitCount`，不同 Skill 可以不同，禁止跨 Skill 强行对齐。对 Atomic v3，每个 Skill 先运行 `scripts/prepare_phase3_skill_run.py <fact-pack> --skill <skill> --dimension <dimension> --output <artifactRunDir>/phase3/<skill>.run-plan.json`，并只使用该计划中的候选、排除和实际评测对象；将计划中的 `sourceManifestTotal`、`evaluatedUnitIds`、`evaluatedUnitCount`、`excludedUnits` 原样写入 `details.evidence`。不得人工推导或按截图重新数。
     ```bash
     python3 -c "import json,sys;ex=lambda e:e.get('isExcluded') or e.get('是否排除项') or e.get('excluded');print('TOTAL=',sum(1 for p in sys.argv[1:] for c in json.load(open(p)).get('cards',[]) for r in c.get('regions',[]) for e in r.get('elements',[]) if not ex(e)))" <manifest1> <manifest2> ...
     ```
-    若 skill 的 `aggregate` 明确声明 `overview.total` 为区域/组件口径，则改用 `evidence.evaluatedUnitCount`，并把上述脚本算出的 TOTAL 原样写入 `evidence.sourceManifestTotal` 作追溯；页面框架维度 `overview.total` 固定为页面级结论计数，不得引用元素清单总数或跑此脚本。
+    legacy 输入按上述脚本得到 `sourceManifestTotal`；单元素/组件仍以自身 `evaluatedUnitCount` 为 `overview.total`。页面框架维度 `overview.total` 固定为 1，不得引用元素清单总数或跑此脚本。
 B3. **证据先于优秀结论**：命中 FACT_GATES 的 4 个 skill，其 `assessmentRows` 必须覆盖包括优秀在内的全部完整单元，缺任一必填字段不得输出优秀，必须转入 Phase2 复核请求（见 B4）。各 skill 的 `assessmentRows` 必填字段：
     - `eval-5-info-hierarchy`（视觉层级）：每条含 `sourceElements`/`weightSequence`/`tierTrace`/`levelCount`/`rating`/`verdict`；每次拆档或同档归并均须明确写出字号/字重/颜色/面积事实。
     - `eval-4-element-complexity`（静态元素复杂度）：每条含可见分区扫描、库存覆盖、已确认 tag/icon 的真实 elementId、styleKey、纳入/排除原因、去重计数和测量产物；库存缺失/不完整/uncertain 时不得输出优秀。
@@ -138,11 +138,11 @@ B10a. **跨维度防错核对（固定业务知识，逐 skill 适用）**：
     - 信息冗余先确认原图存在两个独立可见实体；清单中同原文且坐标重叠的条目是标注缺陷，不得当作冗余问题。
 B10b. **评级档位自适应**：某 skill 的 `weight` frontmatter 缺"达标"键即二档制（只有优秀/不达标，合法），不得因缺该键而误判为异常；二档 skill 不得凭空产生"达标"分。
 B10c. **details 结构**（非页面框架维度）：`overview`（total/excellent/pass/fail/failRate）、`screenshot`（本 Tab 对应原图绝对路径）、`evidenceMode`（`annotated-region`/`original-page`/`hybrid`）、`criterion`（命中规则/阈值，优秀也须填写）、`issues`（不达标/超标元素明细，含 elementId/coord/component/elementType/content）、`distribution`（问题维度分布）、`summary`（整体总结）。页面框架维度对应字段见 B10。
-B11. **落盘 + 确定性校验**：全部 `evalTargets` 评测完成后，把结果数组原样写入 `${evalResultFile}`，执行：
+B11. **落盘 + 确定性校验与恢复路由**：全部 `evalTargets` 评测完成后，把结果数组原样写入 `${evalResultFile}`，执行：
      ```bash
-     python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --phase2-review "${phase2ReviewFile}"
+     python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit-or-atomic-fact-pack>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --phase2-review "${phase2ReviewFile}"
      ```
-     `valid!=true` 且 `phase2ReviewRequired=true` 时，在本次调用内部执行**最多一次** Phase2 回退：按对应 manifest 的 `recognition.reprocessTargets` 重跑有界 Paddle/CV，并按 A3/A3a 重新复核当前截图和更新全元素校准审计。不得复用黄金字段或凭语言改写。随后重跑 Stage B 相关 skill 并再跑一次上述校验命令。若仍 `valid!=true`，无论原因是否仍是 Phase2 缺口，都必须立即阻断（`blockedAt=stageB`，`error` 写明第二次校验仍失败的具体原因），不得发起第二次回退或无限重试；`valid!=true` 且首次即非 Phase2 缺口（`phase2ReviewRequired=false`）时同样直接阻断，不进入 Stage C。
+     首次失败先运行 `scripts/route_phase3_validation_failure.py <eval-audit> --output <artifactRunDir>/phase3/validation-triage.json`。`measurement_missing`、`result_schema_missing`、`count_contract_conflict` 只重跑受影响的 Phase3 Skill/结果模板，禁止改写 Phase2 或伪造 measurement；重跑后再次校验。只有 Atomic/截图完整性失败或真实 Phase2 原子事实缺失才允许一次 Phase2 回退。合法 Atomic 的 adapter/计数问题不得阻断其他已通过 Skill、Phase4 或 Phase5。
 
 Stage B 产物：`evals[]`（每项 `dimension/skill/units[]`）、`evalResultFile`、`evalAuditFile`（`valid=true`）。
 

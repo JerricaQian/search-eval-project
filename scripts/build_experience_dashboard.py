@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Build the cross-query search result experience dashboard.
+"""Build the cross-query, issue-centric search-result experience dashboard.
 
 The dashboard keeps search terms as evidence only. Business conclusions are
 aggregated from result cards that are classified by their visible content.
@@ -898,7 +898,7 @@ def render_dimension_sankeys(groups: list[dict[str, Any]]) -> str:
 
 
 def render(data: dict[str, Any]) -> str:
-    """Render the canonical GOVERNANCE_DASHBOARD_V1 dashboard.
+    """Render the canonical GOVERNANCE_DASHBOARD_V2 dashboard.
 
     This is the sole production renderer. Update this function together with the
     Phase5 visual contract when a new approved layout supersedes the current one.

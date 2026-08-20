@@ -227,6 +227,7 @@ def main() -> int:
         manifest_query = match.group(1) if match else ""
     active_by_id = {item.get("id"): item for item in manifest.get("activeElements", []) if isinstance(item, dict)}
     page_framework_dimension = "phase3-page_framework-eval"
+    single_element_dimension = "phase3-single_element-eval"
     component_skills = {
         "eval-1-supply-completeness",
         "eval-2-visual-order-alignment",
@@ -339,6 +340,28 @@ def main() -> int:
                         evidence_path = issue.get("evidenceImage")
                         if not isinstance(evidence_path, str) or not evidence_path or not Path(evidence_path).is_file():
                             errors.append(f"{skill}/{tab}:page_framework_issue_evidence_image_missing")
+            elif result.get("dimension") == single_element_dimension and any(
+                key in evidence for key in ("evaluatedUnitCount", "evaluatedUnitIds", "excludedUnits")
+            ):
+                evaluated_unit_count = evidence.get("evaluatedUnitCount")
+                evaluated_unit_ids = evidence.get("evaluatedUnitIds")
+                excluded_units = evidence.get("excludedUnits", [])
+                if not isinstance(evaluated_unit_count, int) or evaluated_unit_count < 0:
+                    errors.append(f"{skill}/{tab}:single_element_evaluatedUnitCount_required")
+                elif total != evaluated_unit_count:
+                    errors.append(f"{skill}/{tab}:overview_total_{total}_must_equal_evaluatedUnitCount_{evaluated_unit_count}")
+                if not isinstance(evaluated_unit_ids, list) or len(evaluated_unit_ids) != evaluated_unit_count:
+                    errors.append(f"{skill}/{tab}:single_element_evaluatedUnitIds_must_match_evaluatedUnitCount")
+                elif any(not isinstance(element_id, str) or element_id not in active_by_id for element_id in evaluated_unit_ids):
+                    errors.append(f"{skill}/{tab}:single_element_evaluatedUnitIds_not_in_manifest")
+                if not isinstance(excluded_units, list) or any(not isinstance(item, dict) or item.get("id") not in active_by_id or not isinstance(item.get("reason"), str) or not item["reason"].strip() for item in excluded_units):
+                    errors.append(f"{skill}/{tab}:single_element_excludedUnits_invalid")
+                elif isinstance(evaluated_unit_ids, list):
+                    excluded_ids = {item["id"] for item in excluded_units}
+                    if excluded_ids & set(evaluated_unit_ids) or len(excluded_ids) + len(evaluated_unit_ids) != expected_total:
+                        errors.append(f"{skill}/{tab}:single_element_inventory_must_partition_manifest")
+                if evidence.get("sourceManifestTotal") != expected_total:
+                    errors.append(f"{skill}/{tab}:sourceManifestTotal_must_equal_{expected_total}")
             elif skill in component_skills:
                 evaluated_unit_count = evidence.get("evaluatedUnitCount")
                 assessment_rows = evidence.get("assessmentRows")
