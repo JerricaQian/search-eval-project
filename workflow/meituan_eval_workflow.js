@@ -85,7 +85,7 @@ if (!query) {
     : '自动化截图模式必须显式传入非空字符串 query')
 }
 
-// Phase2 本身只运行本地 CV/OCR；同一子代理在后续 Phase3/4 仍需核对截图与问题证据，故模型须具备多模态能力。
+// Phase2 使用本地 CV/OCR 候选与当前图片视觉校准；同一子代理在 Phase3/4 还需核对问题证据，故模型须具备多模态能力。
 // 白名单以 Dr. Pie 模型目录中已验证具备识图能力的模型为准（该目录当前未收录 Gemini 系列）；
 // 非多模态模型（如 glm-5.2、deepseek 系列）路由到读图任务会导致结构化输出/图像理解异常，不得使用。
 const MULTIMODAL_MODEL_WHITELIST = ['claude-sonnet-5', 'vertex.claude-opus-4.6', 'kimi-k3', 'gpt-5.6-terra']
@@ -416,7 +416,7 @@ dimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
 // 原 phase2-annotator / phase3-evaluator / phase4-issue-evidence / phase5-report-renderer
 // 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
 // Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
-// 所有阶段级契约细节（Phase2 本地识别隔离、八键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
+// 所有阶段级契约细节（Phase2 当前图片校准、八键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
 // 页面框架结论边界、报告渲染分支等）已完整写入 .claude/agents/phase2345-query-pipeline.md，
 // 本次调用只注入具体输入值，不在 JS 侧重复拼接任何阶段级 Prompt 文本。
 const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query + tagSuffix + '_' + dimSlug + '.json'
@@ -457,7 +457,7 @@ const mergedInputs = {
   batchArtifactDir,
 }
 
-const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 本地识别隔离、八键单图清单、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、八键单图清单、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json

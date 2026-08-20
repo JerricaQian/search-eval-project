@@ -9,7 +9,9 @@ CV facts.  It never calls a vision model and never uses golden answers.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import re
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -60,6 +62,15 @@ def mixed_script_gibberish(value: str) -> bool:
     latin = sum(char.isascii() and char.isalpha() for char in compact)
     allowed = re.search(r"(?:ml|kg|cm|mm|km|Na\s*c?Cl|SOHO|S\W*K\W*U|SPA|KTV|Plus|Pro)", value, re.I)
     return chinese >= 2 and latin >= 5 and latin / max(1, chinese + latin) > 0.45 and not allowed
+
+
+def suspicious_short_mixed_text(value: str) -> bool:
+    """Catch compact OCR noise such as ``ae本四`` without rejecting AI/KTV/SKU."""
+    compact = meaningful(value)
+    chinese = sum("\u4e00" <= char <= "\u9fff" for char in compact)
+    latin_text = "".join(char for char in compact if char.isascii() and char.isalpha())
+    allowed = re.search(r"(?:ml|kg|cm|mm|km|Na\s*c?Cl|SOHO|S\W*K\W*U|SPA|KTV|Plus|Pro|AI)", value, re.I)
+    return chinese >= 2 and 2 <= len(latin_text) <= 4 and len(compact) <= 7 and latin_text.islower() and not allowed
 
 
 def punctuation_gibberish(value: str) -> bool:
@@ -300,7 +311,7 @@ def _candidate(entry: dict[str, Any], rgb: np.ndarray, width: int, height: int, 
     x, y, w, h = (int(value) for value in entry.get("coord", [0, 0, 0, 0]))
     box = _clamp_box(x, y, w, h, width, height)
     text = str(entry.get("text", "")).strip()
-    if not box or len(meaningful(text)) < 2 or punctuation_gibberish(text):
+    if not box or len(meaningful(text)) < 2 or punctuation_gibberish(text) or suspicious_short_mixed_text(text):
         return None
     default_region = "price" if target.get("semanticRegion") == "price" else target["region"]
     effective_region = str(entry.get("_boundedRegion", default_region))
@@ -319,13 +330,52 @@ def _candidate(entry: dict[str, Any], rgb: np.ndarray, width: int, height: int, 
     }
 
 
+def _deduplicate_active_visual_entities(facts: dict[str, Any]) -> int:
+    """Keep one canonical candidate for identical text on intersecting pixels.
+
+    The manifest validator uses this same visual identity boundary. Performing
+    the collapse here makes repeated bounded retries idempotent instead of
+    allowing slightly shifted OCR boxes to accumulate as new Phase3 atoms.
+    """
+    active = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected"]
+    rejected = 0
+    for index, left in enumerate(active):
+        if left.get("route") == "rejected":
+            continue
+        for right in active[index + 1:]:
+            if right.get("route") == "rejected":
+                continue
+            if meaningful(str(left.get("text", ""))) != meaningful(str(right.get("text", ""))):
+                continue
+            if not overlap(left.get("coord", [0, 0, 0, 0]), right.get("coord", [0, 0, 0, 0])):
+                continue
+            def rank(item: dict[str, Any]) -> tuple[int, int, int]:
+                consensus = item.get("ocrConsensus", {})
+                confirmed = int(isinstance(consensus, dict) and consensus.get("status") == "confirmed")
+                paddle = int(item.get("boundedReprocess", {}).get("backend") == "paddleocr")
+                return confirmed, paddle, text_quality(str(item.get("text", "")))
+            winner, loser = (left, right) if rank(left) >= rank(right) else (right, left)
+            loser["route"] = "rejected"
+            loser.setdefault("rejectionReasons", []).append(f"duplicate_visual_entity_superseded_by:{winner.get('id', '')}")
+            rejected += 1
+            if loser is left:
+                break
+    return rejected
+
+
 def merge_observations(facts: dict[str, Any], observations: list[dict[str, Any]], target_source_ids: set[str]) -> tuple[int, int]:
     existing = facts.get("candidates", {}).get("text", [])
     next_id = max((int(match.group(1)) for item in existing if (match := re.fullmatch(r"T(\d+)", str(item.get("id", ""))))), default=0) + 1
     added = corroborated = 0
     for observation in observations:
+        exact_intersections = [
+            item for item in existing
+            if item.get("route") != "rejected"
+            and meaningful(str(item.get("text", ""))) == meaningful(observation["text"])
+            and overlap(item.get("coord", [0, 0, 0, 0]), observation["coord"])
+        ]
         ranked = sorted(existing, key=lambda item: intersection_ratio(item.get("coord", [0, 0, 0, 0]), observation["coord"]), reverse=True)
-        match = ranked[0] if ranked and intersection_ratio(ranked[0].get("coord", [0, 0, 0, 0]), observation["coord"]) >= 0.48 else None
+        match = max(exact_intersections, key=lambda item: intersection_ratio(item.get("coord", [0, 0, 0, 0]), observation["coord"])) if exact_intersections else (ranked[0] if ranked and intersection_ratio(ranked[0].get("coord", [0, 0, 0, 0]), observation["coord"]) >= 0.48 else None)
         semantic_region = observation.get("boundedReprocess", {}).get("semanticRegion")
         cleaned_title = corroborated_title_span(str(match.get("text", "")), observation["text"]) if match and semantic_region == "title" else ""
         if match and cleaned_title:
@@ -393,11 +443,14 @@ def merge_observations(facts: dict[str, Any], observations: list[dict[str, Any]]
             item["route"] = "rejected"
             item.setdefault("rejectionReasons", []).append("superseded_by_bounded_card_reread")
     facts["candidates"]["text"] = existing
+    deduplicated = _deduplicate_active_visual_entities(facts)
     facts.setdefault("routing", {})["unresolvedCandidateIds"] = [item["id"] for kind in ("text", "photos") for item in facts.get("candidates", {}).get(kind, []) if item.get("route") == "rejected"]
+    facts["routing"]["boundedCardReprocessDeduplicated"] = deduplicated
     return added, corroborated
 
 
-def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any], gate: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any], gate: dict[str, Any], require_backend: str = "") -> tuple[dict[str, Any], dict[str, Any]]:
+    previous_fingerprint = str(facts.get("routing", {}).get("boundedCardReprocess", {}).get("fingerprint", ""))
     targets = plan_targets(facts, candidates, semantics, gate)
     with Image.open(screenshot) as image:
         rgb = np.asarray(image.convert("RGB"))
@@ -418,7 +471,17 @@ def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any
             candidate = _candidate(entry, rgb, width, height, "", target, backend)
             if candidate:
                 observations.append(candidate)
-        crop_reports.append({**target, "backend": backend, "tesseractPsm": psm, "error": error or "", "observations": len(observations) - before})
+        requested_backend = "paddleocr" if os.environ.get("PHASE2_ENABLE_PADDLEOCR") == "1" else "tesseract"
+        crop_reports.append({
+            **target,
+            "requestedBackend": requested_backend,
+            "actualBackend": backend,
+            "fallbackReason": error or "",
+            "backend": backend,
+            "tesseractPsm": psm,
+            "error": error or "",
+            "observations": len(observations) - before,
+        })
     target_source_ids = {source_id for target in targets for source_id in target.get("sourceIds", [])}
     added, corroborated = merge_observations(facts, observations, target_source_ids)
     backends = facts.setdefault("backends", {})
@@ -427,8 +490,32 @@ def reprocess(screenshot: Path, facts: dict[str, Any], candidates: dict[str, Any
     backends["boundedCardReprocessAdded"] = added
     backends["boundedCardReprocessCorroborated"] = corroborated
     backends["boundedCardReprocessBackends"] = backend_counts
-    facts.setdefault("routing", {})["boundedCardReprocess"] = {"contractVersion": VERSION, "targets": targets, "added": added, "corroborated": corroborated}
-    report = {"contractVersion": VERSION, "targets": targets, "crops": crop_reports, "observations": len(observations), "added": added, "corroborated": corroborated, "backendCounts": backend_counts}
+    fingerprint_payload = {
+        "targets": [{"cardId": item["cardId"], "region": item["region"], "coord": item["coord"]} for item in targets],
+        "observations": [{"text": item["text"], "coord": item["coord"]} for item in observations],
+        "gateErrors": gate.get("errors", []),
+    }
+    fingerprint = hashlib.sha256(json.dumps(fingerprint_payload, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+    backend_mismatches = [item for item in crop_reports if require_backend and item["actualBackend"] != require_backend]
+    no_progress = bool(previous_fingerprint and previous_fingerprint == fingerprint)
+    status = "blocked_backend_mismatch" if backend_mismatches else "blocked_no_progress" if no_progress else "complete"
+    facts.setdefault("routing", {})["boundedCardReprocess"] = {"contractVersion": VERSION, "targets": targets, "added": added, "corroborated": corroborated, "fingerprint": fingerprint, "status": status}
+    report = {
+        "contractVersion": VERSION,
+        "status": status,
+        "requiredBackend": require_backend,
+        "targets": targets,
+        "crops": crop_reports,
+        "observations": len(observations),
+        "added": added,
+        "corroborated": corroborated,
+        "deduplicated": facts.get("routing", {}).get("boundedCardReprocessDeduplicated", 0),
+        "backendCounts": backend_counts,
+        "backendMismatches": backend_mismatches,
+        "retryFingerprint": fingerprint,
+        "previousRetryFingerprint": previous_fingerprint,
+        "noProgress": no_progress,
+    }
     return facts, report
 
 
@@ -441,6 +528,7 @@ def main() -> int:
     parser.add_argument("--recognition-gate", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--require-backend", choices=("paddleocr", "tesseract"), default="", help="Fail if any bounded crop uses a different backend")
     args = parser.parse_args()
     result, report = reprocess(
         args.screenshot,
@@ -448,12 +536,13 @@ def main() -> int:
         json.loads(args.result_candidates.read_text(encoding="utf-8")),
         json.loads(args.card_semantics.read_text(encoding="utf-8")),
         json.loads(args.recognition_gate.read_text(encoding="utf-8")),
+        args.require_backend,
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     args.report.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(args.output), "targets": len(report["targets"]), "added": report["added"], "corroborated": report["corroborated"]}, ensure_ascii=False))
-    return 0
+    return 0 if report["status"] == "complete" else 2
 
 
 if __name__ == "__main__":

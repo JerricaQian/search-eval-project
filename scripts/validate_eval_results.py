@@ -335,6 +335,10 @@ def main() -> int:
                     forbidden_fields = {"elementId", "coord", "component", "elementType", "content"} & issue.keys()
                     if forbidden_fields:
                         errors.append(f"{skill}/{tab}:page_framework_issue_forbidden_fields:{','.join(sorted(forbidden_fields))}")
+                    if args.require_evidence and issue.get("rating") in {"达标", "不达标", "🟡", "🔴"}:
+                        evidence_path = issue.get("evidenceImage")
+                        if not isinstance(evidence_path, str) or not evidence_path or not Path(evidence_path).is_file():
+                            errors.append(f"{skill}/{tab}:page_framework_issue_evidence_image_missing")
             elif skill in component_skills:
                 evaluated_unit_count = evidence.get("evaluatedUnitCount")
                 assessment_rows = evidence.get("assessmentRows")

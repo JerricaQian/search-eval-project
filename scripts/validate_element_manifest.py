@@ -128,6 +128,7 @@ def main() -> int:
     parser.add_argument("--evidence-input", type=Path, help="Evidence sidecar paired with --normalized-input")
     parser.add_argument("--audit", type=Path, help="Write the audit JSON to this path")
     parser.add_argument("--recognition-audit", type=Path, help="Require and validate Phase2 key-field recognition audit")
+    parser.add_argument("--require-current-image-calibration", action="store_true", help="Require exhaustive current-pixel review using the golden-structure calibration contract")
     parser.add_argument("--require-hierarchy-facts", action="store_true", help="Require complete visual facts for every complete result-list card before visual-hierarchy evaluation")
     parser.add_argument("--require-complexity-facts", action="store_true", help="Require complete visual inventories before static-element-complexity evaluation")
     parser.add_argument("--require-authenticity-relations", action="store_true", help="Require confirmed title-to-image and title-to-append relations before authenticity evaluation")
@@ -596,6 +597,9 @@ def main() -> int:
             if missing_members:
                 errors.append(f"alignment_anchor_facts_missing:{group_key}:{','.join(missing_members)}")
 
+    if args.require_current_image_calibration and not args.recognition_audit:
+        errors.append("current_image_calibration_requires_recognition_audit")
+
     if args.recognition_audit:
         try:
             recognition_audit = json.loads(args.recognition_audit.read_text(encoding="utf-8"))
@@ -630,6 +634,86 @@ def main() -> int:
                             errors.append(f"recognition_audit_field_{index}_source_invalid")
                         if not all(isinstance(field.get(key), str) for key in required_field_keys):
                             errors.append(f"recognition_audit_field_{index}_value_invalid")
+
+                if args.require_current_image_calibration:
+                    required_calibration_keys = {
+                        "contractVersion", "strategy", "reviewedAgainstCurrentPixels",
+                        "goldenValueInjection", "localReviewPaths",
+                    }
+                    if not required_calibration_keys.issubset(recognition_audit):
+                        errors.append("current_image_calibration_schema_invalid")
+                    else:
+                        if recognition_audit.get("contractVersion") != "phase2.current-image-calibration.v1":
+                            errors.append("current_image_calibration_contract_invalid")
+                        if recognition_audit.get("strategy") != "golden_structure_current_pixels":
+                            errors.append("current_image_calibration_strategy_invalid")
+                        if recognition_audit.get("reviewedAgainstCurrentPixels") is not True:
+                            errors.append("current_image_calibration_not_reviewed")
+                        if recognition_audit.get("goldenValueInjection") is not False:
+                            errors.append("current_image_calibration_golden_value_injection_forbidden")
+                        if recognition_audit.get("query") != data.get("query"):
+                            errors.append("current_image_calibration_query_mismatch")
+                        if recognition_audit.get("screenshot") != data.get("screenshot"):
+                            errors.append("current_image_calibration_screenshot_mismatch")
+
+                        local_paths = recognition_audit.get("localReviewPaths")
+                        if not isinstance(local_paths, list) or any(not isinstance(path, str) or not path for path in local_paths):
+                            errors.append("current_image_calibration_local_paths_invalid")
+                            local_paths = []
+                        elif len(local_paths) != recognition_audit.get("localReviewReadCount") or len(set(local_paths)) != len(local_paths):
+                            errors.append("current_image_calibration_local_path_count_mismatch")
+
+                        expected: dict[str, tuple[str, dict[str, Any]]] = {}
+                        for card in cards:
+                            if not isinstance(card, dict):
+                                continue
+                            card_id = str(card.get("cardId", ""))
+                            for region in card.get("regions", []):
+                                if not isinstance(region, dict):
+                                    continue
+                                for element in region.get("elements", []):
+                                    if isinstance(element, dict) and not element.get("isExcluded"):
+                                        expected[str(element.get("id", ""))] = (card_id, element)
+
+                        seen: set[str] = set()
+                        if isinstance(fields, list):
+                            for index, field in enumerate(fields, 1):
+                                if not isinstance(field, dict):
+                                    continue
+                                element_id = field.get("elementId")
+                                if element_id in seen:
+                                    errors.append(f"current_image_calibration_duplicate_element:{element_id}")
+                                    continue
+                                seen.add(element_id)
+                                if element_id not in expected:
+                                    errors.append(f"current_image_calibration_unknown_element:{element_id}")
+                                    continue
+                                expected_card_id, element = expected[element_id]
+                                render = element.get("render")
+                                is_photo = element.get("元素类型") == "图片" or (isinstance(render, dict) and render.get("isPhoto") is True)
+                                content = element.get("内容简述", "")
+                                expected_text = "" if is_photo else (content.removeprefix("原文:") if isinstance(content, str) else "")
+                                if field.get("cardId") != expected_card_id:
+                                    errors.append(f"current_image_calibration_card_mismatch:{element_id}")
+                                if field.get("coord") != element.get("坐标"):
+                                    errors.append(f"current_image_calibration_coord_mismatch:{element_id}")
+                                if field.get("field") != ("photo" if is_photo else "visible_text"):
+                                    errors.append(f"current_image_calibration_field_type_mismatch:{element_id}")
+                                if field.get("visibleText") != expected_text:
+                                    errors.append(f"current_image_calibration_visible_text_mismatch:{element_id}")
+                                if field.get("status") != "confirmed":
+                                    errors.append(f"current_image_calibration_element_unconfirmed:{element_id}")
+                                source = field.get("source")
+                                evidence_path = field.get("evidencePath")
+                                if source == "full_image" and evidence_path != data.get("screenshot"):
+                                    errors.append(f"current_image_calibration_full_image_evidence_mismatch:{element_id}")
+                                if source == "local_review" and evidence_path not in local_paths:
+                                    errors.append(f"current_image_calibration_local_evidence_unregistered:{element_id}")
+                                if not isinstance(field.get("reason"), str) or not field["reason"].strip() or field["reason"] == "pending_current_pixel_review":
+                                    errors.append(f"current_image_calibration_reason_invalid:{element_id}")
+                        missing = sorted(set(expected) - seen)
+                        if missing:
+                            errors.append(f"current_image_calibration_missing_elements:{','.join(missing)}")
 
     if not active:
         errors.append("no_active_elements")

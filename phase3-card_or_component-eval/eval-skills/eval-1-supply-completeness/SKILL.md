@@ -25,6 +25,7 @@ metadata:
 - **结果证据门槛：**当 Tab 评级为达标或不达标时，每个待优化组件都必须有一条 `assessmentRows` 记录，至少包含组件 ID、可见范围、适用字段、缺失/截断/乱码核查结果与评级；`evidence.evaluatedUnitCount` 必须等于行数且与 `overview.total` 一致。优秀结论不要求输出 `assessmentRows`。
 - `overview.total` 口径：组件 Skill 的 `overview.total` 必须等于实际评估组件数，Phase2 清单总数仅写入 `evidence.sourceManifestTotal` 作追溯，绝不得作为组件数。
 - **Phase2 事实优先：**元素存在性、图片/文字加载状态、自然裁切、异常截断与乱码必须读取 `render` / `textFacts` / `factInventory`；不得因清单缺元素推断页面缺失。`uncertain` 既不得报问题，也不得作为优秀依据，不创建人工复核任务。
+- **有效尺码字符不是乱码：**当 `S/M/L/XL/XXL` 等单个或组合字符位于商品规格/尺码语境，且 Phase2 标为 `size`/`size_info` 时，应按可读规格信息处理，不得因字符短或孤立而判乱码、缺失或供给呈现问题。若它与标题中的尺码范围不一致，转交 eval-7 做跨字段真实性判断，不在本维度重复计数。
 - **缺失结论的双重证据门槛：**每条不达标 `issue` 必须同时写出 `applicabilityEvidence` 和 `visibleAbsenceEvidence`。仅因字段未出现在模板不得判缺失。**单图 manifest 未列出图片或字段时，不得由 Phase3 回看原图补判；这属于 Phase2 事实缺口，必须阻断并回退该截图重新识别。`uncertain` 也不得作为截断、乱码、缺失或优秀依据。**
 
 ## 工具定位

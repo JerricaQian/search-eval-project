@@ -51,6 +51,9 @@ bash ~/Desktop/search-eval-project/setup.sh
 
 # 现场截图：额外检查 Android 真机、ADBKeyboard 与美团 App
 bash ~/Desktop/search-eval-project/setup.sh --with-device
+
+# 要求 Phase2 PaddleOCR 运行时和本地模型就绪
+bash ~/Desktop/search-eval-project/setup.sh --with-ocr
 ```
 默认模式不要求连接手机，适合复用已有截图；现场截图时才需要 Android 真机。若缺 Python 图像依赖，在项目根目录执行 `python3 -m pip install -r requirements.txt`。
 
@@ -105,12 +108,25 @@ Workflow 是依赖宿主 API 的 DSL，不能直接通过 `node` 执行。完整
 
 ### Phase2 本地 OCR（按需安装）
 
-Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出该图自己的 `elements.json`。它不读取 OCR 置信度，也不让视觉模型补读失败字段。初次整页使用 Tesseract；门控失败时主入口自动执行一次卡内有界重识别，本地 Paddle 模型存在时只加载一次并顺序处理失败裁剪（默认 2 线程），不会运行整页 Paddle：
+Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，先以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出候选，再按黄金样本的结构范例对当前图片执行全量视觉校准，生成该图自己的 `elements.json`。它不读取 OCR 置信度决定字段，也不复制黄金文字或坐标。初次整页使用 Tesseract；门控失败时主入口自动执行一次卡内有界 Paddle 重识别（默认 2 线程），不会运行整页 Paddle：
 
 ```bash
 python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt -r requirements-ocr.txt
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python scripts/setup_phase2_ocr.py --all
+bash setup.sh --with-ocr
 ```
+
+`setup_phase2_ocr.py --all` 使用执行该命令的同一个 Python 安装 PaddlePaddle/PaddleOCR，
+从 Paddle 官方 BOS 模型源下载固定的 PP-OCRv5 server 检测与识别模型，校验 SHA-256，
+随后初始化模型并完成一次本地推理冒烟测试。模型保存在 gitignored 的
+`phase2-card-annotation/models/paddleocr/`，因此 `git clone` 本身不会携带模型。
+只检查、不安装时执行 `.venv/bin/python scripts/setup_phase2_ocr.py --check`。
+
+生产识别允许 Paddle 不可用时回退 Tesseract，但每个裁剪都会记录
+`requestedBackend`、`actualBackend` 和 `fallbackReason`。需要确认本轮确实由 Paddle
+执行时，为 `run_phase2_recognition.py` 追加 `--require-bounded-paddleocr`；任何裁剪
+发生回退都会阻断该轮。
 
 没有本地 OCR 时，提取器会把能力缺口记录为 `missingCapabilities`，不得据此认定文本或图片缺失。`uncertain` 不创建人工复核任务，也不能作为“不达标”、缺失或“优秀”的依据。
 
@@ -129,6 +145,8 @@ search-eval-project/
 ├── CLAUDE.md                       # 工作流声明（阶段/目录/数据流向，每次会话加载）
 ├── setup.sh                        # 跨机器环境检查（可选 --with-device 检查真机）
 ├── requirements.txt                # Python 图像/YAML 依赖
+├── requirements-ocr.txt            # 可选 PaddlePaddle/PaddleOCR 运行时范围
+├── scripts/setup_phase2_ocr.py      # 官方模型下载、哈希校验和本地推理健康检查
 ├── .gitignore                      # 代码与运行产物隔离规则
 ├── ADBKeyboard.apk                 # 中文输入法（现场截图时使用）
 ├── .claude/
@@ -278,7 +296,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 
 ## 模型选择
 
-Evaluation Agent 将 Phase2 与后续阶段严格隔离：Phase2 只运行本地 CV/OCR 脚本，不使用模型补读或改写 manifest；同一个内部流水线在 Phase3/4 还需要按各 Skill 核对截图与问题证据，因此仍必须使用多模态模型。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
+Evaluation Agent 将 Phase2 与后续阶段严格隔离：Phase2 使用本地 CV/OCR 加当前图片全量视觉复核来校准 manifest，视觉模型只依据当前像素，禁止注入黄金字段或语言猜写；Phase3/4 只能消费通过校准的 manifest。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
 
 | agent | 模型（默认/可选） | 原因 |
 |------|------|------|

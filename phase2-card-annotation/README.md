@@ -1,10 +1,10 @@
 # Phase2 轻量截图识别
 
-本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径只使用本地 CV/OCR、卡型契约和确定性门控，不让视觉模型补读 OCR，不生成整页标注图，也不执行 IMD 操作。
+本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径采用“本地 CV/OCR 候选 + 黄金结构范例 + 当前图片像素复核 + 卡型/枚举/元素契约门控”；模型只复核当前图片，不复制黄金字段，不生成整页标注图，也不执行 IMD 操作。
 
 `phase2.atomic-manifest.v3` 每次写出前必须使用 `references/search_card_taxonomy.v1.json` 校验，并记录枚举契约版本与文件 SHA-256。所有标签元素统一使用 `kind: "tag"`，槽位名统一以 `_tag` 结尾，例如 `product_attribute_tag` 与 `scenic_rating_tag`。
 
-生产 Phase2 与离线黄金校准是两条隔离流程，但共享同一元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。黄金校准允许有界 Paddle 与模型视觉复核并保留证据，生产 Phase2 不允许模型或黄金值补读当前截图，契约不满足即阻断。
+生产 Phase2 与离线黄金校准共享同一证据策略和元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。生产流同样使用 Paddle 与模型视觉复核，但所有事实必须来自当前截图，黄金只提供结构，契约不满足即阻断。
 
 详细执行纪律见 `SKILL.md`；卡型边界与最小证据以 `references/card_recognition_contracts.v1.json` 为准。
 
@@ -25,15 +25,23 @@
 ## 生产入口
 
 ```bash
-python3 phase2-card-annotation/scripts/run_phase2_recognition.py \
+.venv/bin/python phase2-card-annotation/scripts/run_phase2_recognition.py \
   --query <query> \
   --screenshot <absolute-screenshot-path> \
   --output <one-screenshot-elements.json> \
-  --artifacts-dir <one-screenshot-artifact-dir>
+  --artifacts-dir <one-screenshot-artifact-dir> \
+  --recognition-audit <one-screenshot-elements.recognition-audit.json> \
+  --require-bounded-paddleocr
 
-python3 scripts/validate_element_manifest.py \
+.venv/bin/python phase2-card-annotation/scripts/build_current_image_calibration_audit.py \
   <one-screenshot-elements.json> \
-  --audit <one-screenshot-elements.audit.json>
+  --output <one-screenshot-elements.recognition-audit.json>
+
+.venv/bin/python scripts/validate_element_manifest.py \
+  <one-screenshot-elements.json> \
+  --audit <one-screenshot-elements.audit.json> \
+  --recognition-audit <one-screenshot-elements.recognition-audit.json> \
+  --require-current-image-calibration
 ```
 
 ## 当前执行链
@@ -46,7 +54,8 @@ python3 scripts/validate_element_manifest.py \
 6. `validate_phase2_recognition.py`：字段文法、文本连贯性、双版面一致性和卡型语义的初次整页门控。
 7. 初次门控失败时，`reprocess_bounded_cards.py` 自动执行一次失败卡定向重识别（每卡最多三个裁剪），随后重新生成结构、卡型、文本角色并再次整页门控。
 8. `build_phase2_manifest.py`：把最终同一次识别事实写入该截图自己的主 JSON。
-9. `validate_element_manifest.py`：校验 Phase3 所需事实与整页状态。
+9. 模型读取当前整图一次，结合本次 Paddle/CV 产物全量复核卡片、区域、下挂项、标签边界、字面和漏标；冲突处才读局部裁图。
+10. `build_current_image_calibration_audit.py` 与 `validate_element_manifest.py`：逐元素交叉核对当前像素证据，并校验 Phase3 所需事实与整页状态。
 
 主流程不读取 OCR 置信度。疑似价格只允许在数值锚一致时做有界遮罩复读或选择更连贯的独立布局文本，并保留原始文本和接受理由。PaddleOCR 只在初次门控失败后自动加载一次，顺序处理门控给出的失败卡裁剪，不能处理整页长图；设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可关闭，`PHASE2_OCR_THREADS` 默认是 `2`。
 

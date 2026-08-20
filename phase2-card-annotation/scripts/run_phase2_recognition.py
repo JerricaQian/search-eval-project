@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""One-command Phase2 recognition: screenshot -> Phase3 manifest + audit.
+"""Local Phase2 candidate pass: screenshot -> manifest, artifacts and local audit.
 
-The individual CV/OCR artifacts are retained for diagnosis, but callers only
-need this entry point and never have to manually assemble JSON contracts.
+The individual CV/OCR artifacts are retained for current-image calibration.
+Production callers must still perform the visual review and exhaustive audit
+defined by references/current_image_calibration.v1.md before Phase3 consumes it.
 """
 from __future__ import annotations
 
@@ -23,7 +24,7 @@ def invoke(arguments: list[str], check: bool = True, env: dict[str, str] | None 
     return subprocess.run(arguments, cwd=ROOT, check=check, env=env).returncode
 
 
-def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifacts: Path) -> int:
+def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifacts: Path, require_bounded_paddleocr: bool = False) -> int:
     artifacts.mkdir(parents=True, exist_ok=True)
     facts_initial = artifacts / "cv-facts.initial.json"
     structure_initial = artifacts / "page-structure.initial.json"
@@ -61,12 +62,15 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
         # loaded at most once for all sequential card crops.
         if retry_env.get("PHASE2_DISABLE_BOUNDED_PADDLEOCR") != "1":
             retry_env.setdefault("PHASE2_ENABLE_PADDLEOCR", "1")
-        retry_code = invoke([
+        retry_arguments = [
             sys.executable, str(SCRIPT_DIR / "reprocess_bounded_cards.py"),
             "--screenshot", str(screenshot), "--facts", str(facts_initial),
             "--result-candidates", str(candidates_initial), "--card-semantics", str(card_semantics_initial),
             "--recognition-gate", str(gate_initial), "--output", str(facts), "--report", str(retry_report),
-        ], check=False, env=retry_env)
+        ]
+        if require_bounded_paddleocr:
+            retry_arguments.extend(["--require-backend", "paddleocr"])
+        retry_code = invoke(retry_arguments, check=False, env=retry_env)
         if retry_code == 0:
             invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts), "--output", str(structure)])
             invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts), str(structure), "--output", str(candidates)])
@@ -97,12 +101,13 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--recognition-audit", type=Path, help="Optional separate debug audit; the canonical gate is embedded in --output")
     parser.add_argument("--artifacts-dir", type=Path, help="Optional retained CV/OCR process artifacts directory")
+    parser.add_argument("--require-bounded-paddleocr", action="store_true", help="Fail the bounded retry if PaddleOCR is unavailable instead of falling back")
     args = parser.parse_args()
     if args.artifacts_dir:
-        return run(args.query, args.screenshot, args.output, args.recognition_audit, args.artifacts_dir)
+        return run(args.query, args.screenshot, args.output, args.recognition_audit, args.artifacts_dir, args.require_bounded_paddleocr)
     else:
         with tempfile.TemporaryDirectory(prefix="phase2-recognition-") as temp:
-            return run(args.query, args.screenshot, args.output, args.recognition_audit, Path(temp))
+            return run(args.query, args.screenshot, args.output, args.recognition_audit, Path(temp), args.require_bounded_paddleocr)
 
 
 if __name__ == "__main__":

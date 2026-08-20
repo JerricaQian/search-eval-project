@@ -205,12 +205,14 @@ def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = N
         import tempfile
         with tempfile.NamedTemporaryFile(suffix=".png") as handle:
             crop.save(handle.name)
-            entries, error = _ocr_with_paddle(Path(handle.name))
+            entries, paddle_error = _ocr_with_paddle(Path(handle.name))
+            error = paddle_error
             backend = "paddleocr"
-            if error:
-                entries, error = _run_tesseract(Path(handle.name), tesseract_psm) if tesseract_psm else _ocr_with_tesseract(Path(handle.name))
-                backend = "tesseract" if not error else "unavailable"
-            if (error or not entries) and tesseract_psm:
+            if paddle_error:
+                entries, fallback_error = _run_tesseract(Path(handle.name), tesseract_psm) if tesseract_psm else _ocr_with_tesseract(Path(handle.name))
+                backend = "tesseract" if not fallback_error else "unavailable"
+                error = paddle_error if not fallback_error else f"{paddle_error};{fallback_error}"
+            if (backend == "unavailable" or not entries) and tesseract_psm:
                 # Low-contrast gray metadata often disappears in a tight crop.
                 # Retry the same bounded pixels with deterministic grayscale
                 # autocontrast; this is not a new semantic or model source.
@@ -218,8 +220,13 @@ def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = N
                 enhanced = enhanced.point(lambda value: 0 if value < 220 else 255)
                 with tempfile.NamedTemporaryFile(suffix=".png") as enhanced_handle:
                     enhanced.save(enhanced_handle.name)
-                    entries, error = _run_tesseract(Path(enhanced_handle.name), tesseract_psm)
-                backend = "tesseract_threshold" if entries and not error else "unavailable"
+                    entries, threshold_error = _run_tesseract(Path(enhanced_handle.name), tesseract_psm)
+                if entries and not threshold_error:
+                    backend = "tesseract_threshold"
+                    error = paddle_error
+                else:
+                    backend = "unavailable"
+                    error = ";".join(value for value in (paddle_error, threshold_error) if value)
     # Undo the bounded-crop scale and translate coordinates to the source page.
     for item in entries:
         cx, cy, cw, ch = item["coord"]

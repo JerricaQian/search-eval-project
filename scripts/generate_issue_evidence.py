@@ -45,6 +45,27 @@ def build_manifest_index(
     elements: dict[str, list[float]] = {}
     components: dict[str, tuple[list[float], str]] = {}
 
+    # Atomic v3 is the canonical Phase2 output.  Resolve its indexed facts
+    # directly instead of requiring a legacy, expanded ``cards[]`` projection.
+    for element_id, element in (manifest.get("elementsById") or {}).items():
+        if not isinstance(element_id, str) or not isinstance(element, dict):
+            continue
+        bounds = element.get("bounds")
+        if rect_ok(bounds):
+            elements[element_id] = bounds
+    for card_id, card in (manifest.get("cardsById") or {}).items():
+        if not isinstance(card_id, str) or not isinstance(card, dict):
+            continue
+        bounds = card.get("bounds")
+        if rect_ok(bounds):
+            components[card_id] = (bounds, "card")
+    for module_id, module in (manifest.get("modulesById") or {}).items():
+        if not isinstance(module_id, str) or not isinstance(module, dict):
+            continue
+        bounds = module.get("bounds")
+        if rect_ok(bounds):
+            components[module_id] = (bounds, "component")
+
     for card in manifest.get("cards") or []:
         if not isinstance(card, dict):
             continue
@@ -128,7 +149,8 @@ def main() -> int:
     if args.manifest and args.manifest.is_file():
         manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
         if isinstance(manifest, dict):
-            manifest_screenshot = str(manifest.get("screenshot", ""))
+            source = manifest.get("source") if isinstance(manifest.get("source"), dict) else {}
+            manifest_screenshot = str(manifest.get("screenshot") or source.get("screenshot") or "")
             elements, components = build_manifest_index(manifest)
 
     args.output_dir.mkdir(parents=True, exist_ok=True)

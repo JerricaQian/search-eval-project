@@ -335,15 +335,22 @@ def region_profile(bgr: np.ndarray, box) -> dict:
     patch = crop(bgr, box)
     if patch.size == 0:
         return {"inkRatio": 0.0, "blank": True, "bgRGB": [255, 255, 255],
-                "stdev": 0.0, "grayMin": 255, "grayMax": 255}
+                "inkRGB": [255, 255, 255], "stdev": 0.0, "grayMin": 255, "grayMax": 255}
     gray = cv2.cvtColor(patch, cv2.COLOR_BGR2GRAY)
     ink, _ = ink_mask(gray)
     modal = Counter(tuple(v) for v in (patch.reshape(-1, 3) // 16 * 16)).most_common(1)[0][0]
+    ink_pixels = patch[ink]
+    if ink_pixels.size:
+        ink_bgr = np.median(ink_pixels, axis=0)
+        ink_rgb = [int(ink_bgr[2]), int(ink_bgr[1]), int(ink_bgr[0])]
+    else:
+        ink_rgb = [255, 255, 255]
     return {
         "inkRatio": round(float(ink.mean()), 4),
         # truly empty = no ink AND no tonal range at all (flat fill)
         "blank": bool(ink.mean() < 0.001 and float(gray.max() - gray.min()) < 6),
         "bgRGB": [int(modal[2]), int(modal[1]), int(modal[0])],
+        "inkRGB": ink_rgb,
         "stdev": round(float(gray.std()), 2),
         "grayMin": int(gray.min()),
         "grayMax": int(gray.max()),
@@ -471,10 +478,15 @@ def boundary_test(bgr: np.ndarray, ra: dict, rb: dict, inner_gaps: list,
     median_inner = float(np.median(inner_gaps)) if inner_gaps else 0.0
     spatial = bool(gap >= median_inner * 1.5) if median_inner > 0 else bool(gap >= 16)
 
-    # visual: different background fill on each side
-    pa = region_profile(bgr, a)["bgRGB"]
-    pb = region_profile(bgr, b)["bgRGB"]
-    visual = bool(sum(abs(x - y) for x, y in zip(pa, pb)) > 24)
+    # visual: either a different fill or a stable foreground/typographic
+    # hierarchy (for example black merchant text followed by gray fulfillment).
+    pa = region_profile(bgr, a)
+    pb = region_profile(bgr, b)
+    background_delta = sum(abs(x - y) for x, y in zip(pa["bgRGB"], pb["bgRGB"]))
+    foreground_delta = sum(abs(x - y) for x, y in zip(pa["inkRGB"], pb["inkRGB"]))
+    background_visual = background_delta > 24
+    typographic_visual = foreground_delta >= 60
+    visual = bool(background_visual or typographic_visual)
 
     return {
         "relation": relation,
@@ -484,6 +496,10 @@ def boundary_test(bgr: np.ndarray, ra: dict, rb: dict, inner_gaps: list,
         "physical": physical,
         "spatial": spatial,
         "visual": visual,
+        "backgroundVisual": background_visual,
+        "typographicVisual": typographic_visual,
+        "backgroundDelta": int(background_delta),
+        "foregroundDelta": int(foreground_delta),
         "clear": bool(physical or spatial or visual),
     }
 
@@ -732,8 +748,12 @@ def run_scene(
     suffix: str,
     normalized_path: Path | None = None,
     evidence_path: Path | None = None,
+    manifest_path: Path | None = None,
 ) -> dict:
-    if normalized_path is not None:
+    if manifest_path is not None:
+        manifest = load_phase2_facts(manifest_path=manifest_path)
+        audit_path = None
+    elif normalized_path is not None:
         manifest = load_phase2_facts(normalized_path=normalized_path, evidence_path=evidence_path)
         audit_path = None
     else:
@@ -795,15 +815,20 @@ def main() -> int:
     ap.add_argument("--skill", required=True, help="调用方 skill 名，用于隔离输出文件避免并行写冲突")
     ap.add_argument("--normalized-input", type=Path, help="紧凑黄金真值；Phase3 直接读取，不生成展开清单")
     ap.add_argument("--evidence-input", type=Path, help="与 --normalized-input 配套的校验证据")
+    ap.add_argument("--manifest-input", type=Path, help="直接读取单份 atomic/legacy Phase2 manifest")
     args = ap.parse_args()
     if bool(args.normalized_input) != bool(args.evidence_input):
         ap.error("--normalized-input and --evidence-input must be provided together")
+    if args.manifest_input and args.normalized_input:
+        ap.error("--manifest-input cannot be combined with --normalized-input")
+    if args.manifest_input and len(args.scenes) != 1:
+        ap.error("--manifest-input currently accepts exactly one scene")
     if args.normalized_input and len(args.scenes) != 1:
         ap.error("direct golden bundle mode currently accepts exactly one scene")
     configure_paths(args.project_dir)
     METRIC_DIR.mkdir(parents=True, exist_ok=True)
     for scene in args.scenes:
-        data = run_scene(scene, args.suffix, args.normalized_input, args.evidence_input)
+        data = run_scene(scene, args.suffix, args.normalized_input, args.evidence_input, args.manifest_input)
         out = METRIC_DIR / f"metrics_{scene}_{args.skill}.json"
         out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"{scene}: components={data['componentCount']} "

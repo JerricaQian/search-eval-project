@@ -49,39 +49,55 @@ tools: Read, Bash, Write, Grep, Glob
 
 ## 执行硬约束
 
-0. **阶段能力隔离**：Phase2 只运行本地 CV/OCR、卡型契约和确定性 hooks，禁止模型读图补 OCR。Phase3/4 若按各自 skill 需要核对截图，则调用模型必须具备多模态能力；该能力不得回流改写 Phase2 manifest。
+0. **阶段能力隔离**：Phase2 运行本地 CV/OCR、黄金结构范例、当前图片视觉复核、卡型契约和确定性 hooks；视觉模型只能依据当前截图校准 Phase2 事实，禁止复制黄金字段或做语言猜写。Phase3/4 不得绕过 Phase2 manifest 回看截图补写基础事实。
 1. **单词单实例边界**：本 agent 只处理调用方注入的唯一 `query`，不得接管、合并或补跑其他搜索词。调用方批量并发上限每批最多 3 个词级子代理，必须等待整批结束再派下一批；本 agent 不感知也不参与批次调度，只对自己的 `query` 负责。
 2. **过程文件与图片一律保留**：四个阶段产生的截图、裁剪、scan 输出、清单、审计、评测原始结果、证据图、失败中间产物**一律不得删除**，包括 0 字节文件和被判定无效的产物。需要隔离的中间材料写入 `${artifactRunDir}/phase2/`、`${artifactRunDir}/phase3/`、`${artifactRunDir}/问题证据标注/` 对应子目录；无效/重复/失败产物只记录原因和路径，不执行 `rm`、`unlink` 或覆盖清理。
 3. **阶段顺序不可跳过、不可乱序**：必须严格按 Phase2 → Phase3 → Phase4 → Phase5 顺序执行；任一阶段的验收闸门未通过（见下）时，停止后续阶段并返回阻断原因，不得为了走完全流程而伪造通过。
 4. **共享契约是 Phase3 的单一事实源**：三个维度（`phase3-single_element-eval` / `phase3-card_or_component-eval` / `phase3-page_framework-eval`）分别有一份维度级共享契约文件（`phase3-single_element-eval/单一元素评测通用契约.md`、`phase3-card_or_component-eval/组件卡片评测通用契约.md`、`phase3-page_framework-eval/页面框架评测通用契约.md`）。执行某维度任一 skill 前，必须先完整读取该维度的共享契约文件，再读取该 skill 自身的 SKILL.md；SKILL.md 中标注"见共享契约"的条款一律以共享契约原文为准，不得凭记忆简化或跳过。
 
-### Stage A：Phase2 本地轻量识别
+### Stage A：Phase2 当前图片校准
 
-A0. **必读**：完整读取 `${imdSkillDir}/SKILL.md`。需要解释边界时再读取 `README.md`、`references/页面与商卡识别规则.md` 和相应卡型算法；历史 SceneSpec/IMD 工具不是生产入口。
+A0. **必读**：完整读取 `${imdSkillDir}/SKILL.md`、`references/current_image_calibration.v1.md` 与 `references/golden_structure_exemplars.v1.md`。黄金只提供结构，历史 SceneSpec/IMD 工具不是生产入口。
 
 A1. **一一对应**：确认 `screenshots` 与 `phase2Outputs[]` 数量相等、路径一一对应、manifest 路径互不重复。禁止跳过其中某张截图或把多个截图写进一个 manifest。
 
 A2. **逐图执行**：对每个 output 独立运行：
 
 ```bash
-python3 "${imdSkillDir}/scripts/run_phase2_recognition.py" \
+"${projectDir}/.venv/bin/python" "${projectDir}/scripts/setup_phase2_ocr.py" --check
+"${projectDir}/.venv/bin/python" "${imdSkillDir}/scripts/run_phase2_recognition.py" \
   --query "${query}" \
   --screenshot "<output.screenshot>" \
   --output "<output.manifest>" \
-  --artifacts-dir "<output.artifactsDir>"
-python3 "${projectDir}/scripts/validate_element_manifest.py" \
-  "<output.manifest>" --audit "<output.audit>"
+  --artifacts-dir "<output.artifactsDir>" \
+  --recognition-audit "<output.recognitionAudit>" \
+  --require-bounded-paddleocr
 ```
 
-A3. **本地识别边界**：Phase2 禁止模型 Read、局部裁图补读和语言模型改写。默认 Tesseract 双版面；PaddleOCR 只有显式开启时才能对门控给出的有界失败卡顺序重跑，不能处理整页长图。
+A2a. **Paddle 环境**：项目 `.venv/bin/python` 不存在时，先创建 `.venv` 并安装 `requirements.txt`；`--check` 失败时，用这个实际执行 Phase2 的同一解释器运行 `scripts/setup_phase2_ocr.py --all` 一次并再次检查。仍失败则阻断，禁止切换系统 Python 或静默回退后宣称完成 Paddle 校准。
+
+A2b. **候选阶段返回码**：`run_phase2_recognition.py` 因本地 OCR 门控未收敛返回非零，但已正常写出 manifest 和过程产物时，不得在 A3 前终止；该返回码是当前图片复核的输入信号。只有环境、文件读取或主 JSON 落盘失败才在此阻断。
+
+A3. **当前图片全量复核**：无论本地门控是否已经通过，都必须用模型 Read 当前完整截图一次，并结合本次 `artifactsDir` 的 CV/OCR、卡型语义和门控产物校准主 manifest。逐一检查全部非排除元素以及漏掉的模块、卡片、下挂项和独立标签；OCR 冲突、完整字形不足、异色/异形标签和异构归属才生成并读取局部裁图。整图固定 1 次、局部最多 11 次、总计不超过 12 次。模型只能抄录当前可见像素并判断边界/角色/归属，禁止按搜索词、语言通顺度、黄金文字或历史坐标补写。
+
+A3a. **校准审计**：本地候选生成后运行以下命令建立覆盖全部活动元素的模板；模型复核后逐项填写真实 `status/source/evidencePath/reason`，同步更新 manifest 的元素、region、itemGroups、relations、factInventory 和 recognition。只有全量当前像素复核完成才可设置 `reviewedAgainstCurrentPixels=true`、`goldenValueInjection=false`。
+
+```bash
+"${projectDir}/.venv/bin/python" "${imdSkillDir}/scripts/build_current_image_calibration_audit.py" \
+  "<output.manifest>" --output "<output.recognitionAudit>"
+"${projectDir}/.venv/bin/python" "${projectDir}/scripts/validate_element_manifest.py" \
+  "<output.manifest>" --audit "<output.audit>" \
+  --recognition-audit "<output.recognitionAudit>" \
+  --require-current-image-calibration
+```
 
 A4. **卡型与元素**：先按 `card_recognition_contracts.v1.json` 满足已知卡型最小契约，再开该卡型的分区，最后拆最小元素。已知卡型未通过时，有广告证据归广告卡，否则归异构卡；禁止 `unknown`。黄金文件、文件名和历史坐标不能补当前证据。
 
 A5. **八键主 JSON**：每份 manifest 顶层为 `query/screenshot/annotatedImage/cards/recognition/pageFacts/pageFactInventory/relations`；`annotatedImage` 固定空字符串。文字、图片、标签/icon 的 Phase3 事实按 `SKILL.md` 完整写入。
 
-A6. **整页门控**：每个 manifest 必须同时满足 `recognition.status=confirmed`、`phase3Ready=true`、`wholePageGate=true` 和 validator `valid=true` 才可进入 Stage B。任一截图失败即 `blockedAt=stageA`，返回其 manifest、errors 和 reprocessTargets；不得只发布同词其他截图。
+A6. **整页门控**：每个 manifest 必须同时满足 `recognition.status=confirmed`、`phase3Ready=true`、`wholePageGate=true`、当前图片校准审计全元素 confirmed 和 validator `valid=true` 才可进入 Stage B。任一截图失败即 `blockedAt=stageA`，返回其 manifest、审计、errors 和 reprocessTargets；不得只发布同词其他截图。
 
-A7. **复用**：`skipAnnotation=true` 时只逐一重跑 validator；否则可复用已通过 A6 的单图清单，未通过或不存在的单图必须独立重跑。不得用批量 `index.json` 代替单图清单。
+A7. **复用**：`skipAnnotation=true` 时也必须逐一使用对应 `recognitionAudit` 和 `--require-current-image-calibration` 重跑 validator；否则可复用已通过 A6 的单图清单，未通过或不存在的单图必须独立重跑。不得用批量 `index.json` 代替单图清单。
 
 Stage A 产物：`elementListPaths[]`、`elementAuditPaths[]`、全部非排除元素的 `elementCount` 总和，`annotated=[]`。
 
@@ -126,7 +142,7 @@ B11. **落盘 + 确定性校验**：全部 `evalTargets` 评测完成后，把�
      ```bash
      python3 "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --phase2-review "${phase2ReviewFile}"
      ```
-     `valid!=true` 且 `phase2ReviewRequired=true` 时，在本次调用内部执行**最多一次** Phase2 本地回退：只按对应 manifest 的 `recognition.reprocessTargets` 对失败卡/失败行重跑 CV/OCR、重新构建该截图 JSON 并执行整页门控；禁止模型 Read 原图后人工补写字段。随后重跑 Stage B 相关 skill 并再跑一次上述校验命令。若仍 `valid!=true`，无论原因是否仍是 Phase2 缺口，都必须立即阻断（`blockedAt=stageB`，`error` 写明第二次校验仍失败的具体原因），不得发起第二次回退或无限重试；`valid!=true` 且首次即非 Phase2 缺口（`phase2ReviewRequired=false`）时同样直接阻断，不进入 Stage C。
+     `valid!=true` 且 `phase2ReviewRequired=true` 时，在本次调用内部执行**最多一次** Phase2 回退：按对应 manifest 的 `recognition.reprocessTargets` 重跑有界 Paddle/CV，并按 A3/A3a 重新复核当前截图和更新全元素校准审计。不得复用黄金字段或凭语言改写。随后重跑 Stage B 相关 skill 并再跑一次上述校验命令。若仍 `valid!=true`，无论原因是否仍是 Phase2 缺口，都必须立即阻断（`blockedAt=stageB`，`error` 写明第二次校验仍失败的具体原因），不得发起第二次回退或无限重试；`valid!=true` 且首次即非 Phase2 缺口（`phase2ReviewRequired=false`）时同样直接阻断，不进入 Stage C。
 
 Stage B 产物：`evals[]`（每项 `dimension/skill/units[]`）、`evalResultFile`、`evalAuditFile`（`valid=true`）。
 

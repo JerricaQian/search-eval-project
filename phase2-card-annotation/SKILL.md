@@ -1,6 +1,6 @@
 ---
 name: phase2-card-annotation
-description: "对搜索结果页截图执行 Phase2 轻量识别：仅以本地 CV/OCR、卡型契约、拓扑和确定性语义门控，为每张截图分别生成一个包含该页全部事实及整页门控状态的 JSON；不合并多图、不让视觉模型补读 OCR、不生成整页标注图、不执行 IMD 操作，也不输出评测结论。"
+description: "对搜索结果页截图执行 Phase2 当前图片校准：以本地 CV/OCR、黄金结构范例、当前像素视觉复核、卡型契约和确定性门控，为每张截图分别生成可供 Phase3 消费的完整事实 JSON；不复制黄金字段、不合并多图、不执行 IMD，也不输出评测结论。"
 ---
 
 # Phase2 轻量识别
@@ -13,8 +13,8 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 必须明确区分两条流程：
 
-1. **黄金样本校准流（离线）**：允许在已经确认的截图/卡片边界内使用 PaddleOCR，并允许模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库只保留 `golden-atomic-2.0/` 最新黄金 JSON；旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
-2. **用户截图 Phase2 生产流**：只使用当前截图的本地 CV/OCR、卡型契约与门控；视觉模型和黄金字段值不得补读、猜测或注入。失败时有界重跑 Paddle/Tesseract，仍不满足契约就阻断，不发布伪完整 JSON。
+1. **黄金样本校准流（离线）**：在已经确认的截图/卡片边界内使用 PaddleOCR，并用模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库只保留 `golden-atomic-2.0/` 最新黄金 JSON；旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
+2. **用户截图 Phase2 当前图片校准流**：采用同类证据链——本地 CV/OCR 生成候选，黄金样本提供结构范例，模型只读取当前整图/局部裁图以复核字面、视觉原子边界和归属。黄金字段值、坐标、数量与顺序不得注入；仍不满足契约就阻断。完整规则见 `references/current_image_calibration.v1.md`。
 
 两条流程允许的证据不同，但输出必须遵循同一个元素级契约：
 
@@ -23,7 +23,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 - `基础信息区`、`商家信息区`、`标签区` 必须按独立语义字段/独立视觉 chip 拆分；例如 `15-25m²｜2人｜双床` 是面积、人数、床型三个元素。不得按整行合并，也不得按单字切分。
 - 元素边界以独立视觉实体为准，不以 OCR 返回的一行文字为准。同行但颜色、间距、容器、图形辅助或交互含义不同的标签必须分别建元素；参照“面部清洁”黄金样本中“美丽荟西子医疗美容”的三个标签。
 - 怀疑一行包含多个实体时，Paddle/Tesseract 仍返回同一整行只能证明文字可重复，不能证明它是一个元素，也不能作为拆分依据。必须取得两个以上有独立边界的视觉/OCR observation，或使用已复核的逐像素拆分；否则保持未确认并阻断发布。
-- 文字/标签不得成为单字符元素；`起`、`¥` 等后缀或符号必须与所属价格合并。图片元素可使用空 `visibleText`。
+- 文字/标签不得无上下文地成为单字符元素；`起`、`¥` 等后缀或符号必须与所属价格合并。**合法尺码例外：**当元素位于商品规格/尺码位，且标题或同卡字段明确给出 `S/M/L/XL/XXL` 尺码体系时，独立 `S`、`M`、`L` 是完整可读的尺码信息，必须保留并归入 `size_info`，不得判为乱码或元素缺失。图片元素可使用空 `visibleText`。
 - 任何一条不满足，黄金校准不得标记完成，生产识别不得设置 `phase3Ready=true`。
 - **结构完整不等于文字正确。** 每个 `status=confirmed` 的标题和下挂文字/价格必须有同一原图范围内的完整可见像素证据。仅通过 schema、字段非空或卡片数量检查，不得宣称黄金样本正确。
 - 标题、文字下挂、常规图文下挂、异构下挂的长期识别规则采用“已校准黄金样本的结构范例 + 当前截图像素证据”，不用某张图的坐标、槽位宽高、列数或字段值充当规则。具体范例与 JSON 骨架见 `references/golden_structure_exemplars.v1.md`。
@@ -45,7 +45,8 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 2. **按项判断，不按区域套一种模板。** 同一下挂区域中的每个可见项分别选择结构；一个项与范例匹配，不构成停止识别其余可见项的条件。
 3. **语义角色不是固定槽位。** 商品/服务文字、现价、价格折扣、原价、销量等由视觉关系和语义决定，可换行、移位或缺省；它们没有跨截图固定的像素宽高或相对偏移。
 4. **只记录可见事实。** 页面边缘项按当前可见内容建立同样的元素结构并标记裁切，不补造屏外文字；证据不足则 `uncertain`，不得用范例字段值填空。
-5. **先分视觉实体，再读实体文字。** OCR 合并框只是候选；当前截图中独立的颜色段、容器、间隔或功能单元具有更高的分元素优先级。多个 OCR 后端冲突时，选择与独立视觉实体边界一致且覆盖完整字形的证据，不选择“文本更长”的合并框。
+5. **先分视觉实体，再读实体文字。** OCR 合并框只是候选；当前截图中独立的颜色段、容器、间隔或功能单元具有更高的分元素优先级。多个 OCR 后端冲突时，选择与独立视觉实体边界一致且覆盖完整字形的证据，不选择“文本更长”的合并框。同一容器内的图形辅助与文字必须是一个标签原子：例如“红色闪电+神价”、“神券+立减/满减金额”、“黄色闪电+闪购”各自只建一个 `tag` 元素，图形写入 `visual.graphicAssist`，不再另建 `icon`。只有脱离标签容器、可独立表意和点击的图形才建 `icon`。
+6. **特殊字体价格标签字面归一。**当价格旁的红色闪电与双字价格权益文字处在同一容器中时，该组合的规范原文为“神价”。OCR 因特殊字体输出“礼价”时，必须在当前像素确认红色闪电+同容器后归一为“神价”，并在校准审计中保留 OCR 变体和归一理由。不得脱离该视觉上下文对普通“礼价”文案做全局替换。
 
 遇到新布局时，先在 `references/golden_structure_exemplars.v1.md` 中寻找同层级结构；只有视觉结构确实不同才新增异构结构及对应黄金范例。实现层的坐标扩框、卡片底边裁剪和遍历控制只是保障上述原则的手段，不能反过来定义业务规则。
 
@@ -53,7 +54,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 从错误案例更新规则时，按 **根因 → 可迁移的结构原则 → 具名黄金样本及 JSON 正例 → 适用边界 → 实现防回归** 记录。主 Skill 和结构范例描述前四层；像素阈值、裁剪扩框、循环退出条件等只进入算法实现或测试。除非数值本身属于输出协议，不把单张截图的像素经验提升为长期业务规则。
 
-只做：**每张截图 → 本地 CV/OCR 候选 → 卡型/元素识别 → 整页门控 → 该图独立元素清单 JSON → schema 校验**。
+只做：**每张截图 → 本地 CV/OCR 候选 → 当前图片全量视觉复核 → 卡型/元素识别 → 整页门控 → 该图独立元素清单 JSON → 枚举、schema 与校准审计校验**。
 
 不做：整页画框 PNG、IMD/设计稿操作、体验评级、问题结论、人工复核任务、跨截图坐标复用，以及用黄金样本补造当前截图事实。
 
@@ -75,6 +76,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 | 卡型、分区与元素候选 | `references/search_card_taxonomy.v1.json` |
 | 卡型边界与最小证据 | `references/card_recognition_contracts.v1.json` |
 | 酒店单列/双列/民宿与混排细则 | `references/hotel_card_algorithm.v1.md` 与 `references/hotel_card_element_contract.v1.json` |
+| 当前图片全量校准与审计 | `references/current_image_calibration.v1.md`；整图一次、冲突处局部复核、逐元素交叉校验 |
 | 标题、文字下挂、图文下挂与异构下挂结构范例 | `references/golden_structure_exemplars.v1.md`；只学习结构，当前截图独立取证 |
 | 已逐像素复核的黄金标签拆分 | `references/golden_tag_split_reviews.v1.json`；只供离线黄金校准与回归，不向生产注入字段值 |
 | UI/图标检测、OCR 与颜色事实融合 | `references/screen_parser_backend.v1.md`；处理非文本 UI、图标漏检或评估 OmniParser 时读取 |
@@ -92,12 +94,12 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 生产入口是一条命令；它直接产出 Phase3 manifest、识别审计和校验审计：
 
 ```bash
-python3 phase2-card-annotation/scripts/run_phase2_recognition.py \
+.venv/bin/python phase2-card-annotation/scripts/run_phase2_recognition.py \
   --query <query> --screenshot <screenshot> --output <elements.json> \
   --artifacts-dir <this-batch-artifacts-dir>
 ```
 
-需要排查来源时才追加 `--recognition-audit <elements.recognition-audit.json>`；不加也不影响主 JSON 的完整性。
+生产流必须追加 `--recognition-audit <elements.recognition-audit.json>`。脚本先写本地候选审计；完成当前图片复核后，使用 `build_current_image_calibration_audit.py` 重建全元素模板并逐项登记当前像素证据。
 
 以下是该入口内部的可审计展开流程；只用于诊断或替换某一识别步骤：
 
@@ -121,19 +123,21 @@ python3 phase2-card-annotation/scripts/build_phase2_manifest.py \
   --query <query> --facts <facts.json> --result-candidates <candidates.json> \
   --card-semantics <card-semantics.json> --text-semantics <text-semantics.json> \
   --recognition-gate <recognition-gate.json> --output <elements.json>
-python3 scripts/validate_element_manifest.py <elements.json> \
+.venv/bin/python scripts/validate_element_manifest.py <elements.json> \
   --audit <elements.audit.json>
 ```
 
 前五个文件是**过程候选 JSON**：保留 OCR/CV 原始坐标、双版面 OCR 一致性、颜色像素提示和未决项，便于重新识别；不使用或发布 OCR 置信度。其中每个文字/图片候选直接携带可转写为 Phase3 的 `render`、`textFacts`/`visual` 像素事实。`build_phase2_manifest.py` 只把同一次识别结果写入统一 JSON，不制造新事实。已确认元素进入 `cards[].regions[].elements[]`；未确认项进入主 JSON 的 `recognition.semanticHookFindings/reprocessTargets` 与 `pageFactInventory.uncertainElementIds`，绝不被误当作“页面没有”。
 
-固定顺序：**初次 CV/OCR → 局部页面模块 → 结果卡候选 → 卡型最小契约 → 卡内分区/文本角色 → 初次整页门控 →（失败时）一次有界卡内重识别 → 全量重建结构/卡型/文本角色 → 最终整页门控 → 最小元素 → 统一 JSON → schema 校验**。任一卡失败即整页阻断；重识别最多一轮、每张失败卡最多三个裁剪，禁止部分页面进入 Phase3。不会因 OCR 字段失败而把截图送给模型读图。已确认字段不得重复裁读。
+固定顺序：**初次 CV/OCR → 局部页面模块 → 结果卡候选 → 卡型最小契约 → 卡内分区/文本角色 → 初次整页门控 →（失败时）一次有界卡内 Paddle 重识别 → 全量重建候选 → 读取当前整图并按需局部裁图复核 → 更新最小元素/所有权/关系 → 全量当前像素审计 → 枚举与 schema 校验**。任一卡失败即整页阻断；禁止部分页面进入 Phase3。模型复核覆盖全部已发布元素和漏标扫描，不只处理 OCR 失败字段；同一文字且像素框相交的重试 observation 仍必须归并为一个规范视觉实体。
 
 Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不得按置信度切换；核心语义须通过 `ocr_consensus` hook：结构化数字要求数值锚一致，自然文本只允许确定性的包含或高相似关系。价格行可在相同数值锚下选择脚本连贯性更好的独立布局文本；疑似价格可做少量有界遮罩复读，但都必须保留原文、独立布局和接受理由，禁止无锚纠错。行内相邻的汉字碎片先按空间合并，明显分隔的标签、价格和标题保持独立。
 
 照片检测除多色轮廓外，允许以“大面积 + 高像素方差 + 足够彩色像素 + 非细长几何”补充低色相商品/商家照片；该规则不检测圆角容器，不按业务词推断图片。
 
-PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的标题/价格/信息列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。主入口会在初次门控失败时自动尝试这一轮；本地模型不存在或初始化失败时退回有界 Tesseract，设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可完全关闭 Paddle。线程默认由 `PHASE2_OCR_THREADS=2` 限制。
+PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的标题/价格/信息列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。主入口会在初次门控失败时自动尝试这一轮；本地模型不存在或初始化失败时可退回有界 Tesseract，但每个裁剪必须记录 `requestedBackend`、`actualBackend` 与 `fallbackReason`，不得把回退产物描述成 Paddle 证据。要求 Paddle 的运行追加 `--require-bounded-paddleocr`，任何回退立即阻断。设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可完全关闭 Paddle，线程默认由 `PHASE2_OCR_THREADS=2` 限制。
+
+跨机器不能假定 `git clone` 已带 Paddle 能力：运行时包和模型均不进入 Git。首次准备必须用实际执行 Phase2 的同一个 Python 运行 `scripts/setup_phase2_ocr.py --all`；该入口安装 PaddlePaddle/PaddleOCR、从 Paddle 官方 BOS 源下载锁定模型、校验 SHA-256 并执行本地推理冒烟测试。`scripts/setup_phase2_ocr.py --check` 或 `bash setup.sh --with-ocr` 只检查不安装；未通过检查不得声称环境具备 Paddle 能力。
 
 非文本 UI/图标候选与 OCR 分工按 `references/screen_parser_backend.v1.md` 执行。OmniParser 只可作为可选的本地候选检测后端：它提供图标/交互区域框及可选语义描述，不能替代 PaddleOCR、卡型契约、逐元素颜色测量或最终语义归属。依赖、权重或许可条件未满足时不得宣称已启用，也不得让其缺失阻断现有确定性 CV/OCR 流程。
 
@@ -143,11 +147,11 @@ PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到
 2. 每次新建、复用或修订 manifest 后都必须校验；`valid != true` 时不得进入 Phase3。
 3. 收到 Phase3 回退请求时，保留旧 manifest/audit/过程候选，按新证据重建 Phase2，再重跑受影响的 Phase3；不得只改下游结论。
 4. 禁止固定搜索词、机器路径、历史 `/tmp` 或场景脚本输出作为生产入口。
-5. `validate_phase2_recognition.py` 是整页发布门控：OCR 碎片比例超限、异常文字、无结果卡、卡内可用事实不足、卡型未确认或未通过卡型最小契约时，必须写出 blocked JSON 并重跑本地 CV/OCR。它不读取 OCR 置信度，也不触发模型读图。
+5. `validate_phase2_recognition.py` 是本地候选门控：OCR 碎片比例超限、异常文字、无结果卡、卡内可用事实不足、卡型未确认或未通过卡型最小契约时，必须写出 blocked JSON 并重跑本地 CV/OCR。随后当前图片校准仍须复核全部发布元素；模型只能按当前像素修正事实，不能用语言知识改写原文。
 6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同行碎片、语义原子性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
 7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的人工卡型/坐标不能成为当前截图答案。`golden-atomic-2.0/` 只用于离线回归，禁止传入生产命令。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
+9. 黄金 JSON 的字段值/坐标不能成为当前截图答案。`golden-atomic-2.0/` 可作为生产识别的只读结构范例，但禁止传入识别脚本或复制文字、坐标、数量、顺序。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
 
    黄金文本发布以结构范例和当前卡片的完整像素证据共同门控：标题与下挂不能由预设槽位生成；文字元素非空并不代表正确，必须能追溯到同卡、同元素且覆盖完整可见字形的 bounded observation；校准命令指定 `--require-backend paddleocr` 时任何后端降级均阻断。已有非空标题也必须按标题结构重新核验。
 
@@ -292,7 +296,7 @@ query 只写入输出上下文，不是卡型或页面结构主键。同一 quer
 
 Phase2 只发布已确认的标签/icon 原子、归属、坐标和基础视觉事实，不发布 Phase3 专用的预计数、预去重或评级结论。Phase3 必须遍历当前组件的全分区原子，现场测量样式、决定纳入并去重计数。Phase3 像素扫描若发现原子边界外的疑似漏标，可触发 Phase2 基础识别回退；未确认 blob 不能直接参与正式计数或评级。
 
-扫描范围：头图角标/腰封、标题前 badge、履约标与闪电 icon、基础信息、标签区、价格旁促销标、文字下挂、每个图文下挂商品的角标/腰封、保障标与图筛项。每个独立标签、角标、券标、腰封和 icon 都拆为一个元素；不能因颜色或轮廓相近而合并。
+扫描范围：头图角标/腰封、标题前 badge、履约标与独立 icon、基础信息、标签区、价格旁促销标、文字下挂、每个图文下挂商品的角标/腰封、保障标与图筛项。每个独立标签、角标、券标、腰封和独立 icon 都拆为一个元素；不能因颜色或轮廓相近而合并。同一标签容器内的闪电/奖杯等图形辅助与文字必须合为一个 `tag` 原子并记录 `graphicAssist`。
 
 标签/icon 的 `visual` 必填。当前阶段不做通用圆角容器检测；未由像素事实确认时，`containerShape` 写 `unknown`，不得按业务词猜形状：
 

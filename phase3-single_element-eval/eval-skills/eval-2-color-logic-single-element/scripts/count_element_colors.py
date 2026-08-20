@@ -5,7 +5,7 @@ count_element_colors.py — 单一元素颜色数量统计（指标 1.2.2 色彩
 
 用途：
     输入「一个单一元素」的裁剪图（标签/标题/价格/提示条/按钮等），按 36 色标准
-    统计该元素内的总颜色数量（底色、文字色、icon 全部计入，含黑白灰），剔除面积
+    统计该元素内的有彩色数量（底色、文字色、icon 均扫描），黑、白、灰中性色排除，剔除面积
     占比 < 1% 的颜色，最后给出评级：总颜色数 ≤ 2 优秀🟢 / = 3 达标🟡 / > 3 不达标🔴。
 
     渐变无需特判：渐变像素会自然落入其跨越的多个色格，若各格占比均 ≥ 阈值即计为多色。
@@ -15,11 +15,11 @@ count_element_colors.py — 单一元素颜色数量统计（指标 1.2.2 色彩
     # 也可对整图只统计一个矩形框：
     python3 count_element_colors.py <图.png> --box x,y,w,h
 
-    <元素裁剪图> 应「紧贴元素边界」，不要混入相邻元素或大片页面背景（背景白色会被计成一格）。
+    <元素裁剪图> 应「紧贴元素边界」，不要混入相邻元素或大片页面背景。
 
 依赖：Pillow, numpy （可选 --debug 需要 Pillow 已足够）
 
-注意：本指标与 color-logic-scanner 口径不同——本脚本无彩色(黑/白/灰)也计数，且不做同色相深浅合并。
+注意：黑/白/灰中性色只保留在诊断色谱中，不计入最终色数；同一有彩色相的深浅合并为一个色系。
 """
 import sys
 import argparse
@@ -80,7 +80,9 @@ def rgb_to_hsv_arr(rgb):
     h[gc] = (60 * ((b[gc] - r[gc]) / diff[gc]) + 120) % 360
     h[bc] = (60 * ((r[bc] - g[bc]) / diff[bc]) + 240) % 360
 
-    s = np.where(mx > 1e-9, diff / mx, 0.0) * 100.0
+    s = np.zeros_like(mx)
+    np.divide(diff, mx, out=s, where=mx > 1e-9)
+    s *= 100.0
     v = mx * 100.0
     return h, s, v
 
@@ -192,9 +194,7 @@ def count_colors(img_rgb, min_ratio_pct=1.0, drop_bg=False):
     # 规则：
     #  1) 同一有彩色相的深/浅两格合并为「该色相」一色（浅黄+深黄=黄）。
     #     这不影响渐变跨色相的判定——跨到不同色相(青→蓝)仍是两色。
-    #  2) 无彩色：黑/白/灰本是独立颜色，但抗锯齿会在字/底交界产生一圈过渡灰。
-    #     故无彩色只在「占比 >= achromatic_min」时才各自独立计一色，
-    #     其余低占比灰视为抗锯齿过渡并入相邻主色，不单独计。
+    #  2) 无彩色：黑/白/灰保留在诊断色谱中，但不进入最终计数。
     from collections import defaultdict
     fam_ratio = defaultdict(float)
     fam_zh = {}
@@ -212,16 +212,12 @@ def count_colors(img_rgb, min_ratio_pct=1.0, drop_bg=False):
               for k, v in fam_ratio.items()]
     merged.sort(key=lambda x: -x["ratio"])
 
-    ACHROMATIC_KEYS = set(ACHROMATIC_LABELS.keys())
     kept = []
     for c in merged:
         if c["ratio"] < min_ratio_pct:
             continue
-        # 无彩色用更高阈值，滤掉抗锯齿过渡灰（默认 min_ratio 的 3 倍，至少 3%）
-        if c["key"] in ACHROMATIC_KEYS:
-            achro_min = max(min_ratio_pct * 3, 3.0)
-            if c["ratio"] < achro_min:
-                continue
+        if c["key"] in ACHROMATIC_LABELS:
+            continue
         kept.append(c)
 
     return {
@@ -273,7 +269,7 @@ def main():
     print(f"图片: {args.image}  尺寸: {arr.shape[1]}x{arr.shape[0]}  像素: {res['total_pixels']}")
     print(f"占比阈值: ≥ {args.min_ratio}%   （低于此值的颜色已剔除）")
     print("-" * 52)
-    print("计入的颜色（36色标准，底色+文字色+icon 全部计入）:")
+    print("计入的有彩色（36色标准，黑/白/灰中性色已排除）:")
     for c in res["colors"]:
         print(f"  {c['name']:<6} ({c['key']:<14}) {c['ratio']:>6.2f}%")
     dropped = [c for c in res["colors_all"] if c["ratio"] < args.min_ratio]

@@ -21,6 +21,7 @@ DOWNHANG_REGIONS = {
     "下挂商品区", "文字下挂区", "下挂区", "服务下挂", "特殊下挂", "领域下挂区",
     "append_items", "text_append", "service_append",
 }
+CONSISTENCY_ROLES = {"subtitle", "size", "specification", "product_attribute"}
 
 
 def text_of(element: dict[str, Any]) -> str:
@@ -68,14 +69,27 @@ def derive_relation_candidates(manifest: dict[str, Any]) -> dict[str, Any]:
                 atoms.append(current)
                 if current["semanticRole"] == "title":
                     titles.append(current)
-                if element.get("元素类型") == "图片" or region in DOWNHANG_REGIONS:
+                if (
+                    element.get("元素类型") == "图片"
+                    or region in DOWNHANG_REGIONS
+                    or current["semanticRole"] in CONSISTENCY_ROLES
+                ):
                     targets.append(current)
         authenticity.append({
             "cardId": card_id,
             "titleAtoms": titles,
             "targetAtoms": targets,
             "candidatePairs": [
-                {"title": title, "target": target, "phase3JudgementRequired": True}
+                {
+                    "title": title,
+                    "target": target,
+                    "relationType": (
+                        "title_to_image" if target["elementType"] == "图片"
+                        else "title_to_size" if target["semanticRole"] in {"size", "specification"}
+                        else "title_to_attribute"
+                    ),
+                    "phase3JudgementRequired": True,
+                }
                 for title in titles for target in targets if title["elementId"] != target["elementId"]
             ],
         })

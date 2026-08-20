@@ -4,6 +4,7 @@ import json
 import importlib.util
 import hashlib
 import copy
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -34,10 +35,13 @@ def load_validator_module():
 class JsonArtifactsTest(unittest.TestCase):
     def test_every_committed_json_artifact_parses(self) -> None:
         """Keep static contracts and golden outputs loadable by all consumers."""
-        json_paths = sorted(
-            path for path in PROJECT_DIR.rglob("*.json")
-            if ".git" not in path.parts
-        )
+        tracked = subprocess.run(
+            ["git", "-c", "core.quotepath=false", "ls-files", "-z", "--", "*.json"],
+            cwd=PROJECT_DIR,
+            check=True,
+            capture_output=True,
+        ).stdout.split(b"\0")
+        json_paths = [PROJECT_DIR / value.decode("utf-8") for value in tracked if value]
         self.assertGreater(len(json_paths), 0)
         for path in json_paths:
             with self.subTest(path=path.relative_to(PROJECT_DIR)):

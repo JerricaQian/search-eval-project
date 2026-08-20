@@ -37,6 +37,7 @@ SLOT_ROLES = {
     "merchant_tag": "merchant", "merchant_feature_tag": "merchant_feature",
     "product_attribute_tag": "product_attribute", "scenic_rating_tag": "scenic_rating",
     "gift_tag": "gift", "generic_tag": "tag", "other_tag": "tag",
+    "size_info": "size", "size": "size", "specification": "size",
 }
 
 
@@ -88,7 +89,7 @@ def _compat_element(element_id: str, source: dict[str, Any], card_id: str, slot:
     output = {
         "id": element_id,
         "所属组件": card_id,
-        "元素类型": "图片" if kind == "media" else ("标签" if kind in {"tag", "icon"} else "文本"),
+        "元素类型": "图片" if kind == "media" else ("标签" if kind == "tag" else "图标" if kind == "icon" else "文本"),
         "内容简述": f"原文:{text}" if text else "原文:[图片]",
         "坐标": source["bounds"],
         "isExcluded": False,

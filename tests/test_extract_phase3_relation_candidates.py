@@ -45,6 +45,20 @@ class ExtractPhase3RelationCandidatesTest(unittest.TestCase):
         self.assertTrue(any({pair["left"]["elementId"], pair["right"]["elementId"]} == {"A", "B"} for pair in pairs))
         self.assertTrue(all(pair["phase3JudgementRequired"] for pair in pairs))
 
+    def test_title_size_is_an_authenticity_candidate(self) -> None:
+        module = load_module()
+        manifest = {"query": "安睡裤", "cards": [{
+            "cardId": "C3", "regions": [
+                {"name": "标题区", "elements": [item("T", "安睡裤M-L码", "title")]},
+                {"name": "基础信息区", "elements": [item("S", "M", "size")]},
+            ],
+        }]}
+        result = module.derive_relation_candidates(manifest)
+        pairs = result["authenticityCandidates"][0]["candidatePairs"]
+        self.assertEqual(len(pairs), 1)
+        self.assertEqual(pairs[0]["relationType"], "title_to_size")
+        self.assertEqual(pairs[0]["target"]["elementId"], "S")
+
 
 if __name__ == "__main__":
     unittest.main()

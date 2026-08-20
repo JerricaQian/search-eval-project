@@ -20,6 +20,7 @@ RESULT_CANDIDATES_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_s
 RESULT_SEMANTICS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/map_result_card_semantics.py"
 MANIFEST_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_phase2_manifest.py"
 MANIFEST_VALIDATOR = PROJECT_DIR / "scripts/validate_element_manifest.py"
+CALIBRATION_AUDIT_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_current_image_calibration_audit.py"
 RECOGNITION_GATE = PROJECT_DIR / "phase2-card-annotation/scripts/validate_phase2_recognition.py"
 REPROCESS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/reprocess_bounded_cards.py"
 GATE_HOOKS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/recognition_gate_hooks.py"
@@ -397,6 +398,48 @@ class ExtractCvFactsTest(unittest.TestCase):
         ])
         self.assertEqual(grouped[0]["text"], "咂摸相声专场(南锣鼓巷观乐专场）")
         self.assertEqual({item.get("_boundedRegion") for item in grouped[1:]}, {"tag", "location"})
+        self.assertTrue(module.suspicious_short_mixed_text("ae本四"))
+        self.assertFalse(module.suspicious_short_mixed_text("AI智能"))
+        self.assertFalse(module.suspicious_short_mixed_text("KTV团购"))
+
+    def test_bounded_retry_is_idempotent_for_shifted_duplicate_text(self) -> None:
+        script_dir = REPROCESS_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_bounded_retry_dedupe_test", REPROCESS_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+        facts = {
+            "candidates": {
+                "photos": [],
+                "text": [
+                    {"id": "T14", "kind": "text", "text": "测试商品", "coord": [0, 10, 100, 24], "route": "accepted", "rejectionReasons": []},
+                    {"id": "T15", "kind": "text", "text": "测试商品", "coord": [92, 10, 100, 24], "route": "accepted", "rejectionReasons": []},
+                ],
+            },
+            "routing": {},
+        }
+        observation = {
+            "id": "",
+            "kind": "text",
+            "text": "测试商品",
+            "coord": [184, 10, 100, 24],
+            "route": "accepted",
+            "rejectionReasons": [],
+            "ocrConsensus": {"status": "bounded_single_observation"},
+            "boundedReprocess": {"cardId": "C2", "region": "title", "semanticRegion": "title", "backend": "paddleocr", "crop": [0, 0, 300, 80]},
+            "phase3Facts": {"textFacts": {"rawText": "测试商品"}},
+        }
+        added, corroborated = module.merge_observations(facts, [observation], set())
+        active = [item for item in facts["candidates"]["text"] if item.get("route") != "rejected"]
+        self.assertEqual(added, 0)
+        self.assertEqual(corroborated, 1)
+        self.assertEqual(len(active), 1)
+        self.assertEqual(facts["routing"]["boundedCardReprocessDeduplicated"], 1)
 
     def test_gate_hook_accepts_minute_fulfillment_and_rejects_conflicting_price(self) -> None:
         spec = importlib.util.spec_from_file_location("phase2_gate_hooks_test", GATE_HOOKS_SCRIPT)
@@ -553,12 +596,46 @@ class ExtractCvFactsTest(unittest.TestCase):
             subprocess.run([sys.executable, str(MANIFEST_SCRIPT), "--query", "布洛芬", "--facts", str(paths["facts"]), "--result-candidates", str(paths["candidates"]), "--card-semantics", str(paths["cards"]), "--text-semantics", str(paths["text"]), "--output", str(paths["elements"]), "--recognition-audit", str(paths["recognition"])], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
             validation = subprocess.run([sys.executable, str(MANIFEST_VALIDATOR), str(paths["elements"]), "--recognition-audit", str(paths["recognition"])], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
             manifest = json.loads(paths["elements"].read_text(encoding="utf-8"))
+            subprocess.run([sys.executable, str(CALIBRATION_AUDIT_SCRIPT), str(paths["elements"]), "--output", str(paths["recognition"])], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            calibration = json.loads(paths["recognition"].read_text(encoding="utf-8"))
+            calibration["reviewedAgainstCurrentPixels"] = True
+            for field in calibration["fields"]:
+                field["status"] = "confirmed"
+                field["reason"] = "confirmed_from_current_screenshot_pixels"
+            paths["recognition"].write_text(json.dumps(calibration, ensure_ascii=False), encoding="utf-8")
+            calibrated_validation = subprocess.run(
+                [sys.executable, str(MANIFEST_VALIDATOR), str(paths["elements"]), "--recognition-audit", str(paths["recognition"]), "--require-current-image-calibration"],
+                check=True, cwd=PROJECT_DIR, capture_output=True, text=True,
+            )
+
+            original_visible_text = calibration["fields"][0]["visibleText"]
+            calibration["fields"][0]["visibleText"] = "mismatched review text"
+            paths["recognition"].write_text(json.dumps(calibration, ensure_ascii=False), encoding="utf-8")
+            mismatched = subprocess.run(
+                [sys.executable, str(MANIFEST_VALIDATOR), str(paths["elements"]), "--recognition-audit", str(paths["recognition"]), "--require-current-image-calibration"],
+                check=False, cwd=PROJECT_DIR, capture_output=True, text=True,
+            )
+
+            calibration["fields"][0]["visibleText"] = original_visible_text
+            calibration["goldenValueInjection"] = True
+            paths["recognition"].write_text(json.dumps(calibration, ensure_ascii=False), encoding="utf-8")
+            rejected = subprocess.run(
+                [sys.executable, str(MANIFEST_VALIDATOR), str(paths["elements"]), "--recognition-audit", str(paths["recognition"]), "--require-current-image-calibration"],
+                check=False, cwd=PROJECT_DIR, capture_output=True, text=True,
+            )
 
         element = manifest["cards"][0]["regions"][0]["elements"][0]
         self.assertEqual(element["visual"]["colorRole"], "red")
         self.assertEqual(element["visual"]["textColor"], "#D83838")
         self.assertIn("foreground_pixel_median", element["visual"]["colorEvidence"])
         self.assertTrue(json.loads(validation.stdout)["valid"])
+        self.assertTrue(json.loads(calibrated_validation.stdout)["valid"])
+        self.assertIn(
+            f"current_image_calibration_visible_text_mismatch:{calibration['fields'][0]['elementId']}",
+            json.loads(mismatched.stdout)["errors"],
+        )
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("current_image_calibration_golden_value_injection_forbidden", json.loads(rejected.stdout)["errors"])
 
     def test_recognition_gate_blocks_by_batch_quality_not_ocr_confidence(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

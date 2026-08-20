@@ -3,27 +3,32 @@
 # 用法：
 #   bash setup.sh                # 仅检查本地评测/标注环境（已有截图场景）
 #   bash setup.sh --with-device  # 额外检查 Android 真机、ADBKeyboard 与美团 App（现场截图场景）
+#   bash setup.sh --with-ocr     # 额外要求 Phase2 PaddleOCR 运行时与本地模型就绪
 #   bash setup.sh --help
 
 set -u
 
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WITH_DEVICE=false
+WITH_OCR=false
 
-case "${1:-}" in
-  "") ;;
+for argument in "$@"; do
+case "$argument" in
   --with-device) WITH_DEVICE=true ;;
+  --with-ocr) WITH_OCR=true ;;
   -h|--help)
-    echo "用法: bash setup.sh [--with-device]"
+    echo "用法: bash setup.sh [--with-device] [--with-ocr]"
     echo "  默认：检查 Python、Node、项目结构与 Python 图像依赖，适用于复用已有截图。"
     echo "  --with-device：额外检查 Android 真机、ADBKeyboard 和美团 App，适用于现场截图。"
+    echo "  --with-ocr：额外检查 PaddleOCR 包、Paddle 运行时和本地 PP-OCRv5 模型。"
     exit 0
     ;;
   *)
-    echo "未知参数: $1（可用 --help 查看用法）" >&2
+    echo "未知参数: $argument（可用 --help 查看用法）" >&2
     exit 2
     ;;
 esac
+done
 
 GREEN='\033[0;32m'; YELLOW='\033[0;33m'; RED='\033[0;31m'; NC='\033[0m'
 ok() { echo -e "${GREEN}[✓]${NC} $1"; }
@@ -54,7 +59,9 @@ for required_path in \
   "$PROJECT_DIR/phase1-screenshot/SKILL.md" \
   "$PROJECT_DIR/phase2-card-annotation/SKILL.md" \
   "$PROJECT_DIR/phase5-report/SKILL.md" \
-  "$PROJECT_DIR/requirements.txt"; do
+  "$PROJECT_DIR/requirements.txt" \
+  "$PROJECT_DIR/requirements-ocr.txt" \
+  "$PROJECT_DIR/scripts/setup_phase2_ocr.py"; do
   if [ -r "$required_path" ]; then
     ok "可读取: ${required_path#$PROJECT_DIR/}"
   else
@@ -85,6 +92,18 @@ if missing:
 print("[✓] Python 图像与 YAML 依赖已就绪")
 PY
   [ $? -eq 0 ] || FAILED=1
+fi
+if [ "$WITH_OCR" = true ] && command -v python3 >/dev/null 2>&1; then
+  OCR_PYTHON="$PROJECT_DIR/.venv/bin/python"
+  if [ ! -x "$OCR_PYTHON" ]; then
+    OCR_PYTHON="$(command -v python3)"
+  fi
+  if "$OCR_PYTHON" "$PROJECT_DIR/scripts/setup_phase2_ocr.py" --check; then
+    ok "Phase2 PaddleOCR 运行时与本地模型已就绪"
+  else
+    err "Phase2 PaddleOCR 未就绪（检查解释器: ${OCR_PYTHON}）。请用该解释器执行 scripts/setup_phase2_ocr.py --all"
+    FAILED=1
+  fi
 fi
 
 # ---------- 3. CatPaw 工作流前置 ----------

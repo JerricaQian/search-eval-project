@@ -1,4 +1,7 @@
 # Optional local OCR backend for Phase2 CV facts.
 # Keep this separate from requirements.txt: Paddle's platform-specific runtime
 # should be installed only on machines that run local Phase2 recognition.
-paddleocr>=3.0,<4
+# Use scripts/setup_phase2_ocr.py --all for the official CPU wheel index,
+# pinned model packages, and an inference smoke test.
+paddlepaddle==3.3.1
+paddleocr==3.7.0

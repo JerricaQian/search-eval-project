@@ -17,7 +17,7 @@ tools: Read, Bash, Write, Grep, Glob
 
 ## 硬约束
 
-- 不改变 Phase2 的本地 CV/OCR 边界和单图 manifest 约束。
+- Phase2 必须执行“本地 CV/OCR + 当前图片全量视觉复核 + 黄金结构范例”校准；黄金字段不得注入，单图 manifest 约束不变。
 - 不跳过 `validate_element_manifest.py`、`validate_eval_results.py`、`--require-evidence`。
 - 不修改历史截图或过程产物；本次运行使用新的批次/过程目录。
 - Phase4/5 不增加新的业务判断，只消费已验收的上游结果。
