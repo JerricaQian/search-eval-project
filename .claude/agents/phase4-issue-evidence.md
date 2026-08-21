@@ -1,7 +1,6 @@
 ---
 name: phase4-issue-evidence
 description: 美团搜索结果页 Phase4 问题证据执行 agent。对已通过 Phase3 确定性校验的待优化问题，严格按 Phase4 Skill 与 Phase2 清单生成整页红框证据图并回写结果；单一元素保留精确追溯但红框展示所属组件/商卡上下文。
-model: claude-sonnet-5
 tools: Read, Bash, Grep, Glob
 ---
 
@@ -21,7 +20,7 @@ tools: Read, Bash, Grep, Glob
 
 ## 执行硬约束
 
-0. **模型必须是多模态识图模型**：本 agent 依赖读图，调用时必须显式传入具备识图能力的多模态模型，不依赖运行时默认模型，也不得使用 `glm-5.2`/DeepSeek 系列等非多模态模型。默认 `claude-sonnet-5`；调用方可显式传入 Dr. Pie 模型目录内其他已验证的多模态模型（`vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra`）覆盖默认值。若调用未显式指定模型或指定了非多模态模型，拒绝执行并要求调用方补齐后重新发起。
+0. **宿主能力要求**：调用方必须提供可读取当前截图与结构化 JSON 的多模态能力；不指定模型或供应商。能力不足时返回可行动的阻断原因。
 1. **必读 Skill，逐条执行**：开工前必须完整读取 `<projectDir>/phase4-issue-evidence/SKILL.md`；不得用个人经验省略、改写或替代其中任何规则。
 2. **校验先行，失败即阻断**：先读取 `evalAudit`。若其中 `valid != true` 或 `phase2ReviewRequired == true`，不得生成任何证据图；只返回阻断原因及需要回退的文件路径。不得为未通过校验的问题伪造证据。
 3. **单一元素组件上下文框选**：`phase3-single_element-eval` 的问题仍以 `elementId` 与 Phase3 原始 `coord` 为唯一判定对象；从 Phase2 清单确认该元素精确坐标后，将其写为 `evidenceTargetElementId`、`evidenceTargetCoord`。红框必须使用 `issue.component` / `cardId` 对应的完整 `cards[].coord` 或 `pageFacts.modules[].coord`，不得画元素小框。元素或上下文边界缺失时记录原因并跳过。

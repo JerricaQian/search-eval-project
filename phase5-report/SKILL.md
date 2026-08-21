@@ -76,10 +76,10 @@ normalized = (raw - minRaw) / (maxRaw - minRaw) × 100   （maxRaw=minRaw 时记
 
 ## 输入校验、修复边界与参数化纪律（阻断）
 
-- Phase5 只消费已通过 Phase2 `validate_element_manifest.py`、Phase3/4 `validate_eval_results.py` 的当前批次产物；发现元素遗漏、坐标/卡片边界、业务归属或事实字段冲突时，必须回到 Phase2 修正 manifest，重新验证并重跑受影响 Phase3/4，禁止在报告数据或 HTML 中补丁掩盖。
+- Phase5 只消费已通过 Phase2 `validate_element_manifest.py`、Phase3/4 `validate_eval_results.py` 的当前批次产物；元素遗漏、坐标/卡片边界、履约事实或事实字段冲突必须回到 Phase2 修正，重新验证并重跑受影响 Phase3/4，禁止在报告数据或 HTML 中补丁掩盖。
 - `repair_*` 不是报告生成的默认前置步骤，仅可执行其 docstring 明示的结构/兼容修复；不得改写评级、问题数量、事实证据或业务归属。校验未通过时停止渲染。
-- 所有批量生成必须显式传入当前 `--project-dir`、隔离的 `--artifact-dir`、`--batch-name`、`--output`、`--dataset-output` 与 `--expected-business-tabs`；路径从项目级 `screenshots-out/`、`.artifacts/`、`reports/` 推导。禁止扫描全局历史目录、使用固定搜索词、机器专属绝对路径、`/tmp` 或 skill 内部 `out/` 作为通用入口。
-- **业务 Tab 预期校验纪律（阻断）**：生成前必须根据当前批次已通过验收的 Phase2 清单，确定实际存在的已确认业务 `businessCode` 集合，并完整传入 `--expected-business-tabs`。生成器必须校验实际输出的业务 Tab 与该集合完全一致，且业务代码和标准名称均在允许口径内。若出现缺失、多出、未知、已废弃或名称不符的业务 Tab，必须停止生成；先追溯 Phase2 manifest 的 `ownershipScope/businessCode/businessName/classificationEvidence` 或受影响的上游评测产物，定位归类错误并修正，重新执行受影响的 Phase2 校验、Phase3/4 和报告校验后，才可重新生成。禁止在 HTML、数据集或报告聚合逻辑中临时隐藏、重命名或绕过不一致的业务 Tab。
+- 所有批量生成必须显式传入当前 `--project-dir`、隔离的 `--artifact-dir`、`--batch-name`、`--output`、`--dataset-output`；路径从项目级 `screenshots-out/`、`.artifacts/`、`reports/` 推导。`--expected-business-tabs` 仅是可选断言，不能承担分类。禁止扫描全局历史目录、使用固定搜索词、机器专属绝对路径、`/tmp` 或 skill 内部 `out/` 作为通用入口。
+- **业务归类纪律（阻断）**：Phase2 只提供每张卡的结构、可见语义与履约表，不产出业务归属。Phase5 逐张商卡基于这些当前事实完成语义归类；共享的“外卖/配送”等履约词不能单独判为餐饮外卖或闪购。无法判定的商卡必须阻断聚合，不得用搜索词、历史批次、固定名单或 HTML 补丁覆盖。若用户另给出 `--expected-business-tabs`，它只校验产出的集合，不改变分类。
 
 ## 固定输出契约（优先级最高）
 
@@ -88,35 +88,23 @@ normalized = (raw - minRaw) / (maxRaw - minRaw) × 100   （maxRaw=minRaw 时记
 | 输入范围 | 唯一模板 | 生成方式 | 允许的输出文件名 |
 |---|---|---|---|
 | 一个搜索词及其截图/评测结果 | `DETAIL_V1` 单词明细模板 | 按本 Skill 的「HTML 报告版式」渲染 | `meituan_eval_report_<搜索词>[_<tag>]_<dimSlug>.html`；`dimSlug` 为各维度目录名去掉 `phase3-` 前缀和 `-eval` 后缀后以下划线连接 |
-| 两个及以上搜索词，且可访问项目 `screenshots-out/` 与 `.artifacts/过程文件-评测结果与审计/` | `GOVERNANCE_DASHBOARD_V2` 跨词治理看板 | **只运行** `python3 scripts/build_experience_dashboard.py --project-dir <项目绝对路径> --artifact-dir <本轮隔离产物目录> --batch-name <批次> --expected-business-tabs <当前批次确认业务代码的逗号列表> --output <reportPath> --dataset-output <datasetPath>`；Tab 校验失败时必须先修上游归属再重跑 | `meituan_search_experience_dashboard_<批次>.html` 或用户指定的汇总报告名；同时输出 `.governance_dataset_<批次>.json` |
-| 已有通过验收的 V1 治理数据集，用户明确选择 Acme editorial 风格 | `GOVERNANCE_DASHBOARD_V3_ACME_PREVIEW` | **仅测试预览**：`python3 scripts/build_experience_dashboard_v3.py --dataset <V1数据集> --output <reportPath> --period <评测周期>` | `meituan_search_experience_dashboard_<批次>_v3-acme-preview.html`；不生成、不改写数据集，也不替换 V1/V2 |
-
-### `GOVERNANCE_DASHBOARD_V3_ACME_PREVIEW`（Acme editorial 风格可选预览）
-
-- V3 是可由用户**显式选择**的独立本地预览出口，唯一实现为 `scripts/build_experience_dashboard_v3.py`；只读已通过验收的 V1 `.governance_dataset_<批次>.json`，沿用 V2 的事实聚合、业务分组、评分、问题与证据图，不得扫描历史目录、重算或改写数据集。
-- 仅当用户明确要求 `V3`、`Acme editorial`、`编辑感/档案感` 风格，或指定 `build_experience_dashboard_v3.py` 时才可选用；未指定风格时仍按输入范围选择 V1，不能自行以 V3 替代正式生产模板。
-- V3 固定结构：顶部通栏导航（搜索标识；白皮书、体验标准、体验评测入口）→ 标题区（报告标题、日期/范围、详情链接、周期选择器）→ 胶囊式业务 Tab → 概览/单业务的左右双栏分数与问题发现区 → 四列业务卡 → 左证据、右问题文案的明细卡。不得改变该结构、数据口径或业务 Tab 切换行为。
-- 顶部链接契约：白皮书链接为 `https://km.sankuai.com/collabpage/2771507978`；体验标准链接为 `https://km.sankuai.com/collabpage/2770196684`；标题摘要的「详情」链接为 `https://km.sankuai.com/collabpage/2772784557`；外部链接须使用 `target="_blank"` 与 `rel="noopener"`，体验评测入口为页面内 `#details`。
-- V3 视觉令牌固定为暖白 `#FAF9F5`、石墨 `#141413`、陶土强调色 `#D97757`；使用 serif 标题、mono 元信息、细描边与低阴影。不得混入 V1 的紫蓝渐变玻璃态或 V2 的黑色顶栏/大圆角视觉。V3 不输出报告底部数据集/生成日期脚注。
-- 问题发现区的每个维度容器必须显示该维度的真实 `P0/P1/P2` 证据计数，分别由当前作用域的 `groups[].evidence[].priority`（缺失时取组 priority，仍缺失时视为 P2）确定性汇总；不得把总数重复展示在各维度容器。
-- V3 问题明细沿用本 Skill 的问题级输入契约：每条问题必须按“事实 → 结论依据 → 用户影响”的无标签连续文案展示，并附该条独立建议；不得因为复用 V2 聚合器而退化为只显示 `verdictReason` 或组级 `recommendation`。
-- V3 是预览样式，不得作为工作流默认生成器、NoCode 数据源或正式 V2 替代品。用户要求提升为生产版时，必须先明确更新 `GOVERNANCE_DASHBOARD_V2` 契约并修改唯一生产入口 `scripts/build_experience_dashboard.py`。
+| 两个及以上搜索词，且可访问项目 `screenshots-out/` 与 `.artifacts/过程文件-评测结果与审计/` | `GOVERNANCE_DASHBOARD_V2` 跨词治理看板 | 只运行 `python3 scripts/build_experience_dashboard.py --project-dir <项目绝对路径> --artifact-dir <本轮隔离产物目录> --batch-name <批次> --output <reportPath> --dataset-output <datasetPath>`；如有已确认的业务集合可额外传 `--expected-business-tabs` 作断言 | `meituan_search_experience_dashboard_<批次>.html` 或用户指定的汇总报告名；同时输出 `.governance_dataset_<批次>.json` |
 
 ### `GOVERNANCE_DASHBOARD_V2` 的硬性约束
 
-- **视觉和交互基准**：`phase5-report/dashboard_renderer.py` 是 `GOVERNANCE_DASHBOARD_V2` 的唯一生产实现。它遵循 `/Users/qianjing/Desktop/adaptive-saas-dashboard` 的 soft-layered SaaS 系统：`#f0f2f6` 画布、白色表面、`#456af4` 主操作色、细灰线、6/10/16px 圆角与轻阴影；不得回退为极简黑白或紫蓝玻璃态，也不得由 Agent 临时设计另一套页面。
+- **视觉和交互基准**：`phase5-report/dashboard_renderer.py` 是 `GOVERNANCE_DASHBOARD_V2` 的唯一生产实现，遵循当前仓库的 soft-layered SaaS 令牌：`#f0f2f6` 画布、白色表面、`#456af4` 主操作色、细灰线、6/10/16px 圆角与轻阴影。不得由 Agent 临时设计另一套页面。
 - 唯一实现来源是 `scripts/build_experience_dashboard.py` 的 `collect()`、`validate_dataset()` 与**唯一生产渲染入口** `render()`；`render()` 只委派给 `phase5-report/dashboard_renderer.py:render_dashboard()`。前者负责采集和阻断校验，后者只负责读取通过校验的数据集并渲染，二者均不得二次计算评分或补造问题/证据。生成器并行产出 HTML 看板与 `.governance_dataset_<批次>.json`。
 - **渲染入口纪律（阻断）**：`main()` 只能执行 `output.write_text(render(data), ...)`。脚本内如因历史审计保留 `_render_legacy_*`、实验性渲染函数或辅助片段，它们均不得被 `main()`、工作流或手工命令调用；不得以 `render_v2`、`render_new` 等并行入口绕过 `render()`。正式版式调整只能修改 `phase5-report/dashboard_renderer.py` 及本 Skill 的对应视觉/结构条款，禁止新建第二套生产 HTML 模板。
 - **版式变更流程（阻断）**：用户提出“最新版式”后，先将已确认的信息架构、文案、DOM 区块、视觉令牌和交互时序更新到本 Skill 的 `GOVERNANCE_DASHBOARD_V2` 条款，再修改 `phase5-report/dashboard_renderer.py`；生成前须静态确认 `main()` 仍调用 `render(data)`，生成后须按本 Skill 的文本验收，并额外核对首页业务 Tab、概览摘要和三种问题明细与最新条款一致。任何一个环节不一致即停止交付，修正唯一生产渲染器后重新生成。
 - **变更范围纪律**：数据采集/评分/证据口径只改 `collect()`、`validate_dataset()` 或上游阶段；仅版式、文案、交互调整只改 `phase5-report/dashboard_renderer.py`。不得为解决样式问题改动 `collect()`、`validate_dataset()` 或结构化数据字段，更不得在 HTML 中重新计算或补造数据。
-- **批次隔离强制要求**：批量报告必须传入只含本轮 `.eval_results_*` 的 `--artifact-dir`，并显式指定 `--batch-name` 和基于本批已确认 Phase2 清单得出的 `--expected-business-tabs`；禁止扫描全局历史产物目录后再靠关键词过滤。生成器必须校验 `queryCount == queryDetails` 数量、每个已评测词均有原图、每个**带坐标的待优化问题（达标或不达标）**均有 Phase4 整页红框证据图、治理卡证据词属于当前 `queryDetails`、实际业务 Tab 与预期业务集合及标准名称完全一致，任一失败即停止生成。业务 Tab 失败不得靠报告端过滤处理，必须回溯修正上游分类并重新校验后再生成。
+- **批次隔离强制要求**：批量报告必须传入只含本轮 `.eval_results_*` 的 `--artifact-dir`，并显式指定 `--batch-name`；禁止扫描全局历史产物目录后再靠关键词过滤。生成器必须校验 `queryCount == queryDetails` 数量、每个已评测词均有原图、每个**带坐标的待优化问题（达标或不达标）**均有 Phase4 整页红框证据图、治理卡证据词属于当前 `queryDetails`、业务代码和标准名称合法；额外提供的预期集合必须完全一致，任一失败即停止生成。
 - 页面固定为**两级 Tab 看板**：白色顶部导航（搜索、白皮书、体验标准、体验评测）→ 白色标题卡（标题、副行、批次选择器）→ 第一级业务 Tab（概览 + 本批确认业务）→ 概览或单业务 Panel。第一级 Tab 为蓝底白字激活态，同一时刻仅一个 Panel 可见。
 - 概览 Panel 固定只含一个「评测总分｜问题发现」双栏摘要面板和四列业务卡网格；不得在概览展示逐条问题或第二级 Tab。摘要面板只展示数据集已给出的总体分、维度得分、问题数及 P0/P1 分布；未执行维度显示灰色「—」，不得以 0 填充或参与平均。
 - 每个业务 Panel 固定顺序：同结构双栏摘要 →「问题明细」。第二级 Tab 固定为「按搜索词 / 按指标 / 按问题」，默认激活「按问题」。第二级 Tab 仅作用于所属 `.business-panel`，蓝底白字表示激活，不得影响其他业务 Panel。
 - 「按搜索词」视图：以搜索词和业务 Tab 分组；左侧仅展示一张覆盖问题数最多的 Phase4 整页红框 `evidenceImage`，右侧按维度（组件/卡片 → 页面框架 → 单一元素）分块展示全部问题。相同问题图不可重复渲染。
 - 「按指标」视图：按维度 + 指标分组；组头展示指标、维度标签和问题数，每条问题独立显示自己的 Phase4 整页红框 `evidenceImage`。两个视图均由同一 `groups[].evidence[]` 派生，问题数与证据必须一致。
 - **「按问题」视图（默认）**：以每一条 `groups[].evidence[]` 为一个问题实例，按 P0 → P1 → P2、维度、指标、搜索词排序；使用双列紧凑问题卡，卡头为指标与维度，正文显示问题编号、搜索词、问题对象、事实/影响和独立建议，右侧为该条 Phase4 证据。它是跨搜索词横向比较的主入口，但不合并或改写任何问题事实。
-- 业务 Tab、业务卡与业务 Panel 只能展示本批目标截图中存在至少一张 `ownershipScope=business` 且业务归属已确认的可见卡片的业务线；不得展示未知、平台、混合、零可见或历史业务。自然触底截断且仅露出标题的卡不得驱动业务展示。
+- 业务 Tab、业务卡与业务 Panel 只能展示本批目标截图中存在、且由当前商卡语义和履约表共同确认的业务线；不得展示未知、平台、混合、零可见或历史业务。自然触底截断且仅露出标题的卡不得驱动业务展示。
 - 证据图使用 `file://` 绝对路径、`loading="lazy"`、点击新标签打开大图；没有 Phase4 证据时显示“暂无截图证据”，禁止 base64、原图替代或伪造图片。**同一截图的截图级红框证据图可被该截图内所有待优化问题复用**：当 Phase4 因页面级结论无坐标（`page_region_boundary_missing`）跳过某问题时，渲染层必须从同一 `screenshot` 的其他问题中复用已有的 `evidenceImage`，确保每条待优化问题都有可视化证据，不出现空占位符。
 - **问题明细回收与简洁呈现（阻断）**：Phase5 必须消费每个 `issues[]` 的 `finding.observableFact`、`finding.ruleOrThreshold`、`finding.verdictReason`、`finding.userImpact` 以及问题级 `recommendation`，并在输入校验时保证它们完整；但问题卡正文固定按“事实（含评级）→用户影响”拼接：`{observableFact}，评级为{issue.rating}。{userImpact}。`。`ruleOrThreshold` 与 `verdictReason` 作为可追溯的结构化审计事实保留在数据集内，不在问题卡重复展示，以避免阈值、计数和评级结论的复述。不呈现字段标签；不得只取 `description`、只展示评级或用笼统的指标说明代替。渲染前必须去除正文各字段末尾已有的句号、逗号、分号、问叹号，统一由拼接器补充分隔标点。若任一待优化问题缺少上述结构化事实、影响或问题级建议，必须停止 Phase5，回收给对应 Phase3/4 子代理补齐后重新验收；不得由报告端臆测截图外事实。
 - **问题级个性化优化建议（阻断）**：每个待优化 `issue` 必须携带独立的 `recommendation`，以该问题的元素/卡片 ID、可见字段、坐标范围、测量值或阈值为约束，明确“调整哪个对象 + 采用何种具体动作 + 保留/收敛到何种结果”。同一指标的多条问题不得直接复用同一句建议；只有当其问题对象、可见事实、触发规则和修改动作均完全相同，才允许文本相同，并须在结果中声明可复用原因。`infer_advice()` 仅可提供按指标的建议骨架，必须与 issue 的事实字段合成后才可渲染，不能把模板原文重复输出为多条问题建议。计数、得分、待优化率、证据内容必须来自结构化输入，禁止补造。
@@ -137,55 +125,6 @@ F >= 2 或 P >= 4  → P0
 - 报告与 NoCode 按 **P0 → P1 → P2** 排序。NoCode 映射固定为 P0/high/0、P1/medium/1、P2/low/2。
 - 这属于数据聚合口径，只能在 `scripts/build_experience_dashboard.py:collect()` 计算；`dashboard_renderer.py`、HTML、NoCode 前端都只能消费结果，禁止重新统计或重判。
 
-### 像素级渲染规范（`GOVERNANCE_DASHBOARD_V2`）
-
-本节是 `reports/meituan_eval_report_首评-单一元素_32张_最终.html` 的确定性视觉/交互规格。HTML 必须内联 CSS 与 JavaScript，不依赖外部字体、UI 框架或在线资源；证据图片允许且仅允许 `file://` 绝对路径、`loading="lazy"`、`target="_blank"` 与 `rel="noopener"`。
-
-#### A. 全局设计令牌与画布
-
-| 项目 | 固定值/规则 |
-|---|---|
-| 字体栈 | `-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif` |
-| 基础字号/字色 | `14px`；主文字 `#313742` |
-| 辅助文字 | `#697180`，行高 `1.6` |
-| 语义色 | 主操作色 `#456af4`，辅助强调 `#6747f5`；P0/P1/P2 使用 `#d95d61/#d9a441/#697180` |
-| 背景 | `#f0f2f6`，最小高 `100vh`；不使用渐变、背景氛围球或毛玻璃 |
-| 内容容器 | 最大宽 `1440px`、水平居中、内边距 `92px 24px 72px` |
-| 分区 | 白色表面、`#e7eaf0` 细线、`6/10/16px` 圆角与轻阴影（`0 1px 3px rgba(29,39,59,.04)`） |
-
-#### B. 字级、间距与结构布局
-
-- 顶栏 `58px`；标题区为白色 `16px` 圆角卡，`h1` 为 `28px`，其余标题依次 `20/16px`。
-- 一级业务 Tab 可折行；二级 Tab 允许换行。激活态为蓝底白字，非激活态为白底细线；所有非激活 Panel 必须 `display:none`。
-- 概览为两张并列 KPI 卡，业务入口为自适应卡片栅格。问题详情为白色面板；默认“按问题”使用双列卡，在窄屏降为单列。
-- 维度与优先级使用 `10px` 小号圆角 Badge；维度为紫色强调，优先级按 P0/P1/P2 语义色呈现。
-
-#### C. 按钮、表格和语义色
-
-- 通用按钮/Tab：白底、`#e7eaf0` 细线、`8px` 圆角；悬浮仅增强描边和轻阴影。激活态固定 `#456af4` 蓝底白字。
-- 表格（如未来数据量需要）为白色面板、浅灰表头和 `1px` 行分隔；不得使用渐变表头。
-- KPI 数字使用 `20–32px` 深灰字；缺失分为辅助灰。P0/P1/P2 仅作为状态小 Badge，分别使用 `#d95d61/#d9a441/#697180`。
-- 建议块使用 `#f2f5ff` 浅蓝底、`#456af4` 左侧细线；不得大面积使用警示色。
-
-#### D. 证据、规则与可读性细节
-
-- `summary` 为粗体、鼠标手势、上外边距 `13px`；列表左内边距 `20px`、行高 `1.55`，每项底部间距 `8px`。
-- 典型证据采用两列 Grid：`130px 1fr`、间距 `12px`、顶部对齐、顶部外边距 `12px`。缩略图固定宽 `130px`、圆角 `12px`、边框 `1px solid #dbeafe`；链接鼠标为放大镜，悬浮图像放大 `1.03` 并投影 `0 8px 18px rgba(30,64,175,.24)`，过渡 `.2s`。点击必须在新标签打开同一张原尺寸图。
-- 路径/代码展示块：上外边距 `5px`、内边距 `5px`、背景 `#f8fafc`、圆角 `7px`、文字 `#475569`、`12px`，并 `word-break:break-all`。
-- 体验标准链接是块级卡片：内边距 `16px`、圆角 `16px`、背景 `linear-gradient(135deg,#ede9fe,#dbeafe)`、文字 `#312e81`、粗体且无下划线。
-
-#### E. 顶层与治理区交互（时序不可变）
-
-1. 顶层 Tab 点击后，先移除所有 `.tab` 与 `.view` 的 `active`，再为当前按钮及其 `data-target` 对应视图添加 `active`；仅保留一个可见视图。
-2. `activateBusiness(code)` 必须同时更新 `.business-tab.active` 与对应 `.business-pane.active`；`code === 'all'` 时展示业务汇总表，其他业务码时展示该业务的归因建议和证据。
-3. 汇总表「查看问题」调用 `activateBusiness(code)`，激活对应业务 Tab，并以 `behavior:'smooth'`、`block:'start'` 平滑滚动到 `#governance-panel`。
-4. 业务问题详情卡保持悬浮上移 `2px`；业务 Tab 的激活态为琥珀背景/边框 `#f59e0b` 与白字。
-
-#### F. 渲染验收
-
-- 生成结果应与基准报告在上述令牌、结构、交互和时序上保持一致；允许变化的只有结构化数据文本、数字、业务数、卡片数和证据图路径。生成前必须核验业务线集合完全由本批已确认的可见业务卡确定；任何未知、平台、混合或未涉及业务出现在汇总、筛选或治理卡中均视为验收失败。
-- 不得添加外部 CDN、远端字体、第三方图表库、base64 证据图、模态图库或未定义的额外首页板块。所有动画须遵守上述 `.2s`、`.32s`、`1.45s`、`1.6s`、`420ms`、`1700ms`、`2000ms` 时序。
-
 ### 线上看板出口
 
 本 Skill 只生成本地 HTML 与同源的 `.governance_dataset_<批次>.json`；不创建 NoCode 项目、不导入数据库、不部署。
@@ -197,8 +136,8 @@ F >= 2 或 P >= 4  → P0
 生成后进行以下文本验收；任一失败即不可交付：
 
 ```text
-必须包含：待优化项（业务维度）、评测详情、评测规则、① 各业务线问题项汇总与待优化项归因建议、activateBusiness、business-pane、query-group、问题明细
-必须不包含：业务 × 指标待优化关联、桑基图、sankey-link、sankey-tooltip、④ 高频问题跨词覆盖、⑤ 典型问题证据库、<title>
+必须包含：business-tab、business-panel、detail-tab、detail-pane、activateBusiness、问题明细
+必须不包含：桑基图、sankey-link、sankey-tooltip、④ 高频问题跨词覆盖、⑤ 典型问题证据库
 ```
 
 ## `DETAIL_V1`：HTML 报告版式

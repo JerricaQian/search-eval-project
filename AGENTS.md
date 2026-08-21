@@ -29,5 +29,7 @@ governance, or agent capabilities:
 
 When a host cannot execute `workflow/meituan_eval_workflow.js` directly, use
 `python3 workflow/eval_cli.py prepare-evaluate` to run the copy and discovery
-preflight and emit a `MEITUAN_EVAL_HANDOFF_V1` request for that host's workflow
-adapter. The CLI does not claim to execute the LLM-dependent Phase3 judgement.
+preflight. When a query is selected it also emits a `MEITUAN_EVAL_TASK_V2`
+portable task with a unique `runId`; give the host only its `taskPath`, then run
+the included completion command. See `workflow/HOST_ADAPTER.md`. The CLI does
+not claim to execute the LLM-dependent Phase3 judgement.

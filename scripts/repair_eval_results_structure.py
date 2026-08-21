@@ -9,14 +9,14 @@ Three defect classes are handled:
 1. legacy_issue_fields
    Older eval-8-info-redundancy issues use the pre-schema shape
    (``finding`` / ``type``) and lack the required keys
-   ``component``/``elementType``/``dimension``/``description``/``rating``.
+   ``component``/``elementType``/``dimension``/``description``.
    The missing keys are back-filled from data already present in the record:
      - description <- finding (verbatim, no rewording)
      - dimension   <- the skill's fixed dimension label
-     - rating      <- the rating the issue already implies (listed issues in
-                      this skill are the failing units) 
      - component   <- manifest component of the element, else legacy ``type``
      - elementType <- manifest element type
+   A missing ``rating`` is a semantic defect: this utility reports it and
+   leaves the file untouched for the originating Phase3 skill to re-evaluate.
    No issue is added, removed, merged or re-worded.
 
 2. counter_mismatch
@@ -129,6 +129,7 @@ def repair_file(results_path: Path, manifest_path: Path, changes: list[str]) -> 
                 continue
 
             # -- defect 1: legacy issues missing required fields -------------
+            rating_missing = False
             for issue in issues:
                 if not isinstance(issue, dict):
                     continue
@@ -138,6 +139,14 @@ def repair_file(results_path: Path, manifest_path: Path, changes: list[str]) -> 
                 element = active_by_id.get(issue.get("elementId")) or {}
                 filled = []
 
+                if "rating" in missing:
+                    rating_missing = True
+                    changes.append(
+                        f"{where}: SKIPPED issue {issue.get('elementId')} "
+                        "(missing semantic rating; rerun the originating skill)"
+                    )
+                    continue
+
                 if "description" in missing:
                     # Carry the existing narrative over verbatim.
                     issue["description"] = issue.get("finding", "")
@@ -145,11 +154,6 @@ def repair_file(results_path: Path, manifest_path: Path, changes: list[str]) -> 
                 if "dimension" in missing:
                     issue["dimension"] = SKILL_DIMENSION.get(skill, skill)
                     filled.append("dimension")
-                if "rating" in missing:
-                    # Listed issues in these legacy records are the failing
-                    # units; overview.fail already accounts for them.
-                    issue["rating"] = "不达标"
-                    filled.append("rating")
                 if "component" in missing:
                     issue["component"] = (
                         element.get("component")
@@ -178,6 +182,11 @@ def repair_file(results_path: Path, manifest_path: Path, changes: list[str]) -> 
                         f"{','.join(filled)}"
                     )
                     dirty = True
+
+            # A missing rating makes the issue count semantically ambiguous.
+            # Do not let the structural counter repair turn it into excellent.
+            if rating_missing:
+                continue
 
             # -- defect 2: fail/pass counters vs. issue ratings --------------
             issue_fail = sum(

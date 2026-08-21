@@ -28,9 +28,11 @@ python3 workflow/eval_cli.py prepare-evaluate \
   --source-dir "/path/to/external/screenshots"
 ```
 
-不带 `--query` 时会返回可选分组；加入 `--query 库迪` 后会返回
-`MEITUAN_EVAL_HANDOFF_V1.workflowArgs`，可交给支持 `workflow/meituan_eval_workflow.js`
-的宿主继续执行。外部文件 `库迪_全部_1_副本.png` 会在项目中保留为
+不带 `--query` 时会返回可选分组；加入 `--query 库迪` 后会保留原有的
+`MEITUAN_EVAL_HANDOFF_V1.workflowArgs`，并生成带唯一 `runId` 的
+`MEITUAN_EVAL_TASK_V2` 任务文件。支持 Workflow DSL 的宿主可继续使用
+`workflowArgs`；其他 Harness 只消费任务文件，完成后运行其中的回执命令。详见
+[`workflow/HOST_ADAPTER.md`](workflow/HOST_ADAPTER.md)。外部文件 `库迪_全部_1_副本.png` 会在项目中保留为
 `screenshots/库迪_全部_1_副本.png`；若同名目标已存在但字节不同，复制会追加递增的副本序号而不覆盖，并将其作为独立截图处理。
 
 ## 1.0 架构与优势
@@ -328,13 +330,13 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 
 ## 模型选择
 
-Evaluation Agent 将 Phase2 与后续阶段严格隔离：Phase2 使用本地 CV/OCR 加当前图片全量视觉复核来校准 manifest，视觉模型只依据当前像素，禁止注入黄金字段或语言猜写；Phase3/4 只能消费通过校准的 manifest。默认使用 `claude-sonnet-5`，可通过 `args.model` 显式切换到白名单内其他模型：
+Evaluation Agent 将 Phase2 与后续阶段严格隔离：Phase2 使用本地 CV/OCR 加当前图片全量视觉复核来校准 manifest，视觉模型只依据当前像素，禁止注入黄金字段或语言猜写；Phase3/4 只能消费通过校准的 manifest。模型名由当前 Harness 选择；它必须具备读图和结构化 JSON 输出能力：
 
 | agent | 模型（默认/可选） | 原因 |
 |------|------|------|
-| 截图、Phase3/4 核图、报告与检查 | 默认 `claude-sonnet-5`；可选 `vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra` | 合并 agent 的后续阶段需要多模态；Phase2 在同一 agent 内仍只能调用本地脚本。确定性校验由项目内 Python/JS 脚本执行。`glm-5.2`/DeepSeek 系列等非多模态模型不在白名单内。 |
+| 截图、Phase2 当前图片校准、Phase3/4 核图、报告与检查 | 当前 Harness 的可读图模型 | 合并 agent 需要多模态；确定性校验仍由项目内 Python/JS 脚本执行。 |
 
-> 若需调整模型，只修改 `workflow/meituan_eval_workflow.js` 的 `SUBAGENT_MODEL`（或传入 `args.model`），并同步更新本节；新模型必须先加入 `MULTIMODAL_MODEL_WHITELIST` 才能生效。不要按历史 Sonnet/Opus 分配表单独指定某个阶段。
+> `args.model` 仅在宿主支持显式模型选择时传入；未传时 workflow 不再写入任何厂商模型名，由宿主 adapter 使用默认可读图模型。不要按历史 Sonnet/Opus 分配表单独指定某个阶段。
 
 ---
 

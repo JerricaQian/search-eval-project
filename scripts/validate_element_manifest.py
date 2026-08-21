@@ -13,11 +13,12 @@ from phase2_bundle_loader import load_phase2_facts
 TOP_LEVEL_KEYS = {"query", "screenshot", "annotatedImage", "cards"}
 OPTIONAL_TOP_LEVEL_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations", "recognition"}
 CARD_KEYS = {"cardId", "卡片类型", "coord", "regions"}
-OPTIONAL_CARD_GOVERNANCE_KEYS = {
-    "ownershipScope", "businessCode", "businessName", "businessConfidence",
+OPTIONAL_CARD_BUSINESS_KEYS = {"ownershipScope", "businessCode", "businessName", "businessConfidence"}
+OPTIONAL_CARD_FACT_KEYS = {
     "cardTypeCode", "cardTypeName", "resultType", "classificationEvidence", "visualInventory",
     "structure", "factInventory",
 }
+OPTIONAL_CARD_GOVERNANCE_KEYS = OPTIONAL_CARD_BUSINESS_KEYS | OPTIONAL_CARD_FACT_KEYS
 BUSINESS_CODES = {
     "dine_in", "food_delivery", "flash_delivery", "service_retail", "healthcare", "hotel_travel",
     "xiaoxiang", "maoyan", "bike", "youxuan", "errand", "finance", "power_bank",
@@ -194,9 +195,10 @@ def main() -> int:
         if not isinstance(card, dict) or not CARD_KEYS.issubset(card) or not set(card).issubset(CARD_KEYS | OPTIONAL_CARD_GOVERNANCE_KEYS):
             errors.append(f"{prefix}:card_keys_invalid")
             continue
-        # 历史清单可不含治理字段；一旦出现任一治理字段，必须遵循完整卡片归属契约。
-        governance_keys = set(card) & OPTIONAL_CARD_GOVERNANCE_KEYS
-        if governance_keys:
+        # 业务归属不是 Phase2 的必填职责。历史清单若携带业务字段，才校验其自洽；
+        # 卡型、结构与视觉事实可独立存在，不能被误当成业务归属声明。
+        business_keys = set(card) & OPTIONAL_CARD_BUSINESS_KEYS
+        if business_keys:
             required_governance = {"ownershipScope", "businessCode", "businessName", "businessConfidence", "cardTypeCode", "cardTypeName", "classificationEvidence"}
             if not required_governance.issubset(card):
                 errors.append(f"{prefix}:governance_fields_incomplete")

@@ -1,7 +1,6 @@
 ---
 name: screenshot-agent
 description: 美团搜索结果页截图 Agent。只负责 Android/ADB 现场截图、外部截图复制，或无修改地发现并校验已有截图；不执行识别和评测。
-model: claude-sonnet-5
 tools: Read, Bash, Grep, Glob
 ---
 

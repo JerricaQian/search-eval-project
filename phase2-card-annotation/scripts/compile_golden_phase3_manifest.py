@@ -24,14 +24,14 @@ REGION_NAMES = {
     "推荐词区": "AI推荐理由",
 }
 CARD_TYPES = {
-    "商家卡片_文字下挂": ("商家卡片-文字下挂", "service_retail", "到店综合服务"),
-    "商家卡片_图文下挂": ("商家卡片-图文下挂", "service_retail", "到店综合服务"),
-    "商品卡片": ("商品卡片", "flash_delivery", "闪购零售"),
-    "酒店卡片": ("酒店卡片", "hotel_travel", "酒店旅行"),
-    "演出电影卡片": ("演出/电影卡片", "maoyan", "猫眼演出电影"),
-    "主点卡片": ("主点卡片", "service_retail", "到店综合服务"),
-    "异构卡": ("异构卡", "unknown", "未知业务"),
-    "广告卡": ("特殊广告卡", "unknown", "未知业务"),
+    "商家卡片_文字下挂": "商家卡片-文字下挂",
+    "商家卡片_图文下挂": "商家卡片-图文下挂",
+    "商品卡片": "商品卡片",
+    "酒店卡片": "酒店卡片",
+    "演出电影卡片": "演出/电影卡片",
+    "主点卡片": "主点卡片",
+    "异构卡": "异构卡",
+    "广告卡": "特殊广告卡",
 }
 PRIMARY_ROLES = {"fulfillment", "rating", "sales", "price", "location", "subtitle"}
 EVIDENCE_KEYS = {
@@ -399,7 +399,7 @@ def compile_phase3(normalized: dict[str, Any]) -> dict[str, Any]:
                     append_ids.append(element["id"])
 
         source_type = source_card["sourceCardType"]
-        card_type, business_code, business_name = CARD_TYPES.get(source_type, CARD_TYPES["异构卡"])
+        card_type = CARD_TYPES.get(source_type, CARD_TYPES["异构卡"])
         region_signature = ">".join(region["name"] for region in regions)
         layout_mode = "image_left" if regions and regions[0]["name"] in {"头图区", "头图区（演出）"} else "stacked"
         # Completeness here means the visible facts are internally complete.
@@ -422,10 +422,6 @@ def compile_phase3(normalized: dict[str, Any]) -> dict[str, Any]:
             "卡片类型": card_type,
             "coord": source_card["coord"],
             "regions": regions,
-            "ownershipScope": "unknown" if business_code == "unknown" else "business",
-            "businessCode": business_code,
-            "businessName": business_name,
-            "businessConfidence": "high" if business_code != "unknown" else "unknown",
             "cardTypeCode": source_type,
             "cardTypeName": card_type,
             "classificationEvidence": ["离线黄金像素复核卡型"],

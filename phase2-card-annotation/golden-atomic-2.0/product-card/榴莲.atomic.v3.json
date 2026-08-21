@@ -361,9 +361,6 @@
         "coupon_value_tag": [
           "C2-E006",
           "C2-E007"
-        ],
-        "promotion": [
-          "C2-E013"
         ]
       }
     },
@@ -929,20 +926,6 @@
         "backgroundColor": "#FFFFFF",
         "textColor": "#111111",
         "container": "none"
-      }
-    },
-    "C2-E013": {
-      "kind": "text",
-      "bounds": [
-        630,
-        1849,
-        267,
-        41
-      ],
-      "text": "62减20坏必赔",
-      "visual": {
-        "backgroundColor": "#FFFFFF",
-        "textColor": "#FF2F1E"
       }
     },
     "C2-E015": {

@@ -5,7 +5,7 @@
   "properties": {
     "mode": {"enum": ["capture_only", "evaluate_only", "capture_and_evaluate"]},
     "projectDir": {"type": "string"},
-    "runId": {"type": "string"},
+    "runId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$"},
     "query": {"type": "string"},
     "tabs": {"type": "array", "items": {"type": "string"}},
     "screens": {"type": "array", "items": {"type": "string"}},

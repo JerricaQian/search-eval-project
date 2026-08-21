@@ -11,7 +11,7 @@
   "totals": {
     "images": 34,
     "cards": 135,
-    "regions": 657,
+    "regions": 658,
     "elements": 1975,
     "missingModuleBounds": 68,
     "titleAffixes": 130,
@@ -1544,8 +1544,8 @@
       ],
       "titleAffixErrors": [],
       "cards": 4,
-      "regions": 23,
-      "elements": 47
+      "regions": 24,
+      "elements": 48
     },
     {
       "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/布洛芬.atomic.v3.json",
@@ -1645,7 +1645,7 @@
       "titleAffixErrors": [],
       "cards": 4,
       "regions": 23,
-      "elements": 56
+      "elements": 55
     },
     {
       "manifest": "phase2-card-annotation/golden-atomic-2.0/product-card/生理盐水.atomic.v3.json",

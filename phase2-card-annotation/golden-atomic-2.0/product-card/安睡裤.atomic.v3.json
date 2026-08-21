@@ -179,7 +179,8 @@
         "C3-R03",
         "C3-R04",
         "C3-R05",
-        "C3-R06"
+        "C3-R06",
+        "C3-R07"
       ]
     },
     "C4": {
@@ -495,6 +496,20 @@
         "fulfillment": [
           "C3-E007",
           "C3-E009"
+        ]
+      }
+    },
+    "C3-R07": {
+      "name": "base_info",
+      "bounds": [
+        399,
+        2176,
+        27,
+        21
+      ],
+      "slots": {
+        "size_info": [
+          "C3-E010"
         ]
       }
     },
@@ -1052,6 +1067,20 @@
       "visual": {
         "backgroundColor": "#FFFFFF",
         "textColor": "#737373"
+      }
+    },
+    "C3-E010": {
+      "kind": "text",
+      "bounds": [
+        399,
+        2176,
+        27,
+        21
+      ],
+      "text": "m",
+      "visual": {
+        "backgroundColor": "#FFFFFF",
+        "textColor": "#6E6E6E"
       }
     },
     "C4-E001": {

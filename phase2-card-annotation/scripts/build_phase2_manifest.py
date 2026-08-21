@@ -320,7 +320,6 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
         "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片"
     } and bool(head_images) else "other"
     return {"cardId": card_id, "卡片类型": card_type, "coord": coord, "regions": region_rows,
-        "ownershipScope": "unknown", "businessCode": "unknown", "businessName": "", "businessConfidence": "unknown",
         "cardTypeCode": selected_type or "unknown", "cardTypeName": card_type, "resultType": "result_card",
         "classificationEvidence": classification_evidence,
         "structure": {"visibleStatus": "naturally_cropped" if partial else "complete" if complete else "uncertain", "cardTypeCode": selected_type or "unknown",

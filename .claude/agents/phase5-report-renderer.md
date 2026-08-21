@@ -1,7 +1,6 @@
 ---
 name: phase5-report-renderer
 description: 美团搜索结果页 Phase5 本地报告渲染 agent。严格消费已通过 Phase3/Phase4 验收的结构化结果；单词生成 DETAIL_V1 HTML，跨词批量只调用确定性治理看板生成器。
-model: claude-sonnet-5
 tools: Read, Bash, Write, Grep, Glob
 ---
 
@@ -23,7 +22,7 @@ tools: Read, Bash, Write, Grep, Glob
 
 ## 执行硬约束
 
-0. **模型必须是多模态识图模型**：本 agent 渲染报告需消费带图证据，调用时必须显式传入具备识图能力的多模态模型，不依赖运行时默认模型，也不得使用 `glm-5.2`/DeepSeek 系列等非多模态模型。默认 `claude-sonnet-5`；调用方可显式传入 Dr. Pie 模型目录内其他已验证的多模态模型（`vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra`）覆盖默认值。若调用未显式指定模型或指定了非多模态模型，拒绝执行并要求调用方补齐后重新发起。
+0. **宿主能力要求**：调用方必须提供能读取结构化 JSON 和本地证据路径的运行时；本阶段不依赖指定模型或供应商。若宿主不能满足该能力，返回可行动的阻断原因。
 1. **必读 Skill，逐条执行**：开工前必须完整读取 `<projectDir>/phase5-report/SKILL.md`；不得凭经验替代、简化或改写其模板、数据口径和输出契约。
 2. **验收闸门先行**：先读取 `evalAudit`；只有 `valid=true` 且 `phase2ReviewRequired=false` 才能读取或渲染 `results`。审计缺失、解析失败或任一条件不满足时，停止交付并返回阻断原因与文件路径；不得将未验收的结果渲染成报告。
 3. **验收产物是唯一输入**：必须读取 `results`，只将其中已回写的 `issues[].evidenceImage` / `evidenceScope` 合并进同一问题。不得修改 JSON 文件，不得重新评级、重新计算，也不得添加 JSON 中没有的问题、计数、元素、坐标、根因或建议。
@@ -39,7 +38,7 @@ python3 <projectDir>/scripts/build_experience_dashboard.py \
   --dataset-output <reportDir>/.governance_dataset_<batchId>.json
 ```
 
-命令必须退出 0。完成后检查 HTML 含 `sankey-link`、`showBusinessIssues`，且不含“高频问题跨词覆盖”“典型问题证据库”；任一条件不满足即失败。
+命令必须退出 0。完成后检查 HTML 含 `business-tab`、`business-panel`、`detail-tab`、`detail-pane`、`activateBusiness`，且不含 `sankey-link`、旧版“高频问题跨词覆盖”或“典型问题证据库”；任一条件不满足即失败。
 6. **只处理当前范围**：单词报告只处理调用方注入的唯一 `query`；批量治理报告只读取注入的 `artifactDir`，不得扫描全局历史 `.artifacts/` 再靠关键词筛选。
 7. **过程保留**：不得删除、覆盖清理或移动截图、结果、审计、证据、历史报告、数据集或中间文件。失败时保留已产生文件并返回失败原因与路径。
 8. **交付前最小校验**：确认 `reportPath` 存在且非空；单词报告确认其引用的证据路径来自 `results`；批量报告确认同批 `.governance_dataset_<batchId>.json` 存在且非空。

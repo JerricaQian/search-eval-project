@@ -5,12 +5,43 @@
   "properties": {
     "ok": {"type": "boolean"},
     "query": {"type": "string"},
-    "manifestPaths": {"type": "array", "items": {"type": "string"}},
-    "resultsPath": {"type": "string"},
-    "evidenceImages": {"type": "array", "items": {"type": "string"}},
-    "reportPath": {"type": "string"},
+    "stageA": {
+      "type": "object",
+      "properties": {
+        "elementListPaths": {"type": "array", "items": {"type": "string"}},
+        "elementAuditPaths": {"type": "array", "items": {"type": "string"}},
+        "elementCount": {"type": "number"},
+        "annotated": {"type": "array", "items": {"type": "string"}}
+      },
+      "required": ["elementListPaths", "elementAuditPaths", "elementCount", "annotated"]
+    },
+    "stageB": {
+      "type": "object",
+      "properties": {
+        "evalResultFile": {"type": "string"},
+        "evalAuditFile": {"type": "string"},
+        "evalCount": {"type": "number"}
+      },
+      "required": ["evalResultFile", "evalAuditFile", "evalCount"]
+    },
+    "stageC": {
+      "type": "object",
+      "properties": {
+        "evidenceImages": {"type": "array", "items": {"type": "string"}},
+        "skipped": {"type": "array"}
+      },
+      "required": ["evidenceImages", "skipped"]
+    },
+    "stageD": {
+      "type": "object",
+      "properties": {
+        "reportPath": {"type": "string"},
+        "summary": {"type": "array"}
+      },
+      "required": ["reportPath", "summary"]
+    },
     "blockedAt": {"type": "string"},
     "error": {"type": "string"}
   },
-  "required": ["ok", "query", "blockedAt", "error"]
+  "required": ["ok", "query", "stageA", "stageB", "stageC", "stageD", "blockedAt", "error"]
 }

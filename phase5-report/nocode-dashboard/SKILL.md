@@ -3,7 +3,7 @@ name: report-nocode-dashboard
 description: >-
   美团搜索结果页治理看板的 NoCode 数据导入、页面同步、Phase4 证据发布与线上部署 Skill。
   用于发布或更新 phase5 跨词治理看板；必须以本地 .governance_dataset_<批次>.json
-  和 phase5-report/SKILL.md 的 GOVERNANCE_DASHBOARD_V1 为事实源，复刻既有 NoCode 看板的
+  和 phase5-report/SKILL.md 的 GOVERNANCE_DASHBOARD_V2 为事实源，复刻既有 NoCode 看板的
   顶部通栏、双层 Tab、摘要、证据卡、优先级和批次切换布局。
 metadata:
   author: qianjing16
@@ -43,7 +43,7 @@ F >= 2 或 P >= 4  → P0
 - 导入映射固定为：`P0 → severity=high, priority=0`；`P1 → medium, 1`；`P2 → low, 2`。
 - 概览、业务卡、业务摘要和问题列表的 P0/P1/P2 数量均统计当前 batch 的问题级 `issue_attribution` 记录；不能用指标组数量、问题率或前端猜测替代。
 
-## 3. 固定页面模板：GOVERNANCE_DASHBOARD_V1
+## 3. 固定页面模板：GOVERNANCE_DASHBOARD_V2
 
 线上页必须复刻当前已部署的治理看板，而非旧版“汇总表 + 桑基图 + 逐词详情”的管理台。页面顺序固定为：
 
@@ -149,7 +149,7 @@ python3 scripts/import_to_nocode.py <dataset-json> <chat-id>
 - 每次导入必须新建 `evaluation_batches` 并使用数据库返回的真实 `batch_id` 写入所有明细表；不得复用或硬编码历史 batch_id。
 - `issue_attribution` 必须是问题级写入：一个 `groups[].evidence[]` 对应一行，`issue_desc` 为完整 finding 文案，`suggestion` 为问题级 recommendation，`severity/priority` 由数据集已算好的聚合 priority 映射。
 - 重复同名批次可存在，选择器必须以 id 和词数后缀区分。不得删除历史批次或过程产物。
-- 导入前必须验证：`queryCount == queryDetails` 数量；每个已评测词有原图；证据所属搜索词属于本批；业务 Tab 与 Phase2 已确认集合完全一致。
+- 导入前必须验证：`queryCount == queryDetails` 数量；每个已评测词有原图；证据所属搜索词属于本批；业务 Tab 与同批本地 Phase5 语义聚合结果完全一致。
 - 导入后必须核验新 batch 的业务汇总、67 等实际问题行数、关系、逐词详情和规则行均使用同一个 batch_id；CLI 可读不代表浏览器 anon 可读，必须验证 RLS 只读权限。
 
 ## 5. Phase4 证据资源发布
@@ -179,7 +179,7 @@ python3 scripts/import_to_nocode.py <dataset-json> <chat-id>
 - [ ] 当前 batch 的 6 张表 batch_id 一致，anon 只读可用。
 - [ ] 每条 NoCode 问题记录与本地 `groups[].evidence[]` 一一对应：描述、建议、优先级、搜索词和证据文件一致。
 - [ ] P0/P1/P2 遵循第 2 节固定阈值，页面按 P0→P1→P2 排序。
-- [ ] 业务线仅为当前 Phase2 已确认业务，且分数不由问题数据反推。
+- [ ] 业务线仅为当前 Phase5 基于商卡语义与履约表确认的业务，且分数不由问题数据反推。
 
 ### 布局与视觉
 

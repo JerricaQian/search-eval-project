@@ -48,8 +48,11 @@ python3 workflow/eval_cli.py prepare-evaluate \
 ```
 
 该命令保留源文件，并将图片按原文件名直接复制到 `screenshots/`，不生成 Intake
-manifest，也不重命名。命令输出 `MEITUAN_EVAL_HANDOFF_V1`：无 `--query` 时返回可供
-用户选择的截图组；带 `--query` 时返回可传给宿主 Workflow 的 `evaluate_only` 参数。
+manifest，也不重命名。无 `--query` 时返回可供用户选择的截图组；带 `--query` 时除
+`MEITUAN_EVAL_HANDOFF_V1.workflowArgs` 外，还生成 `MEITUAN_EVAL_TASK_V2` 的
+`portableTask.taskPath`。非 DSL 宿主只把该路径交给一个 Evaluation Agent，完成后执行
+任务中的 `completionCommand`；不要把 Phase2～5 的长契约重新粘贴进 prompt。详见
+`workflow/HOST_ADAPTER.md`。
 发现阶段报告无效或无法解析的文件；同名不同字节时自动追加递增的副本序号，保留两份文件，并视为独立截图而非原截图的同一屏。
 
 ## 先确认任务模式

@@ -27,7 +27,12 @@ def main() -> int:
     # Loader is the integrity authority: schema, publication state and source hash.
     facts = load_phase2_facts(manifest_path=manifest_path)
     cards = facts["cards"]
-    active = [element for card in cards for region in card["regions"] for element in region["elements"]]
+    # `coord` is retained as a compatibility alias for validators and reports;
+    # `坐标` remains the canonical Phase2 fact field.
+    active = [
+        {**element, "coord": list(element["坐标"])}
+        for card in cards for region in card["regions"] for element in region["elements"]
+    ]
     element_by_id = {element["id"]: element for element in active}
     card_structures = []
     alignment_groups: dict[str, list[str]] = {}

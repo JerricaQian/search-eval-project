@@ -94,8 +94,8 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 两种模式共用同一套**子代理分派结构**，不是各自随意拆分：
 
 - **Screenshot Agent 独立**：`capture_only` 时执行现场 ADB 截图；`evaluate_only` 时只读运行 `scripts/discover_screenshot_groups.py` 发现、聚合和校验已有截图；不与其它 phase 混入同一上下文。
-- **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 在该上下文中仍只运行本地脚本，并为每张截图分别生成清单；多模态能力只能用于后续阶段。
-- **回退模式的具体派发机制**：Agent 任务编排没有 `agentType:` 参数机制，因此对 phase2+3+4+5 发起的这**唯一一次** `Agent` 工具调用，其 prompt 必须完整拼入 `.claude/agents/phase2345-query-pipeline.md` 的正文全部内容（Stage A~D 的输入契约、执行硬约束、输出 schema 逐条原文，不得摘要、简化或用自己的话复述替代），再附加当次 query/screenshots/路径等具体参数。禁止只截取该文件的部分小节、禁止凭记忆转述其中的校验命令或字段名。
+- **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 的候选生成和校验仍只运行本地脚本，并为每张截图分别生成清单；当前图片校准可读取当前截图，但只能回写经审计的 Phase2 事实。
+- **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 生成唯一 `MEITUAN_EVAL_TASK_V2` 任务文件。对 phase2+3+4+5 发起这**唯一一次** Agent 调用时，只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase2345-query-pipeline.md`，不得凭记忆转述或把整段契约复制进新的 prompt。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。
 - **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：`--require-hierarchy-facts` 等 4 项前置事实校验命令，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
 - 跨维度共享契约：phase3 评测前必须先读对应维度的共享契约文件（单一元素维度读 `phase3-single_element-eval/单一元素评测通用契约.md`，组件/卡片维度读 `phase3-card_or_component-eval/组件卡片评测通用契约.md`，页面框架维度读 `phase3-page_framework-eval/页面框架评测通用契约.md`；契约文件与各维度 `eval-skills/` 同级共存），再读该 skill 自身 SKILL.md；SKILL.md 中标注"见共享契约"的条款以共享契约原文为准。
 
@@ -105,7 +105,7 @@ Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验�
 
 ### 批量子代理调度纪律（铁律）
 
-- **模型能力按阶段隔离**：Phase2 只允许运行本地 CV/OCR、卡型契约和确定性 hooks；即使它处于多模态子代理上下文，也禁止模型读取截图后补写 OCR、卡型、坐标或视觉事实。Phase1、Phase3/4 核图和问题证据任务需要多模态能力，因此合并的 phase2345 子代理必须显式使用白名单模型（当前为 `claude-sonnet-5`、`vertex.claude-opus-4.6`、`kimi-k3`、`gpt-5.6-terra`）。模型能力不得回流改写 Phase2 manifest。
+- **模型能力按阶段隔离**：Phase2 的候选提取、卡型契约和校验器必须运行本地 CV/OCR 与确定性 hooks；当前图片校准可由具备读图能力的模型依据当前像素回写 Phase2 manifest，但不得注入黄金字段或语言猜写。Phase3/4 只能消费已验收 manifest，不能回看截图补写基础事实。模型名由宿主 adapter 选择，adapter 必须确认其具备读图和结构化 JSON 输出能力。
 - 批量搜索词执行时，**一个子代理只处理一个搜索词**（该词所需的 Phase2/Phase3/Phase4 连续工作）；不得把多个词、多个截图词或“剩余若干词”合并下发给同一子代理。
 - 每批并发最多 **3 个子代理 / 3 个搜索词**；必须等待本批全部成功、失败或明确介入完成后，才可启动下一批。不得为了追吞吐提前投放下一批。
 - 子代理要处理的当前搜索词、批次序号、输入截图和输出目录必须在派发 prompt 中显式声明；失败只重试该词，不影响同批其他词和已完成批次。
@@ -144,7 +144,7 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 - **运行入口**：`.claude/skills/run-eval.md`，以保守默认参数调用工作流。
 
 ### 已落地的运行前入口
-- `workflow/eval_cli.py`：在没有 Workflow DSL 宿主的环境中完成外部截图直接复制、发现与 `MEITUAN_EVAL_HANDOFF_V1` 交接参数生成；它不伪装为可执行 LLM 评测器。
+- `workflow/eval_cli.py`：在没有 Workflow DSL 宿主的环境中完成外部截图直接复制、发现、唯一 run 任务生成与最终产物验收；它不伪装为可执行 LLM 评测器。接入方式见 `workflow/HOST_ADAPTER.md`。
 - `scripts/ingest_external_screenshots.py`：外部截图直接复制工具；保留原文件名，冲突不覆盖。
 
 ### 职责边界（不可由 LLM 替代）

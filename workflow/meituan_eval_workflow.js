@@ -36,7 +36,7 @@ if (externalScreenshotDir && mode !== 'evaluate_only') {
 }
 
 function isProjectScreenshot(path) {
-  const normalizedRoot = screenshotDir.replace(/\\/+$/, '') + '/'
+  const normalizedRoot = screenshotDir.replace(/\/+$/, '') + '/'
   return path.startsWith(normalizedRoot)
 }
 if (mode === 'evaluate_only' && selectedScreenshots.length && !selectedScreenshots.every(isProjectScreenshot)) {
@@ -81,13 +81,12 @@ python3 "${projectDir}/scripts/ingest_external_screenshots.py" \\
 \`\`\`
 
 脚本按原文件名复制。若目标同名但字节不同，脚本追加递增的“副本”序号并在 renamed 中记录；不会覆盖或阻断。图片有效性、命名可解析性与分组由之后的发现阶段输出，不在复制阶段阻断。把 stdout 的 copied、alreadyPresent、renamed 数组原样填回 schema，不要自行挑选截图或评测。`
-  const copyResult = await agent(copyPrompt, {
+  const copyResult = await agent(copyPrompt, withRequestedModel({
     label: '复制外部截图',
     phase: '复制外部截图',
-    model: 'claude-sonnet-5',
     agentType: 'screenshot-agent',
     schema: COPY_SCHEMA,
-  })
+  }))
   if (!copyResult || !copyResult.ok) {
     throw new Error('外部截图复制失败: ' + (copyResult && copyResult.error ? copyResult.error : 'agent 无返回'))
   }
@@ -103,10 +102,9 @@ if (mode === 'evaluate_only' && (A.discoveryOnly === true || selectedScreenshots
 python3 "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "${screenshotDir}"
 \`\`\`
 将 stdout JSON 原样映射到 schema 返回。`
-  const discoveryResult = await agent(discoveryPrompt, {
+  const discoveryResult = await agent(discoveryPrompt, withRequestedModel({
     label: '发现已有截图',
     phase: '发现已有截图',
-    model: 'claude-sonnet-5',
     agentType: 'screenshot-agent',
     schema: {
       type: 'object',
@@ -119,7 +117,7 @@ python3 "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "
       },
       required: ['screenshotDir', 'groups', 'invalidFiles', 'unparseableFiles', 'error'],
     },
-  })
+  }))
   return {
     mode,
     status: 'awaiting_screenshot_selection',
@@ -136,13 +134,10 @@ if (!query) {
     : '自动化截图模式必须显式传入非空字符串 query')
 }
 
-// Phase2 使用本地 CV/OCR 候选与当前图片视觉校准；同一子代理在 Phase3/4 还需核对问题证据，故模型须具备多模态能力。
-// 白名单以 Dr. Pie 模型目录中已验证具备识图能力的模型为准（该目录当前未收录 Gemini 系列）；
-// 非多模态模型（如 glm-5.2、deepseek 系列）路由到读图任务会导致结构化输出/图像理解异常，不得使用。
-const MULTIMODAL_MODEL_WHITELIST = ['claude-sonnet-5', 'vertex.claude-opus-4.6', 'kimi-k3', 'gpt-5.6-terra']
-const SUBAGENT_MODEL = A.model ? A.model : 'claude-sonnet-5'
-if (!MULTIMODAL_MODEL_WHITELIST.includes(SUBAGENT_MODEL)) {
-  throw new Error('SUBAGENT_MODEL="' + SUBAGENT_MODEL + '" 不在多模态识图模型白名单内（' + MULTIMODAL_MODEL_WHITELIST.join('/') + '）；本工作流全程依赖识图，禁止使用非多模态模型')
+// 模型名属于宿主 adapter，不属于评测协议。未传 model 时让宿主使用其默认的可读图模型；
+// adapter 必须在实际派发前确认该模型能读图并能返回结构化 JSON。
+function withRequestedModel(options) {
+  return A.model ? { ...options, model: A.model } : options
 }
 // 批量编排铁律：外层调用方必须把搜索词切为单词任务；每批最多 3 个词级子代理，
 // 必须等待本批完成再派下一批。当前工作流实例只接受并处理一个 query，绝不在内部混跑多词。
@@ -180,8 +175,15 @@ const reportOutlet = A.reportOutlet ? A.reportOutlet : 'local_html'
 if (!['local_html', 'nocode'].includes(reportOutlet)) {
   throw new Error('reportOutlet 只允许 local_html/nocode，收到: ' + reportOutlet)
 }
+// 可移植前门会提供 runId，并把它复用为 batch/tag/rerun，保证同词并发不共用产物。
+// 旧调用仍可不传 runId，但会保留旧目录语义并在日志中明确提示风险。
+const runId = typeof A.runId === 'string' ? A.runId.trim() : ''
+if (runId && !/^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$/.test(runId)) {
+  throw new Error('runId 只允许 1-80 位字母数字、点、下划线或连字符，且必须以字母数字开头')
+}
+if (!runId) log('未提供 runId：将使用旧版共享输出路径；并发或重试可能冲突。请通过 workflow/eval_cli.py prepare-evaluate 创建可移植任务。')
 // tag：同一截图需要保留不同批次识别时作为单图 manifest 后缀；截图文件名本身用于区分多图。
-const tag = A.tag ? A.tag : ''
+const tag = A.tag ? A.tag : runId
 const tagSuffix = tag ? '_' + tag : ''
 
 // annotatedDir：Phase2 单图元素清单输出目录；Phase2 不生成整页标注 PNG。
@@ -190,9 +192,9 @@ const reportDir = (A.reportDir ? A.reportDir : projectDir + '/reports')
 // 过程文件与最终 HTML 分离：报告目录只放交付物，评测原始结果和审计记录归档到易识别的过程文件目录。
 // 过程产物只追加保留，禁止删除、unlink 或覆盖清理；无效/失败文件也必须保留并记录路径。
 const evaluationArtifactDir = projectDir + '/.artifacts/过程文件-评测结果与审计'
-const batchId = A.batchId ? A.batchId : '单词运行'
+const batchId = A.batchId ? A.batchId : (runId || '单词运行')
 // rerunId 由调用方显式传入，以在同一批次多轮返工时保留独立审计；缺省时复用稳定 batchId，禁止依赖时间或随机数。
-const rerunId = A.rerunId ? A.rerunId : batchId
+const rerunId = A.rerunId ? A.rerunId : (runId || batchId)
 const batchArtifactDir = evaluationArtifactDir + '/' + batchId
 const artifactRunDir = batchArtifactDir + '/' + query + tagSuffix
 const dimSlug = dimensions.map(d => d.replace(/^phase3-/, '').replace(/-eval$/, '')).join('_')
@@ -280,6 +282,7 @@ const PIPELINE_SCHEMA = {
         evalAuditFile: { type: 'string' },
         evalCount: { type: 'number' },
       },
+      required: ['evalResultFile', 'evalAuditFile', 'evalCount'],
     },
     stageC: {
       type: 'object',
@@ -287,6 +290,7 @@ const PIPELINE_SCHEMA = {
         evidenceImages: { type: 'array', items: { type: 'string' } },
         skipped: { type: 'array' },
       },
+      required: ['evidenceImages', 'skipped'],
     },
     stageD: {
       type: 'object',
@@ -305,11 +309,12 @@ const PIPELINE_SCHEMA = {
           },
         },
       },
+      required: ['reportPath', 'summary'],
     },
     blockedAt: { type: 'string' },
     error: { type: 'string' },
   },
-  required: ['ok', 'query'],
+  required: ['ok', 'query', 'stageA', 'stageB', 'stageC', 'stageD', 'blockedAt', 'error'],
 }
 
 // ---------- Screenshot Agent ----------
@@ -351,7 +356,7 @@ ${selectedScreenshots.map(path => '- ' + path).join('\n')}
 
 严格按 schema 输出。`
 
-const shotResult = await agent(shotPrompt, { label: 'Screenshot Agent', phase: '截图', schema: SHOT_SCHEMA, model: SUBAGENT_MODEL, agentType: 'screenshot-agent' })
+const shotResult = await agent(shotPrompt, withRequestedModel({ label: 'Screenshot Agent', phase: '截图', schema: SHOT_SCHEMA, agentType: 'screenshot-agent' }))
 if (!shotResult || !shotResult.ok) {
   throw new Error('截图阶段失败: ' + (shotResult && shotResult.error ? shotResult.error : 'agent 无返回'))
 }
@@ -442,7 +447,7 @@ PYEOF
 
 ## 返回
 把脚本 stdout 的 JSON **原样转录**进 schema：dimension 和 skills 数组逐字段对应。不要修改任何数字、不要增删字段、不要肉眼重新解析。若脚本报错（如缺 pyyaml），error 字段说明，skills 返回空数组。`
-  return agent(prompt, { label: '发现:' + dim, phase: '评测', schema: DISCOVERY_SCHEMA, model: SUBAGENT_MODEL })
+  return agent(prompt, withRequestedModel({ label: '发现:' + dim, phase: '评测', schema: DISCOVERY_SCHEMA }))
 }))
 
 const discoveries = discoveryResults.filter(Boolean)
@@ -476,7 +481,7 @@ const phase2ReviewFile = artifactRunDir + '/results/待回退Phase2复核_' + qu
 const issueEvidenceDir = annotatedDir + '/evidence/' + query + tagSuffix
 
 const mergedInputs = {
-  query, tag, batchId,
+  query, tag, batchId, runId,
   projectDir,
   screenshots,
   tabs,
@@ -516,18 +521,27 @@ ${JSON.stringify(mergedInputs, null, 2)}
 \`\`\`
 严格按你的输出 schema 一次性回传结果，不要提前中断或跳过阶段。`
 
-const pipelineResult = await agent(mergedPrompt, { label: 'Evaluation Agent:' + query, phase: '评测', schema: PIPELINE_SCHEMA, model: SUBAGENT_MODEL, agentType: 'evaluation-agent' })
+const pipelineResult = await agent(mergedPrompt, withRequestedModel({ label: 'Evaluation Agent:' + query, phase: '评测', schema: PIPELINE_SCHEMA, agentType: 'evaluation-agent' }))
 if (!pipelineResult || !pipelineResult.ok) {
   throw new Error('Phase2+3+4+5 单词全链路子代理未通过：blockedAt=' + (pipelineResult && pipelineResult.blockedAt) + ' error=' + (pipelineResult && pipelineResult.error))
 }
-const stageA = pipelineResult.stageA || {}
-const stageB = pipelineResult.stageB || {}
-const stageC = pipelineResult.stageC || {}
-const stageD = pipelineResult.stageD || {}
-const elementListPaths = stageA.elementListPaths || []
-const elementAuditPaths = stageA.elementAuditPaths || []
-const elementCount = stageA.elementCount || 0
-const annotatedPaths = stageA.annotated || []
+const stageA = pipelineResult.stageA
+const stageB = pipelineResult.stageB
+const stageC = pipelineResult.stageC
+const stageD = pipelineResult.stageD
+if (pipelineResult.query !== query || !stageA || !stageB || !stageC || !stageD ||
+    !Array.isArray(stageA.elementListPaths) || !Array.isArray(stageA.elementAuditPaths) ||
+    stageA.elementListPaths.length === 0 || stageA.elementListPaths.length !== stageA.elementAuditPaths.length ||
+    typeof stageB.evalResultFile !== 'string' || !stageB.evalResultFile ||
+    typeof stageB.evalAuditFile !== 'string' || !stageB.evalAuditFile ||
+    !Array.isArray(stageC.evidenceImages) ||
+    typeof stageD.reportPath !== 'string' || !stageD.reportPath) {
+  throw new Error('Evaluation Agent 返回 ok=true 但阶段产物不完整；拒绝将其标记为成功')
+}
+const elementListPaths = stageA.elementListPaths
+const elementAuditPaths = stageA.elementAuditPaths
+const elementCount = stageA.elementCount
+const annotatedPaths = stageA.annotated
 log('Phase2+3+4+5 完成: elementCount=' + elementCount + ' evalCount=' + (stageB.evalCount || 0) + ' evidenceImages=' + ((stageC.evidenceImages || []).length) + ' report=' + stageD.reportPath)
 
 // ---------- Phase2 manifest 质量侧审计（可选，仅记录 L1/L2/L3 合规率，不阻断） ----------
@@ -676,7 +690,7 @@ PYEOF
 \`\`\`
 把 stdout 原样放进 schema 返回。`
 
-  const auditResult = await agent(auditPrompt, { label: 'Manifest验收', phase: '评测', schema: ANNOTATE_AUDIT_SCHEMA, model: SUBAGENT_MODEL })
+  const auditResult = await agent(auditPrompt, withRequestedModel({ label: 'Manifest验收', phase: '评测', schema: ANNOTATE_AUDIT_SCHEMA }))
   const auditOut = (auditResult && auditResult.stdout) || ''
   const pickNum = (k) => {
     const mm = auditOut.match(new RegExp(k + '=(\\d+(?:\\.\\d+)?)'))
@@ -717,6 +731,8 @@ log('全部完成: 报告已生成 → ' + stageD.reportPath)
 return {
   mode: mode,
   status: 'completed',
+  runId: runId,
+  batchId: batchId,
   query: query,
   reportOutlet: reportOutlet,
   dimensions: dimensions,

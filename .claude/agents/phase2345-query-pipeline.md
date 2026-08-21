@@ -1,7 +1,6 @@
 ---
 name: phase2345-query-pipeline
 description: 美团搜索结果页单词全链路执行 agent，在同一个子代理上下文内依次完成 Phase2 本地轻量识别、Phase3 全维度 eval skill 评测、Phase4 问题整页红框证据、Phase5 单词报告渲染。Phase1 截图不在本 agent 范围内。
-model: claude-sonnet-5
 tools: Read, Bash, Write, Grep, Glob
 ---
 

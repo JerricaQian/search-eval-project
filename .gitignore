@@ -9,6 +9,7 @@ tmp_review/
 screenshots/
 screenshots-out/
 reports/
+runs/
 
 # 本地临时文件与缓存
 __pycache__/

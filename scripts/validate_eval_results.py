@@ -30,6 +30,13 @@ MEASUREMENT_REQUIRED_SKILLS = {
     "eval-8-info-redundancy",
 }
 
+COMPONENT_REDUNDANCY_CROSS_CHECKS = {
+    "title/subtitle ↔ basic information",
+    "title/subtitle ↔ tags/price/promotion",
+    "tag ↔ price/promotion",
+    "title internal repeated quantified fragments",
+}
+
 FORBIDDEN_COPY_TERMS_PATH = Path(__file__).with_name("forbidden_copy_terms.json")
 FORBIDDEN_ID_PATTERN_EXEMPTIONS = {"P0", "P1", "P2"}
 
@@ -112,6 +119,54 @@ def require_measurement(errors: list[str], prefix: str, row: dict[str, Any]) -> 
         errors.append(f"{prefix}:measurement_artifact_missing")
     if not isinstance(parameters, dict) or not parameters:
         errors.append(f"{prefix}:measurement_parameters_must_be_non_empty_object")
+
+
+def require_zero_redundancy_scan(errors: list[str], prefix: str, row: dict[str, Any], scope: str) -> None:
+    """An excellent zero-redundancy result must retain complete scan coverage."""
+    count_field = "duplicateCount" if scope == "component" else "redundancyCount"
+    count = row.get(count_field)
+    if not isinstance(count, int) or count < 0:
+        errors.append(f"{prefix}:{count_field}_must_be_non_negative_integer")
+        return
+    if row.get("rating") != "优秀":
+        return
+    if count != 0:
+        errors.append(f"{prefix}:excellent_redundancy_count_must_equal_0")
+        return
+
+    coverage = row.get("scanCoverage")
+    if not isinstance(coverage, dict) or coverage.get("status") != "completed":
+        errors.append(f"{prefix}:excellent_zero_redundancy_requires_completed_scanCoverage")
+        return
+
+    if scope == "component":
+        atom_count = coverage.get("textAtomCount")
+        element_ids = coverage.get("scannedElementIds")
+        regions = coverage.get("scannedRegions")
+        cross_checks = coverage.get("crossChecks")
+        if not isinstance(atom_count, int) or atom_count < 0:
+            errors.append(f"{prefix}:scanCoverage_textAtomCount_invalid")
+        if not isinstance(element_ids, list) or len(element_ids) != atom_count:
+            errors.append(f"{prefix}:scanCoverage_scannedElementIds_must_match_textAtomCount")
+        if not isinstance(regions, list):
+            errors.append(f"{prefix}:scanCoverage_scannedRegions_must_be_array")
+        if not isinstance(cross_checks, list) or not COMPONENT_REDUNDANCY_CROSS_CHECKS.issubset(cross_checks):
+            errors.append(f"{prefix}:scanCoverage_missing_component_crossChecks")
+        return
+
+    page_regions = row.get("pageRegions")
+    scanned_region_ids = coverage.get("scannedRegionIds")
+    cross_checks = coverage.get("crossChecks")
+    if not isinstance(page_regions, list) or not page_regions or not all(isinstance(region, str) and region for region in page_regions):
+        errors.append(f"{prefix}:pageRegions_must_be_non_empty_strings")
+        return
+    if not isinstance(scanned_region_ids, list) or not set(page_regions).issubset(scanned_region_ids):
+        errors.append(f"{prefix}:scanCoverage_scannedRegionIds_must_cover_pageRegions")
+    expected_pair_checks = len(page_regions) * (len(page_regions) - 1) // 2
+    if not isinstance(cross_checks, list) or len(cross_checks) < expected_pair_checks or any(
+        not isinstance(check, str) or not check.strip() for check in cross_checks
+    ):
+        errors.append(f"{prefix}:scanCoverage_crossChecks_must_cover_page_region_pairs")
 
 
 def require_structured_finding(errors: list[str], prefix: str, issue: dict[str, Any]) -> None:
@@ -278,7 +333,8 @@ def main() -> int:
                     errors.append(f"{skill}/{tab}:page_framework_requires_evidence_mode")
                 required_page_fields = PAGE_EVIDENCE_REQUIREMENTS.get(skill)
                 measurement_required = skill in MEASUREMENT_REQUIRED_SKILLS
-                if unit.get("rating") != "优秀" or measurement_required:
+                evidence_required = unit.get("rating") != "优秀" or measurement_required or skill == "eval-7-info-redundancy"
+                if evidence_required:
                     if not isinstance(assessment_rows, list) or len(assessment_rows) != 1:
                         errors.append(f"{skill}/{tab}:page_framework_requires_exactly_one_assessmentRow")
                     elif required_page_fields:
@@ -287,6 +343,10 @@ def main() -> int:
                             require_measurement(errors, f"{skill}/{tab}/row_1", assessment_rows[0])
                     else:
                         errors.append(f"{skill}/{tab}:unknown_page_framework_skill_without_evidence_contract")
+                if skill == "eval-7-info-redundancy" and isinstance(assessment_rows, list) and assessment_rows:
+                    row = assessment_rows[0]
+                    if isinstance(row, dict):
+                        require_zero_redundancy_scan(errors, f"{skill}/{tab}/row_1", row, "page")
                 if skill == "eval-6-info-comparability" and isinstance(assessment_rows, list) and assessment_rows:
                     row = assessment_rows[0]
                     if isinstance(row, dict):
@@ -382,6 +442,8 @@ def main() -> int:
                             require_row_fields(errors, f"{skill}/{tab}/row_{index}", row, required_component_fields)
                             if measurement_required and isinstance(row, dict):
                                 require_measurement(errors, f"{skill}/{tab}/row_{index}", row)
+                            if skill == "eval-8-info-redundancy" and isinstance(row, dict):
+                                require_zero_redundancy_scan(errors, f"{skill}/{tab}/row_{index}", row, "component")
                 if skill == "eval-2-visual-order-alignment" and isinstance(assessment_rows, list):
                     for index, row in enumerate(assessment_rows, start=1):
                         if isinstance(row, dict) and (not isinstance(row.get("comparisonGroupKey"), str) or not row["comparisonGroupKey"].strip()):

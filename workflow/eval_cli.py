@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Portable preflight adapter for the host-injected evaluation Workflow.
+"""Portable preflight and completion guard for search evaluation runs.
 
-The JS Workflow deliberately depends on a host that provides LLM agents. This
-CLI handles the deterministic part that every host can share: copying external
-screenshots, discovery, and a structured Workflow handoff request.
+The JS workflow is a host DSL.  This CLI owns the small, host-neutral boundary:
+copy/discovery, an immutable task file with a unique run id, and final artifact
+verification.  It deliberately does not perform the LLM judgement itself.
 """
 
 from __future__ import annotations
@@ -12,11 +12,16 @@ import argparse
 import importlib.util
 import json
 import sys
+import uuid
 from pathlib import Path
 from typing import Any
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
+HANDOFF_PROTOCOL = "MEITUAN_EVAL_HANDOFF_V1"
+TASK_PROTOCOL = "MEITUAN_EVAL_TASK_V2"
+RUN_ID_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-")
+STAGES = ("stageA", "stageB", "stageC", "stageD")
 
 
 def load_module(filename: str, module_name: str) -> Any:
@@ -37,6 +42,136 @@ COPY = load_module("ingest_external_screenshots.py", "search_eval_copy")
 def emit(payload: dict[str, Any], exit_code: int = 0) -> int:
     print(json.dumps(payload, ensure_ascii=False, indent=2))
     return exit_code
+
+
+def valid_run_id(value: str) -> bool:
+    return 1 <= len(value) <= 80 and value[0].isalnum() and all(char in RUN_ID_CHARS for char in value)
+
+
+def write_once(path: Path, payload: dict[str, Any]) -> None:
+    if path.exists():
+        raise ValueError(f"refuse_to_overwrite:{path}")
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def portable_task(project_dir: Path, workflow_args: dict[str, Any], run_id: str, runs_dir: Path) -> dict[str, Any]:
+    run_dir = runs_dir / run_id
+    if run_dir.exists():
+        raise ValueError(f"run_id_already_exists:{run_dir}")
+    run_dir.mkdir(parents=True)
+    task_path = run_dir / "task.json"
+    result_path = run_dir / "agent-result.json"
+    task = {
+        "protocol": TASK_PROTOCOL,
+        "runId": run_id,
+        "projectDir": str(project_dir),
+        "workflowArgs": workflow_args,
+        "contractFiles": [
+            str(project_dir / ".claude/agents/phase2345-query-pipeline.md"),
+            str(project_dir / ".claude/contracts/evaluation-result.schema.json"),
+        ],
+        "resultPath": str(result_path),
+        "completionCommand": [
+            sys.executable,
+            str(PROJECT_DIR / "workflow/eval_cli.py"),
+            "finalize-evaluate",
+            "--task",
+            str(task_path),
+            "--result",
+            str(result_path),
+        ],
+        "hostInstructions": [
+            "Read the listed contract files from disk; do not paste them into another prompt.",
+            "Run exactly one Evaluation Agent for this query and write its final Stage A-D JSON to resultPath.",
+            "Run completionCommand. Only its completed receipt is a successful delivery.",
+        ],
+    }
+    write_once(task_path, task)
+    return {
+        "protocol": TASK_PROTOCOL,
+        "runId": run_id,
+        "taskPath": str(task_path),
+        "resultPath": str(result_path),
+        "completionCommand": task["completionCommand"],
+    }
+
+
+def read_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def project_file(value: Any, project_dir: Path, label: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label}:missing_path")
+    path = Path(value).resolve()
+    try:
+        path.relative_to(project_dir)
+    except ValueError as exc:
+        raise ValueError(f"{label}:outside_project:{path}") from exc
+    if not path.is_file() or path.stat().st_size == 0:
+        raise ValueError(f"{label}:missing_or_empty:{path}")
+    return str(path)
+
+
+def valid_audit(value: Any, project_dir: Path, label: str) -> str:
+    path = Path(project_file(value, project_dir, label))
+    try:
+        audit = read_json(path)
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"{label}:invalid_json:{path}") from exc
+    if not isinstance(audit, dict) or audit.get("valid") is not True:
+        raise ValueError(f"{label}:valid_not_true:{path}")
+    return str(path)
+
+
+def nonempty_list(value: Any, label: str) -> list[Any]:
+    if not isinstance(value, list) or not value:
+        raise ValueError(f"{label}:missing_or_empty")
+    return value
+
+
+def validate_completed_result(task: dict[str, Any], result: dict[str, Any]) -> dict[str, Any]:
+    project_dir = Path(str(task["projectDir"])).resolve()
+    expected = task["workflowArgs"]
+    if result.get("ok") is not True:
+        blocked_at = result.get("blockedAt")
+        if blocked_at not in STAGES or not isinstance(result.get("error"), str) or not result["error"].strip():
+            raise ValueError("blocked_result_missing_stage_or_error")
+        return {"status": "blocked", "blockedAt": blocked_at, "error": result["error"]}
+    if result.get("query") != expected.get("query"):
+        raise ValueError("result_query_mismatch")
+
+    stage_a = result.get("stageA")
+    stage_b = result.get("stageB")
+    stage_c = result.get("stageC")
+    stage_d = result.get("stageD")
+    if not all(isinstance(stage, dict) for stage in (stage_a, stage_b, stage_c, stage_d)):
+        raise ValueError("successful_result_missing_stage")
+
+    manifests = nonempty_list(stage_a.get("elementListPaths"), "stageA.elementListPaths")
+    audits = nonempty_list(stage_a.get("elementAuditPaths"), "stageA.elementAuditPaths")
+    if len(manifests) != len(audits):
+        raise ValueError("stageA.manifest_audit_count_mismatch")
+    manifest_paths = [project_file(value, project_dir, "stageA.manifest") for value in manifests]
+    audit_paths = [valid_audit(value, project_dir, "stageA.audit") for value in audits]
+    eval_result = project_file(stage_b.get("evalResultFile"), project_dir, "stageB.evalResultFile")
+    eval_audit = valid_audit(stage_b.get("evalAuditFile"), project_dir, "stageB.evalAuditFile")
+    evidence = stage_c.get("evidenceImages")
+    if not isinstance(evidence, list):
+        raise ValueError("stageC.evidenceImages:not_a_list")
+    evidence_paths = [project_file(value, project_dir, "stageC.evidenceImage") for value in evidence]
+    report_path = project_file(stage_d.get("reportPath"), project_dir, "stageD.reportPath")
+    return {
+        "status": "completed",
+        "artifacts": {
+            "manifests": manifest_paths,
+            "manifestAudits": audit_paths,
+            "evalResult": eval_result,
+            "evalAudit": eval_audit,
+            "evidenceImages": evidence_paths,
+            "report": report_path,
+        },
+    }
 
 
 def command_discover(args: argparse.Namespace) -> int:
@@ -61,7 +196,7 @@ def command_prepare(args: argparse.Namespace) -> int:
     )
     discovery = DISCOVERY.discover(screenshot_dir, args.min_bytes)
     payload: dict[str, Any] = {
-        "protocol": "MEITUAN_EVAL_HANDOFF_V1",
+        "protocol": HANDOFF_PROTOCOL,
         "projectDir": str(args.project_dir.resolve()),
         "copy": copied,
         "discovery": discovery,
@@ -72,16 +207,65 @@ def command_prepare(args: argparse.Namespace) -> int:
         if group is None:
             payload["status"] = "query_not_found_after_copy"
         else:
-            payload["status"] = "ready_for_host_workflow"
-            payload["workflowArgs"] = {
+            run_id = args.run_id or uuid.uuid4().hex
+            if not valid_run_id(run_id):
+                return emit({**payload, "status": "invalid_run_id", "error": "run_id_must_be_1_to_80_alnum_dot_underscore_dash"}, 2)
+            project_dir = args.project_dir.resolve()
+            workflow_args = {
                 "mode": "evaluate_only",
-                "projectDir": str(args.project_dir.resolve()),
+                "projectDir": str(project_dir),
+                "query": args.query,
                 "selectedScreenshots": group["files"],
                 "dimensions": args.dimensions,
                 "reportOutlet": args.report_outlet,
                 "phase2Mode": "lightweight",
+                "runId": run_id,
+                "batchId": run_id,
+                "tag": run_id,
+                "rerunId": run_id,
             }
+            payload["status"] = "ready_for_host_workflow"
+            payload["workflowArgs"] = workflow_args
+            if not args.dry_run:
+                try:
+                    payload["portableTask"] = portable_task(
+                        project_dir,
+                        workflow_args,
+                        run_id,
+                        (args.runs_dir or project_dir / "runs").resolve(),
+                    )
+                except ValueError as exc:
+                    payload["status"] = "run_setup_failed"
+                    payload["error"] = str(exc)
+                    return emit(payload, 2)
     return emit(payload, 0 if not copied["error"] else 2)
+
+
+def command_finalize(args: argparse.Namespace) -> int:
+    try:
+        task_path = args.task.resolve()
+        result_path = args.result.resolve()
+        task = read_json(task_path)
+        if not isinstance(task, dict) or task.get("protocol") != TASK_PROTOCOL:
+            raise ValueError("task_protocol_invalid")
+        if result_path != Path(str(task.get("resultPath", ""))).resolve():
+            raise ValueError("result_path_mismatch")
+        result = read_json(result_path)
+        if not isinstance(result, dict):
+            raise ValueError("result_not_object")
+        verified = validate_completed_result(task, result)
+        receipt_path = task_path.parent / "receipt.json"
+        receipt = {
+            "protocol": TASK_PROTOCOL,
+            "runId": task["runId"],
+            "query": task["workflowArgs"]["query"],
+            "resultPath": str(result_path),
+            **verified,
+        }
+        write_once(receipt_path, receipt)
+        return emit({"ok": True, "receiptPath": str(receipt_path), **receipt})
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        return emit({"ok": False, "error": str(exc)}, 2)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -108,7 +292,14 @@ def parser() -> argparse.ArgumentParser:
     prepare.add_argument("--report-outlet", choices=["local_html", "nocode"], default="local_html")
     prepare.add_argument("--min-bytes", type=int, default=5001)
     prepare.add_argument("--dry-run", action="store_true")
+    prepare.add_argument("--run-id", default="", help="Unique portable run id; defaults to a generated id.")
+    prepare.add_argument("--runs-dir", type=Path, help="Defaults to <project-dir>/runs.")
     prepare.set_defaults(handler=command_prepare)
+
+    finalize = commands.add_parser("finalize-evaluate", help="Verify a host result and write an immutable delivery receipt.")
+    finalize.add_argument("--task", required=True, type=Path)
+    finalize.add_argument("--result", required=True, type=Path)
+    finalize.set_defaults(handler=command_finalize)
     return root
 
 

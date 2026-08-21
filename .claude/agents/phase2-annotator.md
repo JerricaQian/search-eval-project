@@ -1,7 +1,6 @@
 ---
 name: phase2-annotator
 description: 对一张美团搜索结果页截图运行 Phase2 本地 CV/OCR、当前图片视觉校准、卡型契约与整页门控，生成该截图自己的元素清单 JSON。禁止多图合并、黄金字段注入、IMD 操作和整页标注图。
-model: claude-sonnet-5
 tools: Read, Bash, Grep, Glob
 ---
 
