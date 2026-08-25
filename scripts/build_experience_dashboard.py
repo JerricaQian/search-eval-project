@@ -17,21 +17,34 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "phase5-report"))
 from dashboard_renderer import render_dashboard
+from skill_frontmatter import load_weight
 
 BUSINESS_LINES = {
     "dine_in": "到餐", "food_delivery": "餐饮外卖", "flash_delivery": "闪购",
     "service_retail": "服务零售", "healthcare": "医药健康", "hotel_travel": "酒店旅行",
-    "xiaoxiang": "小象", "maoyan": "猫眼", "bike": "骑行", "youxuan": "优选",
-    "errand": "跑腿", "finance": "金融", "power_bank": "充电宝",
-    "ride_hailing": "网约车", "xiaoxiang_supermarket": "小象超市",
-    "dianping_overseas": "点评境外",
+    "xiaoxiang": "小象超市", "maoyan": "猫眼",
 }
 # 报告业务 Tab 的唯一允许集合。每批生成前必须校验输出业务代码与名称；
 # 未被治理口径认可的分类（如已废弃的 tuangou_goods）一律阻断交付。
 EXPECTED_REPORT_BUSINESS_TABS = BUSINESS_LINES.copy()
 PLATFORM_SCOPES = {"宏观组件", "特殊广告卡", "运营聚合卡", "相似推荐提示"}
+DEDICATED_BUSINESS_TERMS = (
+    ("healthcare", ("医院", "体检", "医药", "药店", "药房", "诊所", "医疗", "门诊", "口腔", "眼科", "中医", "医美", "整形", "OTC", "处方药", "保健品", "医疗器械")),
+    ("hotel_travel", ("酒店", "民宿", "房型", "景点", "度假", "露营", "漂流", "门票", "宾馆", "公寓", "钟点房", "跟团游", "自由行", "租车")),
+    ("maoyan", ("电影", "影院", "演出", "场次", "票价", "剧场")),
+    ("xiaoxiang", ("小象超市", "小象")),
+)
+SERVICE_RETAIL_TERMS = ("休闲娱乐", "KTV", "洗浴", "美发", "美甲", "美睫", "美容院", "丽人", "摄影", "婚礼", "结婚", "教育", "培训", "家政", "亲子", "按摩", "理发", "维修")
+FLASH_DELIVERY_TERMS = ("闪购", "分钟达", "即时零售", "小时达", "闪电仓", "歪马送酒")
+FLASH_CATEGORY_TERMS = ("零食", "饮料", "日用百货", "卫生巾", "安睡裤", "纸巾", "粮油", "调味", "水果", "榴莲", "蔬菜", "肉禽蛋", "水产", "鲜花", "花束", "啤酒", "白酒", "红酒", "矿泉水", "咖啡豆", "便利店")
+FLASH_CATEGORY_OVERRIDE_TERMS = ("咖啡豆", "咖啡粉", "咖啡胶囊")
+FOOD_TERMS = ("餐厅", "饭店", "火锅", "烧烤", "咖啡", "奶茶", "菜品", "美食", "小吃", "快餐", "汉堡", "粉面", "盒饭", "日料", "中餐", "西餐")
+DELIVERY_TERMS = ("外卖", "配送", "起送", "送达", "外送")
 LEVELS = {
     "phase3-single_element-eval": ("单一元素维度", "element", "#6366f1"),
     "phase3-card_or_component-eval": ("组件/卡片维度", "component", "#10b981"),
@@ -74,13 +87,13 @@ METRICS = {
     "eval-4-info-authenticity-single-element": ("信息/功能歧义", "info_authenticity"),
     "eval-5-info-hierarchy": ("信息层级不清", "information_hierarchy"),
     "eval-5-browsing-flow-smoothness": ("浏览动线问题", "browsing_flow"),
-    "eval-5-info-redundancy": ("信息无冗余", "information_redundancy"),
+    "eval-5-info-redundancy": ("信息冗余", "information_redundancy"),
     "eval-6-info-partitioning": ("信息分区问题", "information_partitioning"),
     "eval-6-info-comparability": ("信息不可比", "information_comparability"),
     "eval-7-info-authenticity": ("信息/功能歧义", "info_authenticity"),
     "eval-7-browsing-flow-smoothness": ("浏览动线问题", "browsing_flow"),
-    "eval-7-info-redundancy": ("功能/信息无冗余", "page_information_redundancy"),
-    "eval-8-info-redundancy": ("信息无冗余", "information_redundancy"),
+    "eval-7-info-redundancy": ("功能/信息冗余", "page_information_redundancy"),
+    "eval-8-info-redundancy": ("信息冗余", "information_redundancy"),
 }
 
 
@@ -91,12 +104,28 @@ def read_json(path: Path) -> Any:
         return None
 
 
-def card_text(card: dict[str, Any]) -> str:
-    """Return current-card semantic facts only; the query is never an input."""
+def card_semantic_text(card: dict[str, Any]) -> str:
+    """Return current merchant/product semantics, excluding fulfilment facts."""
     values: list[str] = [str(card.get("卡片类型", "")), str(card.get("cardTypeCode", ""))]
     for region in card.get("regions", []):
         for element in region.get("elements", []):
+            facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
+            if facts.get("semanticRole") == "fulfillment" or "履约" in str(region.get("name", "")):
+                continue
             values.extend(str(element.get(key, "")) for key in ("内容简述", "content", "text", "visibleText"))
+            values.append(str(facts.get("rawText", "")))
+    return " ".join(values).lower()
+
+
+def fulfillment_text(card: dict[str, Any]) -> str:
+    """Return only Phase2's confirmed fulfilment table, never the search query."""
+    values: list[str] = []
+    for region in card.get("regions", []):
+        for element in region.get("elements", []):
+            facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
+            if facts.get("semanticRole") == "fulfillment" or "履约" in str(region.get("name", "")):
+                values.extend(str(element.get(key, "")) for key in ("内容简述", "content", "text", "visibleText"))
+                values.append(str(facts.get("rawText", "")))
     return " ".join(values).lower()
 
 
@@ -107,6 +136,8 @@ def card_type_code(card_type: str) -> str:
         return "merchant_image_append_card"
     if "文字下挂" in card_type:
         return "merchant_text_append_card"
+    if "无下挂" in card_type:
+        return "merchant_plain_card"
     if "主点" in card_type:
         return "poi_card"
     if "酒店" in card_type:
@@ -114,47 +145,69 @@ def card_type_code(card_type: str) -> str:
     return "merchant_card"
 
 
+def has_any(text: str, terms: tuple[str, ...]) -> bool:
+    return any(term in text for term in terms)
+
+
+def classified_business(code: str, kind: str, card_type: str, confidence: str) -> dict[str, str]:
+    return {
+        "scope": "business", "businessCode": code, "businessName": BUSINESS_LINES[code],
+        "confidence": confidence, "cardTypeCode": kind, "cardTypeName": card_type,
+    }
+
+
 def classify_card(card: dict[str, Any]) -> dict[str, str]:
-    """Classify a card in Phase5 from its current visible semantics and fulfilment facts."""
+    """Classify one card by current visible facts, in this fixed precedence.
+
+    Dedicated business semantics (healthcare, travel, Maoyan, Xiaoxiang) win
+    first. Service-retail semantics identify local-service group-buy cards.
+    For delivery cards, a flash label or a recognised flash product category
+    distinguishes flash delivery from food delivery. A card type by itself is
+    never a flash-delivery fact. Missing evidence remains ``unknown``.
+    """
     card_type = str(card.get("卡片类型", ""))
     if card_type in PLATFORM_SCOPES or card.get("cardId") == "macro-top":
         return {"scope": "platform", "businessCode": "platform", "businessName": "平台公共组件",
                 "confidence": "high", "cardTypeCode": "platform_component", "cardTypeName": card_type}
-    text, kind = card_text(card), card_type_code(card_type)
-    rules = [
-        ("healthcare", ("医院", "体检", "医药", "药店", "药房", "诊所", "医疗", "门诊")),
-        ("hotel_travel", ("酒店", "民宿", "房型", "景点", "度假", "露营", "漂流", "门票")),
-        ("maoyan", ("电影", "影院", "演出", "场次", "票价", "剧场")),
-        ("bike", ("骑行", "单车")),
-        ("ride_hailing", ("打车", "网约车", "快车", "出租车")),
-        ("power_bank", ("充电宝", "借充电")),
-        ("finance", ("保险", "借款", "金融", "理财")),
-        # 不以“主点卡片”中的“点卡”字样判断业务；充值/游戏电商必须由显式业务标签或专属卡型标注。
-        ("xiaoxiang_supermarket", ("小象超市",)),
-        ("flash_delivery", ("闪购", "分钟达", "即时零售")),
-        ("food_delivery", ("餐厅", "饭店", "火锅", "烧烤", "咖啡", "奶茶", "菜品", "堂食")),
-        ("dine_in", ("人均", "评价", "到店", "团购", "套餐", "堂食", "美食", "烧烤", "咖啡", "餐厅")),
-        ("service_retail", ("维修", "理发", "按摩", "清洗", "美容", "美甲", "家政", "摄影")),
-        ("youxuan", ("优选",)),
-        ("xiaoxiang", ("小象",)),
-        ("dianping_overseas", ("境外", "海外")),
-        ("errand", ("跑腿", "代取", "代送")),
-    ]
-    business = next((code for code, words in rules if any(word in text for word in words)), None)
-    # 商品卡是零售供给的结构事实；共享履约词只辅助解释，不能单独把商卡归为餐饮外卖。
-    if kind == "product_card" and business in {None, "food_delivery"}:
-        business = "flash_delivery"
-    if not business:
-        return {"scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
-                "confidence": "unknown", "cardTypeCode": kind, "cardTypeName": card_type}
-    return {"scope": "business", "businessCode": business, "businessName": BUSINESS_LINES[business],
-            "confidence": "semantic", "cardTypeCode": kind, "cardTypeName": card_type}
+    semantic, fulfillment, kind = card_semantic_text(card), fulfillment_text(card), card_type_code(card_type)
+    for business, terms in DEDICATED_BUSINESS_TERMS:
+        if has_any(semantic, terms):
+            return classified_business(business, kind, card_type, "semantic")
+
+    is_service = has_any(semantic, SERVICE_RETAIL_TERMS)
+    is_flash_label = has_any(semantic, FLASH_DELIVERY_TERMS) or has_any(fulfillment, FLASH_DELIVERY_TERMS)
+    is_flash_category = has_any(semantic, FLASH_CATEGORY_TERMS)
+    is_flash_category_override = has_any(semantic, FLASH_CATEGORY_OVERRIDE_TERMS)
+    is_food = has_any(semantic, FOOD_TERMS)
+    is_delivery = has_any(fulfillment, DELIVERY_TERMS)
+
+    if is_service:
+        return classified_business("service_retail", kind, card_type, "semantic")
+    if is_delivery:
+        if is_flash_label or (is_flash_category and (not is_food or is_flash_category_override)):
+            return classified_business("flash_delivery", kind, card_type, "delivery+flash_category")
+        if is_food:
+            return classified_business("food_delivery", kind, card_type, "delivery+food_category")
+        return {
+            "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
+            "confidence": "delivery_category_not_confirmed", "cardTypeCode": kind, "cardTypeName": card_type,
+        }
+    if is_food:
+        return classified_business("dine_in", kind, card_type, "food_category+non_delivery")
+    # A card container alone is not business evidence.  Defaulting it to a
+    # permitted tab makes a dashboard look complete while silently corrupting
+    # that tab's score and issue rate; callers must stop and obtain facts.
+    return {
+        "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
+        "confidence": "insufficient_current_facts", "cardTypeCode": kind, "cardTypeName": card_type,
+    }
 
 
 def humanize_element_label(element: dict[str, Any]) -> str:
     """Turn a Phase2 element record into a concise reader-facing object label."""
     element_type = str(element.get("元素类型") or element.get("elementType") or "元素").strip()
-    content = str(element.get("内容简述") or element.get("content") or "").strip()
+    facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
+    content = str(facts.get("rawText") or element.get("内容简述") or element.get("content") or "").strip()
     content = re.sub(r"^(?:原文|内容)\s*[:：]\s*", "", content).strip()
     if content:
         return f"{element_type}：「{content}」"
@@ -342,14 +395,9 @@ def load_skill_weights(project: Path) -> dict[tuple[str, str], dict[str, float]]
         "phase3-page_framework-eval": project / "phase3-page_framework-eval" / "eval-skills",
     }.items():
         for skill_file in directory.glob("eval-*/SKILL.md"):
-            match = re.search(r"^weight:\s*(\{[^\n]+\})", skill_file.read_text(encoding="utf-8"), re.MULTILINE)
-            if not match:
-                continue
-            try:
-                raw = json.loads(match.group(1))
-            except json.JSONDecodeError:
-                continue
-            weights[(dimension, skill_file.parent.name)] = {str(key): float(value) for key, value in raw.items()}
+            weight = load_weight(skill_file)
+            if weight is not None:
+                weights[(dimension, skill_file.parent.name)] = weight
     return weights
 
 
@@ -465,7 +513,11 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
     for query, cards in classifications.items():
         for card_id, classification in cards.items():
             if classification["scope"] == "unknown":
-                unknown.append({"query": query, "cardId": card_id, "reason": "当前商卡语义与履约事实不足以判定业务"})
+                unknown.append({
+                    "query": query,
+                    "cardId": card_id,
+                    "reason": "当前商卡语义与履约事实不足以判定业务",
+                })
     # Phase3 results are retained under each query's isolated phase3 directory.
     # Discover recursively, then select one combined result per query so compatibility
     # aliases or per-dimension fallback files do not double-count a query.
@@ -607,10 +659,18 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                             if item["scope"] == "business"
                         ]
                     else:
-                        unknown.append({"query": query, "cardId": card_id, "reason": "平台、混合或无法确认业务归属"})
+                        unknown.append({
+                            "query": query,
+                            "cardId": card_id,
+                            "reason": "平台、混合或无法确认业务归属",
+                        })
                         continue
                     if not target_classifications:
-                        unknown.append({"query": query, "cardId": card_id, "reason": "未找到可归属的业务卡"})
+                        unknown.append({
+                            "query": query,
+                            "cardId": card_id,
+                            "reason": "未找到可归属的业务卡",
+                        })
                         continue
                     finding = issue_code(skill, issue)
                     for target in target_classifications:
@@ -791,7 +851,10 @@ def validate_dataset(data: dict[str, Any], artifact_dir: Path, expected_business
     if data["queryCount"] != len(data["queryDetails"]):
         raise ValueError("搜索词计数与逐词详情不一致，停止生成以避免交付不完整看板")
     if data.get("unknown"):
-        unresolved = "; ".join(f"{item.get('query')}:{item.get('cardId')}（{item.get('reason')}）" for item in data["unknown"])
+        unresolved = "; ".join(
+            f"{item.get('query')}:{item.get('cardId')}（{item.get('reason')}）"
+            for item in data["unknown"]
+        )
         raise ValueError(f"存在无法由当前商卡语义与履约事实判定的业务归属，停止业务Tab聚合：{unresolved}")
     for query, units in data["queryDetails"].items():
         if not units:

@@ -146,6 +146,59 @@ def _title_self_repeat_candidates(item: dict[str, Any]) -> list[dict[str, Any]]:
     } for fragment in repeated]
 
 
+def _quantity_range_conflict_candidate(left: dict[str, Any], right: dict[str, Any]) -> dict[str, Any] | None:
+    """Emit a candidate when a title's weight range exceeds a card-level cap.
+
+    The unit conversion is deliberately limited to jin/kg and only produces a
+    Phase3 candidate.  For example, ``3-6斤`` is 1.5-3kg while ``约2kg以下``
+    caps the same item at about 2kg; the overlap does not remove the ambiguity
+    created by the title's 3kg upper bound.
+    """
+    if not ({left.get("semanticRole"), right.get("semanticRole")} & TITLE_ROLES):
+        return None
+    if not ({left.get("region"), right.get("region")} & {"base_info", "基础信息区", "基础信息"}):
+        return None
+    title = left if left.get("semanticRole") in TITLE_ROLES else right
+    attribute = right if title is left else left
+    range_match = re.search(r"(\d+(?:\.\d+)?)\s*[-~]\s*(\d+(?:\.\d+)?)\s*(斤|kg)", title["text"].lower())
+    cap_match = re.search(r"(?:约\s*)?(\d+(?:\.\d+)?)\s*kg\s*(?:以下|以内)", attribute["text"].lower())
+    if not range_match or not cap_match:
+        return None
+    lower, upper, unit = range_match.groups()
+    multiplier = 0.5 if unit == "斤" else 1.0
+    upper_kg = float(upper) * multiplier
+    cap_kg = float(cap_match.group(1))
+    if upper_kg <= cap_kg:
+        return None
+    return {
+        "left": left,
+        "right": right,
+        "lexicalCue": "quantity_range_exceeds_card_cap",
+        "normalizedTitleRangeKg": [float(lower) * multiplier, upper_kg],
+        "normalizedCapKg": cap_kg,
+        "phase3JudgementRequired": True,
+    }
+
+
+def _price_semantic_candidates(item: dict[str, Any]) -> list[dict[str, Any]]:
+    """Expose mixed price semantics inside one visible price line for Phase3.
+
+    A starting price (``¥24.9起``) and an arrival-price label are not
+    interchangeable.  The line may still be valid when the scope is made
+    explicit, so this remains a candidate instead of an automatic verdict.
+    """
+    if item.get("semanticRole") != "price":
+        return []
+    text = item["text"]
+    if not re.search(r"[¥￥]\s*\d+(?:\.\d+)?\s*起", text) or "到手价" not in text:
+        return []
+    return [{
+        "element": item,
+        "lexicalCue": "start_price_and_to_hand_price_in_same_claim",
+        "phase3JudgementRequired": True,
+    }]
+
+
 def text_of(element: dict[str, Any]) -> str:
     facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
     if isinstance(facts.get("rawText"), str):
@@ -194,6 +247,7 @@ def derive_relation_candidates(manifest: dict[str, Any]) -> dict[str, Any]:
                 if (
                     element.get("元素类型") == "图片"
                     or region in DOWNHANG_REGIONS
+                    or region in {"base_info", "基础信息区", "基础信息"}
                     or current["semanticRole"] in CONSISTENCY_ROLES
                 ):
                     targets.append(current)
@@ -224,6 +278,7 @@ def derive_relation_candidates(manifest: dict[str, Any]) -> dict[str, Any]:
             if item["text"] and item.get("elementType") != "图片" and item["text"] != "原文:[图片]"
         ]
         pairs: list[dict[str, Any]] = []
+        authenticity_internal: list[dict[str, Any]] = []
         for left, right in itertools.combinations(text_atoms, 2):
             left_norm = normalized_text(left["text"])
             right_norm = normalized_text(right["text"])
@@ -244,10 +299,15 @@ def derive_relation_candidates(manifest: dict[str, Any]) -> dict[str, Any]:
             quantity_candidate = _count_quantity_variant_candidate(left, right)
             if quantity_candidate:
                 pairs.append(quantity_candidate)
+            range_candidate = _quantity_range_conflict_candidate(left, right)
+            if range_candidate:
+                authenticity_internal.append(range_candidate)
             size_candidate = _size_code_candidate(left, right)
             if size_candidate:
                 pairs.append(size_candidate)
         self_repeats = [candidate for item in text_atoms for candidate in _title_self_repeat_candidates(item)]
+        authenticity_internal.extend(candidate for item in text_atoms for candidate in _price_semantic_candidates(item))
+        authenticity[-1]["internalCandidates"] = authenticity_internal
         redundancy.append({
             "cardId": card_id,
             "examinedAtoms": text_atoms,

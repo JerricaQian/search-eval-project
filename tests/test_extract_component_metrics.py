@@ -23,6 +23,17 @@ def load_module():
 
 
 class ExtractComponentMetricsTest(unittest.TestCase):
+    def test_seven_color_bins_use_the_shared_taxonomy(self) -> None:
+        module = load_module()
+        from color_taxonomy import HUE7_BINS
+        self.assertEqual(module.HUE_FAMILIES, list(HUE7_BINS))
+
+    def test_seven_color_hue_mapping_merges_yellow_green_and_magenta(self) -> None:
+        module = load_module()
+        self.assertEqual(module.hue_family(75), "green")
+        self.assertEqual(module.hue_family(310), "purple")
+        self.assertEqual(module.hue_family(175), "cyan")
+
     def test_icon_measurement_traverses_atoms_without_visual_inventory(self) -> None:
         module = load_module()
         import numpy as np
@@ -36,6 +47,15 @@ class ExtractComponentMetricsTest(unittest.TestCase):
         self.assertFalse(result["measurementComplete"])
         self.assertEqual(result["unmeasuredAtomicIconIds"], ["kept"])
         self.assertEqual(result["countSource"], "phase3.pixel_measurement_within_phase2_icon_atoms")
+
+    def test_component_scope_excludes_navigation_and_filter_modules(self) -> None:
+        module = load_module()
+        records = module.excluded_page_modules({"pageFacts": {"modules": [
+            {"id": "M1", "moduleType": "tab", "coord": [0, 0, 100, 40]},
+            {"id": "M2", "moduleType": "business_image_filter", "coord": [0, 40, 100, 80]},
+            {"id": "M3", "moduleType": "sort_filter", "coord": [0, 120, 100, 40]},
+        ]}})
+        self.assertEqual([record["moduleType"] for record in records], ["tab", "business_image_filter", "sort_filter"])
 
 
 if __name__ == "__main__":

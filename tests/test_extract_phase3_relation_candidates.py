@@ -59,6 +59,34 @@ class ExtractPhase3RelationCandidatesTest(unittest.TestCase):
         self.assertEqual(pairs[0]["relationType"], "title_to_size")
         self.assertEqual(pairs[0]["target"]["elementId"], "S")
 
+    def test_range_cap_and_mixed_price_semantics_are_authenticity_candidates(self) -> None:
+        module = load_module()
+        manifest = {"query": "榴莲", "cards": [{
+            "cardId": "C2", "regions": [
+                {"name": "标题区", "elements": [item("T", "金枕榴莲3-6斤", "title")]},
+                {"name": "基础信息区", "elements": [item("B", "约2kg以下", "other")]},
+                {"name": "价格区", "elements": [item("P", "¥24.9起 到手价/每瓶¥4.15", "price")]},
+            ],
+        }]}
+        result = module.derive_relation_candidates(manifest)
+        authenticity = result["authenticityCandidates"][0]
+        self.assertTrue(any(pair["target"]["elementId"] == "B" for pair in authenticity["candidatePairs"]))
+        cues = {candidate["lexicalCue"] for candidate in authenticity["internalCandidates"]}
+        self.assertIn("quantity_range_exceeds_card_cap", cues)
+        self.assertIn("start_price_and_to_hand_price_in_same_claim", cues)
+
+    def test_title_self_repeat_is_retained_for_redundancy_review(self) -> None:
+        module = load_module()
+        manifest = {"query": "榴莲", "cards": [{
+            "cardId": "C3", "regions": [
+                {"name": "标题区", "elements": [item("T", "榴莲3-4斤 金枕榴莲3-4斤", "title")]},
+            ],
+        }]}
+        result = module.derive_relation_candidates(manifest)
+        repeats = result["redundancyCandidates"][0]["selfRepeatCandidates"]
+        self.assertEqual(repeats[0]["repeatedFragment"], "3-4斤")
+        self.assertEqual(repeats[0]["occurrences"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()

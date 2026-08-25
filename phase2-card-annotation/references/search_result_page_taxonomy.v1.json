@@ -14,7 +14,7 @@
     {"id": "floating_service", "name": "业务浮窗", "required": false, "elements": ["浮窗图标/人物", "服务名称", "操作入口"]},
     {"id": "sort_filter", "name": "排序筛选", "required": true, "elements": ["位置/AOI筛选", "综合排序", "筛选入口"]},
     {"id": "promotion_filter", "name": "优惠筛选", "required": false, "elements": ["神券/优惠入口", "距离/一次性等优惠或条件筛选项"]},
-    {"id": "results_list", "name": "结果卡片列表", "required": true, "allowedCardTypes": ["商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片", "广告卡", "异构卡"]}
+    {"id": "results_list", "name": "结果卡片列表", "required": true, "allowedCardTypes": ["商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "商家卡片_无下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片", "广告卡", "异构卡"]}
   ],
   "classificationPolicy": {
     "order": "按 orderedModules 从上至下扫描；可选模块缺失时跳过，但不得用后续模块反推其缺失为体验问题。",

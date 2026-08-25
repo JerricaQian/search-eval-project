@@ -3,7 +3,7 @@ export const meta = {
   description: '美团搜索结果页 1.0：按需截图、发现已有截图或执行 Phase2/3/4/5 评测流水线',
   phases: [
     { title: '① Screenshot Agent', detail: 'ADB现场截图，或只读发现已有截图' },
-    { title: '② 发现评测项', detail: '自动发现所选维度的 eval skill（纯 frontmatter 解析，JS 级并行）' },
+    { title: '② Phase3 评测官解析范围', detail: '按用户选择确定性解析完整19项、维度或自定义 eval skill' },
     { title: '③ Phase2+3+4+5 单词全链路', detail: '单图本地识别→多维度评测→问题证据→报告渲染，四阶段在同一子代理内顺序完成' },
     { title: '④ Manifest 质量侧审计', detail: '可选：单图元素清单 L1/L2/L3 合规率统计，仅记录不阻断' },
   ],
@@ -29,6 +29,8 @@ if (!Array.isArray(selectedScreenshots) || !selectedScreenshots.every(item => ty
 }
 if (!A.projectDir) throw new Error('必须显式传入 projectDir（项目根绝对路径），不再提供兜底默认值')
 const projectDir = A.projectDir
+// 可移植任务由 eval_cli 注入实际解释器；旧 DSL 调用保留 python3 作为唯一兼容默认值。
+const pythonBin = typeof A.pythonBin === 'string' && A.pythonBin.trim() ? A.pythonBin.trim() : 'python3'
 const screenshotDir = (A.screenshotDir ? A.screenshotDir : projectDir + '/screenshots')
 const externalScreenshotDir = typeof A.externalScreenshotDir === 'string' ? A.externalScreenshotDir.trim() : ''
 if (externalScreenshotDir && mode !== 'evaluate_only') {
@@ -75,7 +77,7 @@ if (mode === 'evaluate_only' && externalScreenshotDir) {
 
 执行：
 \`\`\`bash
-python3 "${projectDir}/scripts/ingest_external_screenshots.py" \\
+"${pythonBin}" "${projectDir}/scripts/ingest_external_screenshots.py" \\
   --source-dir "${externalScreenshotDir}" \\
   --screenshot-dir "${screenshotDir}"
 \`\`\`
@@ -99,7 +101,7 @@ if (mode === 'evaluate_only' && (A.discoveryOnly === true || selectedScreenshots
   phase('发现已有截图')
   const discoveryPrompt = `你是 screenshot-agent。只读扫描已有截图，不连接设备、不修改任何文件。用 Bash 执行：
 \`\`\`bash
-python3 "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "${screenshotDir}"
+"${pythonBin}" "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "${screenshotDir}"
 \`\`\`
 将 stdout JSON 原样映射到 schema 返回。`
   const discoveryResult = await agent(discoveryPrompt, withRequestedModel({
@@ -154,20 +156,58 @@ const screens = A.screens ? A.screens : ['1', '2', '3']
 // capture_only 必定现场截图；仅评测已有截图必定禁止启动截图脚本。
 // 截图+评测模式默认现场截图；旧调用未传 mode 时仍由上方 mode 推导保持原有语义。
 const skipScreenshot = mode === 'evaluate_only' ? true : (mode === 'capture_only' ? false : A.skipScreenshot === true)
-// 维度文件夹名数组（顶层目录下的维度目录）。默认只跑 phase3-card_or_component-eval。
-let dimensions = A.dimensions ? A.dimensions : ['phase3-card_or_component-eval']
-if (typeof dimensions === 'string') dimensions = [dimensions]
+// Phase3 由评测官按用户选择路由。保留 dimensions 仅作旧调用兼容；新调用使用
+// evaluationSelection: {mode: full_19|dimensions|custom_skills, ...}。
+const CANONICAL_EVAL_DIMENSIONS = [
+  'phase3-single_element-eval',
+  'phase3-card_or_component-eval',
+  'phase3-page_framework-eval',
+]
+const SELECTION_IDENTIFIER = /^[a-z0-9][a-z0-9_-]*$/
+let legacyDimensions = A.dimensions ? A.dimensions : ['phase3-card_or_component-eval']
+if (typeof legacyDimensions === 'string') legacyDimensions = [legacyDimensions]
+if (!Array.isArray(legacyDimensions) || !legacyDimensions.every(value => typeof value === 'string' && SELECTION_IDENTIFIER.test(value))) {
+  throw new Error('dimensions 必须是合法 phase3 维度目录名数组')
+}
+let evaluationSelection = A.evaluationSelection
+if (typeof evaluationSelection === 'string') {
+  try { evaluationSelection = JSON.parse(evaluationSelection) } catch (error) {
+    throw new Error('evaluationSelection 字符串必须是合法 JSON：' + error.message)
+  }
+}
+const legacySelectionFallback = evaluationSelection == null
+if (legacySelectionFallback) evaluationSelection = { mode: 'dimensions', dimensions: legacyDimensions }
+if (!evaluationSelection || typeof evaluationSelection !== 'object' || Array.isArray(evaluationSelection)) {
+  throw new Error('evaluationSelection 必须是对象，mode 为 full_19、dimensions 或 custom_skills')
+}
+if (!['full_19', 'dimensions', 'custom_skills'].includes(evaluationSelection.mode)) {
+  throw new Error('evaluationSelection.mode 只允许 full_19/dimensions/custom_skills')
+}
+if (evaluationSelection.mode === 'dimensions' && (!Array.isArray(evaluationSelection.dimensions) || !evaluationSelection.dimensions.length ||
+    !evaluationSelection.dimensions.every(value => typeof value === 'string' && SELECTION_IDENTIFIER.test(value)))) {
+  throw new Error('evaluationSelection.dimensions 必须是非空合法维度目录名数组')
+}
+if (evaluationSelection.mode === 'custom_skills' && (!Array.isArray(evaluationSelection.skills) || !evaluationSelection.skills.length ||
+    !evaluationSelection.skills.every(item => item && typeof item === 'object' && typeof item.dimension === 'string' &&
+      SELECTION_IDENTIFIER.test(item.dimension) && typeof item.skill === 'string' && SELECTION_IDENTIFIER.test(item.skill)))) {
+  throw new Error('evaluationSelection.skills 必须是非空 {dimension,skill} 数组')
+}
+// 仅用于产物命名；真实 targets 由 resolver 在 Phase2b 确定性返回。
+let dimensions = evaluationSelection.mode === 'full_19'
+  ? [...CANONICAL_EVAL_DIMENSIONS]
+  : evaluationSelection.mode === 'dimensions'
+    ? [...evaluationSelection.dimensions]
+    : [...new Set(evaluationSelection.skills.map(item => item.dimension))]
 // Phase2 只允许轻量识别，并为每张截图产出一个独立 JSON。annotate=false 才显式跳过。
 const annotate = A.annotate === false ? false : true
 const skipAnnotation = !annotate
 const phase2Mode = A.phase2Mode ? A.phase2Mode : 'lightweight'
 if (phase2Mode !== 'lightweight') throw new Error('phase2Mode 当前只允许 lightweight；Phase2 不再生成整页标注图，收到: ' + phase2Mode)
-if (A.imdLink) throw new Error('标准 Phase2 只接受本地截图，不执行 IMD 识别')
 const annotateScenes = A.annotateScenes ? A.annotateScenes : []
 if (!Array.isArray(annotateScenes)) throw new Error('annotateScenes 必须是截图绝对路径数组')
 if (annotateScenes.length) throw new Error('annotateScenes 已停用：Phase2 必须为本轮每张 screenshots 输入分别生成 manifest')
 // granularity：Phase3 三个维度都以统一最小元素清单为单一事实源；合并后的 phase2345-query-pipeline agent
-// 固定按元素级契约（八键单图清单/regions/elements）执行，不再支持 component/region 颗粒度。
+// 固定按元素级契约（七键单图清单/regions/elements）执行，不再支持 component/region 颗粒度。
 const granularity = A.granularity ? A.granularity : 'element'
 if (granularity !== 'element') throw new Error('当前标准工作流只接受 granularity=element；组件/卡片与页面框架评测也必须消费同一份最小元素清单，再按各 Skill 聚合')
 const enableAnnotationAudit = A.enableAnnotationAudit !== false
@@ -205,7 +245,7 @@ const reportPath = isBatchGovernanceReport
   ? reportDir + '/meituan_search_experience_dashboard_' + query + tagSuffix + '.html'
   : reportDir + '/meituan_eval_report_' + query + tagSuffix + '_' + dimSlug + '.html'
 const shotSkillDir = (A.shotSkillDir ? A.shotSkillDir : projectDir + '/phase1-screenshot')
-const imdSkillDir = (A.imdSkillDir ? A.imdSkillDir : projectDir + '/phase2-card-annotation')
+const phase2SkillDir = (A.phase2SkillDir ? A.phase2SkillDir : projectDir + '/phase2-card-annotation')
 const issueEvidenceSkillDir = (A.issueEvidenceSkillDir ? A.issueEvidenceSkillDir : projectDir + '/phase4-issue-evidence')
 const reportSkillDir = (A.reportSkillDir ? A.reportSkillDir : projectDir + '/phase5-report')
 // 每个维度的 eval-skills 目录：projectDir/<dimension>/eval-skills
@@ -250,6 +290,50 @@ const DISCOVERY_SCHEMA = {
     },
   },
   required: ['dimension', 'skills'],
+}
+const EVAL_TARGET_RESOLUTION_SCHEMA = {
+  type: 'object',
+  properties: {
+    ok: { type: 'boolean' },
+    selection: { type: 'object' },
+    legacyDimensionsFallback: { type: 'boolean' },
+    dimensions: { type: 'array', items: { type: 'string' } },
+    evalTargets: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          dimension: { type: 'string' },
+          skill: { type: 'string' },
+          title: { type: 'string' },
+          weight: {
+            type: 'object',
+            properties: {
+              '优秀': { type: 'number' },
+              '达标': { type: 'number' },
+              '不达标': { type: 'number' },
+            },
+            required: ['优秀', '不达标'],
+          },
+          aggregate: { type: 'string' },
+          extra: { type: 'string' },
+        },
+        required: ['dimension', 'skill', 'title', 'weight', 'aggregate', 'extra'],
+      },
+    },
+    coverage: {
+      type: 'object',
+      properties: {
+        selectedCount: { type: 'number' },
+        fullCount: { type: 'number' },
+        isFull: { type: 'boolean' },
+        label: { type: 'string' },
+      },
+      required: ['selectedCount', 'fullCount', 'isFull', 'label'],
+    },
+    error: { type: 'string' },
+  },
+  required: ['ok', 'selection', 'legacyDimensionsFallback', 'dimensions', 'evalTargets', 'coverage'],
 }
 // ANNOTATE_AUDIT_SCHEMA：仅用于 Phase2b 之外、纯 stdout 转录的辅助侧审计调用（L1/L2/L3 合规率统计）。
 const ANNOTATE_AUDIT_SCHEMA = {
@@ -384,7 +468,7 @@ if (mode === 'capture_and_evaluate' && A.mode === 'capture_and_evaluate' && A.ev
     query,
     screenshots,
     screenshotsCount: screenshots.length,
-    nextRequired: ['dimensions', 'reportOutlet'],
+    nextRequired: ['evaluationSelection', 'reportOutlet'],
   }
 }
 
@@ -398,6 +482,7 @@ const phase2Outputs = phase2InputPaths.map(p => {
     manifest,
     audit: manifest.replace(/\.json$/, '.audit.json'),
     recognitionAudit: manifest.replace(/\.json$/, '.recognition-audit.json'),
+    visualReview: manifest.replace(/\.json$/, '.visual-review.json'),
     artifactsDir: artifactRunDir + '/phase2/' + stem + tagSuffix,
   }
 })
@@ -411,7 +496,7 @@ const reportImages = screenshots.map(p => ({ original: p, annotated: '' }))
 
 // ---------- Phase 2b: 自动发现各维度 eval skill（纯 frontmatter 解析，不读图，保留 JS 级并行） ----------
 phase('评测')
-log('Phase 2b 发现: dimensions=' + dimensions.join(','))
+log('Phase 2b 预发现: dimensions=' + dimensions.join(',') + (legacySelectionFallback ? '（兼容旧 dimensions 参数）' : ''))
 
 const discoveryResults = await parallel(dimensions.map(dim => () => {
   const prompt = `你是评测 skill 发现 Agent。任务：扫描维度目录，用 python 确定性解析每个 eval skill 的 frontmatter，输出 JSON。
@@ -420,7 +505,7 @@ const discoveryResults = await parallel(dimensions.map(dim => () => {
 
 ## 执行（用 Bash 工具跑下面这条命令，原样复制）
 \`\`\`bash
-python3 - <<'PYEOF'
+"${pythonBin}" - <<'PYEOF'
 import yaml, glob, json, os
 base = os.path.expanduser("${skillBaseFor(dim)}")
 out = {"dimension": "${dim}", "skills": []}
@@ -464,15 +549,37 @@ if (evalTargets.length === 0) {
   throw new Error('未发现任何 eval skill，检查 dimensions 参数与 ' + dimensions.join(',') + ' 下的 eval-skills/eval-* 目录')
 }
 
+// 发现只验证当前维度的 frontmatter；最终范围由评测官 resolver 决定，确保 custom_skills
+// 不会因为同目录中存在其它 Skill 而被静默扩大。
+const selectionJson = JSON.stringify(evaluationSelection)
+const resolutionPrompt = `你是 Phase3 评测官的确定性范围解析执行器。禁止读取截图、禁止评分、禁止修改文件。只用 Bash 原样执行下列命令，并将 stdout JSON 原样映射到 schema：
+
+\`\`\`bash
+"${pythonBin}" "${projectDir}/scripts/resolve_eval_targets.py" --project-dir "${projectDir}" --selection-json '${selectionJson}'
+\`\`\`
+
+若命令失败，返回 error；不要自行扫描或补全未选 Skill。`
+const resolution = await agent(resolutionPrompt, withRequestedModel({ label: 'Phase3评测官:解析范围', phase: '评测', schema: EVAL_TARGET_RESOLUTION_SCHEMA }))
+if (!resolution || resolution.ok !== true || !Array.isArray(resolution.evalTargets) || resolution.evalTargets.length === 0) {
+  throw new Error('评测官未能解析合法评测范围: ' + (resolution && resolution.error ? resolution.error : '无目标 Skill'))
+}
+const resolvedTargets = resolution.evalTargets
+const resolvedDimensions = resolution.dimensions
+const evaluationScope = resolution.coverage
+log('Phase3评测官范围=' + evaluationScope.label + '；目标=' + resolvedTargets.map(item => item.dimension + '/' + item.skill).join(','))
+if (isBatchGovernanceReport && !evaluationScope.isFull) {
+  throw new Error('批量治理看板只接受完整19项评测，当前为' + evaluationScope.label + '；请改用 full_19，避免与全量分混合')
+}
+
 // 每个维度的 eval-skills 目录，供合并子代理定位 SKILL.md
 const skillDirs = {}
-dimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
+resolvedDimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
 
 // ---------- Evaluation Agent: Phase 2+3+4+5 ----------
-// 原 phase2-annotator / phase3-evaluator / phase4-issue-evidence / phase5-report-renderer
+// 原 phase2-annotator / phase4-issue-evidence / phase5-report-renderer
 // 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
 // Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
-// 所有阶段级契约细节（Phase2 当前图片校准、八键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
+// 所有阶段级契约细节（Phase2 当前图片校准、七键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
 // 页面框架结论边界、报告渲染分支等）已完整写入 .claude/agents/phase2345-query-pipeline.md，
 // 本次调用只注入具体输入值，不在 JS 侧重复拼接任何阶段级 Prompt 文本。
 const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query + tagSuffix + '_' + dimSlug + '.json'
@@ -483,17 +590,20 @@ const issueEvidenceDir = annotatedDir + '/evidence/' + query + tagSuffix
 const mergedInputs = {
   query, tag, batchId, runId,
   projectDir,
+  pythonBin,
   screenshots,
   tabs,
   artifactRunDir,
   // Phase2（本地识别）
   annotatedDir,
-  imdSkillDir,
+  phase2SkillDir,
   phase2Mode,
   phase2Outputs,
   skipAnnotation,
   // Phase3（评测）
-  evalTargets,
+  evalTargets: resolvedTargets,
+  evaluationScope,
+  evaluationOfficerSkillDir: projectDir + '/phase3-evaluation-officer',
   skillDirs,
   granularity,
   evalResultFile,
@@ -513,7 +623,7 @@ const mergedInputs = {
   batchArtifactDir,
 }
 
-const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、八键单图清单、FACT_GATES、共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json
@@ -556,7 +666,7 @@ if (elementListPaths.length === 1 && enableAnnotationAudit) {
   const auditPrompt = `用 Bash 跑下面命令，对元素清单做 phase3-标记自动验收（L1/L2/L3）：
 \`\`\`bash
 P=$(echo "${elementListPath}")
-python3 - "$P" <<'PYEOF'
+"${pythonBin}" - "$P" <<'PYEOF'
 import json, os, sys
 
 p = sys.argv[1]
@@ -644,12 +754,14 @@ try:
 
                 ex = e.get('isExcluded')
                 reason = e.get('excludeReason')
-                if isinstance(ex, bool) and isinstance(reason, str) and ((ex and reason.strip()) or (not ex)):
+                if isinstance(ex, bool) and ((ex and isinstance(reason, str) and reason.strip()) or (not ex and reason in (None, ''))):
                     l3_exclude_valid += 1
                 if isinstance(ex, bool) and not ex:
                     non_excluded_elements += 1
-                    txt = str(e.get('内容简述', '')).strip()
-                    if txt.startswith('原文:') and txt not in GENERIC_BAD:
+                    facts = e.get('textFacts') if isinstance(e.get('textFacts'), dict) else {}
+                    txt = str(facts.get('rawText') or e.get('内容简述', '')).strip()
+                    is_photo = et == '图片' or (isinstance(e.get('render'), dict) and e['render'].get('isPhoto') is True)
+                    if is_photo or (txt and ('原文:' + txt if not txt.startswith('原文:') else txt) not in GENERIC_BAD):
                         l3_text_valid += 1
 
         core = CORE_REGIONS.get(ctype, set())
@@ -735,7 +847,9 @@ return {
   batchId: batchId,
   query: query,
   reportOutlet: reportOutlet,
-  dimensions: dimensions,
+  dimensions: resolvedDimensions,
+  evaluationSelection: resolution.selection,
+  evaluationScope: evaluationScope,
   screenshotsCount: screenshots.length,
   annotatedCount: annotatedPaths.length,
   evalSkillsCount: stageB.evalCount || 0,

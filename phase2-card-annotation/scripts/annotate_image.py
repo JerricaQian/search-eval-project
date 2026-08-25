@@ -1,13 +1,8 @@
 """
-本地图片标注库（PNG/JPG）——与 IMD 在线标注共用同一套识别规则与配色表。
+本地图片标注库（PNG/JPG）。
 
 用途：对本地整页截图（搜索结果页/信息页）直接绘制「宏观组件 + 商卡内部分区」两级
-半透明矩形 + 红色文字标签，产出一张标注 PNG。无需浏览器/IMD，纯 Pillow 实现。
-
-与 imd_annotate_api.py 的区别：
-- IMD 版通过 window.mg 插件 API 在设计文件里新增图层（坐标 = 画板偏移 + 像素坐标）。
-- 本地版直接在图片像素上绘制（坐标就是像素坐标，无偏移）。
-- 两者配色表 COLORS 完全一致，任务表 tasks 结构 {label,x,y,w,h,kind} 也一致，可互相复用。
+半透明矩形 + 红色文字标签，产出一张标注 PNG。纯 Pillow 实现，坐标直接使用图片像素坐标。
 
 用法：
     from annotate_image import annotate_image
@@ -16,7 +11,7 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 
-# ---- 配色表：与 imd_annotate_api.py 的 COLORS 保持一致（HEX, 透明度%）----
+# ---- 配色表（HEX, 透明度%）----
 COLORS = {
     "状态栏":            ("C8D2DC", 20),
     "顶部导航搜索框":     ("6495ED", 22),

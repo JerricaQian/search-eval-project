@@ -28,15 +28,26 @@ def _meaningful(value: str) -> str:
 def field_schema_hook(context: dict[str, Any]) -> list[dict[str, str]]:
     patterns = {
         "price": r"[¥￥]\s*\d{1,5}(?:\.\d+)?|\d{1,5}(?:\.\d+)?\s*元|\d{1,5}(?:\.\d+)?\s*起|[Yy#*]\s*\d{1,5}(?:\.\d+)?\s*(?:起|/人)|(?:到手价?|神价|冰爽价|前\d+件).{0,10}[#¥￥Yy*]?\d{1,5}",
-        "rating": r"\d(?:\.\d)?\s*分|暂无评分",
+        # Search result cards commonly render the score as a bare decimal
+        # beside a star icon (for example ``4.6``), rather than ``4.6分``.
+        # The role is already constrained by card geometry or a recorded
+        # current-pixel review, so this accepts that real UI form without
+        # treating an arbitrary numeric token as a rating.
+        "rating": r"(?:[0-4](?:\.\d+)?|5(?:\.0+)?)(?:\s*分)?|暂无评分",
         "sales": r"(?:月售|已售|年售|回购|加购).{0,8}\d",
-        "fulfillment": r"到店|外卖|配送|送达|自取|上门|景点|\d{1,3}\s*分钟",
+        "fulfillment": r"到店|外卖|配送|送达|自取|上门|景点|起送|\d{1,3}\s*分钟|\d{1,2}:\d{2}(?:营业|休息)",
     }
     findings = []
     for item in context["semanticItems"]:
         role, text = item["role"], item["text"]
         pattern = patterns.get(role)
-        if pattern and not re.search(pattern, text):
+        if not pattern:
+            continue
+        # Rating is a standalone semantic field.  A substring match would
+        # accept the "2" in a duration such as "21分钟" after an upstream role
+        # mistake, which hides rather than surfaces the Phase2 mismatch.
+        matches = re.fullmatch(pattern, text.strip()) if role == "rating" else re.search(pattern, text)
+        if not matches:
             findings.append({"hook": "field_schema", "sourceId": item["sourceId"], "reason": f"{role}_text_does_not_match_field_grammar:{text}"})
     return findings
 
@@ -204,7 +215,7 @@ def dense_numeric_atomicity_hook(context: dict[str, Any]) -> list[dict[str, str]
         text = re.sub(r"\s+", "", item["text"])
         role = item["role"]
         reason = ""
-        if re.search(r"(?:\d(?:\.\d)?分|暂无评分).+", text) and role != "rating":
+        if re.search(r"(?:\d(?:\.\d)?分(?!钟)|暂无评分).+", text) and role != "rating":
             reason = "rating_token_must_be_a_standalone_rating_field"
         elif re.search(r"\d(?:\.\d)?分\d", text):
             reason = "rating_is_glued_to_following_numeric_field"

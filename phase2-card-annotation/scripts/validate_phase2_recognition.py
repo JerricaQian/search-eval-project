@@ -99,13 +99,24 @@ def _golden_structure_gaps(facts: dict[str, Any], candidates: dict[str, Any], se
         product_meta = [item for item in local if item.get("boundedReprocess", {}).get("region") == "product_meta"]
         meta_accepted = [item for item in product_meta if item.get("route") == "accepted"]
         meta_rejected = [item.get("id") for item in product_meta if item.get("route") == "rejected"]
+        # A recorded current-pixel review can replace a rejected Paddle line
+        # with separately bounded product title/price atoms.  The replacement
+        # has no ``boundedReprocess`` marker by design, so use its own crop
+        # and the attached-media lower edge as the evidence boundary.
+        attached_bottom = max((item["coord"][1] + item["coord"][3] for item in attached), default=0)
+        reviewed_meta = [
+            item for item in local
+            if isinstance(item.get("visualReview"), dict)
+            and item.get("coord", [0, 0, 0, 0])[1] >= attached_bottom
+            and str(item.get("text", "")).strip()
+        ]
         if not attached:
             gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#3", "kind": "missing_graphic_item_anchor", "blocking": True, "action": "重建当前截图下挂商品图片边界；每个可见图片项必须先有自己的图片候选，再分配标题/价格。", "sourceIds": []})
         if image_inner:
             gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#5", "kind": "photo_inner_text", "blocking": False, "action": "保持这些 OCR 为拒绝审计；仅对有独立平台容器的覆盖标做局部像素复核，禁止把包装/招牌字发布为 UI 文本。", "sourceIds": image_inner})
         if merged:
             gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#7", "kind": "merged_visual_entities", "blocking": True, "action": "按颜色、间距和圆角容器拆成独立 chip；未取得单个边界与逐项文字前不得发布整行。", "sourceIds": merged})
-        if component_read_completed and attached and meta_rejected and not meta_accepted:
+        if component_read_completed and attached and meta_rejected and not (meta_accepted or reviewed_meta):
             gaps.append({"cardId": card_id, "reference": "golden_structure_exemplars.v1.md#3", "kind": "unresolved_product_metadata", "blocking": True, "action": "读取当前卡的 product_meta 局部区域，逐项建立可见商品名/价格；右侧或底部裁切项只保留可见字形并标 naturally_cropped。", "sourceIds": meta_rejected})
     return gaps
 

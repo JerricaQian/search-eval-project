@@ -48,10 +48,47 @@ def valid_run_id(value: str) -> bool:
     return 1 <= len(value) <= 80 and value[0].isalnum() and all(char in RUN_ID_CHARS for char in value)
 
 
+def parse_evaluation_selection(value: str) -> dict[str, Any] | None:
+    """Parse the optional user-facing Phase3 selection without judging it.
+
+    Exact dimension/Skill validation belongs to ``resolve_eval_targets.py`` in
+    the workflow, because that script reads the current catalog once and is
+    shared by both host paths.
+    """
+    if not value:
+        return None
+    parsed = json.loads(value)
+    if not isinstance(parsed, dict):
+        raise ValueError("evaluation_selection_must_be_json_object")
+    return parsed
+
+
 def write_once(path: Path, payload: dict[str, Any]) -> None:
     if path.exists():
         raise ValueError(f"refuse_to_overwrite:{path}")
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def archive_blocked_receipt_for_completion(receipt_path: Path, verified: dict[str, Any]) -> None:
+    """Preserve a prior blocked receipt when the same task later completes.
+
+    A blocked Evaluation Agent result is a terminal result for that attempt,
+    but it must not prevent a controlled retry of the exact same portable task.
+    Only the one-way ``blocked -> completed`` transition is allowed here; a
+    completed delivery remains immutable.
+    """
+    if not receipt_path.exists() or verified.get("status") != "completed":
+        return
+    previous = read_json(receipt_path)
+    if not isinstance(previous, dict) or previous.get("status") != "blocked":
+        return
+    stage = str(previous.get("blockedAt") or "unknown")
+    candidate = receipt_path.with_name(f"receipt.blocked-{stage}.json")
+    index = 2
+    while candidate.exists():
+        candidate = receipt_path.with_name(f"receipt.blocked-{stage}-{index}.json")
+        index += 1
+    receipt_path.replace(candidate)
 
 
 def portable_task(project_dir: Path, workflow_args: dict[str, Any], run_id: str, runs_dir: Path) -> dict[str, Any]:
@@ -202,8 +239,23 @@ def command_prepare(args: argparse.Namespace) -> int:
         "discovery": discovery,
         "status": "copy_blocked" if copied["error"] else "awaiting_screenshot_selection",
     }
+    try:
+        evaluation_selection = parse_evaluation_selection(args.evaluation_selection)
+    except (TypeError, json.JSONDecodeError, ValueError) as exc:
+        return emit({**payload, "status": "invalid_evaluation_selection", "error": str(exc)}, 2)
     if not copied["error"] and args.query:
-        group = next((item for item in discovery["groups"] if item["query"] == args.query), None)
+        copied_paths = {
+            item.get("destinationPath")
+            for item in copied.get("copied", []) + copied.get("alreadyPresent", []) + copied.get("renamed", [])
+            if isinstance(item, dict) and isinstance(item.get("destinationPath"), str)
+        }
+        group = next(
+            (
+                item for item in discovery["groups"]
+                if item["query"] == args.query and copied_paths.intersection(item.get("files", []))
+            ),
+            None,
+        )
         if group is None:
             payload["status"] = "query_not_found_after_copy"
         else:
@@ -214,6 +266,7 @@ def command_prepare(args: argparse.Namespace) -> int:
             workflow_args = {
                 "mode": "evaluate_only",
                 "projectDir": str(project_dir),
+                "pythonBin": sys.executable,
                 "query": args.query,
                 "selectedScreenshots": group["files"],
                 "dimensions": args.dimensions,
@@ -224,6 +277,8 @@ def command_prepare(args: argparse.Namespace) -> int:
                 "tag": run_id,
                 "rerunId": run_id,
             }
+            if evaluation_selection is not None:
+                workflow_args["evaluationSelection"] = evaluation_selection
             payload["status"] = "ready_for_host_workflow"
             payload["workflowArgs"] = workflow_args
             if not args.dry_run:
@@ -262,6 +317,7 @@ def command_finalize(args: argparse.Namespace) -> int:
             "resultPath": str(result_path),
             **verified,
         }
+        archive_blocked_receipt_for_completion(receipt_path, verified)
         write_once(receipt_path, receipt)
         return emit({"ok": True, "receiptPath": str(receipt_path), **receipt})
     except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -289,6 +345,11 @@ def parser() -> argparse.ArgumentParser:
     prepare.add_argument("--screenshot-dir", type=Path)
     prepare.add_argument("--query", default="")
     prepare.add_argument("--dimensions", nargs="+", default=["phase3-card_or_component-eval"])
+    prepare.add_argument(
+        "--evaluation-selection",
+        default="",
+        help='JSON：{"mode":"full_19"}、{"mode":"dimensions","dimensions":[...]} 或 {"mode":"custom_skills","skills":[{"dimension":"...","skill":"..."}]}。未传时兼容 --dimensions。',
+    )
     prepare.add_argument("--report-outlet", choices=["local_html", "nocode"], default="local_html")
     prepare.add_argument("--min-bytes", type=int, default=5001)
     prepare.add_argument("--dry-run", action="store_true")

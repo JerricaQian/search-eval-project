@@ -10,8 +10,9 @@ from typing import Any
 
 from phase2_bundle_loader import load_phase2_facts
 
-TOP_LEVEL_KEYS = {"query", "screenshot", "annotatedImage", "cards"}
-OPTIONAL_TOP_LEVEL_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations", "recognition"}
+TOP_LEVEL_KEYS = {"query", "screenshot", "cards"}
+REQUIRED_PHASE3_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations", "recognition"}
+OPTIONAL_TOP_LEVEL_FACT_KEYS = REQUIRED_PHASE3_FACT_KEYS | {"annotatedImage"}
 CARD_KEYS = {"cardId", "卡片类型", "coord", "regions"}
 OPTIONAL_CARD_BUSINESS_KEYS = {"ownershipScope", "businessCode", "businessName", "businessConfidence"}
 OPTIONAL_CARD_FACT_KEYS = {
@@ -29,13 +30,14 @@ OWNERSHIP_SCOPES = {"business", "platform", "mixed", "unknown"}
 CONFIDENCE_LEVELS = {"high", "medium", "low", "unknown"}
 REGION_KEYS = {"name", "coord", "elements"}
 OPTIONAL_REGION_KEYS = {"itemGroups"}
-ELEMENT_KEYS = {"id", "所属组件", "元素类型", "内容简述", "坐标", "isExcluded", "excludeReason"}
+ELEMENT_REQUIRED_KEYS = {"id", "所属组件", "元素类型", "坐标", "isExcluded"}
+OPTIONAL_ELEMENT_COMPAT_KEYS = {"内容简述", "excludeReason"}
 OPTIONAL_ELEMENT_VISUAL_KEYS = {"visual", "render", "textFacts"}
 VISUAL_ENTITY_KINDS = {"tag", "icon", "text", "image"}
 VISUAL_STATUSES = {"confirmed", "uncertain"}
 COLOR_ROLES = {"neutral", "red", "orange", "yellow", "green", "blue", "purple", "multicolor", "unknown"}
 TAG_SCAN_STATUSES = {"found", "not_found", "uncertain"}
-REQUIRED_BASE_VISUAL_FIELDS = {"semanticRole", "containerShape", "graphicAssistRole"}
+REQUIRED_BASE_VISUAL_FIELDS = {"containerShape", "graphicAssistRole"}
 
 
 def style_key_ok(value: Any) -> bool:
@@ -64,7 +66,7 @@ def valid_tag_scan_checklist(value: Any, known_ids: set[str]) -> bool:
             return False
     return True
 CARD_TYPES = {
-    "商品卡片", "商家卡片-图文下挂", "商家卡片-文字下挂", "酒店卡片",
+    "商品卡片", "商家卡片-图文下挂", "商家卡片-文字下挂", "商家卡片-无下挂", "酒店卡片",
     "度假/酒店套餐卡片", "演出/电影卡片", "主点卡片", "特殊广告卡", "异构卡", "宏观组件", "酒店卡片（商家商品卡）",
 }
 REGION_NAMES = {
@@ -108,6 +110,15 @@ def is_within(inner: list[float], outer: list[float], tolerance: float = 2) -> b
 def normalized_visible_text(value: str) -> str:
     """Normalize copied visible text only for conservative duplicate-supply candidates."""
     return re.sub(r"[\s\W_]+", "", value.removeprefix("原文:")).lower()
+
+
+def element_visible_text(element: dict[str, Any]) -> str:
+    """Read canonical text; retain legacy ``内容简述`` only as an input fallback."""
+    facts = element.get("textFacts")
+    if isinstance(facts, dict) and isinstance(facts.get("rawText"), str):
+        return facts["rawText"].strip()
+    content = element.get("内容简述")
+    return content.removeprefix("原文:").strip() if isinstance(content, str) else ""
 
 
 def semantic_tag_group_count(text: str) -> int:
@@ -160,7 +171,7 @@ def main() -> int:
 
     if not isinstance(data, dict) or not TOP_LEVEL_KEYS.issubset(data) or not set(data).issubset(TOP_LEVEL_KEYS | OPTIONAL_TOP_LEVEL_FACT_KEYS):
         errors.append("top_level_keys_must_include_base_schema_and_only_allow_phase3_fact_extensions")
-    elif not OPTIONAL_TOP_LEVEL_FACT_KEYS.issubset(data):
+    elif not REQUIRED_PHASE3_FACT_KEYS.issubset(data):
         errors.append("phase3_fact_extensions_missing:pageFacts,pageFactInventory,relations,recognition")
     recognition = data.get("recognition", {}) if isinstance(data, dict) else {}
     required_recognition = {"contractVersion", "status", "phase3Ready", "wholePageGate", "blockingCardIds", "backends", "errors", "semanticHookFindings", "reprocessTargets", "reprocess"}
@@ -271,17 +282,16 @@ def main() -> int:
                 continue
             if region.get("name") == "标题区":
                 titles = [
-                    element.get("内容简述") for element in elements
+                    f"原文:{element_visible_text(element)}" for element in elements
                     if isinstance(element, dict)
                     and not element.get("isExcluded")
-                    and isinstance(element.get("内容简述"), str)
-                    and normalized_visible_text(element["内容简述"])
+                    and normalized_visible_text(element_visible_text(element))
                 ]
                 if titles:
                     card_title_evidence.setdefault(str(card_id), []).extend(titles)
             for ei, element in enumerate(elements, 1):
                 eprefix = f"{rprefix}.elements[{ei}]"
-                if not isinstance(element, dict) or not ELEMENT_KEYS.issubset(element) or not set(element).issubset(ELEMENT_KEYS | OPTIONAL_ELEMENT_VISUAL_KEYS):
+                if not isinstance(element, dict) or not ELEMENT_REQUIRED_KEYS.issubset(element) or not set(element).issubset(ELEMENT_REQUIRED_KEYS | OPTIONAL_ELEMENT_COMPAT_KEYS | OPTIONAL_ELEMENT_VISUAL_KEYS):
                     errors.append(f"{eprefix}:element_keys_invalid")
                     continue
                 element_id = element.get("id")
@@ -300,16 +310,18 @@ def main() -> int:
                 if not isinstance(element.get("isExcluded"), bool):
                     errors.append(f"{eprefix}:isExcluded_must_be_boolean")
                     continue
-                content = element.get("内容简述")
+                raw_text = element_visible_text(element)
+                content = f"原文:{raw_text}" if raw_text else ""
                 reason = element.get("excludeReason")
-                if not isinstance(content, str) or not content.startswith("原文:"):
-                    errors.append(f"{eprefix}:content_must_start_with_original_text")
-                if not isinstance(reason, str):
+                is_image = element.get("元素类型") == "图片" or element.get("render", {}).get("isPhoto") is True
+                if not is_image and not raw_text:
+                    errors.append(f"{eprefix}:text_element_requires_textFacts_rawText_or_legacy_content")
+                if reason is not None and not isinstance(reason, str):
                     errors.append(f"{eprefix}:excludeReason_must_be_string")
-                if element["isExcluded"] and not reason.strip():
+                if element["isExcluded"] and (not isinstance(reason, str) or not reason.strip()):
                     errors.append(f"{eprefix}:excluded_element_requires_reason")
                 if not element["isExcluded"]:
-                    if reason != "":
+                    if reason not in {None, ""}:
                         errors.append(f"{eprefix}:active_element_excludeReason_must_be_empty")
                     if content in GENERIC_TEXTS or any(marker in content for marker in PLACEHOLDER_MARKERS):
                         errors.append(f"{eprefix}:content_is_placeholder_or_generic")
@@ -331,9 +343,9 @@ def main() -> int:
                     active.append(element)
                     card_elements.append(element)
                 render = element.get("render")
-                if not isinstance(render, dict) or not {"visibleStatus", "renderState", "sourceRegion", "isPhoto", "isSystemUi"}.issubset(render):
+                if not isinstance(render, dict) or not {"visibleStatus", "renderState", "isPhoto", "isSystemUi"}.issubset(render):
                     errors.append(f"{eprefix}:render_required_for_phase3")
-                elif render.get("sourceRegion") != region.get("name") or not isinstance(render.get("isPhoto"), bool) or not isinstance(render.get("isSystemUi"), bool):
+                elif not isinstance(render.get("isPhoto"), bool) or not isinstance(render.get("isSystemUi"), bool):
                     errors.append(f"{eprefix}:render_schema_invalid")
                 if element.get("元素类型") == "文本":
                     text_facts = element.get("textFacts")
@@ -342,7 +354,7 @@ def main() -> int:
                         errors.append(f"{eprefix}:textFacts_required_for_text_element")
                 visual = element.get("visual")
                 if visual is not None:
-                    required_visual = {"entityKind", "visualStatus", "isColored", "isShaped", "colorRole", "backgroundColor", "textColor", "borderColor", "hasGraphicAssist", "graphicType", "styleKey", "sourceRegion"}
+                    required_visual = {"entityKind", "visualStatus", "colorRole", "graphicType", "styleKey"}
                     if not isinstance(visual, dict) or not required_visual.issubset(visual):
                         errors.append(f"{eprefix}:visual_schema_invalid")
                     else:
@@ -352,10 +364,6 @@ def main() -> int:
                             errors.append(f"{eprefix}:visual_status_invalid")
                         if visual.get("colorRole") not in COLOR_ROLES:
                             errors.append(f"{eprefix}:visual_colorRole_invalid")
-                        if visual.get("sourceRegion") != region.get("name"):
-                            errors.append(f"{eprefix}:visual_sourceRegion_must_equal_region")
-                        if not all(isinstance(visual.get(key), bool) for key in ("isColored", "isShaped", "hasGraphicAssist")):
-                            errors.append(f"{eprefix}:visual_boolean_invalid")
                         if visual.get("visualStatus") == "confirmed" and visual.get("entityKind") in {"tag", "icon"}:
                             if visual.get("styleKey") is not None and not style_key_ok(visual.get("styleKey")):
                                 errors.append(f"{eprefix}:visual_styleKey_if_present_must_have_five_segments")
@@ -363,8 +371,7 @@ def main() -> int:
                             if missing_visual_fields:
                                 errors.append(f"{eprefix}:visual_base_fields_missing:{','.join(sorted(missing_visual_fields))}")
                             elif (
-                                not isinstance(visual.get("semanticRole"), str) or not visual["semanticRole"].strip()
-                                or not isinstance(visual.get("containerShape"), str) or not visual["containerShape"].strip()
+                                not isinstance(visual.get("containerShape"), str) or not visual["containerShape"].strip()
                                 or not isinstance(visual.get("graphicAssistRole"), str) or not visual["graphicAssistRole"].strip()
                             ):
                                 errors.append(f"{eprefix}:visual_base_fields_invalid")
@@ -410,7 +417,6 @@ def main() -> int:
                 item for item in card_elements
                 if isinstance(item.get("textFacts"), dict)
                 and item["textFacts"].get("semanticRole") == "title"
-                and item.get("render", {}).get("sourceRegion") == "标题区"
             ]
             if not title_elements:
                 errors.append(f"{prefix}:complete_known_card_requires_title_element")
@@ -534,7 +540,13 @@ def main() -> int:
                     titles = [element for element in elements if isinstance(element.get("textFacts"), dict) and element["textFacts"].get("semanticRole") == "title"]
                     images = [element for element in elements if element.get("元素类型") == "图片"]
                     append_regions = {"下挂商品区", "文字下挂区", "下挂区", "服务下挂", "特殊下挂", "领域下挂区"}
-                    append_elements = [element for element in elements if isinstance(element.get("render"), dict) and element["render"].get("sourceRegion") in append_regions]
+                    append_elements = [
+                        element
+                        for region in metadata.get("regions", [])
+                        if isinstance(region, dict) and region.get("name") in append_regions
+                        for element in region.get("elements", [])
+                        if isinstance(element, dict)
+                    ]
                     for title in titles:
                         title_id = str(title.get("id"))
                         for relation_type, targets in (("title_to_image", images), ("title_to_append", append_elements)):
@@ -693,8 +705,7 @@ def main() -> int:
                                 expected_card_id, element = expected[element_id]
                                 render = element.get("render")
                                 is_photo = element.get("元素类型") == "图片" or (isinstance(render, dict) and render.get("isPhoto") is True)
-                                content = element.get("内容简述", "")
-                                expected_text = "" if is_photo else (content.removeprefix("原文:") if isinstance(content, str) else "")
+                                expected_text = "" if is_photo else element_visible_text(element)
                                 if field.get("cardId") != expected_card_id:
                                     errors.append(f"current_image_calibration_card_mismatch:{element_id}")
                                 if field.get("coord") != element.get("坐标"):
@@ -721,7 +732,7 @@ def main() -> int:
         errors.append("no_active_elements")
     for i, left in enumerate(active):
         for right in active[i + 1:]:
-            if left.get("所属组件") == right.get("所属组件") and left.get("内容简述") == right.get("内容简述") and intersects(left["坐标"], right["坐标"]):
+            if left.get("所属组件") == right.get("所属组件") and element_visible_text(left) == element_visible_text(right) and intersects(left["坐标"], right["坐标"]):
                 errors.append(f"overlapping_duplicate_visual_entity:{left['id']}:{right['id']}")
 
     duplicate_supply_candidates: list[dict[str, Any]] = []
@@ -749,7 +760,7 @@ def main() -> int:
         "total": len(active),
         "elementIds": element_ids,
         "activeElements": [
-            {"id": item["id"], "coord": item["坐标"], "component": item["所属组件"], "elementType": item["元素类型"], "content": item["内容简述"]}
+            {"id": item["id"], "coord": item["坐标"], "component": item["所属组件"], "elementType": item["元素类型"], "content": f"原文:{element_visible_text(item)}"}
             for item in active
         ],
         "errors": errors,

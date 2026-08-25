@@ -13,6 +13,7 @@ Input contracts:
                     (same shape as workflow's `evalTargets`)
   --tabs            JSON array of tab name strings
   --images          JSON array of {original, annotated} (optional, default [])
+  --scope           JSON object with selected/full coverage (optional, default {})
   --query           current query string
   --output          path to write the computed summary JSON
 """
@@ -42,6 +43,7 @@ def main() -> int:
     parser.add_argument("--eval-targets", required=True)
     parser.add_argument("--tabs", required=True)
     parser.add_argument("--images", default="[]")
+    parser.add_argument("--scope", default="{}")
     parser.add_argument("--query", required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
@@ -51,6 +53,10 @@ def main() -> int:
     tabs: list[str] = json.loads(Path(args.tabs).read_text(encoding="utf-8"))
     images_raw = args.images
     images = json.loads(Path(images_raw).read_text(encoding="utf-8")) if Path(images_raw).exists() else json.loads(images_raw)
+    scope_raw = args.scope
+    scope = json.loads(Path(scope_raw).read_text(encoding="utf-8")) if Path(scope_raw).exists() else json.loads(scope_raw)
+    if not isinstance(scope, dict):
+        raise ValueError("scope_must_be_object")
 
     evals_by_dim: dict[str, dict[str, Any]] = {}
     for t in eval_targets:
@@ -114,6 +120,7 @@ def main() -> int:
         "images": images,
         "overall": overall_summary,
         "dimensions": dimension_summaries,
+        "scope": scope,
     }
 
     Path(args.output).write_text(json.dumps(computed, ensure_ascii=False, indent=2), encoding="utf-8")

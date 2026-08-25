@@ -86,6 +86,111 @@ def _content_rows(rgb: np.ndarray) -> tuple[list[dict[str, Any]], list[dict[str,
     return bands, rows
 
 
+def _paddle_mapping(result: Any) -> dict[str, Any] | None:
+    """Return the public payload of one PaddleOCR v3 result, when available.
+
+    PaddleOCR v3 has shipped both dict-like ``OCRResult`` values and result
+    objects exposing ``json``/``to_dict``.  Treating a valid *empty* result as
+    a backend failure makes a blank bounded crop fall back to Tesseract and
+    violates the bounded-Paddle contract.  This adapter only normalizes the
+    documented result container; it never changes recognized text.
+    """
+    if isinstance(result, dict):
+        return result
+    getter = getattr(result, "get", None)
+    if callable(getter):
+        return result
+    for name in ("to_dict", "dict", "json"):
+        value = getattr(result, name, None)
+        try:
+            value = value() if callable(value) else value
+        except (TypeError, ValueError):
+            continue
+        if isinstance(value, dict):
+            return value
+        if isinstance(value, str):
+            try:
+                decoded = json.loads(value)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(decoded, dict):
+                return decoded
+    return None
+
+
+def _paddle_sequence(value: Any) -> list[Any]:
+    """Convert Paddle list/tuple/ndarray fields without boolean coercion."""
+    if value is None:
+        return []
+    if isinstance(value, (str, bytes)):
+        return [value]
+    try:
+        return list(value)
+    except TypeError:
+        return []
+
+
+def _parse_paddle_output(raw: Any) -> tuple[list[dict[str, Any]], bool]:
+    """Normalize public Paddle v2/v3 OCR output.
+
+    The boolean means that Paddle returned a known result shape.  It remains
+    true for an empty detection result: no text in a bounded crop is a valid
+    Paddle observation, not a reason to switch OCR backend.
+    """
+    entries: list[dict[str, Any]] = []
+    if not isinstance(raw, (list, tuple)):
+        return entries, False
+    if not raw:
+        return entries, True
+
+    supported_shape = False
+    # PaddleOCR v2: [[[quad], (text, confidence)], ...]
+    if isinstance(raw[0], list):
+        supported_shape = True
+        candidates = raw[0] if len(raw) == 1 else raw
+        for item in candidates:
+            if not isinstance(item, (list, tuple)) or len(item) < 2:
+                continue
+            quad, result = item[0], item[1]
+            if not isinstance(quad, (list, tuple)) or not isinstance(result, (list, tuple)) or len(result) < 2:
+                continue
+            try:
+                xs = [float(point[0]) for point in quad]
+                ys = [float(point[1]) for point in quad]
+                text, confidence = str(result[0]), float(result[1])
+            except (TypeError, ValueError, IndexError):
+                continue
+            entries.append({
+                "text": text,
+                "coord": [int(min(xs)), int(min(ys)), int(max(xs) - min(xs)), int(max(ys) - min(ys))],
+                "ocrConfidence": round(confidence, 4),
+            })
+
+    # PaddleOCR v3 yields dict-like OCRResult instances.  Keep each detected
+    # text box separate; later domain rules decide which field owns it.
+    for result in raw:
+        payload = _paddle_mapping(result)
+        if payload is None:
+            continue
+        if not {"rec_texts", "rec_scores", "rec_boxes"}.intersection(payload):
+            continue
+        supported_shape = True
+        texts = _paddle_sequence(payload.get("rec_texts"))
+        scores = _paddle_sequence(payload.get("rec_scores"))
+        boxes = _paddle_sequence(payload.get("rec_boxes"))
+        for text, confidence, box in zip(texts, scores, boxes):
+            try:
+                x0, y0, x1, y1 = [float(value) for value in box]
+                entries.append({
+                    "text": str(text),
+                    "coord": [int(x0), int(y0), int(x1 - x0), int(y1 - y0)],
+                    "ocrConfidence": round(float(confidence), 4),
+                })
+            except (TypeError, ValueError):
+                continue
+    return entries, supported_shape
+
+
 def _ocr_with_paddle(image_path: Path) -> tuple[list[dict[str, Any]], str | None]:
     """Run PaddleOCR when installed, supporting its public v2/v3 result shapes.
 
@@ -134,50 +239,8 @@ def _ocr_with_paddle(image_path: Path) -> tuple[list[dict[str, Any]], str | None
     except Exception as exc:  # backend errors are represented in the artifact
         return [], f"paddleocr_error:{type(exc).__name__}:{exc}"[:240]
 
-    entries: list[dict[str, Any]] = []
-    # PaddleOCR v2: [[[quad], (text, confidence)], ...]
-    if isinstance(raw, list) and raw and isinstance(raw[0], list):
-        candidates = raw[0] if len(raw) == 1 else raw
-        for item in candidates:
-            if not isinstance(item, (list, tuple)) or len(item) < 2:
-                continue
-            quad, result = item[0], item[1]
-            if not isinstance(quad, (list, tuple)) or not isinstance(result, (list, tuple)) or len(result) < 2:
-                continue
-            try:
-                xs = [float(point[0]) for point in quad]
-                ys = [float(point[1]) for point in quad]
-                text, confidence = str(result[0]), float(result[1])
-            except (TypeError, ValueError, IndexError):
-                continue
-            entries.append({
-                "text": text,
-                "coord": [int(min(xs)), int(min(ys)), int(max(xs) - min(xs)), int(max(ys) - min(ys))],
-                "ocrConfidence": round(confidence, 4),
-            })
-    # PaddleOCR v3 yields dict-like OCRResult instances.  Keep each detected
-    # text box separate; later domain rules decide which field owns it.
-    if isinstance(raw, list):
-        for result in raw:
-            if not hasattr(result, "get"):
-                continue
-            try:
-                texts = list(result.get("rec_texts", []))
-                scores = list(result.get("rec_scores", []))
-                boxes = list(result.get("rec_boxes", []))
-            except (TypeError, ValueError):
-                continue
-            for text, confidence, box in zip(texts, scores, boxes):
-                try:
-                    x0, y0, x1, y1 = [float(value) for value in box]
-                    entries.append({
-                        "text": str(text),
-                        "coord": [int(x0), int(y0), int(x1 - x0), int(y1 - y0)],
-                        "ocrConfidence": round(float(confidence), 4),
-                    })
-                except (TypeError, ValueError):
-                    continue
-    if not entries:
+    entries, supported_shape = _parse_paddle_output(raw)
+    if not supported_shape:
         return [], "paddleocr_result_shape_not_supported"
     return entries, None
 
@@ -214,7 +277,7 @@ def ocr_region(image_path: Path, coord: list[int], tesseract_psm: int | None = N
                 entries, fallback_error = _run_tesseract(Path(handle.name), tesseract_psm) if tesseract_psm else _ocr_with_tesseract(Path(handle.name))
                 backend = "tesseract" if not fallback_error else "unavailable"
                 error = paddle_error if not fallback_error else f"{paddle_error};{fallback_error}"
-            if (backend == "unavailable" or not entries) and tesseract_psm:
+            if paddle_error and (backend == "unavailable" or not entries) and tesseract_psm:
                 # Low-contrast gray metadata often disappears in a tight crop.
                 # Retry the same bounded pixels with deterministic grayscale
                 # autocontrast; this is not a new semantic or model source.

@@ -46,6 +46,7 @@
     "product_repeat_boundary": "单商品主图作为重复卡头，且未吸附商家下挂",
     "merchant_graphic_boundary": "左侧近方形商家头图与其后右侧商品图组形成同一卡边界",
     "merchant_text_boundary": "左图右文商家卡头吸附下一卡头前的纯文字下挂",
+    "merchant_plain_boundary": "左图右文商家卡头在下一同列卡头前结束，当前卡未出现图文或文字下挂",
     "hotel_list_boundary": "酒店身份文本位于重复左图右文卡边界内",
     "hotel_grid_boundary": "酒店身份文本位于不跨列的窄幅网格单元内",
     "performance_poster_boundary": "竖版海报与演出身份文本位于同一重复卡边界",
@@ -84,6 +85,17 @@
       "forbiddenFeatures": ["graphic_downhang"],
       "distinguishFrom": {"商品卡片": "必须同时存在商家指标与服务/履约语义，或景点主体与门票文字下挂；不能把单商品价格行当下挂。", "商家卡片_图文下挂": "不能存在独立横向商品图片组。"},
       "requiredRegions": ["头图区", "标题区", "商家信息区", "下挂区"],
+      "optionalRegions": ["标签区", "AI推荐理由"]
+    },
+    {
+      "cardType": "商家卡片_无下挂",
+      "scope": "results_list_card",
+      "boundaryStrategy": "以左侧商家头图、右侧标题和商家基础信息为完整卡头；下一同列卡头前没有图文或文字下挂时在此结束。",
+      "minimumEvidenceGroups": [["stable_boundary"], ["merchant_plain_boundary"], ["left_head_media"], ["title_like_text"], ["merchant_metrics"], ["service_language", "merchant_fulfillment", "scenic_merchant_identity"]],
+      "supportingFeatures": ["result_list_position"],
+      "forbiddenFeatures": ["graphic_downhang", "text_downhang", "scenic_ticket_downhang"],
+      "distinguishFrom": {"商家卡片_文字下挂": "没有可确认的服务/门票文字下挂时不得因商家基础信息而补造下挂。", "异构卡": "满足商家头图、标题、指标与无下挂边界时必须归商家基础形态。"},
+      "requiredRegions": ["头图区", "标题区", "商家信息区"],
       "optionalRegions": ["标签区", "AI推荐理由"]
     },
     {

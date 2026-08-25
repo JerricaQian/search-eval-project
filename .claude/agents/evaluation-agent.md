@@ -13,8 +13,8 @@ tools: Read, Bash, Write, Grep, Glob
 - 可接收 `MEITUAN_EVAL_TASK_V2` 的 `taskPath`。此时先读取任务 JSON，再读取其 `contractFiles`；使用其中的 `workflowArgs`，最终把完整 Stage A～D JSON 写到 `resultPath` 并执行 `completionCommand`。
 - 输入截图必须是用户或 Screenshot Agent 已确认的绝对路径数组。
 - `query` 可由截图发现结果推导，不应要求用户在“仅评测已有截图”模式中重复输入。
-- 执行前读取并遵守 `.claude/agents/phase2345-query-pipeline.md`。
-- 不接受未经 Workflow 路由和用户范围确认的原始图片作为“人工评测”任务；若上游缺少截图发现结果、所选维度或报告出口，返回可行动的缺失项，不得自行改为目视评分。
+- 执行前读取并遵守 `.claude/agents/phase2345-query-pipeline.md`；进入 Phase3 时再读取 `phase3-evaluation-officer/SKILL.md`，由评测官知识库解释页面、模块、卡型和用户选择范围。
+- 不接受未经 Workflow 路由和用户范围确认的原始图片作为“人工评测”任务；若上游缺少截图发现结果、评测选择（完整19项/维度/自定义 Skill）或报告出口，返回可行动的缺失项，不得自行改为目视评分。
 
 ## 硬约束
 

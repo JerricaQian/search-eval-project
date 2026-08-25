@@ -65,12 +65,12 @@ def active_elements(card: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def card_text(elements: list[dict[str, Any]]) -> str:
-    return " ".join(str(element.get("内容简述", "")).removeprefix("原文:") for element in elements)
+    return " ".join(str((element.get("textFacts") or {}).get("rawText") or element.get("内容简述", "")).removeprefix("原文:") for element in elements)
 
 
 def detect_fulfilment_types(elements: list[dict[str, Any]]) -> list[str]:
     labels = {
-        str(element.get("内容简述", "")).removeprefix("原文:").strip()
+        str((element.get("textFacts") or {}).get("rawText") or element.get("内容简述", "")).removeprefix("原文:").strip()
         for element in elements
     }
     return [

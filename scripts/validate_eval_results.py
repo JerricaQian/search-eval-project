@@ -5,8 +5,14 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from skill_frontmatter import load_weight
 
 
 COMPONENT_ROW_REQUIREMENTS: dict[str, set[str]] = {
@@ -39,10 +45,44 @@ COMPONENT_REDUNDANCY_CROSS_CHECKS = {
 
 FORBIDDEN_COPY_TERMS_PATH = Path(__file__).with_name("forbidden_copy_terms.json")
 FORBIDDEN_ID_PATTERN_EXEMPTIONS = {"P0", "P1", "P2"}
+PROJECT_DIR = Path(__file__).resolve().parents[1]
+SKILL_DIRECTORIES = {
+    "phase3-single_element-eval": PROJECT_DIR / "phase3-single_element-eval" / "eval-skills",
+    "phase3-card_or_component-eval": PROJECT_DIR / "phase3-card_or_component-eval" / "eval-skills",
+    "phase3-page_framework-eval": PROJECT_DIR / "phase3-page_framework-eval" / "eval-skills",
+}
 
 
 def _load_forbidden_copy_terms() -> dict[str, Any]:
     return json.loads(FORBIDDEN_COPY_TERMS_PATH.read_text(encoding="utf-8"))
+
+
+def load_skill_weight(dimension: str, skill: str) -> dict[str, float] | None:
+    """Read the one authoritative rating-to-score map from an eval Skill."""
+    directory = SKILL_DIRECTORIES.get(dimension)
+    path = directory / skill / "SKILL.md" if directory else None
+    if path is None or not path.is_file():
+        return None
+    return load_weight(path)
+
+
+def require_weighted_score(errors: list[str], prefix: str, dimension: str, skill: str, unit: dict[str, Any]) -> None:
+    """Reject a Phase3 score that does not exactly map the final rating to its Skill weight."""
+    weights = load_skill_weight(dimension, skill)
+    if weights is None:
+        errors.append(f"{prefix}:skill_weight_unavailable")
+        return
+    rating = unit.get("rating")
+    if rating not in weights:
+        errors.append(f"{prefix}:rating_not_defined_in_skill_weight:{rating}")
+        return
+    score = unit.get("weightedScore")
+    if isinstance(score, bool) or not isinstance(score, (int, float)):
+        errors.append(f"{prefix}:weightedScore_must_be_number")
+        return
+    expected = weights[rating]
+    if float(score) != expected:
+        errors.append(f"{prefix}:weightedScore_{score}_must_equal_skill_weight_{expected:g}")
 
 
 def require_no_forbidden_terms(errors: list[str], prefix: str, text: str) -> None:
@@ -300,8 +340,13 @@ def main() -> int:
 
     for result in results:
         skill = result.get("skill", "unknown")
+        dimension = str(result.get("dimension") or "")
         for unit in result.get("units", []):
+            if not isinstance(unit, dict):
+                errors.append(f"{skill}/unknown:unit_must_be_object")
+                continue
             tab = unit.get("tab", "unknown")
+            require_weighted_score(errors, f"{skill}/{tab}", dimension, str(skill), unit)
             details = unit.get("details") or {}
             if not isinstance(details, dict):
                 errors.append(f"{skill}/{tab}:details_must_be_object")

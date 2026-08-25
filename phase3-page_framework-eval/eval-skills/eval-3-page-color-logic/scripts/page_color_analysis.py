@@ -7,7 +7,7 @@
 
 两个指标：
 - 总颜色数量：按 36 色 HSV 标准（9 色相 家族），统计占比 ≥ 1% 的色系数量。
-- 主导色数量：按 7 色 HSV 标准（9 色相合并为 7 个基础色相），统计占比 > 5% 的色系数量。
+- 主导色数量：按 7 色 HSV 标准（黄绿并入绿、品红/紫红并入紫），统计占比 > 5% 的色系数量。
 
 两者共用同一套排除规则：
 - 黑白灰中性色（饱和度 S < 12）不计入任一指标。
@@ -46,13 +46,20 @@ import numpy as np
 import json
 import sys
 import os
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
+if str(PROJECT_ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+from color_taxonomy import hue7_ranges
+from phase3_color_scope import merged_exclude_regions
 
 np.random.seed(42)
 
 # ---------------- 色彩分类定义 ----------------
 
-# 36 色标准的 9 个色相区间（每个区间再按明度分深浅两档，深浅合并计为 1 个色系，
-# 因此统计层面只需按下列 9 个色相家族计数）
+# 36 色标准：9 个色相方向 × 4 个明度档位。总颜色数量按色格计数，
+# 不把同一色相的深浅合并，否则“36 色”会退化成 9 色相统计。
 HUE_FAMILIES_36 = [
     ("red", [(0, 15), (330, 360)]),
     ("orange", [(15, 45)]),
@@ -64,17 +71,12 @@ HUE_FAMILIES_36 = [
     ("purple", [(250, 290)]),
     ("magenta", [(290, 330)]),
 ]
-
-# 7 色标准：在 36 色的 9 个色相基础上，将黄绿并入绿、品红并入红，得到 7 个基础色相
-HUE_FAMILIES_7 = [
-    ("red", [(0, 15), (330, 360), (290, 330)]),  # 红 + 品红
-    ("orange", [(15, 45)]),
-    ("yellow", [(45, 68)]),
-    ("green", [(68, 150)]),  # 黄绿 + 绿
-    ("cyan", [(150, 195)]),
-    ("blue", [(195, 250)]),
-    ("purple", [(250, 290)]),
+TONE_BINS_36 = [
+    ("light", 75, 101), ("normal", 50, 75),
+    ("dark", 25, 50), ("deep", 0, 25),
 ]
+
+HUE_FAMILIES_7 = hue7_ranges()
 
 ACHROMATIC_S_THRESHOLD = 12  # 饱和度低于该值视为黑白灰中性色，不参与任一指标
 TOTAL_COLOR_RATIO_THRESHOLD = 0.01   # 总颜色数量：占比 >= 1% 才计入
@@ -114,6 +116,22 @@ def count_families(H_values, families, denom):
         cnt = int(m.sum())
         if cnt > 0:
             ratios[name] = cnt / denom
+    return ratios
+
+
+def count_color_cells_36(H_values, V_values, denom):
+    """Return 36-grid ratios: nine hue families times four value bands."""
+    ratios = {}
+    if H_values.size == 0:
+        return ratios
+    for family, ranges in HUE_FAMILIES_36:
+        hue_mask = np.zeros(H_values.shape, dtype=bool)
+        for lower, upper in ranges:
+            hue_mask |= (H_values >= lower) & (H_values < upper)
+        for tone, lower, upper in TONE_BINS_36:
+            count = int((hue_mask & (V_values >= lower) & (V_values < upper)).sum())
+            if count:
+                ratios[f"{family}-{tone}"] = count / denom
     return ratios
 
 
@@ -165,14 +183,19 @@ def summarize(valid_H, valid_S, valid_V):
         idx = np.random.choice(n_valid, MAX_SAMPLE_PIXELS, replace=False)
         valid_H = valid_H[idx]
         valid_S = valid_S[idx]
+        # H/S/V are parallel arrays.  Sampling only H/S left V at the full
+        # pixel length, which made the 36-colour statistics fail on normal
+        # long screenshots with a boolean-index shape mismatch.
+        valid_V = valid_V[idx]
         n_valid = MAX_SAMPLE_PIXELS
 
     achromatic = valid_S < ACHROMATIC_S_THRESHOLD
     chromatic = ~achromatic
     n_chromatic = int(chromatic.sum())
     ch_H = valid_H[chromatic]
+    ch_V = valid_V[chromatic]
 
-    ratio_36 = count_families(ch_H, HUE_FAMILIES_36, n_valid)
+    ratio_36 = count_color_cells_36(ch_H, ch_V, n_valid)
     ratio_36_kept = {k: v for k, v in ratio_36.items() if v >= TOTAL_COLOR_RATIO_THRESHOLD}
     total_color_count = len(ratio_36_kept)
 
@@ -200,11 +223,15 @@ def summarize(valid_H, valid_S, valid_V):
     }
 
 
-def analyze_page(img_path, exclude_regions=None, out_debug_path=None):
+def analyze_page(img_path, exclude_regions=None, out_debug_path=None, manifest=None):
     """单张截图模式：分析一张整页截图，返回该页面的评测结果。"""
+    module_exclusions = []
+    if manifest:
+        manifest_payload = json.loads(Path(manifest).read_text(encoding="utf-8"))
+        exclude_regions, module_exclusions = merged_exclude_regions(manifest_payload, exclude_regions)
     valid_H, valid_S, valid_V, meta = extract_valid_hsv(img_path, exclude_regions, out_debug_path)
     summary = summarize(valid_H, valid_S, valid_V)
-    return {**meta, **summary}
+    return {**meta, **summary, "exclude_regions": exclude_regions or [], "excluded_page_modules": module_exclusions}
 
 
 def analyze_pages_merged(pages_config):
@@ -276,7 +303,7 @@ if __name__ == "__main__":
             img_path = config["image"]
             exclude_regions = config.get("exclude_regions", [])
             out_debug = config.get("out_debug")
-            result = analyze_page(img_path, exclude_regions=exclude_regions, out_debug_path=out_debug)
+            result = analyze_page(img_path, exclude_regions=exclude_regions, out_debug_path=out_debug, manifest=config.get("manifest"))
         print(json.dumps(result, ensure_ascii=False, indent=2))
     except Exception as e:
         print(json.dumps({"error": str(e)}, ensure_ascii=False))

@@ -11,6 +11,25 @@
     "screens": {"type": "array", "items": {"type": "string"}},
     "selectedScreenshots": {"type": "array", "items": {"type": "string"}},
     "dimensions": {"type": "array", "items": {"type": "string"}},
+    "evaluationSelection": {
+      "type": "object",
+      "properties": {
+        "mode": {"enum": ["full_19", "dimensions", "custom_skills"]},
+        "dimensions": {"type": "array", "items": {"type": "string"}},
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dimension": {"type": "string"},
+              "skill": {"type": "string"}
+            },
+            "required": ["dimension", "skill"]
+          }
+        }
+      },
+      "required": ["mode"]
+    },
     "reportOutlet": {"enum": ["local_html", "nocode"]}
   },
   "required": ["mode", "projectDir"]

@@ -1,6 +1,6 @@
 ---
 name: phase2-card-annotation
-description: "对搜索结果页截图执行 Phase2 当前图片校准：以本地 CV/OCR、黄金结构范例、当前像素视觉复核、卡型契约和确定性门控，为每张截图分别生成可供 Phase3 消费的完整事实 JSON；不复制黄金字段、不合并多图、不执行 IMD，也不输出评测结论。"
+description: "对搜索结果页截图执行 Phase2 当前图片校准：以本地 CV/OCR、黄金结构范例、当前像素视觉复核、卡型契约和确定性门控，为每张截图分别生成可供 Phase3 消费的完整事实 JSON；不复制黄金字段、不合并多图，也不输出评测结论。"
 ---
 
 # Phase2 轻量识别
@@ -56,7 +56,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 只做：**每张截图 → 本地 CV/OCR 候选 → 当前图片全量视觉复核 → 卡型/元素识别 → 整页门控 → 该图独立元素清单 JSON → 枚举、schema 与校准审计校验**。
 
-不做：整页画框 PNG、IMD/设计稿操作、体验评级、问题结论、人工复核任务、跨截图坐标复用，以及用黄金样本补造当前截图事实。
+不做：整页画框 PNG、外部设计稿操作、体验评级、问题结论、人工复核任务、跨截图坐标复用，以及用黄金样本补造当前截图事实。
 
 每张截图必须独立生成且只生成一个主 JSON；不同截图不得合并进同一个识别 JSON。该截图的唯一 Phase3 输入是：
 
@@ -91,39 +91,39 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 对每张截图串行运行；所有路径由 `projectDir`、`batch`、`query`、`tag` 推导，禁止写死搜索词或历史目录。
 
-生产入口是一条命令；它直接产出 Phase3 manifest、识别审计和校验审计：
+生产入口是一条命令；它直接产出 Phase3 manifest、识别审计和校验审计。`<pythonBin>` 由调用方注入；可移植任务使用 `workflowArgs.pythonBin`，不得假定项目 `.venv` 或 `python3` 别名。
 
 ```bash
-.venv/bin/python phase2-card-annotation/scripts/run_phase2_recognition.py \
+<pythonBin> phase2-card-annotation/scripts/run_phase2_recognition.py \
   --query <query> --screenshot <screenshot> --output <elements.json> \
   --artifacts-dir <this-batch-artifacts-dir>
 ```
 
-生产流必须追加 `--recognition-audit <elements.recognition-audit.json>`。脚本先写本地候选审计；完成当前图片复核后，使用 `build_current_image_calibration_audit.py` 重建全元素模板并逐项登记当前像素证据。
+生产流必须追加 `--recognition-audit <elements.recognition-audit.json>`。首次运行只会写出不可发布的当前像素审计模板；模型完成整图一次、全元素核对后，将新增/替换观察和 `completeCurrentPixelReview:true` 写入 `--visual-review` JSON，并以相同参数回灌 `run_phase2_recognition.py`。回灌命令从最终 manifest 自动生成校准审计；禁止手改 audit 或 `phase3Ready` 解锁。记录格式和读图上限见 `references/current_image_calibration.v1.md`。
 
 以下是该入口内部的可审计展开流程；只用于诊断或替换某一识别步骤：
 
 ```bash
 bash phase2-card-annotation/scripts/run_cv_facts.sh <screenshot> --output <facts.json>
-python3 phase2-card-annotation/scripts/build_search_page_structure.py <facts.json> --output <structure.json>
-python3 phase2-card-annotation/scripts/build_search_result_candidates.py <facts.json> <structure.json> --output <candidates.json>
-python3 phase2-card-annotation/scripts/map_result_card_semantics.py <facts.json> <candidates.json> --output <card-semantics.json>
-python3 phase2-card-annotation/scripts/map_search_page_semantics.py <facts.json> <structure.json> --output <text-semantics.json>
-python3 phase2-card-annotation/scripts/validate_phase2_recognition.py \
+<pythonBin> phase2-card-annotation/scripts/build_search_page_structure.py <facts.json> --output <structure.json>
+<pythonBin> phase2-card-annotation/scripts/build_search_result_candidates.py <facts.json> <structure.json> --output <candidates.json>
+<pythonBin> phase2-card-annotation/scripts/map_result_card_semantics.py <facts.json> <candidates.json> --output <card-semantics.json>
+<pythonBin> phase2-card-annotation/scripts/map_search_page_semantics.py <facts.json> <structure.json> --output <text-semantics.json>
+<pythonBin> phase2-card-annotation/scripts/validate_phase2_recognition.py \
   --facts <facts.json> --result-candidates <candidates.json> \
   --card-semantics <card-semantics.json> --text-semantics <text-semantics.json> \
   --output <recognition-gate.json>
 # 仅当上一步阻断：主入口自动执行一次以下卡内定向重识别，随后重建全部下游候选并再次整页门控
-python3 phase2-card-annotation/scripts/reprocess_bounded_cards.py \
+<pythonBin> phase2-card-annotation/scripts/reprocess_bounded_cards.py \
   --screenshot <screenshot> --facts <facts.json> \
   --result-candidates <candidates.json> --card-semantics <card-semantics.json> \
   --recognition-gate <recognition-gate.json> --output <facts.retry.json> \
   --report <bounded-card-reprocess.json>
-python3 phase2-card-annotation/scripts/build_phase2_manifest.py \
+<pythonBin> phase2-card-annotation/scripts/build_phase2_manifest.py \
   --query <query> --facts <facts.json> --result-candidates <candidates.json> \
   --card-semantics <card-semantics.json> --text-semantics <text-semantics.json> \
   --recognition-gate <recognition-gate.json> --output <elements.json>
-.venv/bin/python scripts/validate_element_manifest.py <elements.json> \
+<pythonBin> scripts/validate_element_manifest.py <elements.json> \
   --audit <elements.audit.json>
 ```
 
@@ -190,7 +190,7 @@ atomic v3 为输入，重新执行枚举、截图哈希和结构校验，保持�
 `titleAffixErrors` 必须为 0 才可发布。
 
 ```bash
-python3 phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py
+<pythonBin> phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py
 ```
 
 Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口核对枚举哈希、截图哈希、publication 状态及元素引用，任一不一致立即失败。`countDecision`、`dedupDecision` 等 Phase3 派生字段不得写回黄金 JSON。
@@ -198,12 +198,12 @@ Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口�
 10. 黄金回归只在整条推理完成后做 `expectedCardTypes`/`predictedCards` 对照，绝不能向生产识别传入期望卡型：
 
 ```bash
-python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
+<pythonBin> phase2-card-annotation/scripts/rerun_golden_cv.py \
   --output-dir .artifacts/golden-cv-rerun
 ```
 
 ```bash
-python3 scripts/validate_element_manifest.py \
+<pythonBin> scripts/validate_element_manifest.py \
   <manifest.json> --audit <manifest.audit.json>
 ```
 
@@ -211,13 +211,12 @@ python3 scripts/validate_element_manifest.py \
 
 ## 5. 页面与组件事实
 
-根对象必须且只能含八个键：
+根对象必须且只能含七个发布键：
 
 ```json
 {
   "query": "布洛芬",
   "screenshot": "/abs/path/布洛芬_全部_1.png",
-  "annotatedImage": "",
   "cards": [],
   "recognition": {},
   "pageFacts": {},
@@ -226,7 +225,7 @@ python3 scripts/validate_element_manifest.py \
 }
 ```
 
-轻量模式下 `annotatedImage` 固定为空字符串。
+轻量模式不发布 `annotatedImage`；Phase5 统一使用原始 `screenshot` 与 Phase4 问题证据图。旧清单中的该字段仅为兼容读取，不能作为新产物要求。
 
 `pageFacts` 至少记录 `screen`、`isContinuation`、`viewport` 和 `modules[]`。每个 module 含 `id`、`moduleType`、`coord`、`visibleStatus`、`contentRole`、`isListPrefix`、`isListItem`。
 
@@ -260,7 +259,7 @@ python3 scripts/validate_element_manifest.py \
 }
 ```
 
-卡型和分区以 `search_card_taxonomy.v1.json` 为准，不能把商品卡、商家图文下挂、文字下挂、酒店、套餐、演出/电影和主点卡套入同一模板。只登记当前截图可见的分区。
+卡型和分区以 `search_card_taxonomy.v1.json` 为准，不能把商品卡、商家图文下挂、文字下挂、无下挂商家卡、酒店、套餐、演出/电影和主点卡套入同一模板。只登记当前截图可见的分区。
 
 卡型决策只有三步：
 
@@ -268,15 +267,19 @@ python3 scripts/validate_element_manifest.py \
 2. 没有已知卡型通过且存在明确广告标时归 `广告卡`。
 3. 否则，只要是稳定独立渲染单元且有可见内容，归 `异构卡`；禁止输出 `unknown`。
 
-不同卡型必须使用各自边界策略：商品卡以单商品主图、标题和价格重复为界；商家图文下挂必须吸附下一商家头图前的商品图组；商家文字下挂必须吸附下一商家头图前的服务文字块；酒店单列按逐卡头图/标题锚切分，双列按独立网格单元逐格切分，头图高度逐卡量取；演出按竖版海报、电影按影院标题和场次块切分；套餐保持主图、概要和价格在同一卡内；主点卡位于普通结果列表前且不占 `listPosition`。完整细则只以卡型契约文件为准。
+不同卡型必须使用各自边界策略：商品卡以单商品主图、标题和价格重复为界；商家图文下挂必须吸附下一商家头图前的商品图组；商家文字下挂必须吸附下一商家头图前的服务文字块；无下挂商家卡以商家头图、标题和基础信息为完整卡头，不能因缺少下挂误归异构卡；酒店单列按逐卡头图/标题锚切分，双列按独立网格单元逐格切分，头图高度逐卡量取；演出按竖版海报、电影按影院标题和场次块切分；套餐保持主图、概要和价格在同一卡内；主点卡位于普通结果列表前且不占 `listPosition`。完整细则只以卡型契约文件为准。
 
 query 只写入输出上下文，不是卡型或页面结构主键。同一 query 的不同截图必须独立识别；混排页必须逐卡应用契约。酒店页尾截断格只可从同列上一张已确认酒店卡继承，不能从行内相邻异构卡继承。处理酒店样本或酒店识别失败时，读取 `references/hotel_card_algorithm.v1.md`；需要双列房型元素分区时再读取 `references/hotel_card_element_contract.v1.json`。
 
 同一 `comparisonGroupKey` 中有两张以上 `visibleStatus=complete` 的结果卡时，每卡必须提供 `layoutAnchors.image/title/primaryInfo` 与 `layoutAnchorRelation`。它们只描述卡内相对位置，不能写评测结论。
 
-每个最小元素必须含 `id`、`所属组件`、`元素类型`（`文本`、`图片`、`标签`）、`内容简述`（可读文本以 `原文:` 开头）、`坐标`、`isExcluded`；排除项另写非空 `excludeReason`。真实头图、商品图、图筛配图均单列为图片；叠在图片上的系统标签/icon 仍单列。
+每个最小元素必须含 `id`、`所属组件`、`元素类型`（`文本`、`图片`、`标签`）、`坐标`、`isExcluded`。可读文字（含标签）只在 `textFacts.rawText` 发布一次；图片不填伪文本。排除项另写非空 `excludeReason`，活跃元素不发布该键。`内容简述` 仅兼容读取旧清单。真实头图、商品图、图筛配图均单列为图片；叠在图片上的系统标签/icon 仍单列。
 
-为单元素色彩评测固定语义边界：相邻但语义独立的价格、销量、履约标、权益标签、角标和图形标签必须各自成为一个元素，`坐标` 即该元素唯一采样边界；同一标签容器内不可分的文字与图形才保留为一个标签元素。元素外背景、照片、相邻 UI 与不属于该语义实体的装饰只写作 `visual.colorEvidence` 的排除事实，不能扩大元素坐标。边界无法确认时保留 `uncertain` 并阻断依赖颜色计数的 Phase3，不按搜索词、旧裁剪或固定样例补写。
+`regions[]` 必须按语义阅读顺序发布，而不是按 OCR 返回顺序：标题/实体标题 → 副标题 → 基础信息 → 价格 → 标签 → 商家/下挂 → 媒体。这样“外卖”等小标签即使被 OCR 先识别，也不能把商品标题藏在基础信息之后。
+
+**履约标签位置防错规则**：`外卖`、`团购`、`到店`、`闪购`只是候选词，**不能仅凭文字决定区域**。必须先按当前图确认其相对标题位置：与标题纵向重叠且位于标题左侧或标题起始范围内时，发布为 `元素类型:"标签"`、`textFacts.semanticRole:"fulfillment"`、`styleKey` 第三段为`履约标`、`region:"标题区"`；若在标题下方或独立信息行，则保留其履约语义并归入基础信息区/实际可见区域。配送时长、起送价、配送费同样按当前位置与结构归属。每次变更此规则必须同时覆盖“标题前缀”和“标题下方”两个回归用例。
+
+为单元素色彩评测固定语义边界：相邻但语义独立的价格、销量、履约标、权益标签、角标和图形标签必须各自成为一个元素，`坐标` 即该元素唯一采样边界；同一标签容器内不可分的文字与图形才保留为一个标签元素。元素外背景、照片、相邻 UI 与不属于该语义实体的装饰只保留在 CV/OCR 与校准审计，不能扩大元素坐标。边界无法确认时保留 `uncertain` 并阻断依赖颜色计数的 Phase3，不按搜索词、旧裁剪或固定样例补写。
 
 ## 7. 最小元素渲染、文本与视觉规格事实
 
@@ -287,16 +290,14 @@ query 只写入输出上下文，不是卡型或页面结构主键。同一 quer
   "id": "C1-title",
   "所属组件": "C1",
   "元素类型": "文本",
-  "内容简述": "原文:布洛芬咀嚼片",
   "坐标": [360, 996, 620, 52],
   "isExcluded": false,
-  "excludeReason": "",
-  "render": {"visibleStatus": "confirmed", "renderState": "normal", "sourceRegion": "标题区", "isPhoto": false, "isSystemUi": true},
+  "render": {"visibleStatus": "confirmed", "renderState": "normal", "isPhoto": false, "isSystemUi": true},
   "textFacts": {"rawText": "布洛芬咀嚼片", "textStatus": "complete", "semanticRole": "title", "emphasisLevel": "primary", "fontSizeBucket": "medium", "fontWeightBucket": "bold", "textColorRole": "neutral"}
 }
 ```
 
-每个非图片元素必须记录当前元素框实测的 `visual.textColor`、`backgroundColor`、`colorRole` 与 `colorEvidence`；测量失败时保留空字符串、`unknown` 和失败证据，并阻断依赖该字段的 Phase3，不得省略字段或从业务词推断。标签/icon 还必须记录 `containerShape`、图形辅助和是否计入复杂度。图片不在 Phase2 预计算综合色数，必须写 `render.isPhoto=true`、准确坐标及 `photo_excluded_phase3_pixel_measurement_required`，Phase3 再据此建立排除 mask 并运行确定性像素统计。
+发布给 Phase3 的元素只保留 `visual.colorRole` 与 `styleKey`；具体 `textColor`、`backgroundColor`、`borderColor`、色彩取样证据及布尔重复标记保留在 CV/OCR 与校准审计。标签/icon 仍必须记录 `containerShape`、图形辅助和是否计入复杂度。图片不在 Phase2 预计算综合色数，必须写 `render.isPhoto=true` 与准确坐标，Phase3 再据此建立排除 mask 并运行确定性像素统计。
 
 - `renderState`：`normal | placeholder | blank | load_failed | naturally_cropped | abnormal_clipped | garbled | uncertain`；它是事实，不是结论。
 - `textStatus`：`complete | naturally_ellipsized | abnormal_clipped | garbled | uncertain`。看不清就留空/`uncertain`，不得猜测。
@@ -317,25 +318,17 @@ Phase2 只发布已确认的标签/icon 原子、归属、坐标和基础视觉�
 {
   "entityKind": "tag",
   "visualStatus": "confirmed",
-  "isColored": true,
-  "isShaped": false,
   "colorRole": "red",
-  "semanticRole": "券标",
   "containerShape": "unknown",
-  "backgroundColor": "#D93838",
-  "textColor": "#FFFFFF",
-  "borderColor": "",
-  "hasGraphicAssist": false,
   "graphicType": "无",
   "graphicAssistRole": "无",
   "countedInComplexity": true,
   "dedupWithElementIds": [],
-  "styleKey": "标签|red|券标|unknown|无",
-  "sourceRegion": "标签区"
+  "styleKey": "标签|red|券标|unknown|无"
 }
 ```
 
-`entityKind` 只能是 `tag | icon | text | image`；`colorRole` 只能是 `neutral | red | orange | yellow | green | blue | purple | multicolor | unknown`。`styleKey` 固定为“实体类别｜颜色角色｜语义角色｜容器形态｜图形辅助”；只有五段都相同并写明理由时才可去重。
+`entityKind` 只能是 `tag | icon | text | image`；`colorRole` 只能是 `neutral | red | orange | yellow | green | blue | purple | multicolor | unknown`。`styleKey` 固定为“实体类别｜颜色角色｜语义角色｜容器形态｜图形辅助”，其中第三段是标签视觉语义的唯一发布位置；只有五段都相同并写明理由时才可去重。
 
 每张完整卡还必须有 `visualInventory`（各可见分区的已确认元素、styleKey、是否计入与未确认项）和 `tagScanChecklist`。每项包含 `candidate`、`status: found|not_found|uncertain`、`checkedRegions`、`elementIds`。检查表提醒扫描，不能按搜索词补造标签。
 

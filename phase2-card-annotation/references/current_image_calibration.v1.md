@@ -30,26 +30,44 @@ Paddle、CV 与模型视觉复核是互补证据。Paddle 可跨机器安装并�
 
 ## 复核审计
 
-先运行：
+候选运行没有提供复核记录时，脚本会写出一个不可发布的模板：`reviewedAgainstCurrentPixels=false`，所有元素为 `uncertain`。不要修改这份模板来解锁。
 
-```bash
-.venv/bin/python phase2-card-annotation/scripts/build_current_image_calibration_audit.py \
-  <elements.json> --output <elements.recognition-audit.json>
-```
-
-模板默认 `reviewedAgainstCurrentPixels=false`，所有元素为 `uncertain`。完成当前图片复核后，逐项填写真实 `source`、`evidencePath`、`status` 和 `reason`；只有确实完成全量复核时才能设置：
+完成当前图片复核后，先写入一个复核记录。它只记录新增/替换的像素观察；未变的候选不需要重复抄录：
 
 ```json
 {
-  "reviewedAgainstCurrentPixels": true,
-  "goldenValueInjection": false
+  "screenshot": "/absolute/path/to/current.png",
+  "completeCurrentPixelReview": true,
+  "localReviewPaths": [],
+  "cards": [
+    {
+      "cardId": "C2",
+      "coord": [0, 0, 0, 0],
+      "fields": [
+        {"coord": [0, 0, 0, 0], "text": "当前可见原文", "role": "title", "visibleStatus": "confirmed"}
+      ]
+    }
+  ]
 }
+```
+
+`completeCurrentPixelReview=true` 是对本截图整图一次、逐项核对全部活动元素的明确声明；不是“只复核了 `cards[]` 里修正项”。`localReviewPaths` 仅列实际读取的局部裁图，必须唯一，最多 11 个。若某卡的旧 OCR 与当前观察重叠且应全部失效，才在该卡记录 `replaceAllCardText: true`；否则只替换与字段 `coord` 重叠的旧观察。
+
+将记录作为 `--visual-review` 回灌 `run_phase2_recognition.py`。最终 manifest 和校准审计会在同一次命令中一起重建；不得在 manifest 或审计中手改通过状态。`<pythonBin>` 由调用方注入；可移植任务使用 `workflowArgs.pythonBin`：
+
+```bash
+<pythonBin> phase2-card-annotation/scripts/run_phase2_recognition.py \
+  --query <query> --screenshot <screenshot> --output <elements.json> \
+  --artifacts-dir <artifact-dir> \
+  --recognition-audit <elements.recognition-audit.json> \
+  --visual-review <current-screenshot-review.json> \
+  --require-bounded-paddleocr
 ```
 
 最后运行：
 
 ```bash
-.venv/bin/python scripts/validate_element_manifest.py <elements.json> \
+<pythonBin> scripts/validate_element_manifest.py <elements.json> \
   --audit <elements.audit.json> \
   --recognition-audit <elements.recognition-audit.json> \
   --require-current-image-calibration

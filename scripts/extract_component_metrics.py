@@ -28,6 +28,8 @@ import cv2
 import numpy as np
 
 from phase2_bundle_loader import load_phase2_facts
+from color_taxonomy import HUE7_BINS, hue7_family
+from phase3_color_scope import excluded_page_modules
 
 ROOT: Path
 MANIFEST_DIR: Path
@@ -67,7 +69,8 @@ def etype(el: dict) -> str:
 
 
 def etext(el: dict) -> str:
-    c = el.get("内容简述") or el.get("content") or ""
+    facts = el.get("textFacts") if isinstance(el.get("textFacts"), dict) else {}
+    c = facts.get("rawText") or el.get("内容简述") or el.get("content") or ""
     return re.sub(r"^原文[:：]\s*", "", c).strip()
 
 
@@ -97,23 +100,15 @@ def build_photo_mask(bgr: np.ndarray, excluded_boxes: list, overlay_boxes: list)
 
 # --------------------------------------------------------------- colour bins
 
-HUE_FAMILIES = [
-    ("red", 0, 12), ("orange", 12, 40), ("yellow", 40, 68),
-    ("yellow-green", 68, 88), ("green", 88, 150), ("cyan", 150, 195),
-    ("blue", 195, 250), ("purple", 250, 290), ("magenta", 290, 335),
-    ("red", 335, 361),
-]
+HUE_FAMILIES = list(HUE7_BINS)
 
 
 def hue_family(hue_deg: float) -> str:
-    for name, lo, hi in HUE_FAMILIES:
-        if lo <= hue_deg < hi:
-            return name
-    return "red"
+    return hue7_family(hue_deg)
 
 
 def measure_colors(bgr: np.ndarray, card_box, photo_mask: np.ndarray, ui_mask: np.ndarray) -> dict:
-    """eval-3: 36-colour HSV binning over UI pixels only.
+    """eval-3: seven-colour HSV binning over UI pixels only.
 
     Photo pixels are excluded; near-white background and low-coverage families
     (<1% of chromatic pixels, per SKILL) are dropped before counting families.
@@ -143,9 +138,11 @@ def measure_colors(bgr: np.ndarray, card_box, photo_mask: np.ndarray, ui_mask: n
     for name, cnt in counts.items():
         if not cnt:
             continue
-        ratio = cnt / max(chroma_count, 1)
-        fams.append({"family": name, "pixels": cnt, "ratioOfChroma": round(ratio, 4),
-                     "kept": ratio >= 0.01})
+        ratio = cnt / max(int(valid.sum()), 1)
+        chroma_ratio = cnt / max(chroma_count, 1)
+        fams.append({"family": name, "pixels": cnt, "ratioOfChroma": round(chroma_ratio, 4),
+                     "ratioOfValidUi": round(ratio, 4),
+                     "diagnosticRatioOfChroma": round(chroma_ratio, 4), "kept": ratio >= 0.01})
     kept = sorted([f for f in fams if f["kept"]], key=lambda f: -f["pixels"])
     dropped = sorted([f for f in fams if not f["kept"]], key=lambda f: -f["pixels"])
     return {
@@ -803,6 +800,11 @@ def run_scene(
         "scene": scene, "suffix": suffix, "query": manifest.get("query"),
         "screenshot": str(shot), "imageSize": [w, h],
         "manifestTotal": manifest_total,
+        "colorScope": {
+            "componentSource": "cards_only",
+            "excludedPageModules": excluded_page_modules(manifest),
+            "rule": "Tab、图筛、业务图筛与筛选器不属于组件/卡片色彩统计范围。",
+        },
         "componentCount": len(comps), "components": comps,
     }
 

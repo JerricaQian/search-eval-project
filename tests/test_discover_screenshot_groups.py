@@ -46,3 +46,18 @@ class DiscoverScreenshotGroupsTest(unittest.TestCase):
         result = module.discover(Path("/tmp/not-a-real-screenshot-directory"), min_bytes=1)
         self.assertEqual(result["groups"], [])
         self.assertEqual(result["error"], "directory_not_found")
+
+    def test_copy_suffixes_are_distinct_instances_not_query_text(self) -> None:
+        module = load_module()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for suffix in ("", "_副本", "_副本2", "_副本(3)", "_copy4"):
+                Image.new("RGB", (80, 80), "white").save(root / f"漂流_全部_1{suffix}.png")
+            result = module.discover(root, min_bytes=1)
+
+        self.assertEqual([group["query"] for group in result["groups"]], ["漂流"] * 5)
+        self.assertEqual(
+            [group["instance"] for group in result["groups"]],
+            ["original", "副本", "副本2", "副本3", "副本4"],
+        )
+        self.assertEqual(result["unparseableFiles"], [])

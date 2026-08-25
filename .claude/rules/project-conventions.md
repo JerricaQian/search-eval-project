@@ -12,13 +12,13 @@ globs: "**/*.js", "**/*.sh", "**/*.py", "**/*.json", "**/*.md"
 | 阶段 | 目录（已定稿） | 旧名（已废弃，不得再用） |
 |---|---|---|
 | phase1 截图 | `phase1-screenshot/` | screenshot-skill |
-| phase2 轻量识别 | `phase2-card-annotation/` | imd-card-annotation |
+| phase2 轻量识别 | `phase2-card-annotation/` | — |
 | phase3 评测 | `phase3-card_or_component-eval/` `phase3-single_element-eval/` `phase3-page_framework-eval/` | card_or_component-eval（无 phase3 前缀） |
 | phase4 问题证据 | `phase4-issue-evidence/` | — |
 | phase5 报告 | `phase5-report/` | report-skill |
 
-- 工作流参数：`shotSkillDir`→`phase1-screenshot`、`imdSkillDir`→`phase2-card-annotation`、`issueEvidenceSkillDir`→`phase4-issue-evidence`、`reportSkillDir`→`phase5-report`、`dimensions` 默认 `["phase3-card_or_component-eval"]`。改这些默认值时必须同步改目录或反向。
-- 文档/脚本里若仍见旧名 `imd-card-annotation` / `screenshot-skill` / `report-skill` / 非前缀维度名，一律视为待替换的陈旧引用，应改为新名（重命名声明行"原 imd-card-annotation，已更名"例外，保留）。
+- 工作流参数：`shotSkillDir`→`phase1-screenshot`、`phase2SkillDir`→`phase2-card-annotation`、`issueEvidenceSkillDir`→`phase4-issue-evidence`、`reportSkillDir`→`phase5-report`。新调用用 `evaluationSelection`（`full_19` / `dimensions` / `custom_skills`）选择评测范围；`dimensions` 默认 `["phase3-card_or_component-eval"]` 仅保留旧调用兼容。改这些默认值时必须同步改目录或反向。
+- 文档/脚本里若仍见 `screenshot-skill` / `report-skill` / 非前缀维度名，一律视为待替换的陈旧引用，应改为新名。
 
 ## 数据流路径：screenshots/ → screenshots-out/ → .artifacts/ → screenshots-out/evidence/ → reports/
 
@@ -31,7 +31,7 @@ globs: "**/*.js", "**/*.sh", "**/*.py", "**/*.json", "**/*.md"
 
 ## 历史场景脚本路径（非生产）
 
-旧 SceneSpec/IMD/标注图脚本只保留历史复现能力，不得成为新截图生产入口。生产入口固定为 `run_phase2_recognition.py`，输入项目根 `screenshots/<query>_<tab>_<screen>.png`，输出 `screenshots-out/elements_<截图文件名>.json`。项目路径必须从 `projectDir` 推导，不得写死某台机器的桌面路径。
+旧场景和标注图脚本只保留历史复现能力，不得成为新截图生产入口。生产入口固定为 `run_phase2_recognition.py`，输入项目根 `screenshots/<query>_<tab>_<screen>.png`，输出 `screenshots-out/elements_<截图文件名>.json`。项目路径必须从 `projectDir` 推导，不得写死某台机器的桌面路径。
 
 ## 评级分档
 

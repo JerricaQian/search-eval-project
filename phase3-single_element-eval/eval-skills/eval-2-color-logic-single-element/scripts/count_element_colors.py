@@ -4,7 +4,7 @@
 count_element_colors.py — 单一元素颜色数量统计（指标 1.2.2 色彩运用有逻辑）
 
 用途：
-    输入「一个单一元素」的裁剪图（标签/标题/价格/提示条/按钮等），按 36 色标准
+    输入「一个单一元素」的裁剪图（标签/标题/价格/提示条/按钮等），按七色标准
     统计该元素内的有彩色数量（底色、文字色、icon 均扫描），黑、白、灰中性色排除，剔除面积
     占比 < 1% 的颜色，最后给出评级：总颜色数 ≤ 2 优秀🟢 / = 3 达标🟡 / > 3 不达标🔴。
 
@@ -24,30 +24,25 @@ count_element_colors.py — 单一元素颜色数量统计（指标 1.2.2 色彩
 import sys
 import argparse
 import json
+from pathlib import Path
 
 import numpy as np
 from PIL import Image
 
+PROJECT_ROOT = Path(__file__).resolve().parents[4]
+if str(PROJECT_ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+from color_taxonomy import HUE7_BINS, HUE7_ZH
 
-# ---- 36 色标准（与 SKILL.md「核心概念」一致）----
+
+# ---- 七色标准（红、橙、黄、绿、青、蓝、紫）----
 # 无彩色：S < S_ACHROMATIC，按明度 V 分 5 格
 S_ACHROMATIC = 12.0  # 饱和度阈值（0-100）
-# 有彩色：S >= S_ACHROMATIC，按色相 H 分 9 区间，每区间按 V 分深/浅（V>60 浅 / <=60 深）
+# 有彩色：S >= S_ACHROMATIC，按色相 H 分 7 区间，每区间按 V 分深/浅（V>60 浅 / <=60 深）
 V_LIGHT = 60.0
 
 # 色相区间 (名称, H下限, H上限)。红色跨 0/360，用两段表示。
-HUE_BINS = [
-    ("red", 0.0, 15.0),
-    ("orange", 15.0, 45.0),
-    ("yellow", 45.0, 68.0),
-    ("yellow-green", 68.0, 85.0),
-    ("green", 85.0, 150.0),
-    ("cyan", 150.0, 195.0),
-    ("blue", 195.0, 250.0),
-    ("purple", 250.0, 290.0),
-    ("magenta", 290.0, 330.0),
-    ("red", 330.0, 360.0),  # 红色第二段
-]
+HUE_BINS = list(HUE7_BINS)
 
 ACHROMATIC_LABELS = {
     "white": "白色",
@@ -56,10 +51,7 @@ ACHROMATIC_LABELS = {
     "dark-gray": "深灰",
     "black": "黑色",
 }
-HUE_ZH = {
-    "red": "红", "orange": "橙", "yellow": "黄", "yellow-green": "黄绿",
-    "green": "绿", "cyan": "青", "blue": "蓝", "purple": "紫", "magenta": "品红",
-}
+HUE_ZH = HUE7_ZH
 
 
 def rgb_to_hsv_arr(rgb):
@@ -88,7 +80,7 @@ def rgb_to_hsv_arr(rgb):
 
 
 def classify(h, s, v):
-    """返回每个像素的 36 色格 key 与中文名。"""
+    """返回每个像素的七色归并诊断 key 与中文名。"""
     n = len(h)
     keys = np.empty(n, dtype=object)
     names = np.empty(n, dtype=object)
@@ -187,7 +179,7 @@ def count_colors(img_rgb, min_ratio_pct=1.0, drop_bg=False):
         colors.append({"key": k, "name": name_map[k], "ratio": round(ratio, 2)})
     colors.sort(key=lambda x: -x["ratio"])
 
-    # 细粒度 36 格结果（诊断用）
+    # 明暗细分结果只作诊断；最终评分按七色归并
     kept_fine = [c for c in colors if c["ratio"] >= min_ratio_pct]
 
     # —— 感知合并：把「同一视觉颜色被抗锯齿/明暗拆成多格」的情况并回一色 ——
@@ -269,7 +261,7 @@ def main():
     print(f"图片: {args.image}  尺寸: {arr.shape[1]}x{arr.shape[0]}  像素: {res['total_pixels']}")
     print(f"占比阈值: ≥ {args.min_ratio}%   （低于此值的颜色已剔除）")
     print("-" * 52)
-    print("计入的有彩色（36色标准，黑/白/灰中性色已排除）:")
+    print("计入的有彩色（七色标准，黑/白/灰中性色已排除）:")
     for c in res["colors"]:
         print(f"  {c['name']:<6} ({c['key']:<14}) {c['ratio']:>6.2f}%")
     dropped = [c for c in res["colors_all"] if c["ratio"] < args.min_ratio]

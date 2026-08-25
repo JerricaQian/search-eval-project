@@ -5,8 +5,8 @@
 ## 1.0 任务模式与职责边界
 
 - `capture_only`：只调用 Screenshot Agent；只向用户确认搜索词、Tab、屏数。
-- `evaluate_only`：Screenshot Agent 只读发现 `screenshots/`；用户选择截图后才调用 Evaluation Agent，只确认评测维度和报告出口，不要求用户重复搜索词、Tab、屏数或设备参数。
-- `capture_and_evaluate`：先调用 Screenshot Agent；截图通过基本完整性检查后，返回 `awaiting_evaluation_config`，再确认评测维度和报告出口后调用 Evaluation Agent。
+- `evaluate_only`：Screenshot Agent 只读发现 `screenshots/`；用户选择截图后才调用 Evaluation Agent，只确认评测范围（完整19项、维度或自定义 Skill）和报告出口，不要求用户重复搜索词、Tab、屏数或设备参数。
+- `capture_and_evaluate`：先调用 Screenshot Agent；截图通过基本完整性检查后，返回 `awaiting_evaluation_config`，再确认评测范围和报告出口后调用 Evaluation Agent。
 - Workflow 只做条件询问、模式路由、单词隔离、批次屏障和状态汇总；不得运行 OCR、评测、评分、证据或报告业务逻辑。
 - 1.0 不存在 Runtime Guard、自动反思或经验库。Phase2～4 的既有确定性校验器仍在 Evaluation Agent 内执行。
 
@@ -31,7 +31,7 @@
 |---|---|---|
 | 单张已有截图评测 | `evaluate_only`：先只读发现/校验截图，再由用户确认范围、维度与报告出口后执行 Phase2～5 | 确认文件、任务模式和将产出的 manifest、证据、HTML；不得先给人工分数 |
 | 多张图片或目录评测 | `evaluate_only`：发现并按搜索词/Tab/屏号分组；同词图片作为一组进入流水线 | 返回发现的组、无法解析/无效文件及待用户选择的组 |
-| 现场截图后评测 | `capture_and_evaluate`：先 Phase1，截图合格后再收集评测维度和报告出口 | 明确截图词、Tab、屏数，以及截图完成后会暂停确认评测配置 |
+| 现场截图后评测 | `capture_and_evaluate`：先 Phase1，截图合格后再收集评测范围和报告出口 | 明确截图词、Tab、屏数，以及截图完成后会暂停确认评测配置 |
 | 仅自动化截图 | `capture_only`：只执行 Phase1 | 明确只交付截图，不生成评测结论或报告 |
 | 复核已有报告 | 读取其输入、单图 manifest、阶段结果、证据与校验记录；必要时回退并重跑受影响阶段 | 标明复核范围及是否会产生新批次产物；不得用新的人工评分覆盖旧结果 |
 | 询问系统能力 | 只读取项目说明和已注册技能，回答支持的输入、维度、产物与限制 | 明确这是能力说明，未对任何截图运行评测 |
@@ -48,7 +48,6 @@
 | phase4 问题证据 | `phase4-issue-evidence/` | 只为 phase3 已判为问题的位置产出整页截图红框证据图 |
 | phase5 报告 | `phase5-report/` + `workflow/meituan_eval_workflow.js` | 生成消费局部问题证据的本地 HTML 与批量治理数据集；可选同步到 NoCode 线上看板 |
 
-> **phase2 重命名说明**：phase2 原名 `imd-card-annotation`，目录已重命名为 `phase2-card-annotation`。若历史脚本/文档仍出现旧名 `imd-card-annotation`，一律以 `phase2-card-annotation` 为准。
 
 ## phase2 输入 / 输出（关键）
 
@@ -97,11 +96,11 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 - **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 的候选生成和校验仍只运行本地脚本，并为每张截图分别生成清单；当前图片校准可读取当前截图，但只能回写经审计的 Phase2 事实。
 - **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 生成唯一 `MEITUAN_EVAL_TASK_V2` 任务文件。对 phase2+3+4+5 发起这**唯一一次** Agent 调用时，只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase2345-query-pipeline.md`，不得凭记忆转述或把整段契约复制进新的 prompt。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。
 - **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：`--require-hierarchy-facts` 等 4 项前置事实校验命令，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
-- 跨维度共享契约：phase3 评测前必须先读对应维度的共享契约文件（单一元素维度读 `phase3-single_element-eval/单一元素评测通用契约.md`，组件/卡片维度读 `phase3-card_or_component-eval/组件卡片评测通用契约.md`，页面框架维度读 `phase3-page_framework-eval/页面框架评测通用契约.md`；契约文件与各维度 `eval-skills/` 同级共存），再读该 skill 自身 SKILL.md；SKILL.md 中标注"见共享契约"的条款以共享契约原文为准。
+- Phase3 评测官与共享契约：先读 `phase3-evaluation-officer/SKILL.md` 及其知识索引，再读对应维度的共享契约文件（单一元素维度读 `phase3-single_element-eval/单一元素评测通用契约.md`，组件/卡片维度读 `phase3-card_or_component-eval/组件卡片评测通用契约.md`，页面框架维度读 `phase3-page_framework-eval/页面框架评测通用契约.md`），最后只读用户选中的 Skill；评分仍以叶子 Skill 为准。
 
-Agent 任务编排先要求用户选择 `capture_only`、`evaluate_only` 或 `capture_and_evaluate`，再按模式询问必要参数。仅评测已有截图时先发现截图组，不询问搜索词、Tab、屏数；截图+评测时必须在截图成功后才询问评测维度与报告出口。Phase2 默认 lightweight，不作为额外确认项。
+Agent 任务编排先要求用户选择 `capture_only`、`evaluate_only` 或 `capture_and_evaluate`，再按模式询问必要参数。仅评测已有截图时先发现截图组，不询问搜索词、Tab、屏数；截图+评测时必须在截图成功后才询问评测范围与报告出口。Phase2 默认 lightweight，不作为额外确认项。
 
-Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 对需要评测的已选截图，单个 Evaluation Agent 调用（内部复用 `phase2345-query-pipeline`）依次完成：phase2 默认轻量识别并为每张截图分别将一个元素清单及其审计写入项目级 `screenshots-out/`，不生成整页标注 PNG → phase3 逐维度先读共享契约再读所有目标 `eval-*/SKILL.md`，按截图消费对应清单、确定性计数并将原始结果和审计写入 `.artifacts/过程文件-评测结果与审计/` → phase4 只为不达标区域在 `screenshots-out/evidence/` 生成整页红框证据图并回写结果 → phase5 按 `phase5-report/SKILL.md` 渲染 `reports/` 本地 HTML；用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。除显式 Workflow 的宿主调度方式外，两种模式不得产生不同的数据流、评分口径、输出路径或子代理分派结构。
+Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 对需要评测的已选截图，单个 Evaluation Agent 调用（内部复用 `phase2345-query-pipeline`）依次完成：phase2 默认轻量识别并为每张截图分别将一个元素清单及其审计写入项目级 `screenshots-out/`，不生成整页标注 PNG → phase3 先由评测官解析范围、加载页面/卡片内置知识，再按已选维度读取共享契约与目标 `eval-*/SKILL.md`，按截图消费对应清单、确定性计数并将原始结果和审计写入 `.artifacts/过程文件-评测结果与审计/` → phase4 只为不达标区域在 `screenshots-out/evidence/` 生成整页红框证据图并回写结果 → phase5 按 `phase5-report/SKILL.md` 渲染 `reports/` 本地 HTML；用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。除显式 Workflow 的宿主调度方式外，两种模式不得产生不同的数据流、评分口径、输出路径或子代理分派结构。
 
 ### 批量子代理调度纪律（铁律）
 
@@ -117,7 +116,7 @@ Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验�
 - 需要从工作目录隔离的中间产物，必须写入 `.artifacts/过程文件-评测结果与审计/` 下按 `query/批次/阶段` 分组的目录；不得通过 `rm`、`unlink`、覆盖删除或清理脚本回收。
 - 子代理 prompt 必须同样声明本纪律：只新增或保留文件；发现无效、重复或失败产物时记录原因与路径供审计，不得删除。
 
-phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mode` 作为兼容参数固定为 `lightweight`；phase2 skill 目录由 `imdSkillDir` 指定（默认 `projectDir/phase2-card-annotation`）。
+phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mode` 作为兼容参数固定为 `lightweight`；phase2 skill 目录由 `phase2SkillDir` 指定（默认 `projectDir/phase2-card-annotation`）。
 
 ---
 
@@ -159,7 +158,7 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 - 阶段目录一律 `phaseN-<role>`，不带 `-skill` 后缀：`phase1-screenshot`、`phase2-card-annotation`、`phase3-*-eval`、`phase4-issue-evidence`、`phase5-report`。
 - 数据流：`screenshots/`（phase1 出/phase2 入）→ `screenshots-out/`（phase2 清单；可选全量 PNG）→ `.artifacts/`（phase3 结果）→ `screenshots-out/evidence/`（phase4 整页红框证据）→ `reports/`（phase5 HTML；批量看板同时输出 `.governance_dataset_<批次>.json`）→ NoCode 线上看板（可选）。**不得**用 `screenshots/annotated/` 或 skill 内部 `out/`。
 - 场景脚本输入/输出必须用项目级绝对路径，不得写独立的 `Desktop/<旧名>/` 或 `meituan_search_screenshots_v2/`。
-- 旧名 `imd-card-annotation` / `screenshot-skill` / `report-skill` / 非前缀维度名已废弃，见到即视为待替换（重命名声明行例外）。
+- 旧名 `screenshot-skill` / `report-skill` / 非前缀维度名已废弃，见到即视为待替换。
 
 ## SKILL.md frontmatter 契约（铁律，详见 `.claude/rules/skill-frontmatter.md`）
 

@@ -84,7 +84,7 @@ class ExternalScreenshotCopyTest(unittest.TestCase):
             self.assertTrue((destination_dir / "库迪_全部_1_副本2.png").exists())
             self.assertEqual(digest(destination), destination_hash)
 
-    def test_renamed_copy_is_not_grouped_as_its_original_screenshot(self) -> None:
+    def test_renamed_copy_is_discovered_as_a_distinct_screenshot_instance(self) -> None:
         discovery = load_discovery_module()
         with tempfile.TemporaryDirectory() as tmp:
             screenshot_dir = Path(tmp) / "screenshots"
@@ -96,8 +96,12 @@ class ExternalScreenshotCopyTest(unittest.TestCase):
 
             result = discovery.discover(screenshot_dir, min_bytes=1)
 
+            self.assertEqual(len(result["groups"]), 2)
             self.assertEqual(result["groups"][0]["files"], [str(original.resolve())])
-            self.assertEqual(result["unparseableFiles"], [str(renamed.resolve())])
+            self.assertEqual(result["groups"][0]["instance"], "original")
+            self.assertEqual(result["groups"][1]["files"], [str(renamed.resolve())])
+            self.assertEqual(result["groups"][1]["instance"], "副本2")
+            self.assertEqual(result["unparseableFiles"], [])
 
     def test_single_file_is_copied_with_its_original_filename(self) -> None:
         module = load_intake_module()
@@ -145,6 +149,7 @@ class ExternalScreenshotCopyTest(unittest.TestCase):
             self.assertEqual(payload["protocol"], "MEITUAN_EVAL_HANDOFF_V1")
             self.assertEqual(payload["status"], "ready_for_host_workflow")
             self.assertEqual(payload["workflowArgs"]["mode"], "evaluate_only")
+            self.assertEqual(payload["workflowArgs"]["pythonBin"], sys.executable)
             self.assertEqual(payload["workflowArgs"]["selectedScreenshots"], [
                 str((project_dir / "screenshots" / "露营_全部_1.png").resolve())
             ])

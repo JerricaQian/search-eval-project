@@ -50,7 +50,7 @@ python3 workflow/eval_cli.py prepare-evaluate \
 | 参数按需收集 | 仅截图不询问维度和报告；仅评测不询问搜索词、Tab、屏数或设备。 |
 | 职责可维护 | Screenshot Agent 不碰评测事实；Evaluation Agent 不负责设备和截图操作；Workflow 不参与业务判断。 |
 | 结果可追溯 | 每张图独立 manifest，逐阶段校验，过程文件按批次与搜索词隔离保留。 |
-| 评测可扩展 | 19 个 Skill 按目录自动发现；增加评测项无需修改 Workflow。 |
+| 评测可扩展 | Phase3 评测官从当前目录确定性解析 19 个 Skill；支持全量、维度和自定义项选择。 |
 
 > 1.0 暂不包含自动反思或经验库。所有宿主共享的输入运行前检查由
 > `workflow/eval_cli.py` 完成；现有确定性校验器仍由 Evaluation Agent 在 Phase2～4 内严格执行。
@@ -65,7 +65,7 @@ python3 workflow/eval_cli.py prepare-evaluate \
 | `phase3-single_element-eval/` | 单元素级评测（4 项：供给质量/色彩逻辑/元素规范/信息真实性） | ✅ 已就绪 |
 | `phase3-page_framework-eval/` | 页面框架级评测（7 项：供给模块完整性/视觉秩序/页面色彩/静态组件复杂度/浏览流畅度/信息可比性/信息冗余） | ✅ 已就绪 |
 
-每个维度目录下放 `eval-skills/eval-X-<name>/SKILL.md`，工作流会自动扫描并读取其 frontmatter（见下文）。新增维度或评测项**无需改工作流**。
+每个维度目录下放 `eval-skills/eval-X-<name>/SKILL.md`。`phase3-evaluation-officer/` 负责按用户选择解析它们，并加载页面模型、卡型规范与黄金事实契约；新增评测项仍无需修改评分工作流。
 
 ---
 
@@ -99,7 +99,7 @@ bash ~/Desktop/search-eval-project/setup.sh --with-ocr
 | **仅评测已有截图** | Workflow → Screenshot Agent（只读发现）→ Evaluation Agent | 截图范围、评测维度、报告出口 |
 | **自动化截图 + 评测** | Workflow → Screenshot Agent → Evaluation Agent | 先问搜索词、Tab、屏数；截图成功后才问维度、报告出口 |
 
-**仅评测已有截图**时，系统先扫描 `screenshots/` 并返回截图组；用户选择文件后，搜索词、Tab、屏号从命名规则 `<搜索词>_<Tab>_<屏>.png` 自动推导。用户不必重复填写这些信息。
+**仅评测已有截图**时，系统先扫描 `screenshots/` 并返回截图组；用户选择文件后，搜索词、Tab、屏号从统一身份规则 `<搜索词>_<Tab>_<屏>.<ext>` 自动推导。外部文件保持原名，尾部可带 `_副本`、`_副本N`、`_副本(N)` 或 `_copyN`；这些后缀只表示独立副本实例，不会被误并入搜索词。用户不必重复填写这些信息。
 
 ### 第 3 步：按模式调用 Workflow
 
@@ -133,7 +133,7 @@ Workflow 是依赖宿主 API 的 DSL，不能直接通过 `node` 执行。`workf
   "mode": "evaluate_only",
   "projectDir": "<项目绝对路径>",
   "selectedScreenshots": ["<截图绝对路径>"],
-  "dimensions": ["phase3-card_or_component-eval"],
+  "evaluationSelection": { "mode": "dimensions", "dimensions": ["phase3-card_or_component-eval"] },
   "reportOutlet": "local_html"
 }
 ```
@@ -233,7 +233,8 @@ search-eval-project/
 | `selectedScreenshots` | 仅评测已有截图 | 用户从截图组中选择的一组绝对路径。系统从名称推导搜索词。 |
 | `query` | 仅截图、截图+评测 | 搜索词；仅评测已有截图时由截图名称推导，除非名称无法解析。 |
 | `tabs` / `screens` | 仅截图、截图+评测 | 要截图的 Tab 与屏号。 |
-| `dimensions` | 需要评测时 | 要执行的维度目录数组；默认组件/卡片维度。 |
+| `evaluationSelection` | 需要评测时 | 新入口：`full_19`、`dimensions` 或 `custom_skills`；由评测官解析唯一目标集。 |
+| `dimensions` | 需要评测时 | 旧调用兼容参数；未传 `evaluationSelection` 时才生效，默认组件/卡片维度。 |
 | `reportOutlet` | 需要评测时 | `local_html` 或 `nocode`；NoCode 仍需后续授权。 |
 
 ### Evaluation Agent 参数
@@ -282,7 +283,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 
 1. **① 截图**：ADB 现场截图或复用已有图（9 张/词）。设备离线守卫，避免 0 字节覆盖。
 2. **② Phase2 轻量识别（默认）**：默认 `annotate=true`、`phase2Mode=lightweight`，对 `screenshots/` 中每张图分别产出一个元素清单及审计到 `screenshots-out/`。每个清单都必须通过整页门控和 `validate_element_manifest.py`，才可进入评测。
-3. **③ 评测**：先自动发现所选维度的全部 eval skill（读 frontmatter），再按清单及其结构化事实评测，每项按 `aggregate` 聚合到 Tab 级评级 + 加权分，并将原始结果和审计写入当前批次 `.artifacts/过程文件-评测结果与审计/<batch>/<query>/results/`。
+3. **③ 评测**：Phase3 评测官先按用户选择确定性解析目标 Skill，再加载页面模型、卡型规范、黄金事实契约和被选维度契约；随后按当前清单及其结构化事实评测。每项按 `aggregate` 聚合到 Tab 级评级 + 加权分，并将原始结果和审计写入当前批次 `.artifacts/过程文件-评测结果与审计/<batch>/<query>/results/`。部分评测会标记覆盖范围，不能与完整 19 项综合分混比。
 4. **④ 问题证据**：只消费已通过 Phase3 校验的待优化问题。`phase3-single_element-eval` 保留元素级判定与精确定位，但红框展示所属完整组件/商卡上下文，并回写 `evidenceTargetElementId`、`evidenceTargetCoord`；组件/卡片维度同样框选完整聚合区块。生成原尺寸整页红框图并回写 `evidenceImage` 后，以 `validate_eval_results.py --require-evidence` 再次验收。
 5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name`，确定性输出 `GOVERNANCE_DASHBOARD_V2` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务默认按问题，且可切换按搜索词或按指标浏览问题明细与证据。
 

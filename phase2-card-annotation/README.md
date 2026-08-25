@@ -1,6 +1,6 @@
 # Phase2 轻量截图识别
 
-本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径采用“本地 CV/OCR 候选 + 黄金结构范例 + 当前图片像素复核 + 卡型/枚举/元素契约门控”；模型只复核当前图片，不复制黄金字段，不生成整页标注图，也不执行 IMD 操作。
+本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径采用“本地 CV/OCR 候选 + 黄金结构范例 + 当前图片像素复核 + 卡型/枚举/元素契约门控”；模型只复核当前图片，不复制黄金字段，也不生成整页标注图。
 
 `phase2.atomic-manifest.v3` 每次写出前必须使用 `references/search_card_taxonomy.v1.json` 校验，并记录枚举契约版本与文件 SHA-256。所有标签元素统一使用 `kind: "tag"`，槽位名统一以 `_tag` 结尾，例如 `product_attribute_tag` 与 `scenic_rating_tag`。
 
@@ -20,12 +20,26 @@
 
 禁止把多张截图的页面、卡片或元素合并进一个识别 JSON。批量回归的 `index.json` 只记录每张图自己的 `canonicalManifest` 和统计指标，永远不是 Phase3 事实源。
 
-主 JSON 固定包含 `query`、`screenshot`、`annotatedImage`、`cards[]`、`recognition`、`pageFacts`、`pageFactInventory` 和 `relations`。门控失败仍写主 JSON，但必须设置 `recognition.phase3Ready=false`，Phase3 不得消费。
+主 JSON 固定包含 `query`、`screenshot`、`cards[]`、`recognition`、`pageFacts`、`pageFactInventory` 和 `relations`。门控失败仍写主 JSON，但必须设置 `recognition.phase3Ready=false`，Phase3 不得消费；旧清单的 `annotatedImage` 仅兼容读取。
 
 ## 生产入口
 
+`<pythonBin>` 由调用方注入；可移植任务使用 `workflowArgs.pythonBin`，不得假定项目 `.venv` 或 `python3` 别名。
+
 ```bash
-.venv/bin/python phase2-card-annotation/scripts/run_phase2_recognition.py \
+<pythonBin> phase2-card-annotation/scripts/run_phase2_recognition.py \
+  --query <query> \
+  --screenshot <absolute-screenshot-path> \
+  --output <one-screenshot-elements.json> \
+  --artifacts-dir <one-screenshot-artifact-dir> \
+  --recognition-audit <one-screenshot-elements.recognition-audit.json> \
+  --require-bounded-paddleocr
+```
+
+然后读取当前整图一次，写入只包含新增/替换观察的 `current-screenshot-main-session-review.json`，再回灌同一入口：
+
+```bash
+<pythonBin> phase2-card-annotation/scripts/run_phase2_recognition.py \
   --query <query> \
   --screenshot <absolute-screenshot-path> \
   --output <one-screenshot-elements.json> \
@@ -33,12 +47,10 @@
   --recognition-audit <one-screenshot-elements.recognition-audit.json> \
   --visual-review <current-screenshot-main-session-review.json> \
   --require-bounded-paddleocr
+```
 
-.venv/bin/python phase2-card-annotation/scripts/build_current_image_calibration_audit.py \
-  <one-screenshot-elements.json> \
-  --output <one-screenshot-elements.recognition-audit.json>
-
-.venv/bin/python scripts/validate_element_manifest.py \
+```bash
+<pythonBin> scripts/validate_element_manifest.py \
   <one-screenshot-elements.json> \
   --audit <one-screenshot-elements.audit.json> \
   --recognition-audit <one-screenshot-elements.recognition-audit.json> \
@@ -55,8 +67,8 @@
 6. `validate_phase2_recognition.py`：字段文法、文本连贯性、双版面一致性和卡型语义的初次整页门控。
 7. 初次门控失败时，`reprocess_bounded_cards.py` 自动执行一次失败卡定向重识别（每卡最多三个裁剪），随后重新生成结构、卡型、文本角色并再次整页门控。
 8. `build_phase2_manifest.py`：把最终同一次识别事实写入该截图自己的主 JSON。
-9. 模型读取当前整图一次，结合本次 Paddle/CV 产物全量复核卡片、区域、下挂项、标签边界、字面和漏标；冲突处才读局部裁图。
-10. `build_current_image_calibration_audit.py` 与 `validate_element_manifest.py`：逐元素交叉核对当前像素证据，并校验 Phase3 所需事实与整页状态。
+9. 模型读取当前整图一次，结合本次 Paddle/CV 产物全量复核卡片、区域、下挂项、标签边界、字面和漏标；冲突处才读局部裁图，并将新增/替换观察写为 `--visual-review` 后回灌同一入口。
+10. `build_current_image_calibration_audit.py` 与 `validate_element_manifest.py`：仅在回灌的复核声明完整时从最终 manifest 生成逐元素校准审计，并校验 Phase3 所需事实与整页状态。
 
 第 3 步之后先做结构门禁；第 7 步使用同一个 Paddle 实例，按每张卡“主信息区 / 下挂区”顺序读取（通常每卡 2 裁剪，最多 3），输出行框及可用的词/字符框和绝对坐标，不按失败字段逐个重启 OCR。第 9 步是必须提供的主会话局部复核，不是可选人工备注。最后任一 `itemGroups`、枚举、schema 或审计校验失败都会回写主 JSON 的 `recognition.phase3Ready=false`。
 
@@ -87,10 +99,10 @@
 黄金样本只用于推理后的回归和清洗后的归一化几何学习，不能向当前截图注入人工卡型、坐标或字段值。酒店样本位于 `golden-samples/hotel-card/`；相同 query 的不同 `searchInstance` 不得合并：
 
 ```bash
-python3 phase2-card-annotation/scripts/learn_card_geometry_profiles.py \
+<pythonBin> phase2-card-annotation/scripts/learn_card_geometry_profiles.py \
   --output phase2-card-annotation/references/learned_card_geometry_profiles.v1.json
 
-python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
+<pythonBin> phase2-card-annotation/scripts/rerun_golden_cv.py \
   --output-dir .artifacts/golden-cv-rerun
 ```
 
@@ -98,4 +110,4 @@ python3 phase2-card-annotation/scripts/rerun_golden_cv.py \
 
 ## 历史兼容文件
 
-`scenes/`、旧 `annotation_scene.py`、`annotate_image.py` 和 IMD 脚本仅保留历史标注复现能力，不属于 Phase2 生产识别流程，不得作为新截图的坐标、卡型或元素事实来源。
+`scenes/`、旧 `annotation_scene.py` 和 `annotate_image.py` 仅保留历史标注复现能力，不属于 Phase2 生产识别流程，不得作为新截图的坐标、卡型或元素事实来源。

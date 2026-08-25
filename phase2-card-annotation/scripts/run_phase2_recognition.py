@@ -37,7 +37,11 @@ def write_structure_gate(candidates: Path, semantics: Path, output: Path) -> boo
         selected = mapped.get(card.get("id"), {}).get("selectedCardType", {})
         if not isinstance(coord, list) or len(coord) != 4 or coord[2] <= 0 or coord[3] <= 0:
             errors.append(f"{card.get('id')}:invalid_component_boundary")
-        if selected.get("status") != "confirmed" or selected.get("cardType") == "异构卡":
+        # ``异构卡`` is the taxonomy's explicit, stable fallback for a real
+        # result unit.  It remains fully fact-gated later; rejecting it here
+        # contradicts the card contract and makes valid new layouts unable to
+        # reach bounded OCR/current-pixel calibration.
+        if selected.get("status") != "confirmed":
             errors.append(f"{card.get('id')}:page_or_component_type_unresolved")
     output.write_text(json.dumps({"contractVersion": "phase2.structure-gate.v1", "valid": not errors, "errors": errors}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return not errors
@@ -76,7 +80,9 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
     structure_gate = artifacts / "structure-gate.json"
     paddle_report = artifacts / "component-paddle-read.json"
 
-    invoke(["bash", str(SCRIPT_DIR / "run_cv_facts.sh"), str(screenshot), "--output", str(facts_initial)])
+    cv_env = os.environ.copy()
+    cv_env["SEARCH_EVAL_PYTHON"] = sys.executable
+    invoke(["bash", str(SCRIPT_DIR / "run_cv_facts.sh"), str(screenshot), "--output", str(facts_initial)], env=cv_env)
     invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts_initial), "--output", str(structure_initial)])
     invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts_initial), str(structure_initial), "--output", str(candidates_initial)])
     invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts_initial), str(candidates_initial), "--output", str(card_semantics_initial)])
@@ -90,6 +96,23 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
     )
     gate_code = initial_gate_code
     component_paddle_ok = False
+    # A current-pixel review may resolve an OCR-missed product title or price
+    # that made a provisional card fall back to ``异构卡``.  That evidence must
+    # be allowed to repair the structure candidate before the bounded-Paddle
+    # stage is selected; it never bypasses either the rebuilt structure gate
+    # or the required Paddle component read.
+    visual_review_applied = False
+    if not structure_ok and visual_review:
+        reviewed = artifacts / "cv-facts.visual-reviewed.before-paddle.json"
+        invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts_initial), "--review", str(visual_review), "--output", str(reviewed)])
+        shutil.copyfile(reviewed, facts)
+        invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts), "--output", str(structure)])
+        invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts), str(structure), "--output", str(candidates)])
+        invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts), str(candidates), "--output", str(card_semantics)])
+        invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts), str(structure), "--output", str(text_semantics)])
+        gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--output", str(gate_report)], check=False)
+        structure_ok = write_structure_gate(candidates, card_semantics, structure_gate)
+        visual_review_applied = True
     if structure_ok:
         retry_env = os.environ.copy()
         # Component OCR is sequential by contract. One CPU thread avoids
@@ -104,9 +127,11 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
             retry_env.setdefault("PHASE2_ENABLE_PADDLEOCR", "1")
         retry_arguments = [
             sys.executable, str(SCRIPT_DIR / "reprocess_bounded_cards.py"),
-            "--screenshot", str(screenshot), "--facts", str(facts_initial),
-            "--result-candidates", str(candidates_initial), "--card-semantics", str(card_semantics_initial),
-            "--recognition-gate", str(gate_initial), "--output", str(facts), "--report", str(paddle_report), "--all-components", "--require-backend", "paddleocr",
+            "--screenshot", str(screenshot), "--facts", str(facts if visual_review_applied else facts_initial),
+            "--result-candidates", str(candidates if visual_review_applied else candidates_initial),
+            "--card-semantics", str(card_semantics if visual_review_applied else card_semantics_initial),
+            "--recognition-gate", str(gate_report if visual_review_applied else gate_initial),
+            "--output", str(facts), "--report", str(paddle_report), "--all-components", "--require-backend", "paddleocr",
         ]
         retry_code = invoke(retry_arguments, check=False, env=retry_env)
         if retry_code == 0:
@@ -116,7 +141,7 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
             invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts), str(candidates), "--output", str(card_semantics)])
             invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts), str(structure), "--output", str(text_semantics)])
             gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--output", str(gate_report)], check=False)
-        else:
+        elif not visual_review_applied:
             for source, destination in initial_to_final:
                 shutil.copyfile(source, destination)
     else:
@@ -126,6 +151,11 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
         gate_code = 1
     # Stage D is mandatory: the image-capable session supplies a recorded
     # current-screen review after Paddle has located each component line.
+    # Reapply the recorded review after bounded OCR as well: the retry may
+    # introduce a lower-quality fragment inside a card that the current-pixel
+    # review already replaced.  Applying the same explicit record is
+    # idempotent for the published facts and keeps the newer OCR observation
+    # as rejected audit evidence.
     if visual_review and facts.is_file():
         reviewed = artifacts / "cv-facts.visual-reviewed.json"
         invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts), "--review", str(visual_review), "--output", str(reviewed)])
@@ -142,9 +172,15 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
         add_publication_error(gate_report, "component_paddle_read_required")
         gate_code = 1
     build_args = [sys.executable, str(SCRIPT_DIR / "build_phase2_manifest.py"), "--query", query, "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--recognition-gate", str(gate_report), "--output", str(output)]
-    if audit:
-        build_args.extend(["--recognition-audit", str(audit)])
     invoke(build_args)
+    if audit:
+        # The audit is derived only after the final manifest exists.  The old
+        # path wrote a preliminary recognition audit, then immediately used
+        # it as a required calibration audit, making every normal run fail.
+        audit_args = [sys.executable, str(SCRIPT_DIR / "build_current_image_calibration_audit.py"), "--manifest", str(output), "--output", str(audit)]
+        if visual_review:
+            audit_args.extend(["--visual-review", str(visual_review)])
+        invoke(audit_args)
     validation_args = [sys.executable, str(ROOT / "scripts" / "validate_element_manifest.py"), str(output), "--audit", str(output.with_suffix(".audit.json"))]
     if audit:
         # A syntactically valid manifest is not enough for publication.  The

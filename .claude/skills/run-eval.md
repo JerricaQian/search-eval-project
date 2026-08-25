@@ -109,13 +109,13 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
   "mode": "evaluate_only",
   "projectDir": "<项目绝对路径>",
   "selectedScreenshots": ["<截图绝对路径>"],
-  "dimensions": ["phase3-card_or_component-eval"],
+  "evaluationSelection": { "mode": "dimensions", "dimensions": ["phase3-card_or_component-eval"] },
   "reportOutlet": "local_html",
   "phase2Mode": "lightweight"
 }
 ```
 
-截图命名必须为 `<搜索词>_<Tab>_<屏>.png`。无法解析时，由调用方补充系统推导出的 `query`，而不是要求用户重复输入搜索词。
+截图身份统一解析为 `<搜索词>_<Tab>_<屏>.<ext>`。外部原件不重命名，尾部 `_副本`、`_副本N`、`_副本(N)` 或 `_copyN` 解析为独立副本实例而不是搜索词的一部分；无法解析时，由调用方补充系统推导出的 `query`，而不是要求用户重复输入搜索词。
 
 ### 3. 自动化截图 + 评测
 
@@ -138,13 +138,37 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
   "mode": "evaluate_only",
   "projectDir": "<项目绝对路径>",
   "selectedScreenshots": ["<第一轮返回的截图绝对路径>"],
-  "dimensions": ["phase3-card_or_component-eval"],
+  "evaluationSelection": { "mode": "full_19" },
   "reportOutlet": "local_html",
   "phase2Mode": "lightweight"
 }
 ```
 
 `reportOutlet` 可为 `local_html` 或 `nocode`。选择 `nocode` 时，仍须先完成本地 HTML 和治理数据集，再按 `phase5-report/nocode-dashboard/SKILL.md` 获得用户授权后处理线上出口。
+
+### Phase3 评测范围选择
+
+新调用使用 `evaluationSelection`，由 `phase3-evaluation-officer` 确定性解析当前 19 项 Skill：
+
+```json
+{ "mode": "full_19" }
+```
+
+```json
+{ "mode": "dimensions", "dimensions": ["phase3-single_element-eval"] }
+```
+
+```json
+{
+  "mode": "custom_skills",
+  "skills": [
+    { "dimension": "phase3-card_or_component-eval", "skill": "eval-7-info-authenticity" },
+    { "dimension": "phase3-card_or_component-eval", "skill": "eval-8-info-redundancy" }
+  ]
+}
+```
+
+未传 `evaluationSelection` 时，保留 `dimensions` 的旧行为。非 `full_19` 的报告必须显示“已选 X/19 项评测”，不能与完整 19 项综合分直接比较。
 
 ## Evaluation Agent 的固定约束
 

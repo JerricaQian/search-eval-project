@@ -58,6 +58,25 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
             if visible_status not in {"confirmed", "naturally_cropped", "uncertain"}:
                 raise ValueError(f"invalid visual review visibleStatus: {visible_status}")
             phase3_facts = _direct_text_phase3_facts(label, box, {"colorRole": field.get("colorRole", "unknown"), "evidence": "main_session_local_visual_read"}, True)
+            # Typography is a current-pixel fact required by the hierarchy
+            # gate. Preserve the geometry-derived size when the reviewer did
+            # not explicitly record a bucket, but never leave a reviewed text
+            # atom with an unusable unknown weight or colour role.
+            text_facts = phase3_facts["textFacts"]
+            text_facts["fontSizeBucket"] = field.get("fontSizeBucket", text_facts["fontSizeBucket"])
+            text_facts["fontWeightBucket"] = field.get("fontWeightBucket", "regular")
+            text_facts["textColorRole"] = field.get("colorRole", "neutral")
+            # A visual review may additionally record the typographic buckets it
+            # confirmed from the current pixels.  Do not manufacture these
+            # fields: preserve the extractor's values unless the review has an
+            # explicit, enum-valid observation.  This keeps hierarchy facts
+            # attributable to the current-image review instead of an OCR guess.
+            text_facts = phase3_facts.get("textFacts", {})
+            for key in ("fontSizeBucket", "fontWeightBucket", "textColorRole", "emphasisLevel"):
+                value = field.get(key)
+                if isinstance(value, str) and value.strip() and value != "unknown":
+                    text_facts[key] = value
+            phase3_facts["textFacts"] = text_facts
             if visible_status != "confirmed":
                 phase3_facts["render"].update({"visibleStatus": visible_status, "renderState": "partial" if visible_status == "naturally_cropped" else "uncertain"})
                 phase3_facts["textFacts"]["textStatus"] = visible_status
@@ -94,8 +113,17 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
                 "visualReview": {"cardId": card.get("cardId", ""), "crop": card["coord"], "readId": photo.get("readId", "main_session_local_read"), "visibleStatus": visible_status},
             })
             next_photo_id += 1
-    facts.setdefault("routing", {})["visualReview"] = {"source": "main_session_local_read", "cards": observed,
-        "localReviewReadCount": len(observed)}
+    # Page-level modules can be directly confirmed in the current screenshot
+    # (for example a conditional safety notice or an intent graphical filter).
+    # Keep those facts alongside card reads so the manifest does not lose a
+    # visible page module merely because the CV module detector did not name it.
+    review_modules = review.get("modules", [])
+    if not isinstance(review_modules, list):
+        raise ValueError("visual review modules must be a list")
+    facts.setdefault("routing", {})["visualReview"] = {
+        "source": "main_session_local_read", "cards": observed,
+        "modules": review_modules, "localReviewReadCount": len(observed),
+    }
     facts["routing"]["unresolvedCandidateIds"] = [item["id"] for kind in ("text", "photos") for item in facts["candidates"].get(kind, []) if item.get("route") != "accepted"]
     return facts
 

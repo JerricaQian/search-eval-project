@@ -18,6 +18,7 @@ ATOMIC_VALIDATOR = ROOT / "phase2-card-annotation" / "scripts" / "validate_atomi
 
 CARD_NAMES = {
     "merchant_text_append": "商家卡片-文字下挂",
+    "merchant_plain": "商家卡片-无下挂",
     "merchant_graphic_append": "商家卡片-图文下挂",
     "merchant_product_card": "商品卡片",
     "product": "商品卡片",

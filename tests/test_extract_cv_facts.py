@@ -30,6 +30,108 @@ RECOGNITION_CONTRACTS = PROJECT_DIR / "phase2-card-annotation/references/card_re
 
 
 class ExtractCvFactsTest(unittest.TestCase):
+    def test_title_prefix_fulfillment_label_uses_geometry_not_label_text_alone(self) -> None:
+        script_dir = MANIFEST_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_manifest_title_prefix_test", MANIFEST_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+
+        card = {"id": "C1", "coord": [0, 0, 400, 200]}
+        title = {"id": "T-title", "text": "商品标题", "coord": [100, 20, 180, 30]}
+        prefix = {"id": "T-prefix", "text": "外卖", "coord": [40, 24, 48, 24]}
+        base_line = {"id": "T-base", "text": "外卖", "coord": [40, 80, 48, 24]}
+        semantics = {
+            "T-title": {"semanticRoleCandidate": "title", "regionCandidate": "标题区", "status": "confirmed"},
+            "T-prefix": {"semanticRoleCandidate": "fulfillment", "regionCandidate": "基础信息区", "status": "confirmed"},
+            "T-base": {"semanticRoleCandidate": "fulfillment", "regionCandidate": "基础信息区", "status": "confirmed"},
+        }
+        output = module.card_local_semantics(card, "商品卡片", [title, prefix, base_line], semantics)
+
+        self.assertEqual(output["T-prefix"]["regionCandidate"], "标题区")
+        self.assertEqual(output["T-prefix"]["elementTypeCandidate"], "标签")
+        self.assertEqual(output["T-prefix"]["semanticRoleCandidate"], "fulfillment")
+        self.assertEqual(output["T-base"]["regionCandidate"], "基础信息区")
+        self.assertNotIn("elementTypeCandidate", output["T-base"])
+
+    def test_rating_schema_requires_a_complete_rating_field(self) -> None:
+        script_dir = GATE_HOOKS_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_gate_hooks_rating_test", GATE_HOOKS_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+        context = {"semanticItems": [
+            {"sourceId": "R1", "role": "rating", "text": "4.6"},
+            {"sourceId": "R2", "role": "rating", "text": "21分钟"},
+        ]}
+        findings = module.field_schema_hook(context)
+        self.assertEqual(findings, [{
+            "hook": "field_schema", "sourceId": "R2",
+            "reason": "rating_text_does_not_match_field_grammar:21分钟",
+        }])
+
+    def test_paddle_empty_or_serialized_v3_result_is_a_valid_backend_response(self) -> None:
+        script_dir = SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_extract_cv_facts_paddle_test", SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+
+        empty_entries, empty_supported = module._parse_paddle_output([])
+        self.assertEqual(empty_entries, [])
+        self.assertTrue(empty_supported)
+
+        class SerializedResult:
+            def json(self) -> str:
+                return json.dumps({
+                    "rec_texts": ["锦州烧烤（望京店）"],
+                    "rec_scores": [0.99],
+                    "rec_boxes": [[12, 8, 164, 36]],
+                }, ensure_ascii=False)
+
+        entries, supported = module._parse_paddle_output([SerializedResult()])
+        self.assertTrue(supported)
+        self.assertEqual(entries, [{"text": "锦州烧烤（望京店）", "coord": [12, 8, 152, 28], "ocrConfidence": 0.99}])
+
+    def test_empty_paddle_crop_does_not_fall_back_to_tesseract(self) -> None:
+        script_dir = SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_extract_cv_facts_empty_crop_test", SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+        with tempfile.TemporaryDirectory() as tmp:
+            image = Path(tmp) / "empty.png"
+            Image.new("RGB", (40, 20), "white").save(image)
+            original_paddle, original_tesseract = module._ocr_with_paddle, module._run_tesseract
+            try:
+                module._ocr_with_paddle = lambda _path: ([], None)
+                module._run_tesseract = lambda *_args: self.fail("empty Paddle response must not trigger Tesseract")
+                entries, backend, error = module.ocr_region(image, [0, 0, 40, 20], tesseract_psm=6)
+            finally:
+                module._ocr_with_paddle, module._run_tesseract = original_paddle, original_tesseract
+        self.assertEqual(entries, [])
+        self.assertEqual(backend, "paddleocr")
+        self.assertIsNone(error)
+
     def test_low_hue_textured_product_photo_is_not_discarded_as_ui(self) -> None:
         script_dir = PHOTO_SCRIPT.parent
         sys.path.insert(0, str(script_dir))
@@ -235,6 +337,32 @@ class ExtractCvFactsTest(unittest.TestCase):
             self.assertEqual(result["selectedCardType"]["status"], "confirmed")
             self.assertTrue(result["contractValidation"]["minimumSatisfied"])
             self.assertNotEqual(result["selectedCardType"]["cardType"], "unknown")
+
+    def test_merchant_card_without_downhang_is_not_heterogeneous(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            facts_path, candidates_path, output_path = tmp_path / "facts.json", tmp_path / "candidates.json", tmp_path / "semantics.json"
+            facts_path.write_text(json.dumps({
+                "contractVersion": "phase2.cv-facts.v1", "screenshot": "/tmp/screen.png", "viewport": {"width": 400, "height": 500},
+                "candidates": {
+                    "photos": [{"id": "P1", "coord": [20, 100, 120, 120], "route": "accepted"}],
+                    "text": [
+                        {"id": "T1", "text": "花果山漂流", "coord": [160, 100, 180, 30], "route": "accepted"},
+                        {"id": "T2", "text": "4.0 23条评论", "coord": [160, 145, 150, 28], "route": "accepted"},
+                        {"id": "T3", "text": "水上项目/水上体验 紫竹桥", "coord": [160, 185, 180, 28], "route": "accepted"},
+                    ],
+                }, "routing": {"missingCapabilities": []},
+            }, ensure_ascii=False), encoding="utf-8")
+            candidates_path.write_text(json.dumps({
+                "contractVersion": "phase2.search-result-candidates.v1",
+                "resultCards": [{"id": "C1", "coord": [0, 80, 400, 180], "status": "confirmed", "memberBlockIds": [], "evidence": ["repeated_left_image_right_text_seed"]}],
+                "structureBlocks": [],
+            }, ensure_ascii=False), encoding="utf-8")
+            subprocess.run([sys.executable, str(RESULT_SEMANTICS_SCRIPT), str(facts_path), str(candidates_path), "--output", str(output_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            result = json.loads(output_path.read_text(encoding="utf-8"))["cards"][0]
+
+        self.assertEqual(result["selectedCardType"]["cardType"], "商家卡片_无下挂")
+        self.assertFalse(result["recognitionFeatures"]["text_downhang"])
 
     def test_learned_geometry_is_a_soft_known_type_signal(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -503,6 +631,14 @@ class ExtractCvFactsTest(unittest.TestCase):
         spec.loader.exec_module(module)
         context = {"semanticItems": [{"sourceId": "T1", "role": "fulfillment", "text": "33分钟"}]}
         self.assertEqual(module.field_schema_hook(context), [])
+        visual_forms = {
+            "semanticItems": [
+                {"sourceId": "T-rating", "role": "rating", "text": "4.6"},
+                {"sourceId": "T-start", "role": "fulfillment", "text": "起送¥20"},
+                {"sourceId": "T-hours", "role": "fulfillment", "text": "17:00营业"},
+            ]
+        }
+        self.assertEqual(module.field_schema_hook(visual_forms), [])
         self.assertTrue(module._layout_texts_compatible("fulfillment", "33分钟", "33分钟|钟"))
         self.assertFalse(module._layout_texts_compatible("price", "¥37.5起", "¥97.5起"))
 
@@ -543,6 +679,10 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertIn("multiple_product_prices_are_merged_in_one_element", dense_reasons)
         self.assertIn("adjacent_coupon_thresholds_are_merged", dense_reasons)
         self.assertIn("session_time_has_extra_trailing_digit", dense_reasons)
+        self.assertEqual(
+            module.dense_numeric_atomicity_hook({"semanticItems": [{"sourceId": "T10", "role": "fulfillment", "text": "33分钟"}]}),
+            [],
+        )
 
     def test_price_evidence_recovers_currency_glyph_damage_without_using_delivery_fee(self) -> None:
         cases = [("YQ97.5起", "red", "商品卡片"), ("起送#35免配送费", "red", "异构卡")]
@@ -637,14 +777,18 @@ class ExtractCvFactsTest(unittest.TestCase):
             tmp_path = Path(tmp)
             facts = {
                 "screenshot": "/tmp/screen.png", "viewport": {"width": 400, "height": 600},
-                "candidates": {"photos": [{"id": "P1", "coord": [20, 120, 120, 120], "route": "accepted"}], "text": [{
-                    "id": "T1", "text": "布洛芬咀嚼片", "coord": [160, 130, 180, 28], "route": "accepted",
-                    "visualHint": {"colorRole": "red", "medianRgb": [216, 56, 56], "evidence": "foreground_pixel_median"},
-                }]}, "routing": {"unresolvedCandidateIds": []},
+                "candidates": {"photos": [{"id": "P1", "coord": [20, 120, 120, 120], "route": "accepted"}], "text": [
+                    {"id": "T0", "text": "外卖", "coord": [160, 130, 48, 28], "route": "accepted", "visualHint": {"colorRole": "yellow"}},
+                    {"id": "T1", "text": "布洛芬咀嚼片", "coord": [214, 130, 180, 28], "route": "accepted",
+                     "visualHint": {"colorRole": "red", "medianRgb": [216, 56, 56], "evidence": "foreground_pixel_median"}},
+                ]}, "routing": {"unresolvedCandidateIds": []},
             }
             candidates = {"pageModules": [{"module": "results_list", "coord": [0, 100, 400, 200], "status": "confirmed", "evidence": ["result_cards"]}], "resultCards": [{"id": "C1", "coord": [0, 100, 400, 200]}]}
             card_semantics = {"cards": [{"cardId": "C1", "selectedCardType": {"cardType": "商品卡片", "status": "confirmed", "evidence": ["quantity_and_price"]}, "regions": []}]}
-            text_semantics = {"candidates": [{"sourceId": "T1", "semanticRoleCandidate": "title", "regionCandidate": "标题区", "status": "confirmed"}]}
+            text_semantics = {"candidates": [
+                {"sourceId": "T0", "semanticRoleCandidate": "fulfillment", "regionCandidate": "基础信息区", "status": "confirmed"},
+                {"sourceId": "T1", "semanticRoleCandidate": "title", "regionCandidate": "标题区", "status": "confirmed"},
+            ]}
             paths = {name: tmp_path / f"{name}.json" for name in ("facts", "candidates", "cards", "text", "elements", "recognition")}
             for name, payload in (("facts", facts), ("candidates", candidates), ("cards", card_semantics), ("text", text_semantics)):
                 paths[name].write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
@@ -653,11 +797,20 @@ class ExtractCvFactsTest(unittest.TestCase):
             manifest = json.loads(paths["elements"].read_text(encoding="utf-8"))
             subprocess.run([sys.executable, str(CALIBRATION_AUDIT_SCRIPT), str(paths["elements"]), "--output", str(paths["recognition"])], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
             calibration = json.loads(paths["recognition"].read_text(encoding="utf-8"))
-            calibration["reviewedAgainstCurrentPixels"] = True
-            for field in calibration["fields"]:
-                field["status"] = "confirmed"
-                field["reason"] = "confirmed_from_current_screenshot_pixels"
-            paths["recognition"].write_text(json.dumps(calibration, ensure_ascii=False), encoding="utf-8")
+            self.assertFalse(calibration["reviewedAgainstCurrentPixels"])
+            self.assertTrue(all(field["status"] == "uncertain" for field in calibration["fields"]))
+            review = tmp_path / "visual-review.json"
+            review.write_text(json.dumps({
+                "screenshot": "/tmp/screen.png",
+                "completeCurrentPixelReview": True,
+                "localReviewPaths": [],
+                "cards": [],
+            }, ensure_ascii=False), encoding="utf-8")
+            subprocess.run([
+                sys.executable, str(CALIBRATION_AUDIT_SCRIPT), str(paths["elements"]),
+                "--output", str(paths["recognition"]), "--visual-review", str(review),
+            ], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            calibration = json.loads(paths["recognition"].read_text(encoding="utf-8"))
             calibrated_validation = subprocess.run(
                 [sys.executable, str(MANIFEST_VALIDATOR), str(paths["elements"]), "--recognition-audit", str(paths["recognition"]), "--require-current-image-calibration"],
                 check=True, cwd=PROJECT_DIR, capture_output=True, text=True,
@@ -679,10 +832,27 @@ class ExtractCvFactsTest(unittest.TestCase):
                 check=False, cwd=PROJECT_DIR, capture_output=True, text=True,
             )
 
-        element = manifest["cards"][0]["regions"][0]["elements"][0]
+        title_region = next(region for region in manifest["cards"][0]["regions"] if region["name"] == "标题区")
+        prefix, element = title_region["elements"]
+        self.assertEqual(prefix["元素类型"], "标签")
+        self.assertEqual(prefix["textFacts"]["semanticRole"], "fulfillment")
+        self.assertEqual(prefix["textFacts"]["rawText"], "外卖")
+        self.assertEqual(prefix["visual"]["styleKey"].split("|")[2], "履约标")
+        self.assertNotIn("semanticRole", prefix["visual"])
         self.assertEqual(element["visual"]["colorRole"], "red")
-        self.assertEqual(element["visual"]["textColor"], "#D83838")
-        self.assertIn("foreground_pixel_median", element["visual"]["colorEvidence"])
+        self.assertNotIn("textColor", element["visual"])
+        self.assertNotIn("colorEvidence", element["visual"])
+        self.assertNotIn("sourceRegion", element["visual"])
+        self.assertNotIn("sourceRegion", element["render"])
+        all_elements = [
+            item
+            for card in manifest["cards"]
+            for region in card["regions"]
+            for item in region["elements"]
+        ]
+        self.assertTrue(all("内容简述" not in item and "excludeReason" not in item for item in all_elements))
+        self.assertEqual(element["textFacts"]["rawText"], "布洛芬咀嚼片")
+        self.assertTrue(any(item["元素类型"] == "图片" and "textFacts" not in item for item in all_elements))
         self.assertTrue(json.loads(validation.stdout)["valid"])
         self.assertTrue(json.loads(calibrated_validation.stdout)["valid"])
         self.assertIn(

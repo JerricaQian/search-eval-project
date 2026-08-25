@@ -343,6 +343,21 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
                 break
     seeds = sorted(seeds)
     seeds = [index for index in seeds if blocks[index]["coord"][1] >= results_start_y]
+    # A horizontal category/image filter can look like an image-left/text-right
+    # block after OCR has been rerun, especially when its labels are sparse.
+    # It is not a result card: several similarly sized images share the same
+    # row and span most of the viewport.  Reject it at candidate discovery so
+    # Phase5 never has to silently discard a spurious ``unknown`` card.
+    def is_horizontal_image_filter(block: dict[str, Any]) -> bool:
+        bx, by, bw, bh = block["coord"]
+        local_photos = [
+            photo for photo in facts.get("candidates", {}).get("photos", [])
+            if photo.get("route") == "accepted" and _overlap_y(photo["coord"], block["coord"])
+        ]
+        centers = sorted({photo["coord"][0] + photo["coord"][2] / 2 for photo in local_photos})
+        return len(centers) >= 3 and centers[-1] - centers[0] >= bw * 0.45
+
+    seeds = [index for index in seeds if not is_horizontal_image_filter(blocks[index])]
     trusted_non_result_modules = [
         module["coord"] for module in modules
         if module.get("status") == "confirmed" and module.get("module") in {"business_image_filter"}
@@ -381,7 +396,7 @@ def build_candidates(facts: dict[str, Any], structure: dict[str, Any]) -> dict[s
         local_text = [item for item in facts.get("candidates", {}).get("text", []) if item.get("route") != "rejected" and _overlap_y(item["coord"], proposed)]
         local_photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted" and _overlap_y(item["coord"], proposed)]
         overlaps_module = any(_overlap_y(proposed, coord) for coord in trusted_non_result_modules)
-        if predicted_start >= max(results_start_y, confirmed_top_floor) and 0.05 <= interval_ratio <= 0.35 and not overlaps_module and (len(local_text) >= 2 or local_photos):
+        if predicted_start >= max(results_start_y, confirmed_top_floor) and 0.05 <= interval_ratio <= 0.35 and not overlaps_module and not is_horizontal_image_filter({"coord": proposed}) and (len(local_text) >= 2 or local_photos):
             members = [block for block in blocks if _overlap_y(block["coord"], proposed)]
             cards.insert(0, {
                 "id": "C0", "coord": proposed, "seedBlockId": "", "memberBlockIds": [member["id"] for member in members],

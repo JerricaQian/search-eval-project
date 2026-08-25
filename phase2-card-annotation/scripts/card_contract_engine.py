@@ -13,7 +13,7 @@ from typing import Any
 
 
 KNOWN_RESULT_TYPES = {
-    "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片",
+    "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "商家卡片_无下挂", "酒店卡片",
     "演出电影卡片", "度假酒店套餐卡片",
 }
 
@@ -55,7 +55,11 @@ def price_evidence(item: dict[str, Any], card_coord: list[int]) -> dict[str, boo
     vertically_plausible = ty + th >= y + height * 0.20
     obvious_non_price = bool(re.search(r"分钟|公里|\bkm\b|评分|\d(?:\.\d+)?\s*分|\d+(?:\.\d+)?万?条|起送|配送费|月售|已售|20\d{2}[-/.年]|\d+(?:\.\d+)?\s*(?:ml|kg|g|片|包|袋|听|瓶|盒)|酒精|浓度|保质期", text, re.I)) and not contextual
     coupon_threshold_only = bool(re.search(r"神券.{0,8}(?:减|至)\s*\d+", text)) and not contextual
-    visual = color in {"red", "orange"} and digits >= 2 and horizontally_plausible and vertically_plausible and not obvious_non_price and not coupon_threshold_only
+    # A bare 0–5 decimal beside the rating star is often orange.  Colour and
+    # digits alone must not turn that score into a product price; a visual
+    # price needs currency/context unless the value is outside score range.
+    bare_rating_shape = bool(re.fullmatch(r"[0-5](?:\.\d+)?", text.strip()))
+    visual = color in {"red", "orange"} and digits >= 2 and horizontally_plausible and vertically_plausible and not obvious_non_price and not coupon_threshold_only and not bare_rating_shape
     return {"exact": exact, "contextual": contextual, "visual": visual}
 
 
@@ -167,7 +171,9 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "poster_media": poster_media,
         "package_identity": bool(re.search(r"旅游|自由行|跟团游|酒店套餐|度假套餐", joined)),
         "package_summary": bool(re.search(r"\d+天|出发|住[:：]|景[:：]|享[:：]|吃[:：]|行[:：]|无购物|无自费|先囤后兑|过期自动退", joined)),
-        "poi_identity": bool(re.search(r"地铁站|大学|商场|医院|景点|度假区|公立三甲", joined)),
+        # 景点 POI 结果常以具体业态而非“景点”二字呈现，例如主题乐园、
+        # 漂流或某某乐园；这些不是商品卡的商品规格信号。
+        "poi_identity": bool(re.search(r"地铁站|大学|商场|医院|景点|度假区|公立三甲|主题乐园|(?:^|[^\u4e00-\u9fff])乐园|漂流", joined)),
         "poi_domain_detail": bool(re.search(r"路线|挂号|科室|医生|游客量|门票|行政区|地址|拍照点|游玩", joined)),
         "explicit_ad_marker": bool(re.search(r"(?:^|[^不])广告|推广", joined)),
         "result_list_position": True,
@@ -186,6 +192,7 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "product_repeat_boundary": repeated_list_boundary and not graphic_hint,
         "merchant_graphic_boundary": merchant_graphic_boundary,
         "merchant_text_boundary": repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"]),
+        "merchant_plain_boundary": repeated_list_boundary and not graphic_hint and not features["text_downhang"] and not features["scenic_ticket_downhang"],
         "hotel_list_boundary": repeated_list_boundary and (features["hotel_identity"] or features["homestay_identity"]),
         "hotel_grid_boundary": "two_column_grid_cell_boundary" in boundary_evidence and (features["hotel_identity"] or features["hotel_room_identity"] or features["homestay_identity"]),
         "performance_poster_boundary": poster_media and features["performance_schedule"] and (repeated_list_boundary or bool(left_heads)),
@@ -237,6 +244,7 @@ def resolve_card_type(card: dict[str, Any], facts: dict[str, Any], structure_blo
     type_priority = {
         "商家卡片_图文下挂": 60 if features.get("merchant_graphic_boundary") else 0,
         "商家卡片_文字下挂": 55 if features.get("merchant_text_boundary") else 0,
+        "商家卡片_无下挂": 50 if features.get("merchant_plain_boundary") else 0,
         "演出电影卡片": 52 if (features.get("performance_poster_boundary") or features.get("movie_schedule_boundary")) and (features.get("performance_identity") or not (features.get("hotel_list_boundary") or features.get("hotel_grid_boundary"))) else 0,
         "度假酒店套餐卡片": 50 if features.get("package_bundle_boundary") else 0,
         "酒店卡片": 48 if features.get("hotel_list_boundary") or features.get("hotel_grid_boundary") else 0,

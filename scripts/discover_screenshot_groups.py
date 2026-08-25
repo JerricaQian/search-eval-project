@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Discover reusable search screenshots without changing any files.
 
-Expected filenames are ``<query>_<tab>_<screen>.png``.  Parsing from the
+Expected filenames are ``<query>_<tab>_<screen>.png``; a preserved external
+copy may additionally end in ``_副本`` or ``_副本N``.  Parsing from the
 right keeps search terms containing underscores usable.  The JSON output is
 intended for the Screenshot Agent and can be safely shown to a user before an
 evaluation run is created.
@@ -11,11 +12,17 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
 from PIL import Image
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from screenshot_naming import parse_screenshot_name
 
 
 IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".webp"}
@@ -32,18 +39,21 @@ def inspect_image(path: Path, min_bytes: int) -> str:
     return ""
 
 
-def parse_name(path: Path) -> tuple[str, str, str] | None:
-    parts = path.stem.rsplit("_", 2)
-    if len(parts) != 3 or not all(part.strip() for part in parts):
+def parse_name(path: Path) -> tuple[str, str, str, str] | None:
+    """Return query/tab/screen plus a distinct copy instance.
+
+    A copy suffix belongs to screenshot identity, not to the query.  It must
+    therefore be discoverable while remaining in its own group instead of
+    being silently merged into an unsuffixed screenshot of the same screen.
+    """
+    parsed = parse_screenshot_name(path)
+    if parsed is None:
         return None
-    query, tab, screen = (part.strip() for part in parts)
-    if not screen.isdigit():
-        return None
-    return query, tab, screen
+    return parsed.query, parsed.tab, parsed.screen, parsed.instance
 
 
 def discover(directory: Path, min_bytes: int = 5001) -> dict[str, Any]:
-    grouped: dict[str, dict[str, list[dict[str, str]]]] = defaultdict(lambda: defaultdict(list))
+    grouped: dict[tuple[str, str], dict[str, list[dict[str, str]]]] = defaultdict(lambda: defaultdict(list))
     invalid: list[dict[str, str]] = []
     unparseable: list[str] = []
 
@@ -61,18 +71,18 @@ def discover(directory: Path, min_bytes: int = 5001) -> dict[str, Any]:
         if issue:
             invalid.append({"path": str(path.resolve()), "reason": issue})
             continue
-        query, tab, screen = parsed
-        grouped[query][tab].append({"screen": screen, "path": str(path.resolve())})
+        query, tab, screen, instance = parsed
+        grouped[(query, instance)][tab].append({"screen": screen, "path": str(path.resolve())})
 
     groups = []
-    for query in sorted(grouped):
+    for query, instance in sorted(grouped):
         tabs = []
         files: list[str] = []
-        for tab in sorted(grouped[query]):
-            entries = sorted(grouped[query][tab], key=lambda item: (int(item["screen"]), item["path"]))
+        for tab in sorted(grouped[(query, instance)]):
+            entries = sorted(grouped[(query, instance)][tab], key=lambda item: (int(item["screen"]), item["path"]))
             tabs.append({"tab": tab, "screens": [item["screen"] for item in entries], "files": [item["path"] for item in entries]})
             files.extend(item["path"] for item in entries)
-        groups.append({"query": query, "tabs": tabs, "files": files, "count": len(files)})
+        groups.append({"query": query, "instance": instance, "tabs": tabs, "files": files, "count": len(files)})
 
     return {
         "screenshotDir": str(directory.resolve()),

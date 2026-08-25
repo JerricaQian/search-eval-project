@@ -17,10 +17,49 @@ from typing import Any
 VERSION = "phase2.page-manifest.v2"
 TYPE_NAMES = {
     "商品卡片": "商品卡片", "商家卡片_图文下挂": "商家卡片-图文下挂",
-    "商家卡片_文字下挂": "商家卡片-文字下挂", "酒店卡片": "酒店卡片",
+    "商家卡片_文字下挂": "商家卡片-文字下挂", "商家卡片_无下挂": "商家卡片-无下挂", "酒店卡片": "酒店卡片",
     "演出电影卡片": "演出/电影卡片", "度假酒店套餐卡片": "度假/酒店套餐卡片",
     "广告卡": "特殊广告卡", "异构卡": "异构卡",
 }
+# These are only candidates.  Their region is determined by the current card's
+# geometry/visual review, never by the label text alone.
+TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES = {"外卖", "团购", "到店", "闪购"}
+# ``regions`` is a semantic reading sequence, not OCR discovery order.  In
+# particular, an OCR engine may return a small "外卖" tag before the adjacent
+# product title; publishing that order makes a human reader and a Phase3
+# reviewer appear to skip the title.  Keep title first, then the card's
+# supporting information; media remains a separately addressable region.
+REGION_PUBLICATION_ORDER = {
+    "标题区": 10, "实体标题区": 10,
+    "副标题区": 20, "实体信息区": 20,
+    "基础信息区": 30, "评分与推荐理由": 35, "位置信息": 36,
+    "价格区": 40, "标签区": 50,
+    "商家信息区": 60, "商家信息区（电影）": 60, "商家区": 60,
+    "下挂商品区": 70, "文字下挂区": 70, "下挂区": 70, "服务下挂": 70,
+    "特殊下挂": 75, "领域下挂区": 75, "演出信息区": 75, "套餐概要": 75,
+    "头图区": 80, "头图区（演出）": 80, "媒体区": 80,
+    "主要信息区": 30, "辅助信息区": 60, "操作区": 90, "AI推荐理由": 90,
+}
+
+
+def region_publication_key(item: tuple[str, list[dict[str, Any]]]) -> tuple[int, int, int, str]:
+    """Give every region a stable semantic order and stable in-region tiebreak."""
+    name, elements = item
+    first_y = min((element["坐标"][1] for element in elements if element.get("坐标")), default=10**9)
+    first_x = min((element["坐标"][0] for element in elements if element.get("坐标")), default=10**9)
+    return (REGION_PUBLICATION_ORDER.get(name, 99), first_y, first_x, name)
+
+
+def region_element_publication_key(region_name: str, element: dict[str, Any]) -> tuple[int, int, int, str]:
+    """Keep title-prefix business tags before their adjacent product title."""
+    facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
+    is_title_prefix_tag = (
+        region_name == "标题区"
+        and element.get("元素类型") == "标签"
+        and facts.get("semanticRole") == "fulfillment"
+    )
+    x, y = element["坐标"][0], element["坐标"][1]
+    return (0 if is_title_prefix_tag else 1, y, x, element["id"])
 
 
 def overlap(a: list[int], b: list[int]) -> bool:
@@ -83,6 +122,46 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
     """
     x, y, width, height = candidate["coord"]
     output = {source_id: dict(value) for source_id, value in semantic_by_source.items()}
+    # A recorded current-pixel review is the primary source for the semantic
+    # role it explicitly observed.  Preserve that role through the later
+    # geometry fallback instead of flattening tags, recommendation copy and
+    # ticket rows into one generic text-downhang region.
+    reviewed_region = {
+        "title": "标题区", "price": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "价格区",
+        "rating": "基础信息区", "sales": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "基础信息区",
+        "location": "基础信息区", "fulfillment": "基础信息区", "recommendation": "标签区",
+        "subtitle": "AI推荐理由", "promotion": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "价格区",
+    }
+    for item in text_candidates:
+        review = item.get("visualReview")
+        role = review.get("role") if isinstance(review, dict) else ""
+        if role in reviewed_region:
+            region = reviewed_region[role]
+            # A POI/category attribute (for example “主题乐园” or
+            # “水上项目/水上体验”) can use the generic subtitle role but belongs
+            # to base information when it is not a quoted recommendation.
+            # Keeping it in AI-recommendation would overlap the same visible
+            # row with location and fabricate a partitioning defect.
+            visible_text = str(item.get("text", "")).strip()
+            if role == "subtitle" and not visible_text.startswith(("“", "\"", "‘", "'")):
+                region = "基础信息区"
+            # A promotion belongs to a ticket downhang only when the current
+            # row also has that item's visible price.  A POI-level statement
+            # such as “免费入园” is base information, not a malformed
+            # appended supply with a missing price.
+            if role == "promotion" and selected_type == "商家卡片_文字下挂":
+                iy, ih = item["coord"][1], item["coord"][3]
+                has_row_price = any(
+                    other.get("visualReview", {}).get("role") == "price"
+                    and abs((other["coord"][1] + other["coord"][3] / 2) - (iy + ih / 2)) <= max(38, ih)
+                    for other in text_candidates if isinstance(other.get("visualReview"), dict)
+                )
+                region = "文字下挂区" if has_row_price else "基础信息区"
+            output[item["id"]] = {
+                **output.get(item["id"], {}), "semanticRoleCandidate": role,
+                "regionCandidate": region, "status": "confirmed",
+                "evidence": ["main_session_local_visual_read"],
+            }
     structured = re.compile(r"月售|已售|评分|到店|外卖|上门|景点|酒店|民宿|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
     possible_titles = []
     for item in text_candidates:
@@ -95,6 +174,31 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
         same_title_row = [item for item in possible_titles if item["coord"][1] <= top + max(28, item["coord"][3])]
         title = max(same_title_row, key=lambda item: (sum("\u4e00" <= char <= "\u9fff" for char in str(item.get("text", ""))), item["coord"][2]))
         output[title["id"]] = {**output.get(title["id"], {}), "semanticRoleCandidate": "title", "regionCandidate": "标题区", "status": "confirmed", "evidence": ["card_local_upper_cjk_title"]}
+    title_items = [
+        item for item in text_candidates
+        if output.get(item["id"], {}).get("semanticRoleCandidate") == "title"
+    ]
+    # “外卖 / 团购 / 到店 / 闪购” can describe a fulfilment mode, but when it
+    # is a compact label on the product-title row it is a title-prefix business
+    # tag, not a base-information field.  Preserve that visible composition so
+    # component and redundancy skills compare it against the title correctly.
+    for title in title_items:
+        tx, ty, tw, th = title["coord"]
+        for item in text_candidates:
+            value = str(item.get("text", "")).strip()
+            ix, iy, iw, ih = item["coord"]
+            same_title_row = iy < ty + th and iy + ih > ty
+            left_or_overlapping_title = ix <= tx + max(tw * 0.30, 160)
+            if value in TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES and same_title_row and left_or_overlapping_title:
+                previous = output.get(item["id"], {})
+                output[item["id"]] = {
+                    **previous,
+                    "semanticRoleCandidate": "fulfillment",
+                    "regionCandidate": "标题区",
+                    "elementTypeCandidate": "标签",
+                    "status": "confirmed",
+                    "evidence": list(previous.get("evidence", [])) + ["card_local_title_prefix_business_tag"],
+                }
     fallback_region = {
         "商家卡片_图文下挂": "下挂商品区",
         "商家卡片_文字下挂": "文字下挂区",
@@ -156,30 +260,49 @@ def visual_hint(candidate: dict[str, Any], kind: str, region: str, role: str = "
 def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], index: int) -> tuple[str, dict[str, Any]]:
     role = semantic.get("semanticRoleCandidate", "other")
     region = semantic.get("regionCandidate", "基础信息区")
-    element_type = "标签" if role == "tag" else "文本"
+    element_type = "标签" if semantic.get("elementTypeCandidate") == "标签" or role in {"tag", "recommendation"} else "文本"
     direct = item.get("phase3Facts", {}) if isinstance(item.get("phase3Facts"), dict) else {}
     render = dict(direct.get("render", {}))
     visible = render.get("visibleStatus") if render.get("visibleStatus") in {"confirmed", "naturally_cropped", "uncertain"} else status(item)
     render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "partial" if visible == "naturally_cropped" else "uncertain", "sourceRegion": region, "isPhoto": False, "isSystemUi": True})
     element: dict[str, Any] = {
         "id": f"{card_id}-T{index}", "所属组件": card_id, "元素类型": element_type,
-        "内容简述": f"原文:{item.get('text', '')}", "坐标": item["coord"], "isExcluded": False, "excludeReason": "",
+        "坐标": item["coord"], "isExcluded": False,
         "render": render,
     }
-    if element_type == "文本":
+    if element_type in {"文本", "标签"}:
         facts = dict(direct.get("textFacts", {}))
-        color = item.get("visualHint", {}).get("colorRole", facts.get("textColorRole", "unknown"))
+        candidate_color = item.get("visualHint", {}).get("colorRole", "unknown")
+        # A current-pixel visual review may carry a stronger colour fact in
+        # ``phase3Facts`` while retaining the CV candidate's unknown hint.
+        # Do not erase that reviewed fact during semantic assembly.
+        color = candidate_color if candidate_color != "unknown" else facts.get("textColorRole", "unknown")
         facts.update({"rawText": item.get("text", ""), "textStatus": "complete" if visible == "confirmed" else "naturally_cropped" if visible == "naturally_cropped" else "uncertain",
                       "semanticRole": role, "emphasisLevel": "primary" if role in {"title", "price"} else "secondary", "textColorRole": color})
         facts.setdefault("fontSizeBucket", "unknown"); facts.setdefault("fontWeightBucket", "unknown")
         element["textFacts"] = facts
+    if element_type == "文本":
         visual = dict(direct.get("visual", {}))
         if not visual:
             visual = visual_hint(item, "text", region, role)
         visual.update({"entityKind": "text", "sourceRegion": region, "styleKey": f"text|{color}|{role or 'other'}|无容器|无"})
         element["visual"] = visual
     else:
-        element["visual"] = visual_hint(item, "tag", region, "其他标签")
+        # Keep confirmed current-pixel facts where supplied, but normalize the
+        # entity into the tag contract required by Phase3.
+        visual = visual_hint(item, "tag", region, "其他标签")
+        if isinstance(direct.get("visual"), dict):
+            visual.update(direct["visual"])
+        color = visual.get("colorRole", "unknown")
+        semantic_role = "履约标" if item.get("text") in TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES else "其他标签"
+        visual.update({
+            "entityKind": "tag",
+            "containerShape": visual.get("containerShape", "unknown"),
+            "graphicAssistRole": visual.get("graphicAssistRole", "无"),
+            "countedInComplexity": bool(visual.get("countedInComplexity", False)),
+            "styleKey": f"标签|{color}|{semantic_role}|{visual.get('containerShape', 'unknown')}|{visual.get('graphicAssistRole', '无')}",
+        })
+        element["visual"] = visual
     return region, element
 
 
@@ -191,7 +314,7 @@ def image_element(card_id: str, item: dict[str, Any], index: int, region: str = 
     visual = dict(direct.get("visual", {})) or visual_hint(item, "image", region, "photo")
     visual.update({"entityKind": "image", "sourceRegion": region, "styleKey": f"image|unknown|photo|{region}|无"})
     return {"id": f"{card_id}-P{index}", "所属组件": card_id, "元素类型": "图片",
-        "内容简述": "原文:图片", "坐标": item["coord"], "isExcluded": False, "excludeReason": "",
+        "坐标": item["coord"], "isExcluded": False,
         "render": render, "visual": visual}
 
 
@@ -298,7 +421,8 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
     if not regions:
         regions["基础信息区"] = []
     region_rows = []
-    for name, region_elements in regions.items():
+    for name, region_elements in sorted(regions.items(), key=region_publication_key):
+        region_elements.sort(key=lambda element: region_element_publication_key(name, element))
         row = {"name": name, "coord": union([e["坐标"] for e in region_elements], coord), "elements": region_elements}
         groups = append_item_groups(name, region_elements, selected_type)
         if groups:
@@ -319,6 +443,14 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
     layout_mode = "left_image_right_text" if selected_type in {
         "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片"
     } and bool(head_images) else "other"
+    layout_anchors: dict[str, list[int]] = {}
+    if complete and layout_mode == "left_image_right_text":
+        image = next((element for element in elements if element.get("render", {}).get("isPhoto")), None)
+        title = next((element for element in elements if element.get("textFacts", {}).get("semanticRole") == "title"), None)
+        primary = next((element for element in elements if element.get("textFacts", {}).get("semanticRole") in {"price", "fulfillment", "sales", "rating", "location", "subtitle"}), None)
+        if image and title and primary:
+            layout_anchors = {"image": image["坐标"], "title": title["坐标"], "primaryInfo": primary["坐标"]}
+    layout_relation = "image_left_of_text;title_above_primaryInfo" if layout_anchors else ""
     return {"cardId": card_id, "卡片类型": card_type, "coord": coord, "regions": region_rows,
         "cardTypeCode": selected_type or "unknown", "cardTypeName": card_type, "resultType": "result_card",
         "classificationEvidence": classification_evidence,
@@ -326,6 +458,7 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
             "layoutMode": layout_mode,
             "layoutSignature": "cv_candidate", "comparisonGroupKey": f"{selected_type or 'unknown'}|cv_candidate",
             "isResultListItem": True, "isHeterogeneous": card_type == "异构卡", "listPosition": int(card_id.removeprefix("C")) if card_id.removeprefix("C").isdigit() else 0,
+            "layoutAnchors": layout_anchors, "layoutAnchorRelation": layout_relation,
             "regions": [{"region": row["name"], "coord": row["coord"], "visibleStatus": "confirmed" if row["elements"] else "uncertain", "hasPhysicalBoundary": False, "hasBackgroundSeparation": False} for row in region_rows]},
         "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_repeated_type"] if partial else [])},
         "visualInventory": {"complete": complete and all(e.get("visual", {}).get("visualStatus") == "confirmed" for e in tags), "regions": inventory_regions,
@@ -362,18 +495,59 @@ def recognition_state(facts: dict[str, Any], card_semantics: dict[str, Any], gat
     }
 
 
+def compact_phase3_publication(payload: dict[str, Any]) -> dict[str, Any]:
+    """Remove Phase2-only duplicate measurements from the Phase3 fact view.
+
+    Pixel-level colour samples, extraction evidence and repeated region ownership
+    remain available in the retained CV/OCR and calibration audit artifacts.  The
+    published manifest keeps only the semantic colour role and style signature
+    needed by Phase3.
+    """
+    payload.pop("annotatedImage", None)
+    for card in payload.get("cards", []):
+        for region in card.get("regions", []):
+            for element in region.get("elements", []):
+                render = element.get("render")
+                if isinstance(render, dict):
+                    render.pop("sourceRegion", None)
+                visual = element.get("visual")
+                if isinstance(visual, dict):
+                    for key in (
+                        "isColored", "isShaped", "backgroundColor", "textColor",
+                        "borderColor", "hasGraphicAssist", "sourceRegion", "colorEvidence",
+                        "semanticRole",
+                    ):
+                        visual.pop(key, None)
+    return payload
+
+
 def build(query: str, facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict[str, Any], text_semantics: dict[str, Any], gate: dict[str, Any] | None = None) -> dict[str, Any]:
     semantic_by_card = {item["cardId"]: item for item in card_semantics.get("cards", [])}
     cards = [build_card(card, semantic_by_card.get(card["id"], {}), facts, text_semantics) for card in candidates.get("resultCards", [])]
     relations = [relation for card in cards for relation in card.pop("_relations")]
     modules = [{"id": f"M{i}", "moduleType": module.get("module", "other"), "coord": module["coord"], "visibleStatus": module.get("status", "uncertain"), "contentRole": ";".join(module.get("evidence", [])), "isListPrefix": False, "isListItem": False} for i, module in enumerate(candidates.get("pageModules", []), 1)]
+    # Current-pixel review is authoritative for visible module facts that are
+    # not reliably inferred by CV. De-duplicate by type and bounds so a module
+    # observed by both sources remains a single page fact.
+    review_modules = facts.get("routing", {}).get("visualReview", {}).get("modules", [])
+    known_modules = {(item["moduleType"], tuple(item["coord"])) for item in modules}
+    for module in review_modules if isinstance(review_modules, list) else []:
+        coord = module.get("coord")
+        module_type = module.get("moduleType", "other")
+        if not isinstance(coord, list) or len(coord) != 4 or (module_type, tuple(coord)) in known_modules:
+            continue
+        modules.append({"id": f"M{len(modules)+1}", "moduleType": module_type, "coord": coord,
+            "visibleStatus": module.get("visibleStatus", "confirmed"), "contentRole": module.get("contentRole", ""),
+            "isListPrefix": bool(module.get("isListPrefix", True)), "isListItem": False})
+        known_modules.add((module_type, tuple(coord)))
     modules.append({"id": f"M{len(modules)+1}", "moduleType": "result_list", "coord": union([card["coord"] for card in cards], [0, 0, facts["viewport"]["width"], facts["viewport"]["height"]]), "visibleStatus": "confirmed" if cards else "uncertain", "contentRole": "结果供给", "isListPrefix": False, "isListItem": False})
     recognition = recognition_state(facts, card_semantics, gate, [card["cardId"] for card in cards])
-    return {"query": query, "screenshot": facts["screenshot"], "annotatedImage": "", "cards": cards,
+    payload = {"query": query, "screenshot": facts["screenshot"], "cards": cards,
         "recognition": recognition,
         "pageFacts": {"screen": 1, "isContinuation": False, "viewport": facts["viewport"], "modules": modules},
-        "pageFactInventory": {"complete": bool(cards) and recognition["phase3Ready"], "scanned": ["modules", "result_cards", "cv_candidates", "whole_page_gate"], "uncertainElementIds": list(facts.get("routing", {}).get("unresolvedCandidateIds", [])), "notes": ["assembled_from_phase2_cv_facts.v1", f"recognition:{recognition['status']}"]},
+        "pageFactInventory": {"complete": bool(cards) and recognition["phase3Ready"], "scanned": ["modules", "visual_review_page_modules", "result_cards", "cv_candidates", "whole_page_gate"], "uncertainElementIds": list(facts.get("routing", {}).get("unresolvedCandidateIds", [])), "notes": ["assembled_from_phase2_cv_facts.v1", f"recognition:{recognition['status']}"]},
         "relations": relations}
+    return compact_phase3_publication(payload)
 
 
 def recognition_audit(query: str, screenshot: str, manifest: str, facts: dict[str, Any], cards: list[dict[str, Any]]) -> dict[str, Any]:
