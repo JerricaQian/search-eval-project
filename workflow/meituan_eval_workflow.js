@@ -241,6 +241,15 @@ const dimSlug = dimensions.map(d => d.replace(/^phase3-/, '').replace(/-eval$/, 
 // 批量治理看板可读取调用方显式给定的当前 batchArtifactDir，但不得借 queries 在本实例内混跑多词。
 const isBatchGovernanceReport = A.batchGovernance === true
 if (isBatchGovernanceReport && !A.batchId) throw new Error('批量治理报告必须显式传入 batchId，以隔离本批过程产物与治理数据集')
+const expectedBusinessTabs = [...new Set((Array.isArray(A.expectedBusinessTabs)
+  ? A.expectedBusinessTabs
+  : (typeof A.expectedBusinessTabs === 'string' ? A.expectedBusinessTabs.split(',') : []))
+  .map(code => String(code).trim())
+  .filter(Boolean))]
+const expectedBusinessTabsCsv = expectedBusinessTabs.join(',')
+if (isBatchGovernanceReport && !expectedBusinessTabsCsv) {
+  throw new Error('批量治理报告必须显式传入 expectedBusinessTabs（业务 businessCode 数组或逗号分隔字符串），用于断言本批业务 Tab 口径')
+}
 const reportPath = isBatchGovernanceReport
   ? reportDir + '/meituan_search_experience_dashboard_' + query + tagSuffix + '.html'
   : reportDir + '/meituan_eval_report_' + query + tagSuffix + '_' + dimSlug + '.html'
@@ -576,7 +585,7 @@ const skillDirs = {}
 resolvedDimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
 
 // ---------- Evaluation Agent: Phase 2+3+4+5 ----------
-// 原 phase2-annotator / phase4-issue-evidence / phase5-report-renderer
+// 原 phase2-annotator / phase4-issue-evidence；Phase5 由 phase2345-query-pipeline 的唯一 Stage D 契约处理。
 // 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
 // Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
 // 所有阶段级契约细节（Phase2 当前图片校准、七键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
@@ -621,6 +630,7 @@ const mergedInputs = {
   reportImages,
   isBatchGovernanceReport,
   batchArtifactDir,
+  expectedBusinessTabsCsv,
 }
 
 const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。

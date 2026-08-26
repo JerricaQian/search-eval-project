@@ -2,7 +2,7 @@
 """将治理看板数据集导入 NoCode 数据库。
 
 用法：
-  python3 scripts/import_to_nocode.py <dataset_json> <chat_id>
+  python3 phase5-report/scripts/import_to_nocode.py <dataset_json> <chat_id>
 
 导入规则：
 - 每次均创建一个 `evaluation_batches` 批次，并读取数据库返回的真实 batch_id。
@@ -84,7 +84,7 @@ def finding_text(issue: dict[str, Any]) -> str:
 
 def main() -> None:
     if len(sys.argv) != 3:
-        raise SystemExit("用法：python3 scripts/import_to_nocode.py <dataset_json> <chat_id>")
+        raise SystemExit("用法：python3 phase5-report/scripts/import_to_nocode.py <dataset_json> <chat_id>")
 
     dataset_path, chat_id = sys.argv[1:]
     with open(dataset_path, encoding="utf-8") as file:

@@ -16,6 +16,9 @@ import sys
 import tempfile
 from pathlib import Path
 
+from apply_visual_review import load_review, _normalise_topology
+from card_type_registry import display_names, known_result_types
+
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -26,7 +29,7 @@ def invoke(arguments: list[str], check: bool = True, env: dict[str, str] | None 
 
 
 def write_structure_gate(candidates: Path, semantics: Path, output: Path) -> bool:
-    """Stage A: publish only bounded, known page components to Paddle."""
+    """Stage A: publish only bounded, known page components to Phase2 facts."""
     cards = json.loads(candidates.read_text(encoding="utf-8")).get("resultCards", [])
     mapped = {item.get("cardId"): item for item in json.loads(semantics.read_text(encoding="utf-8")).get("cards", [])}
     errors = []
@@ -47,6 +50,85 @@ def write_structure_gate(candidates: Path, semantics: Path, output: Path) -> boo
     return not errors
 
 
+def validate_cv_llm_visual_review(review_path: Path) -> None:
+    """Reject an incomplete review before it can be mistaken for CV+LLM facts."""
+    review = load_review(review_path)
+    if review.get("completeCurrentPixelReview") is not True:
+        raise ValueError("cv_llm visual review must declare completeCurrentPixelReview=true")
+    cards = review.get("cards")
+    if not isinstance(cards, list) or not cards:
+        raise ValueError("cv_llm visual review must enumerate visible result cards")
+    registry = set(display_names())
+    seen: set[str] = set()
+    for card in cards:
+        if not isinstance(card, dict):
+            raise ValueError("cv_llm visual review card must be an object")
+        card_id, card_type = str(card.get("cardId", "")), str(card.get("cardTypeCandidate", ""))
+        if not card_id or card_id in seen:
+            raise ValueError("cv_llm visual review cardId must be non-empty and unique")
+        seen.add(card_id)
+        if card_type not in registry:
+            raise ValueError(f"{card_id}:cardTypeCandidate is not registered")
+        topology = _normalise_topology(card)
+        if not topology["regions"]:
+            raise ValueError(f"{card_id}:visual review must declare card topology regions")
+        slots = {item["slot"] for item in topology["regions"]}
+        if card_type == "商家卡片_图文下挂":
+            needed = {"merchant_head", "merchant_info", "attached_goods"}
+            if not needed.issubset(slots) or not topology["attachedItems"]:
+                raise ValueError(f"{card_id}:merchant graphic hang requires merchant_head, merchant_info, attached_goods and attachedItems")
+        elif card_type == "商家卡片_文字下挂" and not {"merchant_head", "merchant_info", "text_attachment"}.issubset(slots):
+            raise ValueError(f"{card_id}:merchant text hang requires merchant_head, merchant_info and text_attachment")
+
+
+def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, facts_path: Path) -> None:
+    """Preserve current-pixel card boundaries that CV did not seed.
+
+    This is used only by the explicit ``cv_llm`` experiment.  The review is
+    already required, screenshot-bound evidence; it can therefore retain a
+    bottom naturally cropped card whose thumbnail is too small for the CV
+    candidate detector.  Card type and regions still go through the ordinary
+    taxonomy, semantic mapper and gates.
+    """
+    payload = json.loads(candidates_path.read_text(encoding="utf-8"))
+    facts = json.loads(facts_path.read_text(encoding="utf-8"))
+    accepted_photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted"]
+    existing = {str(item.get("id", "")): item for item in payload.get("resultCards", [])}
+    for reviewed in load_review(review_path).get("cards", []):
+        card_id = str(reviewed.get("cardId", ""))
+        coord = reviewed.get("coord")
+        if not card_id or not isinstance(coord, list) or len(coord) != 4 or any(not isinstance(value, int) for value in coord):
+            continue
+        candidate = existing.get(card_id)
+        if candidate is None:
+            candidate = {
+                "id": card_id, "coord": coord, "seedBlockId": "", "memberBlockIds": [],
+                "confidence": 0.92, "status": "confirmed",
+                "evidence": ["main_session_local_visual_read_card_boundary"],
+            }
+            payload.setdefault("resultCards", []).append(candidate)
+            existing[card_id] = candidate
+        else:
+            candidate["coord"] = coord
+            candidate["confidence"] = max(float(candidate.get("confidence", 0)), 0.92)
+            candidate.setdefault("evidence", []).append("main_session_local_visual_read_card_boundary")
+        topology = _normalise_topology(reviewed)
+        candidate["reviewedTopology"] = topology
+        candidate.setdefault("evidence", []).append("main_session_local_visual_read_card_topology")
+        type_candidate = str(reviewed.get("cardTypeCandidate", ""))
+        if type_candidate in known_result_types():
+            candidate["classificationHint"] = {"cardType": type_candidate, "confidence": 0.96}
+        reviewed_photos = [item for item in accepted_photos if item.get("visualReview", {}).get("cardId") == card_id]
+        head_ids = [item["id"] for item in reviewed_photos if item.get("visualReview", {}).get("topologySlot") in {"merchant_head", "head_media"}]
+        attached_ids = [item["id"] for item in reviewed_photos if item.get("visualReview", {}).get("topologySlot") == "attached_goods"]
+        if head_ids:
+            candidate["headPhotoId"] = head_ids[0]
+        if attached_ids:
+            candidate["attachedProductPhotoIds"] = attached_ids
+    payload["resultCards"].sort(key=lambda item: (int(item["coord"][1]), str(item.get("id", ""))))
+    candidates_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def add_publication_error(gate_path: Path, error: str) -> None:
     gate = json.loads(gate_path.read_text(encoding="utf-8"))
     gate["valid"] = False
@@ -63,7 +145,11 @@ def mark_manifest_blocked(output: Path, error: str) -> None:
     output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifacts: Path, require_bounded_paddleocr: bool = False, visual_review: Path | None = None) -> int:
+def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifacts: Path,
+        visual_review: Path | None = None,
+        recognition_mode: str = "cv_llm") -> int:
+    if recognition_mode != "cv_llm":
+        raise ValueError("Phase2 production recognition is cv_llm only; legacy local OCR modes are not available")
     artifacts.mkdir(parents=True, exist_ok=True)
     facts_initial = artifacts / "cv-facts.initial.json"
     structure_initial = artifacts / "page-structure.initial.json"
@@ -78,98 +164,36 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
     text_semantics = artifacts / "text-semantics.json"
     gate_report = artifacts / "recognition-gate.json"
     structure_gate = artifacts / "structure-gate.json"
-    paddle_report = artifacts / "component-paddle-read.json"
 
     cv_env = os.environ.copy()
     cv_env["SEARCH_EVAL_PYTHON"] = sys.executable
+    # The LLM's recorded current-pixel read is the sole text observation
+    # source.  Do not silently retain any local OCR fallback.
+    cv_env["PHASE2_DISABLE_LOCAL_OCR"] = "1"
     invoke(["bash", str(SCRIPT_DIR / "run_cv_facts.sh"), str(screenshot), "--output", str(facts_initial)], env=cv_env)
-    invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts_initial), "--output", str(structure_initial)])
-    invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts_initial), str(structure_initial), "--output", str(candidates_initial)])
-    invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts_initial), str(candidates_initial), "--output", str(card_semantics_initial)])
-    invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts_initial), str(structure_initial), "--output", str(text_semantics_initial)])
+    facts_source = facts_initial
+    if visual_review is None:
+        raise ValueError("cv_llm mode requires --visual-review with completeCurrentPixelReview=true")
+    validate_cv_llm_visual_review(visual_review)
+    facts_reviewed = artifacts / "cv-facts.visual-reviewed.before-structure.json"
+    invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts_initial), "--review", str(visual_review), "--output", str(facts_reviewed)])
+    facts_source = facts_reviewed
+    invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts_source), "--output", str(structure_initial)])
+    invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts_source), str(structure_initial), "--output", str(candidates_initial)])
+    merge_reviewed_card_boundaries(candidates_initial, visual_review, facts_source)
+    invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts_source), str(candidates_initial), "--output", str(card_semantics_initial)])
+    invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts_source), str(structure_initial), "--output", str(text_semantics_initial)])
     structure_ok = write_structure_gate(candidates_initial, card_semantics_initial, structure_gate)
-    initial_gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts_initial), "--result-candidates", str(candidates_initial), "--card-semantics", str(card_semantics_initial), "--text-semantics", str(text_semantics_initial), "--output", str(gate_initial)], check=False)
+    initial_gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts_source), "--result-candidates", str(candidates_initial), "--card-semantics", str(card_semantics_initial), "--text-semantics", str(text_semantics_initial), "--output", str(gate_initial)], check=False)
 
-    initial_to_final = (
-        (facts_initial, facts), (structure_initial, structure), (candidates_initial, candidates),
+    for source, destination in (
+        (facts_source, facts), (structure_initial, structure), (candidates_initial, candidates),
         (card_semantics_initial, card_semantics), (text_semantics_initial, text_semantics), (gate_initial, gate_report),
-    )
+    ):
+        shutil.copyfile(source, destination)
     gate_code = initial_gate_code
-    component_paddle_ok = False
-    # A current-pixel review may resolve an OCR-missed product title or price
-    # that made a provisional card fall back to ``异构卡``.  That evidence must
-    # be allowed to repair the structure candidate before the bounded-Paddle
-    # stage is selected; it never bypasses either the rebuilt structure gate
-    # or the required Paddle component read.
-    visual_review_applied = False
-    if not structure_ok and visual_review:
-        reviewed = artifacts / "cv-facts.visual-reviewed.before-paddle.json"
-        invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts_initial), "--review", str(visual_review), "--output", str(reviewed)])
-        shutil.copyfile(reviewed, facts)
-        invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts), "--output", str(structure)])
-        invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts), str(structure), "--output", str(candidates)])
-        invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts), str(candidates), "--output", str(card_semantics)])
-        invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts), str(structure), "--output", str(text_semantics)])
-        gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--output", str(gate_report)], check=False)
-        structure_ok = write_structure_gate(candidates, card_semantics, structure_gate)
-        visual_review_applied = True
-    if structure_ok:
-        retry_env = os.environ.copy()
-        # Component OCR is sequential by contract. One CPU thread avoids
-        # Paddle/OpenBLAS saturating the machine while it scans six crops.
-        retry_threads = retry_env.get("PHASE2_OCR_THREADS", "1")
-        for variable in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "PADDLE_NUM_THREADS"):
-            retry_env[variable] = retry_threads
-        # Paddle is confined to this one bounded-card retry process. The
-        # initial whole-page pass remains Tesseract/CV only, and the model is
-        # loaded at most once for all sequential card crops.
-        if retry_env.get("PHASE2_DISABLE_BOUNDED_PADDLEOCR") != "1":
-            retry_env.setdefault("PHASE2_ENABLE_PADDLEOCR", "1")
-        retry_arguments = [
-            sys.executable, str(SCRIPT_DIR / "reprocess_bounded_cards.py"),
-            "--screenshot", str(screenshot), "--facts", str(facts if visual_review_applied else facts_initial),
-            "--result-candidates", str(candidates if visual_review_applied else candidates_initial),
-            "--card-semantics", str(card_semantics if visual_review_applied else card_semantics_initial),
-            "--recognition-gate", str(gate_report if visual_review_applied else gate_initial),
-            "--output", str(facts), "--report", str(paddle_report), "--all-components", "--require-backend", "paddleocr",
-        ]
-        retry_code = invoke(retry_arguments, check=False, env=retry_env)
-        if retry_code == 0:
-            component_paddle_ok = True
-            invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts), "--output", str(structure)])
-            invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts), str(structure), "--output", str(candidates)])
-            invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts), str(candidates), "--output", str(card_semantics)])
-            invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts), str(structure), "--output", str(text_semantics)])
-            gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--output", str(gate_report)], check=False)
-        elif not visual_review_applied:
-            for source, destination in initial_to_final:
-                shutil.copyfile(source, destination)
-    else:
-        for source, destination in initial_to_final:
-            shutil.copyfile(source, destination)
-        add_publication_error(gate_report, "structure_gate_failed_before_component_paddle")
-        gate_code = 1
-    # Stage D is mandatory: the image-capable session supplies a recorded
-    # current-screen review after Paddle has located each component line.
-    # Reapply the recorded review after bounded OCR as well: the retry may
-    # introduce a lower-quality fragment inside a card that the current-pixel
-    # review already replaced.  Applying the same explicit record is
-    # idempotent for the published facts and keeps the newer OCR observation
-    # as rejected audit evidence.
-    if visual_review and facts.is_file():
-        reviewed = artifacts / "cv-facts.visual-reviewed.json"
-        invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts), "--review", str(visual_review), "--output", str(reviewed)])
-        shutil.copyfile(reviewed, facts)
-        invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts), "--output", str(structure)])
-        invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts), str(structure), "--output", str(candidates)])
-        invoke([sys.executable, str(SCRIPT_DIR / "map_result_card_semantics.py"), str(facts), str(candidates), "--output", str(card_semantics)])
-        invoke([sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts), str(structure), "--output", str(text_semantics)])
-        gate_code = invoke([sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--output", str(gate_report)], check=False)
-    elif facts.is_file():
-        add_publication_error(gate_report, "main_session_local_visual_review_required")
-        gate_code = 1
-    if not component_paddle_ok:
-        add_publication_error(gate_report, "component_paddle_read_required")
+    if not structure_ok:
+        add_publication_error(gate_report, "structure_gate_failed_after_cv_llm_topology_review")
         gate_code = 1
     build_args = [sys.executable, str(SCRIPT_DIR / "build_phase2_manifest.py"), "--query", query, "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(card_semantics), "--text-semantics", str(text_semantics), "--recognition-gate", str(gate_report), "--output", str(output)]
     invoke(build_args)
@@ -202,14 +226,17 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--recognition-audit", type=Path, help="Optional separate debug audit; the canonical gate is embedded in --output")
     parser.add_argument("--artifacts-dir", type=Path, help="Optional retained CV/OCR process artifacts directory")
-    parser.add_argument("--require-bounded-paddleocr", action="store_true", help="Fail the bounded retry if PaddleOCR is unavailable instead of falling back")
     parser.add_argument("--visual-review", type=Path, help="Current-screenshot main-session local visual-review JSON")
+    parser.add_argument("--recognition-mode", choices=("cv_llm",), default="cv_llm",
+                        help="Production CV+LLM mode: local CV geometry plus mandatory current-pixel visual review; no local OCR backend")
     args = parser.parse_args()
     if args.artifacts_dir:
-        return run(args.query, args.screenshot, args.output, args.recognition_audit, args.artifacts_dir, args.require_bounded_paddleocr, args.visual_review)
+        return run(args.query, args.screenshot, args.output, args.recognition_audit, args.artifacts_dir,
+                   args.visual_review, args.recognition_mode)
     else:
         with tempfile.TemporaryDirectory(prefix="phase2-recognition-") as temp:
-            return run(args.query, args.screenshot, args.output, args.recognition_audit, Path(temp), args.require_bounded_paddleocr, args.visual_review)
+            return run(args.query, args.screenshot, args.output, args.recognition_audit, Path(temp),
+                       args.visual_review, args.recognition_mode)
 
 
 if __name__ == "__main__":

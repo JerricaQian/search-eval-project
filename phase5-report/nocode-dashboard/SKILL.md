@@ -19,7 +19,7 @@ metadata:
 
 | 范围 | 唯一入口 | 产物 |
 |---|---|---|
-| 本地 HTML 与治理数据集 | `../SKILL.md` + `scripts/build_experience_dashboard.py` | `reports/*.html`、`.governance_dataset_<批次>.json` |
+| 本地 HTML 与治理数据集 | `../SKILL.md` + `../scripts/build_experience_dashboard.py` | `reports/*.html`、`.governance_dataset_<批次>.json` |
 | NoCode 数据、页面、证据资源、部署 | 本 Skill | 数据库记录、`public/evidence/`、线上看板 |
 
 - 待优化问题唯一口径为 `rating ∈ {达标, 不达标, 🟡, 🔴}`；优秀不进入问题列表。
@@ -143,7 +143,7 @@ F >= 2 或 P >= 4  → P0
 执行：
 
 ```bash
-python3 scripts/import_to_nocode.py <dataset-json> <chat-id>
+python3 phase5-report/scripts/import_to_nocode.py <dataset-json> <chat-id>
 ```
 
 - 每次导入必须新建 `evaluation_batches` 并使用数据库返回的真实 `batch_id` 写入所有明细表；不得复用或硬编码历史 batch_id。
@@ -164,11 +164,11 @@ python3 scripts/import_to_nocode.py <dataset-json> <chat-id>
 
 ## 6. 后续批次标准流程
 
-1. 以当前批次隔离 artifact 运行 `scripts/build_experience_dashboard.py`，同时生成本地 HTML 和 `.governance_dataset_<批次>.json`。
+1. 以当前批次隔离 artifact 运行 `phase5-report/scripts/build_experience_dashboard.py`，显式传入本批 `--expected-business-tabs`，同时生成本地 HTML 和 `.governance_dataset_<批次>.json`。
 2. 由生成器按第 2 节优先级算法写入 group/evidence 的 `priority` 与 `priorityReason`；禁止手改 HTML 或 NoCode 数字来改优先级。
 3. 对新数据集校验业务集合、三维度分、问题级 finding/recommendation、Phase4 evidenceImage 和 P0/P1/P2 票数。
 4. 若新增或变化证据图，先取得授权，上传到 `public/evidence/` 并核验文件存在。
-5. 用 `scripts/import_to_nocode.py` 新建批次并导入；核验返回的真实 batch_id 贯穿所有明细。
+5. 用 `phase5-report/scripts/import_to_nocode.py` 新建批次并导入；核验返回的真实 batch_id 贯穿所有明细。
 6. 页面默认加载按 `batch_date DESC, id DESC` 排在第一的完整批次；截图核验顶部通栏、32词范围/当前批次范围、一级 Tab、概览双栏、四列业务卡、单业务二级 Tab、两种证据布局、P0/P1/P2 计数。
 7. 截图通过后执行 `nocode deploy <chatId> --skillId 2981`。部署成功后只能交付 NoCode 对话页或部署 URL，不得给 sandbox render URL。
 

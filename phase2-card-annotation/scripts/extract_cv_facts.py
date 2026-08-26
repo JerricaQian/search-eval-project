@@ -834,7 +834,13 @@ def extract(image_path: Path) -> dict[str, Any]:
     # The first screen slice commonly contains OS status text and a debug
     # inspector. They are neither search results nor valid OCR candidates.
     excluded_top = min(height, min(220, max(0, round(height * 0.075))))
-    ocr, ocr_backend, backend_error = _ocr_without_top_overlay(image_path, width, height, excluded_top)
+    # ``cv_llm`` mode intentionally keeps local OCR entirely out of the
+    # candidate pass.  Text must then be supplied by the recorded
+    # current-screenshot visual review, never inferred from an OCR fallback.
+    if os.environ.get("PHASE2_DISABLE_LOCAL_OCR") == "1":
+        ocr, ocr_backend, backend_error = [], "disabled_for_cv_llm", "disabled_by_recognition_mode"
+    else:
+        ocr, ocr_backend, backend_error = _ocr_without_top_overlay(image_path, width, height, excluded_top)
     independent_layout_refinements = sum(bool(item.get("ocrRefinement", {}).get("applied")) for item in ocr)
     text = _text_candidates(ocr, rows, rgb, width, height)
     bounded_price_refinements = _bounded_price_refinements(rgb, text)

@@ -1,0 +1,16 @@
+{
+  "contractVersion": "meituan.search-result-card-type-registry.v1",
+  "purpose": "Phase2 识别与 Phase3 评测官共用的卡型标识、展示名称和变体归属唯一来源。详细区域契约仍由各阶段的专用引用文件维护；任何阶段不得自行改写这里的 id/name 映射。",
+  "resultCardTypes": [
+    {"id": "商品卡片", "displayName": "商品卡片", "officerFamily": "商品卡片", "formal": true},
+    {"id": "商家卡片_文字下挂", "displayName": "商家卡片-文字下挂", "officerFamily": "商家卡片", "formal": true},
+    {"id": "商家卡片_图文下挂", "displayName": "商家卡片-图文下挂", "officerFamily": "商家卡片", "formal": true},
+    {"id": "商家卡片_无下挂", "displayName": "商家卡片-无下挂", "officerFamily": "商家卡片", "formal": true, "variantOf": "商家卡片"},
+    {"id": "主点卡片", "displayName": "主点卡片", "officerFamily": "主点卡片", "formal": true, "resultList": false},
+    {"id": "酒店卡片", "displayName": "酒店卡片", "officerFamily": "酒店卡片", "formal": true},
+    {"id": "度假酒店套餐卡片", "displayName": "度假/酒店套餐卡片", "officerFamily": "度假/酒店套餐卡片", "formal": true},
+    {"id": "演出电影卡片", "displayName": "演出/电影卡片", "officerFamily": "演出/电影卡片", "formal": true},
+    {"id": "广告卡", "displayName": "特殊广告卡", "officerFamily": "广告卡", "formal": false},
+    {"id": "异构卡", "displayName": "异构卡", "officerFamily": "异构卡", "formal": false}
+  ]
+}

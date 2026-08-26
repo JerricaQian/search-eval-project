@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "scripts" / "build_experience_dashboard.py"
+SCRIPT = ROOT / "phase5-report" / "scripts" / "build_experience_dashboard.py"
 
 
 def load_module():
@@ -103,4 +103,22 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
                 "unknown": [{"query": "测试", "cardId": "C1", "reason": "证据不足"}],
                 "businesses": [],
                 "groups": [],
-            }, Path("/tmp"))
+            }, Path("/tmp"), set())
+
+    def test_phase2_explicit_business_ownership_has_priority(self) -> None:
+        input_card = card("商品卡片", ("原文:火锅餐厅",), ("原文:外卖配送",))
+        input_card.update({"ownershipScope": "business", "businessCode": "healthcare"})
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["businessCode"], "healthcare")
+        self.assertEqual(result["confidence"], "phase2_explicit")
+
+    def test_unsupported_phase2_business_ownership_stays_unknown(self) -> None:
+        input_card = card("商品卡片", ("原文:火锅餐厅",), ("原文:外卖配送",))
+        input_card.update({"ownershipScope": "business", "businessCode": "made_up_business"})
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["businessCode"], "unknown")
+        self.assertIn("unsupported_explicit_business_code", result["confidence"])
+
+    def test_positive_redundancy_metrics_are_rendered_as_problem_names(self) -> None:
+        self.assertEqual(self.module.METRICS["eval-8-info-redundancy"][0], "信息冗余")
+        self.assertEqual(self.module.METRICS["eval-7-info-redundancy"][0], "功能/信息冗余")

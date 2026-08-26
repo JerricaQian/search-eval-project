@@ -129,7 +129,7 @@ bash phase2-card-annotation/scripts/run_cv_facts.sh <screenshot> --output <facts
 
 前五个文件是**过程候选 JSON**：保留 OCR/CV 原始坐标、双版面 OCR 一致性、颜色像素提示和未决项，便于重新识别；不使用或发布 OCR 置信度。其中每个文字/图片候选直接携带可转写为 Phase3 的 `render`、`textFacts`/`visual` 像素事实。`build_phase2_manifest.py` 只把同一次识别结果写入统一 JSON，不制造新事实。已确认元素进入 `cards[].regions[].elements[]`；未确认项进入主 JSON 的 `recognition.semanticHookFindings/reprocessTargets` 与 `pageFactInventory.uncertainElementIds`，绝不被误当作“页面没有”。
 
-固定顺序：**初次 CV/OCR → 局部页面模块 → 结果卡候选 → 卡型最小契约 → 卡内分区/文本角色 → 初次整页门控 →（失败时）一次有界卡内 Paddle 重识别 → 全量重建候选 → 读取当前整图并按需局部裁图复核 → 更新最小元素/所有权/关系 → 全量当前像素审计 → 枚举与 schema 校验**。任一卡失败即整页阻断；禁止部分页面进入 Phase3。模型复核覆盖全部已发布元素和漏标扫描，不只处理 OCR 失败字段；同一文字且像素框相交的重试 observation 仍必须归并为一个规范视觉实体。
+固定顺序：**本地 CV 页面/模块/图片候选 → 当前截图 LLM 视觉复核（文字、卡片和模块清单）→ 复核卡片拓扑合并 → 结果卡候选 → 卡型最小契约 → 卡内分区/文本角色 → 整页门控 → 更新最小元素/所有权/关系 → 全量当前像素审计 → 枚举与 schema 校验**。任一卡失败即整页阻断；禁止部分页面进入 Phase3。模型复核覆盖全部已发布元素和漏标扫描，不只处理 OCR 失败字段。
 
 ### 当前图片复核与发布门禁（2026-08-20 补充）
 
@@ -140,7 +140,13 @@ bash phase2-card-annotation/scripts/run_cv_facts.sh <screenshot> --output <facts
 - `validate_phase2_recognition.py`、`validate_element_manifest.py` 和 itemGroups/枚举审计必须全部为真，才可写 `recognition.phase3Ready=true`。任一后置 schema 或所有权校验失败都必须回写 `phase3Ready=false`，不得仅因 OCR 门控通过而放行。
 - 每次当前图复核都必须将选定卡型与 `golden_structure_exemplars.v1.md` 做**结构差距审计**：审计须逐卡给出范例章节、当前缺口、涉及候选 ID 和下一步局部复核/重建动作。黄金只决定“应如何分区、逐项归属、哪些可见原子必须验证”，不得提供当前文字、坐标、数量或顺序。已正确排除的图片内包装字记录为非阻断提示；未拆分的 chip、缺失的下挂项锚点、未确认的商品名/价格则必须阻断发布。
 
-生产入口的强制顺序是：CV 页面/组件/图片候选 → **结构门禁** → 同一 Paddle 实例顺序读取每张结构确认卡的“主信息区”和“下挂区”（通常每卡 2 裁剪，最多 3；不得逐字段或逐失败行初始化） → **OCR/定位门禁** → 主会话当前截图局部复核与语义原子整理（`--visual-review`） → **卡型、元素、itemGroups、枚举、schema、审计门禁** → Phase3。Paddle 输出行框、可用时的词/字符框、原始文本和页面绝对坐标；`--visual-review` 缺失、任一组件未完成 Paddle 读取或最终校验失败时，主 JSON 必须保持 `phase3Ready=false`。
+生产入口的强制顺序是：CV 页面/组件/图片候选 → **当前图 LLM 视觉复核**（`--visual-review`）→ **结构/卡型/定位门禁** → **卡型、元素、itemGroups、枚举、schema、审计门禁** → Phase3。视觉复核必须逐卡声明 `cardTypeCandidate`、区域拓扑（头图区/商家信息区/权益区/下挂区）及图文下挂项与图片、标题、价格的归属；横向或底部仅子项可见时，将子项标为 `naturally_cropped`，不得把整张已完整可见的卡降为不完整。`--visual-review` 缺失、复核不完整或任一最终校验失败时，主 JSON 必须保持 `phase3Ready=false`。
+
+### CV + LLM 生产模式
+
+`run_phase2_recognition.py` 固定运行 `cv_llm`：关闭 Tesseract 与 Paddle，仅保留本地 CV 的模块、卡片和图片候选；文字、语义原子、卡片拓扑和归属必须来自带 `completeCurrentPixelReview:true` 的 `--visual-review`。缺少该记录、类型注册表不一致、结构/枚举/schema/审计任一门禁失败，都必须阻断。`--require-bounded-paddleocr` 已退休并会直接报错；运行目录仍必须保留，以复核卡数、元素数、标题/价格/标签完整性及门禁结果。
+
+卡型标识与展示名称只读取仓库根目录 `card-type-registry.v1.json`。详细的 Phase2 区域契约位于 `references/search_card_taxonomy.v1.json`，评测官解释位于 `phase3-evaluation-officer/references/card-taxonomy.md`；三者通过同一 id 对齐，禁止在任一说明中手写另一套名称。
 
 Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不得按置信度切换；核心语义须通过 `ocr_consensus` hook：结构化数字要求数值锚一致，自然文本只允许确定性的包含或高相似关系。价格行可在相同数值锚下选择脚本连贯性更好的独立布局文本；疑似价格可做少量有界遮罩复读，但都必须保留原文、独立布局和接受理由，禁止无锚纠错。行内相邻的汉字碎片先按空间合并，明显分隔的标签、价格和标题保持独立。
 

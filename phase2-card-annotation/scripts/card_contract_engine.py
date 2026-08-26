@@ -11,11 +11,10 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from card_type_registry import known_result_types
 
-KNOWN_RESULT_TYPES = {
-    "商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "商家卡片_无下挂", "酒店卡片",
-    "演出电影卡片", "度假酒店套餐卡片",
-}
+
+KNOWN_RESULT_TYPES = known_result_types()
 
 
 def _overlap(box: list[int], container: list[int]) -> bool:
@@ -118,6 +117,9 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     title_like = []
     structured_only = re.compile(r"^(?:[¥￥]?\d[\d.]*|\d+(?:\.\d+)?(?:km|公里|分钟|条|分)|月售\d+|已售\d+)$", re.I)
     boundary_evidence = set(card.get("evidence", []))
+    reviewed_topology = card.get("reviewedTopology", {}) if isinstance(card.get("reviewedTopology"), dict) else {}
+    topology_regions = {str(item.get("slot", "")) for item in reviewed_topology.get("regions", []) if isinstance(item, dict)}
+    topology_items = [item for item in reviewed_topology.get("attachedItems", []) if isinstance(item, dict)]
     title_ceiling = y + max(100, height * (0.72 if "two_column_grid_cell_boundary" in boundary_evidence else 0.45))
     for item in texts:
         value = str(item.get("text", "")).strip()
@@ -133,11 +135,19 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     attached_joined = "\n".join(str(item.get("text", "")) for item in attached_texts)
     service_pattern = r"预约|可约|取号|排队|上门服务|到店体验|美发|理发|剪发|洗护|保洁|家电维修|手机维修|按摩|体检|露营|漂流|游乐|剧本|问诊"
     attached_photos = [item for item in photos if item["coord"][1] >= seed_bottom and item["coord"][0] >= x + width * 0.18]
-    graphic_hint = card.get("classificationHint", {}).get("cardType") == "商家卡片_图文下挂" or bool(card.get("attachedProductPhotoIds"))
+    graphic_hint = (
+        card.get("classificationHint", {}).get("cardType") == "商家卡片_图文下挂"
+        or bool(card.get("attachedProductPhotoIds"))
+        or ("merchant_head" in topology_regions and "attached_goods" in topology_regions and bool(topology_items))
+    )
     poster_media = any(item["coord"][3] >= item["coord"][2] * 1.18 and item["coord"][2] <= width * 0.45 for item in photos)
     price_signals = [price_evidence(item, coord) for item in texts]
     repeated_list_boundary = bool({"repeated_left_image_right_text_seed", "learned_repeat_interval_backfill", "left_media_anchor_split"} & boundary_evidence)
-    merchant_graphic_boundary = "left_square_merchant_head" in boundary_evidence and "right_side_attached_product_image_group" in boundary_evidence
+    merchant_graphic_boundary = (
+        ("merchant_head" in topology_regions and "merchant_info" in topology_regions
+         and "attached_goods" in topology_regions and bool(topology_items))
+        or ("left_square_merchant_head" in boundary_evidence and "right_side_attached_product_image_group" in boundary_evidence)
+    )
     viewport_width = float(facts.get("viewport", {}).get("width", 0))
     hotel_room_title = bool(re.search(r"电竞.*房|双人.*房|双床房|大床房?|整套\s*\d+\s*室|可长租", joined))
     hotel_room_specs = bool(re.search(r"\d+(?:-\d+)?\s*m[²2]?|\d+\s*人|双床|大床|有窗|无窗", joined, re.I))

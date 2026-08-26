@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from card_contract_engine import KNOWN_RESULT_TYPES, price_evidence_items, resolve_card_type
+from card_type_registry import validate_phase2_taxonomy
 from classify_search_card_types import classify_card_types
 
 
@@ -152,6 +153,7 @@ def _topology_type_candidate(card: dict[str, Any], facts: dict[str, Any], struct
 
 def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[str, Any], recognition_contracts: dict[str, Any],
               geometry_profiles: dict[str, Any] | None = None) -> dict[str, Any]:
+    validate_phase2_taxonomy(taxonomy)
     definitions = {item["id"]: item for item in taxonomy["cardTypes"] if item.get("scope") == "results_list_card"}
     structure_blocks = {block["id"]: block for block in candidates.get("structureBlocks", [])}
     output: list[dict[str, Any]] = []

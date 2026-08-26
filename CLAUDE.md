@@ -77,7 +77,7 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 
 ## phase5 本地与线上出口
 
-- `phase5-report/SKILL.md` 负责本地 HTML；当输入覆盖两个及以上搜索词时，必须由 `scripts/build_experience_dashboard.py` 确定性生成 `GOVERNANCE_DASHBOARD_V2`（默认按问题、Adaptive SaaS）本地看板与同批 `.governance_dataset_<批次>.json`，不得手写另一套批量 HTML。
+- `phase5-report/SKILL.md` 负责本地 HTML；当输入覆盖两个及以上搜索词时，必须显式提供本批 `expectedBusinessTabs`，由 `phase5-report/scripts/build_experience_dashboard.py` 确定性生成 `GOVERNANCE_DASHBOARD_V2`（默认按问题、浅色数据看板）与同批 `.governance_dataset_<批次>.json`，不得手写另一套批量 HTML。
 - `phase5-report/nocode-dashboard/SKILL.md` 负责将上述数据集导入 NoCode、发布 Phase4 局部问题证据图并部署线上看板。线上页必须沿用本地看板的信息架构、分数/计数口径、视觉令牌与交互语义；它不能读取开发机 `file://` 图片，证据图需经 `public/evidence/` 受控资源发布。
 - NoCode 数据库的每张批次明细表都以真实 `batch_id` 关联；浏览器匿名角色对看板表的只读权限是上线验收项。CLI 能读取记录不代表线上页面可读。
 

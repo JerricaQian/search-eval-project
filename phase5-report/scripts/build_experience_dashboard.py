@@ -17,10 +17,12 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-if str(SCRIPT_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "phase5-report"))
+PHASE5_DIR = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+SHARED_SCRIPTS_DIR = PROJECT_ROOT / "scripts"
+for module_dir in (PHASE5_DIR, SHARED_SCRIPTS_DIR):
+    if str(module_dir) not in sys.path:
+        sys.path.insert(0, str(module_dir))
 from dashboard_renderer import render_dashboard
 from skill_frontmatter import load_weight
 
@@ -166,10 +168,28 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
     never a flash-delivery fact. Missing evidence remains ``unknown``.
     """
     card_type = str(card.get("卡片类型", ""))
+    kind = card_type_code(card_type)
+    # Phase2 may explicitly assign a standard business ownership after it has
+    # inspected the card.  That fact is stronger than keyword heuristics, but
+    # an unsupported code must remain visible and block aggregation below.
+    explicit_code = str(card.get("businessCode") or "").strip()
+    if card.get("ownershipScope") == "business" and explicit_code:
+        if explicit_code in BUSINESS_LINES:
+            return classified_business(
+                explicit_code,
+                kind,
+                card_type,
+                str(card.get("businessConfidence") or "phase2_explicit"),
+            )
+        return {
+            "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
+            "confidence": f"unsupported_explicit_business_code:{explicit_code}",
+            "cardTypeCode": kind, "cardTypeName": card_type,
+        }
     if card_type in PLATFORM_SCOPES or card.get("cardId") == "macro-top":
         return {"scope": "platform", "businessCode": "platform", "businessName": "平台公共组件",
                 "confidence": "high", "cardTypeCode": "platform_component", "cardTypeName": card_type}
-    semantic, fulfillment, kind = card_semantic_text(card), fulfillment_text(card), card_type_code(card_type)
+    semantic, fulfillment = card_semantic_text(card), fulfillment_text(card)
     for business, terms in DEDICATED_BUSINESS_TERMS:
         if has_any(semantic, terms):
             return classified_business(business, kind, card_type, "semantic")
@@ -837,14 +857,17 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             **{k: v for k, v in item.items() if k not in {"problemCards", "evaluatedCards", "componentProblemCards", "componentEvaluatedCards", "levelScores"}},
             "evaluatedCards": total, "problemCards": problems,
             "problemRate": round(problems / total * 100, 1) if total else 0,
+            # 本批次是月度问题跟踪的首个基线：所有本批发现均计为新增，
+            # 尚无可验证的闭环记录时不虚构已解决数量。
+            "tracking": {"newIssueCount": int(item["issueCount"]), "resolvedIssueCount": 0, "baseline": "monthly_tracking_initial"},
             # 分数严格来自 Skill weight： (实际原始分 - 理论最低分) / (理论最高分 - 理论最低分) × 100。
             "dimensionScores": dimension_scores, "dimensionBreakdown": dimension_breakdown, "overallScore": overall_score,
         })
-    business_rows.sort(key=lambda item: (item["overallScore"], -item["issueCount"]))
+    business_rows.sort(key=lambda item: (-item["issueCount"], item["businessName"]))
     return {"generatedAt": str(date.today()), "queryCount": len(used_queries), "groups": groups, "businesses": business_rows, "queryDetails": dict(sorted(query_details.items())), "unknown": unknown, "manifests": len(manifests)}
 
 
-def validate_dataset(data: dict[str, Any], artifact_dir: Path, expected_business_tabs: set[str] | None = None) -> None:
+def validate_dataset(data: dict[str, Any], artifact_dir: Path, expected_business_tabs: set[str]) -> None:
     """Fail early when a dashboard would silently mix batches or lose audit evidence."""
     if not data["queryCount"]:
         raise ValueError(f"未从评测产物读取到有效搜索词：{artifact_dir}")
@@ -873,14 +896,13 @@ def validate_dataset(data: dict[str, Any], artifact_dir: Path, expected_business
     unexpected_codes = sorted(set(actual_businesses) - allowed_codes)
     if unexpected_codes:
         raise ValueError(f"报告业务Tab不满足预期口径，发现未允许业务：{','.join(unexpected_codes)}")
-    if expected_business_tabs is not None:
-        missing_codes = sorted(expected_business_tabs - set(actual_businesses))
-        extra_codes = sorted(set(actual_businesses) - expected_business_tabs)
-        if missing_codes or extra_codes:
-            raise ValueError(
-                "报告业务Tab不满足本批次预期："
-                f"缺失={','.join(missing_codes) or '无'}；多出={','.join(extra_codes) or '无'}"
-            )
+    missing_codes = sorted(expected_business_tabs - set(actual_businesses))
+    extra_codes = sorted(set(actual_businesses) - expected_business_tabs)
+    if missing_codes or extra_codes:
+        raise ValueError(
+            "报告业务Tab不满足本批次预期："
+            f"缺失={','.join(missing_codes) or '无'}；多出={','.join(extra_codes) or '无'}"
+        )
     mismatched_names = sorted(
         code for code, item in actual_businesses.items()
         if item.get("businessName") != EXPECTED_REPORT_BUSINESS_TABS[code]
@@ -909,14 +931,15 @@ def render(data: dict[str, Any]) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build the search result experience dashboard")
-    parser.add_argument("--project-dir", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument("--project-dir", type=Path, default=PROJECT_ROOT)
     parser.add_argument("--artifact-dir", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--dataset-output", type=Path)
     parser.add_argument("--batch-name", help="当前隔离评测批次名；不传时使用 artifact-dir 目录名")
     parser.add_argument(
         "--expected-business-tabs",
-        help="可选的本批次业务 Tab 断言（逗号分隔 businessCode）；提供时实际输出必须完全一致",
+        required=True,
+        help="本批次业务 Tab 断言（逗号分隔 businessCode）；实际输出必须完全一致",
     )
     args = parser.parse_args()
     project = args.project_dir.resolve()
@@ -925,10 +948,10 @@ def main() -> int:
     dataset_output = args.dataset_output or project / "reports" / ".governance_dataset_五图全维度.json"
     data = collect(project, artifact_dir)
     data["batch"] = args.batch_name or artifact_dir.name
-    expected_business_tabs = {
-        code.strip() for code in args.expected_business_tabs.split(",") if code.strip()
-    } if args.expected_business_tabs else None
-    invalid_expected_codes = sorted((expected_business_tabs or set()) - set(EXPECTED_REPORT_BUSINESS_TABS))
+    expected_business_tabs = {code.strip() for code in args.expected_business_tabs.split(",") if code.strip()}
+    if not expected_business_tabs:
+        raise ValueError("--expected-business-tabs 不能为空")
+    invalid_expected_codes = sorted(expected_business_tabs - set(EXPECTED_REPORT_BUSINESS_TABS))
     if invalid_expected_codes:
         raise ValueError(f"--expected-business-tabs 包含未允许的业务：{','.join(invalid_expected_codes)}")
     validate_dataset(data, artifact_dir, expected_business_tabs)

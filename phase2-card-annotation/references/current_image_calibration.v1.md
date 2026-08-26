@@ -5,7 +5,7 @@
 ## 校准链路
 
 1. 读取当前完整截图一次，先确认页面模块、结果卡、卡内区域、每个可见下挂项和独立视觉实体。
-2. 读取本次运行产生的 CV/OCR、卡型语义和门控产物。PaddleOCR 用于读取已经定位的范围，不负责创造页面结构。
+2. 读取本次运行产生的本地 CV、卡型语义和门控产物。本地 CV 只提供页面、图片和几何候选；当前图 LLM 复核负责可见文字、卡型与拓扑事实。
 3. 参考 `golden_structure_exemplars.v1.md` 选择最接近的结构，只复用区域、元素和所有权关系。
 4. 对 OCR 分歧、碎片、标签边界、异构下挂和完整字形覆盖不足之处生成局部裁图，再用当前像素复核。整图固定读一次，局部复核最多十一张，总读图次数不超过十二次。
 5. 逐一复核主 JSON 中全部非排除元素，同时检查当前截图中是否还有漏掉的可见模块、卡片、下挂项或原子元素。不能只处理门控已报告的 OCR 失败项。
@@ -24,7 +24,7 @@
 - 因为结构和 schema 完整就把未逐像素确认的字段标为 `confirmed`；
 - 在 Phase3 中回看截图并补写 Phase2 事实。
 
-Paddle、CV 与模型视觉复核是互补证据。Paddle 可跨机器安装并稳定重跑，但遇到合并文字、异色标签、复杂卡型和图文归属时，单靠 OCR 不足以证明视觉原子边界；模型视觉复核也不能替代 OCR 过程证据和确定性校验。
+本地 CV 与模型视觉复核是互补证据。CV 不替代当前文字、卡型或图文归属判断；模型视觉复核也不能绕过卡型契约、枚举和确定性校验。
 
 `search_card_taxonomy.v1.json` 中“不让视觉模型补读”的识别规则约束本地候选器：枚举/规则代码自身不得悄悄调用模型或把模型猜测伪装成 OCR 事实。它不取消候选阶段之后、由本契约明确记录证据的当前图片校准步骤。
 
@@ -43,6 +43,17 @@ Paddle、CV 与模型视觉复核是互补证据。Paddle 可跨机器安装并�
     {
       "cardId": "C2",
       "coord": [0, 0, 0, 0],
+      "cardTypeCandidate": "商家卡片_图文下挂",
+      "topology": {
+        "regions": [
+          {"slot": "merchant_head", "coord": [0, 0, 0, 0], "visibleStatus": "confirmed"},
+          {"slot": "merchant_info", "coord": [0, 0, 0, 0], "visibleStatus": "confirmed"},
+          {"slot": "attached_goods", "coord": [0, 0, 0, 0], "visibleStatus": "confirmed"}
+        ],
+        "attachedItems": [
+          {"itemIndex": 1, "coord": [0, 0, 0, 0], "visibleStatus": "confirmed"}
+        ]
+      },
       "fields": [
         {"coord": [0, 0, 0, 0], "text": "当前可见原文", "role": "title", "visibleStatus": "confirmed"}
       ]
@@ -51,7 +62,7 @@ Paddle、CV 与模型视觉复核是互补证据。Paddle 可跨机器安装并�
 }
 ```
 
-`completeCurrentPixelReview=true` 是对本截图整图一次、逐项核对全部活动元素的明确声明；不是“只复核了 `cards[]` 里修正项”。`localReviewPaths` 仅列实际读取的局部裁图，必须唯一，最多 11 个。若某卡的旧 OCR 与当前观察重叠且应全部失效，才在该卡记录 `replaceAllCardText: true`；否则只替换与字段 `coord` 重叠的旧观察。
+`completeCurrentPixelReview=true` 是对本截图整图一次、逐项核对全部活动元素的明确声明；不是“只复核了 `cards[]` 里修正项”。每张卡必须使用根目录 `card-type-registry.v1.json` 中的 `cardTypeCandidate`，并至少声明一个拓扑区域；图文下挂商家卡必须声明 `merchant_head`、`merchant_info`、`attached_goods` 及每个可见 `attachedItems`。`attachedItems[].visibleStatus="naturally_cropped"` 只说明该子项被横向/纵向边缘截断，不降低完整可见商家卡的结构状态。`localReviewPaths` 仅列实际读取的局部裁图，必须唯一，最多 11 个。
 
 将记录作为 `--visual-review` 回灌 `run_phase2_recognition.py`。最终 manifest 和校准审计会在同一次命令中一起重建；不得在 manifest 或审计中手改通过状态。`<pythonBin>` 由调用方注入；可移植任务使用 `workflowArgs.pythonBin`：
 
@@ -60,8 +71,7 @@ Paddle、CV 与模型视觉复核是互补证据。Paddle 可跨机器安装并�
   --query <query> --screenshot <screenshot> --output <elements.json> \
   --artifacts-dir <artifact-dir> \
   --recognition-audit <elements.recognition-audit.json> \
-  --visual-review <current-screenshot-review.json> \
-  --require-bounded-paddleocr
+  --visual-review <current-screenshot-review.json>
 ```
 
 最后运行：

@@ -84,8 +84,8 @@ bash ~/Desktop/search-eval-project/setup.sh
 # 现场截图：额外检查 Android 真机、ADBKeyboard 与美团 App
 bash ~/Desktop/search-eval-project/setup.sh --with-device
 
-# 要求 Phase2 PaddleOCR 运行时和本地模型就绪
-bash ~/Desktop/search-eval-project/setup.sh --with-ocr
+# Phase2 当前使用本地 CV + 当前截图 LLM 视觉复核；不需要 PaddleOCR
+bash ~/Desktop/search-eval-project/setup.sh
 ```
 默认模式不要求连接手机，适合复用已有截图；现场截图时才需要 Android 真机。若缺 Python 图像依赖，在项目根目录执行 `python3 -m pip install -r requirements.txt`。
 
@@ -140,29 +140,17 @@ Workflow 是依赖宿主 API 的 DSL，不能直接通过 `node` 执行。`workf
 
 显式 `capture_and_evaluate` 会在截图成功后返回 `awaiting_evaluation_config`，然后再由用户确认评测维度与报告出口，避免无效截图进入评测。
 
-### Phase2 本地 OCR（按需安装）
+### Phase2 本地 CV + LLM 视觉复核
 
-Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`，先以本地 OCR、OpenCV、卡型契约和确定性 hooks 产出候选，再按黄金样本的结构范例对当前图片执行全量视觉校准，生成该图自己的 `elements.json`。它不读取 OCR 置信度决定字段，也不复制黄金文字或坐标。初次整页使用 Tesseract；门控失败时主入口自动执行一次卡内有界 Paddle 重识别（默认 2 线程），不会运行整页 Paddle：
+Phase2 对每张截图独立运行 `phase2-card-annotation/scripts/run_phase2_recognition.py`：本地 OpenCV 先产出页面、卡片与图片候选；当前截图 LLM 视觉复核再提供可见文字、语义、卡型及卡片拓扑，随后由确定性卡型契约和校验器生成该图的 `elements.json`。它不复制黄金文字或坐标，也不使用 PaddleOCR 或 Tesseract。
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python scripts/setup_phase2_ocr.py --all
-bash setup.sh --with-ocr
+bash setup.sh
 ```
 
-`setup_phase2_ocr.py --all` 使用执行该命令的同一个 Python 安装 PaddlePaddle/PaddleOCR，
-从 Paddle 官方 BOS 模型源下载固定的 PP-OCRv5 server 检测与识别模型，校验 SHA-256，
-随后初始化模型并完成一次本地推理冒烟测试。模型保存在 gitignored 的
-`phase2-card-annotation/models/paddleocr/`，因此 `git clone` 本身不会携带模型。
-只检查、不安装时执行 `.venv/bin/python scripts/setup_phase2_ocr.py --check`。
-
-生产识别允许 Paddle 不可用时回退 Tesseract，但每个裁剪都会记录
-`requestedBackend`、`actualBackend` 和 `fallbackReason`。需要确认本轮确实由 Paddle
-执行时，为 `run_phase2_recognition.py` 追加 `--require-bounded-paddleocr`；任何裁剪
-发生回退都会阻断该轮。
-
-没有本地 OCR 时，提取器会把能力缺口记录为 `missingCapabilities`，不得据此认定文本或图片缺失。`uncertain` 不创建人工复核任务，也不能作为“不达标”、缺失或“优秀”的依据。
+视觉复核必须带 `completeCurrentPixelReview:true`，逐卡声明卡型候选、区域拓扑和下挂项归属；缺失或校验失败时阻断 Phase3。卡型 id/名称通过根目录 `card-type-registry.v1.json` 统一，`naturally_cropped` 只标记被屏幕边缘裁切的子项，不能误判整卡缺失。
 
 **手机端（仅现场截图）**：USB 连电脑 + 「传输文件」模式 + 开启 USB 调试 + 安装并登录美团 App。
 **macOS 权限（关键）**：系统设置 → 隐私与安全性 → 完全磁盘访问权限 → 添加 CatPaw → **完全退出并重启应用**。不做这步评测子进程可能读不到桌面截图，报告会全空。
@@ -204,11 +192,11 @@ search-eval-project/
 │   └── SKILL.md
 ├── phase5-report/                         # Phase5：本地报告、治理数据集与线上看板出口
 │   ├── SKILL.md                            # 本地 HTML / GOVERNANCE_DASHBOARD_V2（按问题、Adaptive SaaS）
+│   ├── dashboard_renderer.py               # 唯一 HTML 渲染器
+│   ├── scripts/                            # Phase5 生成、归一化与 NoCode 导入脚本
 │   └── nocode-dashboard/SKILL.md           # NoCode 导入、证据图发布与部署
 ├── scripts/
-│   ├── discover_screenshot_groups.py # 只读聚合可复用截图
-│   ├── build_experience_dashboard.py       # 批量本地治理看板 + 数据集生成器
-│   └── import_to_nocode.py                 # 治理数据集导入 NoCode
+│   └── discover_screenshot_groups.py       # 跨阶段公共脚本（示例：只读发现截图）
 ├── workflow/
 │   └── meituan_eval_workflow.js    # 1.0 模式路由与 Agent 编排
 ├── screenshots/                    # phase1 截图输出 / phase2 输入
@@ -285,7 +273,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 2. **② Phase2 轻量识别（默认）**：默认 `annotate=true`、`phase2Mode=lightweight`，对 `screenshots/` 中每张图分别产出一个元素清单及审计到 `screenshots-out/`。每个清单都必须通过整页门控和 `validate_element_manifest.py`，才可进入评测。
 3. **③ 评测**：Phase3 评测官先按用户选择确定性解析目标 Skill，再加载页面模型、卡型规范、黄金事实契约和被选维度契约；随后按当前清单及其结构化事实评测。每项按 `aggregate` 聚合到 Tab 级评级 + 加权分，并将原始结果和审计写入当前批次 `.artifacts/过程文件-评测结果与审计/<batch>/<query>/results/`。部分评测会标记覆盖范围，不能与完整 19 项综合分混比。
 4. **④ 问题证据**：只消费已通过 Phase3 校验的待优化问题。`phase3-single_element-eval` 保留元素级判定与精确定位，但红框展示所属完整组件/商卡上下文，并回写 `evidenceTargetElementId`、`evidenceTargetCoord`；组件/卡片维度同样框选完整聚合区块。生成原尺寸整页红框图并回写 `evidenceImage` 后，以 `validate_eval_results.py --require-evidence` 再次验收。
-5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name`，确定性输出 `GOVERNANCE_DASHBOARD_V2` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务默认按问题，且可切换按搜索词或按指标浏览问题明细与证据。
+5. **⑤ 报告**：仅消费已通过 Phase2、Phase3 与 Phase4 验收的结果；工作流 JS 侧按每维度 weight 的 min/max 做归一化（确定性，不靠 LLM 算术），`phase5-report` 渲染本地合并 HTML。两个及以上搜索词的跨词治理场景必须运行 `phase5-report/scripts/build_experience_dashboard.py`，并显式传入当前 `--artifact-dir`、`--batch-name` 与 `--expected-business-tabs`，确定性输出 `GOVERNANCE_DASHBOARD_V2` 本地看板与同批 `.governance_dataset_<批次>.json`；该看板固定为顶部导航 → 标题区 → 概览/业务两级 Tab，其中概览展示双栏摘要与业务入口，单业务默认按问题，且可切换按搜索词或按指标浏览问题明细与证据。
 
 > **1.0 的确认规则**：仅截图只确认搜索词、Tab 和屏数；仅评测只确认截图范围、评测维度和报告出口；截图+评测在截图成功后才确认评测维度和报告出口。Phase2 默认 lightweight，不作为每次任务的额外选择。
 
@@ -293,7 +281,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 
 ## 批量治理看板与 NoCode 部署（可选）
 
-当需要跨两个及以上搜索词汇总治理时，先用 `scripts/build_experience_dashboard.py` 生成本地 `GOVERNANCE_DASHBOARD_V2` HTML 与同批 `.governance_dataset_<批次>.json`；HTML 与数据集必须同批次，且前端不重新计算分数或问题率。
+当需要跨两个及以上搜索词汇总治理时，先用 `phase5-report/scripts/build_experience_dashboard.py` 生成本地 `GOVERNANCE_DASHBOARD_V2` HTML 与同批 `.governance_dataset_<批次>.json`；必须用 `--expected-business-tabs` 显式断言本批业务集合，HTML 与数据集必须同批次，且前端不重新计算分数或问题率。
 
 若需上线，改用 `phase5-report/nocode-dashboard/SKILL.md`：导入脚本以新建批次返回的真实 `batch_id` 关联六张看板表；上线前需验证浏览器匿名角色能读取当前批次。典型证据来自项目根 `screenshots-out/evidence/` 的 Phase4 整页红框图；线上页面不能读取本机 `file://` 路径，必须在取得用户授权后上传实际引用图片到 NoCode 工程的 `public/evidence/`，以 `/evidence/<原文件名>` 展示缩略图并点击打开大图。
 
@@ -394,7 +382,7 @@ A: 各 skill 自行拆元素导致口径漂移。解决：执行 Phase2（`annot
 A: 二档制 skill 合法，frontmatter `weight` 写 `{ "优秀": 1, "不达标": -1 }` 即可，「达标」键可省略；工作流发现脚本用 `.get("达标",0)` 兜底，schema 已把「达标」设为可选。不要硬凑三档。
 
 **Q: Phase2 识别一直很慢 / 根本没动 / 卡死**
-A: 先检查本地 Tesseract、长图双版面 OCR 和一次性的卡内有界重识别是否仍在运行。Phase2 不依赖视觉模型读图；PaddleOCR 只会在初次门控失败后加载一次，线程数默认限制为 2，可设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 关闭。已有单图清单若 `phase3Ready=false` 或 manifest 校验失败会被阻断，必须按 `reprocessTargets` 对失败卡/失败行重跑。
+A: 当前生产路径不运行 Tesseract 或 PaddleOCR。先检查本地 CV 是否产出页面/图片候选，再检查 `--visual-review` 是否具备 `completeCurrentPixelReview:true`、逐卡注册卡型和拓扑；已有单图清单若 `phase3Ready=false` 或 manifest 校验失败会被阻断，必须按门禁提示补齐当前截图复核后重跑。
 
 **Q: 评测 agent 计数还是不对（49/50/51）**
 A: 评测 agent 读清单后仍自己数。工作流已注入确定性 python 计数脚本，要求 `overview.total` 必须等于脚本输出，禁止人工推导。若仍错，检查 agent 是否真跑了脚本而非自行计数。

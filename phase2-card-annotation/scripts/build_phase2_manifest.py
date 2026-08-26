@@ -12,15 +12,11 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+from card_type_registry import display_names
 
 
 VERSION = "phase2.page-manifest.v2"
-TYPE_NAMES = {
-    "商品卡片": "商品卡片", "商家卡片_图文下挂": "商家卡片-图文下挂",
-    "商家卡片_文字下挂": "商家卡片-文字下挂", "商家卡片_无下挂": "商家卡片-无下挂", "酒店卡片": "酒店卡片",
-    "演出电影卡片": "演出/电影卡片", "度假酒店套餐卡片": "度假/酒店套餐卡片",
-    "广告卡": "特殊广告卡", "异构卡": "异构卡",
-}
+TYPE_NAMES = display_names()
 # These are only candidates.  Their region is determined by the current card's
 # geometry/visual review, never by the label text alone.
 TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES = {"外卖", "团购", "到店", "闪购"}
@@ -270,6 +266,9 @@ def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], i
         "坐标": item["coord"], "isExcluded": False,
         "render": render,
     }
+    review_item_index = item.get("visualReview", {}).get("itemIndex") if isinstance(item.get("visualReview"), dict) else None
+    if isinstance(review_item_index, int) and review_item_index > 0:
+        element["_reviewItemIndex"] = review_item_index
     if element_type in {"文本", "标签"}:
         facts = dict(direct.get("textFacts", {}))
         candidate_color = item.get("visualHint", {}).get("colorRole", "unknown")
@@ -313,9 +312,13 @@ def image_element(card_id: str, item: dict[str, Any], index: int, region: str = 
     render.update({"visibleStatus": visible, "renderState": "normal" if visible == "confirmed" else "partial" if visible == "naturally_cropped" else "uncertain", "sourceRegion": region, "isPhoto": True, "isSystemUi": False})
     visual = dict(direct.get("visual", {})) or visual_hint(item, "image", region, "photo")
     visual.update({"entityKind": "image", "sourceRegion": region, "styleKey": f"image|unknown|photo|{region}|无"})
-    return {"id": f"{card_id}-P{index}", "所属组件": card_id, "元素类型": "图片",
+    element = {"id": f"{card_id}-P{index}", "所属组件": card_id, "元素类型": "图片",
         "坐标": item["coord"], "isExcluded": False,
         "render": render, "visual": visual}
+    review_item_index = item.get("visualReview", {}).get("itemIndex") if isinstance(item.get("visualReview"), dict) else None
+    if isinstance(review_item_index, int) and review_item_index > 0:
+        element["_reviewItemIndex"] = review_item_index
+    return element
 
 
 def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: str) -> list[dict[str, Any]]:
@@ -331,7 +334,19 @@ def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: s
     images = [item for item in elements if item.get("元素类型") == "图片"]
     texts = [item for item in elements if item.get("元素类型") != "图片"]
     anchors: list[list[dict[str, Any]]]
-    if card_type == "商家卡片_图文下挂" and images:
+    declared_items = {item.get("_reviewItemIndex") for item in elements if isinstance(item.get("_reviewItemIndex"), int) and item.get("_reviewItemIndex") > 0}
+    if card_type == "商家卡片_图文下挂" and declared_items:
+        # The current-pixel review explicitly associates every visible image,
+        # title and price with one horizontal item.  Use that ownership before
+        # geometric proximity; geometry is only the fallback for an atom the
+        # reviewer intentionally left ungrouped.
+        anchors = [[item for item in elements if item.get("_reviewItemIndex") == item_index] for item_index in sorted(declared_items)]
+        ungrouped = [item for item in elements if item.get("_reviewItemIndex") not in declared_items]
+        for item in ungrouped:
+            center = item["坐标"][0] + item["坐标"][2] / 2
+            target = min(anchors, key=lambda group: abs(center - (group[0]["坐标"][0] + group[0]["坐标"][2] / 2)))
+            target.append(item)
+    elif card_type == "商家卡片_图文下挂" and images:
         anchors = [[item] for item in sorted(images, key=lambda value: value["坐标"][0])]
         for item in texts:
             center = item["坐标"][0] + item["坐标"][2] / 2
@@ -361,6 +376,12 @@ def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: s
         # Observability of a missing price is represented by ``visibleStatus``;
         # the validator intentionally disallows extra per-group keys so that a
         # downstream consumer cannot silently ignore them.
+        member_statuses = {item.get("render", {}).get("visibleStatus") for item in resolved}
+        visible_status = (
+            "confirmed" if member_statuses == {"confirmed"} and (not requires_price_confirmation or price_confirmed)
+            else "naturally_cropped" if "uncertain" not in member_statuses and "naturally_cropped" in member_statuses
+            else "uncertain"
+        )
         groups.append({
             "itemIndex": index,
             "coord": union([item["坐标"] for item in resolved], resolved[0]["坐标"]),
@@ -368,7 +389,7 @@ def append_item_groups(region: str, elements: list[dict[str, Any]], card_type: s
             "imageElementIds": image_ids,
             "textElementIds": text_ids,
             "priceElementIds": price_ids,
-            "visibleStatus": "confirmed" if all(item.get("render", {}).get("visibleStatus") == "confirmed" for item in resolved) and (not requires_price_confirmation or price_confirmed) else "uncertain",
+            "visibleStatus": visible_status,
         })
     return groups
 
@@ -427,14 +448,20 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
         groups = append_item_groups(name, region_elements, selected_type)
         if groups:
             row["itemGroups"] = groups
+        for element in region_elements:
+            element.pop("_reviewItemIndex", None)
         region_rows.append(row)
     elements = [element for row in region_rows for element in row["elements"]]
-    uncertain = unresolved_ids + [element["id"] for element in elements if element["render"]["visibleStatus"] != "confirmed"]
+    uncertain = unresolved_ids + [element["id"] for element in elements if element["render"]["visibleStatus"] == "uncertain"]
+    naturally_cropped = [element["id"] for element in elements if element["render"]["visibleStatus"] == "naturally_cropped"]
     titles = [e for e in elements if e.get("textFacts", {}).get("semanticRole") == "title"]
     head_images = [e for row in region_rows if row["name"] == "头图区" for e in row["elements"] if e["元素类型"] == "图片"]
     inventory_regions = {row["name"]: [{"elementId": e["id"], "styleKey": e.get("visual", {}).get("styleKey", ""), "countedInComplexity": bool(e.get("visual", {}).get("countedInComplexity", False))} for e in row["elements"] if e.get("visual", {}).get("entityKind") in {"tag", "icon"}] for row in region_rows}
     tags = [e for e in elements if e.get("visual", {}).get("entityKind") in {"tag", "icon"}]
     complete = confirmed_type and not uncertain and bool(elements)
+    # A clipped carousel item is a property of that item, not evidence that
+    # the merchant card itself is incomplete.  Only a card-level crop policy
+    # (normally a bottom-edge continuation) downgrades the card structure.
     partial = semantic.get("partialCardPolicy", {}).get("applied") is True
     classification_evidence = selected.get("evidence", [])
     if not isinstance(classification_evidence, list):
@@ -460,7 +487,7 @@ def build_card(candidate: dict[str, Any], semantic: dict[str, Any], facts: dict[
             "isResultListItem": True, "isHeterogeneous": card_type == "异构卡", "listPosition": int(card_id.removeprefix("C")) if card_id.removeprefix("C").isdigit() else 0,
             "layoutAnchors": layout_anchors, "layoutAnchorRelation": layout_relation,
             "regions": [{"region": row["name"], "coord": row["coord"], "visibleStatus": "confirmed" if row["elements"] else "uncertain", "hasPhysicalBoundary": False, "hasBackgroundSeparation": False} for row in region_rows]},
-        "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_repeated_type"] if partial else [])},
+        "factInventory": {"complete": complete, "scanned": ["card_boundary", "regions", "images", "text", "render_state", "visual_spec", "layout", "relations"], "uncertainElementIds": uncertain, "naturallyCroppedElementIds": naturally_cropped, "notes": ["assembled_from_local_cv_candidates"] + (["bottom_partial_card_type_inherited_from_previous_confirmed_repeated_type"] if partial else [])},
         "visualInventory": {"complete": complete and all(e.get("visual", {}).get("visualStatus") == "confirmed" for e in tags), "regions": inventory_regions,
             "tagScanChecklist": [{"candidate": "local_cv_tag_icon_candidates", "status": "found" if tags else "not_found", "checkedRegions": list(regions), "elementIds": [e["id"] for e in tags]}]},
         "_relations": (

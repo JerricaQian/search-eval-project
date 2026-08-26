@@ -5,10 +5,23 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
+# Contract tests load this file with an import spec, which does not add its
+# directory to ``sys.path``.  Keep sibling imports reliable outside CLI use.
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
 from phase2_bundle_loader import load_phase2_facts
+
+
+def load_card_type_registry() -> dict[str, str]:
+    path = SCRIPT_DIR.parent / "card-type-registry.v1.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return {str(item["id"]): str(item["displayName"]) for item in payload["resultCardTypes"]}
 
 TOP_LEVEL_KEYS = {"query", "screenshot", "cards"}
 REQUIRED_PHASE3_FACT_KEYS = {"pageFacts", "pageFactInventory", "relations", "recognition"}
@@ -65,10 +78,8 @@ def valid_tag_scan_checklist(value: Any, known_ids: set[str]) -> bool:
         if item["status"] != "found" and ids:
             return False
     return True
-CARD_TYPES = {
-    "商品卡片", "商家卡片-图文下挂", "商家卡片-文字下挂", "商家卡片-无下挂", "酒店卡片",
-    "度假/酒店套餐卡片", "演出/电影卡片", "主点卡片", "特殊广告卡", "异构卡", "宏观组件", "酒店卡片（商家商品卡）",
-}
+CARD_TYPE_REGISTRY = load_card_type_registry()
+CARD_TYPES = set(CARD_TYPE_REGISTRY.values()) | {"宏观组件", "酒店卡片（商家商品卡）"}
 REGION_NAMES = {
     "头图区", "标题区", "副标题区", "基础信息区", "商家信息区", "评分与推荐理由",
     "位置信息", "标签区", "价格区", "商家区", "下挂商品区", "特殊下挂", "服务下挂",
@@ -257,6 +268,9 @@ def main() -> int:
         card_ids.add(str(card_id))
         if card.get("卡片类型") not in CARD_TYPES:
             errors.append(f"{prefix}:card_type_not_allowed")
+        code, name = card.get("cardTypeCode"), card.get("cardTypeName")
+        if isinstance(code, str) and code in CARD_TYPE_REGISTRY and name != CARD_TYPE_REGISTRY[code]:
+            errors.append(f"{prefix}:card_type_registry_name_mismatch")
         if not coord_ok(card.get("coord")):
             errors.append(f"{prefix}:card_coord_invalid")
         else:

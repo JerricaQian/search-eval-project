@@ -1,5 +1,6 @@
 {
   "contractVersion": "phase2.search-card-taxonomy.v1",
+  "cardTypeRegistry": "../../card-type-registry.v1.json",
   "description": "依据七份卡片规范沉淀的领域卡片契约。识别顺序必须为：卡片类型 → 该卡型的区域 → 该区域允许的元素；本文件中的枚举是识别候选与评测依据，不是缺失推断依据。",
   "classification": {
     "order": ["商品卡片", "商家卡片_图文下挂", "商家卡片_文字下挂", "商家卡片_无下挂", "酒店卡片", "演出电影卡片", "度假酒店套餐卡片", "广告卡", "异构卡"],

@@ -13,6 +13,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from apply_visual_review import load_review
+
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -32,7 +34,7 @@ def main() -> int:
     data: dict[str, Any] = json.loads(manifest_path.read_text(encoding="utf-8"))
     review: dict[str, Any] = {}
     if args.visual_review:
-        review = json.loads(args.visual_review.read_text(encoding="utf-8"))
+        review = load_review(args.visual_review)
         if Path(str(review.get("screenshot", ""))).resolve() != Path(str(data.get("screenshot", ""))).resolve():
             raise ValueError("visual review screenshot does not match manifest")
     review_paths = review.get("localReviewPaths", [])

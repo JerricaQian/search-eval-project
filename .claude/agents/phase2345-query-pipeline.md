@@ -45,6 +45,7 @@ tools: Read, Bash, Write, Grep, Glob
 - `reportDir`：项目级 `reports/` 目录。
 - `reportImages`：调用方按 `screenshots` 算好的 `{original, annotated:""}` 数组。Phase2 不产出整页标注 PNG；Stage D 必须展示 `original`。
 - `isBatchGovernanceReport`：是否使用跨词治理固定模板（若为 true，还需 `artifactDir`/`batchArtifactDir`）。
+- `expectedBusinessTabsCsv`：仅批量治理必填；本批业务 `businessCode` 的逗号分隔精确集合，生成器会拒绝缺失或多出的 Tab。
 
 `computedJson`（汇总分数 JSON）不由调用方注入——Stage B 产出 `evals[]` 后，本 agent 用固定脚本在 Stage D 内部自行计算（见 D0），避免跨 Stage 的分数归一化数学脱离本次单一子代理上下文往返调用方。
 
@@ -180,11 +181,11 @@ C6. **运行固定生成与验收命令**：
 
 Stage C 产物：`evidenceImages[]`、`skipped[]`、已回写 `evidenceImage` 的 `${evalResultFile}`。
 
-### Stage D：Phase5 报告渲染（对应原 `phase5-report-renderer`）
+### Stage D：Phase5 报告渲染
 
 D0. **不重新评测，只用固定脚本归一化**：不手工修改分数、计数、评级、问题、坐标、证据路径或清单；`computedJson` 必须由以下确定性脚本从 Stage B/C 产物计算，不得凭 Agent 自身算术改写归一化公式：
     ```bash
-     "${pythonBin}" "${projectDir}/scripts/compute_dashboard_summary.py" \
+     "${pythonBin}" "${projectDir}/phase5-report/scripts/compute_dashboard_summary.py" \
       --results "${evalResultFile}" --eval-targets "${evalTargetsFile}" --scope "${evaluationScopeFile}" \
       --tabs "${tabsFile}" --images "${reportImagesFile}" \
       --query "${query}" --output "${artifactRunDir}/phase5/computed-summary.json"
@@ -192,13 +193,14 @@ D0. **不重新评测，只用固定脚本归一化**：不手工修改分数、
     其中 `${evalTargetsFile}`/`${tabsFile}`/`${reportImagesFile}`/`${evaluationScopeFile}` 是调用方注入的 `evalTargets`/`tabs`/`reportImages`/`evaluationScope` 原样落盘的 JSON 文件（若调用方未给文件路径，本 agent 先用 Write 把对应输入写成临时 JSON 再传给脚本）；脚本退出非 0 视为阻断，不进入渲染。渲染时只读取脚本输出的 `computedJson`，不得再从 `${evalResultFile}` 重新推导分数。
 D1. **必读 `${reportSkillDir}/SKILL.md` 全文**。
 D2. **验收闸门先行**：再次确认 `${evalAuditFile}` 的 `valid=true` 且 `phase2ReviewRequired=false`（应与 Stage C 结果一致）；不满足则停止交付。
-D3. **单词明细报告**（`isBatchGovernanceReport=false`）：用 Write 按 `DETAIL_V1` 模板写入 `${reportPath}`；问题使用对应的 Phase4 整页红框 `evidenceImage`，无合法定位范围时展示明确空态，不得伪造红框或用 Phase2 全量标注图替代。报告头必须渲染 `computedJson.scope.label`；当 `isFull=false` 时，明确标注“部分评测，不能与完整19项综合分直接比较”。
+D3. **单词明细报告**（`isBatchGovernanceReport=false`）：以 `${reportSkillDir}/SKILL.md` 的 `DETAIL_V1` 契约为唯一渲染入口，用 Write 写入 `${reportPath}`；问题使用对应的 Phase4 整页红框 `evidenceImage`，无合法定位范围时展示明确空态，不得伪造红框或用 Phase2 全量标注图替代。报告头必须渲染 `computedJson.scope.label`；当 `isFull=false` 时，明确标注“部分评测，不能与完整19项综合分直接比较”。不得调用已废弃的独立单词报告脚本或另一份 Phase5 agent 契约。
 D4. **跨词治理看板**（`isBatchGovernanceReport=true`）：严禁自行 Write HTML，必须且只能执行：
     ```bash
-    "${pythonBin}" "${projectDir}/scripts/build_experience_dashboard.py" \
+    "${pythonBin}" "${projectDir}/phase5-report/scripts/build_experience_dashboard.py" \
       --project-dir "${projectDir}" --artifact-dir "${batchArtifactDir}" \
       --batch-name "${batchId}" --output "${reportPath}" \
-      --dataset-output "${reportDir}/.governance_dataset_${batchId}.json"
+      --dataset-output "${reportDir}/.governance_dataset_${batchId}.json" \
+      --expected-business-tabs "${expectedBusinessTabsCsv}"
     ```
     退出 0；完成后检查 HTML 含 `business-tab`、`business-panel`、`detail-tab`、`detail-pane`、`activateBusiness`，且不含"高频问题跨词覆盖""典型问题证据库""sankey-link"。
 D5. **只处理当前范围**：不得扫描全局历史 `.artifacts/` 再靠关键词筛选。

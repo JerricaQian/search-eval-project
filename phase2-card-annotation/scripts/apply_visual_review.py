@@ -13,6 +13,73 @@ from typing import Any
 
 from extract_cv_facts import Box, _direct_text_phase3_facts
 
+
+TOPOLOGY_SLOTS = {"head_media", "merchant_head", "merchant_info", "rights", "attached_goods", "text_attachment", "price", "primary_info"}
+
+
+def _normalise_topology(card: dict[str, Any]) -> dict[str, Any]:
+    """Keep reviewer-declared card topology as structured current-pixel fact.
+
+    Geometry may corroborate a relation, but it must not manufacture one.  A
+    graphic merchant card therefore declares its head, merchant summary and
+    attached-goods rail explicitly, plus one visible item record per rail
+    item.  This is deliberately compact enough for a visual-review JSON.
+    """
+    raw = card.get("topology", {})
+    if not isinstance(raw, dict):
+        return {"regions": [], "attachedItems": []}
+    regions = []
+    for region in raw.get("regions", []):
+        if not isinstance(region, dict):
+            continue
+        slot, coord = str(region.get("slot", "")), region.get("coord")
+        if slot in TOPOLOGY_SLOTS and isinstance(coord, list) and len(coord) == 4 and all(isinstance(value, int) for value in coord):
+            regions.append({"slot": slot, "coord": coord, "visibleStatus": region.get("visibleStatus", "confirmed")})
+    items = []
+    for index, item in enumerate(raw.get("attachedItems", []), 1):
+        if not isinstance(item, dict):
+            continue
+        coord = item.get("coord")
+        if not isinstance(coord, list) or len(coord) != 4 or not all(isinstance(value, int) for value in coord):
+            continue
+        items.append({"itemIndex": int(item.get("itemIndex", index)), "coord": coord,
+                      "visibleStatus": item.get("visibleStatus", "confirmed")})
+    return {"regions": regions, "attachedItems": items}
+
+
+def _topology_slot(topology: dict[str, Any], coord: list[int]) -> tuple[str, int | None]:
+    for item in topology.get("attachedItems", []):
+        if overlap(coord, item["coord"]):
+            return "attached_goods", int(item["itemIndex"])
+    for region in topology.get("regions", []):
+        if overlap(coord, region["coord"]):
+            return str(region["slot"]), None
+    return "", None
+
+
+def load_review(path: Path) -> dict[str, Any]:
+    """Load a current-pixel review, optionally layering a small local patch.
+
+    A patch can use ``extends`` to reference an immutable earlier review and
+    override only newly reviewed fields such as page modules.  It never
+    modifies the source review and keeps the same screenshot identity.
+    """
+    review = json.loads(path.read_text(encoding="utf-8"))
+    extends = review.pop("extends", "")
+    if not extends:
+        return review
+    base_path = Path(str(extends)).expanduser()
+    if not base_path.is_absolute():
+        base_path = (path.parent / base_path).resolve()
+    base = load_review(base_path)
+    if review.get("screenshot") and base.get("screenshot") and Path(str(review["screenshot"])).resolve() != Path(str(base["screenshot"])).resolve():
+        raise ValueError("visual review patch screenshot does not match its base review")
+    merged = {**base, **review}
+    for key in ("cards", "modules", "localReviewPaths"):
+        if key not in review:
+            merged[key] = base.get(key, [])
+    return merged
+
 def overlap(a: list[int], b: list[int]) -> bool:
     return a[0] < b[0]+b[2] and a[0]+a[2] > b[0] and a[1] < b[1]+b[3] and a[1]+a[3] > b[1]
 
@@ -48,6 +115,7 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
     next_id = 1
     text = facts.setdefault("candidates", {}).setdefault("text", [])
     for card in observed:
+        topology = _normalise_topology(card)
         for field in card.get("fields", []):
             coord = [int(v) for v in field["coord"]]
             label = str(field["text"]).strip()
@@ -83,6 +151,7 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
                 # Visual facts use the existing binary confidence enum;
                 # render/text preserve the more precise natural-crop state.
                 phase3_facts["visual"]["visualStatus"] = "uncertain"
+            topology_slot, item_index = _topology_slot(topology, coord)
             text.append({"id": f"VR{next_id}", "kind": "text", "text": label, "coord": coord,
                 "ocrConsensus": {"status": "confirmed", "primaryText": label, "secondaryText": "",
                                  "method": "main_session_local_visual_read"},
@@ -90,17 +159,19 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
                 "visualHint": {"colorRole": field.get("colorRole", "unknown"), "evidence": "main_session_local_visual_read"},
                 "phase3Facts": phase3_facts,
                 "route": "accepted", "rejectionReasons": [],
-                "visualReview": {"cardId": card.get("cardId", ""), "crop": card["coord"], "readId": field.get("readId", "main_session_local_read"), "role": field.get("role", "other"), "visibleStatus": visible_status}})
+                "visualReview": {"cardId": card.get("cardId", ""), "crop": card["coord"], "readId": field.get("readId", "main_session_local_read"), "role": field.get("role", "other"), "topologySlot": topology_slot, "itemIndex": item_index, "visibleStatus": visible_status}})
             next_id += 1
     next_photo_id = 1
     photos = facts.setdefault("candidates", {}).setdefault("photos", [])
     for card in observed:
+        topology = _normalise_topology(card)
         for photo in card.get("photos", []):
             coord = [int(v) for v in photo["coord"]]
             visible_status = photo.get("visibleStatus", "confirmed")
             if visible_status not in {"confirmed", "naturally_cropped", "uncertain"}:
                 raise ValueError(f"invalid visual review photo visibleStatus: {visible_status}")
             visual_status = "confirmed" if visible_status == "confirmed" else "uncertain"
+            topology_slot, item_index = _topology_slot(topology, coord)
             photos.append({
                 "id": f"VP{next_photo_id}", "kind": "photo_candidate", "coord": coord,
                 "detectorRule": "main_session_local_visual_read", "confidence": 1.0,
@@ -110,7 +181,7 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
                     "visual": {"entityKind": "image", "visualStatus": visual_status, "isColored": False, "isShaped": False, "colorRole": "unknown", "backgroundColor": "", "textColor": "", "borderColor": "", "hasGraphicAssist": False, "graphicType": "无", "styleKey": "image|unknown|photo|无容器|无", "colorEvidence": "main_session_local_visual_read"},
                 },
                 "route": "accepted", "rejectionReasons": [],
-                "visualReview": {"cardId": card.get("cardId", ""), "crop": card["coord"], "readId": photo.get("readId", "main_session_local_read"), "visibleStatus": visible_status},
+                "visualReview": {"cardId": card.get("cardId", ""), "crop": card["coord"], "readId": photo.get("readId", "main_session_local_read"), "topologySlot": topology_slot, "itemIndex": item_index, "visibleStatus": visible_status},
             })
             next_photo_id += 1
     # Page-level modules can be directly confirmed in the current screenshot
@@ -131,7 +202,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--facts", type=Path, required=True); parser.add_argument("--review", type=Path, required=True); parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    payload = apply(json.loads(args.facts.read_text(encoding="utf-8")), json.loads(args.review.read_text(encoding="utf-8")))
+    payload = apply(json.loads(args.facts.read_text(encoding="utf-8")), load_review(args.review))
     args.output.write_text(json.dumps(payload, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     return 0
 if __name__ == "__main__": raise SystemExit(main())
