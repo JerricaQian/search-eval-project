@@ -19,6 +19,11 @@ DIMENSIONS = (
     ("page", "页面框架"),
 )
 DIMENSION_ORDER = {"component": 0, "page": 1, "element": 2}
+LEVEL_META = {
+    "element": ("单一元素", "#2563EB"),
+    "component": ("组件/卡片", "#0E9384"),
+    "page": ("页面框架", "#667085"),
+}
 PRIORITY_ORDER = {"P0": 0, "P1": 1, "P2": 2}
 PROBLEM_RATINGS = {"达标", "不达标", "🟡", "🔴"}
 
@@ -117,97 +122,97 @@ def make_summary(businesses: list[dict[str, Any]], groups: list[dict[str, Any]],
     }
 
 
+def donut(slices: list[tuple[str, int, str]], label: str) -> str:
+    total = sum(value for _, value, _ in slices)
+    if not total:
+        paths = "<circle cx='50' cy='50' r='40' fill='none' stroke='#F2F4F7' stroke-width='16'/>"
+    else:
+        circumference, offset, paths = 251.327, 0.0, []
+        for name, value, color in slices:
+            length = value / total * circumference
+            paths.append(
+                f"<circle cx='50' cy='50' r='40' fill='none' stroke='{color}' stroke-width='16' "
+                f"stroke-dasharray='{length} {circumference - length}' "
+                f"transform='rotate({offset / circumference * 360 - 90} 50 50)'><title>"
+                f"{esc(name)} {value} 项（占 {value / total * 100:.1f}%）</title></circle>"
+            )
+            offset += length
+        paths = "".join(paths)
+    legend = "".join(
+        f"<div class='legend'><i style='background:{color}'></i><span>{esc(name)}</span><b>{value}</b></div>"
+        for name, value, color in slices
+    )
+    return f"<div class='donut-block'><svg viewBox='0 0 100 100' role='img' aria-label='{esc(label)}'>{paths}</svg><div class='legend-list'>{legend}</div></div>"
+
+
 def render_summary(summary: dict[str, Any]) -> str:
-    dimension_text = "".join(
-        f"<span class='dimension-text'>{name}：{summary['levelCounts'].get(code, 0)}</span>"
-        for code, name in DIMENSIONS
-    )
-    issue_count = len(summary["issues"])
+    rows = summary["issues"]
+    issue_count = len(rows)
+    priorities = Counter(priority(issue, group) for group, issue in rows)
+    metrics = Counter(str(group.get("metricName") or "体验问题") for group, _ in rows)
+    top = metrics.most_common(3)
+    other = issue_count - sum(value for _, value in top)
+    top_slices = [
+        (name, value, color)
+        for (name, value), color in zip(top, ("rgba(217,45,32,.55)", "rgba(220,104,3,.55)", "rgba(37,99,235,.55)"))
+    ]
+    if other:
+        top_slices.append(("其他", other, "#E4E7EC"))
     tracking = summary["tracking"]
-    cumulative_text = (
-        f"<span class='cumulative-text added'>↗ {tracking['newIssueCount']} 新增问题数</span>"
-        f"<span class='cumulative-text resolved'>↘ {tracking['resolvedIssueCount']} 已解决问题数</span>"
-    )
-    return f"""
-<div class='section-heading stats-heading'><h2>问题统计</h2></div>
-<section class='stat-grid'>
-  <article class='stat-card'><p>本次检测问题数</p><strong>{issue_count}<small>项</small></strong><div class='stat-text'>{dimension_text}</div></article>
-  <article class='stat-card'><p>累计检测问题数</p><strong>{issue_count}<small>项</small></strong><div class='stat-text'>{cumulative_text}</div></article>
-</section>"""
+    return f"""<section class='stats-section'><h2>问题统计</h2><article class='summary-card'><div class='summary-numbers'>
+<div><b>{issue_count}</b><span>累计问题</span></div><div><b>{tracking['newIssueCount']}</b><span>本月新增</span></div><div><b>{tracking['resolvedIssueCount']}</b><span>累计解决</span></div>
+</div><div class='summary-divider'></div>{donut([('P0问题', priorities['P0'], 'rgba(217,45,32,.55)'), ('P1问题', priorities['P1'], 'rgba(220,104,3,.55)'), ('P2问题', priorities['P2'], 'rgba(37,99,235,.55)')], 'P0/P1/P2 问题占比')}<div class='summary-divider'></div>{donut(top_slices, 'TOP 问题占比')}</article></section>"""
 
 
-def render_issue(issue: dict[str, Any], group: dict[str, Any], title: str) -> str:
-    issue_priority = priority(issue, group)
-    return f"""
-<article class='issue-copy'>
-  <div class='issue-heading'><h4>{esc(title)}</h4><span class='priority-chip {issue_priority.lower()}'>{issue_priority}</span></div>
-  <p class='issue-target'>{esc(issue_target(issue))}</p>
-  <p class='issue-description'>{esc(finding_text(issue))}</p>
-  <div class='recommendation'><b>优化建议</b><p>{esc(recommendation_text(issue))}</p></div>
-</article>"""
+def render_issue(issue: dict[str, Any], group: dict[str, Any], number: int, title: str | None = None) -> str:
+    level, color = LEVEL_META.get(str(group.get("level") or ""), (str(group.get("levelName") or "未标注层级"), "#667085"))
+    label = title or f"问题{number}：{group.get('metricName') or '体验问题'}"
+    return f"""<div class='issue-copy'><div class='issue-title'><span class='priority'>{priority(issue, group)}</span><h3>{esc(label)}</h3></div><dl>
+<div><dt>所属搜索词</dt><dd>{esc(issue.get('query') or '-')}</dd></div><div><dt>层级</dt><dd style='color:{color}'>{esc(level)}</dd></div><div><dt>对象定位</dt><dd>{esc(issue_target(issue))}</dd></div><div><dt>问题描述</dt><dd>{esc(finding_text(issue))}</dd></div><div><dt>优化建议</dt><dd>{esc(recommendation_text(issue))}</dd></div></dl></div>"""
+
+
+def ordered(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> list[tuple[dict[str, Any], dict[str, Any]]]:
+    return sorted(entries, key=lambda row: (PRIORITY_ORDER.get(priority(row[1], row[0]), 3), str(row[1].get("query") or ""), str(row[0].get("metricName") or "")))
+
+
+def render_by_issue(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
+    return "".join(
+        f"<article class='issue-card'><div class='issue-layout'><div>{evidence_html(issue_image(issue), '问题证据')}</div>{render_issue(issue, group, number)}</div></article>"
+        for number, (group, issue) in enumerate(ordered(entries), 1)
+    ) or "<div class='empty'>该业务暂无问题。</div>"
 
 
 def render_by_query(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
     buckets: dict[tuple[str, str], list[tuple[dict[str, Any], dict[str, Any]]]] = defaultdict(list)
     for group, issue in entries:
         buckets[(str(issue.get("query") or "未命名搜索词"), str(issue.get("tab") or "全部"))].append((group, issue))
-    blocks, ordinal = [], 0
+    blocks, number = [], 0
     for (query, tab), items in sorted(buckets.items()):
-        items.sort(key=lambda row: (DIMENSION_ORDER.get(str(row[0].get("level")), 99), str(row[0].get("metricName") or "")))
-        images = Counter(issue_image(issue) for _, issue in items if issue_image(issue))
-        copy = []
+        items = ordered(items)
+        image = next((issue_image(issue) for _, issue in items if issue_image(issue)), "")
+        copies = []
         for group, issue in items:
-            ordinal += 1
-            copy.append(render_issue(issue, group, f"问题{ordinal}：{group.get('metricName') or '体验问题'}"))
-        blocks.append(f"""
-<section class='issue-group'><header><div><b>{esc(query)}</b><span>{esc(tab)} Tab · {len(items)} 个问题</span></div></header>
-<div class='query-layout'><div>{evidence_html(images.most_common(1)[0][0] if images else '', f'{query}问题证据')}</div><div>{''.join(copy)}</div></div>
-</section>""")
-    return "".join(blocks) or "<div class='empty'>该业务本轮暂无待优化问题。</div>"
-
-
-def render_by_issue(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
-    """Render every detected issue independently without screenshot or query aggregation."""
-    blocks = []
-    ordered = sorted(
-        entries,
-        key=lambda row: (
-            PRIORITY_ORDER.get(priority(row[1], row[0]), 3),
-            str(row[1].get("query") or ""),
-            DIMENSION_ORDER.get(str(row[0].get("level")), 99),
-            str(row[0].get("metricName") or ""),
-        ),
-    )
-    for ordinal, (group, issue) in enumerate(ordered, start=1):
-        query = str(issue.get("query") or "未命名搜索词")
-        tab = str(issue.get("tab") or "全部")
-        blocks.append(f"""
-<section class='issue-group'><header><div><b>{esc(query)}</b><span>{esc(tab)} Tab · 单个问题</span></div></header>
-<div class='query-layout'><div>{evidence_html(issue_image(issue), f'{query}问题证据')}</div><div>{render_issue(issue, group, f"问题{ordinal}：{group.get('metricName') or '体验问题'}")}</div></div>
-</section>""")
-    return "".join(blocks) or "<div class='empty'>该业务本轮暂无待优化问题。</div>"
+            number += 1
+            copies.append(render_issue(issue, group, number))
+        blocks.append(f"<article class='issue-card'><div class='issue-layout'><div>{evidence_html(image, query + ' 证据')}</div><div><h3 class='group-title'>{esc(query)} <small>{esc(tab)} Tab · {len(items)} 条问题</small></h3>{''.join(copies)}</div></div></article>")
+    return "".join(blocks) or "<div class='empty'>该业务暂无问题。</div>"
 
 
 def render_by_metric(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
     buckets: dict[tuple[str, str], list[tuple[dict[str, Any], dict[str, Any]]]] = defaultdict(list)
     for group, issue in entries:
         buckets[(str(group.get("level") or ""), str(group.get("metricName") or "体验问题"))].append((group, issue))
-    blocks, ordinal = [], 0
-    ordered = sorted(
-        buckets.items(),
-        key=lambda row: (min(PRIORITY_ORDER.get(priority(issue, group), 3) for group, issue in row[1]), DIMENSION_ORDER.get(row[0][0], 99), row[0][1]),
-    )
-    for (_, metric), items in ordered:
-        first = items[0][0]
+    blocks, number = [], 0
+    for (level, metric), items in sorted(buckets.items()):
+        level_name, color = LEVEL_META.get(level, ("未标注层级", "#667085"))
         rows = []
-        for group, issue in sorted(items, key=lambda row: PRIORITY_ORDER.get(priority(row[1], row[0]), 3)):
-            ordinal += 1
+        for group, issue in ordered(items):
+            number += 1
             query = str(issue.get("query") or "未命名搜索词")
-            evidence = evidence_html(issue_image(issue), f"{query}问题证据")
-            copy = render_issue(issue, group, f"问题{ordinal}：{query}")
-            rows.append(f"<div class='metric-row'><div>{evidence}</div>{copy}</div>")
-        blocks.append(f"<section class='issue-group metric-group'><header><div><b>{esc(metric)}</b><span class='level-tag'>{esc(first.get('levelName') or '评测维度')}</span></div><span>{len(items)} 个问题</span></header>{''.join(rows)}</section>")
-    return "".join(blocks) or "<div class='empty'>该业务本轮暂无待优化问题。</div>"
+            title = f"问题{number}：{query}"
+            rows.append(f"<div class='metric-row'><div>{evidence_html(issue_image(issue), '问题证据')}</div>{render_issue(issue, group, number, title)}</div>")
+        blocks.append(f"<article class='issue-card'><h3 class='group-title'>{esc(metric)} <small style='color:{color}'>{esc(level_name)} · {len(items)} 条问题</small></h3>{''.join(rows)}</article>")
+    return "".join(blocks) or "<div class='empty'>该业务暂无问题。</div>"
 
 
 def render_dashboard(data: dict[str, Any]) -> str:
@@ -218,37 +223,17 @@ def render_dashboard(data: dict[str, Any]) -> str:
 
     overview = make_summary(businesses, groups)
     batch = str(data.get("batch") or "当前批次")
-    match = re.search(r"(\d+)词", batch)
-    query_count = int(match.group(1)) if match else int(data.get("queryCount") or 0)
-    evaluated = [name for code, name in DIMENSIONS if any(code in (item.get("dimensionScores") or {}) for item in businesses)]
-
     tabs = ["<button class='business-tab active' type='button' data-business='overview' aria-selected='true'>概览</button>"]
     cards, panels = [], []
     for business in businesses:
         code, name = str(business["businessCode"]), str(business.get("businessName") or business["businessCode"])
         summary = make_summary(businesses, groups, code)
         tabs.append(f"<button class='business-tab' type='button' data-business='{esc(code)}' aria-selected='false'>{esc(name)}</button>")
-        priority_text = "".join(
-            f"<span>P{level[1:]}问题 {summary['priorityCounts'].get(level, 0)}</span>"
-            for level in ("P0", "P1", "P2")
-        )
-        cards.append(f"""<button class='business-card' type='button' data-target='{esc(code)}' aria-label='查看{esc(name)}问题明细'><div><h3>{esc(name)}</h3><span class='business-trend'>↗ {summary['tracking']['newIssueCount']}</span></div><strong>{len(summary['issues'])}<small>项</small></strong><i>{priority_text}</i></button>""")
-        panels.append(f"""
-<section class='panel business-panel' data-panel='{esc(code)}'>
-  {render_summary(summary)}
-  <div class='detail-heading'><h2>问题明细</h2><div class='detail-tabs' role='tablist' aria-label='{esc(name)}问题分组'><button class='detail-tab active' type='button' data-detail-tab='{esc(code)}-issue'>按问题</button><button class='detail-tab' type='button' data-detail-tab='{esc(code)}-query'>按搜索词</button><button class='detail-tab' type='button' data-detail-tab='{esc(code)}-metric'>按指标</button></div></div>
-  <div class='detail-pane active' data-detail-pane='{esc(code)}-issue'>{render_by_issue(summary['issues'])}</div>
-  <div class='detail-pane' data-detail-pane='{esc(code)}-query'>{render_by_query(summary['issues'])}</div>
-  <div class='detail-pane' data-detail-pane='{esc(code)}-metric'>{render_by_metric(summary['issues'])}</div>
-</section>""")
+        priorities = summary["priorityCounts"]
+        cards.append(f"<button class='business-card' type='button' data-target='{esc(code)}' aria-label='查看{esc(name)}问题明细'><div><h3>{esc(name)}</h3><b>新增 {summary['tracking']['newIssueCount']}</b></div><strong>{len(summary['issues'])} <small>累计问题</small></strong><p><span>P0 {priorities['P0']}</span><span>P1 {priorities['P1']}</span><span>P2 {priorities['P2']}</span></p></button>")
+        panels.append(f"<section class='panel business-panel' data-panel='{esc(code)}'>{render_summary(summary)}<div class='detail-heading'><h2>问题明细</h2><div class='detail-tabs' role='tablist' aria-label='{esc(name)}问题分组'><button class='detail-tab active' type='button' data-detail-tab='{esc(code)}-issue'>按问题</button><button class='detail-tab' type='button' data-detail-tab='{esc(code)}-query'>按搜索词</button><button class='detail-tab' type='button' data-detail-tab='{esc(code)}-metric'>按指标</button></div></div><div class='detail-pane active' data-detail-pane='{esc(code)}-issue'>{render_by_issue(summary['issues'])}</div><div class='detail-pane' data-detail-pane='{esc(code)}-query'>{render_by_query(summary['issues'])}</div><div class='detail-pane' data-detail-pane='{esc(code)}-metric'>{render_by_metric(summary['issues'])}</div></section>")
 
-    return f"""<!doctype html>
-<html lang='zh-CN'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
-<title>大搜结果页体验评测看板</title><style>
-:root{{--ink:#182230;--muted:#667085;--line:#e4e7ec;--bg:#f7f8fa;--blue:#2563eb;--blue-soft:#eff6ff;--p0:#dc2626;--p1:#d97706;--p2:#059669}}*{{box-sizing:border-box}}body{{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif}}button{{font:inherit}}button:focus-visible,a:focus-visible{{outline:3px solid rgba(37,99,235,.35);outline-offset:2px}}.topbar{{height:56px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100vw - 1280px)/2));position:sticky;top:0;z-index:5}}.brand{{font-weight:800;font-size:16px;letter-spacing:.04em}}.top-links{{display:flex;gap:28px}}.top-links a,.top-links a:last-child{{color:#475467;text-decoration:none;font-size:13px;font-weight:500}}.page{{max-width:1280px;margin:auto;padding:32px 24px 72px}}.report-head{{padding:0;margin-bottom:12px}}.head-row{{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}}h1{{margin:0 0 12px;font-size:26px;letter-spacing:-.04em}}.subtitle{{margin:0 0 22px;color:var(--muted);font-size:13px}}.subtitle a{{color:var(--blue);text-decoration:none}}.period-select{{appearance:none;background:#fff;border:1px solid #d0d5dd;border-radius:8px;padding:8px 34px 8px 12px;color:#344054;font-size:13px}}.business-tabs{{display:flex;gap:24px;flex-wrap:wrap;margin:0 0 24px;border-bottom:1px solid var(--line)}}.business-tab{{border:0;border-bottom:2px solid transparent;background:transparent;color:#475467;padding:8px 0 10px;cursor:pointer;font-weight:600;font-size:13px;transition:.18s}}.business-tab:hover{{color:var(--blue)}}.business-tab.active{{border-color:var(--blue);color:var(--blue)}}.panel{{display:none}}.panel.active{{display:block}}.stat-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:32px}}.stat-card{{min-height:170px;background:#fff;border:0;border-radius:8px;padding:24px;box-shadow:0 10px 28px rgba(16,24,40,.08)}}.stat-card p{{margin:0 0 12px;color:#475467;font-size:16px;font-weight:650}}.stat-card strong{{display:block;color:#dc2626;font-size:48px;line-height:1;font-weight:650;letter-spacing:-.05em;margin-bottom:22px}}.stat-card strong small{{margin-left:4px;font-size:15px;font-weight:500;letter-spacing:0}}.stat-text{{display:flex;gap:16px;flex-wrap:wrap;color:var(--blue);font-size:12px;font-weight:450}}.dimension-text{{color:var(--blue)}}.cumulative-text{{font-weight:450}}.cumulative-text.added{{color:#dc2626}}.cumulative-text.resolved{{color:#059669}}.priority-chip,.new-badge,.level-tag{{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:650}}.priority-chip.p0{{background:#fef2f2;color:var(--p0)}}.priority-chip.p1{{background:#fffbeb;color:var(--p1)}}.priority-chip.p2{{background:#ecfdf3;color:var(--p2)}}.section-heading,.detail-heading{{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:10px 0 16px}}h2{{font-size:18px;margin:0}}.overview-grid{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}}.business-card{{min-height:170px;background:#fff;border:0;border-radius:8px;padding:22px;text-align:left;cursor:pointer;box-shadow:0 8px 22px rgba(16,24,40,.06);transition:box-shadow .18s,transform .18s}}.business-card:hover{{box-shadow:0 12px 28px rgba(16,24,40,.11);transform:translateY(-2px)}}.business-card>div{{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}}.business-card h3{{margin:0;color:#475467;font-size:16px}}.business-trend{{color:#dc2626;font-size:12px;font-weight:450}}.business-card>span{{display:block;color:var(--muted);font-size:12px}}.business-card strong{{display:block;color:var(--blue);font-size:40px;line-height:1;margin:12px 0 20px}}.business-card strong small{{margin-left:3px;font-size:14px;font-weight:500}}.business-card i{{display:flex;gap:16px;color:#667085;font-size:11px;font-style:normal;font-weight:450}}.business-card i span{{white-space:nowrap}}.detail-heading{{padding-bottom:12px;border-bottom:1px solid var(--line);margin-top:38px}}.detail-tabs{{display:flex;gap:16px;align-self:stretch}}.detail-tab{{border:0;border-bottom:2px solid transparent;background:transparent;color:var(--muted);padding:7px 2px;cursor:pointer;font-weight:600}}.detail-tab.active{{color:var(--ink);border-color:var(--ink)}}.detail-pane{{display:none}}.detail-pane.active{{display:block}}.issue-group{{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:16px}}.issue-group>header{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;background:#fcfcfd;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px}}.issue-group header b{{margin-right:8px;color:var(--ink);font-size:15px}}.level-tag{{background:#f2f4f7;color:#475467}}.query-layout,.metric-row{{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;padding:18px}}.metric-row+.metric-row{{border-top:1px solid var(--line)}}.evidence-link{{display:block;overflow:hidden;border-radius:8px;border:1px solid #d0d5dd;background:#f2f4f7}}.evidence-link img{{display:block;width:100%;height:auto;transition:transform .18s}}.evidence-link:hover img{{transform:scale(1.02)}}.evidence-empty{{display:grid;min-height:150px;place-items:center;border:1px dashed #d0d5dd;border-radius:8px;color:var(--muted);font-size:12px}}.issue-copy{{padding:0 0 14px}}.issue-copy+.issue-copy{{padding-top:14px;border-top:1px solid #eaecf0}}.issue-heading{{display:flex;gap:10px;align-items:center}}.issue-heading h4{{margin:0;flex:1;font-size:14px}}.issue-target{{margin:7px 0 3px;color:#475467;font-size:12px}}.issue-description{{margin:6px 0 10px;color:#344054}}.recommendation{{border-left:3px solid #f59e0b;background:#fffbeb;border-radius:0 6px 6px 0;padding:9px 11px;color:#854d0e;font-size:12px}}.recommendation p{{margin:3px 0 0}}.empty{{padding:36px;background:#fff;border:1px dashed #d0d5dd;border-radius:8px;text-align:center;color:var(--muted)}}@media(max-width:980px){{.overview-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}}}@media(max-width:850px){{.stat-grid{{grid-template-columns:1fr 1fr}}.query-layout,.metric-row{{grid-template-columns:1fr}}}}@media(max-width:580px){{.page{{padding:20px 14px}}.topbar{{padding:0 14px}}.top-links{{gap:14px}}.head-row{{display:block}}.period-select{{margin-bottom:18px}}.stat-grid,.overview-grid{{grid-template-columns:1fr}}.detail-heading{{align-items:flex-start;flex-direction:column}}h1{{font-size:22px}}}}
-</style></head><body>
-<nav class='topbar'><div class='brand'>搜索</div><div class='top-links'><a href='https://km.sankuai.com/collabpage/2771507978' target='_blank' rel='noopener'>白皮书</a><a href='https://km.sankuai.com/collabpage/2770196684' target='_blank' rel='noopener'>体验标准</a><a href='#details' aria-current='page'>体验评测</a></div></nav>
-<main class='page' id='details'><header class='report-head'><div class='head-row'><div><h1>大搜结果页体验评测看板</h1><p class='subtitle'>评测日期：{esc(data.get('generatedAt') or '—')}　|　评测范围：{query_count} 个搜索词、{esc(' / '.join(evaluated) or '未执行维度')}　<a href='https://km.sankuai.com/collabpage/2772784557' target='_blank' rel='noopener'>详情</a></p></div><select class='period-select' aria-label='评测批次'><option>{esc(batch)}</option></select></div></header><nav class='business-tabs' role='tablist'>{''.join(tabs)}</nav><section class='panel active' data-panel='overview'>{render_summary(overview)}<div class='section-heading'><h2>问题明细</h2></div><div class='overview-grid'>{''.join(cards)}</div></section>{''.join(panels)}</main>
-<script>
-const tabs=[...document.querySelectorAll('.business-tab')],panels=[...document.querySelectorAll('.panel')];function activateBusiness(code){{tabs.forEach(tab=>{{const active=tab.dataset.business===code;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active))}});panels.forEach(panel=>panel.classList.toggle('active',panel.dataset.panel===code));if(code!=='overview')document.querySelector('.report-head').scrollIntoView({{behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}})}}tabs.forEach(tab=>tab.addEventListener('click',()=>activateBusiness(tab.dataset.business)));document.querySelectorAll('.business-card').forEach(card=>card.addEventListener('click',()=>activateBusiness(card.dataset.target)));document.querySelectorAll('.detail-tab').forEach(tab=>tab.addEventListener('click',()=>{{const panel=tab.closest('.business-panel'),target=tab.dataset.detailTab;panel.querySelectorAll('.detail-tab').forEach(item=>item.classList.toggle('active',item===tab));panel.querySelectorAll('.detail-pane').forEach(item=>item.classList.toggle('active',item.dataset.detailPane===target))}}));
-</script></body></html>"""
+    scope = " / ".join(sorted({LEVEL_META.get(str(group.get("level") or ""), ("其他维度", ""))[0] for group in groups}))
+    return f"""<!doctype html><html lang='zh-CN'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>大搜结果页体验评测看板</title><style>
+:root{{--bg:#f7f8fa;--ink:#182230;--second:#475467;--muted:#667085;--line:#eaecf0;--blue:#2563eb}}*{{box-sizing:border-box}}html{{scroll-padding-top:56px}}body{{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Helvetica Neue',Arial,sans-serif}}button{{font:inherit}}button:focus-visible,a:focus-visible,select:focus-visible{{outline:3px solid rgba(37,99,235,.45);outline-offset:2px}}.page{{max-width:1180px;margin:0 auto;padding:40px 32px 48px}}.head{{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:20px}}h1{{margin:0;font-size:28px;line-height:36px;font-weight:600}}.sub{{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0;color:var(--muted);font-size:14px}}.sub i{{font-style:normal;color:#d0d5dd}}.sub a{{color:var(--blue);font-weight:500;text-decoration:none}}select{{width:280px;height:44px;border:1px solid #d0d5dd;border-radius:8px;background:#fff;padding:0 12px;color:var(--second)}}.business-tabs{{position:sticky;top:0;z-index:5;display:flex;gap:24px;margin:0 -32px 28px;padding:12px 32px;background:var(--bg);border-bottom:1px solid var(--line)}}.business-tab,.detail-tab{{position:relative;min-height:44px;padding:0 0 12px;border:0;background:none;color:var(--second);font-size:14px;cursor:pointer}}.business-tab.active,.detail-tab.active{{color:var(--blue);font-weight:600}}.business-tab.active:after,.detail-tab.active:after{{position:absolute;right:0;bottom:-1px;left:0;height:2px;background:var(--blue);content:''}}.panel{{display:none}}.panel.active{{display:block}}h2{{margin:0 0 12px;font-size:18px;line-height:28px;font-weight:600}}.summary-card,.business-card,.issue-card{{border:0;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(16,24,40,.06)}}.summary-card{{display:flex;align-items:center;gap:32px;min-height:160px;padding:20px 24px;flex-wrap:wrap}}.summary-numbers{{display:flex;gap:24px;flex:1;min-width:240px}}.summary-numbers div{{display:flex;min-width:72px;flex:1;flex-direction:column;gap:6px}}.summary-numbers b{{font-size:36px;line-height:44px;font-weight:600;color:var(--ink)}}.summary-numbers span{{font-size:13px;line-height:18px;color:var(--muted)}}.summary-divider{{align-self:stretch;width:1px;background:var(--line)}}.donut-block{{display:flex;align-items:center;gap:16px}}.donut-block svg{{width:120px;height:120px}}.legend-list{{display:flex;flex-direction:column;gap:8px}}.legend{{display:flex;align-items:center;gap:8px;color:var(--second);font-size:13px;line-height:18px}}.legend i{{width:10px;height:10px;border-radius:50%}}.legend b{{color:var(--ink)}}.stats-section{{margin-bottom:20px}}.overview-grid{{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}.business-card{{min-height:170px;padding:16px 20px;text-align:left;cursor:pointer}}.business-card>div{{display:flex;justify-content:space-between;gap:8px}}.business-card h3{{margin:0;color:var(--ink);font-size:16px;font-weight:500}}.business-card>div b{{font-size:13px;font-weight:600}}.business-card strong{{display:block;margin-top:10px;font-size:28px;line-height:34px;font-weight:600}}.business-card strong small{{font-size:13px;font-weight:400;color:var(--muted)}}.business-card p{{display:flex;gap:8px;margin:14px 0 0}}.business-card p span{{padding:2px 10px;border:1px solid var(--line);border-radius:4px;background:#f2f4f7;color:var(--second);font-size:12px;line-height:18px}}.detail-heading{{display:flex;justify-content:space-between;align-items:center;margin:24px 0 20px;border-bottom:1px solid var(--line)}}.detail-heading h2{{margin:0;padding-bottom:12px}}.detail-tabs{{display:flex;gap:24px}}.detail-pane{{display:none}}.detail-pane.active{{display:block}}.issue-card{{margin-bottom:16px;padding:20px}}.issue-layout,.metric-row{{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;align-items:start}}.metric-row+.metric-row{{margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}}.evidence-link,.evidence-link img,.evidence-empty{{display:block;width:240px;height:180px;border-radius:8px}}.evidence-link{{overflow:hidden;background:#f2f4f7}}.evidence-link img{{object-fit:cover;object-position:top}}.evidence-empty{{display:flex;align-items:center;justify-content:center;background:#f2f4f7;color:var(--muted);font-size:13px}}.issue-title{{display:flex;align-items:center;gap:8px;flex-wrap:wrap}}.issue-title h3,.group-title{{margin:0;color:var(--ink);font-size:16px;line-height:24px;font-weight:600}}.priority{{padding:2px 8px;border-radius:4px;background:#f2f4f7;color:var(--second);font-size:12px;font-weight:600}}dl{{display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:6px;margin:12px 0 0;font-size:14px;line-height:22px}}dt{{color:var(--muted)}}dd{{margin:0;color:var(--second)}}.issue-copy+.issue-copy{{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}}.group-title{{margin-bottom:12px}}.group-title small{{margin-left:8px;color:var(--muted);font-size:13px;font-weight:400}}.empty{{padding:36px;border-radius:12px;background:#fff;color:var(--muted);text-align:center}}@media(max-width:900px){{.overview-grid{{grid-template-columns:repeat(2,minmax(0,1fr))}}}}@media(max-width:720px){{.page{{padding:24px 16px}}.business-tabs{{margin:0 -16px 28px;padding:12px 16px;overflow:auto}}.summary-divider{{display:none}}.overview-grid{{grid-template-columns:1fr}}.issue-layout,.metric-row{{grid-template-columns:1fr}}select{{width:100%}}.detail-heading{{align-items:flex-start;flex-direction:column}}}}
+</style></head><body><main class='page'><header class='head'><div><h1>大搜结果页体验评测看板</h1><p class='sub'><span>评测日期：{esc(data.get('generatedAt') or '—')}</span><i>/</i><span>评测范围：{int(data.get('queryCount') or 0)} 个搜索词、{esc(scope)}</span><a href='https://km.sankuai.com/collabpage/2772784557' target='_blank' rel='noopener'>详情</a></p></div><select aria-label='评测批次'><option>{esc(batch)}</option></select></header><nav class='business-tabs' role='tablist'>{''.join(tabs)}</nav><section class='panel active' data-panel='overview'>{render_summary(overview)}<section><h2>问题明细</h2><div class='overview-grid'>{''.join(cards)}</div></section></section>{''.join(panels)}</main><script>const tabs=[...document.querySelectorAll('.business-tab')],panels=[...document.querySelectorAll('.panel')];tabs.forEach(tab=>tab.addEventListener('click',()=>{{tabs.forEach(item=>{{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))}});panels.forEach(panel=>panel.classList.toggle('active',panel.dataset.panel===tab.dataset.business))}}));document.querySelectorAll('.business-card').forEach(card=>card.addEventListener('click',()=>document.querySelector(`[data-business="${{card.dataset.target}}"]`).click()));document.querySelectorAll('.detail-tab').forEach(tab=>tab.addEventListener('click',()=>{{const section=tab.closest('.business-panel'),target=tab.dataset.detailTab;section.querySelectorAll('.detail-tab').forEach(item=>item.classList.toggle('active',item===tab));section.querySelectorAll('.detail-pane').forEach(item=>item.classList.toggle('active',item.dataset.detailPane===target))}}));</script></body></html>"""
