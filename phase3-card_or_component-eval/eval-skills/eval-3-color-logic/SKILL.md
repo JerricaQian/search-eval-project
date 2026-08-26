@@ -16,7 +16,7 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 
 - 组件范围、图片、营销/金刚排除区与照片上独立 UI 角标只读 `pageFacts`、`structure`、`render`、`visual`。组件色彩只枚举 `cards[]`：Tab、图筛、业务图筛和筛选器是页面导航/查询收敛模块，必须排除，不能被提升为组件候选。
 - 每个候选区域先确认是否属于有效 UI：照片、白色底图、金刚 icon 和纯营销素材应排除；叠在照片上的价格、标签或操作角标仍属于 UI，不能随照片一起排掉。
-- 必须运行 `<projectDir>/scripts/extract_component_metrics.py` 或同等项目入口；脚本异常即阻断，LLM 不得目视填写像素数、色系或评级。
+- 必须运行 `<projectDir>/phase3-evaluation-officer/scripts/extract_component_metrics.py` 或同等项目入口；脚本异常即阻断，LLM 不得目视填写像素数、色系或评级。
 - 每个组件（包括优秀）保留 `assessmentRows`：`validUiPixelCount`、`excludedPhotoPixelCount`、`colorFamilies`、`colorFamilyCount`、`debugImage`、`measurement.tool/artifactPath/parameters` 和评级。
 
 ## 判定标准

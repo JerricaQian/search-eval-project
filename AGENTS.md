@@ -18,7 +18,7 @@ governance, or agent capabilities:
    has different bytes, append an incrementing copy suffix instead of
    overwriting or blocking. A suffixed filename is a distinct screenshot and
    must not be merged with the unsuffixed file during discovery.
-4. Use `scripts/discover_screenshot_groups.py` on `screenshots/`, return the
+4. Use `phase1-screenshot/scripts/discover_screenshot_groups.py` on `screenshots/`, return the
    discovered groups and invalid/unparseable inputs, then obtain the minimum
    evaluation configuration required by the selected mode.
 5. Only after the preceding steps may the Evaluation Agent run Phase2 → Phase5.

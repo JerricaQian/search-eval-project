@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SCRIPT = PROJECT_DIR / "scripts" / "extract_phase3_relation_candidates.py"
+SCRIPT = PROJECT_DIR / "phase3-evaluation-officer" / "scripts" / "extract_phase3_relation_candidates.py"
 
 
 def load_module():

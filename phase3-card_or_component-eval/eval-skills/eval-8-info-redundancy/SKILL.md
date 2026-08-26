@@ -14,7 +14,7 @@ metadata: { author: qianjing16, version: "2.1", domain: 美团搜索结果页信
 
 ## Phase2 与候选门槛
 
-- 原文、语义角色、区域、卡片归属和坐标只读 Phase2。必须运行 `scripts/extract_phase3_relation_candidates.py`；候选仅是入口，语义终判仍由 Phase3 完成。
+- 原文、语义角色、区域、卡片归属和坐标只读 Phase2。必须运行 `phase3-evaluation-officer/scripts/extract_phase3_relation_candidates.py`；候选仅是入口，语义终判仍由 Phase3 完成。
 - `candidatePairs=[]` 不能证明优秀。优秀前必须保留 `scanCoverage.status=completed`、`textAtomCount`、`scannedElementIds`、`scannedRegions`，以及标题/副标题与基础信息、标签/价格/权益、标题内部的四类 `crossChecks`；这些字段证明已扫全，不替代逐对语义判断。`selfRepeatCandidates` 也必须逐条给出终判，不能只保存候选后仍输出优秀。
 - 先把同一视觉实体的重复 Phase2 标注合并为一个扫描对象，再建立实体之间的候选。不能让 Atomic 清单的两次标注变成一次“冗余问题”。
 - 每个 Tab（包括优秀）先生成逐区域 `assessmentRows`：已扫描原子、候选、排除原因、逐对语义结论、`measurement`、`duplicateCount` 和评级；扫描产物不得回写 Atomic 黄金 JSON，不能用历史结论或固定元素替代重评。

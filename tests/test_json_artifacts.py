@@ -14,7 +14,7 @@ from PIL import Image
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-VALIDATOR_PATH = PROJECT_DIR / "scripts" / "validate_element_manifest.py"
+VALIDATOR_PATH = PROJECT_DIR / "phase2-card-annotation" / "scripts" / "validate_element_manifest.py"
 TAXONOMY_PATH = PROJECT_DIR / "phase2-card-annotation" / "references" / "search_card_taxonomy.v1.json"
 RECOGNITION_CONTRACTS_PATH = PROJECT_DIR / "phase2-card-annotation" / "references" / "card_recognition_contracts.v1.json"
 GEOMETRY_PROFILES_PATH = PROJECT_DIR / "phase2-card-annotation" / "references" / "learned_card_geometry_profiles.v1.json"

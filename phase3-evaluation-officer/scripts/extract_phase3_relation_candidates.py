@@ -11,8 +11,13 @@ import argparse
 import itertools
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
+
+SHARED_SCRIPTS_DIR = Path(__file__).resolve().parents[2] / "scripts"
+if str(SHARED_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPTS_DIR))
 
 from phase2_bundle_loader import load_phase2_facts
 

@@ -61,7 +61,7 @@ for required_path in \
   "$PROJECT_DIR/phase5-report/SKILL.md" \
   "$PROJECT_DIR/requirements.txt" \
   "$PROJECT_DIR/requirements-ocr.txt" \
-  "$PROJECT_DIR/scripts/setup_phase2_ocr.py"; do
+  "$PROJECT_DIR/phase2-card-annotation/scripts/setup_phase2_ocr.py"; do
   if [ -r "$required_path" ]; then
     ok "可读取: ${required_path#$PROJECT_DIR/}"
   else
@@ -98,10 +98,10 @@ if [ "$WITH_OCR" = true ] && command -v python3 >/dev/null 2>&1; then
   if [ ! -x "$OCR_PYTHON" ]; then
     OCR_PYTHON="$(command -v python3)"
   fi
-  if "$OCR_PYTHON" "$PROJECT_DIR/scripts/setup_phase2_ocr.py" --check; then
+  if "$OCR_PYTHON" "$PROJECT_DIR/phase2-card-annotation/scripts/setup_phase2_ocr.py" --check; then
     ok "Phase2 PaddleOCR 运行时与本地模型已就绪"
   else
-    err "Phase2 PaddleOCR 未就绪（检查解释器: ${OCR_PYTHON}）。请用该解释器执行 scripts/setup_phase2_ocr.py --all"
+    err "Phase2 PaddleOCR 未就绪（检查解释器: ${OCR_PYTHON}）。请用该解释器执行 phase2-card-annotation/scripts/setup_phase2_ocr.py --all"
     FAILED=1
   fi
 fi

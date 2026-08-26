@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 MODEL_ROOT = ROOT / "phase2-card-annotation" / "models" / "paddleocr"
 CACHE_ROOT = ROOT / ".artifacts" / "paddlex-cache"
 PADDLE_CPU_INDEX = "https://www.paddlepaddle.org.cn/packages/stable/cpu/"

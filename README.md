@@ -168,7 +168,6 @@ search-eval-project/
 ├── setup.sh                        # 跨机器环境检查（可选 --with-device 检查真机）
 ├── requirements.txt                # Python 图像/YAML 依赖
 ├── requirements-ocr.txt            # 可选 PaddlePaddle/PaddleOCR 运行时范围
-├── scripts/setup_phase2_ocr.py      # 官方模型下载、哈希校验和本地推理健康检查
 ├── .gitignore                      # 代码与运行产物隔离规则
 ├── ADBKeyboard.apk                 # 中文输入法（现场截图时使用）
 ├── .claude/
@@ -176,12 +175,16 @@ search-eval-project/
 │   ├── agents/evaluation-agent.md   # 对外评测入口，内部执行 Phase2～5
 │   ├── agents/phase2345-query-pipeline.md # Evaluation Agent 的既有内部流水线
 │   ├── contracts/                   # Workflow 与 Agent 的输入/输出契约
+│   ├── hooks/validate_skill_frontmatter.py # Skill frontmatter 编辑后校验
 │   └── skills/run-eval.md           # 1.0 三模式调用说明
 ├── phase1-screenshot/               # phase1 共享截图能力
 │   ├── SKILL.md                    # 截图流程+坐标+陷阱表
-│   └── scripts/{run_scroll.sh, loop_screenshot.sh}
+│   └── scripts/                    # 截图、外部图片接入、命名解析与分组发现
 ├── phase2-card-annotation/         # phase2 本地 CV/OCR、卡型契约、整页门控与一图一 JSON
 │   ├── SKILL.md / scripts/ / references/ / scenes/
+├── phase3-evaluation-officer/       # Phase3 范围解析与跨评测项确定性测量
+│   ├── SKILL.md
+│   └── scripts/                    # 颜色、裁剪、组件、可比性、关系候选等脚本
 ├── phase3-card_or_component-eval/         # 维度1：卡片/组件（8 项 eval skill）
 │   └── eval-skills/eval-1~8/SKILL.md
 ├── phase3-single_element-eval/            # 维度2：单元素（4 项 eval skill）
@@ -189,14 +192,19 @@ search-eval-project/
 ├── phase3-page_framework-eval/            # 维度3：页面框架（7 项 eval skill）
 │   └── eval-skills/eval-1~7/SKILL.md
 ├── phase4-issue-evidence/                 # Phase4：为问题生成整页红框证据图
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── scripts/                            # Phase4 证据生成脚本
 ├── phase5-report/                         # Phase5：本地报告、治理数据集与线上看板出口
 │   ├── SKILL.md                            # 本地 HTML / GOVERNANCE_DASHBOARD_V2（按问题、Adaptive SaaS）
 │   ├── dashboard_renderer.py               # 唯一 HTML 渲染器
 │   ├── scripts/                            # Phase5 生成、归一化与 NoCode 导入脚本
 │   └── nocode-dashboard/SKILL.md           # NoCode 导入、证据图发布与部署
 ├── scripts/
-│   └── discover_screenshot_groups.py       # 跨阶段公共脚本（示例：只读发现截图）
+│   ├── phase2_bundle_loader.py              # Phase2→Phase3 共享事实加载器
+│   ├── skill_frontmatter.py                 # Workflow/Hook 共用的 Skill 元数据解析
+│   ├── validate_eval_results.py             # Phase3/Phase5 共用结果校验
+│   └── forbidden_copy_terms.json            # 共享禁用文案词表
+├── tools/maintenance/                       # 非生产流程的存量数据修复/重建工具
 ├── workflow/
 │   └── meituan_eval_workflow.js    # 1.0 模式路由与 Agent 编排
 ├── screenshots/                    # phase1 截图输出 / phase2 输入
@@ -308,7 +316,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 
 | 阶段 | 必经校验 | 未通过时的处理 |
 |---|---|---|
-| Phase2 | `scripts/validate_element_manifest.py` | 修正统一清单及识别审计后重新验收；禁止把事实补丁写入下游结果。 |
+| Phase2 | `phase2-card-annotation/scripts/validate_element_manifest.py` | 修正统一清单及识别审计后重新验收；禁止把事实补丁写入下游结果。 |
 | Phase3 | `scripts/validate_eval_results.py` | 修正评测证据、计数或回退 Phase2 复核；不得直接进入 Phase4/5。 |
 | Phase4 | `scripts/validate_eval_results.py --require-evidence` | 补齐由合法 Phase2 坐标解析出的证据，或回退上游事实源；禁止伪造红框。 |
 | Phase5 | 消费最终 `evalAudit.valid=true` 且 `phase2ReviewRequired=false` 的结果 | 只渲染验收产物，不重算分数、评级、计数或问题。 |

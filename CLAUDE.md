@@ -92,7 +92,7 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 
 两种模式共用同一套**子代理分派结构**，不是各自随意拆分：
 
-- **Screenshot Agent 独立**：`capture_only` 时执行现场 ADB 截图；`evaluate_only` 时只读运行 `scripts/discover_screenshot_groups.py` 发现、聚合和校验已有截图；不与其它 phase 混入同一上下文。
+- **Screenshot Agent 独立**：`capture_only` 时执行现场 ADB 截图；`evaluate_only` 时只读运行 `phase1-screenshot/scripts/discover_screenshot_groups.py` 发现、聚合和校验已有截图；不与其它 phase 混入同一上下文。
 - **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 的候选生成和校验仍只运行本地脚本，并为每张截图分别生成清单；当前图片校准可读取当前截图，但只能回写经审计的 Phase2 事实。
 - **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 生成唯一 `MEITUAN_EVAL_TASK_V2` 任务文件。对 phase2+3+4+5 发起这**唯一一次** Agent 调用时，只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase2345-query-pipeline.md`，不得凭记忆转述或把整段契约复制进新的 prompt。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。
 - **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：`--require-hierarchy-facts` 等 4 项前置事实校验命令，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
@@ -138,16 +138,16 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 ### 已落地
 - **Rules**：`.claude/rules/skill-frontmatter.md`（SKILL.md frontmatter 契约）、`.claude/rules/project-conventions.md`（命名+路径+评级规范）。
 - **Subagents**：`.claude/agents/screenshot-agent.md`（截图/外部图片复制/已有截图发现）与 `.claude/agents/evaluation-agent.md`（对外评测入口）；后者复用 `.claude/agents/phase2345-query-pipeline.md`（单词单实例、Phase2～5 顺序完成）。Phase2 的候选提取只运行本地 CV/OCR；其受审计的当前像素校准可由多模态模型核对整图或有界裁图，但只能确认可见边界、类型、归属和原文，不能补写 OCR、注入黄金字段或做任何评测判断。
-- **Hooks**：`.claude/settings.json` + `scripts/validate_skill_frontmatter.py`（编辑 SKILL.md 后自动校验四键，非阻断）。
+- **Hooks**：`.claude/settings.json` + `.claude/hooks/validate_skill_frontmatter.py`（编辑 SKILL.md 后自动校验四键，非阻断）。
 - **Output Style**：`.claude/output-styles/eval-strict.md`。
 - **运行入口**：`.claude/skills/run-eval.md`，以保守默认参数调用工作流。
 
 ### 已落地的运行前入口
 - `workflow/eval_cli.py`：在没有 Workflow DSL 宿主的环境中完成外部截图直接复制、发现、唯一 run 任务生成与最终产物验收；它不伪装为可执行 LLM 评测器。接入方式见 `workflow/HOST_ADAPTER.md`。
-- `scripts/ingest_external_screenshots.py`：外部截图直接复制工具；保留原文件名，冲突不覆盖。
+- `phase1-screenshot/scripts/ingest_external_screenshots.py`：外部截图直接复制工具；保留原文件名，冲突不覆盖。
 
 ### 职责边界（不可由 LLM 替代）
-- `scripts/validate_element_manifest.py` 是 Phase2 清单的确定性验收入口；Phase2 agent 只负责识别和产出清单，校验失败必须阻断 Phase3。
+- `phase2-card-annotation/scripts/validate_element_manifest.py` 是 Phase2 清单的确定性验收入口；Phase2 agent 只负责识别和产出清单，校验失败必须阻断 Phase3。
 - `scripts/validate_eval_results.py` 是 Phase3 结果及 Phase4 证据的确定性验收入口；Phase3/Phase4 agent 不得以主观判断豁免缺失字段、计数冲突或证据缺失。
 - 批次并发上限、单词隔离、同批屏障和失败重试由 Workflow/宿主编排强制保证；不得新增或依赖“批量调度 agent”自行协调。
 
@@ -166,7 +166,7 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 - `weight` 键只能是 `优秀/达标/不达标`；两档制写 `{ "优秀": n, "不达标": n }`（省 `达标`），三档制三键齐全。**不得**用高线/中线/低线等别名。
 - `aggregate` 必须写清：原始颗粒度如何评级 + 如何聚合到 Tab 级（取最差/求和/阈值）。
 - `name` 用 kebab-case 且与目录名一致。
-- 编辑 SKILL.md 后，`scripts/validate_skill_frontmatter.py` 钩子会自动校验四键。
+- 编辑 SKILL.md 后，`.claude/hooks/validate_skill_frontmatter.py` 钩子会自动校验四键。
 
 ## 评级分档
 

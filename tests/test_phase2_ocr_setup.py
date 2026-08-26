@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SETUP_SCRIPT = PROJECT_DIR / "scripts/setup_phase2_ocr.py"
+SETUP_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/setup_phase2_ocr.py"
 
 
 def load_setup_module():

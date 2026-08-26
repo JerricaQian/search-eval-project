@@ -16,6 +16,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+PHASE4_SCRIPTS_DIR = Path(__file__).resolve().parents[2] / "phase4-issue-evidence" / "scripts"
+if str(PHASE4_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(PHASE4_SCRIPTS_DIR))
+
 from generate_issue_evidence import main as generate_evidence
 
 

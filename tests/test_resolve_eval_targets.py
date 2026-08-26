@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-RESOLVER = PROJECT_DIR / "scripts" / "resolve_eval_targets.py"
+RESOLVER = PROJECT_DIR / "phase3-evaluation-officer" / "scripts" / "resolve_eval_targets.py"
 
 
 def run_selection(selection: dict) -> subprocess.CompletedProcess[str]:

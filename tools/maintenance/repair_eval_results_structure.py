@@ -30,8 +30,8 @@ Three defect classes are handled:
    refreshed from the current elements_*.audit.json ``total``.
 
 Usage:
-  python3 scripts/repair_eval_results_structure.py            # apply
-  python3 scripts/repair_eval_results_structure.py --dry-run  # preview only
+  python3 tools/maintenance/repair_eval_results_structure.py            # apply
+  python3 tools/maintenance/repair_eval_results_structure.py --dry-run  # preview only
 """
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = PROJECT_ROOT / "reports"
 MANIFEST_DIR = PROJECT_ROOT / "screenshots-out"
 

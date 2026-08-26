@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -12,10 +13,12 @@ from compile_golden_phase3_manifest import canonical_json_sha256, compile_phase3
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "phase2-card-annotation" / "golden-sample-results"
-VALIDATOR = ROOT / "scripts" / "validate_element_manifest.py"
-SCRIPTS = ROOT / "scripts"
-if str(SCRIPTS) not in __import__("sys").path:
-    __import__("sys").path.insert(0, str(SCRIPTS))
+VALIDATOR = ROOT / "phase2-card-annotation" / "scripts" / "validate_element_manifest.py"
+SHARED_SCRIPTS = ROOT / "scripts"
+PHASE3_SCRIPTS = ROOT / "phase3-evaluation-officer" / "scripts"
+for scripts_dir in (SHARED_SCRIPTS, PHASE3_SCRIPTS):
+    if str(scripts_dir) not in sys.path:
+        sys.path.insert(0, str(scripts_dir))
 from phase2_bundle_loader import load_phase2_facts
 from extract_phase3_comparability import derive_comparability
 from extract_phase3_relation_candidates import derive_relation_candidates

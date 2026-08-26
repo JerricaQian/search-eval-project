@@ -196,7 +196,7 @@ def main() -> int:
             [sys.executable, str(SCRIPT_DIR / "map_search_page_semantics.py"), str(facts), str(structure), "--output", str(semantics)],
             [sys.executable, str(SCRIPT_DIR / "validate_phase2_recognition.py"), "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(cards), "--text-semantics", str(semantics), "--output", str(gate)],
             [sys.executable, str(SCRIPT_DIR / "build_phase2_manifest.py"), "--query", query, "--facts", str(facts), "--result-candidates", str(candidates), "--card-semantics", str(cards), "--text-semantics", str(semantics), "--recognition-gate", str(gate), "--output", str(manifest)],
-            [sys.executable, str(ROOT / "scripts" / "validate_element_manifest.py"), str(manifest), "--audit", str(manifest_audit)],
+            [sys.executable, str(ROOT / "phase2-card-annotation" / "scripts" / "validate_element_manifest.py"), str(manifest), "--audit", str(manifest_audit)],
         ]
         reusable = all(path.is_file() for path in (facts, structure, candidates))
         commands = semantic_commands if args.reuse_cv_artifacts and reusable else [[

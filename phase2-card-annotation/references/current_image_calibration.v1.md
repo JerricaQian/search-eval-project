@@ -77,7 +77,7 @@
 最后运行：
 
 ```bash
-<pythonBin> scripts/validate_element_manifest.py <elements.json> \
+<pythonBin> phase2-card-annotation/scripts/validate_element_manifest.py <elements.json> \
   --audit <elements.audit.json> \
   --recognition-audit <elements.recognition-audit.json> \
   --require-current-image-calibration

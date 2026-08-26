@@ -31,7 +31,7 @@ tools: Read, Bash, Grep, Glob
 8. **运行固定生成与验收命令**：
 
 ```bash
-python3 <projectDir>/scripts/generate_issue_evidence.py \
+python3 <projectDir>/phase4-issue-evidence/scripts/generate_issue_evidence.py \
   --results <results> \
   --manifest <manifest> \
   --output-dir <outputDir>

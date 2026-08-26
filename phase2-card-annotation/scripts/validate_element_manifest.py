@@ -9,17 +9,19 @@ import sys
 from pathlib import Path
 from typing import Any
 
-# Contract tests load this file with an import spec, which does not add its
-# directory to ``sys.path``.  Keep sibling imports reliable outside CLI use.
+# Contract tests load this file with an import spec, which does not add the
+# repository's shared scripts directory to ``sys.path``.
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_DIR = Path(__file__).resolve().parent
-if str(SCRIPT_DIR) not in sys.path:
-    sys.path.insert(0, str(SCRIPT_DIR))
+SHARED_SCRIPTS_DIR = PROJECT_ROOT / "scripts"
+if str(SHARED_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPTS_DIR))
 
 from phase2_bundle_loader import load_phase2_facts
 
 
 def load_card_type_registry() -> dict[str, str]:
-    path = SCRIPT_DIR.parent / "card-type-registry.v1.json"
+    path = PROJECT_ROOT / "card-type-registry.v1.json"
     payload = json.loads(path.read_text(encoding="utf-8"))
     return {str(item["id"]): str(item["displayName"]) for item in payload["resultCardTypes"]}
 

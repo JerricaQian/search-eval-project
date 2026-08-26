@@ -44,7 +44,7 @@ tools: Read, Bash, Grep, Glob
   --recognition-audit "${recognitionAudit}" \
   --visual-review "${visualReview}" \
   --require-bounded-paddleocr
-"${pythonBin}" "${projectDir}/scripts/validate_element_manifest.py" \
+"${pythonBin}" "${projectDir}/phase2-card-annotation/scripts/validate_element_manifest.py" \
   "${manifest}" --audit "${audit}" \
   --recognition-audit "${recognitionAudit}" \
   --require-current-image-calibration

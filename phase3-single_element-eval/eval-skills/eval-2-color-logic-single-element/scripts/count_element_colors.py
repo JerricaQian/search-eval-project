@@ -30,8 +30,9 @@ import numpy as np
 from PIL import Image
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
-if str(PROJECT_ROOT / "scripts") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+PHASE3_SCRIPTS = PROJECT_ROOT / "phase3-evaluation-officer" / "scripts"
+if str(PHASE3_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PHASE3_SCRIPTS))
 from color_taxonomy import HUE7_BINS, HUE7_ZH
 
 

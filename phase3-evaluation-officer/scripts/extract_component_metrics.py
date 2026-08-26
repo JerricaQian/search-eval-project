@@ -20,12 +20,19 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
 import cv2
 import numpy as np
+
+PHASE3_SCRIPTS_DIR = Path(__file__).resolve().parent
+SHARED_SCRIPTS_DIR = Path(__file__).resolve().parents[2] / "scripts"
+for module_dir in (PHASE3_SCRIPTS_DIR, SHARED_SCRIPTS_DIR):
+    if str(module_dir) not in sys.path:
+        sys.path.insert(0, str(module_dir))
 
 from phase2_bundle_loader import load_phase2_facts
 from color_taxonomy import HUE7_BINS, hue7_family

@@ -149,12 +149,14 @@ class AtomicManifestV3Test(unittest.TestCase):
         self.assertTrue(all(not (forbidden & set(element)) for element in payload["elementsById"].values()))
 
     def test_phase3_loader_expands_atomic_v3_without_prepublishing_eval_groups(self) -> None:
-        scripts_dir = PROJECT_DIR / "scripts"
-        if str(scripts_dir) not in sys.path:
-            sys.path.insert(0, str(scripts_dir))
-        loader_spec = importlib.util.spec_from_file_location("phase2_atomic_loader_test", scripts_dir / "phase2_bundle_loader.py")
-        compare_spec = importlib.util.spec_from_file_location("phase3_atomic_compare_test", scripts_dir / "extract_phase3_comparability.py")
-        relation_spec = importlib.util.spec_from_file_location("phase3_atomic_relations_test", scripts_dir / "extract_phase3_relation_candidates.py")
+        shared_scripts_dir = PROJECT_DIR / "scripts"
+        phase3_scripts_dir = PROJECT_DIR / "phase3-evaluation-officer" / "scripts"
+        for scripts_dir in (shared_scripts_dir, phase3_scripts_dir):
+            if str(scripts_dir) not in sys.path:
+                sys.path.insert(0, str(scripts_dir))
+        loader_spec = importlib.util.spec_from_file_location("phase2_atomic_loader_test", shared_scripts_dir / "phase2_bundle_loader.py")
+        compare_spec = importlib.util.spec_from_file_location("phase3_atomic_compare_test", phase3_scripts_dir / "extract_phase3_comparability.py")
+        relation_spec = importlib.util.spec_from_file_location("phase3_atomic_relations_test", phase3_scripts_dir / "extract_phase3_relation_candidates.py")
         assert loader_spec and loader_spec.loader and compare_spec and compare_spec.loader and relation_spec and relation_spec.loader
         loader = importlib.util.module_from_spec(loader_spec)
         loader_spec.loader.exec_module(loader)

@@ -77,7 +77,7 @@ if (mode === 'evaluate_only' && externalScreenshotDir) {
 
 执行：
 \`\`\`bash
-"${pythonBin}" "${projectDir}/scripts/ingest_external_screenshots.py" \\
+"${pythonBin}" "${projectDir}/phase1-screenshot/scripts/ingest_external_screenshots.py" \\
   --source-dir "${externalScreenshotDir}" \\
   --screenshot-dir "${screenshotDir}"
 \`\`\`
@@ -101,7 +101,7 @@ if (mode === 'evaluate_only' && (A.discoveryOnly === true || selectedScreenshots
   phase('发现已有截图')
   const discoveryPrompt = `你是 screenshot-agent。只读扫描已有截图，不连接设备、不修改任何文件。用 Bash 执行：
 \`\`\`bash
-"${pythonBin}" "${projectDir}/scripts/discover_screenshot_groups.py" --screenshot-dir "${screenshotDir}"
+"${pythonBin}" "${projectDir}/phase1-screenshot/scripts/discover_screenshot_groups.py" --screenshot-dir "${screenshotDir}"
 \`\`\`
 将 stdout JSON 原样映射到 schema 返回。`
   const discoveryResult = await agent(discoveryPrompt, withRequestedModel({
@@ -564,7 +564,7 @@ const selectionJson = JSON.stringify(evaluationSelection)
 const resolutionPrompt = `你是 Phase3 评测官的确定性范围解析执行器。禁止读取截图、禁止评分、禁止修改文件。只用 Bash 原样执行下列命令，并将 stdout JSON 原样映射到 schema：
 
 \`\`\`bash
-"${pythonBin}" "${projectDir}/scripts/resolve_eval_targets.py" --project-dir "${projectDir}" --selection-json '${selectionJson}'
+"${pythonBin}" "${projectDir}/phase3-evaluation-officer/scripts/resolve_eval_targets.py" --project-dir "${projectDir}" --selection-json '${selectionJson}'
 \`\`\`
 
 若命令失败，返回 error；不要自行扫描或补全未选 Skill。`

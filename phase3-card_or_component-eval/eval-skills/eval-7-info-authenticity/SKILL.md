@@ -15,7 +15,7 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 ## Phase2 与候选门槛
 
 - 标题、副标题、图片、标签、下挂、尺码/规格、搜索词及其可见事实来自 Phase2；组件全域都要扫描。
-- 必须运行 `scripts/extract_phase3_relation_candidates.py`，为标题—图片/副标题/标签/下挂/尺码建立候选；同时逐一处理 `internalCandidates` 中的价格语义和规格范围候选。候选枚举和冲突终判属于 Phase3，不使用 Phase2 的真实性结论；脚本候选不是冲突结论。
+- 必须运行 `phase3-evaluation-officer/scripts/extract_phase3_relation_candidates.py`，为标题—图片/副标题/标签/下挂/尺码建立候选；同时逐一处理 `internalCandidates` 中的价格语义和规格范围候选。候选枚举和冲突终判属于 Phase3，不使用 Phase2 的真实性结论；脚本候选不是冲突结论。
 - 只用同卡可见信息判定。任何需要外部商品知识、商家真实库存或截图外事实才能证明的说法，记录为无法在本 Skill 终判，不能作为冲突。
 - 每个完整可评组件（包括优秀）输出 `assessmentRows`：候选对、真实 ID、逐对核查、不适用原因、冲突数、`measurement` 和评级。
 

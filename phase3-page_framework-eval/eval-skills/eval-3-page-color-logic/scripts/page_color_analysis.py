@@ -49,8 +49,9 @@ import os
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
-if str(PROJECT_ROOT / "scripts") not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+PHASE3_SCRIPTS = PROJECT_ROOT / "phase3-evaluation-officer" / "scripts"
+if str(PHASE3_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PHASE3_SCRIPTS))
 from color_taxonomy import hue7_ranges
 from phase3_color_scope import merged_exclude_regions
 

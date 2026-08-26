@@ -11,7 +11,7 @@ from PIL import Image
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-CROP_SCRIPT = PROJECT_DIR / "scripts" / "crop_image.py"
+CROP_SCRIPT = PROJECT_DIR / "phase3-evaluation-officer" / "scripts" / "crop_image.py"
 
 
 class CropImageTest(unittest.TestCase):

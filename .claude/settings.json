@@ -8,7 +8,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/validate_skill_frontmatter.py\""
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate_skill_frontmatter.py\""
           }
         ]
       }

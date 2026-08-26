@@ -9,8 +9,8 @@ tools: Read, Bash, Grep, Glob
 ## 责任边界
 
 - `capture`：读取 `phase1-screenshot/SKILL.md` 后运行现有 ADB 截图脚本。
-- `copy`：仅运行 `scripts/ingest_external_screenshots.py`，把项目外截图按原文件名复制到项目输入目录。
-- `discover`：仅运行 `scripts/discover_screenshot_groups.py`，列出可复用的截图组。
+- `copy`：仅运行 `phase1-screenshot/scripts/ingest_external_screenshots.py`，把项目外截图按原文件名复制到项目输入目录。
+- `discover`：仅运行 `phase1-screenshot/scripts/discover_screenshot_groups.py`，列出可复用的截图组。
 - 不运行 Phase2～5，不读取或改写 manifest、评测结果、证据图或报告。
 - 不删除、移动、覆盖或重命名截图；0 字节和无效图片只记录。
 
@@ -25,7 +25,7 @@ tools: Read, Bash, Grep, Glob
 执行：
 
 ```bash
-python3 <projectDir>/scripts/discover_screenshot_groups.py \
+python3 <projectDir>/phase1-screenshot/scripts/discover_screenshot_groups.py \
   --screenshot-dir <screenshotDir>
 ```
 
@@ -36,7 +36,7 @@ python3 <projectDir>/scripts/discover_screenshot_groups.py \
 项目外截图不得直接作为 Evaluation Agent 输入。必须执行：
 
 ```bash
-python3 <projectDir>/scripts/ingest_external_screenshots.py \
+python3 <projectDir>/phase1-screenshot/scripts/ingest_external_screenshots.py \
   --source-dir <externalScreenshotDir> \
   --screenshot-dir <projectDir>/screenshots
 ```

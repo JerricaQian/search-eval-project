@@ -9,7 +9,7 @@ from PIL import Image
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SCRIPT = PROJECT_DIR / "scripts" / "discover_screenshot_groups.py"
+SCRIPT = PROJECT_DIR / "phase1-screenshot" / "scripts" / "discover_screenshot_groups.py"
 
 
 def load_module():

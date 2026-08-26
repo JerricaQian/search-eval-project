@@ -205,7 +205,7 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
         if visual_review:
             audit_args.extend(["--visual-review", str(visual_review)])
         invoke(audit_args)
-    validation_args = [sys.executable, str(ROOT / "scripts" / "validate_element_manifest.py"), str(output), "--audit", str(output.with_suffix(".audit.json"))]
+    validation_args = [sys.executable, str(ROOT / "phase2-card-annotation" / "scripts" / "validate_element_manifest.py"), str(output), "--audit", str(output.with_suffix(".audit.json"))]
     if audit:
         # A syntactically valid manifest is not enough for publication.  The
         # supplied audit is the only place that can prove every non-excluded

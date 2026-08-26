@@ -48,7 +48,7 @@ description: 对 Phase3 已判定为问题的单一元素或组件/卡片生成�
 ## 执行命令
 
 ```bash
-python3 scripts/generate_issue_evidence.py \
+python3 phase4-issue-evidence/scripts/generate_issue_evidence.py \
   --results <评测结果绝对路径> \
   --manifest <项目根>/screenshots-out/elements_<截图文件名>.json \
   --output-dir <项目根>/screenshots-out/evidence/<query>

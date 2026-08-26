@@ -24,8 +24,8 @@ RUN_ID_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 STAGES = ("stageA", "stageB", "stageC", "stageD")
 
 
-def load_module(filename: str, module_name: str) -> Any:
-    path = PROJECT_DIR / "scripts" / filename
+def load_module(relative_path: str, module_name: str) -> Any:
+    path = PROJECT_DIR / relative_path
     spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot_load:{path}")
@@ -35,8 +35,8 @@ def load_module(filename: str, module_name: str) -> Any:
     return module
 
 
-DISCOVERY = load_module("discover_screenshot_groups.py", "search_eval_discovery")
-COPY = load_module("ingest_external_screenshots.py", "search_eval_copy")
+DISCOVERY = load_module("phase1-screenshot/scripts/discover_screenshot_groups.py", "search_eval_discovery")
+COPY = load_module("phase1-screenshot/scripts/ingest_external_screenshots.py", "search_eval_copy")
 
 
 def emit(payload: dict[str, Any], exit_code: int = 0) -> int:

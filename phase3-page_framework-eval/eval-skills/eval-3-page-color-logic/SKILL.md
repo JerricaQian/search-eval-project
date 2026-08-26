@@ -18,7 +18,7 @@ metadata:
 
 ## Phase2 事实与测量门槛
 
-- 商家/商品图片、营销素材（营销图片、Banner、腰封）、金刚 icon、分类配图及其坐标只读 `render.isPhoto`、`pageFacts.modules`、`visual`；标签不属于营销素材排除项。Tab、图筛、业务图筛以及文筛/排序/优惠等筛选器同样必须按已确认模块坐标排除；调用脚本时传入 `manifest`，由共享 `phase3_color_scope.py` 自动合并这些排除框。直播或等价的大面积活动内容卡必须按 Phase2 已确认 `bounds=[x,y,w,h]` 换算 `[y,y+h,x,x+w]` 后排除。
+- 商家/商品图片、营销素材（营销图片、Banner、腰封）、金刚 icon、分类配图及其坐标只读 `render.isPhoto`、`pageFacts.modules`、`visual`；标签不属于营销素材排除项。Tab、图筛、业务图筛以及文筛/排序/优惠等筛选器同样必须按已确认模块坐标排除；调用脚本时传入 `manifest`，由 `phase3-evaluation-officer/scripts/phase3_color_scope.py` 自动合并这些排除框。直播或等价的大面积活动内容卡必须按 Phase2 已确认 `bounds=[x,y,w,h]` 换算 `[y,y+h,x,x+w]` 后排除。
 - 必须先运行 `scripts/phase2_live_card_exclusions.py`（有直播卡时），用 `scripts/grid_overlay.py` 核查，再运行 `scripts/page_color_analysis.py`。脚本和调试图不通过核查时修正标定重跑，不能目测覆盖脚本结论。
 - 每条记录保留 `exclude_regions`、来源模块 ID、总颜色/主导色/色系占比、调用参数、`debugImage` 和 `measurement.tool/artifactPath/parameters`。
 

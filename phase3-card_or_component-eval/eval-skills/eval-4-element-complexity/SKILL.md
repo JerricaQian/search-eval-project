@@ -16,7 +16,7 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页静
 
 - Phase2 只提供原子、分区、坐标、`entityKind` 与确认状态。疑似新 blob 必须回 Phase2，不能直接计数。
 - 每个候选对象先判它是标签、独立 icon 还是普通文字/图片。共用标签容器内的图形辅助和文字是一枚标签；脱离标签容器的功能 icon 才单独计 icon。
-- 必须运行 `<projectDir>/scripts/extract_component_metrics.py`，以实体类别、颜色角色、语义角色、容器形态、图形辅助五段式 `styleKey` 去重；LLM 不得改写计数或阈值。
+- 必须运行 `<projectDir>/phase3-evaluation-officer/scripts/extract_component_metrics.py`，以实体类别、颜色角色、语义角色、容器形态、图形辅助五段式 `styleKey` 去重；LLM 不得改写计数或阈值。
 - 每个组件（包括优秀）输出扫描分区、纳入/排除对象、`styleKey`、标签/图标计数和 `measurement.tool/artifactPath/parameters`。
 
 ## 判定标准

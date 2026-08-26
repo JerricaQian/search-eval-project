@@ -50,7 +50,7 @@
 ```
 
 ```bash
-<pythonBin> scripts/validate_element_manifest.py \
+<pythonBin> phase2-card-annotation/scripts/validate_element_manifest.py \
   <one-screenshot-elements.json> \
   --audit <one-screenshot-elements.audit.json> \
   --recognition-audit <one-screenshot-elements.recognition-audit.json> \

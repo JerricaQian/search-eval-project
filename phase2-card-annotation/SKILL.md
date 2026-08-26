@@ -82,7 +82,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 | UI/图标检测、OCR 与颜色事实融合 | `references/screen_parser_backend.v1.md`；处理非文本 UI、图标漏检或评估 OmniParser 时读取 |
 | 黄金样本聚合几何经验 | `references/learned_card_geometry_profiles.v1.json`；只作软证据 |
 | OCR 文本角色候选 | `references/search_page_semantic_rules.v1.json` |
-| 清单及审计 schema | `scripts/validate_element_manifest.py` |
+| 清单及审计 schema | `phase2-card-annotation/scripts/validate_element_manifest.py` |
 | 黄金样本回归 | `golden-samples/` 截图与 `golden-atomic-2.0/` 最新 JSON；不得外推到新截图 |
 
 `extract_product_card_elements.py` 仅用于已登记文件名的黄金回归，不能用于新截图。新截图只能消费本次 CV/OCR、卡型候选和本地像素/拓扑证据。
@@ -123,7 +123,7 @@ bash phase2-card-annotation/scripts/run_cv_facts.sh <screenshot> --output <facts
   --query <query> --facts <facts.json> --result-candidates <candidates.json> \
   --card-semantics <card-semantics.json> --text-semantics <text-semantics.json> \
   --recognition-gate <recognition-gate.json> --output <elements.json>
-<pythonBin> scripts/validate_element_manifest.py <elements.json> \
+<pythonBin> phase2-card-annotation/scripts/validate_element_manifest.py <elements.json> \
   --audit <elements.audit.json>
 ```
 
@@ -154,7 +154,7 @@ Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不
 
 PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的标题/价格/信息列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。主入口会在初次门控失败时自动尝试这一轮；本地模型不存在或初始化失败时可退回有界 Tesseract，但每个裁剪必须记录 `requestedBackend`、`actualBackend` 与 `fallbackReason`，不得把回退产物描述成 Paddle 证据。要求 Paddle 的运行追加 `--require-bounded-paddleocr`，任何回退立即阻断。设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可完全关闭 Paddle，线程默认由 `PHASE2_OCR_THREADS=2` 限制。
 
-跨机器不能假定 `git clone` 已带 Paddle 能力：运行时包和模型均不进入 Git。首次准备必须用实际执行 Phase2 的同一个 Python 运行 `scripts/setup_phase2_ocr.py --all`；该入口安装 PaddlePaddle/PaddleOCR、从 Paddle 官方 BOS 源下载锁定模型、校验 SHA-256 并执行本地推理冒烟测试。`scripts/setup_phase2_ocr.py --check` 或 `bash setup.sh --with-ocr` 只检查不安装；未通过检查不得声称环境具备 Paddle 能力。
+跨机器不能假定 `git clone` 已带 Paddle 能力：运行时包和模型均不进入 Git。首次准备必须用实际执行 Phase2 的同一个 Python 运行 `phase2-card-annotation/scripts/setup_phase2_ocr.py --all`；该入口安装 PaddlePaddle/PaddleOCR、从 Paddle 官方 BOS 源下载锁定模型、校验 SHA-256 并执行本地推理冒烟测试。`phase2-card-annotation/scripts/setup_phase2_ocr.py --check` 或 `bash setup.sh --with-ocr` 只检查不安装；未通过检查不得声称环境具备 Paddle 能力。
 
 非文本 UI/图标候选与 OCR 分工按 `references/screen_parser_backend.v1.md` 执行。OmniParser 只可作为可选的本地候选检测后端：它提供图标/交互区域框及可选语义描述，不能替代 PaddleOCR、卡型契约、逐元素颜色测量或最终语义归属。依赖、权重或许可条件未满足时不得宣称已启用，也不得让其缺失阻断现有确定性 CV/OCR 流程。
 
@@ -209,7 +209,7 @@ Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口�
 ```
 
 ```bash
-<pythonBin> scripts/validate_element_manifest.py \
+<pythonBin> phase2-card-annotation/scripts/validate_element_manifest.py \
   <manifest.json> --audit <manifest.audit.json>
 ```
 

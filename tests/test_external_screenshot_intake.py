@@ -13,8 +13,8 @@ from PIL import Image
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-INTAKE_PATH = PROJECT_DIR / "scripts" / "ingest_external_screenshots.py"
-DISCOVERY_PATH = PROJECT_DIR / "scripts" / "discover_screenshot_groups.py"
+INTAKE_PATH = PROJECT_DIR / "phase1-screenshot" / "scripts" / "ingest_external_screenshots.py"
+DISCOVERY_PATH = PROJECT_DIR / "phase1-screenshot" / "scripts" / "discover_screenshot_groups.py"
 CLI_PATH = PROJECT_DIR / "workflow" / "eval_cli.py"
 
 

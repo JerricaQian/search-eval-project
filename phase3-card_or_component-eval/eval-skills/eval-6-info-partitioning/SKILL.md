@@ -16,7 +16,7 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 
 - 分区、坐标、`render`、`visual` 是唯一候选边界来源；整张商卡范围包含头图、基础信息、标签/价格和下挂，不能只看“标签区”。
 - 候选只能是 Phase2 已确认、同一组件内且实际相邻的两个功能分区。组件之间、跨 Tab、跨屏续接、分区内部的字段间距都不进入候选集。
-- 优先运行 `<projectDir>/scripts/extract_component_metrics.py`。测量不可用、像素不足或自然截断时，记录 `measurement.status` 与 `excludedPairs` 及原因；不补造像素、调试图或“看上去没有边界”的结论。
+- 优先运行 `<projectDir>/phase3-evaluation-officer/scripts/extract_component_metrics.py`。测量不可用、像素不足或自然截断时，记录 `measurement.status` 与 `excludedPairs` 及原因；不补造像素、调试图或“看上去没有边界”的结论。
 - 每个组件保留 `assessmentRows`：`partitions`、`adjacentBoundaryChecks`、`issueCount`、评级和当次测量产物；`overview.total` 为组件数。
 
 ## 判定标准

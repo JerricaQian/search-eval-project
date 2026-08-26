@@ -19,7 +19,7 @@ metadata:
 
 ## Phase2 事实与测量门槛
 
-- Phase2 仅提供卡型/布局、原子元素 `semanticRole`、原文、规格桶、分区、坐标和样式事实；必须运行 `scripts/extract_phase3_comparability.py`，在 Phase3 完成同卡型分组、字段匹配和差异提取。
+- Phase2 仅提供卡型/布局、原子元素 `semanticRole`、原文、规格桶、分区、坐标和样式事实；必须运行 `phase3-evaluation-officer/scripts/extract_phase3_comparability.py`，在 Phase3 完成同卡型分组、字段匹配和差异提取。
 - 比较组至少有两张完整卡，且同业务语义、同卡型；不要求、也不得让 Phase2 生成 `same_field_across_cards`。
 - 自然裁切、字段缺失、不同卡型和不同字段适用性均不构成不一致证据。脚本产生的是候选，字段是否真正可比及差异是否妨碍横向理解，仍由 Phase3 终判。
 

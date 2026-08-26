@@ -30,13 +30,13 @@ bash <projectDir>/phase1-screenshot/scripts/run_scroll.sh "<queries>" "<tabs>" "
 ```
 
 3. 大批量可调用同目录 `loop_screenshot.sh`，但每词失败须保留日志、仅重试该词，不能用旧截图补齐。
-4. 截图后检查每张文件存在、非零字节且可读取；再由 `scripts/discover_screenshot_groups.py --screenshot-dir <projectDir>/screenshots` 产出可评测分组和无效/无法解析项。
+4. 截图后检查每张文件存在、非零字节且可读取；再由 `phase1-screenshot/scripts/discover_screenshot_groups.py --screenshot-dir <projectDir>/screenshots` 产出可评测分组和无效/无法解析项。
 
 ## 宿主与失败处理
 
 - 坐标、页面状态和输入方式属于当前设备事实；脚本不能适配时停止并记录，不在 Skill 内写入机型、UDID、分辨率或历史临时路径。
 - 设备断连、弹窗、输入失败或截屏失败只影响当前词/屏；保留失败产物和原因，修复环境后重跑该范围。
-- 外部截图由 `scripts/ingest_external_screenshots.py` 复制到项目 `screenshots/`，源文件只读保留。复制后同样必须 discover，不能手工假定分组。
+- 外部截图由 `phase1-screenshot/scripts/ingest_external_screenshots.py` 复制到项目 `screenshots/`，源文件只读保留。复制后同样必须 discover，不能手工假定分组。
 
 ## 验收
 

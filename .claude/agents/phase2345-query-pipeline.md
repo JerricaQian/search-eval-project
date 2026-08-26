@@ -66,7 +66,7 @@ A1. **一一对应**：确认 `screenshots` 与 `phase2Outputs[]` 数量相等�
 A2. **逐图执行**：对每个 output 独立运行：
 
 ```bash
-"${pythonBin}" "${projectDir}/scripts/setup_phase2_ocr.py" --check
+"${pythonBin}" "${projectDir}/phase2-card-annotation/scripts/setup_phase2_ocr.py" --check
 "${pythonBin}" "${phase2SkillDir}/scripts/run_phase2_recognition.py" \
   --query "${query}" \
   --screenshot "<output.screenshot>" \
@@ -76,7 +76,7 @@ A2. **逐图执行**：对每个 output 独立运行：
   --require-bounded-paddleocr
 ```
 
-A2a. **Paddle 环境**：`--check` 失败时，只用同一个 `pythonBin` 运行 `scripts/setup_phase2_ocr.py --all` 一次并再次检查；仍失败则阻断，禁止切换解释器或静默回退后宣称完成 Paddle 校准。
+A2a. **Paddle 环境**：`--check` 失败时，只用同一个 `pythonBin` 运行 `phase2-card-annotation/scripts/setup_phase2_ocr.py --all` 一次并再次检查；仍失败则阻断，禁止切换解释器或静默回退后宣称完成 Paddle 校准。
 
 A2b. **候选阶段返回码**：`run_phase2_recognition.py` 因本地 OCR 门控未收敛返回非零，但已正常写出 manifest 和过程产物时，不得在 A3 前终止；该返回码是当前图片复核的输入信号。只有环境、文件读取或主 JSON 落盘失败才在此阻断。
 
@@ -100,7 +100,7 @@ A3. **当前图片全量复核**：无论本地门控是否已经通过，都必
 A3a. **校准审计**：第二次命令会由最终 manifest 与已记录的复核自动生成 `<output.recognitionAudit>`。不允许手改 `phase3Ready`、审计元素状态或审计文本；只运行校验器确认产物一致。没有 `completeCurrentPixelReview: true` 时脚本只写未复核模板，并保持阻断。
 
 ```bash
-"${pythonBin}" "${projectDir}/scripts/validate_element_manifest.py" \
+"${pythonBin}" "${projectDir}/phase2-card-annotation/scripts/validate_element_manifest.py" \
   "<output.manifest>" --audit "<output.audit>" \
   --recognition-audit "<output.recognitionAudit>" \
   --require-current-image-calibration
@@ -123,7 +123,7 @@ B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manife
     - `eval-2-visual-order-alignment` → `--require-alignment-facts --require-alignment-anchors`
     对 `elementListPaths[]` 中每份清单分别执行，命令形如：
     ```bash
-    "${pythonBin}" "${projectDir}/scripts/validate_element_manifest.py" "<manifest>" --audit "<audit>" <flag>
+    "${pythonBin}" "${projectDir}/phase2-card-annotation/scripts/validate_element_manifest.py" "<manifest>" --audit "<audit>" <flag>
     ```
 B1. **先读评测官知识库、维度共享契约，再读 Skill（各只读一次）**：先完整读取 `${projectDir}/phase3-evaluation-officer/SKILL.md`、`references/knowledge-index.md` 及其三个直接引用的知识文件；再按 `evalTargets[i].dimension` 定位共享契约文件与 `skillDirs[dimension]/${skill}/SKILL.md`。只读本次选中维度/Skill；不得加载未选 Skill 评分标准。
 B2. **按评测颗粒度使用唯一事实源**：`sourceManifestTotal` 是原子清单总数，仅用于追溯；`overview.total` 必须等于当前 Skill 的 `evaluatedUnitCount`，不同 Skill 可以不同，禁止跨 Skill 强行对齐。对 Atomic v3，每个 Skill 先运行 `scripts/prepare_phase3_skill_run.py <fact-pack> --skill <skill> --dimension <dimension> --output <artifactRunDir>/phase3/<skill>.run-plan.json`，并只使用该计划中的候选、排除和实际评测对象；将计划中的 `sourceManifestTotal`、`evaluatedUnitIds`、`evaluatedUnitCount`、`excludedUnits` 原样写入 `details.evidence`。不得人工推导或按截图重新数。
@@ -136,10 +136,10 @@ B3. **证据门禁与回退路由**：命中 FACT_GATES 的 4 个 skill，其 `a
     - `eval-4-element-complexity`（静态元素复杂度）：每条含可见分区扫描、库存覆盖、已确认 tag/icon 的真实 elementId、styleKey、纳入/排除原因、去重计数和测量产物；库存缺失/不完整/uncertain 时不得输出优秀。
     - `eval-7-info-authenticity`（信息真实性）：每条含主标题、每个可见图片/下挂实体的真实 elementId、`title_to_image`/`title_to_append` 关系、confirmed 状态、检查结论及不适用原因；未确认关系不得写成无冲突或优秀。
     - `eval-2-visual-order-alignment`（视觉秩序分组）：每条含分组 key、成员 cardId、layoutMode、layoutSignature、各卡 `layoutAnchors` 与卡内 `layoutAnchorRelation`、跨卡比较结果或单例阅读顺序核查；只允许相同 key 的完整卡横向比较，单例不得宣称跨卡一致。**严禁把标题/信息列的绝对 x 坐标、头图尺寸或卡片高度差异单独作为不达标依据**；只有同 key 卡的 `layoutAnchorRelation` 出现可见相对关系冲突（如 image_left_of_text 与 image_right_of_text、title_above_primaryInfo 与 primaryInfo_above_title），或同组锚点支持肉眼可见的页面级错层时，才可判不达标；锚点不能支持结论时必须请求 Phase2 复核，不得自行推断。
-B4. **确定性测量先行**：复杂度扫描全分区原子并测量/去重；可比性运行 `scripts/extract_phase3_comparability.py`；真实性枚举同卡标题—图片/下挂候选对。像素、颜色、样式和边界等测量必须先跑确定性脚本（如 `extract_component_metrics.py`），`assessmentRows` 附 `measurement.tool/artifactPath/parameters`，不得凭视觉估算代替。
+B4. **确定性测量先行**：复杂度扫描全分区原子并测量/去重；可比性运行 `phase3-evaluation-officer/scripts/extract_phase3_comparability.py`；真实性枚举同卡标题—图片/下挂候选对。像素、颜色、样式和边界等测量必须先跑确定性脚本（如 `phase3-evaluation-officer/scripts/extract_component_metrics.py`），`assessmentRows` 附 `measurement.tool/artifactPath/parameters`，不得凭视觉估算代替。
 B5. **读图硬上限**：每个 skill 的评测整图全程只 Read 1 次；局部细节用以下命令裁出窄图再复核，不重读整图。`<local>` 是本 skill 的唯一递增序号，输出须保留在过程目录；裁图失败只按 B3 阻断受影响测量/Skill。
     ```bash
-    "${pythonBin}" "${projectDir}/scripts/crop_image.py" --input "<screenshot>" --output "${artifactRunDir}/phase3/<skill>-<local>.png" --x <x> --y <y> --width <width> --height <height>
+    "${pythonBin}" "${projectDir}/phase3-evaluation-officer/scripts/crop_image.py" --input "<screenshot>" --output "${artifactRunDir}/phase3/<skill>-<local>.png" --x <x> --y <y> --width <width> --height <height>
     ```
 B6. **评级与计分严格遵守 skill 的 `weight` frontmatter**：先按 SKILL.md 的 `aggregate` 汇为该 Skill×Tab 的唯一 `rating`，再写 `weightedScore = weight[rating]`。一个 Skill×Tab 只写一次分值，绝不按问题数、元素数或组件数重复累加；二档 skill 不得凭空产生"达标"档，不得自创中间档。写入后由 `validate_eval_results.py` 校验评分映射，校验失败只重跑受影响 Phase3 Skill。
 B7. **只评可见内容**：截图外信息（落地页真实性、提示条准确性）不计入评级。
@@ -174,7 +174,7 @@ C4. **页面框架结论谨慎处理**：只有存在合法 Phase2 确认的 `ev
 C5. **一图一证据文件**：每张原图只生成一张原尺寸 PNG，红框仅标问题范围，不加编号/文字标签/遮罩/Phase2 全量标注层。
 C6. **运行固定生成与验收命令**：
     ```bash
-    "${pythonBin}" "${projectDir}/scripts/generate_issue_evidence.py" --results "<manifest-specific-result-subset>" --manifest "<source-manifest>" --output-dir "${issueEvidenceDir}"
+    "${pythonBin}" "${projectDir}/phase4-issue-evidence/scripts/generate_issue_evidence.py" --results "<manifest-specific-result-subset>" --manifest "<source-manifest>" --output-dir "${issueEvidenceDir}"
     "${pythonBin}" "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --require-evidence
     ```
     两条命令都必须退出 0；第二条失败阻断交付，不进入 Stage D。
