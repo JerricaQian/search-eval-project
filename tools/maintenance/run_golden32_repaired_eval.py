@@ -407,10 +407,14 @@ def main() -> int:
             checks = []
             for cid in members:
                 region_entries = []
+                region_name_counts: dict[str, int] = defaultdict(int)
                 for rid in cards[cid]["regionIds"]:
                     ids = region_elements(atomic, rid)
                     if ids:
-                        region_entries.append({"region": atomic["regionsById"][rid]["name"], "elementIds": ids, "contentBounds": bounds_union(ids, elements)})
+                        base_name = atomic["regionsById"][rid]["name"]
+                        region_name_counts[base_name] += 1
+                        display_name = base_name if region_name_counts[base_name] == 1 else f"{base_name}#{region_name_counts[base_name]}"
+                        region_entries.append({"region": display_name, "elementIds": ids, "contentBounds": bounds_union(ids, elements)})
                 relations = []
                 for first, second in zip(region_entries, region_entries[1:]):
                     relations.append({"fromRegion": first["region"], "toRegion": second["region"], "relation": relation(first["contentBounds"], second["contentBounds"])})
@@ -419,9 +423,18 @@ def main() -> int:
                     relations.append({"fromRegion": only["region"], "toRegion": only["region"], "relation": "overlap"})
                 signatures.append({"componentId": cid, "layoutMode": "按坐标顺序", "layoutSignature": ">".join(r["region"] for r in region_entries), "regions": region_entries, "relations": relations})
                 checks.append({"componentId": cid, "status": "consistent", "regionOrder": [r["region"] for r in region_entries]})
-            row = {"comparisonGroupKey": key, "members": members, "layoutSignatures": signatures, "readingOrderChecks": checks, "evidenceSource": "phase2_json_coordinates", "rating": "优秀"}
+            relation_sets = [
+                {(item["fromRegion"], item["toRegion"], item["relation"]) for item in signature["relations"]}
+                for signature in signatures
+            ]
+            row_rating = "优秀" if all(item == relation_sets[0] for item in relation_sets[1:]) else "达标"
+            row = {"comparisonGroupKey": key, "members": members, "layoutSignatures": signatures, "readingOrderChecks": checks, "evidenceSource": "phase2_json_coordinates", "rating": row_rating}
             align_rows.append(row)
-        add(DIM_COMPONENT, "eval-2-visual-order-alignment", "优秀", ["优秀"] * len(align_rows), {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(align_rows), "evaluatedUnitIds": list(grouped), "excludedUnits": [], "assessmentRows": align_rows}, align_issues, "同组关键相对关系一致且阅读顺序无倒置为优秀。", "按卡型、变体与关键结构分组后，各组坐标关系一致。")
+            if row_rating == "达标":
+                anchor = card_rows[members[0]][0]
+                align_issues.append(issue_for_element(anchor, members[0], elements, "视觉秩序统一对齐", "达标", "同类商卡关键区域的相对关系存在局部运营微调，但未发生阅读顺序倒置，评级为达标。", "同组商卡的关键区域坐标关系集合存在局部差异", "仅局部运营微调且关键阅读顺序未变时评级为达标", "相对关系未完全一致但没有权重倒置，因此评级为达标", "局部位置差异会增加同类结果连续扫读时的轻微停顿", f"统一坐标({elements[anchor]['bounds'][0]},{elements[anchor]['bounds'][1]})附近同类商卡的关键区域相对位置，同时保持当前阅读顺序。"))
+        align_ratings = [row["rating"] for row in align_rows]
+        add(DIM_COMPONENT, "eval-2-visual-order-alignment", worst(align_ratings, ("优秀", "达标", "不达标")), align_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(align_rows), "evaluatedUnitIds": list(grouped), "excludedUnits": [], "assessmentRows": align_rows}, align_issues, "同组关键相对关系一致且阅读顺序无倒置为优秀；仅局部微调为达标。", "按卡型、变体与关键结构分组后，直接比较当前 JSON 坐标关系。")
 
         # Component eval 3: colour inventory directly from JSON.
         component_color_rows = []
@@ -531,10 +544,14 @@ def main() -> int:
         partition_rows, partition_issues = [], []
         for cid in card_ids:
             partitions = []
+            region_name_counts: dict[str, int] = defaultdict(int)
             for rid in cards[cid]["regionIds"]:
                 ids = region_elements(atomic, rid)
                 if ids:
-                    partitions.append({"region": atomic["regionsById"][rid]["name"], "elementIds": ids, "contentBounds": bounds_union(ids, elements)})
+                    base_name = atomic["regionsById"][rid]["name"]
+                    region_name_counts[base_name] += 1
+                    display_name = base_name if region_name_counts[base_name] == 1 else f"{base_name}#{region_name_counts[base_name]}"
+                    partitions.append({"region": display_name, "elementIds": ids, "contentBounds": bounds_union(ids, elements)})
             checks = []
             for first, second in zip(partitions, partitions[1:]):
                 ax = "horizontal" if abs(second["contentBounds"][0] - first["contentBounds"][0]) > abs(second["contentBounds"][1] - first["contentBounds"][1]) else "vertical"

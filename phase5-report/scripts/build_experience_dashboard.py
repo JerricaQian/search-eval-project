@@ -490,11 +490,23 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
         fact_pack_paths = [
             *artifact_dir.rglob("atomic-facts*.json"),
             *artifact_dir.rglob("*.atomic-fact-pack.v1.json"),
+            # Golden-source evaluation runs retain the loader-verified manifest
+            # path in their Stage A acceptance audit.  They do not necessarily
+            # materialize a second Atomic fact-pack file, so consume that audit
+            # as the canonical pointer instead of silently dropping the query.
+            *artifact_dir.rglob("golden-acceptance-audit.json"),
         ]
         for fact_pack_path in fact_pack_paths:
             fact_pack = read_json(fact_pack_path)
-            source = fact_pack.get("source") if isinstance(fact_pack, dict) else None
-            manifest_name = source.get("manifest") if isinstance(source, dict) else None
+            if not isinstance(fact_pack, dict):
+                continue
+            if fact_pack_path.name == "golden-acceptance-audit.json":
+                if fact_pack.get("valid") is not True:
+                    continue
+                manifest_name = fact_pack.get("manifest")
+            else:
+                source = fact_pack.get("source")
+                manifest_name = source.get("manifest") if isinstance(source, dict) else None
             if not isinstance(manifest_name, str) or not manifest_name:
                 continue
             try:
