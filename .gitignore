@@ -1,11 +1,11 @@
-# 运行产物与人工复核过程文件
+# 运行产物与人工复核过程文件（默认仅保存在用户本地；只有用户明确要求上传时才可强制加入 Git）
 .artifacts/
 phase2-card-annotation/models/paddleocr/
 tmp_review/
 .rescore_p4/
 .metrics/
 
-# 截图、标注图和本地报告（体积大且可能含业务数据）
+# 截图、标注图和本地报告（体积大且可能含业务数据；默认不得上传 Git）
 screenshots/
 screenshots-out/
 reports/

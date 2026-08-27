@@ -4,8 +4,8 @@ title: 信息真实无歧义
 weight: { "优秀": 0, "不达标": -2 }
 aggregate: "本维度按搜索词×组件，聚合到 Tab 级（取最差）：任一组件歧义数量≥1→该Tab不达标；全部组件歧义=0→该Tab优秀。"
 extra: ""
-description: 搜索结果页组件信息与功能真实、无歧义评测；在需核查图文、标题/副标题、标签、下挂、规格或价格标签之间是否冲突时使用。
-metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组件信息真实性评估 }
+description: 搜索结果页组件信息与功能真实、无歧义评测；直接读取 Phase2 JSON 全量原子，核查图文、标题/副标题、标签、下挂、规格或价格标签之间是否冲突，不运行候选提取脚本。
+metadata: { author: qianjing16, version: "1.2", domain: 美团搜索结果页组件信息真实性评估 }
 ---
 
 ## 评审对象与共同契约
@@ -14,10 +14,11 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 
 ## Phase2 与候选门槛
 
-- 标题、副标题、图片、标签、下挂、尺码/规格、搜索词及其可见事实来自 Phase2；组件全域都要扫描。
-- 必须运行 `phase3-evaluation-officer/scripts/extract_phase3_relation_candidates.py`，为标题—图片/副标题/标签/下挂/尺码建立候选；同时逐一处理 `internalCandidates` 中的价格语义和规格范围候选。候选枚举和冲突终判属于 Phase3，不使用 Phase2 的真实性结论；脚本候选不是冲突结论。
+- 标题、副标题、图片、标签、下挂、尺码/规格、价格与搜索词及其可见事实来自 Phase2 JSON；组件全域都要扫描。
+- 本 Skill 禁止运行 `extract_phase3_relation_candidates.py` 或其他关系候选脚本。Phase3 直接按原子的卡片归属、分区、`semanticRole`、原文和坐标，枚举标题—图片/副标题/标签/下挂/尺码关系对，并另行枚举价格语义、数量单位和规格范围的内部核对项。
+- 候选集不允许用关键词正则缩减；每个完整组件必须保留 `scannedElementIds`、`scannedRegions`和每类固定 `crossChecks`，候选为空只能表示全量核对后无适用关系。
 - 只用同卡可见信息判定。任何需要外部商品知识、商家真实库存或截图外事实才能证明的说法，记录为无法在本 Skill 终判，不能作为冲突。
-- 每个完整可评组件（包括优秀）输出 `assessmentRows`：候选对、真实 ID、逐对核查、不适用原因、冲突数、`measurement` 和评级。
+- 每个完整可评组件（包括优秀）输出 `assessmentRows`：候选对、真实 ID、全量扫描覆盖、逐对核查、不适用原因、冲突数、`evidenceSource=phase2_json_full_relation_scan` 和评级；不得附带 `measurement`。
 
 ## 判定标准
 
@@ -44,7 +45,7 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 
 ## 固定评审流程
 
-1. 运行候选提取，覆盖图筛、筛选条和每张完整商卡的可见范围，并核对候选对象 ID 真实存在。
+1. 按组件遍历 Phase2 JSON 的全部活动原子，保留扫描元素、分区和固定交叉核对类型，并确认每个关系对的 ID 真实存在。
 2. 对每对及每个内部候选依次比较语义角色、服务对象、主体和规格；价格、数量单位和范围候选必须写出归一化过程。先排除补充说明、不同维度标签和无法证实的外部事实。
 3. 对直接矛盾的双方记录可见事实与冲突依据；不适用候选也留下原因。
 4. 按组件冲突数评级，聚合 Tab 并写唯一 `weightedScore`。
@@ -52,6 +53,7 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 ## 输出与反误判
 
 - `overview.total` 为实际组件数；问题写冲突双方与可见事实。
+- 每行 `evidenceSource` 必须为 `phase2_json_full_relation_scan`，且不得存在 `measurement`。
 - 副标题补充、不同维度促销标签、图片中的配菜、店名与菜品名的同词不构成矛盾。
 - 标题与搜索词相同不是问题；整个卡无关但未声称相关是召回问题，不属于本 Skill。
 

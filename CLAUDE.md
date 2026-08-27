@@ -95,7 +95,7 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 - **Screenshot Agent 独立**：`capture_only` 时执行现场 ADB 截图；`evaluate_only` 时只读运行 `phase1-screenshot/scripts/discover_screenshot_groups.py` 发现、聚合和校验已有截图；不与其它 phase 混入同一上下文。
 - **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 的候选生成和校验仍只运行本地脚本，并为每张截图分别生成清单；当前图片校准可读取当前截图，但只能回写经审计的 Phase2 事实。
 - **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 生成唯一 `MEITUAN_EVAL_TASK_V2` 任务文件。对 phase2+3+4+5 发起这**唯一一次** Agent 调用时，只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase2345-query-pipeline.md`，不得凭记忆转述或把整段契约复制进新的 prompt。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。
-- **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：`--require-hierarchy-facts` 等 4 项前置事实校验命令，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
+- **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：结构对齐等 Phase2 前置事实校验，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。视觉层级的字号事实改为 Phase3 校准 `glyphHeightPx` 像素测量，不再要求 Phase2 `fontSizeBucket`。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
 - Phase3 评测官与共享契约：先读 `phase3-evaluation-officer/SKILL.md` 及其知识索引，再读对应维度的共享契约文件（单一元素维度读 `phase3-single_element-eval/单一元素评测通用契约.md`，组件/卡片维度读 `phase3-card_or_component-eval/组件卡片评测通用契约.md`，页面框架维度读 `phase3-page_framework-eval/页面框架评测通用契约.md`），最后只读用户选中的 Skill；评分仍以叶子 Skill 为准。
 
 Agent 任务编排先要求用户选择 `capture_only`、`evaluate_only` 或 `capture_and_evaluate`，再按模式询问必要参数。仅评测已有截图时先发现截图组，不询问搜索词、Tab、屏数；截图+评测时必须在截图成功后才询问评测范围与报告出口。Phase2 默认 lightweight，不作为额外确认项。
@@ -114,6 +114,7 @@ Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验�
 
 - 评测、标注、截图、裁剪、扫描、审计、失败重试等过程中产生的文件和图片**一律不得删除**，包括 0 字节截图、临时裁剪图、scan 输出、旧证据图和失败中间产物。
 - 需要从工作目录隔离的中间产物，必须写入 `.artifacts/过程文件-评测结果与审计/` 下按 `query/批次/阶段` 分组的目录；不得通过 `rm`、`unlink`、覆盖删除或清理脚本回收。
+- `.artifacts/`、`screenshots-out/`、`reports/` 默认只作为用户本地产物保存，禁止 `git add`、`git add -f`、提交、推送或以其他方式上传；只有用户明确声明要上传这些产物时才可执行。运行评测、生成证据或生成报告本身不构成上传授权。
 - 子代理 prompt 必须同样声明本纪律：只新增或保留文件；发现无效、重复或失败产物时记录原因与路径供审计，不得删除。
 
 phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mode` 作为兼容参数固定为 `lightweight`；phase2 skill 目录由 `phase2SkillDir` 指定（默认 `projectDir/phase2-card-annotation`）。

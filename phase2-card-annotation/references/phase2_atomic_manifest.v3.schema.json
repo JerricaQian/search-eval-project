@@ -40,7 +40,7 @@
     },
     "publication": {"type": "object", "additionalProperties": false, "required": ["status", "blockers"], "properties": {"status": {"enum": ["ready", "blocked"]}, "blockers": {"$ref": "#/$defs/idArray"}}},
     "module": {
-      "type": "object", "additionalProperties": false, "required": ["type", "visibility"],
+      "type": "object", "additionalProperties": false, "required": ["type", "bounds", "visibility"],
       "properties": {
         "type": {"enum": ["search_bar", "page_tab", "location_filter", "sort_filter", "price_filter", "coupon_filter", "instant_filter", "promotion_filter", "image_filter", "primary_point", "primary_point_disambiguation", "heterogeneous_module", "live_card", "hotel_search_panel", "hotel_notice", "movie_primary_info", "date_filter", "business_operation_card", "floating_service", "result_list"]},
         "variant": {"enum": ["with_tabs", "without_tabs", "business"]}, "bounds": {"$ref": "#/$defs/bounds"},
@@ -69,15 +69,20 @@
     "element": {
       "type": "object", "additionalProperties": false, "required": ["kind", "bounds"],
       "properties": {
-        "kind": {"enum": ["text", "tag", "icon", "media"]}, "text": {"type": "string"},
+        "kind": {"enum": ["text", "tag", "icon", "media"]}, "text": {"type": "string", "minLength": 1},
         "mediaType": {"enum": ["photo", "illustration", "logo", "poster", "video_frame", "product_render", "unknown"]},
+        "semanticDescription": {"type": "string", "minLength": 1},
+        "semanticStatus": {"enum": ["confirmed", "uncertain"]},
+        "attachedTo": {"type": "string", "minLength": 1},
         "bounds": {"$ref": "#/$defs/bounds"}, "visibility": {"enum": ["naturally_cropped", "load_failed", "garbled", "abnormal_clipped"]},
         "textDecoration": {"enum": ["none", "line_through"]},
-        "visual": {"type": "object", "additionalProperties": false, "properties": {"container": {"enum": ["none", "filled", "outlined", "unknown"]}, "backgroundColor": {"type": "string"}, "textColor": {"type": "string"}, "borderColor": {"type": "string"}, "graphicAssist": {"type": "string"}}}
+        "visual": {"type": "object", "additionalProperties": false, "properties": {"container": {"enum": ["none", "filled", "outlined", "unknown"]}, "backgroundColor": {"type": "string"}, "textColor": {"type": "string"}, "borderColor": {"type": "string"}, "graphicAssist": {"type": "string", "minLength": 1}}}
       },
       "allOf": [
-        {"if": {"properties": {"kind": {"const": "media"}}}, "then": {"required": ["mediaType"], "not": {"required": ["text"]}}, "else": {"not": {"required": ["mediaType"]}}},
-        {"if": {"properties": {"kind": {"enum": ["text", "tag"]}}}, "then": {"required": ["text"]}}
+        {"if": {"properties": {"kind": {"const": "media"}}}, "then": {"required": ["mediaType", "semanticDescription", "semanticStatus"], "not": {"required": ["text"]}}, "else": {"not": {"required": ["mediaType"]}}},
+        {"if": {"properties": {"kind": {"const": "icon"}}}, "then": {"required": ["semanticDescription", "semanticStatus"]}},
+        {"if": {"properties": {"kind": {"enum": ["text", "tag"]}}}, "then": {"required": ["text"]}},
+        {"if": {"properties": {"kind": {"const": "tag"}}}, "then": {"required": ["visual"], "properties": {"visual": {"required": ["container", "backgroundColor", "textColor", "borderColor", "graphicAssist"]}}}}
       ]
     }
   }

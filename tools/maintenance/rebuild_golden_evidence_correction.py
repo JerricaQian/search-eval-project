@@ -37,7 +37,7 @@ def write_json(path: Path, payload: Any) -> None:
 
 
 def atomic_manifests(project: Path) -> dict[str, Path]:
-    index = read_json(project / "phase2-card-annotation/golden-atomic-2.0/index.json")
+    index = read_json(project / "phase2-card-annotation/golden-atomic-2.1/index.json")
     manifests: dict[str, Path] = {}
     for sample in index.get("samples", []):
         path = project / str(sample.get("manifest", ""))

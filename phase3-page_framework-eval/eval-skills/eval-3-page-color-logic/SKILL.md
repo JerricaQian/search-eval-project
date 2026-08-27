@@ -8,7 +8,7 @@ description: >-
   对页面有效 UI 像素按 36 色/7 色 HSV 标准测量总有彩色和主导色数量，排除商家图片、营销内容图、金刚图标、图筛/业务图筛、筛选器、Tab 和黑白灰。适用于整页色彩逻辑与主导色评测，不评图片内容本身。
 metadata:
   author: qianjing16
-  version: "1.2"
+  version: "1.3"
   domain: 美团搜索结果页/信息页色彩运用逻辑性评估（页面颗粒度）
 ---
 
@@ -18,8 +18,8 @@ metadata:
 
 ## Phase2 事实与测量门槛
 
-- 商家/商品图片、营销素材（营销图片、Banner、腰封）、金刚 icon、分类配图及其坐标只读 `render.isPhoto`、`pageFacts.modules`、`visual`；标签不属于营销素材排除项。Tab、图筛、业务图筛以及文筛/排序/优惠等筛选器同样必须按已确认模块坐标排除；调用脚本时传入 `manifest`，由 `phase3-evaluation-officer/scripts/phase3_color_scope.py` 自动合并这些排除框。直播或等价的大面积活动内容卡必须按 Phase2 已确认 `bounds=[x,y,w,h]` 换算 `[y,y+h,x,x+w]` 后排除。
-- 必须先运行 `scripts/phase2_live_card_exclusions.py`（有直播卡时），用 `scripts/grid_overlay.py` 核查，再运行 `scripts/page_color_analysis.py`。脚本和调试图不通过核查时修正标定重跑，不能目测覆盖脚本结论。
+- 商家/商品图片、营销素材（营销图片、Banner、腰封）、金刚 icon、分类配图及其坐标只读 `render.isPhoto`、`pageFacts.modules`、`visual`；标签不属于营销素材排除项。Tab、图筛、业务图筛以及文筛/排序/优惠/日期等筛选器同样必须按已确认模块坐标排除。直播或等价大面积活动内容卡按已确认模块边界整体排除，其上有独立原子的系统 UI 需从排除 mask 中恢复。
+- 只运行 `scripts/page_color_analysis.py` 一个页面像素脚本，并必须传入当前 `manifest`、`out_debug` 与 `out_result`。脚本通过 `phase2_bundle_loader.py` 读取同一事实视图，自动建立照片、营销内容、导航/筛选模块和直播卡的排除 mask。不再要求运行 `phase2_live_card_exclusions.py` 或 `grid_overlay.py`。
 - 每条记录保留 `exclude_regions`、来源模块 ID、总颜色/主导色/色系占比、调用参数、`debugImage` 和 `measurement.tool/artifactPath/parameters`。
 
 ## 判定标准
@@ -36,9 +36,9 @@ metadata:
 
 ## 固定评审流程
 
-1. 用 Phase2 坐标建立全部排除框；直播框不得由 HSV 高饱和区反推，并确认坐标已换算为脚本需要的顺序。
-2. 有直播/等价内容卡时先运行排除脚本，随后用网格图核查范围，最后运行页面色彩脚本并保留原始输出。
-3. 检查调试图是否只剩有效 UI 像素；若排除区错位，修正事实或标定后重跑，不修改统计数字。
+1. 将当前 `manifest` 与截图路径一并传入页面色彩脚本；排除范围必须全部由 JSON 原子/模块坐标生成，不使用 HSV 高饱和区反推。
+2. 脚本自动合并照片、营销内容、导航/筛选模块和直播卡排除区，生成调试图和原始 JSON 输出。
+3. 检查调试图是否只剩有效 UI 像素；若排除区错位，回退修正 Phase2 坐标后重跑，不手工改排除框或统计数字。
 4. 按优先级阈值写唯一页面 `assessmentRows`、评级与分数；LLM 只解释脚本产物。
 
 ## 输出与反误判
@@ -50,4 +50,5 @@ metadata:
 
 - 直播卡或大面积活动内容的排除范围必须来自 Phase2 bounds；不能因其颜色鲜艳才临时排除。
 - 独立 UI 角标即使覆盖在照片上仍是有效 UI，不能与照片像素一起删掉。
+- 网格只是旧的人工读坐标工具，不再是正式评测前置步骤；调试 mask 才是排除范围验收依据。
 - 黑、白、灰不属于有彩色；不要把抗锯齿或低占比杂色纳入色系。

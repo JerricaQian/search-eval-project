@@ -2,7 +2,7 @@
 
 本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径采用“本地 CV/OCR 候选 + 黄金结构范例 + 当前图片像素复核 + 卡型/枚举/元素契约门控”；模型只复核当前图片，不复制黄金字段，也不生成整页标注图。
 
-`phase2.atomic-manifest.v3` 每次写出前必须使用 `references/search_card_taxonomy.v1.json` 校验，并记录枚举契约版本与文件 SHA-256。所有标签元素统一使用 `kind: "tag"`，槽位名统一以 `_tag` 结尾，例如 `product_attribute_tag` 与 `scenic_rating_tag`。
+`phase2.atomic-manifest.v3` 每次写出前必须使用 `references/search_card_taxonomy.v1.json` 校验枚举与契约版本；文件 SHA-256 仅作为可选溯源记录，不参与发布阻断。所有标签元素统一使用 `kind: "tag"`，槽位名统一以 `_tag` 结尾，例如 `product_attribute_tag` 与 `scenic_rating_tag`。
 
 生产 Phase2 与离线黄金校准共享同一证据策略和元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。生产流同样使用 Paddle 与模型视觉复核，但所有事实必须来自当前截图，黄金只提供结构，契约不满足即阻断。
 
@@ -106,7 +106,7 @@
   --output-dir .artifacts/golden-cv-rerun
 ```
 
-仓库只保留 `golden-atomic-2.0/` 下最新的 34 份页面可重建黄金 JSON 和一个汇总 `index.json`，这 34 份 atomic v3 同时也是后续重建的原始输入。`scripts/build_atomic_manifest_v3_goldens.py` 默认重新校验并规范化写出它们、重建索引，不依赖旧格式。旧 `golden-sample-results/**/*.elements.json` 已外部归档；只有一次性追溯迁移时才显式传入 `--legacy-source-root`。逐 manifest audit sidecar 已删除，审计摘要集中保存在索引中。
+仓库以 `golden-atomic-2.1/` 下 34 份页面可重建黄金 JSON 和汇总 `index.json` 为当前版本；`golden-atomic-2.0/` 保持不动，仅用于回滚与审计。这 34 份 atomic v3 同时也是后续重建的原始输入。`scripts/build_atomic_manifest_v3_goldens.py` 默认重新校验并规范化写出 2.1、重建索引，不依赖旧格式。旧 `golden-sample-results/**/*.elements.json` 已外部归档；只有一次性追溯迁移时才显式传入 `--legacy-source-root`。逐 manifest audit sidecar 已删除，审计摘要集中保存在索引中。
 
 ## 历史兼容文件
 

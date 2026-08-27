@@ -215,6 +215,8 @@ search-eval-project/
 
 > **对外与对内数据流**：Screenshot Agent 可把新截图写入 `screenshots/`，或只读发现该目录中的历史截图；Evaluation Agent 消费用户已选中的截图，按 `screenshots/` ──Phase2──▶ `screenshots-out/` ──Phase3──▶ `.artifacts/过程文件-评测结果与审计/` ──Phase4──▶ `screenshots-out/evidence/` ──Phase5──▶ `reports/` 输出结果。Phase3 只消费与当前截图对应且 `recognition.phase3Ready=true` 的清单；批量 `index.json` 不是事实源。详见 `CLAUDE.md`。
 
+> **Git 边界**：`.artifacts/`、`screenshots-out/` 和 `reports/` 均为用户本地产物，默认被 `.gitignore` 排除。除非用户明确声明要上传，否则不得强制加入、提交或推送到 Git；生成这些产物不等于取得上传授权。
+
 ---
 
 ## Workflow 参数（1.0）
@@ -321,7 +323,7 @@ Workflow 的三模式只决定是否调用 Screenshot Agent，以及何时调用
 | Phase4 | `scripts/validate_eval_results.py --require-evidence` | 补齐由合法 Phase2 坐标解析出的证据，或回退上游事实源；禁止伪造红框。 |
 | Phase5 | 消费最终 `evalAudit.valid=true` 且 `phase2ReviewRequired=false` 的结果 | 只渲染验收产物，不重算分数、评级、计数或问题。 |
 
-`repair_*` 脚本不是默认步骤，仅可做其 docstring 明示的结构/兼容修复；任何评级、问题数量、坐标边界、可见原文、业务归属或视觉事实变化，必须回到 Phase2/Phase3 正式流程。涉及色彩、样式复杂度、分区边界与页面排除统计的评测项，必须优先运行对应确定性测量脚本，并在 `assessmentRows.measurement` 保留工具、产物和输入参数；LLM 只解释脚本未覆盖的语义，不能目视改写脚本阈值结论。
+`repair_*` 脚本不是默认步骤，仅可做其 docstring 明示的结构/兼容修复；任何评级、问题数量、坐标边界、可见原文、业务归属或视觉事实变化，必须回到 Phase2/Phase3 正式流程。单元素色彩只对 JSON 预筛出的非中性色元素运行像素脚本；组件色彩、静态元素复杂度、信息真实性/冗余与页面可比性直接遍历 loader 校验后的 Phase2 JSON；商卡视觉层级使用校准后的 `glyphHeightPx`；页面色彩只运行一次像素脚本，由 JSON 自动生成排除 mask。仅真正的像素测量在 `assessmentRows.measurement` 保留工具、产物和输入参数；LLM 不能目视改写脚本阈值结论或 JSON 事实。
 
 ---
 

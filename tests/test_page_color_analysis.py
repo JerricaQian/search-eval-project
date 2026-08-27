@@ -61,8 +61,36 @@ class PageColorAnalysisTest(unittest.TestCase):
             ]}}, ensure_ascii=False), encoding="utf-8")
             result = module.analyze_page(str(image_path), manifest=str(manifest))
 
-        self.assertEqual(len(result["excluded_page_modules"]), 2)
+        self.assertEqual(len(result["scope_exclusions"]), 2)
         self.assertEqual(result["n_valid_pixels_before_sample"], 800)
+
+    def test_manifest_scope_excludes_photo_and_restores_system_ui_overlay(self) -> None:
+        module = load_module()
+        manifest = {
+            "cards": [{
+                "regions": [{
+                    "elements": [
+                        {
+                            "id": "PHOTO",
+                            "coord": [0, 0, 100, 100],
+                            "render": {"visibleStatus": "confirmed", "isPhoto": True},
+                            "visual": {"entityKind": "image"},
+                        },
+                        {
+                            "id": "BADGE",
+                            "coord": [5, 5, 20, 10],
+                            "render": {"visibleStatus": "confirmed", "isSystemUi": True},
+                            "visual": {"entityKind": "tag"},
+                        },
+                    ],
+                }],
+            }],
+        }
+        exclusions, records, restores, overlays = module.color_scope_from_manifest(manifest)
+        self.assertEqual(exclusions, [[0, 100, 0, 100]])
+        self.assertEqual(records[0]["elementId"], "PHOTO")
+        self.assertEqual(restores, [[5, 15, 5, 25]])
+        self.assertEqual(overlays[0]["elementId"], "BADGE")
 
 
 if __name__ == "__main__":

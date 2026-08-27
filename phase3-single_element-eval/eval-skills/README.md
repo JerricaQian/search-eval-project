@@ -15,4 +15,4 @@
 
 1. 依据任务选择上表中对应的一个或多个 Skill；不要因为同属单一元素维度就跳读目标 Skill。
 2. 先读 `单一元素评测通用契约.md` 与当前截图的 Phase2 原子事实。
-3. 再完整读取目标 `eval-*/SKILL.md`，按其专属门槛、测量、阈值、评分和 Gotchas 执行。`eval-2` 使用 `scripts/count_element_colors.py`，`eval-3` 还读取规范速查和样式字典。
+3. 再完整读取目标 `eval-*/SKILL.md`，按其专属门槛、测量、阈值、评分和 Gotchas 执行。`eval-2` 先用 JSON 样式色值筛出非中性色元素，只对这些候选运行 `scripts/count_element_colors.py`；`eval-3` 还读取规范速查和样式字典。

@@ -4,19 +4,20 @@ title: 视觉秩序统一对齐
 weight: { "优秀": 1, "达标": 0, "不达标": -1 }
 aggregate: "本维度颗粒度为「搜索词×组件类型」，按最差值聚合到 Tab 级（任一不达标→不达标；否则任一达标→达标；全优秀→优秀）。"
 extra: ""
-description: 搜索结果页组件视觉秩序与对齐评测；在需比较同类卡片布局一致性、关键元素相对位置及由左至右的阅读顺序时使用。
-metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组件视觉秩序评估 }
+description: 搜索结果页组件视觉秩序与对齐评测；直接读取 Phase2 JSON 的卡型、区域和元素坐标，比较同类卡片关键结构及阅读顺序时使用，不运行像素测量脚本。
+metadata: { author: qianjing16, version: "1.2", domain: 美团搜索结果页组件视觉秩序评估 }
 ---
 
 ## 评审对象与共同契约
 
 评审同类型组件的结构一致性，以及每个组件是否符合当前业态的阅读顺序。先读 [[组件卡片评测通用契约]]（`phase3-card_or_component-eval/组件卡片评测通用契约.md`）。不同卡型、广告卡和自然结果不能混作一个比较组。
 
-## Phase2 事实门槛
+## Phase2 JSON 事实门槛
 
-- 组件边界、卡型、`layoutMode`、`layoutSignature`、元素坐标与可见状态来自 Phase2；Phase3 仅建立当前 Skill 的 `comparisonGroupKey`，不让 Phase2 预分组或预评级。
+- 通过 `scripts/phase2_bundle_loader.py` 校验并读取 Phase2 JSON；组件边界、卡型、区域顺序、元素坐标与可见状态均直接来自只读事实视图。不得为本 Skill 运行 `extract_component_metrics.py`、OpenCV 或其他像素测量脚本。
+- Phase3 根据 JSON 中头图、标题、评分/推荐理由、位置、标签、价格和下挂的坐标关系生成当次 `layoutMode`、`layoutSignature` 与阅读顺序；这些是本 Skill 的临时判断，不回写 Phase2。
 - 比较组必须同时满足卡型和关键结构相同。广告卡、自然结果、图筛和不同业态卡不可因“都在列表里”而强行比较。
-- 每个 Tab（包括优秀）覆盖全部比较组的 `assessmentRows`，每行保留成员 ID、布局签名、比较结果或单例阅读顺序检查和评级。单例组没有一致性结论，但仍要记录阅读顺序检查。
+- 每个 Tab（包括优秀）覆盖全部比较组的 `assessmentRows`，每行保留成员 ID、由 JSON 坐标得到的布局签名、关键相对关系、比较结果或单例阅读顺序检查和评级。单例组没有一致性结论，但仍要记录阅读顺序检查。
 
 ## 判定标准
 
@@ -42,18 +43,19 @@ metadata: { author: qianjing16, version: "1.1", domain: 美团搜索结果页组
 
 ## 固定评审流程
 
-1. 按卡型、结构和可比较性建立比较组，记录每个成员的关键元素相对位置；不满足条件的组件单列为单例检查。
-2. 逐组比较布局签名和关键相对关系，而不是比较绝对像素、高度或字段数量。
-3. 再逐组件检查从上到下、从左到右的阅读权重是否合理，确认是否有倒置。
-4. 先判关键不一致/倒置，再判允许的微调，最后按 frontmatter 聚合并写唯一分数。
+1. 从 Phase2 JSON 读取全部卡片，按卡型、结构和可比较性建立比较组；不满足条件的组件单列为单例检查。
+2. 对每张卡直接用区域和元素坐标写出关键关系，例如 `head_media left_of title`、`title above rating`、`tags above price`；只记录相对关系，不比较绝对页面坐标或卡片高度。
+3. 逐组比较关系集合和布局签名；再逐组件沿 JSON 坐标形成的从上到下、从左到右顺序检查是否有倒置。
+4. 先判关键不一致/倒置，再判允许的运营微调，最后按 frontmatter 聚合并写唯一分数；整个流程不得调用像素测量脚本。
 
 ## 输出与反误判
 
-- `overview.total` 是比较组数；每个 `assessmentRows` 写 `comparisonGroupKey`、成员、布局事实和结论。
+- `overview.total` 是比较组数；每个 `assessmentRows` 写 `comparisonGroupKey`、成员、`layoutSignatures`、坐标关系化的 `readingOrderChecks`、评级和结论。
 - `observableFact` 指明比较组、差异组件和位置事实；不要将不同业态、广告卡或数据量差异视为同类布局问题。
 
 ## Gotchas
 
 - 不能依据同组卡片高度、绝对坐标或优惠条多少判定失齐；只看关键元素的相对关系。
+- 不要为了判断结构关系运行截图像素脚本；JSON 坐标足以确认时必须直接判定，坐标或可见状态不足时回退 Phase2。
 - 单例没有“与别人不一致”的问题，也不能因此跳过阅读顺序核查。
 - 同一标题下的不同业务卡、广告卡与自然卡不是可比较样本，即使文案相近也不能合组。

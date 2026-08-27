@@ -13,7 +13,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 必须明确区分两条流程：
 
-1. **黄金样本校准流（离线）**：在已经确认的截图/卡片边界内使用 PaddleOCR，并用模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库只保留 `golden-atomic-2.0/` 最新黄金 JSON；旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
+1. **黄金样本校准流（离线）**：在已经确认的截图/卡片边界内使用 PaddleOCR，并用模型视觉能力逐像素复核标题、元素语义归属和分组。当前仓库以 `golden-atomic-2.1/` 为最新黄金 JSON；`golden-atomic-2.0/` 仅作不可变回滚基线。旧 `golden-sample-results/**/*.elements.json` 已外部归档，仅在显式恢复后用于迁移重建，绝不能被生产入口导入。
 2. **用户截图 Phase2 当前图片校准流**：采用同类证据链——本地 CV/OCR 生成候选，黄金样本提供结构范例，模型只读取当前整图/局部裁图以复核字面、视觉原子边界和归属。黄金字段值、坐标、数量与顺序不得注入；仍不满足契约就阻断。完整规则见 `references/current_image_calibration.v1.md`。
 
 两条流程允许的证据不同，但输出必须遵循同一个元素级契约：
@@ -83,7 +83,7 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 | 黄金样本聚合几何经验 | `references/learned_card_geometry_profiles.v1.json`；只作软证据 |
 | OCR 文本角色候选 | `references/search_page_semantic_rules.v1.json` |
 | 清单及审计 schema | `phase2-card-annotation/scripts/validate_element_manifest.py` |
-| 黄金样本回归 | `golden-samples/` 截图与 `golden-atomic-2.0/` 最新 JSON；不得外推到新截图 |
+| 黄金样本回归 | `golden-samples/` 截图与 `golden-atomic-2.1/` 最新 JSON；`golden-atomic-2.0/` 仅供回滚；不得外推到新截图 |
 
 `extract_product_card_elements.py` 仅用于已登记文件名的黄金回归，不能用于新截图。新截图只能消费本次 CV/OCR、卡型候选和本地像素/拓扑证据。
 
@@ -168,22 +168,22 @@ PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到
 6. 门控 hooks 按顺序执行：字段文法、字符/脚本连贯性、双布局 OCR 一致性、同行碎片、语义原子性、卡型语义契约。hook 只报告异常和阻断，不按语言模型/词典改写 `rawText`。有界重识别只允许两种可追踪更新：保留被第二裁剪证明的原 OCR 字面子串，或以卡内 Paddle 直接识别替换明显混合脚本失败行；两者都必须保留原文、裁剪和接受理由。
 7. 结果流最后一张重复卡自然触底时，若上一张卡已确认具体已知卡型且本卡无明确广告证据，可继承上一张卡型；只豁免因截断不可见的必需字段与语义锚点。当前屏幕已显示文字的乱码、OCR 分歧和字段文法错误仍阻断整页。
 8. 中文语言纠错器只能作为可选异常检测 hook：检测到疑似形近字/不通顺时返回失败行和候选原因，随后重跑原图裁剪；不得把纠错器生成的句子直接写入 manifest。未安装本地模型时不得伪装成已完成语义校验。
-9. 黄金 JSON 的字段值/坐标不能成为当前截图答案。`golden-atomic-2.0/` 可作为生产识别的只读结构范例，但禁止传入识别脚本或复制文字、坐标、数量、顺序。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
+9. 黄金 JSON 的字段值/坐标不能成为当前截图答案。`golden-atomic-2.1/` 可作为生产识别的只读结构范例，但禁止传入识别脚本或复制文字、坐标、数量、顺序；`golden-atomic-2.0/` 只用于回滚审计。旧格式迁移只有在显式提供外部归档的 `--legacy-source-root` 时才可运行；仓库内不得重新持久化旧 `elements.json`。
 
    黄金文本发布以结构范例和当前卡片的完整像素证据共同门控：标题与下挂不能由预设槽位生成；文字元素非空并不代表正确，必须能追溯到同卡、同元素且覆盖完整可见字形的 bounded observation；校准命令指定 `--require-backend paddleocr` 时任何后端降级均阻断。已有非空标题也必须按标题结构重新核验。
 
-Phase3 通过 `scripts/phase2_bundle_loader.py` 读取 atomic v3，完成枚举、哈希和 publication 门禁后只在内存中建立兼容视图。禁止持久化 Phase3 派生投影。
+Phase3 通过 `scripts/phase2_bundle_loader.py` 读取 atomic v3，完成枚举、契约版本和 publication 门禁后只在内存中建立兼容视图。taxonomy SHA-256 仅供溯源，不作为门禁。禁止持久化 Phase3 派生投影。
 
 `phase2.atomic-manifest.v3` 是页面可重建的原子结构投影，也是当前黄金源。34 份离线黄金
-统一保存在 `golden-atomic-2.0/`。`scripts/build_atomic_manifest_v3_goldens.py` 默认以这 34 份
+统一保存在 `golden-atomic-2.1/`。`scripts/build_atomic_manifest_v3_goldens.py` 默认以这 34 份
 atomic v3 为输入，重新执行枚举、截图哈希和结构校验，保持坐标与原子事实不变，并重建
 汇总索引；不再依赖旧 `elements.json`。仅建模块若没有可靠外框则省略 `bounds`，不得按
 屏幕比例、固定高度或相邻模块均分补框。审计摘要只保留在批量
 `index.json`，不再生成逐 manifest audit sidecar；索引必须保持 34 图、135 卡的回归基线。
 
 所有 Phase2 JSON 在写出前必须加载 `references/search_card_taxonomy.v1.json` 执行枚举校验；
-输出必须记录该枚举文件的 `contractVersion`、相对路径和 SHA-256。枚举文件缺失、版本或
-哈希不一致、卡型不在枚举内、封闭枚举槽位出现非法值时一律阻断发布，禁止使用脚本内
+输出必须记录该枚举文件的 `contractVersion` 与相对路径；可选记录 SHA-256 供溯源。枚举文件缺失、版本或
+卡型不在枚举内、封闭枚举槽位出现非法值时一律阻断发布；taxonomy SHA-256 不一致仅记录为溯源差异，禁止使用脚本内
 硬编码近义词集合绕过该门禁。
 
 标题区必须保留标题前后独立视觉实体：履约标使用 `fulfillment_tag`，商家标使用
@@ -199,7 +199,7 @@ atomic v3 为输入，重新执行枚举、截图哈希和结构校验，保持�
 <pythonBin> phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py
 ```
 
-Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口核对枚举哈希、截图哈希、publication 状态及元素引用，任一不一致立即失败。`countDecision`、`dedupDecision` 等 Phase3 派生字段不得写回黄金 JSON。
+Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口核对枚举与契约版本、截图哈希、publication 状态及元素引用，任一门禁不一致立即失败；taxonomy SHA-256 仅作溯源记录。`countDecision`、`dedupDecision` 等 Phase3 派生字段不得写回黄金 JSON。
 
 10. 黄金回归只在整条推理完成后做 `expectedCardTypes`/`predictedCards` 对照，绝不能向生产识别传入期望卡型：
 

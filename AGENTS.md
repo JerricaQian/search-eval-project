@@ -33,3 +33,15 @@ preflight. When a query is selected it also emits a `MEITUAN_EVAL_TASK_V2`
 portable task with a unique `runId`; give the host only its `taskPath`, then run
 the included completion command. See `workflow/HOST_ADAPTER.md`. The CLI does
 not claim to execute the LLM-dependent Phase3 judgement.
+
+## Local artifact publication policy
+
+`.artifacts/`, `screenshots-out/`, and `reports/` are user-local run outputs.
+Do not add, commit, force-add, push, or otherwise publish files from these
+directories to Git unless the user explicitly requests that upload. A request
+to run an evaluation, generate evidence, or build a report is not upload
+authorization.
+
+## Golden-contract version drift
+
+今后遇到这类“契约/哈希版本不一致、但原始事实可能仍有效”的阻断，默认不改原件，先验证兼容性，再创建带新版本号的完整副本进行修复与复验。

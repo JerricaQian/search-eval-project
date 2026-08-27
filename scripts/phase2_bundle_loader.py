@@ -32,9 +32,12 @@ SLOT_ROLES = {
     "title": "title", "subtitle": "subtitle", "price": "price", "original_price": "price",
     "price_and_sales": "price", "price_and_trade": "price", "sales": "sales", "monthly_sales": "sales",
     "rating": "rating", "location": "location", "distance": "location", "address": "location", "city": "location",
+    "recommendation": "recommendation", "review_reason": "recommendation", "hotel_class": "hotel_class",
     "fulfillment": "fulfillment", "fulfillment_tag": "fulfillment", "delivery_time": "fulfillment",
     "promotion": "promotion", "promotion_tag": "promotion", "coupon_type_tag": "promotion",
     "coupon_value_tag": "promotion", "guarantee_tag": "guarantee",
+    "price_promotion_tag": "promotion", "recommendation_tag": "recommendation",
+    "delivery_time_tag": "fulfillment", "live_status_tag": "sales",
     "merchant_tag": "merchant", "merchant_feature_tag": "merchant_feature",
     "product_attribute_tag": "product_attribute", "scenic_rating_tag": "scenic_rating",
     "gift_tag": "gift", "generic_tag": "tag", "other_tag": "tag",
@@ -65,7 +68,7 @@ def _atomic_validator() -> ModuleType:
     return module
 
 
-def _compat_element(element_id: str, source: dict[str, Any], card_id: str, slot: str) -> dict[str, Any]:
+def _compat_element(element_id: str, source: dict[str, Any], owner_id: str, slot: str, owner_type: str) -> dict[str, Any]:
     kind = source.get("kind")
     visual_source = source.get("visual") if isinstance(source.get("visual"), dict) else {}
     visibility = source.get("visibility")
@@ -78,7 +81,7 @@ def _compat_element(element_id: str, source: dict[str, Any], card_id: str, slot:
         "textColor": visual_source.get("textColor", ""),
         "borderColor": visual_source.get("borderColor", ""),
         "containerShape": visual_source.get("container", "none"),
-        "graphicAssistRole": visual_source.get("graphicAssist", "无"),
+        "graphicAssistRole": visual_source.get("graphicAssist", "none") if kind == "tag" else "none",
     }
     render = {
         "visibleStatus": "confirmed",
@@ -89,21 +92,34 @@ def _compat_element(element_id: str, source: dict[str, Any], card_id: str, slot:
     text = str(source.get("text", ""))
     output = {
         "id": element_id,
-        "所属组件": card_id,
+        "所属组件": owner_id,
+        "ownerType": owner_type,
         "元素类型": "图片" if kind == "media" else ("标签" if kind == "tag" else "图标" if kind == "icon" else "文本"),
-        "内容简述": f"原文:{text}" if text else "原文:[图片]",
+        "内容简述": f"原文:{text}" if text else str(source.get("semanticDescription") or "原文:[图片]"),
         "坐标": source["bounds"],
         "isExcluded": False,
         "excludeReason": "",
         "render": render,
         "visual": visual,
     }
-    if kind != "media":
+    if kind in {"text", "tag"}:
         semantic_role = SLOT_ROLES.get(slot, slot[:-4] if slot.endswith("_tag") else "other")
         output["textFacts"] = {
             "rawText": text,
             "textStatus": "naturally_ellipsized" if naturally_cropped else "complete",
             "semanticRole": semantic_role,
+        }
+    elif kind == "media":
+        output["mediaFacts"] = {
+            "mediaType": source.get("mediaType"),
+            "semanticDescription": source.get("semanticDescription"),
+            "semanticStatus": source.get("semanticStatus"),
+        }
+    if kind == "icon":
+        output["iconFacts"] = {
+            "semanticDescription": source.get("semanticDescription"),
+            "semanticStatus": source.get("semanticStatus"),
+            "attachedTo": source.get("attachedTo"),
         }
     return output
 
@@ -117,6 +133,12 @@ def _atomic_to_phase3(payload: dict[str, Any]) -> dict[str, Any]:
         if module.get("type") == "result_list"
         for card_id in module.get("cardIds", [])
     }
+    list_positions = {
+        card_id: position
+        for module in payload["modulesById"].values()
+        if module.get("type") == "result_list"
+        for position, card_id in enumerate(module.get("cardIds", []), start=1)
+    }
     cards = []
     for card_id, card in payload["cardsById"].items():
         converted_regions = []
@@ -125,11 +147,11 @@ def _atomic_to_phase3(payload: dict[str, Any]) -> dict[str, Any]:
             converted = []
             if "slots" in region:
                 for slot, element_ids in region["slots"].items():
-                    converted.extend(_compat_element(element_id, elements[element_id], card_id, slot) for element_id in element_ids)
+                    converted.extend(_compat_element(element_id, elements[element_id], card_id, slot, "card") for element_id in element_ids)
             else:
                 for item in region.get("items", []):
                     for slot, element_ids in item["slots"].items():
-                        converted.extend(_compat_element(element_id, elements[element_id], card_id, slot) for element_id in element_ids)
+                        converted.extend(_compat_element(element_id, elements[element_id], card_id, slot, "card") for element_id in element_ids)
             converted_regions.append({"name": region["name"], "coord": region["bounds"], "elements": converted})
         region_signature = ">".join(region["name"] for region in converted_regions)
         card_type = str(card["cardType"])
@@ -139,6 +161,7 @@ def _atomic_to_phase3(payload: dict[str, Any]) -> dict[str, Any]:
             "cardTypeCode": card_type,
             "variant": card.get("variant", ""),
             "coord": card["bounds"],
+            "listPosition": list_positions.get(card_id),
             "regions": converted_regions,
             "structure": {
                 "visibleStatus": card["visibility"],
@@ -148,17 +171,52 @@ def _atomic_to_phase3(payload: dict[str, Any]) -> dict[str, Any]:
                 "layoutSignature": region_signature,
             },
         })
-    page_modules = [
-        {
+    page_modules = []
+    for module_id, module in payload["modulesById"].items():
+        module_elements = [
+            _compat_element(element_id, elements[element_id], module_id, slot, "module")
+            for slot, element_ids in module.get("slots", {}).items()
+            for element_id in element_ids
+        ]
+        referenced_filter_ids = list(module.get("itemIds", []))
+        for panel in module.get("panels", []):
+            referenced_filter_ids.extend(panel.get("itemIds", []))
+        filter_items = []
+        for item_id in dict.fromkeys(referenced_filter_ids):
+            item = payload["filterItemsById"][item_id]
+            item_elements = [
+                _compat_element(element_id, elements[element_id], item_id, slot, "filter_item")
+                for slot, element_ids in item.get("slots", {}).items()
+                for element_id in element_ids
+            ]
+            filter_items.append({"id": item_id, "coord": item["bounds"], "elements": item_elements})
+        page_modules.append({
             "id": module_id,
             "moduleType": module["type"],
-            "coord": module.get("bounds"),
+            "coord": module["bounds"],
             "visibleStatus": module["visibility"],
             "contentRole": module["type"],
             "isListItem": False,
-        }
-        for module_id, module in payload["modulesById"].items()
-    ]
+            "elements": module_elements,
+            "filterItems": filter_items,
+        })
+    projected_ids = {
+        element["id"]
+        for card in cards
+        for region in card["regions"]
+        for element in region["elements"]
+    }
+    projected_ids.update(
+        element["id"]
+        for module in page_modules
+        for element in module["elements"]
+    )
+    projected_ids.update(
+        element["id"]
+        for module in page_modules
+        for item in module["filterItems"]
+        for element in item["elements"]
+    )
     screenshot = Path(str(payload["source"]["screenshot"]))
     if not screenshot.is_absolute():
         screenshot = ROOT / screenshot
@@ -167,6 +225,11 @@ def _atomic_to_phase3(payload: dict[str, Any]) -> dict[str, Any]:
         "screenshot": str(screenshot.resolve()),
         "cards": cards,
         "pageFacts": {"screen": 1, "isContinuation": False, "viewport": {"size": payload["source"]["viewport"]}, "modules": page_modules},
+        "atomicProjection": {
+            "sourceElementCount": len(elements),
+            "projectedElementCount": len(projected_ids),
+            "complete": projected_ids == set(elements),
+        },
         "recognition": {"contractVersion": "phase2.atomic-manifest.v3.compat-view", "status": "confirmed", "phase3Ready": True},
         "relations": [],
     }

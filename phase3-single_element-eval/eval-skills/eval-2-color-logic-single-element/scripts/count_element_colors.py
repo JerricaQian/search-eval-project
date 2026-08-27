@@ -11,7 +11,7 @@ count_element_colors.py — 单一元素颜色数量统计（指标 1.2.2 色彩
     渐变无需特判：渐变像素会自然落入其跨越的多个色格，若各格占比均 ≥ 阈值即计为多色。
 
 用法：
-    python3 count_element_colors.py <元素裁剪图.png> [--min-ratio 1.0] [--json] [--debug out.png]
+    python3 count_element_colors.py <元素裁剪图.png> [--min-ratio 1.0] [--json] [--debug out.png] [--output result.json]
     # 也可对整图只统计一个矩形框：
     python3 count_element_colors.py <图.png> --box x,y,w,h
 
@@ -119,10 +119,8 @@ def classify(h, s, v):
     return keys, names
 
 
-def drop_background(img_rgb, tol=18):
-    """剔除元素外围背景色（圆角/非矩形元素时，方形裁剪框四角会露出页面背景）。
-    取四角小块的众数色作为背景色，若四角颜色一致（≥3 角相近），则把整图中与之相近的
-    像素视为背景剔除。返回过滤后的 (N,3) 像素数组。"""
+def background_keep_mask(img_rgb, tol=18):
+    """返回圆角/非矩形元素的可复核背景排除 mask。"""
     h, w = img_rgb.shape[:2]
     k = max(2, min(h, w) // 12)
     corners = [img_rgb[:k, :k], img_rgb[:k, -k:], img_rgb[-k:, :k], img_rgb[-k:, -k:]]
@@ -136,13 +134,33 @@ def drop_background(img_rgb, tol=18):
             break
     pixels = img_rgb.reshape(-1, 3).astype(np.int32)
     if base is None:
-        return pixels  # 四角不一致，说明元素本身占满，无背景可剔
+        return np.ones((h, w), dtype=bool)  # 四角不一致，无可确认外围背景
     bg = base.astype(np.int32)
     dist = np.abs(pixels - bg).max(axis=1)
     keep = dist > tol
     if keep.sum() < len(pixels) * 0.02:
-        return pixels  # 剔除后几乎没剩，放弃（避免误删）
-    return pixels[keep]
+        return np.ones((h, w), dtype=bool)  # 剔除后几乎没剩，放弃（避免误删）
+    return keep.reshape(h, w)
+
+
+def drop_background(img_rgb, tol=18):
+    """剔除元素外围背景色，返回过滤后的 (N,3) 像素数组。"""
+    return img_rgb[background_keep_mask(img_rgb, tol=tol)]
+
+
+def save_debug_mask(img_rgb, output_path, drop_bg=False):
+    """保存取样 mask：彩色取样像素保留原色，中性色/外围背景置为浅灰。"""
+    keep = background_keep_mask(img_rgb) if drop_bg else np.ones(img_rgb.shape[:2], dtype=bool)
+    pixels = img_rgb.reshape(-1, 3)
+    _, saturation, _ = rgb_to_hsv_arr(pixels)
+    chromatic = (saturation >= S_ACHROMATIC).reshape(img_rgb.shape[:2])
+    sample_mask = keep & chromatic
+    debug = np.full_like(img_rgb, 238)
+    debug[sample_mask] = img_rgb[sample_mask]
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    Image.fromarray(debug).save(path)
+    return int(sample_mask.sum())
 
 
 def count_colors(img_rgb, min_ratio_pct=1.0, drop_bg=False):
@@ -242,6 +260,8 @@ def main():
     ap.add_argument("--drop-bg", action="store_true",
                     help="剔除元素外围背景色（圆角/非矩形元素、方形框四角露出页面背景时用）")
     ap.add_argument("--json", action="store_true", help="输出 JSON")
+    ap.add_argument("--debug", help="保存彩色取样 mask 调试图")
+    ap.add_argument("--output", help="将完整测量 JSON 保存到指定路径")
     args = ap.parse_args()
 
     img = Image.open(args.image).convert("RGB")
@@ -254,6 +274,19 @@ def main():
     g_label, g_key = grade(res["color_count"])
     res["grade"] = g_label
     res["grade_key"] = g_key
+    res["input"] = {
+        "image": str(Path(args.image).resolve()),
+        "box": args.box,
+        "drop_bg": bool(args.drop_bg),
+    }
+    if args.debug:
+        res["debug_image"] = str(Path(args.debug).resolve())
+        res["debug_chromatic_pixel_count"] = save_debug_mask(arr, args.debug, drop_bg=args.drop_bg)
+    if args.output:
+        output = Path(args.output)
+        output.parent.mkdir(parents=True, exist_ok=True)
+        res["artifact_path"] = str(output.resolve())
+        output.write_text(json.dumps(res, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     if args.json:
         print(json.dumps(res, ensure_ascii=False, indent=2))

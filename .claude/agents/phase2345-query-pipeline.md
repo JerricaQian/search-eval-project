@@ -118,8 +118,7 @@ Stage A 产物：`elementListPaths[]`、`elementAuditPaths[]`、全部非排除�
 
 ### Stage B：Phase3 全维度评测（在本次调用内对 `evalTargets` 逐项执行）
 
-B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manifest 继续使用下列 `validate_element_manifest.py` 门禁；Atomic v3 不得投影成或要求 legacy `recognition.wholePageGate`、`pageFactInventory`、`layoutAnchors` 字段。对 Atomic v3，先运行 `scripts/build_phase3_atomic_fact_pack.py <manifest> --output <artifactRunDir>/phase3/atomic-facts.json`，再运行 `scripts/validate_phase3_atomic_fact_pack.py <fact-pack> --require hierarchy --require alignment`。事实包是 Phase3 派生产物，绝不改写 Atomic/Phase2 manifest；合法 Atomic 的适配缺口只重跑对应 Phase3 提取，不触发 Phase2 回退。
-    - `eval-5-info-hierarchy` → `--require-hierarchy-facts`
+B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manifest 继续使用下列 `validate_element_manifest.py` 门禁；Atomic v3 不得投影成或要求 legacy `recognition.wholePageGate`、`pageFactInventory`、`layoutAnchors` 字段。对 Atomic v3，先运行 `scripts/build_phase3_atomic_fact_pack.py <manifest> --output <artifactRunDir>/phase3/atomic-facts.json`，再运行 `scripts/validate_phase3_atomic_fact_pack.py <fact-pack> --require alignment`。事实包是 Phase3 派生产物，绝不改写 Atomic/Phase2 manifest；合法 Atomic 的适配缺口只重跑对应 Phase3 提取，不触发 Phase2 回退。商卡视觉层级不再要求 Phase2 字号桶，改由 Stage B 的校准 `glyphHeightPx` 像素测量验收。
     - `eval-2-visual-order-alignment` → `--require-alignment-facts --require-alignment-anchors`
     对 `elementListPaths[]` 中每份清单分别执行，命令形如：
     ```bash
@@ -132,11 +131,11 @@ B2. **按评测颗粒度使用唯一事实源**：`sourceManifestTotal` 是原�
     ```
     legacy 输入按上述脚本得到 `sourceManifestTotal`；单元素/组件仍以自身 `evaluatedUnitCount` 为 `overview.total`。页面框架维度 `overview.total` 固定为 1，不得引用元素清单总数或跑此脚本。
 B3. **证据门禁与回退路由**：命中 FACT_GATES 的 4 个 skill，其 `assessmentRows` 必须覆盖包括优秀在内的全部完整单元；缺少下列必填事实不得输出优秀。原子边界、类型、归属、坐标或基础可见事实缺失时，写入 Phase2 复核请求；候选提取、比较、测量、去重或计数产物缺失时，只重跑或阻断受影响的 Phase3 Skill，禁止把评测专用字段补写到 Phase2。
-    - `eval-5-info-hierarchy`（视觉层级）：每条含 `sourceElements`/`weightSequence`/`tierTrace`/`levelCount`/`rating`/`verdict`；每次拆档或同档归并均须明确写出字号/字重/颜色/面积事实。
-    - `eval-4-element-complexity`（静态元素复杂度）：每条含可见分区扫描、库存覆盖、已确认 tag/icon 的真实 elementId、styleKey、纳入/排除原因、去重计数和测量产物；库存缺失/不完整/uncertain 时不得输出优秀。
-    - `eval-7-info-authenticity`（信息真实性）：每条含主标题、每个可见图片/下挂实体的真实 elementId、`title_to_image`/`title_to_append` 关系、confirmed 状态、检查结论及不适用原因；未确认关系不得写成无冲突或优秀。
+    - `eval-5-info-hierarchy`（视觉层级）：每条含 `sourceElements`/`weightSequence`/`tierTrace`/`levelCount`/`rating`/`verdict`；每次拆档或同档归并均须明确写出 `glyphHeightPx`、当次校准阈值与 JSON 颜色跳变事实。
+    - `eval-4-element-complexity`（静态元素复杂度）：每条含可见分区扫描、库存覆盖、已确认 tag/icon 的真实 elementId、从 JSON 五段字段派生的 styleKey、纳入/排除原因和去重计数；库存缺失/不完整/uncertain 时不得输出优秀。
+    - `eval-7-info-authenticity`（信息真实性）：每条含主标题、每个可见图片/副标题/标签/下挂/规格实体的真实 elementId、全量 JSON 关系对、检查结论及不适用原因；未完成全量扫描不得写成无冲突或优秀。
     - `eval-2-visual-order-alignment`（视觉秩序分组）：每条含分组 key、成员 cardId、layoutMode、layoutSignature、各卡 `layoutAnchors` 与卡内 `layoutAnchorRelation`、跨卡比较结果或单例阅读顺序核查；只允许相同 key 的完整卡横向比较，单例不得宣称跨卡一致。**严禁把标题/信息列的绝对 x 坐标、头图尺寸或卡片高度差异单独作为不达标依据**；只有同 key 卡的 `layoutAnchorRelation` 出现可见相对关系冲突（如 image_left_of_text 与 image_right_of_text、title_above_primaryInfo 与 primaryInfo_above_title），或同组锚点支持肉眼可见的页面级错层时，才可判不达标；锚点不能支持结论时必须请求 Phase2 复核，不得自行推断。
-B4. **确定性测量先行**：复杂度扫描全分区原子并测量/去重；可比性运行 `phase3-evaluation-officer/scripts/extract_phase3_comparability.py`；真实性枚举同卡标题—图片/下挂候选对。像素、颜色、样式和边界等测量必须先跑确定性脚本（如 `phase3-evaluation-officer/scripts/extract_component_metrics.py`），`assessmentRows` 附 `measurement.tool/artifactPath/parameters`，不得凭视觉估算代替。
+B4. **JSON 直读与必要像素测量**：组件色彩、静态元素复杂度、信息真实性、信息冗余和页面信息可比性直接读取并全量遍历 Phase2 JSON，不运行像素或候选提取脚本。单元素色彩先用 JSON 筛选非中性色候选，只对候选运行 `count_element_colors.py`；商卡视觉层级以 `--skill eval-5-info-hierarchy` 运行 `extract_component_metrics.py` 的 hierarchy-only 分支并使用 `phase3.hierarchy-glyph.v1` 校准阈值；页面色彩只运行 `page_color_analysis.py`，传入 `manifest/out_debug/out_result`，排除 mask 由 JSON 自动生成。只有这三类像素测量的 `assessmentRows` 附 `measurement.tool/artifactPath/parameters`。
 B5. **读图硬上限**：每个 skill 的评测整图全程只 Read 1 次；局部细节用以下命令裁出窄图再复核，不重读整图。`<local>` 是本 skill 的唯一递增序号，输出须保留在过程目录；裁图失败只按 B3 阻断受影响测量/Skill。
     ```bash
     "${pythonBin}" "${projectDir}/phase3-evaluation-officer/scripts/crop_image.py" --input "<screenshot>" --output "${artifactRunDir}/phase3/<skill>-<local>.png" --x <x> --y <y> --width <width> --height <height>

@@ -8,7 +8,7 @@ description: >-
   按红、橙、黄、绿、青、蓝、紫七色标准测量单一标题、独立标签、价格、评分、按钮或提示条中的有彩色数量；适用于元素级颜色数量、标签色数、渐变色阶和颜色克制评测，不评商家图、营销大图或整卡主色。
 metadata:
   author: qianjing16
-  version: "1.2"
+  version: "1.3"
   domain: 美团搜索结果页/信息页「色彩运用有逻辑」单一元素颜色数量评估（指标 1.2.2）
   skillhub.creator: qianjing16
 ---
@@ -19,11 +19,12 @@ metadata:
 
 ## Phase2 事实与测量门槛
 
-- 读取 `render`、`textFacts`、`visual`、`pageFacts` 的元素边界、语义角色和排除归属；边界、mask 或版本不确定时回退 Phase2，不输出颜色超标结论。
-- 必须运行本 Skill 的 `scripts/count_element_colors.py`，在语义边界内取样；保存原始七色归并、面积占比、采样 mask、排除项、参数和产物路径。不得用整卡、旧裁剪或目测替代。
+- 先读取 `render`、`textFacts`、`visual`、`pageFacts` 的元素边界、语义角色、排除归属和已确认样式色值。只有 `visual.textColor/backgroundColor/borderColor` 中至少一个为非中性色的 UI 元素，才进入像素测量候选集。
+- 黑、白、灰等仅含中性色的元素记为 `excluded:neutral_json_prefilter`，不运行裁剪或颜色脚本；若当前 Tab 没有任何非中性色候选，本项直接为优秀，并保留空候选集与全量排除记录。
+- 必须仅对上述非中性色候选运行本 Skill 的 `scripts/count_element_colors.py`，在语义边界内取样；保存原始七色归并、面积占比、调试 mask、参数和产物路径。不得对全部中性色元素无差别跑脚本，也不得用整卡、旧裁剪或目测替代候选测量。
 - 排除商家/下挂图片、营销图片、banner/腰封、金刚图标、元素外背景与相邻元素；标签本身不排除。黑白灰和面积小于 1% 的有彩色不计；渐变按跨越色格数计。
 - **先定边界再取色：**标题、每个独立标签、价格、评分、按钮、提示条均是各自元素；相邻标签、卡片背景和照片中的像素不得合并到目标裁剪。
-- **测量失败处理：**边界、背景 mask、当前版本或脚本产物任一项不可信时，阻断该元素的颜色结论并回退 Phase2/重取样；不能以“看起来颜色不多”给优秀。
+- **测量失败处理：**JSON 样式色值或边界不确定时先回退 Phase2；候选元素的背景 mask、当前版本或脚本产物任一项不可信时，阻断该元素的颜色结论并重取样；不能以“看起来颜色不多”给优秀。
 
 ## 判定标准
 
@@ -49,14 +50,14 @@ metadata:
 
 ## 固定评审流程
 
-1. **枚举与排除：**从 Phase2 元素清单逐项确认是否是可评 UI；把照片、营销大图、金刚图标、元素外背景和相邻元素写入排除清单。
-2. **裁剪与测量：**以语义边界裁剪，圆角元素启用背景排除，运行脚本并保存色格、占比、mask 和调试图。
+1. **JSON 预筛：**从 Phase2 元素清单逐项确认可评 UI，再用已确认的前景/背景/描边色值区分非中性色候选与中性色排除项；照片、营销大图、金刚图标同样写入排除清单。
+2. **候选裁剪与测量：**只对非中性色候选以语义边界裁剪，圆角元素启用背景排除，运行脚本并保存色格、占比、mask 和调试图。
 3. **核查：**先确认调试产物没有混入照片/相邻对象，再合并同色相深浅、处理渐变和 1% 阈值，最后套三档标准。
 4. **输出：**每个问题行写目标原文、排除后的色数、中文色系和证据路径；再按最差元素写 Tab 评级与分数。
 
 ## 输出与反误判
 
-- 固定字段：`elementId`、`componentId`、`phase2Boundary`、`sampleMask`、`excludedPixels`、`rawColorGrid`、`colorCount`、`parameters`、`artifactPath`、`rating`、`finding`。
+- 候选总表固定字段：`coloredCandidateIds`、`neutralExcludedIds`、`prefilterEvidenceSource=phase2_json_visual_colors`。每个实际测量行固定字段：`elementId`、`componentId`、`phase2Boundary`、`sampleMask`、`rawColorGrid`、`colorCount`、`measurement.tool/artifactPath/parameters`、`rating`、`finding`。
 - 不把黑白灰、极小噪点、照片和未确认图形计入；不因外部背景或相邻标签混色而扣分。
 - 不能确认元素边界或脚本产物时阻断本项，不得硬写“优秀”或“不达标”。
 

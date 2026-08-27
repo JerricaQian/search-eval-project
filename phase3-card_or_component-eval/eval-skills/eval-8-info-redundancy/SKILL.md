@@ -4,8 +4,8 @@ title: 信息无冗余
 weight: { "优秀": 1, "不达标": -1 }
 aggregate: "最终评级单元为「搜索词×Tab」：先对图筛/快筛/推荐区/每张商卡形成逐区域证据行，再按语义重复数量 N 聚合；N=0→优秀，N≥1→不达标，两档无中间档。`overview.total` 为实际评估区域数，Phase2 清单总数仅写入 evidence.sourceManifestTotal。"
 extra: ""
-description: 搜索结果页信息无冗余评测；在需核查图筛、快筛、推荐区和商卡内是否存在可无损删除的重复信息时使用。
-metadata: { author: qianjing16, version: "2.1", domain: 美团搜索结果页信息冗余评估 }
+description: 搜索结果页信息无冗余评测；直接遍历 Phase2 JSON 中图筛、快筛、推荐区和商卡的全部文字原子，核查是否存在可无损删除的重复信息，不运行关系候选脚本。
+metadata: { author: qianjing16, version: "2.2", domain: 美团搜索结果页信息冗余评估 }
 ---
 
 ## 评审对象与共同契约
@@ -14,10 +14,10 @@ metadata: { author: qianjing16, version: "2.1", domain: 美团搜索结果页信
 
 ## Phase2 与候选门槛
 
-- 原文、语义角色、区域、卡片归属和坐标只读 Phase2。必须运行 `phase3-evaluation-officer/scripts/extract_phase3_relation_candidates.py`；候选仅是入口，语义终判仍由 Phase3 完成。
+- 原文、语义角色、区域、卡片归属和坐标只读 Phase2 JSON。本 Skill 禁止运行 `extract_phase3_relation_candidates.py` 或其他候选缩减脚本；Phase3 必须在当前区域的全量文字原子上建立两两/固定跨区核对，再完成语义终判。
 - `candidatePairs=[]` 不能证明优秀。优秀前必须保留 `scanCoverage.status=completed`、`textAtomCount`、`scannedElementIds`、`scannedRegions`，以及标题/副标题与基础信息、标签/价格/权益、标题内部的四类 `crossChecks`；这些字段证明已扫全，不替代逐对语义判断。`selfRepeatCandidates` 也必须逐条给出终判，不能只保存候选后仍输出优秀。
 - 先把同一视觉实体的重复 Phase2 标注合并为一个扫描对象，再建立实体之间的候选。不能让 Atomic 清单的两次标注变成一次“冗余问题”。
-- 每个 Tab（包括优秀）先生成逐区域 `assessmentRows`：已扫描原子、候选、排除原因、逐对语义结论、`measurement`、`duplicateCount` 和评级；扫描产物不得回写 Atomic 黄金 JSON，不能用历史结论或固定元素替代重评。
+- 每个 Tab（包括优秀）先生成逐区域 `assessmentRows`：已扫描原子、候选、排除原因、逐对语义结论、`evidenceSource=phase2_json_full_redundancy_scan`、`duplicateCount` 和评级；不得附带 `measurement`，也不得回写 Atomic 黄金 JSON 或复用历史结论。
 
 ## 判定标准
 
@@ -38,7 +38,7 @@ metadata: { author: qianjing16, version: "2.1", domain: 美团搜索结果页信
 
 ## 固定评审流程
 
-1. 运行候选提取，按图筛、快筛、推荐区和每张商卡形成扫描覆盖；即使候选为空也完成四类 `crossChecks`。
+1. 按图筛、快筛、推荐区和每张商卡直接遍历 JSON 文字原子，形成完整扫描覆盖；即使候选为空也完成四类 `crossChecks`。
 2. 排除同一视觉实体的重复标注与不在本 Skill 范围的业务图筛，记录原因。
 3. 对每个保留候选和标题内部重复候选写出视觉位置、语义角色、服务对象、各自新增信息与无损删除依据；标题↔基础信息同值属性（如“10度”与“麦汁浓度:10°P”）必须明确回答是否同一规格，不能仅因文案不同跳过。
 4. 汇总 `duplicateCount`；按 N=0/≥1 评级、聚合 Tab 并写唯一 `weightedScore`。
@@ -46,6 +46,7 @@ metadata: { author: qianjing16, version: "2.1", domain: 美团搜索结果页信
 ## 输出与反误判
 
 - `overview.total` 为实际区域数；`observableFact` 指明重复对象及区域。
+- 每行 `evidenceSource` 必须为 `phase2_json_full_redundancy_scan`，且不得存在 `measurement`。
 - 不将标题与搜索词匹配、店名与菜品名、不同套餐上的活动复用、不同规格相似商品、中英文品牌并列或不同门店的相似供给当重复。
 - 同标题且同一可见供给对象的跨卡展示是例外，必须另做证据核查；重建清单或坐标不等于重评，历史问题也不能批量清空。
 

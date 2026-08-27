@@ -152,7 +152,9 @@ def validate(payload: dict[str, Any], taxonomy_path: Path = DEFAULT_TAXONOMY) ->
         module_type = module.get("type")
         if module_type not in MODULE_TYPES:
             errors.append(f"{prefix}:module_type_invalid")
-        if "bounds" in module and not is_bounds(module["bounds"], viewport):
+        if "bounds" not in module:
+            errors.append(f"{prefix}.bounds:required")
+        elif not is_bounds(module["bounds"], viewport):
             errors.append(f"{prefix}.bounds:invalid")
         if isinstance(module.get("slots"), dict):
             for role, ids in module["slots"].items():
@@ -276,11 +278,41 @@ def validate(payload: dict[str, Any], taxonomy_path: Path = DEFAULT_TAXONOMY) ->
                 errors.append(f"{prefix}:mediaType_required")
             if "text" in element:
                 errors.append(f"{prefix}:media_must_not_repeat_text")
+            if not isinstance(element.get("semanticDescription"), str) or not element["semanticDescription"].strip():
+                errors.append(f"{prefix}:media_semantic_description_required")
+            if element.get("semanticStatus") not in {"confirmed", "uncertain"}:
+                errors.append(f"{prefix}:media_semantic_status_required")
         else:
             if "mediaType" in element:
                 errors.append(f"{prefix}:non_media_must_not_have_mediaType")
-            if kind in {"text", "tag"} and not isinstance(element.get("text"), str):
+            if kind in {"text", "tag"} and (
+                not isinstance(element.get("text"), str) or not element["text"].strip()
+            ):
                 errors.append(f"{prefix}:text_required")
+        if kind == "tag":
+            visual = element.get("visual") if isinstance(element.get("visual"), dict) else {}
+            required_visual = {"container", "backgroundColor", "textColor", "borderColor", "graphicAssist"}
+            if not required_visual.issubset(visual):
+                errors.append(f"{prefix}:tag_visual_facts_incomplete")
+            if visual.get("container") not in {"none", "filled", "outlined"}:
+                errors.append(f"{prefix}:tag_container_unconfirmed")
+            if not isinstance(visual.get("graphicAssist"), str) or not visual["graphicAssist"].strip():
+                errors.append(f"{prefix}:tag_graphic_assist_required")
+        if kind == "icon":
+            if not isinstance(element.get("semanticDescription"), str) or not element["semanticDescription"].strip():
+                errors.append(f"{prefix}:icon_semantic_description_required")
+            if element.get("semanticStatus") not in {"confirmed", "uncertain"}:
+                errors.append(f"{prefix}:icon_semantic_status_required")
+            attached_to = element.get("attachedTo")
+            if attached_to is not None:
+                target = elements.get(attached_to)
+                if not isinstance(target, dict) or target.get("kind") != "media":
+                    errors.append(f"{prefix}:icon_attached_media_invalid")
+                elif is_bounds(target.get("bounds"), viewport):
+                    x1, y1, w1, h1 = element["bounds"]
+                    x2, y2, w2, h2 = target["bounds"]
+                    if max(x1, x2) >= min(x1 + w1, x2 + w2) or max(y1, y2) >= min(y1 + h1, y2 + h2):
+                        errors.append(f"{prefix}:icon_does_not_overlap_attached_media")
 
     enum_slots = {
         "fulfillment_tag": taxonomy["fulfillment"],

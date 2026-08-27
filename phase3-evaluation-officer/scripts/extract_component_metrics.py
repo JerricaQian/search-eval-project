@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
-"""Deterministic per-component visual measurement for phase3 eval-1..7.
+"""Deterministic per-component visual measurement for pixel-dependent evals.
 
 Reads the phase2 element manifest (card coords + regions + elements) plus the
 original screenshot, and measures REAL pixels with OpenCV/numpy. No rating is
 decided here; ratings are derived from these numbers by
 apply_component_ratings.py, so every grade stays traceable to a measurement.
 
-Geometry facts established by probing the four scenes (and handled below):
-  * A card's 头图区 may be a LEFT COLUMN beside the text column (生日蛋糕/盒马/
-    生理盐水) or a TOP BAND above the text (电竞房 2-column grid). Region pairs
-    are therefore classified as vertical / horizontal / nested before any
-    boundary test runs.
-  * Some manifests carry a full-card wrapper region with 0 elements
-    (电竞房 card-*): these are containers, not content partitions, and are
-    excluded from adjacent-pair boundary testing.
+Eval-2 visual order and eval-6 information partitioning are intentionally not
+measured here: both consume the validated Phase2 JSON structure and coordinates
+directly, without OpenCV or screenshot-derived layout facts.
 """
 from __future__ import annotations
 
@@ -41,6 +36,21 @@ from phase3_color_scope import excluded_page_modules
 ROOT: Path
 MANIFEST_DIR: Path
 METRIC_DIR: Path
+
+HIERARCHY_CALIBRATION_PROFILE = "phase3.hierarchy-glyph.v1"
+HIERARCHY_REFERENCE_WIDTH_PX = 1224
+HIERARCHY_REFERENCE_GAP_PX = 6
+
+
+def hierarchy_glyph_gap_threshold(image_width_px: int) -> int:
+    """Scale the calibrated 2pt-equivalent glyph gap to the screenshot width.
+
+    The current golden corpus is rendered at roughly 3 physical pixels per
+    typographic point (1224px viewport), so a 2pt perceptual step maps to a
+    6px glyph-ink-height gap.  Smaller screenshots keep a 3px floor so
+    anti-aliasing noise cannot create extra tiers.
+    """
+    return max(3, int(round(HIERARCHY_REFERENCE_GAP_PX * image_width_px / HIERARCHY_REFERENCE_WIDTH_PX)))
 
 
 def configure_paths(project_dir: str) -> None:
@@ -79,6 +89,11 @@ def etext(el: dict) -> str:
     facts = el.get("textFacts") if isinstance(el.get("textFacts"), dict) else {}
     c = facts.get("rawText") or el.get("内容简述") or el.get("content") or ""
     return re.sub(r"^原文[:：]\s*", "", c).strip()
+
+
+def semantic_role(el: dict) -> str:
+    facts = el.get("textFacts") if isinstance(el.get("textFacts"), dict) else {}
+    return str(facts.get("semanticRole") or "other").strip() or "other"
 
 
 def overlap(a0: int, a1: int, b0: int, b1: int) -> int:
@@ -222,6 +237,70 @@ def measure_text(bgr: np.ndarray, box) -> dict:
     }
 
 
+def json_color_is_chromatic(value: Any) -> bool:
+    """Return whether a Phase2 JSON colour is non-neutral (HSV saturation >= 12)."""
+    if not isinstance(value, str):
+        return False
+    token = value.strip().lstrip("#")
+    if len(token) == 3:
+        token = "".join(character * 2 for character in token)
+    if len(token) not in {6, 8}:
+        return False
+    try:
+        red, green, blue = (int(token[index:index + 2], 16) for index in (0, 2, 4))
+    except ValueError:
+        return False
+    maximum = max(red, green, blue)
+    saturation = 0.0 if maximum == 0 else (maximum - min(red, green, blue)) / maximum * 100
+    return saturation >= 12.0
+
+
+def element_json_chromatic(element: dict[str, Any]) -> bool:
+    """Use declared JSON styles for emphasis; pixel work is glyph height only."""
+    visual = element.get("visual") if isinstance(element.get("visual"), dict) else {}
+    return any(
+        json_color_is_chromatic(visual.get(field))
+        for field in ("textColor", "backgroundColor", "borderColor")
+    )
+
+
+def analyse_hierarchy_card(bgr: np.ndarray, card: dict[str, Any]) -> dict[str, Any]:
+    """Measure only eval-5 glyph facts, avoiding unrelated colour/complexity scans."""
+    image_width_px = int(bgr.shape[1])
+    threshold = hierarchy_glyph_gap_threshold(image_width_px)
+    blocks: list[dict[str, Any]] = []
+    for region in card.get("regions", []):
+        region_name = str(region.get("name") or "-")
+        for element in region.get("elements", []):
+            if element.get("isExcluded") or etype(element) == "图片" or not ebox(element):
+                continue
+            measured = measure_text(bgr, ebox(element))
+            blocks.append({
+                "id": str(element.get("id") or ""),
+                "text": etext(element),
+                "region": region_name,
+                "semanticRole": semantic_role(element),
+                "glyphHeightPx": measured["glyphHeightPx"],
+                "lineCount": measured["lineCount"],
+                "inkRatio": measured["inkRatio"],
+                "chromatic": element_json_chromatic(element),
+                "colorEvidenceSource": "phase2_json_visual_colors",
+            })
+    return {
+        "cardId": card.get("cardId"),
+        "cardType": card.get("卡片类型"),
+        "coord": card.get("coord"),
+        "hierarchyMeasurement": {
+            "calibrationProfile": HIERARCHY_CALIBRATION_PROFILE,
+            "referenceWidthPx": HIERARCHY_REFERENCE_WIDTH_PX,
+            "referenceGapPx": HIERARCHY_REFERENCE_GAP_PX,
+            "imageWidthPx": image_width_px,
+            "glyphHeightGapThresholdPx": threshold,
+            "weightBlocks": blocks,
+        },
+    }
+
+
 # --------------------------------------------------------------- tag / icon
 
 def measure_tag_style(bgr: np.ndarray, box) -> dict:
@@ -264,6 +343,120 @@ def measure_tag_style(bgr: np.ndarray, box) -> dict:
         "chromaRatio": round(chroma_ratio, 3),
         "ringChromaRatio": round(ring_chroma, 3),
     }
+
+
+PROMOTION_TEXT_RE = re.compile(
+    r"特价|特惠|立减|折|优惠|券|补贴|返|赠|可抵|仅剩|低价|限时|秒杀|抢购|权益|会员"
+)
+PRIMARY_PRICE_RE = re.compile(
+    r"^\s*[¥￥]\s*\d+(?:\.\d+)?(?:\s*(?:元|起|/\S+))?\s*$|"
+    r"^\s*\d+(?:\.\d+)?\s*(?:元|起)\s*$"
+)
+
+
+def primary_field_exclusion(el: dict) -> str | None:
+    """Return the explicit core-field exclusion required by eval-4.
+
+    Coloured auxiliary copy is a tag candidate, but a coloured title, rating
+    value or main transaction price is still the underlying core field.  The
+    distinction is semantic and must be made before style-key generation.
+    """
+    role = semantic_role(el)
+    text = etext(el)
+    if role == "title":
+        return "主标题不是标签"
+    if role == "rating" or re.fullmatch(r"\s*[0-5](?:\.\d+)?\s*分\s*", text):
+        return "核心评分值不是标签"
+    if role == "price" and not PROMOTION_TEXT_RE.search(text) and PRIMARY_PRICE_RE.fullmatch(text):
+        return "主价格不是标签"
+    return None
+
+
+def five_part_tag_style_key(el: dict, measured: dict) -> str:
+    """Build the deterministic five-segment key used for style-kind counts."""
+    visual = el.get("visual") if isinstance(el.get("visual"), dict) else {}
+    measured_shape = str(measured.get("shape") or "text")
+    declared_container = str(visual.get("containerShape") or "none").strip().lower()
+    if declared_container not in {"", "none", "无", "无容器"}:
+        container = declared_container
+    else:
+        container = {"filled": "filled", "outlined": "outlined"}.get(measured_shape, "none")
+    graphic = str(visual.get("graphicAssistRole") or "none").strip() or "none"
+    if graphic in {"无", "none", "None"}:
+        graphic = "none"
+    return "|".join([
+        "tag",
+        str(measured.get("family") or "neutral"),
+        semantic_role(el),
+        container,
+        graphic,
+    ])
+
+
+def detect_media_overlay_candidates(
+    bgr: np.ndarray,
+    media_elements: list[dict],
+    covered_boxes: list[list],
+) -> list[dict]:
+    """Find compact solid chromatic overlays near the top edge of photos.
+
+    These are anomaly cues only. They never enter the formal count without a
+    Phase2 atom; a hit therefore requests Phase2 review instead of fabricating
+    an element in Phase3.
+    """
+    image_h, image_w = bgr.shape[:2]
+    hits: list[dict] = []
+    for media in media_elements:
+        box = ebox(media)
+        if not box:
+            continue
+        x0, y0, x1, y1 = clamp_box(box, image_w, image_h)
+        patch = bgr[y0:y1, x0:x1]
+        if patch.size == 0:
+            continue
+        hsv = cv2.cvtColor(patch, cv2.COLOR_BGR2HSV)
+        sat = hsv[:, :, 1].astype(np.float32) / 255 * 100
+        val = hsv[:, :, 2].astype(np.float32) / 255 * 100
+        mask = ((sat >= 55) & (val >= 45)).astype(np.uint8) * 255
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((3, 3), np.uint8))
+        count, labels, stats, _ = cv2.connectedComponentsWithStats(mask, 8)
+        for component_index in range(1, count):
+            lx, ly, width, height, area = [int(value) for value in stats[component_index]]
+            max_overlay_width = min(105, max(10, int((x1 - x0) * 0.32)))
+            if not (10 <= width <= max_overlay_width):
+                continue
+            if not (8 <= height <= min(72, max(8, (y1 - y0) // 3))):
+                continue
+            if ly > (y1 - y0) * 0.35:
+                continue
+            if lx > (x1 - x0) * 0.35 and lx + width < (x1 - x0) * 0.65:
+                continue
+            fill = area / float(max(width * height, 1))
+            if fill < 0.58:
+                continue
+            absolute = [x0 + lx, y0 + ly, width, height]
+            ax0, ay0, aw, ah = absolute
+            overlaps_known = False
+            for known in covered_boxes:
+                kx, ky, kw, kh = [int(value) for value in known]
+                intersection = overlap(ax0, ax0 + aw, kx, kx + kw) * overlap(ay0, ay0 + ah, ky, ky + kh)
+                if intersection >= 0.5 * max(1, aw * ah):
+                    overlaps_known = True
+                    break
+            if overlaps_known:
+                continue
+            component_mask = labels[ly:ly + height, lx:lx + width] == component_index
+            hue_values = hsv[ly:ly + height, lx:lx + width, 0][component_mask].astype(np.float32) * 2
+            family = hue_family(float(np.median(hue_values))) if hue_values.size else "unknown"
+            hits.append({
+                "mediaElementId": str(media.get("id") or ""),
+                "coord": absolute,
+                "colorFamily": family,
+                "fillRatio": round(fill, 3),
+                "decision": "phase2_review_required",
+                "reason": "头图顶部发现未被活动原子覆盖的紧凑彩色 UI 角标候选",
+            })
+    return hits
 
 
 def detect_icon_candidates(bgr: np.ndarray, boxes: list, photo_mask: np.ndarray) -> dict:
@@ -361,153 +554,6 @@ def region_profile(bgr: np.ndarray, box) -> dict:
     }
 
 
-def ink_rows(bgr: np.ndarray, box) -> tuple[int, int] | None:
-    """First/last ink row (absolute y) inside a box, or None when empty."""
-    h_img, w_img = bgr.shape[:2]
-    x0, y0, x1, y1 = clamp_box(box, w_img, h_img)
-    patch = bgr[y0:y1, x0:x1]
-    if patch.size == 0:
-        return None
-    gray = cv2.cvtColor(patch, cv2.COLOR_BGR2GRAY)
-    ink, _ = ink_mask(gray)
-    rows = np.where(ink.any(axis=1))[0]
-    if not rows.size:
-        return None
-    return int(y0 + rows[0]), int(y0 + rows[-1])
-
-
-def ink_cols(bgr: np.ndarray, box) -> tuple[int, int] | None:
-    """First/last ink column (absolute x) inside a box, or None when empty."""
-    h_img, w_img = bgr.shape[:2]
-    x0, y0, x1, y1 = clamp_box(box, w_img, h_img)
-    patch = bgr[y0:y1, x0:x1]
-    if patch.size == 0:
-        return None
-    gray = cv2.cvtColor(patch, cv2.COLOR_BGR2GRAY)
-    ink, _ = ink_mask(gray)
-    cols = np.where(ink.any(axis=0))[0]
-    if not cols.size:
-        return None
-    return int(x0 + cols[0]), int(x0 + cols[-1])
-
-
-def pair_relation(a: list, b: list) -> str:
-    """vertical | horizontal | nested, from measured region geometry."""
-    ax0, ay0, aw, ah = [int(v) for v in a]
-    bx0, by0, bw, bh = [int(v) for v in b]
-    ax1, ay1, bx1, by1 = ax0 + aw, ay0 + ah, bx0 + bw, by0 + bh
-    xo = overlap(ax0, ax1, bx0, bx1)
-    yo = overlap(ay0, ay1, by0, by1)
-    a_in_b = ax0 >= bx0 - 2 and ay0 >= by0 - 2 and ax1 <= bx1 + 2 and ay1 <= by1 + 2
-    b_in_a = bx0 >= ax0 - 2 and by0 >= ay0 - 2 and bx1 <= ax1 + 2 and by1 <= ay1 + 2
-    if a_in_b or b_in_a:
-        return "nested"
-    if xo >= 0.5 * min(aw, bw) and yo < 0.5 * min(ah, bh):
-        return "vertical"
-    if yo >= 0.5 * min(ah, bh) and xo < 0.5 * min(aw, bw):
-        return "horizontal"
-    return "vertical" if yo <= xo else "horizontal"
-
-
-def region_content_extent(bgr: np.ndarray, region: dict, axis: str):
-    """Ink extent of a region's ELEMENTS along one axis.
-
-    Phase2 region rectangles are loose bounding boxes that often overlap
-    (生日蛋糕 C1: 标签区 ends y=1765 while 下挂区 starts y=1740), even though the
-    rendered content does not. Measuring the union of the member elements'
-    ink extents gives the true content band and therefore the true separation.
-    """
-    fn = ink_rows if axis == "y" else ink_cols
-    lo, hi = None, None
-    for el in region.get("elements", []):
-        box = ebox(el)
-        if not box:
-            continue
-        ext = fn(bgr, box)
-        if not ext:
-            continue
-        lo = ext[0] if lo is None else min(lo, ext[0])
-        hi = ext[1] if hi is None else max(hi, ext[1])
-    if lo is None:
-        return fn(bgr, region["coord"])
-    return lo, hi
-
-
-def boundary_test(bgr: np.ndarray, ra: dict, rb: dict, inner_gaps: list,
-                  relation: str) -> dict:
-    """eval-6: physical / spatial / visual boundary between two regions.
-
-    Separation is measured between the two regions' CONTENT ink extents (union
-    of member elements), not their declared rectangles, because phase2 region
-    boxes overlap while the rendered content does not. The three tests are
-    OR-ed per SKILL: any one clear boundary means the pair is fine.
-    """
-    h_img, w_img = bgr.shape[:2]
-    a, b = ra["coord"], rb["coord"]
-
-    if relation == "horizontal":
-        (lo_r, hi_r) = (ra, rb) if a[0] <= b[0] else (rb, ra)
-        e_lo = region_content_extent(bgr, lo_r, "x")
-        e_hi = region_content_extent(bgr, hi_r, "x")
-        gap = int(e_hi[0] - e_lo[1]) if (e_lo and e_hi) else int(
-            hi_r["coord"][0] - (lo_r["coord"][0] + lo_r["coord"][2]))
-        y_lo = max(int(a[1]), int(b[1]))
-        y_hi = min(int(a[1] + a[3]), int(b[1] + b[3]))
-        bx0 = max(0, e_lo[1] if e_lo else 0)
-        bx1 = min(w_img, e_hi[0] if e_hi else 0)
-        band = bgr[max(0, y_lo):min(h_img, y_hi), bx0:bx1] if bx1 > bx0 else None
-        axis = "x"
-    else:
-        (lo_r, hi_r) = (ra, rb) if a[1] <= b[1] else (rb, ra)
-        e_lo = region_content_extent(bgr, lo_r, "y")
-        e_hi = region_content_extent(bgr, hi_r, "y")
-        gap = int(e_hi[0] - e_lo[1]) if (e_lo and e_hi) else int(
-            hi_r["coord"][1] - (lo_r["coord"][1] + lo_r["coord"][3]))
-        x_lo = max(int(a[0]), int(b[0]))
-        x_hi = min(int(a[0] + a[2]), int(b[0] + b[2]))
-        by0 = max(0, e_lo[1] if e_lo else 0)
-        by1 = min(h_img, e_hi[0] if e_hi else 0)
-        band = bgr[by0:by1, max(0, x_lo):min(w_img, x_hi)] if by1 > by0 else None
-        axis = "y"
-
-    # physical: a drawn divider / rule inside the separating band
-    physical = False
-    if band is not None and band.size:
-        g = cv2.cvtColor(band, cv2.COLOR_BGR2GRAY).astype(np.float32)
-        prof = g.mean(axis=1) if axis == "y" else g.mean(axis=0)
-        if prof.size >= 2:
-            physical = bool(prof.min() < float(np.median(prof)) - 10)
-
-    # spatial: outer gap clearly exceeds typical inner element gap (内紧外松)
-    median_inner = float(np.median(inner_gaps)) if inner_gaps else 0.0
-    spatial = bool(gap >= median_inner * 1.5) if median_inner > 0 else bool(gap >= 16)
-
-    # visual: either a different fill or a stable foreground/typographic
-    # hierarchy (for example black merchant text followed by gray fulfillment).
-    pa = region_profile(bgr, a)
-    pb = region_profile(bgr, b)
-    background_delta = sum(abs(x - y) for x, y in zip(pa["bgRGB"], pb["bgRGB"]))
-    foreground_delta = sum(abs(x - y) for x, y in zip(pa["inkRGB"], pb["inkRGB"]))
-    background_visual = background_delta > 24
-    typographic_visual = foreground_delta >= 60
-    visual = bool(background_visual or typographic_visual)
-
-    return {
-        "relation": relation,
-        "gapPx": gap,
-        "gapBasis": "inkExtent" if (e_lo and e_hi) else "declaredBox",
-        "medianInnerGapPx": round(median_inner, 1),
-        "physical": physical,
-        "spatial": spatial,
-        "visual": visual,
-        "backgroundVisual": background_visual,
-        "typographicVisual": typographic_visual,
-        "backgroundDelta": int(background_delta),
-        "foregroundDelta": int(foreground_delta),
-        "clear": bool(physical or spatial or visual),
-    }
-
-
 # --------------------------------------------------------- element taxonomy
 
 KIND_PATTERNS = [
@@ -540,6 +586,8 @@ def classify(el: dict) -> str:
 def analyse_card(bgr: np.ndarray, card: dict, photo_mask: np.ndarray, ui_mask: np.ndarray) -> dict:
     card_box = card["coord"]
     regions = card.get("regions", [])
+    image_width_px = int(bgr.shape[1])
+    hierarchy_gap_px = hierarchy_glyph_gap_threshold(image_width_px)
 
     elems: list[dict] = []
     for reg in regions:
@@ -565,33 +613,123 @@ def analyse_card(bgr: np.ndarray, card: dict, photo_mask: np.ndarray, ui_mask: n
     colors = measure_colors(bgr, card_box, photo_mask, ui_mask)
 
     # ---------- eval-4: tag styles + icons (whole-card sweep across ALL regions)
+    expected_regions = [str(region.get("name") or "-") for region in regions]
+    scanned_regions: list[str] = []
+    scanned_element_ids: list[str] = []
     tag_styles: dict[str, list[str]] = defaultdict(list)
+    tag_contents: dict[str, list[str]] = defaultdict(list)
     excluded_tags: list[dict] = []
-    region_scan: dict[str, dict] = defaultdict(lambda: {"included": [], "excluded": []})
-    for e in elems:
-        if e.get("isExcluded"):
-            continue
-        if not (etype(e) == "标签" or classify(e) == "tag"):
-            continue
-        st = measure_tag_style(bgr, ebox(e))
-        rn = e.get("_region") or "-"
-        visual = e.get("visual") if isinstance(e.get("visual"), dict) else {}
-        if visual.get("visualStatus") != "confirmed":
-            excluded_tags.append({"id": e.get("id"), "reason": "Phase2 原子类型或边界未确认，不进入 Phase3 测量"})
-            region_scan[rn]["excluded"].append(f"{e.get('id')}(未确认)")
-            continue
-        # The formal style is measured by Phase3 from current pixels.  A
-        # Phase2 styleKey may be retained for traceability but never controls
-        # inclusion, deduplication or the count.
-        phase3_style_key = st["pixelStyle"]
-        if st["chromatic"]:
-            tag_styles[phase3_style_key].append(e.get("id"))
-            region_scan[rn]["included"].append(f"{e.get('id')}({phase3_style_key})")
-        else:
-            excluded_tags.append({"id": e.get("id"), "pixelStyle": st["pixelStyle"],
-                                  "reason": "中性色纯文字标签，无彩色底/描边/图形辅助",
-                                  "chromaRatio": st["chromaRatio"]})
-            region_scan[rn]["excluded"].append(f"{e.get('id')}(中性色)")
+    candidate_ledger: list[dict] = []
+    region_scan: dict[str, dict] = {
+        region_name: {"scannedElementIds": [], "included": [], "excluded": []}
+        for region_name in expected_regions
+    }
+
+    for region in regions:
+        region_name = str(region.get("name") or "-")
+        scanned_regions.append(region_name)
+        for original in region.get("elements", []):
+            if original.get("isExcluded"):
+                continue
+            e = next(
+                item for item in active
+                if item.get("id") == original.get("id") and item.get("_region") == region_name
+            )
+            element_id = str(e.get("id") or "")
+            scanned_element_ids.append(element_id)
+            region_scan[region_name]["scannedElementIds"].append(element_id)
+            visual = e.get("visual") if isinstance(e.get("visual"), dict) else {}
+            ledger = {
+                "elementId": element_id,
+                "region": region_name,
+                "content": etext(e) or "[图片]",
+                "sourceKind": str(visual.get("entityKind") or classify(e) or "other"),
+                "semanticRole": semantic_role(e),
+            }
+
+            if visual.get("visualStatus") != "confirmed":
+                ledger.update({
+                    "decision": "phase2_review_required",
+                    "reason": "Phase2 原子类型或边界未确认",
+                })
+                candidate_ledger.append(ledger)
+                excluded_tags.append({"id": element_id, "reason": ledger["reason"]})
+                region_scan[region_name]["excluded"].append(f"{element_id}(未确认)")
+                continue
+
+            if visual.get("entityKind") == "icon":
+                ledger.update({"decision": "included_icon", "reason": "Phase2 已确认独立 icon 原子"})
+                candidate_ledger.append(ledger)
+                region_scan[region_name]["included"].append(f"{element_id}(独立 icon)")
+                continue
+
+            if etype(e) == "图片" or visual.get("entityKind") == "image":
+                ledger.update({"decision": "excluded", "reason": "主体图片不是标签或独立 icon"})
+                candidate_ledger.append(ledger)
+                region_scan[region_name]["excluded"].append(f"{element_id}(主体图片)")
+                continue
+
+            core_reason = primary_field_exclusion(e)
+            if core_reason:
+                ledger.update({"decision": "excluded", "reason": core_reason})
+                candidate_ledger.append(ledger)
+                excluded_tags.append({"id": element_id, "reason": core_reason})
+                region_scan[region_name]["excluded"].append(f"{element_id}({core_reason})")
+                continue
+
+            measured = measure_tag_style(bgr, ebox(e))
+            declared_container = str(visual.get("containerShape") or "none").strip().lower()
+            graphic = str(visual.get("graphicAssistRole") or "none").strip()
+            shaped = declared_container not in {"", "none", "无", "无容器"}
+            has_graphic = graphic not in {"", "none", "None", "无"}
+            typed_tag = etype(e) == "标签" or classify(e) == "tag"
+            include_as_tag = bool(measured["chromatic"] or shaped or has_graphic)
+
+            if include_as_tag:
+                style_key = five_part_tag_style_key(e, measured)
+                tag_styles[style_key].append(element_id)
+                tag_contents[style_key].append(etext(e))
+                basis = "Phase2 标签原子" if typed_tag else "无容器彩色辅助文字"
+                ledger.update({
+                    "decision": "included_tag",
+                    "reason": basis,
+                    "styleKey": style_key,
+                    "pixelStyle": measured["pixelStyle"],
+                    "colorEvidence": {
+                        "chromatic": measured["chromatic"],
+                        "family": measured["family"],
+                        "chromaRatio": measured["chromaRatio"],
+                        "ringChromaRatio": measured["ringChromaRatio"],
+                    },
+                })
+                region_scan[region_name]["included"].append(f"{element_id}({style_key})")
+            else:
+                reason = "中性色普通文字，无异形、异色或图形辅助"
+                ledger.update({
+                    "decision": "excluded",
+                    "reason": reason,
+                    "pixelStyle": measured["pixelStyle"],
+                })
+                excluded_tags.append({
+                    "id": element_id,
+                    "pixelStyle": measured["pixelStyle"],
+                    "reason": reason,
+                    "chromaRatio": measured["chromaRatio"],
+                })
+                region_scan[region_name]["excluded"].append(f"{element_id}(中性色普通文字)")
+            candidate_ledger.append(ledger)
+
+    media_elements = [element for element in active if etype(element) == "图片"]
+    known_ui_boxes = [ebox(element) for element in active if etype(element) != "图片" and ebox(element)]
+    overlay_review_candidates = detect_media_overlay_candidates(bgr, media_elements, known_ui_boxes)
+    tag_style_groups = [
+        {
+            "styleKey": style_key,
+            "elementIds": element_ids,
+            "contents": tag_contents[style_key],
+        }
+        for style_key, element_ids in sorted(tag_styles.items())
+    ]
 
     icon_boxes = [ebox(e) for e in elems
                   if etype(e) != "文本" and not e.get("isExcluded")]
@@ -633,80 +771,6 @@ def analyse_card(bgr: np.ndarray, card: dict, photo_mask: np.ndarray, ui_mask: n
                            "chromatic": m["chromatic"], "meanColor": m["meanColor"],
                            "region": e.get("_region")})
 
-    # ---------- eval-6: adjacent region boundaries (skip wrapper containers)
-    real_regions = []
-    for r in regions:
-        if not r.get("coord"):
-            continue
-        if len(r.get("elements", [])) == 0:
-            continue          # full-card wrapper, not a content partition
-        real_regions.append(r)
-
-    # Baseline for "内紧外松": vertical gaps between successive element ROWS
-    # inside a region, measured on ink extents so it is comparable with the
-    # outer gaps computed in boundary_test().
-    inner_gaps: list[int] = []
-    for r in real_regions:
-        els = [e for e in r.get("elements", []) if ebox(e)]
-        rows: list[tuple[int, int]] = []
-        for e in sorted(els, key=lambda e: ebox(e)[1]):
-            ext = ink_rows(bgr, ebox(e))
-            if not ext:
-                continue
-            if rows and ext[0] <= rows[-1][1]:      # same visual row: merge
-                rows[-1] = (rows[-1][0], max(rows[-1][1], ext[1]))
-            else:
-                rows.append(ext)
-        for (_, prev_end), (next_start, _) in zip(rows, rows[1:]):
-            g = next_start - prev_end
-            if g > 0:
-                inner_gaps.append(int(g))
-
-    # order regions by real content position, not by loose declared boxes
-    def order_key(r: dict):
-        ry = region_content_extent(bgr, r, "y")
-        rx = region_content_extent(bgr, r, "x")
-        return (ry[0] if ry else r["coord"][1], rx[0] if rx else r["coord"][0])
-
-    ordered = sorted(real_regions, key=order_key)
-    boundaries = []
-    for a, b in zip(ordered, ordered[1:]):
-        rel = pair_relation(a["coord"], b["coord"])
-        res = boundary_test(bgr, a, b, inner_gaps, rel)
-        res["pair"] = f"{a.get('name')}→{b.get('name')}"
-        boundaries.append(res)
-
-    # ---------- eval-2: layout signature
-    img_els = [e for e in elems if etype(e) == "图片"]
-    head = None
-    for e in img_els:
-        b = ebox(e)
-        if head is None or (b[1], b[0]) < (head[1], head[0]):
-            head = b
-    text_els = [e for e in active if etype(e) != "图片"]
-    text_xs = [ebox(e)[0] for e in text_els]
-    text_ys = [ebox(e)[1] for e in text_els]
-    image_pos = "none"
-    if head and text_xs and text_ys:
-        hx_c = head[0] + head[2] / 2
-        tx_min = min(text_xs)
-        if head[0] + head[2] <= tx_min + 8:
-            image_pos = "left"
-        elif head[0] >= max(ebox(e)[0] + ebox(e)[2] for e in text_els) - 8:
-            image_pos = "right"
-        elif head[1] + head[3] <= min(text_ys) + 8:
-            image_pos = "top"
-        else:
-            image_pos = "overlap"
-    layout = {
-        "cardType": card.get("卡片类型"),
-        "imagePosition": image_pos,
-        "regionOrder": [r.get("name") for r in ordered],
-        "textLeftEdge": int(min(text_xs)) if text_xs else None,
-        "textLeftEdgeSpreadPx": int(max(text_xs) - min(text_xs)) if text_xs else 0,
-        "headImageBox": head,
-    }
-
     texts = [{"id": e.get("id"), "region": e.get("_region"), "kind": classify(e),
               "text": etext(e)} for e in active]
 
@@ -721,15 +785,36 @@ def analyse_card(bgr: np.ndarray, card: dict, photo_mask: np.ndarray, ui_mask: n
         "blankElements": [b["id"] for b in blank],
         "colors": colors,
         "tagStyles": dict(tag_styles),
+        "tagStyleGroups": tag_style_groups,
         "tagStyleCount": len(tag_styles),
         "excludedTags": excluded_tags,
         "regionScan": {k: v for k, v in region_scan.items()},
+        "expectedRegions": expected_regions,
+        "scannedRegions": scanned_regions,
+        "unscannedRegions": sorted(set(expected_regions) - set(scanned_regions)),
+        "scannedElementIds": scanned_element_ids,
+        "candidateLedger": candidate_ledger,
+        "coverageStatus": "completed",
+        "styleKeyContract": [
+            "entityCategory", "colorRole", "semanticRole", "containerShape", "graphicAssist"
+        ],
+        "phase2ReviewCandidates": [
+            item for item in candidate_ledger if item.get("decision") == "phase2_review_required"
+        ] + overlay_review_candidates,
+        "phase2ReviewRequired": bool(
+            overlay_review_candidates
+            or any(item.get("decision") == "phase2_review_required" for item in candidate_ledger)
+        ),
         "icons": icons,
         "weightBlocks": blocks,
-        "boundaries": boundaries,
-        "wrapperRegions": [r.get("name") for r in regions
-                           if r.get("coord") and not r.get("elements")],
-        "layout": layout,
+        "hierarchyMeasurement": {
+            "calibrationProfile": HIERARCHY_CALIBRATION_PROFILE,
+            "referenceWidthPx": HIERARCHY_REFERENCE_WIDTH_PX,
+            "referenceGapPx": HIERARCHY_REFERENCE_GAP_PX,
+            "imageWidthPx": image_width_px,
+            "glyphHeightGapThresholdPx": hierarchy_gap_px,
+            "weightBlocks": blocks,
+        },
         "texts": texts,
     }
 
@@ -753,6 +838,7 @@ def run_scene(
     normalized_path: Path | None = None,
     evidence_path: Path | None = None,
     manifest_path: Path | None = None,
+    skill: str | None = None,
 ) -> dict:
     if manifest_path is not None:
         manifest = load_phase2_facts(manifest_path=manifest_path)
@@ -781,6 +867,27 @@ def run_scene(
         raise SystemExit(f"cannot read image: {shot}")
     h, w = bgr.shape[:2]
 
+    if skill == "eval-5-info-hierarchy":
+        comps = [analyse_hierarchy_card(bgr, card) for card in manifest.get("cards", [])]
+        return {
+            "scene": scene,
+            "suffix": suffix,
+            "query": manifest.get("query"),
+            "screenshot": str(shot),
+            "imageSize": [w, h],
+            "measurementScope": "hierarchy_only",
+            "hierarchyCalibration": {
+                "profile": HIERARCHY_CALIBRATION_PROFILE,
+                "referenceWidthPx": HIERARCHY_REFERENCE_WIDTH_PX,
+                "referenceGapPx": HIERARCHY_REFERENCE_GAP_PX,
+                "imageWidthPx": w,
+                "glyphHeightGapThresholdPx": hierarchy_glyph_gap_threshold(w),
+            },
+            "manifestTotal": manifest_total,
+            "componentCount": len(comps),
+            "components": comps,
+        }
+
     excluded_boxes = []
     overlay_boxes = []
     ui_boxes = []
@@ -806,6 +913,13 @@ def run_scene(
     return {
         "scene": scene, "suffix": suffix, "query": manifest.get("query"),
         "screenshot": str(shot), "imageSize": [w, h],
+        "hierarchyCalibration": {
+            "profile": HIERARCHY_CALIBRATION_PROFILE,
+            "referenceWidthPx": HIERARCHY_REFERENCE_WIDTH_PX,
+            "referenceGapPx": HIERARCHY_REFERENCE_GAP_PX,
+            "imageWidthPx": w,
+            "glyphHeightGapThresholdPx": hierarchy_glyph_gap_threshold(w),
+        },
         "manifestTotal": manifest_total,
         "colorScope": {
             "componentSource": "cards_only",
@@ -837,7 +951,14 @@ def main() -> int:
     configure_paths(args.project_dir)
     METRIC_DIR.mkdir(parents=True, exist_ok=True)
     for scene in args.scenes:
-        data = run_scene(scene, args.suffix, args.normalized_input, args.evidence_input, args.manifest_input)
+        data = run_scene(
+            scene,
+            args.suffix,
+            args.normalized_input,
+            args.evidence_input,
+            args.manifest_input,
+            args.skill,
+        )
         out = METRIC_DIR / f"metrics_{scene}_{args.skill}.json"
         out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"{scene}: components={data['componentCount']} "

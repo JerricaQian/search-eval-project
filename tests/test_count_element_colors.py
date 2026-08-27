@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import importlib.util
+import tempfile
 import unittest
 from pathlib import Path
 
 import numpy as np
+from PIL import Image
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
@@ -35,6 +37,18 @@ class CountElementColorsTest(unittest.TestCase):
         hue, saturation, value = module.rgb_to_hsv_arr(pixels)
         keys, _ = module.classify(hue, saturation, value)
         self.assertEqual([key.split("-")[0] for key in keys], ["green", "purple", "cyan"])
+
+    def test_debug_mask_and_json_artifact_are_persisted(self) -> None:
+        module = load_module()
+        image = np.full((20, 20, 3), 255, dtype=np.uint8)
+        image[5:15, 5:15] = [255, 80, 20]
+        with tempfile.TemporaryDirectory() as tmp:
+            debug_path = Path(tmp) / "debug.png"
+            count = module.save_debug_mask(image, debug_path, drop_bg=True)
+            self.assertTrue(debug_path.is_file())
+            self.assertGreater(count, 0)
+            debug = np.array(Image.open(debug_path))
+            self.assertTrue(np.all(debug[0, 0] == [238, 238, 238]))
 
 
 if __name__ == "__main__":

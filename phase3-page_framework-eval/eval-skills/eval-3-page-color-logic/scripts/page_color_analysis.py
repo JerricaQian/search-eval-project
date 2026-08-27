@@ -12,7 +12,7 @@
 两者共用同一套排除规则：
 - 黑白灰中性色（饱和度 S < 12）不计入任一指标。
 - 商家图片 / 商品图片 / 营销类元素（营销图片、banner、腰封）/ live_card 内容画面 /
-  金刚 icon 通过 Phase2 事实换算并人工核查的矩形区域（exclude_regions）排除，不参与统计。
+  金刚 icon 通过 Phase2 JSON 事实自动换算的矩形区域（exclude_regions）排除，不参与统计。
   有独立坐标的 UI 标签/控件应从图片排除框中拆出并保留。
 - 面积占比 < 1% 的颜色不计入总颜色数量；占比 ≤ 5% 的颜色不计入主导色数量。
 
@@ -20,7 +20,8 @@
     python3 page_color_analysis.py '{
         "image": "path/to/page.png",
         "exclude_regions": [[y1, y2, x1, x2], ...],
-        "out_debug": "path/to/debug.png"
+        "out_debug": "path/to/debug.png",
+        "out_result": "path/to/result.json"
     }'
 
 用法（同一搜索词的多屏滚动截图，合并统计为一条结论）：
@@ -37,9 +38,10 @@ exclude_regions 中的每个矩形用 [y1, y2, x1, x2] 表示（像素坐标，y
 多屏模式下，每张截图单独生成调试图供核对，但总颜色数量/主导色数量按所有截图的有效像素合并计算
 （等价于把多张截图的有效像素拼接成一份样本再统计占比，不是简单对每张图的评级结果取平均）。
 
-注意：本脚本不做自动化照片检测（不同页面版式差异大，自动检测容易误伤标签或漏检图片），
-排除区域必须由人工在截图上核对坐标后传入。建议先用 grid_overlay.py 生成带坐标网格线的
-辅助图，人工读取矩形坐标，再运行本脚本，并通过 out_debug 生成的调试图二次核对排除是否准确。
+注意：本脚本不从像素猜测照片或直播边界。传入 manifest 后，它通过共享 loader
+读取 Phase2 JSON，自动排除已确认照片、内容模块、Tab/筛选模块，并恢复照片上有独立原子的系统 UI。
+out_debug 是排除 mask 的唯一图像核查产物，out_result 是可复现测量 JSON；不再需要
+grid_overlay.py 或直播排除前置脚本。
 """
 import cv2
 import numpy as np
@@ -53,7 +55,12 @@ PHASE3_SCRIPTS = PROJECT_ROOT / "phase3-evaluation-officer" / "scripts"
 if str(PHASE3_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(PHASE3_SCRIPTS))
 from color_taxonomy import hue7_ranges
-from phase3_color_scope import merged_exclude_regions
+from phase3_color_scope import color_scope_from_manifest
+
+SHARED_SCRIPTS = PROJECT_ROOT / "scripts"
+if str(SHARED_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(SHARED_SCRIPTS))
+from phase2_bundle_loader import load_phase2_facts
 
 np.random.seed(42)
 
@@ -136,7 +143,7 @@ def count_color_cells_36(H_values, V_values, denom):
     return ratios
 
 
-def extract_valid_hsv(img_path, exclude_regions=None, out_debug_path=None):
+def extract_valid_hsv(img_path, exclude_regions=None, out_debug_path=None, restore_regions=None):
     """读取单张图片，构建排除 mask，返回该图有效像素的 H/S/V 数组（未采样、未做色系统计）。
     同时按需生成该图的调试图。供单图模式和多图合并模式共用。
     """
@@ -145,6 +152,12 @@ def extract_valid_hsv(img_path, exclude_regions=None, out_debug_path=None):
         raise FileNotFoundError(f"无法读取图片：{img_path}")
 
     manual_mask = build_manual_exclude_mask(img.shape, exclude_regions)
+    for region in restore_regions or []:
+        y1, y2, x1, x2 = region
+        y1, y2 = max(0, y1), min(img.shape[0], y2)
+        x1, x2 = max(0, x1), min(img.shape[1], x2)
+        if y2 > y1 and x2 > x1:
+            manual_mask[y1:y2, x1:x2] = False
     white_mask = detect_white_bg_mask(img)
     valid_mask = ~(manual_mask | white_mask)
 
@@ -163,7 +176,10 @@ def extract_valid_hsv(img_path, exclude_regions=None, out_debug_path=None):
         yellow = np.zeros_like(debug)
         yellow[:, :] = (0, 255, 255)
         debug[manual_mask] = (debug[manual_mask] * (1 - alpha) + yellow[manual_mask] * alpha).astype(np.uint8)
-        cv2.imwrite(out_debug_path, debug)
+        debug_path = Path(out_debug_path)
+        debug_path.parent.mkdir(parents=True, exist_ok=True)
+        if not cv2.imwrite(str(debug_path), debug):
+            raise OSError(f"无法写入调试图：{debug_path}")
 
     meta = {
         "image": os.path.basename(img_path),
@@ -226,13 +242,26 @@ def summarize(valid_H, valid_S, valid_V):
 
 def analyze_page(img_path, exclude_regions=None, out_debug_path=None, manifest=None):
     """单张截图模式：分析一张整页截图，返回该页面的评测结果。"""
-    module_exclusions = []
+    scope_exclusions = []
+    overlay_restorations = []
+    restore_regions = []
     if manifest:
-        manifest_payload = json.loads(Path(manifest).read_text(encoding="utf-8"))
-        exclude_regions, module_exclusions = merged_exclude_regions(manifest_payload, exclude_regions)
-    valid_H, valid_S, valid_V, meta = extract_valid_hsv(img_path, exclude_regions, out_debug_path)
+        manifest_payload = load_phase2_facts(manifest_path=Path(manifest))
+        exclude_regions, scope_exclusions, restore_regions, overlay_restorations = color_scope_from_manifest(
+            manifest_payload, exclude_regions
+        )
+    valid_H, valid_S, valid_V, meta = extract_valid_hsv(
+        img_path, exclude_regions, out_debug_path, restore_regions=restore_regions
+    )
     summary = summarize(valid_H, valid_S, valid_V)
-    return {**meta, **summary, "exclude_regions": exclude_regions or [], "excluded_page_modules": module_exclusions}
+    return {
+        **meta,
+        **summary,
+        "exclude_regions": exclude_regions or [],
+        "scope_exclusions": scope_exclusions,
+        "restore_regions": restore_regions,
+        "overlay_restorations": overlay_restorations,
+    }
 
 
 def analyze_pages_merged(pages_config):
@@ -242,8 +271,14 @@ def analyze_pages_merged(pages_config):
     all_H, all_S, all_V = [], [], []
     per_page_meta = []
     for page in pages_config:
+        manifest = page.get("manifest")
+        exclusions = page.get("exclude_regions", [])
+        restore_regions = []
+        if manifest:
+            manifest_payload = load_phase2_facts(manifest_path=Path(manifest))
+            exclusions, _, restore_regions, _ = color_scope_from_manifest(manifest_payload, exclusions)
         valid_H, valid_S, valid_V, meta = extract_valid_hsv(
-            page["image"], page.get("exclude_regions", []), page.get("out_debug")
+            page["image"], exclusions, page.get("out_debug"), restore_regions=restore_regions
         )
         all_H.append(valid_H)
         all_S.append(valid_S)
@@ -305,6 +340,12 @@ if __name__ == "__main__":
             exclude_regions = config.get("exclude_regions", [])
             out_debug = config.get("out_debug")
             result = analyze_page(img_path, exclude_regions=exclude_regions, out_debug_path=out_debug, manifest=config.get("manifest"))
+        out_result = config.get("out_result")
+        if out_result:
+            result_path = Path(out_result)
+            result_path.parent.mkdir(parents=True, exist_ok=True)
+            result["artifact_path"] = str(result_path.resolve())
+            result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(result, ensure_ascii=False, indent=2))
     except Exception as e:
         print(json.dumps({"error": str(e)}, ensure_ascii=False))

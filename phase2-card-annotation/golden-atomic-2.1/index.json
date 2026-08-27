@@ -1,0 +1,1880 @@
+{
+  "schemaVersion": "phase2.atomic-manifest.v3.batch-index",
+  "taxonomy": {
+    "contractVersion": "phase2.search-card-taxonomy.v1",
+    "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+    "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+  },
+  "taxonomyValidation": "passed",
+  "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; screenshots and hashes revalidated",
+  "retentionPolicy": "golden-atomic-2.1 is the current canonical input; golden-atomic-2.0 remains an immutable rollback baseline",
+  "totals": {
+    "images": 34,
+    "modules": 152,
+    "cards": 135,
+    "regions": 658,
+    "elements": 2001,
+    "tags": 441,
+    "icons": 26,
+    "media": 265,
+    "completeTagVisuals": 441,
+    "completeMediaSemantics": 265,
+    "missingModuleBounds": 0,
+    "titleAffixes": 130,
+    "titleAffixErrors": 0
+  },
+  "samples": [
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/hotel-card/全季酒店-第1次.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E004",
+          "slot": "hotel_class",
+          "text": "舒适型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "after_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E004",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "after_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 4,
+      "cards": 5,
+      "regions": 29,
+      "elements": 84,
+      "tags": 35,
+      "icons": 6,
+      "media": 5,
+      "completeTagVisuals": 35,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/hotel-card/全季酒店-第2次.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 3,
+      "regions": 15,
+      "elements": 42,
+      "tags": 14,
+      "icons": 3,
+      "media": 3,
+      "completeTagVisuals": 14,
+      "completeMediaSemantics": 3
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/hotel-card/国庆节酒店-混排.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R03",
+          "elementId": "C1-E021",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R03",
+          "elementId": "C2-E018",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "民宿",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "民宿",
+          "position": "inline_or_overlapping_title_box"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 4,
+      "cards": 4,
+      "regions": 19,
+      "elements": 81,
+      "tags": 19,
+      "icons": 0,
+      "media": 12,
+      "completeTagVisuals": 19,
+      "completeMediaSemantics": 12
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/hotel-card/电竞房-双列.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [],
+      "titleAffixErrors": [],
+      "modules": 4,
+      "cards": 6,
+      "regions": 27,
+      "elements": 61,
+      "tags": 0,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 0,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/hotel-card/酒店.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E004",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "hotel_class",
+          "text": "高档型",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "酒店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 3,
+      "regions": 16,
+      "elements": 44,
+      "tags": 16,
+      "icons": 3,
+      "media": 3,
+      "completeTagVisuals": 16,
+      "completeMediaSemantics": 3
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/库迪.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 4,
+      "cards": 3,
+      "regions": 15,
+      "elements": 65,
+      "tags": 9,
+      "icons": 3,
+      "media": 15,
+      "completeTagVisuals": 9,
+      "completeMediaSemantics": 15
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/烧烤.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E004",
+          "slot": "delivery_time",
+          "text": "34分钟",
+          "position": "after_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 4,
+      "cards": 4,
+      "regions": 18,
+      "elements": 74,
+      "tags": 10,
+      "icons": 0,
+      "media": 16,
+      "completeTagVisuals": 10,
+      "completeMediaSemantics": 16
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/生日蛋糕.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 2,
+      "regions": 9,
+      "elements": 48,
+      "tags": 4,
+      "icons": 1,
+      "media": 16,
+      "completeTagVisuals": 4,
+      "completeMediaSemantics": 16
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/盒马.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 5,
+      "cards": 3,
+      "regions": 13,
+      "elements": 60,
+      "tags": 4,
+      "icons": 0,
+      "media": 15,
+      "completeTagVisuals": 4,
+      "completeMediaSemantics": 15
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/药店.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 3,
+      "regions": 15,
+      "elements": 67,
+      "tags": 9,
+      "icons": 0,
+      "media": 22,
+      "completeTagVisuals": 9,
+      "completeMediaSemantics": 22
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/蜜雪冰城.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 5,
+      "cards": 2,
+      "regions": 9,
+      "elements": 41,
+      "tags": 2,
+      "icons": 0,
+      "media": 10,
+      "completeTagVisuals": 2,
+      "completeMediaSemantics": 10
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-graphic-hang/隆江猪脚饭.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 4,
+      "cards": 4,
+      "regions": 18,
+      "elements": 65,
+      "tags": 9,
+      "icons": 0,
+      "media": 15,
+      "completeTagVisuals": 9,
+      "completeMediaSemantics": 15
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为体检.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 5,
+      "regions": 24,
+      "elements": 78,
+      "tags": 23,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 23,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为剧本杀.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 4,
+      "regions": 20,
+      "elements": 57,
+      "tags": 16,
+      "icons": 0,
+      "media": 4,
+      "completeTagVisuals": 16,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为手机维修.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "上门",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "上门",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 4,
+      "regions": 20,
+      "elements": 68,
+      "tags": 23,
+      "icons": 3,
+      "media": 4,
+      "completeTagVisuals": 23,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为按摩.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 4,
+      "regions": 20,
+      "elements": 65,
+      "tags": 22,
+      "icons": 0,
+      "media": 4,
+      "completeTagVisuals": 22,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为游乐场.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 5,
+      "regions": 25,
+      "elements": 76,
+      "tags": 22,
+      "icons": 1,
+      "media": 5,
+      "completeTagVisuals": 22,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003-A1",
+          "slot": "scenic_rating_tag",
+          "text": "4A",
+          "position": "after_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 5,
+      "regions": 22,
+      "elements": 65,
+      "tags": 18,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 18,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为理发.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 4,
+      "regions": 20,
+      "elements": 63,
+      "tags": 18,
+      "icons": 2,
+      "media": 4,
+      "completeTagVisuals": 18,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为空调清洗.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "上门",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "上门",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "上门",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "上门",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 4,
+      "regions": 13,
+      "elements": 27,
+      "tags": 10,
+      "icons": 2,
+      "media": 4,
+      "completeTagVisuals": 10,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为解压体验馆.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 5,
+      "regions": 24,
+      "elements": 75,
+      "tags": 28,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 28,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为露营.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E003-A1",
+          "slot": "scenic_rating_tag",
+          "text": "4A",
+          "position": "after_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 5,
+      "regions": 23,
+      "elements": 73,
+      "tags": 23,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 23,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/merchant-text-hang/商家卡片-文下挂-搜索词为面部清洁.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 5,
+      "regions": 24,
+      "elements": 63,
+      "tags": 17,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 17,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/performance-movie-card/演出卡.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "演出",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "city",
+          "text": "北京",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003",
+          "slot": "fulfillment_tag",
+          "text": "演出",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "city",
+          "text": "北京",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "演出",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E004",
+          "slot": "city",
+          "text": "北京",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "演出",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E004",
+          "slot": "city",
+          "text": "北京",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "fulfillment_tag",
+          "text": "演出",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E003",
+          "slot": "city",
+          "text": "北京",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C6",
+          "regionId": "C6-R02",
+          "elementId": "C6-E003",
+          "slot": "fulfillment_tag",
+          "text": "演出",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C6",
+          "regionId": "C6-R02",
+          "elementId": "C6-E004",
+          "slot": "city",
+          "text": "北京",
+          "position": "inline_or_overlapping_title_box"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 3,
+      "cards": 6,
+      "regions": 23,
+      "elements": 44,
+      "tags": 6,
+      "icons": 0,
+      "media": 6,
+      "completeTagVisuals": 6,
+      "completeMediaSemantics": 6
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/performance-movie-card/电影卡.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [],
+      "titleAffixErrors": [],
+      "modules": 5,
+      "cards": 5,
+      "regions": 15,
+      "elements": 45,
+      "tags": 0,
+      "icons": 0,
+      "media": 2,
+      "completeTagVisuals": 0,
+      "completeMediaSemantics": 2
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/primary-point-card/万达广场.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "到店",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 7,
+      "cards": 2,
+      "regions": 10,
+      "elements": 56,
+      "tags": 5,
+      "icons": 2,
+      "media": 10,
+      "completeTagVisuals": 5,
+      "completeMediaSemantics": 10
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/primary-point-card/迪士尼.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E002",
+          "slot": "fulfillment_tag",
+          "text": "景点",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 7,
+      "cards": 2,
+      "regions": 9,
+      "elements": 30,
+      "tags": 11,
+      "icons": 0,
+      "media": 4,
+      "completeTagVisuals": 11,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/啤酒.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 3,
+      "regions": 21,
+      "elements": 55,
+      "tags": 11,
+      "icons": 0,
+      "media": 9,
+      "completeTagVisuals": 11,
+      "completeMediaSemantics": 9
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/喜力啤酒整箱.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 5,
+      "cards": 4,
+      "regions": 25,
+      "elements": 52,
+      "tags": 7,
+      "icons": 0,
+      "media": 4,
+      "completeTagVisuals": 7,
+      "completeMediaSemantics": 4
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/安睡裤.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 5,
+      "cards": 4,
+      "regions": 24,
+      "elements": 48,
+      "tags": 7,
+      "icons": 0,
+      "media": 10,
+      "completeTagVisuals": 7,
+      "completeMediaSemantics": 10
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/布洛芬.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 4,
+      "regions": 19,
+      "elements": 63,
+      "tags": 3,
+      "icons": 0,
+      "media": 9,
+      "completeTagVisuals": 3,
+      "completeMediaSemantics": 9
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/榴莲.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "title_not_visible"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 4,
+      "regions": 23,
+      "elements": 55,
+      "tags": 15,
+      "icons": 0,
+      "media": 9,
+      "completeTagVisuals": 15,
+      "completeMediaSemantics": 9
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/生理盐水.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C5",
+          "regionId": "C5-R02",
+          "elementId": "C5-E002",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "before_title"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 5,
+      "cards": 5,
+      "regions": 28,
+      "elements": 50,
+      "tags": 6,
+      "icons": 0,
+      "media": 5,
+      "completeTagVisuals": 6,
+      "completeMediaSemantics": 5
+    },
+    {
+      "manifest": "phase2-card-annotation/golden-atomic-2.1/product-card/西瓜.atomic.v3.json",
+      "valid": true,
+      "taxonomy": {
+        "contractVersion": "phase2.search-card-taxonomy.v1",
+        "file": "phase2-card-annotation/references/search_card_taxonomy.v1.json",
+        "sha256": "5a58f382741b9cc27411b7b0441403fd2ecabdb01be2fbaabb49b808ad4534e0"
+      },
+      "taxonomyValidation": "passed",
+      "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
+      "missingModuleBounds": [],
+      "titleAffixes": [
+        {
+          "cardId": "C1",
+          "regionId": "C1-R02",
+          "elementId": "C1-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C2",
+          "regionId": "C2-R02",
+          "elementId": "C2-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C3",
+          "regionId": "C3-R02",
+          "elementId": "C3-E004",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "inline_or_overlapping_title_box"
+        },
+        {
+          "cardId": "C4",
+          "regionId": "C4-R02",
+          "elementId": "C4-E003",
+          "slot": "fulfillment_tag",
+          "text": "外卖",
+          "position": "title_not_visible"
+        }
+      ],
+      "titleAffixErrors": [],
+      "modules": 6,
+      "cards": 4,
+      "regions": 23,
+      "elements": 61,
+      "tags": 19,
+      "icons": 0,
+      "media": 10,
+      "completeTagVisuals": 19,
+      "completeMediaSemantics": 10
+    }
+  ]
+}

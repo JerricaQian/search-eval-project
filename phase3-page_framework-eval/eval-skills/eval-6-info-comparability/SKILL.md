@@ -5,10 +5,10 @@ weight: { "优秀": 1, "不达标": -1 }
 aggregate: "本维度原始颗粒度为「搜索词×页面」，与 Tab 级天然对齐，无需聚合：一个页面（Tab）截图直接产出一个该 Tab 的评级。"
 extra: ""
 description: >-
-  在同一页面中横向比较同业务语义、同卡型的多张完整商卡，评测同一客观字段的格式、位置和样式是否妨碍比较。适用于表达方式不一致、格式不统一和信息可比性；不比较不同卡型、缺失字段或单卡字段。
+  在同一页面中直接读取 Phase2 JSON，横向比较同业务语义、同卡型的多张完整商卡，评测同一客观字段的格式、位置和样式是否妨碍比较；不运行比较候选脚本，不比较不同卡型、缺失字段或单卡字段。
 metadata:
   author: qianjing16
-  version: "1.1"
+  version: "1.2"
   domain: 美团搜索结果页/信息页信息可比性评估
   skillhub.creator: qianjing16
 ---
@@ -17,11 +17,12 @@ metadata:
 
 遵循 [[页面框架评测通用契约]]（`phase3-page_framework-eval/页面框架评测通用契约.md`）。一页一结论，所有评级（含优秀）都保留一条 `assessmentRows`。只比至少两张完整、同业务语义、同卡型且均出现的客观字段。
 
-## Phase2 事实与测量门槛
+## Phase2 JSON 比较门槛
 
-- Phase2 仅提供卡型/布局、原子元素 `semanticRole`、原文、规格桶、分区、坐标和样式事实；必须运行 `phase3-evaluation-officer/scripts/extract_phase3_comparability.py`，在 Phase3 完成同卡型分组、字段匹配和差异提取。
+- Phase2 JSON 提供卡型/布局、原子元素 `semanticRole`、原文、分区、坐标和样式事实。本 Skill 禁止运行 `extract_phase3_comparability.py` 或其他比较候选脚本；Phase3 直接用这些字段完成同卡型分组、字段匹配和差异提取。
 - 比较组至少有两张完整卡，且同业务语义、同卡型；不要求、也不得让 Phase2 生成 `same_field_across_cards`。
-- 自然裁切、字段缺失、不同卡型和不同字段适用性均不构成不一致证据。脚本产生的是候选，字段是否真正可比及差异是否妨碍横向理解，仍由 Phase3 终判。
+- 自然裁切、字段缺失、不同卡型和不同字段适用性均不构成不一致证据。字段是否真正可比及差异是否妨碍横向理解，仍由 Phase3 逐字段终判。
+- 含优秀在内的唯一 `assessmentRows` 必须保留 `cardGroups`、`comparableFields`、`comparisons`、排除原因、`inconsistencyCount`、`evidenceSource=phase2_json_cross_card_comparison` 和评级，不得附带 `measurement`。
 
 ## 判定标准
 
@@ -37,14 +38,15 @@ metadata:
 
 ## 固定评审流程
 
-1. 运行既有脚本，按业务语义和卡型形成至少两卡的比较组，列出在至少两张卡中出现且均适用的字段。
+1. 直接遍历 Phase2 JSON 中完整结果卡，按业务语义和卡型形成至少两卡的比较组，列出在至少两张卡中出现且均适用的 `semanticRole`。
 2. 对每个字段比较格式、位置、样式；先排除字段缺失、自然裁切、不同卡型和不适用差异，并写出候选排除原因。
 3. 对保留差异确认其是否增加横向理解成本；同一字段多个表现差异仍合并成一个不一致项。
 4. 统计不一致字段数，输出唯一页面评级、分数与一条完整测量行。
 
 ## 输出与反误判
 
-- 固定字段：`cardGroups`、`comparableFields`、`cardObservations`、`differenceCandidates`、`excludedReasons`、`inconsistentFieldCount`、`rating`、`finding`。
+- 固定字段：`cardGroups`、`comparableFields`、`comparisons`、`excludedReasons`、`inconsistencyCount`、`evidenceSource`、`rating`、`finding`。每个 `comparisons` 项保留比较组、语义角色、至少两条观测、检测差异和 Phase3 终判。
+- `evidenceSource` 必须为 `phase2_json_cross_card_comparison`，且不得存在 `measurement`。
 - 不得将“同类信息未出现”“标题横坐标略异”或不同业务卡的差异当问题；候选不是结论，必须说明比较对象和用户理解成本。
 
 ## Gotchas

@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Build 34 Phase2 atomic-manifest.v3 files from pixel-verified goldens.
 
-The legacy/corrected JSON is used only for structural vocabulary. Coordinates
-come exclusively from the curated golden element/card boxes and their bounded
-CV/OCR evidence. Missing module-only boxes stay absent; this builder never
-estimates coordinates from a scale factor or an evenly divided layout.
+The current 2.1 atomic corpus is the canonical source.  Its module bounds and
+visual/semantic atoms were calibrated against the retained screenshots; this
+builder validates those facts, preserves them, and rebuilds the batch index.
 """
 from __future__ import annotations
 
@@ -25,7 +24,7 @@ from validate_atomic_manifest_v3 import DEFAULT_TAXONOMY, load_taxonomy, validat
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE = ROOT / "phase2-card-annotation" / "golden-sample-results"
-DEFAULT_OUTPUT = ROOT / "phase2-card-annotation" / "golden-atomic-2.0"
+DEFAULT_OUTPUT = ROOT / "phase2-card-annotation" / "golden-atomic-2.1"
 TITLE_AFFIX_REVIEWS = ROOT / "phase2-card-annotation" / "references" / "golden_title_affix_reviews.v1.json"
 TAXONOMY_ENUMS = load_taxonomy(DEFAULT_TAXONOMY)
 
@@ -521,16 +520,36 @@ def rebuild_from_atomic(source_root: Path, output_root: Path, taxonomy_path: Pat
         card_count = len(manifest["cardsById"])
         region_count = len(manifest["regionsById"])
         element_count = len(manifest["elementsById"])
+        element_values = list(manifest["elementsById"].values())
+        tag_count = sum(element.get("kind") == "tag" for element in element_values)
+        icon_count = sum(element.get("kind") == "icon" for element in element_values)
+        media_count = sum(element.get("kind") == "media" for element in element_values)
+        tag_visual_count = sum(
+            element.get("kind") == "tag"
+            and {"container", "backgroundColor", "textColor", "borderColor", "graphicAssist"}.issubset(element.get("visual", {}))
+            for element in element_values
+        )
+        media_semantic_count = sum(
+            element.get("kind") == "media"
+            and bool(str(element.get("semanticDescription") or "").strip())
+            and element.get("semanticStatus") in {"confirmed", "uncertain"}
+            for element in element_values
+        )
         totals.update({
-            "images": 1, "cards": card_count, "regions": region_count, "elements": element_count,
+            "images": 1, "modules": len(manifest["modulesById"]), "cards": card_count,
+            "regions": region_count, "elements": element_count, "tags": tag_count,
+            "icons": icon_count, "media": media_count, "completeTagVisuals": tag_visual_count,
+            "completeMediaSemantics": media_semantic_count,
             "missingModuleBounds": len(missing_bounds), "titleAffixes": len(title_affixes), "titleAffixErrors": 0,
         })
         records.append({
             "manifest": relative(output), "valid": True,
             "taxonomy": manifest["taxonomy"], "taxonomyValidation": "passed",
-            "coordinatePolicy": "coordinates retained from the canonical atomic v3 golden; no estimation or legacy JSON lookup",
+            "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; no legacy JSON lookup",
             "missingModuleBounds": missing_bounds, "titleAffixes": title_affixes, "titleAffixErrors": [],
-            "cards": card_count, "regions": region_count, "elements": element_count,
+            "modules": len(manifest["modulesById"]), "cards": card_count, "regions": region_count,
+            "elements": element_count, "tags": tag_count, "icons": icon_count, "media": media_count,
+            "completeTagVisuals": tag_visual_count, "completeMediaSemantics": media_semantic_count,
         })
     index = {
         "schemaVersion": "phase2.atomic-manifest.v3.batch-index",
@@ -540,8 +559,8 @@ def rebuild_from_atomic(source_root: Path, output_root: Path, taxonomy_path: Pat
             "sha256": TAXONOMY_ENUMS["sha256"],
         },
         "taxonomyValidation": "passed",
-        "coordinatePolicy": "canonical atomic v3 coordinates retained unchanged; screenshots and hashes revalidated",
-        "retentionPolicy": "latest atomic manifests are the canonical golden inputs; legacy element JSON is optional migration evidence only",
+        "coordinatePolicy": "2.1 screenshot-calibrated module and atomic coordinates; screenshots and hashes revalidated",
+        "retentionPolicy": "golden-atomic-2.1 is the current canonical input; golden-atomic-2.0 remains an immutable rollback baseline",
         "totals": dict(totals), "samples": records,
     }
     write_json(output_root / "index.json", index)
