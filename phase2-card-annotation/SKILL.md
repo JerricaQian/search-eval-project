@@ -146,7 +146,7 @@ bash phase2-card-annotation/scripts/run_cv_facts.sh <screenshot> --output <facts
 
 `run_phase2_recognition.py` 固定运行 `cv_llm`：关闭 Tesseract 与 Paddle，仅保留本地 CV 的模块、卡片和图片候选；文字、语义原子、卡片拓扑和归属必须来自带 `completeCurrentPixelReview:true` 的 `--visual-review`。缺少该记录、类型注册表不一致、结构/枚举/schema/审计任一门禁失败，都必须阻断。`--require-bounded-paddleocr` 已退休并会直接报错；运行目录仍必须保留，以复核卡数、元素数、标题/价格/标签完整性及门禁结果。
 
-卡型标识与展示名称只读取仓库根目录 `card-type-registry.v1.json`。详细的 Phase2 区域契约位于 `references/search_card_taxonomy.v1.json`，评测官解释位于 `phase3-evaluation-officer/references/card-taxonomy.md`；三者通过同一 id 对齐，禁止在任一说明中手写另一套名称。
+卡型标识与展示名称只读取仓库根目录 `card-type-registry.v1.json`。详细的 Phase2 区域契约位于 `references/search_card_taxonomy.v1.json`，Phase3 解释位于 `phase3-evaluation/common/references/card-taxonomy.md`；三者通过同一 id 对齐，禁止在任一说明中手写另一套名称。
 
 Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不得按置信度切换；核心语义须通过 `ocr_consensus` hook：结构化数字要求数值锚一致，自然文本只允许确定性的包含或高相似关系。价格行可在相同数值锚下选择脚本连贯性更好的独立布局文本；疑似价格可做少量有界遮罩复读，但都必须保留原文、独立布局和接受理由，禁止无锚纠错。行内相邻的汉字碎片先按空间合并，明显分隔的标签、价格和标题保持独立。
 

@@ -1,0 +1,26 @@
+---
+name: phase3-evaluation
+description: 美团搜索结果页 Phase3 统一评测入口。用户选择完整19项、一个维度或自定义评测 Skill 时，解析范围并加载页面模型、卡型知识、维度契约与当前 Phase2 事实，再在一个 Evaluation Agent 中执行被选 Skill。
+---
+
+# Phase3 统一评测入口
+
+你是美团搜索结果页 Phase3 的范围路由与评测入口，不是第 20 个评分项，也不替代任何叶子 Skill。
+
+## 固定职责
+
+1. 接收用户的 `full_19`、`dimensions` 或 `custom_skills` 选择；先运行 `common/routing/resolve_eval_targets.py`，未知维度/Skill、目录漂移或空选择立即停止，不猜测。
+2. 先读取 [知识索引](common/references/knowledge-index.md)，再按索引加载页面模型、卡型分类和黄金事实契约；通过 `catalog.json` 只加载本次选中维度的共享契约与叶子 `SKILL.md`。
+3. 对当前 Phase2 已验收 manifest 建立 `页面 → 模块 → 卡片 → 区域 → 槽位/元素` 的事实链；不从黄金样本、历史截图或业务常识补写当前截图事实。
+4. 在同一个 Evaluation Agent 内串行执行选中 Skill，并保持 Phase2 → Phase3 → Phase4 → Phase5 的既有门禁。
+5. 输出并传递覆盖范围：`selectedCount/fullCount/isFull/label`。非完整 19 项时，报告和看板必须明确“已选 X/19 项”，不得将结果表述为完整 19 项综合分或与全量治理分直接比较。
+
+## 卡型不确定性
+
+先按已知卡型最小契约确认；只有明确广告证据才能归广告卡，其他未通过已知契约的稳定结果单元归异构卡。卡型、区域、元素或关系事实不足时，回退 Phase2 `reprocessTargets`；不得把识别不确定转写成体验问题或优秀结论。
+
+## 输出边界
+
+- 统一入口只负责选择、上下文加载、事实层级与交接审计；19 项的评分标准、标题、权重和聚合仍以各叶子 Skill frontmatter/正文为准。
+- 一个搜索词只调用一个 Evaluation Agent；不得拆成“每项 Skill 一个子代理”。
+- 可选模块未出现不等于缺失；页面类型和卡型变体决定字段适用性。

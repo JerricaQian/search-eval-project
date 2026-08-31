@@ -96,7 +96,7 @@ Workflow 只负责按需询问、任务路由和批次控制；评分和事实�
 ```text
 phase1-screenshot/                 截图与已有截图发现
 phase2-card-annotation/            单图事实识别与校验
-phase3-*/                          评测维度与评测官
+phase3-evaluation/                Phase3 统一入口、共同知识与 19 项评测
 phase4-issue-evidence/             问题证据图
 phase5-report/                     本地报告与可选线上看板
 workflow/                          任务路由与宿主交接
@@ -115,6 +115,7 @@ reports/                           最终本地报告
 | 项目外截图接入与宿主交接 | [workflow/HOST_ADAPTER.md](workflow/HOST_ADAPTER.md) |
 | 截图规则 | [phase1-screenshot/SKILL.md](phase1-screenshot/SKILL.md) |
 | Phase2 事实清单与校验 | [phase2-card-annotation/SKILL.md](phase2-card-annotation/SKILL.md) |
+| Phase3 范围、维度与 19 项 Skill | [phase3-evaluation/README.md](phase3-evaluation/README.md) |
 | 本地报告与治理看板 | [phase5-report/SKILL.md](phase5-report/SKILL.md) |
 
 ## 本地产物与 Git 边界

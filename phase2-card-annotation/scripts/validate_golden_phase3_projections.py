@@ -15,12 +15,11 @@ ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "phase2-card-annotation" / "golden-sample-results"
 VALIDATOR = ROOT / "phase2-card-annotation" / "scripts" / "validate_element_manifest.py"
 SHARED_SCRIPTS = ROOT / "scripts"
-PHASE3_SCRIPTS = ROOT / "phase3-evaluation-officer" / "scripts"
-for scripts_dir in (SHARED_SCRIPTS, PHASE3_SCRIPTS):
+PHASE3_COMPONENT_SCRIPTS = ROOT / "phase3-evaluation" / "dimensions" / "card-component" / "scripts"
+for scripts_dir in (SHARED_SCRIPTS, PHASE3_COMPONENT_SCRIPTS):
     if str(scripts_dir) not in sys.path:
         sys.path.insert(0, str(scripts_dir))
 from phase2_bundle_loader import load_phase2_facts
-from extract_phase3_comparability import derive_comparability
 from extract_phase3_relation_candidates import derive_relation_candidates
 
 
@@ -28,7 +27,7 @@ def audit() -> dict:
     files = sorted(RESULTS.rglob("*.elements.json"))
     failures: list[dict] = []
     source_bytes = normalized_bytes = evidence_bytes = in_memory_phase3_bytes = 0
-    cards = canonical_elements = page_elements = phase3_elements = direct_compile_files = phase3_comparisons = phase3_relation_pairs = 0
+    cards = canonical_elements = page_elements = phase3_elements = direct_compile_files = phase3_relation_pairs = 0
     with tempfile.TemporaryDirectory(prefix="golden-phase3-") as temp_dir:
         temp = Path(temp_dir)
         for index, path in enumerate(files):
@@ -74,7 +73,6 @@ def audit() -> dict:
                     "errors": result.get("errors", []),
                 })
             try:
-                phase3_comparisons += len(derive_comparability(manifest)["comparisons"])
                 relation_candidates = derive_relation_candidates(manifest)
                 phase3_relation_pairs += sum(
                     len(card["candidatePairs"])
@@ -98,7 +96,6 @@ def audit() -> dict:
         "canonicalCardElements": canonical_elements,
         "canonicalPageElements": page_elements,
         "phase3Elements": phase3_elements,
-        "phase3DerivedComparisons": phase3_comparisons,
         "phase3DerivedRelationPairs": phase3_relation_pairs,
         "directCompileFiles": direct_compile_files,
         "bytes": {

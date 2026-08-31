@@ -13,12 +13,12 @@ globs: "**/*.js", "**/*.sh", "**/*.py", "**/*.json", "**/*.md"
 |---|---|---|
 | phase1 截图 | `phase1-screenshot/` | screenshot-skill |
 | phase2 轻量识别 | `phase2-card-annotation/` | — |
-| phase3 评测 | `phase3-card_or_component-eval/` `phase3-single_element-eval/` `phase3-page_framework-eval/` | card_or_component-eval（无 phase3 前缀） |
+| phase3 评测 | `phase3-evaluation/` | 三个分散的 `phase3-*-eval/` 物理目录 |
 | phase4 问题证据 | `phase4-issue-evidence/` | — |
 | phase5 报告 | `phase5-report/` | report-skill |
 
-- 工作流参数：`shotSkillDir`→`phase1-screenshot`、`phase2SkillDir`→`phase2-card-annotation`、`issueEvidenceSkillDir`→`phase4-issue-evidence`、`reportSkillDir`→`phase5-report`。新调用用 `evaluationSelection`（`full_19` / `dimensions` / `custom_skills`）选择评测范围；`dimensions` 默认 `["phase3-card_or_component-eval"]` 仅保留旧调用兼容。改这些默认值时必须同步改目录或反向。
-- 文档/脚本里若仍见 `screenshot-skill` / `report-skill` / 非前缀维度名，一律视为待替换的陈旧引用，应改为新名。
+- 工作流参数：`shotSkillDir`→`phase1-screenshot`、`phase2SkillDir`→`phase2-card-annotation`、`phase3SkillDir`→`phase3-evaluation`、`issueEvidenceSkillDir`→`phase4-issue-evidence`、`reportSkillDir`→`phase5-report`。新调用用 `evaluationSelection`（`full_19` / `dimensions` / `custom_skills`）选择评测范围；三个 `phase3-*-eval` 字符串是稳定外部 ID，必须通过 `phase3-evaluation/catalog.json` 解析物理目录，禁止直接拼路径。`dimensions` 默认值只保留旧调用兼容。
+- 文档/脚本里若仍见 `screenshot-skill` / `report-skill` / 旧的 Phase3 officer 目录名 / 以外部维度 ID 直接拼物理目录，一律视为陈旧引用。
 
 ## 数据流路径：screenshots/ → screenshots-out/ → .artifacts/ → screenshots-out/evidence/ → reports/
 

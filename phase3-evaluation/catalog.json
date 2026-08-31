@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "phase3.catalog.v1",
+  "dimensions": [
+    {
+      "id": "phase3-single_element-eval",
+      "name": "单一元素",
+      "path": "dimensions/single-element",
+      "contract": "dimensions/single-element/contract.md",
+      "skillsDir": "dimensions/single-element/skills",
+      "skills": [
+        "eval-1-supply-quality-scanner",
+        "eval-2-color-logic-single-element",
+        "eval-3-element-compliance-scanner",
+        "eval-4-info-authenticity-single-element"
+      ]
+    },
+    {
+      "id": "phase3-card_or_component-eval",
+      "name": "组件/卡片",
+      "path": "dimensions/card-component",
+      "contract": "dimensions/card-component/contract.md",
+      "skillsDir": "dimensions/card-component/skills",
+      "skills": [
+        "eval-1-supply-completeness",
+        "eval-2-visual-order-alignment",
+        "eval-3-color-logic",
+        "eval-4-element-complexity",
+        "eval-5-info-hierarchy",
+        "eval-6-info-partitioning",
+        "eval-7-info-authenticity",
+        "eval-8-info-redundancy"
+      ]
+    },
+    {
+      "id": "phase3-page_framework-eval",
+      "name": "页面框架",
+      "path": "dimensions/page-framework",
+      "contract": "dimensions/page-framework/contract.md",
+      "skillsDir": "dimensions/page-framework/skills",
+      "skills": [
+        "eval-1-supply-module-completeness",
+        "eval-2-visual-order-alignment",
+        "eval-3-page-color-logic",
+        "eval-4-static-component-complexity",
+        "eval-5-browsing-flow-smoothness",
+        "eval-6-info-comparability",
+        "eval-7-info-redundancy"
+      ]
+    }
+  ]
+}

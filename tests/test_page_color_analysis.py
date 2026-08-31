@@ -12,7 +12,7 @@ import numpy as np
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SCRIPT = PROJECT_DIR / "phase3-page_framework-eval" / "eval-skills" / "eval-3-page-color-logic" / "scripts" / "page_color_analysis.py"
+SCRIPT = PROJECT_DIR / "phase3-evaluation" / "dimensions" / "page-framework" / "skills" / "eval-3-page-color-logic" / "scripts" / "page_color_analysis.py"
 
 
 def load_module():
@@ -91,6 +91,16 @@ class PageColorAnalysisTest(unittest.TestCase):
         self.assertEqual(records[0]["elementId"], "PHOTO")
         self.assertEqual(restores, [[5, 15, 5, 25]])
         self.assertEqual(overlays[0]["elementId"], "BADGE")
+
+    def test_page_neutrals_do_not_enter_bins_or_inflate_ratios(self) -> None:
+        module = load_module()
+        hue = np.concatenate((np.zeros(90), np.zeros(5), np.full(5, 220))).astype(np.float32)
+        saturation = np.concatenate((np.zeros(90), np.full(10, 100))).astype(np.float32)
+        value = np.full(100, 100, dtype=np.float32)
+        result = module.summarize(hue, saturation, value)
+        self.assertEqual(result["n_chromatic_pixels"], 10)
+        self.assertEqual(result["n_neutral_pixels"], 90)
+        self.assertEqual(result["dominant_color_count_7"], 0)
 
 
 if __name__ == "__main__":

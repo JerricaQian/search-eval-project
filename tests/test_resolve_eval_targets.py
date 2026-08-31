@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-RESOLVER = PROJECT_DIR / "phase3-evaluation-officer" / "scripts" / "resolve_eval_targets.py"
+RESOLVER = PROJECT_DIR / "phase3-evaluation" / "common" / "routing" / "resolve_eval_targets.py"
 
 
 def run_selection(selection: dict) -> subprocess.CompletedProcess[str]:
@@ -44,6 +44,10 @@ class ResolveEvalTargetsTest(unittest.TestCase):
             "phase3-card_or_component-eval",
             "phase3-page_framework-eval",
         ])
+        for target in payload["evalTargets"]:
+            self.assertTrue((PROJECT_DIR / target["skillPath"]).is_file())
+            self.assertTrue((PROJECT_DIR / target["contractPath"]).is_file())
+            self.assertTrue((PROJECT_DIR / target["skillsDir"]).is_dir())
 
     def test_dimension_and_custom_selection_preserve_scope(self) -> None:
         dimension = run_selection({"mode": "dimensions", "dimensions": ["phase3-card_or_component-eval"]})

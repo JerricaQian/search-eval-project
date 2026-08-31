@@ -148,7 +148,7 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
 
 ### Phase3 评测范围选择
 
-新调用使用 `evaluationSelection`，由 `phase3-evaluation-officer` 确定性解析当前 19 项 Skill：
+新调用使用 `evaluationSelection`，由 `phase3-evaluation` 统一入口根据 `catalog.json` 确定性解析当前 19 项 Skill：
 
 ```json
 { "mode": "full_19" }

@@ -257,8 +257,7 @@ const shotSkillDir = (A.shotSkillDir ? A.shotSkillDir : projectDir + '/phase1-sc
 const phase2SkillDir = (A.phase2SkillDir ? A.phase2SkillDir : projectDir + '/phase2-card-annotation')
 const issueEvidenceSkillDir = (A.issueEvidenceSkillDir ? A.issueEvidenceSkillDir : projectDir + '/phase4-issue-evidence')
 const reportSkillDir = (A.reportSkillDir ? A.reportSkillDir : projectDir + '/phase5-report')
-// 每个维度的 eval-skills 目录：projectDir/<dimension>/eval-skills
-function skillBaseFor(dim) { return projectDir + '/' + dim + '/eval-skills' }
+const phase3SkillDir = projectDir + '/phase3-evaluation'
 
 // ---------- schemas ----------
 const SHOT_SCHEMA = {
@@ -270,35 +269,6 @@ const SHOT_SCHEMA = {
     error: { type: 'string' },
   },
   required: ['ok', 'screenshots'],
-}
-const DISCOVERY_SCHEMA = {
-  type: 'object',
-  properties: {
-    dimension: { type: 'string' },
-    skills: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          skill: { type: 'string' },
-          title: { type: 'string' },
-          weight: {
-            type: 'object',
-            properties: {
-              '优秀': { type: 'number' },
-              '达标': { type: 'number' },
-              '不达标': { type: 'number' },
-            },
-            required: ['优秀', '不达标'],
-          },
-          aggregate: { type: 'string' },
-          extra: { type: 'string' },
-        },
-        required: ['skill', 'title', 'weight', 'aggregate', 'extra'],
-      },
-    },
-  },
-  required: ['dimension', 'skills'],
 }
 const EVAL_TARGET_RESOLUTION_SCHEMA = {
   type: 'object',
@@ -326,8 +296,11 @@ const EVAL_TARGET_RESOLUTION_SCHEMA = {
           },
           aggregate: { type: 'string' },
           extra: { type: 'string' },
+          skillPath: { type: 'string' },
+          skillsDir: { type: 'string' },
+          contractPath: { type: 'string' },
         },
-        required: ['dimension', 'skill', 'title', 'weight', 'aggregate', 'extra'],
+        required: ['dimension', 'skill', 'title', 'weight', 'aggregate', 'extra', 'skillPath', 'skillsDir', 'contractPath'],
       },
     },
     coverage: {
@@ -503,86 +476,33 @@ const phase2RereviewValidationFile = evaluationArtifactDir + '/Phase2返工复�
 
 const reportImages = screenshots.map(p => ({ original: p, annotated: '' }))
 
-// ---------- Phase 2b: 自动发现各维度 eval skill（纯 frontmatter 解析，不读图，保留 JS 级并行） ----------
+// ---------- Phase 2b: 由统一 catalog 解析评测范围（确定性、不读图） ----------
 phase('评测')
-log('Phase 2b 预发现: dimensions=' + dimensions.join(',') + (legacySelectionFallback ? '（兼容旧 dimensions 参数）' : ''))
+log('Phase 2b catalog 解析: dimensions=' + dimensions.join(',') + (legacySelectionFallback ? '（兼容旧 dimensions 参数）' : ''))
 
-const discoveryResults = await parallel(dimensions.map(dim => () => {
-  const prompt = `你是评测 skill 发现 Agent。任务：扫描维度目录，用 python 确定性解析每个 eval skill 的 frontmatter，输出 JSON。
-
-⚠️ 注意：weight 中的「达标」键是可选的。二档评测项（只有优秀/不达标）的 SKILL.md frontmatter 可能不含「达标」键，脚本会用 .get("达标",0) 兜底为 0，这类 skill **必须保留**在结果里，不要因缺「达标」键而过滤掉。
-
-## 执行（用 Bash 工具跑下面这条命令，原样复制）
-\`\`\`bash
-"${pythonBin}" - <<'PYEOF'
-import yaml, glob, json, os
-base = os.path.expanduser("${skillBaseFor(dim)}")
-out = {"dimension": "${dim}", "skills": []}
-for d in sorted(glob.glob(base + "/eval-*")):
-    if not os.path.isdir(d): continue
-    skill = os.path.basename(d)
-    f = d + "/SKILL.md"
-    if not os.path.exists(f): continue
-    p = open(f).read().split('---', 2)
-    if len(p) < 3: continue
-    fm = yaml.safe_load(p[1]) or {}
-    if not all(k in fm for k in ['title','weight','aggregate']): continue
-    w = fm['weight']
-    out["skills"].append({
-        "skill": skill,
-        "title": fm.get('title',''),
-        "weight": {"优秀": w.get("优秀",0), "达标": w.get("达标",0), "不达标": w.get("不达标",0)},
-        "aggregate": fm.get('aggregate',''),
-        "extra": fm.get('extra','') or ''
-    })
-print(json.dumps(out, ensure_ascii=False))
-PYEOF
-\`\`\`
-
-## 返回
-把脚本 stdout 的 JSON **原样转录**进 schema：dimension 和 skills 数组逐字段对应。不要修改任何数字、不要增删字段、不要肉眼重新解析。若脚本报错（如缺 pyyaml），error 字段说明，skills 返回空数组。`
-  return agent(prompt, withRequestedModel({ label: '发现:' + dim, phase: '评测', schema: DISCOVERY_SCHEMA }))
-}))
-
-const discoveries = discoveryResults.filter(Boolean)
-// 扁平化成 (dimension, skill) 组合
-const evalTargets = []
-discoveries.forEach(d => {
-  (d.skills || []).forEach(s => {
-    evalTargets.push({ dimension: d.dimension, skill: s.skill, title: s.title, weight: s.weight, aggregate: s.aggregate, extra: s.extra })
-  })
-})
-log('Phase 2b 完成: 共发现 ' + evalTargets.length + ' 个 eval skill')
-
-if (evalTargets.length === 0) {
-  throw new Error('未发现任何 eval skill，检查 dimensions 参数与 ' + dimensions.join(',') + ' 下的 eval-skills/eval-* 目录')
-}
-
-// 发现只验证当前维度的 frontmatter；最终范围由评测官 resolver 决定，确保 custom_skills
-// 不会因为同目录中存在其它 Skill 而被静默扩大。
 const selectionJson = JSON.stringify(evaluationSelection)
-const resolutionPrompt = `你是 Phase3 评测官的确定性范围解析执行器。禁止读取截图、禁止评分、禁止修改文件。只用 Bash 原样执行下列命令，并将 stdout JSON 原样映射到 schema：
+const resolutionPrompt = `你是 Phase3 统一入口的确定性范围解析执行器。禁止读取截图、禁止评分、禁止修改文件。只用 Bash 原样执行下列命令，并将 stdout JSON 原样映射到 schema：
 
 \`\`\`bash
-"${pythonBin}" "${projectDir}/phase3-evaluation-officer/scripts/resolve_eval_targets.py" --project-dir "${projectDir}" --selection-json '${selectionJson}'
+"${pythonBin}" "${projectDir}/phase3-evaluation/common/routing/resolve_eval_targets.py" --project-dir "${projectDir}" --selection-json '${selectionJson}'
 \`\`\`
 
 若命令失败，返回 error；不要自行扫描或补全未选 Skill。`
-const resolution = await agent(resolutionPrompt, withRequestedModel({ label: 'Phase3评测官:解析范围', phase: '评测', schema: EVAL_TARGET_RESOLUTION_SCHEMA }))
+const resolution = await agent(resolutionPrompt, withRequestedModel({ label: 'Phase3入口:解析范围', phase: '评测', schema: EVAL_TARGET_RESOLUTION_SCHEMA }))
 if (!resolution || resolution.ok !== true || !Array.isArray(resolution.evalTargets) || resolution.evalTargets.length === 0) {
-  throw new Error('评测官未能解析合法评测范围: ' + (resolution && resolution.error ? resolution.error : '无目标 Skill'))
+  throw new Error('Phase3 入口未能解析合法评测范围: ' + (resolution && resolution.error ? resolution.error : '无目标 Skill'))
 }
 const resolvedTargets = resolution.evalTargets
 const resolvedDimensions = resolution.dimensions
 const evaluationScope = resolution.coverage
-log('Phase3评测官范围=' + evaluationScope.label + '；目标=' + resolvedTargets.map(item => item.dimension + '/' + item.skill).join(','))
+log('Phase3范围=' + evaluationScope.label + '；目标=' + resolvedTargets.map(item => item.dimension + '/' + item.skill).join(','))
 if (isBatchGovernanceReport && !evaluationScope.isFull) {
   throw new Error('批量治理看板只接受完整19项评测，当前为' + evaluationScope.label + '；请改用 full_19，避免与全量分混合')
 }
 
-// 每个维度的 eval-skills 目录，供合并子代理定位 SKILL.md
+// 目录由 resolver 从 catalog 返回；外部维度 ID 不再参与物理路径拼接。
 const skillDirs = {}
-resolvedDimensions.forEach(dim => { skillDirs[dim] = skillBaseFor(dim) })
+resolvedTargets.forEach(target => { skillDirs[target.dimension] = projectDir + '/' + target.skillsDir })
 
 // ---------- Evaluation Agent: Phase 2+3+4+5 ----------
 // 原 phase2-annotator / phase4-issue-evidence；Phase5 由 phase2345-query-pipeline 的唯一 Stage D 契约处理。
@@ -612,7 +532,7 @@ const mergedInputs = {
   // Phase3（评测）
   evalTargets: resolvedTargets,
   evaluationScope,
-  evaluationOfficerSkillDir: projectDir + '/phase3-evaluation-officer',
+  phase3SkillDir,
   skillDirs,
   granularity,
   evalResultFile,

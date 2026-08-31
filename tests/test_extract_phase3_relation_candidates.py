@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SCRIPT = PROJECT_DIR / "phase3-evaluation-officer" / "scripts" / "extract_phase3_relation_candidates.py"
+SCRIPT = PROJECT_DIR / "phase3-evaluation" / "dimensions" / "card-component" / "scripts" / "extract_phase3_relation_candidates.py"
 
 
 def load_module():
@@ -86,6 +86,75 @@ class ExtractPhase3RelationCandidatesTest(unittest.TestCase):
         repeats = result["redundancyCandidates"][0]["selfRepeatCandidates"]
         self.assertEqual(repeats[0]["repeatedFragment"], "3-4斤")
         self.assertEqual(repeats[0]["occurrences"], 2)
+
+    def test_requested_semantic_cues_receive_deterministic_verdicts(self) -> None:
+        module = load_module()
+        manifest = {"query": "啤酒", "cards": [{
+            "cardId": "C1", "regions": [
+                {"name": "标题区", "elements": [item("T", "泰山原浆啤酒10度7天新鲜", "title")]},
+                {"name": "基础信息区", "elements": [item("B", "麦汁浓度:10P", "product_attribute")]},
+                {"name": "价格区", "elements": [item("P", "￥24.9起到手价", "price")]},
+            ],
+        }]}
+        result = module.derive_relation_candidates(manifest)
+        duplicate = next(
+            module.adjudicate_redundancy_candidate(candidate)
+            for candidate in result["redundancyCandidates"][0]["candidatePairs"]
+            if candidate["lexicalCue"] == "same_numeric_attribute"
+        )
+        conflict = module.adjudicate_authenticity_candidate(
+            result["authenticityCandidates"][0]["internalCandidates"][0]
+        )
+        self.assertEqual(duplicate["verdict"], "duplicate")
+        self.assertEqual(duplicate["normalizedFact"], "麦汁浓度=10P")
+        self.assertEqual(conflict["verdict"], "conflict")
+
+    def test_generic_containment_never_becomes_automatic_redundancy(self) -> None:
+        module = load_module()
+        candidate = {
+            "left": {"elementId": "A", "text": "可退", "semanticRole": "benefit"},
+            "right": {"elementId": "B", "text": "随时可退", "semanticRole": "benefit"},
+            "lexicalCue": "containment",
+        }
+        self.assertIsNone(module.adjudicate_redundancy_candidate(candidate))
+
+    def test_range_conflict_and_title_self_repeat_receive_verdicts(self) -> None:
+        module = load_module()
+        range_candidate = {
+            "left": {"elementId": "T", "text": "榴莲3-6斤", "semanticRole": "title"},
+            "right": {"elementId": "B", "text": "约2kg以下", "semanticRole": "product_attribute"},
+            "lexicalCue": "quantity_range_exceeds_card_cap",
+            "normalizedTitleRangeKg": [1.5, 3.0], "normalizedCapKg": 2.0,
+        }
+        repeat_candidate = {
+            "element": {"elementId": "T", "text": "榴莲3-4斤 金枕榴莲3-4斤"},
+            "lexicalCue": "title_internal_repeated_quantified_fragment",
+            "repeatedFragment": "3-4斤", "occurrences": 2,
+        }
+        self.assertEqual(module.adjudicate_authenticity_candidate(range_candidate)["verdict"], "conflict")
+        self.assertEqual(module.adjudicate_self_repeat_candidate(repeat_candidate)["verdict"], "duplicate")
+
+    def test_same_visible_merchant_identity_with_conflicting_facts_is_detected(self) -> None:
+        module = load_module()
+        manifest = {"query": "盒马", "cards": [
+            {"cardId": "C1", "卡片类型": "商家卡片-图文下挂", "regions": [
+                {"name": "title", "elements": [item("C1-T", "盒马鲜生代购（望京广顺北大街）", "title")]},
+                {"name": "merchant_info", "elements": [
+                    item("C1-R", "4.6分", "rating"), item("C1-S", "月售900+起送¥0", "fulfillment"), item("C1-D", "2.2km", "fulfillment"),
+                ]},
+            ]},
+            {"cardId": "C3", "卡片类型": "商家卡片-图文下挂", "regions": [
+                {"name": "title", "elements": [item("C3-T", "盒马鲜生代购（望京广顺北大街）", "title")]},
+                {"name": "merchant_info", "elements": [
+                    item("C3-R", "4.8分", "rating"), item("C3-S", "月售70+", "sales"), item("C3-D", "2.3km", "fulfillment"),
+                ]},
+            ]},
+        ]}
+        result = module.derive_relation_candidates(manifest)
+        candidate = result["crossCardAuthenticityCandidates"][0]
+        verdict = module.adjudicate_authenticity_candidate(candidate)
+        self.assertEqual(verdict["verdict"], "conflict")
+        self.assertEqual({fact["factName"] for fact in verdict["conflictingFacts"]}, {"评分", "月售", "距离"})
 
 
 if __name__ == "__main__":

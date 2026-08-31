@@ -36,16 +36,19 @@ BUSINESS_LINES = {
 EXPECTED_REPORT_BUSINESS_TABS = BUSINESS_LINES.copy()
 PLATFORM_SCOPES = {"宏观组件", "特殊广告卡", "运营聚合卡", "相似推荐提示"}
 DEDICATED_BUSINESS_TERMS = (
-    ("healthcare", ("医院", "体检", "医药", "药店", "药房", "诊所", "医疗", "门诊", "口腔", "眼科", "中医", "医美", "整形", "OTC", "处方药", "保健品", "医疗器械")),
-    ("hotel_travel", ("酒店", "民宿", "房型", "景点", "度假", "露营", "漂流", "门票", "宾馆", "公寓", "钟点房", "跟团游", "自由行", "租车")),
+    ("healthcare", ("医院", "体检", "医药", "药店", "药房", "诊所", "医疗", "门诊", "口腔", "眼科", "中医", "医美", "整形", "OTC", "处方药", "保健品", "医疗器械", "生理盐水", "快药", "布洛芬", "止痛药", "退烧药")),
+    ("hotel_travel", ("酒店", "民宿", "房型", "景点", "度假", "露营", "营地", "漂流", "门票", "宾馆", "公寓", "钟点房", "跟团游", "自由行", "租车")),
     ("maoyan", ("电影", "影院", "演出", "场次", "票价", "剧场")),
     ("xiaoxiang", ("小象超市", "小象")),
 )
-SERVICE_RETAIL_TERMS = ("休闲娱乐", "KTV", "洗浴", "美发", "美甲", "美睫", "美容院", "丽人", "摄影", "婚礼", "结婚", "教育", "培训", "家政", "亲子", "按摩", "理发", "维修")
+SERVICE_RETAIL_TERMS = ("休闲娱乐", "休闲园区", "KTV", "洗浴", "美发", "美甲", "美睫", "美容院", "美容美体", "皮肤管理", "祛痘", "面部清洁", "丽人", "摄影", "婚礼", "结婚", "教育", "培训", "家政", "亲子", "儿童乐园", "剧本杀", "沉浸式探秘", "团建拓展", "按摩", "理发", "维修")
+# 这些服务业态的展示文案可能同时出现“剧场/演绎”等猫眼弱提示词，
+# 但其业务身份仍由更具体的服务零售语义决定。
+SERVICE_RETAIL_EXCLUSIVE_TERMS = ("剧本杀", "沉浸式探秘", "足道", "足浴", "按摩", "spa")
 FLASH_DELIVERY_TERMS = ("闪购", "分钟达", "即时零售", "小时达", "闪电仓", "歪马送酒")
-FLASH_CATEGORY_TERMS = ("零食", "饮料", "日用百货", "卫生巾", "安睡裤", "纸巾", "粮油", "调味", "水果", "榴莲", "蔬菜", "肉禽蛋", "水产", "鲜花", "花束", "啤酒", "白酒", "红酒", "矿泉水", "咖啡豆", "便利店")
+FLASH_CATEGORY_TERMS = ("零食", "饮料", "日用百货", "卫生巾", "安睡裤", "纸巾", "粮油", "调味", "水果", "西瓜", "果切", "榴莲", "蔬菜", "黄瓜", "肉禽蛋", "水产", "生鲜", "鲜生", "盒马", "超市", "鲜花", "花束", "啤酒", "白酒", "红酒", "矿泉水", "咖啡豆", "便利店")
 FLASH_CATEGORY_OVERRIDE_TERMS = ("咖啡豆", "咖啡粉", "咖啡胶囊")
-FOOD_TERMS = ("餐厅", "饭店", "火锅", "烧烤", "咖啡", "奶茶", "菜品", "美食", "小吃", "快餐", "汉堡", "粉面", "盒饭", "日料", "中餐", "西餐")
+FOOD_TERMS = ("餐厅", "饭店", "火锅", "烧烤", "肉串", "猪脚饭", "烧腊", "蛋糕", "面包甜点", "柠檬水", "百香果", "咖啡", "奶茶", "菜品", "美食", "小吃", "快餐", "汉堡", "粉面", "盒饭", "日料", "中餐", "西餐")
 DELIVERY_TERMS = ("外卖", "配送", "起送", "送达", "外送")
 LEVELS = {
     "phase3-single_element-eval": ("单一元素维度", "element", "#6366f1"),
@@ -58,20 +61,28 @@ FAIL_RATINGS = {"不达标", "🔴"}
 
 def priority_from_vote_counts(fail_count: int, pass_count: int) -> str | None:
     """Return the deterministic governance priority for one business/level/metric unit."""
-    if fail_count >= 2 or pass_count >= 4:
+    if fail_count >= 4 or pass_count >= 6:
         return "P0"
-    if fail_count >= 1 or pass_count >= 2:
+    if fail_count >= 2 or pass_count >= 4:
         return "P1"
-    if pass_count >= 1:
+    if 1 <= pass_count <= 3:
+        return "P2"
+    # The three explicit thresholds do not cover a single failing vote with no
+    # passing votes. Keep that detected issue visible in the lowest priority
+    # instead of silently dropping it from the dashboard.
+    if fail_count == 1 and pass_count == 0:
         return "P2"
     return None
 
 
 def priority_reason_from_vote_counts(fail_count: int, pass_count: int, priority: str) -> str:
-    return (
+    reason = (
         f"同一业务线、同一维度、同一指标本轮统计：不达标 {fail_count} 票，达标 {pass_count} 票。"
-        f"按固定阈值（不达标≥2或达标≥4为P0；不达标≥1或达标≥2为P1；达标≥1为P2）判定为 {priority}。"
+        f"按固定阈值（不达标≥4或达标≥6为P0；不达标≥2或达标≥4为P1；达标1至3为P2）判定为 {priority}。"
     )
+    if fail_count == 1 and pass_count == 0:
+        reason += "该组合未命中三条显式阈值，为避免已检测问题从报告消失，按剩余低频问题收纳为P2。"
+    return reason
 
 
 METRICS = {
@@ -79,13 +90,13 @@ METRICS = {
     "eval-1-supply-quality-scanner": ("供给呈现问题", "supply_quality"),
     "eval-1-supply-completeness": ("供给呈现问题", "supply_completeness"),
     "eval-1-supply-module-completeness": ("供给呈现问题（页面框架）", "supply_module_completeness"),
-    "eval-2-color-logic-single-element": ("色彩运用问题", "color_logic"),
+    "eval-2-color-logic-single-element": ("单一元素色彩复杂", "color_logic"),
     "eval-2-visual-order-alignment": ("视觉秩序问题", "visual_order"),
-    "eval-3-page-color-logic": ("色彩运用问题（页面级）", "page_color_logic"),
-    "eval-3-color-logic": ("色彩运用问题", "color_logic"),
+    "eval-3-page-color-logic": ("页面色彩复杂", "page_color_logic"),
+    "eval-3-color-logic": ("组件色彩复杂", "color_logic"),
     "eval-3-element-compliance-scanner": ("静态元素复杂", "element_compliance"),
-    "eval-4-element-complexity": ("静态元素/组件复杂", "element_complexity"),
-    "eval-4-static-component-complexity": ("静态组件复杂（首屏功能区数量）", "static_component_complexity"),
+    "eval-4-element-complexity": ("元素复杂", "element_complexity"),
+    "eval-4-static-component-complexity": ("组件复杂", "static_component_complexity"),
     "eval-4-info-authenticity-single-element": ("信息/功能歧义", "info_authenticity"),
     "eval-5-info-hierarchy": ("信息层级不清", "information_hierarchy"),
     "eval-5-browsing-flow-smoothness": ("浏览动线问题", "browsing_flow"),
@@ -186,10 +197,13 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
             "confidence": f"unsupported_explicit_business_code:{explicit_code}",
             "cardTypeCode": kind, "cardTypeName": card_type,
         }
-    if card_type in PLATFORM_SCOPES or card.get("cardId") == "macro-top":
+    semantic, fulfillment = card_semantic_text(card), fulfillment_text(card)
+    if (card_type in PLATFORM_SCOPES or card.get("cardId") == "macro-top"
+            or (card_type == "异构卡" and "大家还在搜" in semantic)):
         return {"scope": "platform", "businessCode": "platform", "businessName": "平台公共组件",
                 "confidence": "high", "cardTypeCode": "platform_component", "cardTypeName": card_type}
-    semantic, fulfillment = card_semantic_text(card), fulfillment_text(card)
+    if has_any(semantic, SERVICE_RETAIL_EXCLUSIVE_TERMS):
+        return classified_business("service_retail", kind, card_type, "specific_service_semantic")
     for business, terms in DEDICATED_BUSINESS_TERMS:
         if has_any(semantic, terms):
             return classified_business(business, kind, card_type, "semantic")
@@ -240,6 +254,30 @@ def humanize_issue_element(issue: dict[str, Any]) -> str:
     content = str(issue.get("content") or "").strip()
     content = re.sub(r"^(?:原文|内容)\s*[:：]\s*", "", content).strip()
     return f"{element_type}：「{content}」" if content else (element_type or "页面元素")
+
+
+def card_location_labels(cards: list[dict[str, Any]]) -> dict[str, str]:
+    """Return reader-facing list positions without exposing card IDs or coordinates."""
+    labels: dict[str, str] = {}
+    standard_index = 0
+    for card in cards:
+        card_id = str(card.get("cardId") or "")
+        structure = card.get("structure") if isinstance(card.get("structure"), dict) else {}
+        card_type = str(card.get("卡片类型") or card.get("cardTypeCode") or "")
+        heterogeneous = bool(structure.get("isHeterogeneous")) or card_type in {"异构卡", "heterogeneous"}
+        if not heterogeneous:
+            standard_index += 1
+            labels[card_id] = f"商卡{standard_index}"
+            continue
+        semantic = card_semantic_text(card)
+        if "大家还在搜" in semantic:
+            subtype = "大家还在搜"
+        elif "直播" in semantic:
+            subtype = "直播大卡"
+        else:
+            subtype = str(card.get("variant") or "其他")
+        labels[card_id] = f"异构卡-{subtype}"
+    return labels
 
 
 def issue_finding(issue: dict[str, Any]) -> dict[str, str]:
@@ -409,11 +447,11 @@ def infer_advice(metric_code: str, evidence: list[dict[str, Any]]) -> tuple[str,
 def load_skill_weights(project: Path) -> dict[tuple[str, str], dict[str, float]]:
     """Read scoring weights from skill frontmatter; reports never invent them."""
     weights: dict[tuple[str, str], dict[str, float]] = {}
-    for dimension, directory in {
-        "phase3-single_element-eval": project / "phase3-single_element-eval" / "eval-skills",
-        "phase3-card_or_component-eval": project / "phase3-card_or_component-eval" / "eval-skills",
-        "phase3-page_framework-eval": project / "phase3-page_framework-eval" / "eval-skills",
-    }.items():
+    phase3_dir = project / "phase3-evaluation"
+    catalog = json.loads((phase3_dir / "catalog.json").read_text(encoding="utf-8"))
+    for item in catalog["dimensions"]:
+        dimension = item["id"]
+        directory = phase3_dir / item["skillsDir"]
         for skill_file in directory.glob("eval-*/SKILL.md"):
             weight = load_weight(skill_file)
             if weight is not None:
@@ -516,20 +554,26 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             query = str(facts.get("query", ""))
             if not query:
                 continue
-            manifests.setdefault(query, (fact_pack_path, {
+            # A fact source retained inside the selected artifact batch is
+            # stronger than any same-query legacy projection in screenshots-out.
+            # Overwrite it so an older, shorter card list cannot shadow the
+            # loader-verified golden manifest and orphan current issue IDs.
+            manifests[query] = (fact_pack_path, {
                 "query": query,
                 "screenshot": str(facts.get("screenshot", "")),
                 "annotatedImage": "",
                 "cards": facts.get("cards", []),
-            }))
+            })
 
     classifications: dict[str, dict[str, dict[str, str]]] = {}
     element_cards: dict[str, dict[str, str]] = {}
     element_labels: dict[str, dict[str, str]] = {}
+    location_labels: dict[str, dict[str, str]] = {}
     for query, (_, manifest) in manifests.items():
         classifications[query] = {}
         element_cards[query] = {}
         element_labels[query] = {}
+        location_labels[query] = card_location_labels(manifest.get("cards", []))
         for card in manifest.get("cards", []):
             card_id = str(card.get("cardId", ""))
             classifications[query][card_id] = classify_card(card)
@@ -685,6 +729,11 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                         card_id = f"page:{query}"
                     elif classification and classification["scope"] == "business":
                         target_classifications = [classification]
+                    elif classification and classification["scope"] == "platform":
+                        # Platform components are deliberately outside business
+                        # Tab aggregation.  Their ownership is known, so they
+                        # must not be reported as an unresolved business card.
+                        continue
                     elif level_code == "element":
                         target_classifications = [
                             item for item in classifications[query].values()
@@ -706,7 +755,11 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                         continue
                     finding = issue_code(skill, issue)
                     for target in target_classifications:
-                        target_card_id = card_id if classification else f"{level_code}:{query}"
+                        related_card_ids = [str(value) for value in issue.get("relatedCardIds", []) if value]
+                        target_card_id = (
+                            "cross:" + "+".join(sorted(related_card_ids))
+                            if related_card_ids else (card_id if classification else f"{level_code}:{query}")
+                        )
                         # 治理优先级的唯一统计单元：业务线 + 维度 + 指标；卡型只保留为
                         # 覆盖范围元数据，不能将同一指标拆成多个优先级票池。
                         key = (target["businessCode"], metric_code, level_code)
@@ -718,13 +771,19 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                             "failVoteCount": 0, "passVoteCount": 0,
                         })
                         group["cardTypeCodes"].add(target["cardTypeCode"])
+                        if level_code == "page" or issue.get("isAssessmentLevel"):
+                            location_label = "页面框架"
+                        else:
+                            location_label = str(issue.get("locationLabel") or location_labels[query].get(card_id) or "页面公共区域")
                         evidence = {"query": query, "tab": tab, "cardId": target_card_id, "elementId": element_id,
                                     "elementLabel": element_label,
+                                    "locationLabel": location_label,
+                                    "relatedCardIds": related_card_ids,
                                     "rating": str(issue.get("rating", unit.get("rating", ""))),
                                     "priority": str(issue.get("priority", "待判定")),
                                     "priorityReason": str(issue.get("priorityReason", "")),
                                     "assessmentLevel": bool(issue.get("isAssessmentLevel", False)),
-                                    "description": issue_description(issue, str(unit.get("reason", "")) or str(detail.get("summary", ""))),
+                                    "description": str(issue.get("description", "")) or issue_description(issue, str(unit.get("reason", "")) or str(detail.get("summary", ""))),
                                     "finding": issue_finding(issue),
                                     "recommendation": str(issue.get("recommendation", "")),
                                     "dimension": str(issue.get("dimension", metric_name)),
@@ -818,13 +877,17 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             item["componentEvaluatedCards"].update(group["evaluatedCardRefs"])
     # 即使某业务没有待优化问题，只要当前批次存在可见业务卡，也要保留业务 Tab 与评分。
     for query in used_queries:
-        for classification in classifications.get(query, {}).values():
+        for card_id, classification in classifications.get(query, {}).items():
             if classification["scope"] != "business":
                 continue
-            business_summary.setdefault(classification["businessCode"], {
+            summary = business_summary.setdefault(classification["businessCode"], {
                 "businessCode": classification["businessCode"], "businessName": classification["businessName"], "issueCount": 0,
                 "problemCards": set(), "evaluatedCards": set(), "componentProblemCards": set(), "componentEvaluatedCards": set(), "levelScores": defaultdict(list),
             })
+            # The business card rate uses the full visible-card inventory as
+            # denominator, including cards whose component metrics are all
+            # excellent and therefore produce no governance group.
+            summary["componentEvaluatedCards"].add((query, "全部", card_id))
 
     # 按 Skill frontmatter 的 weight 确定性汇总：先累计实际原始分及同批已执行项的理论 min/max，
     # 再归一化；不再以问题卡片率或评级映射在报告层重算。
@@ -856,7 +919,11 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
 
     business_rows = []
     for item in business_summary.values():
-        total, problems = len(item["evaluatedCards"]), len(item["problemCards"])
+        # Page-level findings use synthetic ``page:<query>`` references.  They
+        # remain in issue counts and evidence, but must not inflate the metric
+        # explicitly labelled as a business-card problem rate above 100%.
+        total = len(item["componentEvaluatedCards"])
+        problems = len(item["componentProblemCards"])
         dimension_scores = {}
         dimension_breakdown = {}
         for level, totals in business_dimension_totals.get(item["businessCode"], {}).items():

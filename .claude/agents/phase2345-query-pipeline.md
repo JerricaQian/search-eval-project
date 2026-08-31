@@ -28,9 +28,9 @@ tools: Read, Bash, Write, Grep, Glob
 - `skipAnnotation`（可选，默认 false）：为 true 时逐一校验 `phase2Outputs[]` 中的已有清单；任何一份未通过都直接阻断，不得合并或重新识别。
 
 **Phase3（评测）**
-- `evalTargets`：本词要跑的 skill 数组，每项含 `dimension`（`phase3-*-eval` 目录名）、`skill`（eval 目录名）、`title`、`weight`、`aggregate`、`extra`。
-- `evaluationScope`：评测官已解析的范围对象，含 `selectedCount`、`fullCount`、`isFull`、`label`。`evalTargets` 是本次唯一必须完成的目标集，不能擅自补跑未选项。
-- `skillBaseFor(dimension)` 等价信息：调用方直接传 `skillDirs: { <dimension>: "<projectDir>/<dimension>/eval-skills" }`。
+- `evalTargets`：本词要跑的 skill 数组，每项含稳定外部 `dimension` ID、`skill`、`title`、`weight`、`aggregate`、`extra`，以及由 catalog 解析出的 `skillPath`、`skillsDir`、`contractPath`。
+- `evaluationScope`：Phase3 统一入口已解析的范围对象，含 `selectedCount`、`fullCount`、`isFull`、`label`。`evalTargets` 是本次唯一必须完成的目标集，不能擅自补跑未选项。
+- `phase3SkillDir`：`phase3-evaluation/` 绝对路径；`skillDirs` 是调用方从 resolver 输出汇总的 `{ <dimension-id>: "<physical-skills-dir>" }`。
 - `granularity`：固定 `element`。
 - `evalResultFile` / `evalAuditFile` / `phase2ReviewFile`：Phase3 结果与审计固定输出路径。
 - `phase2RereviewAuditFile` / `phase2RereviewValidationFile`（可选）：B10 触发返工复核时使用；每条复核记录必须标明原 `manifest` 和 `screenshot`，不得覆盖任何单图原始审计。
@@ -55,7 +55,7 @@ tools: Read, Bash, Write, Grep, Glob
 1. **单词单实例边界**：本 agent 只处理调用方注入的唯一 `query`，不得接管、合并或补跑其他搜索词。调用方批量并发上限每批最多 3 个词级子代理，必须等待整批结束再派下一批；本 agent 不感知也不参与批次调度，只对自己的 `query` 负责。
 2. **过程文件与图片一律保留**：四个阶段产生的截图、裁剪、scan 输出、清单、审计、评测原始结果、证据图、失败中间产物**一律不得删除**，包括 0 字节文件和被判定无效的产物。需要隔离的中间材料写入 `${artifactRunDir}/phase2/`、`${artifactRunDir}/phase3/`、`${artifactRunDir}/问题证据标注/` 对应子目录；无效/重复/失败产物只记录原因和路径，不执行 `rm`、`unlink` 或覆盖清理。
 3. **阶段顺序不可跳过、不可乱序**：必须严格按 Phase2 → Phase3 → Phase4 → Phase5 顺序执行；任一阶段的验收闸门未通过（见下）时，停止后续阶段并返回阻断原因，不得为了走完全流程而伪造通过。
-4. **评测官知识库与共享契约共同构成 Phase3 事实解释层**：先完整读取 `${projectDir}/phase3-evaluation-officer/SKILL.md` 和其 `references/knowledge-index.md` 指向的知识；三个维度（`phase3-single_element-eval` / `phase3-card_or_component-eval` / `phase3-page_framework-eval`）再分别读取对应维度共享契约与被选 Skill 的 SKILL.md。知识库解释页面、模块、卡型和适用性；共享契约与叶子 Skill 解释测量、阈值、评分和证据。不得凭记忆简化或跳过。
+4. **共同知识、维度契约与叶子 Skill 共同构成 Phase3 事实解释层**：先完整读取 `${phase3SkillDir}/SKILL.md` 和 `common/references/knowledge-index.md` 指向的知识；再按 `evalTargets[].contractPath` 与 `skillPath` 读取被选维度契约和叶子 Skill。共同知识解释页面、模块、卡型和适用性；维度契约与叶子 Skill 解释测量、阈值、评分和证据。不得凭记忆简化或跳过。
 
 ### Stage A：Phase2 当前图片校准
 
@@ -118,27 +118,23 @@ Stage A 产物：`elementListPaths[]`、`elementAuditPaths[]`、全部非排除�
 
 ### Stage B：Phase3 全维度评测（在本次调用内对 `evalTargets` 逐项执行）
 
-B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manifest 继续使用下列 `validate_element_manifest.py` 门禁；Atomic v3 不得投影成或要求 legacy `recognition.wholePageGate`、`pageFactInventory`、`layoutAnchors` 字段。对 Atomic v3，先运行 `scripts/build_phase3_atomic_fact_pack.py <manifest> --output <artifactRunDir>/phase3/atomic-facts.json`，再运行 `scripts/validate_phase3_atomic_fact_pack.py <fact-pack> --require alignment`。事实包是 Phase3 派生产物，绝不改写 Atomic/Phase2 manifest；合法 Atomic 的适配缺口只重跑对应 Phase3 提取，不触发 Phase2 回退。商卡视觉层级不再要求 Phase2 字号桶，改由 Stage B 的校准 `glyphHeightPx` 像素测量验收。
+B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manifest 继续使用下列 `validate_element_manifest.py` 门禁；Atomic v3 不得投影成或要求 legacy `recognition.wholePageGate`、`pageFactInventory`、`layoutAnchors` 字段。对每份 Atomic v3 运行 `scripts/phase2_bundle_loader.py <manifest> --audit <artifactRunDir>/phase3/phase2-fact-view-<local>.audit.json`；只有审计 `valid=true`、`atomicProjectionComplete=true` 且 `sourceManifestTotal=projectedElementCount` 才可进入当前 Skill。loader 在内存中校验 schema、发布状态、taxonomy、源截图哈希和元素引用完整性，只落盘审计摘要，不生成兼容 manifest、Fact Pack 或跨 Skill 派生事实。合法 Atomic 的 Phase3 候选/测量缺口只重跑对应 Skill，不触发 Phase2 回退。商卡视觉层级不再要求 Phase2 字号桶，改由 Stage B 的校准 `glyphHeightPx` 像素测量验收。
     - `eval-2-visual-order-alignment` → `--require-alignment-facts --require-alignment-anchors`
     对 `elementListPaths[]` 中每份清单分别执行，命令形如：
     ```bash
     "${pythonBin}" "${projectDir}/phase2-card-annotation/scripts/validate_element_manifest.py" "<manifest>" --audit "<audit>" <flag>
     ```
-B1. **先读评测官知识库、维度共享契约，再读 Skill（各只读一次）**：先完整读取 `${projectDir}/phase3-evaluation-officer/SKILL.md`、`references/knowledge-index.md` 及其三个直接引用的知识文件；再按 `evalTargets[i].dimension` 定位共享契约文件与 `skillDirs[dimension]/${skill}/SKILL.md`。只读本次选中维度/Skill；不得加载未选 Skill 评分标准。
-B2. **按评测颗粒度使用唯一事实源**：`sourceManifestTotal` 是原子清单总数，仅用于追溯；`overview.total` 必须等于当前 Skill 的 `evaluatedUnitCount`，不同 Skill 可以不同，禁止跨 Skill 强行对齐。对 Atomic v3，每个 Skill 先运行 `scripts/prepare_phase3_skill_run.py <fact-pack> --skill <skill> --dimension <dimension> --output <artifactRunDir>/phase3/<skill>.run-plan.json`，并只使用该计划中的候选、排除和实际评测对象；将计划中的 `sourceManifestTotal`、`evaluatedUnitIds`、`evaluatedUnitCount`、`excludedUnits` 原样写入 `details.evidence`。不得人工推导或按截图重新数。
-    ```bash
-    "${pythonBin}" -c "import json,sys;ex=lambda e:e.get('isExcluded') or e.get('是否排除项') or e.get('excluded');print('TOTAL=',sum(1 for p in sys.argv[1:] for c in json.load(open(p)).get('cards',[]) for r in c.get('regions',[]) for e in r.get('elements',[]) if not ex(e)))" <manifest1> <manifest2> ...
-    ```
-    legacy 输入按上述脚本得到 `sourceManifestTotal`；单元素/组件仍以自身 `evaluatedUnitCount` 为 `overview.total`。页面框架维度 `overview.total` 固定为 1，不得引用元素清单总数或跑此脚本。
+B1. **先读共同知识、维度共享契约，再读 Skill（各只读一次）**：先完整读取 `${phase3SkillDir}/SKILL.md`、`common/references/knowledge-index.md` 及其三个直接引用的知识文件；再直接读取 `evalTargets[i].contractPath` 与 `evalTargets[i].skillPath`。路径必须来自 resolver，不得用外部维度 ID 拼接目录。只读本次选中维度/Skill；不得加载未选 Skill 评分标准。
+B2. **按评测颗粒度使用唯一事实源**：所有输入都经 `scripts/phase2_bundle_loader.py` 得到同一只读事实视图；`sourceManifestTotal` 是本次清单原子总数，仅用于追溯，Atomic v3 直接取 B0 审计值，legacy 输入从已通过 A6/B0 门禁的当前 manifest 确定性统计。每个 Skill 必须完整遍历该事实视图，再严格按自身 `SKILL.md` 构造候选、排除和实际评测对象；禁止复用跨 Skill 的候选计划或预先发布评测专用分组。将本次遍历得到的 `sourceManifestTotal`、`evaluatedUnitIds`、`evaluatedUnitCount`、`excludedUnits` 写入 `details.evidence`，并保留当前 Skill 要求的 `assessmentRows`/测量产物供校验。`overview.total` 必须等于当前 Skill 的 `evaluatedUnitCount`，不同 Skill 可以不同；单元素/组件按自身实际颗粒度计数，页面框架固定为 1。不得人工目测计数，也不得跨 Skill 强行对齐。
 B3. **证据门禁与回退路由**：命中 FACT_GATES 的 4 个 skill，其 `assessmentRows` 必须覆盖包括优秀在内的全部完整单元；缺少下列必填事实不得输出优秀。原子边界、类型、归属、坐标或基础可见事实缺失时，写入 Phase2 复核请求；候选提取、比较、测量、去重或计数产物缺失时，只重跑或阻断受影响的 Phase3 Skill，禁止把评测专用字段补写到 Phase2。
     - `eval-5-info-hierarchy`（视觉层级）：每条含 `sourceElements`/`weightSequence`/`tierTrace`/`levelCount`/`rating`/`verdict`；每次拆档或同档归并均须明确写出 `glyphHeightPx`、当次校准阈值与 JSON 颜色跳变事实。
     - `eval-4-element-complexity`（静态元素复杂度）：每条含可见分区扫描、库存覆盖、已确认 tag/icon 的真实 elementId、从 JSON 五段字段派生的 styleKey、纳入/排除原因和去重计数；库存缺失/不完整/uncertain 时不得输出优秀。
     - `eval-7-info-authenticity`（信息真实性）：每条含主标题、每个可见图片/副标题/标签/下挂/规格实体的真实 elementId、全量 JSON 关系对、检查结论及不适用原因；未完成全量扫描不得写成无冲突或优秀。
     - `eval-2-visual-order-alignment`（视觉秩序分组）：每条含分组 key、成员 cardId、layoutMode、layoutSignature、各卡 `layoutAnchors` 与卡内 `layoutAnchorRelation`、跨卡比较结果或单例阅读顺序核查；只允许相同 key 的完整卡横向比较，单例不得宣称跨卡一致。**严禁把标题/信息列的绝对 x 坐标、头图尺寸或卡片高度差异单独作为不达标依据**；只有同 key 卡的 `layoutAnchorRelation` 出现可见相对关系冲突（如 image_left_of_text 与 image_right_of_text、title_above_primaryInfo 与 primaryInfo_above_title），或同组锚点支持肉眼可见的页面级错层时，才可判不达标；锚点不能支持结论时必须请求 Phase2 复核，不得自行推断。
-B4. **JSON 直读与必要像素测量**：组件色彩、静态元素复杂度、信息真实性、信息冗余和页面信息可比性直接读取并全量遍历 Phase2 JSON，不运行像素或候选提取脚本。单元素色彩先用 JSON 筛选非中性色候选，只对候选运行 `count_element_colors.py`；商卡视觉层级以 `--skill eval-5-info-hierarchy` 运行 `extract_component_metrics.py` 的 hierarchy-only 分支并使用 `phase3.hierarchy-glyph.v1` 校准阈值；页面色彩只运行 `page_color_analysis.py`，传入 `manifest/out_debug/out_result`，排除 mask 由 JSON 自动生成。只有这三类像素测量的 `assessmentRows` 附 `measurement.tool/artifactPath/parameters`。
+B4. **JSON 直读与必要像素测量**：组件色彩、静态元素复杂度、信息真实性、信息冗余和页面信息可比性直接读取并全量遍历 Phase2 JSON，不运行像素脚本。信息真实性/冗余可调用 `extract_phase3_relation_candidates.py` 的纯 JSON 语义关系辅助器补齐数值属性、数量词、规格范围和价格口径线索；它不得缩减全量扫描，通用字面命中不自动成为问题，候选为空也不证明优秀。单元素色彩先用 JSON 筛选非中性色候选，只对候选运行 `count_element_colors.py`；商卡视觉层级以 `--skill eval-5-info-hierarchy` 运行 `extract_component_metrics.py` 的 hierarchy-only 分支并使用 `phase3.hierarchy-glyph.v1` 校准阈值；页面色彩只运行 `page_color_analysis.py`，传入 `manifest/out_debug/out_result`，排除 mask 由 JSON 自动生成。只有这三类像素测量的 `assessmentRows` 附 `measurement.tool/artifactPath/parameters`。
 B5. **读图硬上限**：每个 skill 的评测整图全程只 Read 1 次；局部细节用以下命令裁出窄图再复核，不重读整图。`<local>` 是本 skill 的唯一递增序号，输出须保留在过程目录；裁图失败只按 B3 阻断受影响测量/Skill。
     ```bash
-    "${pythonBin}" "${projectDir}/phase3-evaluation-officer/scripts/crop_image.py" --input "<screenshot>" --output "${artifactRunDir}/phase3/<skill>-<local>.png" --x <x> --y <y> --width <width> --height <height>
+    "${pythonBin}" "${projectDir}/phase3-evaluation/common/scripts/crop_image.py" --input "<screenshot>" --output "${artifactRunDir}/phase3/<skill>-<local>.png" --x <x> --y <y> --width <width> --height <height>
     ```
 B6. **评级与计分严格遵守 skill 的 `weight` frontmatter**：先按 SKILL.md 的 `aggregate` 汇为该 Skill×Tab 的唯一 `rating`，再写 `weightedScore = weight[rating]`。一个 Skill×Tab 只写一次分值，绝不按问题数、元素数或组件数重复累加；二档 skill 不得凭空产生"达标"档，不得自创中间档。写入后由 `validate_eval_results.py` 校验评分映射，校验失败只重跑受影响 Phase3 Skill。
 B7. **只评可见内容**：截图外信息（落地页真实性、提示条准确性）不计入评级。
@@ -155,9 +151,9 @@ B9b. **评级档位自适应**：某 skill 的 `weight` frontmatter 缺"达标"�
 B9c. **details 结构**（非页面框架维度）：`overview`（total/excellent/pass/fail/failRate）、`screenshot`（本 Tab 对应原图绝对路径）、`evidenceMode`（`annotated-region`/`original-page`/`hybrid`）、`criterion`（命中规则/阈值，优秀也须填写）、`issues`（不达标/超标元素明细，含 elementId/coord/component/elementType/content）、`distribution`（问题维度分布）、`summary`（整体总结）。页面框架维度对应字段见 B9。
 B10. **落盘 + 确定性校验与恢复路由**：全部 `evalTargets` 评测完成后，把结果数组原样写入 `${evalResultFile}`，执行：
      ```bash
-     "${pythonBin}" "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit-or-atomic-fact-pack>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --phase2-review "${phase2ReviewFile}"
+     "${pythonBin}" "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<Stage-A-source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --phase2-review "${phase2ReviewFile}"
      ```
-     首次失败先运行 `scripts/route_phase3_validation_failure.py <eval-audit> --output <artifactRunDir>/phase3/validation-triage.json`，再按 B3 路由和复验；合法 Atomic 的适配问题不得阻断其他已通过 Skill、Phase4 或 Phase5。
+     首次失败直接读取本次 `eval-audit` 的 `errors`、`phase2ReviewRequired` 和 `phase2ReviewItems`，在 `${artifactRunDir}/phase3/retry-<timestamp>/validation-triage.json` 原样保存这些字段并记录受影响 Skill。`phase2ReviewRequired=true` 时只按列出的真实原子事实缺口进入一次 Phase2 复核；否则一律视为 Phase3 结果、候选、计数、测量或证据结构返工，只重跑受影响 Skill 后复验。禁止依赖额外分诊脚本，也禁止把合法 Atomic 的适配/结果问题改写成 Phase2 缺口。
 
 B10a. **Phase3 结果构造失败必须在本次任务内返工**：`evalTargets` 缺项、本次已选项中任一项没有合法 `assessmentRows`/测量产物/`details`、评分映射不完整、或由上述结果构造问题引起的校验失败，均是本 agent 可修复的 Phase3 工作，**不得**以 `stageB` 阻断交付。必须保留首次无效产物，在 `${artifactRunDir}/phase3/retry-<timestamp>/` 写入分诊和返工材料，只重做受影响 Skill，再执行 B10 校验；直至形成完整、可验收的结果数组。只有 Phase2 原子事实无法获得或不可信、强制工具/文件读取环境不可用、或必须依赖截图外事实但未获提供时，才可将 Stage B 标记为真实阻断；“尚未逐项评完”“漏写某个已选 Skill”“未生成证据字段”从来不是阻断理由。
 

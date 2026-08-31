@@ -45,6 +45,18 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
         result = self.module.classify_card(card("商家卡片-文字下挂", ("原文:火锅餐厅",), ("原文:外卖", "原文:配送费¥2")))
         self.assertEqual(result["businessCode"], "food_delivery")
 
+    def test_governance_priority_uses_current_fixed_thresholds(self) -> None:
+        priority = self.module.priority_from_vote_counts
+        self.assertEqual(priority(4, 0), "P0")
+        self.assertEqual(priority(0, 6), "P0")
+        self.assertEqual(priority(2, 0), "P1")
+        self.assertEqual(priority(0, 4), "P1")
+        self.assertEqual(priority(0, 1), "P2")
+        self.assertEqual(priority(0, 3), "P2")
+        self.assertEqual(priority(1, 0), "P2")
+        self.assertIsNone(priority(0, 0))
+        self.assertIn("剩余低频问题", self.module.priority_reason_from_vote_counts(1, 0, "P2"))
+
     def test_product_card_with_shared_fulfillment_is_flash_delivery(self) -> None:
         result = self.module.classify_card(card("商品卡片", ("原文:矿泉水",), ("原文:外卖", "原文:配送费¥2")))
         self.assertEqual(result["businessCode"], "flash_delivery")
@@ -63,6 +75,33 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
     def test_named_business_semantics_take_priority_over_fulfillment(self) -> None:
         result = self.module.classify_card(card("商品卡片", ("原文:连锁药房",), ("原文:分钟达",)))
         self.assertEqual(result["businessCode"], "healthcare")
+
+    def test_scripted_mystery_is_service_retail_even_when_copy_mentions_theater(self) -> None:
+        result = self.module.classify_card(card(
+            "商家卡片-文字下挂",
+            ("原文:沉浸式剧本杀演绎剧场",),
+            ("原文:预约到店",),
+        ))
+        self.assertEqual(result["businessCode"], "service_retail")
+
+    def test_cinema_foot_massage_is_service_retail_not_maoyan(self) -> None:
+        result = self.module.classify_card(card(
+            "商家卡片-文字下挂",
+            ("原文:沐云·影院足道·奢颜SPA", "原文:肩颈四肢按摩+观影"),
+            ("原文:到店",),
+        ))
+        self.assertEqual(result["businessCode"], "service_retail")
+
+    def test_location_labels_number_standard_cards_and_name_heterogeneous_cards(self) -> None:
+        cards = [
+            {**card("商家卡片-无下挂", ("原文:商户A",), ()), "cardId": "C1"},
+            {**card("异构卡", ("原文:大家还在搜",), ()), "cardId": "H1", "structure": {"isHeterogeneous": True}},
+            {**card("异构卡", ("原文:直播好货",), ()), "cardId": "H2", "structure": {"isHeterogeneous": True}},
+            {**card("商品卡片", ("原文:商品B",), ()), "cardId": "C2"},
+        ]
+        self.assertEqual(self.module.card_location_labels(cards), {
+            "C1": "商卡1", "H1": "异构卡-大家还在搜", "H2": "异构卡-直播大卡", "C2": "商卡2",
+        })
 
     def test_all_supported_businesses_have_a_deterministic_card_rule(self) -> None:
         cases = [
@@ -122,3 +161,12 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
     def test_positive_redundancy_metrics_are_rendered_as_problem_names(self) -> None:
         self.assertEqual(self.module.METRICS["eval-8-info-redundancy"][0], "信息冗余")
         self.assertEqual(self.module.METRICS["eval-7-info-redundancy"][0], "功能/信息冗余")
+
+    def test_complexity_metrics_use_short_report_names(self) -> None:
+        self.assertEqual(self.module.METRICS["eval-4-element-complexity"][0], "元素复杂")
+        self.assertEqual(self.module.METRICS["eval-4-static-component-complexity"][0], "组件复杂")
+
+    def test_colour_metrics_use_dimension_specific_problem_names(self) -> None:
+        self.assertEqual(self.module.METRICS["eval-2-color-logic-single-element"][0], "单一元素色彩复杂")
+        self.assertEqual(self.module.METRICS["eval-3-color-logic"][0], "组件色彩复杂")
+        self.assertEqual(self.module.METRICS["eval-3-page-color-logic"][0], "页面色彩复杂")

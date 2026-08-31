@@ -7,7 +7,7 @@ globs: "**/SKILL.md"
 
 所有 `SKILL.md` 必须含 YAML frontmatter。按 skill 类型区分必填键：
 
-**① eval 评测项**（路径 `phase3-*/eval-skills/eval-X-*/SKILL.md`）必须四键齐全，缺一不可（工作流靠它们自动发现与计分，缺则该 skill 不被发现或报告缺键）：
+**① eval 评测项**（路径 `phase3-evaluation/dimensions/<dimension>/skills/eval-X-*/SKILL.md`）必须四键齐全，缺一不可（resolver 根据 `catalog.json` 加载它们并用于计分，缺键会阻断范围解析）：
 
 ```yaml
 ---
@@ -32,4 +32,4 @@ metadata: { author: ..., version: "...", domain: ... }
 
 ## 校验
 
-项目内置 `scripts/validate_skill_frontmatter.py`，作为 PostToolUse 钩子在每次 Edit/Write SKILL.md 后自动跑（见 `.claude/settings.json`）。它按 skill 类型区分校验：eval 评测项查 `name/title/weight/aggregate` 四键；非评测 skill 只查 `name`。打印 OK/FAIL（非阻断）。若报 FAIL，必须补齐再继续。
+项目内置 `.claude/hooks/validate_skill_frontmatter.py`，作为 PostToolUse 钩子在每次 Edit/Write SKILL.md 后自动跑（见 `.claude/settings.json`）。它按 skill 类型区分校验：eval 评测项查 `name/title/weight/aggregate` 四键；非评测 skill 只查 `name`。打印 OK/FAIL（非阻断）。若报 FAIL，必须补齐再继续。

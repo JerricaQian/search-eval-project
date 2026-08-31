@@ -27,9 +27,10 @@ PROJECT = Path(__file__).resolve().parents[2]
 TARGETS_FILE = Path("/tmp/golden32-eval-targets.json")
 SCOPE_FILE = Path("/tmp/golden32-eval-scope.json")
 TAXONOMY = PROJECT / "phase2-card-annotation/references/search_card_taxonomy.v1.json"
-COLOR_SCRIPT = PROJECT / "phase3-single_element-eval/eval-skills/eval-2-color-logic-single-element/scripts/count_element_colors.py"
-HIERARCHY_SCRIPT = PROJECT / "phase3-evaluation-officer/scripts/extract_component_metrics.py"
-PAGE_COLOR_SCRIPT = PROJECT / "phase3-page_framework-eval/eval-skills/eval-3-page-color-logic/scripts/page_color_analysis.py"
+COLOR_SCRIPT = PROJECT / "phase3-evaluation/dimensions/single-element/skills/eval-2-color-logic-single-element/scripts/count_element_colors.py"
+HIERARCHY_SCRIPT = PROJECT / "phase3-evaluation/dimensions/card-component/skills/eval-5-info-hierarchy/scripts/extract_component_metrics.py"
+PAGE_COLOR_SCRIPT = PROJECT / "phase3-evaluation/dimensions/page-framework/skills/eval-3-page-color-logic/scripts/page_color_analysis.py"
+RELATION_SCRIPT = PROJECT / "phase3-evaluation/dimensions/card-component/scripts/extract_phase3_relation_candidates.py"
 VALIDATOR = PROJECT / "scripts/validate_eval_results.py"
 EVIDENCE_SCRIPT = PROJECT / "phase4-issue-evidence/scripts/generate_issue_evidence.py"
 SUMMARY_SCRIPT = PROJECT / "phase5-report/scripts/compute_dashboard_summary.py"
@@ -38,6 +39,11 @@ FINALIZER = PROJECT / "workflow/eval_cli.py"
 DIM_SINGLE = "phase3-single_element-eval"
 DIM_COMPONENT = "phase3-card_or_component-eval"
 DIM_PAGE = "phase3-page_framework-eval"
+
+PHASE3_SCRIPTS = PROJECT / "phase3-evaluation/common/scripts"
+if str(PHASE3_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PHASE3_SCRIPTS))
+from color_taxonomy import is_chromatic_rgb
 COLOR_FIELDS = ("textColor", "backgroundColor", "borderColor")
 FAMILY_ZH = {"red": "红", "orange": "橙", "yellow": "黄", "green": "绿", "cyan": "青", "blue": "蓝", "purple": "紫"}
 REDUNDANCY_CHECKS = [
@@ -47,6 +53,11 @@ REDUNDANCY_CHECKS = [
     "title internal repeated quantified fragments",
 ]
 PRICE_COMPARABILITY_QUERIES = {"啤酒", "安睡裤", "布洛芬", "生理盐水"}
+CORE_COMPLEXITY_TEXT_SLOTS = {
+    "title", "rating", "price", "original_price", "price_and_sales", "price_and_trade",
+}
+FULFILLMENT_BADGE_TEXTS = {"到店", "外卖", "快递", "酒店", "住宿", "上门", "在线", "景点", "闪购"}
+FULFILLMENT_BADGE_SLOTS = {"fulfillment", "fulfillment_tag", "delivery_time", "delivery_time_tag"}
 
 
 def read(path: Path) -> Any:
@@ -87,9 +98,10 @@ def color_family(value: Any) -> str | None:
         r, g, b = (int(token[i:i + 2], 16) / 255 for i in (0, 2, 4))
     except ValueError:
         return None
-    h, s, _ = colorsys.rgb_to_hsv(r, g, b)
-    if s * 100 < 12:
+    red, green, blue = (round(channel * 255) for channel in (r, g, b))
+    if not is_chromatic_rgb(red, green, blue):
         return None
+    h, _, _ = colorsys.rgb_to_hsv(r, g, b)
     degree = h * 360
     if degree < 15 or degree >= 345:
         return "红"
@@ -104,6 +116,12 @@ def color_family(value: Any) -> str | None:
     if degree < 255:
         return "蓝"
     return "紫"
+
+
+def is_fulfillment_badge(element: dict[str, Any], slot: str) -> bool:
+    """Exclude the fixed fulfillment/business-entry badge vocabulary."""
+    text = re.sub(r"\s+", "", str(element.get("text") or ""))
+    return text in FULFILLMENT_BADGE_TEXTS or slot in FULFILLMENT_BADGE_SLOTS
 
 
 def overview(ratings: list[str]) -> dict[str, Any]:
@@ -262,6 +280,7 @@ def main() -> int:
     weights = {(row["dimension"], row["skill"]): row["weight"] for row in targets}
     titles = {(row["dimension"], row["skill"]): row["title"] for row in targets}
     color_module = load_module("golden32_element_color", COLOR_SCRIPT)
+    relation_module = load_module("golden32_semantic_relations", RELATION_SCRIPT)
     sys.path.insert(0, str(PROJECT / "scripts"))
     from phase2_bundle_loader import load_phase2_facts
 
@@ -364,15 +383,18 @@ def main() -> int:
             crop = rgb[y:y + h, x:x + w]
             debug = phase3 / "single-element-color" / f"{eid}.png"
             artifact_json = phase3 / "single-element-color" / f"{eid}.json"
-            measured = color_module.count_colors(crop, min_ratio_pct=1.0, drop_bg=True)
-            color_module.save_debug_mask(crop, debug, drop_bg=True)
+            measured = color_module.count_colors(crop, min_ratio_pct=3.0, drop_bg=False)
+            color_module.save_debug_mask(crop, debug, drop_bg=False)
             write(artifact_json, measured)
             rating = "优秀" if measured["color_count"] <= 2 else "达标" if measured["color_count"] == 3 else "不达标"
             row = {
                 "elementId": eid, "componentId": owners[eid], "phase2Boundary": elements[eid]["bounds"],
                 "sampleMask": str(debug), "rawColorGrid": measured.get("colors_all", []),
                 "colorCount": measured["color_count"], "rating": rating,
-                "measurement": {"tool": str(COLOR_SCRIPT), "artifactPath": str(artifact_json), "parameters": {"minRatioPct": 1.0, "dropBackground": True}},
+                "chromaticPixelCount": measured.get("chromatic_pixels", 0),
+                "neutralPixelCount": measured.get("neutral_pixels", 0),
+                "neutralRule": measured.get("neutral_rule", {}),
+                "measurement": {"tool": str(COLOR_SCRIPT), "artifactPath": str(artifact_json), "parameters": {"minRatioPctOfElementArea": 3.0, "dropBackground": False, "neutralExcludedFromColorBins": True}},
             }
             color_rows.append(row)
             if rating != "优秀":
@@ -440,7 +462,7 @@ def main() -> int:
         component_color_rows = []
         component_color_issues = []
         for cid in card_ids:
-            scanned, excluded, source_values = [], [], []
+            scanned, excluded, source_values, neutral_values = [], [], [], []
             families: list[str] = []
             for eid in card_rows[cid]:
                 element = elements[eid]
@@ -455,14 +477,16 @@ def main() -> int:
                         source_values.append({"elementId": eid, "field": field, "value": value, "colorFamily": family})
                         if family not in families:
                             families.append(family)
+                    elif isinstance(value, str) and value.strip():
+                        neutral_values.append({"elementId": eid, "field": field, "value": value, "excludedAs": "neutral"})
             count = len(families)
-            rating = "优秀" if count <= 3 else "达标" if count <= 5 else "不达标"
-            component_color_rows.append({"componentId": cid, "scannedElementIds": scanned, "excludedElementIds": excluded, "sourceColorValues": source_values, "colorFamilies": families, "colorFamilyCount": count, "evidenceSource": "phase2_json_visual_colors", "rating": rating})
+            rating = "优秀" if count <= 4 else "达标" if count == 5 else "不达标"
+            component_color_rows.append({"componentId": cid, "scannedElementIds": scanned, "excludedElementIds": excluded, "sourceColorValues": source_values, "neutralColorValues": neutral_values, "colorFamilies": families, "colorFamilyCount": count, "evidenceSource": "phase2_json_visual_colors", "rating": rating})
             if rating != "优秀":
                 anchor = scanned[0]
-                component_color_issues.append(issue_for_element(anchor, cid, elements, "组件色彩", rating, f"该商卡共有{count}种有彩色系，评级为{rating}。", f"该商卡 JSON 样式库存包含{count}种有彩色系：{'、'.join(families)}", "≤3种优秀、4至5种达标、≥6种不达标", f"当前{count}种命中{rating}区间，因此评级为{rating}", "较多色系会分散对标题、价格与权益的注意力", f"将坐标({elements[anchor]['bounds'][0]},{elements[anchor]['bounds'][1]})附近商卡的有效 UI 有彩色系收敛至不超过3种，并保留价格与关键权益强调。"))
+                component_color_issues.append(issue_for_element(anchor, cid, elements, "组件色彩", rating, f"该商卡共有{count}种有彩色系，评级为{rating}。", f"该商卡 JSON 样式库存包含{count}种有彩色系：{'、'.join(families)}", "≤4种优秀、5种达标、≥6种不达标", f"当前{count}种命中{rating}区间，因此评级为{rating}", "较多色系会分散对标题、价格与权益的注意力", f"将坐标({elements[anchor]['bounds'][0]},{elements[anchor]['bounds'][1]})附近商卡的有效 UI 有彩色系收敛至不超过4种，并保留价格与关键权益强调。"))
         comp_color_ratings = [row["rating"] for row in component_color_rows]
-        add(DIM_COMPONENT, "eval-3-color-logic", worst(comp_color_ratings, ("优秀", "达标", "不达标")), comp_color_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": component_color_rows}, component_color_issues, "JSON 有彩色系≤3种优秀、4至5种达标、≥6种不达标。", "色值由当前 Atomic 视觉字段直接归并，照片与营销素材已排除。")
+        add(DIM_COMPONENT, "eval-3-color-logic", worst(comp_color_ratings, ("优秀", "达标", "不达标")), comp_color_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": component_color_rows}, component_color_issues, "JSON 有彩色系≤4种优秀、5种达标、≥6种不达标。", "色值由当前 Atomic 视觉字段直接归并，照片与营销素材已排除。")
 
         # Component eval 4: full atom ledger and five-part styleKey de-duplication.
         complexity_rows = []
@@ -476,9 +500,23 @@ def main() -> int:
                 visual = element.get("visual") or {}
                 family = next((color_family(visual.get(field)) for field in COLOR_FIELDS if color_family(visual.get(field))), None) or "中性"
                 kind = element.get("kind")
-                if kind == "tag":
-                    key = f"标签|{family}|{slots_by_element.get(eid,'辅助信息')}|{visual.get('container','none')}|{visual.get('graphicAssist','none')}"
-                    ledger.append({"elementId": eid, "decision": "included_tag", "styleKey": key, "reason": "已确认标签原子"})
+                slot = slots_by_element.get(eid, "辅助信息")
+                if is_fulfillment_badge(element, slot):
+                    ledger.append({"elementId": eid, "decision": "excluded", "reason": "履约标排除"})
+                    excluded_entities.append(eid)
+                    continue
+                is_explicit_tag = kind == "tag" and (
+                    family != "中性" or visual.get("container", "none") != "none"
+                    or visual.get("graphicAssist", "none") != "none"
+                )
+                is_colored_auxiliary_text = (
+                    kind == "text" and family != "中性" and slot not in CORE_COMPLEXITY_TEXT_SLOTS
+                )
+                if is_explicit_tag or is_colored_auxiliary_text:
+                    tag_kind = "文本标签" if is_colored_auxiliary_text else "标签"
+                    key = f"{tag_kind}|{family}|{slot}|{visual.get('container','none')}|{visual.get('graphicAssist','none')}"
+                    reason = "无容器有彩色的辅助文本标签" if is_colored_auxiliary_text else "异形或异色的已确认标签原子"
+                    ledger.append({"elementId": eid, "decision": "included_tag", "styleKey": key, "reason": reason})
                     tag_styles[key].append(eid)
                 elif kind == "icon":
                     key = f"图标|{family}|{element.get('semanticDescription','功能')}|{visual.get('container','none')}|{visual.get('graphicAssist','none')}"
@@ -490,16 +528,16 @@ def main() -> int:
             included_tags = [{"content": "、".join(element_text(elements[eid]) for eid in ids), "styleKey": key, "elementIds": ids, "countDecision": "异形或异色标签样式计入", "dedupDecision": "完整样式键相同的实例合并为一种"} for key, ids in tag_styles.items()]
             included_icons = [{"elementId": ids[0], "content": "、".join(element_text(elements[eid]) for eid in ids), "styleKey": key, "elementIds": ids, "countDecision": "独立图标样式计入", "dedupDecision": "完整样式键相同的实例合并为一种"} for key, ids in icon_styles.items()]
             tag_count, icon_count = len(included_tags), len(included_icons)
-            rating = "不达标" if tag_count >= 5 or icon_count >= 4 else "优秀" if tag_count <= 2 and icon_count <= 1 else "达标"
+            rating = "不达标" if tag_count >= 6 or icon_count >= 4 else "优秀" if tag_count <= 3 and icon_count <= 1 else "达标"
             row = {"componentId": cid, "expectedRegions": expected_regions, "scannedRegions": expected_regions, "unscannedRegions": [], "scannedElementIds": card_rows[cid], "candidateLedger": ledger, "phase2ReviewCandidates": [], "coverageStatus": "completed", "includedTagStyles": included_tags, "includedIconStyles": included_icons, "excludedEntities": excluded_entities, "tagStyleCount": tag_count, "iconStyleCount": icon_count, "evidenceSource": "phase2_json_visual_inventory", "rating": rating}
             complexity_rows.append(row)
             if rating != "优秀":
                 anchor = next((eid for eid in card_rows[cid] if elements[eid].get("kind") in {"tag", "icon"}), card_rows[cid][0])
                 names = [element_text(elements[eid]) for ids in list(tag_styles.values()) + list(icon_styles.values()) for eid in ids]
                 visible = "、".join(f"「{name}」" for name in names[:8])
-                complexity_issues.append(issue_for_element(anchor, cid, elements, "静态元素复杂度", rating, f"该商卡包含{visible}，去重后为{tag_count}种标签样式和{icon_count}种独立图标样式，评级为{rating}。", f"该商卡全区域扫描得到{tag_count}种标签样式、{icon_count}种独立图标样式", "标签≤2种且图标≤1种优秀；标签3至4种或图标2至3种达标；标签≥5种或图标≥4种不达标", f"当前计数命中{rating}区间，因此评级为{rating}", "标签和图标样式过多会削弱标题、价格与关键权益的主次关系", f"合并坐标({elements[anchor]['bounds'][0]},{elements[anchor]['bounds'][1]})附近的同语义促销/权益样式，使标签样式不超过2种且独立图标样式不超过1种。"))
+                complexity_issues.append(issue_for_element(anchor, cid, elements, "静态元素复杂度", rating, f"该商卡包含{visible}，去重后为{tag_count}种标签样式和{icon_count}种独立图标样式，评级为{rating}。", f"该商卡全区域扫描得到{tag_count}种标签样式、{icon_count}种独立图标样式", "标签≤3种且图标≤1种优秀；标签4至5种或图标2至3种达标；标签≥6种或图标≥4种不达标", f"当前计数命中{rating}区间，因此评级为{rating}", "标签和图标样式过多会削弱标题、价格与关键权益的主次关系", f"合并坐标({elements[anchor]['bounds'][0]},{elements[anchor]['bounds'][1]})附近的同语义促销/权益样式，使标签样式不超过3种且独立图标样式不超过1种。"))
         complexity_ratings = [row["rating"] for row in complexity_rows]
-        add(DIM_COMPONENT, "eval-4-element-complexity", worst(complexity_ratings, ("优秀", "达标", "不达标")), complexity_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": complexity_rows}, complexity_issues, "标签样式≤2且图标≤1优秀；标签3至4或图标2至3达标；标签≥5或图标≥4不达标。", "全部卡片区域和全部活动原子均已进入扫描账本，样式数按五段式键去重。")
+        add(DIM_COMPONENT, "eval-4-element-complexity", worst(complexity_ratings, ("优秀", "达标", "不达标")), complexity_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": complexity_rows}, complexity_issues, "标签样式≤3且图标≤1优秀；标签4至5或图标2至3达标；标签≥6或图标≥4不达标。", "全部卡片区域和全部活动原子均已进入扫描账本，样式数按五段式键去重。")
 
         # Component eval 5: calibrated hierarchy-only pixel measurement.
         suffix = f"{run_id}-hierarchy"
@@ -540,7 +578,9 @@ def main() -> int:
         hierarchy_ratings = [row["rating"] for row in hierarchy_rows]
         add(DIM_COMPONENT, "eval-5-info-hierarchy", worst(hierarchy_ratings, ("优秀", "不达标")), hierarchy_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(hierarchy_rows), "evaluatedUnitIds": [row["componentId"] for row in hierarchy_rows], "excludedUnits": [{"id": cid, "reason": "naturally_cropped_or_not_result_list"} for cid in card_ids if cid not in {row["componentId"] for row in hierarchy_rows}], "assessmentRows": hierarchy_rows}, hierarchy_issues, "校准字形高度与颜色强调得到3至5层为优秀，否则不达标。", "仅完整结果卡参与，字号证据来自当前截图的字形墨迹高度。")
 
-        # Component eval 6: adjacent JSON content bounds; any positive gap is clear.
+        # Component eval 6: JSON-only separation.  Union-box overlap often
+        # represents a nested/overlay layout (photo badge, price + promotion,
+        # fulfilment container), so it is not evidence of an unclear boundary.
         partition_rows, partition_issues = [], []
         for cid in card_ids:
             partitions = []
@@ -552,42 +592,268 @@ def main() -> int:
                     region_name_counts[base_name] += 1
                     display_name = base_name if region_name_counts[base_name] == 1 else f"{base_name}#{region_name_counts[base_name]}"
                     partitions.append({"region": display_name, "elementIds": ids, "contentBounds": bounds_union(ids, elements)})
-            checks = []
+            checks, excluded_pairs = [], []
             for first, second in zip(partitions, partitions[1:]):
-                ax = "horizontal" if abs(second["contentBounds"][0] - first["contentBounds"][0]) > abs(second["contentBounds"][1] - first["contentBounds"][1]) else "vertical"
-                gap = second["contentBounds"][0] - (first["contentBounds"][0] + first["contentBounds"][2]) if ax == "horizontal" else second["contentBounds"][1] - (first["contentBounds"][1] + first["contentBounds"][3])
-                checks.append({"firstRegion": first["region"], "secondRegion": second["region"], "axis": ax, "gapPx": gap, "clear": gap > 0, "evidenceSource": "phase2_json_coordinates"})
+                ax1, ay1, aw1, ah1 = first["contentBounds"]
+                ax2, ay2, aw2, ah2 = second["contentBounds"]
+                gap_x = max(ax2 - (ax1 + aw1), ax1 - (ax2 + aw2))
+                gap_y = max(ay2 - (ay1 + ah1), ay1 - (ay2 + ah2))
+                gap = max(gap_x, gap_y)
+                axis = "horizontal" if gap_x >= gap_y else "vertical"
+                if gap < 0:
+                    excluded_pairs.append({
+                        "firstRegion": first["region"], "secondRegion": second["region"],
+                        "gapX": gap_x, "gapY": gap_y,
+                        "reason": "overlapping_or_nested_content_unions_do_not_prove_unclear_partition",
+                    })
+                    continue
+                checks.append({"firstRegion": first["region"], "secondRegion": second["region"], "axis": axis, "gapPx": gap, "clear": gap >= 1, "evidenceSource": "phase2_json_coordinates"})
             issue_count = sum(not check["clear"] for check in checks)
             rating = "优秀" if issue_count == 0 else "不达标"
-            partition_rows.append({"componentId": cid, "partitions": partitions, "adjacentBoundaryChecks": checks, "excludedPairs": [], "evidenceSource": "phase2_json_coordinates", "issueCount": issue_count, "rating": rating})
+            partition_rows.append({"componentId": cid, "partitions": partitions, "adjacentBoundaryChecks": checks, "excludedPairs": excluded_pairs, "evidenceSource": "phase2_json_coordinates", "issueCount": issue_count, "rating": rating})
             if rating != "优秀":
                 bad = next(check for check in checks if not check["clear"])
                 first_ids = next(p["elementIds"] for p in partitions if p["region"] == bad["firstRegion"])
-                partition_issues.append(issue_for_element(first_ids[0], cid, elements, "信息分区合理性", rating, f"该商卡相邻分区“{bad['firstRegion']}”与“{bad['secondRegion']}”的内容包围盒间隔为{bad['gapPx']}像素，评级为不达标。", f"两个相邻功能分区在阅读轴上的间隔为{bad['gapPx']}像素", "正向间隔为清楚，接触或重叠时不达标", "内容包围盒发生接触或重叠，因此评级为不达标", "相邻信息分区难以快速区分，增加扫读停顿", f"调整坐标({elements[first_ids[0]]['bounds'][0]},{elements[first_ids[0]]['bounds'][1]})处这两个相邻分区的内容位置，验收时确保阅读轴间隔大于0像素。"))
+                partition_issues.append(issue_for_element(first_ids[0], cid, elements, "信息分区合理性", rating, f"该商卡两个独立相邻分区的内容包围盒仅接触、没有可见间隔，评级为不达标。", "两个确认独立的相邻功能分区在水平和垂直方向均无正向间隔", "独立分区至少有1像素正向间隔；内容并集重叠视为嵌套/覆盖关系并排除", "当前独立分区边缘恰好接触，因此评级为不达标", "相邻信息分区难以快速区分，增加扫读停顿", f"调整坐标({elements[first_ids[0]]['bounds'][0]},{elements[first_ids[0]]['bounds'][1]})处两个独立分区的位置，验收时确保至少1像素正向间隔。"))
         partition_ratings = [row["rating"] for row in partition_rows]
-        add(DIM_COMPONENT, "eval-6-info-partitioning", worst(partition_ratings, ("优秀", "不达标")), partition_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": partition_rows}, partition_issues, "相邻分区内容包围盒有任意正向间隔即清楚；接触或重叠不达标。", "只使用 JSON 元素坐标并集，不比较内部间距或颜色边界。")
+        add(DIM_COMPONENT, "eval-6-info-partitioning", worst(partition_ratings, ("优秀", "不达标")), partition_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": partition_rows}, partition_issues, "两个确认独立的相邻分区只要任一方向存在≥1像素正向间隔即清楚；内容并集重叠按嵌套/覆盖关系排除，不据此判问题。", "只使用 JSON 元素坐标并集；重叠区域不再被误判为信息分区边界不足。")
 
-        # Component eval 7: full relation ledger.  Existing confirmed atoms expose no internal contradiction.
-        auth_rows = []
+        # Component eval 7/8: full-card, JSON-only semantic scan.  Generic
+        # lexical overlaps remain candidates; only the closed deterministic
+        # cue set in extract_phase3_relation_candidates may become a finding.
+        semantic_ledger = relation_module.derive_relation_candidates(facts)
+        auth_by_card = {row["cardId"]: row for row in semantic_ledger["authenticityCandidates"]}
+        redundancy_by_card = {row["cardId"]: row for row in semantic_ledger["redundancyCandidates"]}
+        complete_card_ids = [cid for cid in card_ids if cards[cid].get("visibility") == "complete"]
+        auth_conflicts_by_card = {
+            cid: [
+                verdict for candidate in auth_by_card[cid].get("internalCandidates", [])
+                if (verdict := relation_module.adjudicate_authenticity_candidate(candidate)) is not None
+            ]
+            for cid in card_ids
+        }
+        cross_auth_conflicts = [
+            verdict for candidate in semantic_ledger.get("crossCardAuthenticityCandidates", [])
+            if (verdict := relation_module.adjudicate_authenticity_candidate(candidate)) is not None
+        ]
+        cross_conflicts_by_card: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for conflict in cross_auth_conflicts:
+            cross_conflicts_by_card[str(conflict["leftCardId"])].append(conflict)
+            cross_conflicts_by_card[str(conflict["rightCardId"])].append(conflict)
         for cid in card_ids:
-            ids = card_rows[cid]
-            text_ids = [eid for eid in ids if elements[eid].get("kind") != "media"]
-            title_ids = [eid for eid in ids if slots_by_element.get(eid) in {"title", "subtitle"}]
-            other_ids = [eid for eid in ids if eid not in title_ids]
-            pairs = [{"leftElementId": left, "rightElementId": right, "check": "标题与卡内信息是否能同时成立"} for left in title_ids for right in other_ids]
-            auth_rows.append({"componentId": cid, "candidatePairs": pairs, "pairJudgements": ["consistent"] * len(pairs), "inapplicableChecks": [], "scanCoverage": {"status": "completed", "scannedElementIds": ids, "scannedRegions": [atomic["regionsById"][rid]["name"] for rid in cards[cid]["regionIds"]], "crossChecks": ["标题—图片/副标题/标签/下挂", "价格语义", "数量单位", "范围换算"]}, "conflicts": [], "conflictCount": 0, "evidenceSource": "phase2_json_full_relation_scan", "rating": "优秀"})
-        add(DIM_COMPONENT, "eval-7-info-authenticity", "优秀", ["优秀"] * len(auth_rows), {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(auth_rows), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": auth_rows}, [], "同卡可见信息无法同时成立时不达标；截图外事实不终判。", "已扫描每张卡的标题、媒体、标签、下挂、价格与规格关系，未见确认冲突。")
+            auth_conflicts_by_card[cid].extend(cross_conflicts_by_card[cid])
+        auth_card_ids = [cid for cid in card_ids if cid in complete_card_ids or auth_conflicts_by_card[cid]]
+        auth_excluded_cards = [cid for cid in card_ids if cid not in auth_card_ids]
 
-        # Component eval 8: full per-region text scan.
-        redundancy_rows = []
-        for cid in card_ids:
-            for rid in cards[cid]["regionIds"]:
-                ids = [eid for eid in region_elements(atomic, rid) if elements[eid].get("kind") in {"text", "tag"}]
-                if not ids:
+        auth_rows: list[dict[str, Any]] = []
+        auth_issues: list[dict[str, Any]] = []
+        for cid in auth_card_ids:
+            ledger = auth_by_card[cid]
+            conflicts = auth_conflicts_by_card[cid]
+            local_conflicts = [
+                conflict for conflict in conflicts
+                if conflict.get("lexicalCue") != "same_visible_identity_conflicting_core_facts"
+            ]
+            conflicting_pair_keys = {
+                frozenset((str(conflict.get("leftElementId")), str(conflict.get("rightElementId"))))
+                for conflict in conflicts if conflict.get("leftElementId") and conflict.get("rightElementId")
+            }
+            pairs: list[dict[str, Any]] = []
+            statuses: list[str] = []
+            for pair in ledger.get("candidatePairs", []):
+                pair_key = frozenset((str(pair["title"].get("elementId")), str(pair["target"].get("elementId"))))
+                if pair_key in conflicting_pair_keys:
                     continue
-                pairs = [[ids[i], ids[j]] for i in range(len(ids)) for j in range(i + 1, len(ids))]
-                redundancy_rows.append({"regionId": rid, "regionType": atomic["regionsById"][rid]["name"], "examinedElements": ids, "candidatePairs": pairs, "duplicateCount": 0, "evidenceSource": "phase2_json_full_redundancy_scan", "rating": "优秀", "scanCoverage": {"status": "completed", "textAtomCount": len(ids), "scannedElementIds": ids, "scannedRegions": [atomic["regionsById"][rid]["name"]], "crossChecks": REDUNDANCY_CHECKS}})
-        add(DIM_COMPONENT, "eval-8-info-redundancy", "优秀", ["优秀"] * len(redundancy_rows), {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(redundancy_rows), "evaluatedUnitIds": [row["regionId"] for row in redundancy_rows], "excludedUnits": [], "assessmentRows": redundancy_rows}, [], "只有两个独立实体语义相同且删除任一无损时才计冗余。", "全部商卡文字区域已完成两两与固定跨区核查，未发现可无损删除的重复。")
+                pairs.append(pair)
+                statuses.append("consistent")
+            for candidate in ledger.get("internalCandidates", []):
+                verdict = relation_module.adjudicate_authenticity_candidate(candidate)
+                pairs.append(candidate)
+                statuses.append("conflict" if verdict else "not_applicable")
+            rating = "不达标" if conflicts else "优秀"
+            auth_rows.append({
+                "componentId": cid,
+                "candidatePairs": pairs,
+                "pairJudgements": statuses,
+                "inapplicableChecks": [
+                    candidate.get("lexicalCue") for candidate in ledger.get("internalCandidates", [])
+                    if relation_module.adjudicate_authenticity_candidate(candidate) is None
+                ],
+                "scanCoverage": {
+                    "status": "completed",
+                    "scannedElementIds": card_rows[cid],
+                    "scannedRegions": [atomic["regionsById"][rid]["name"] for rid in cards[cid]["regionIds"]],
+                    "crossChecks": ["标题—图片/副标题/标签/下挂", "价格语义", "数量单位", "范围换算", "同身份商卡—评分/月售/距离跨卡一致性"],
+                },
+                "conflicts": conflicts,
+                "conflictCount": len(conflicts),
+                "evidenceSource": "phase2_json_full_relation_scan",
+                "rating": rating,
+            })
+            if local_conflicts:
+                card_label = f"商卡{card_ids.index(cid) + 1}"
+                descriptions: list[str] = []
+                evidence_parts: list[str] = []
+                for conflict in local_conflicts:
+                    if conflict["lexicalCue"] == "quantity_range_exceeds_card_cap":
+                        descriptions.append(f"标题“{conflict['titleText']}”与基础信息“{conflict['attributeText']}”的重量范围存在冲突")
+                        evidence_parts.append(
+                            f"标题换算为{conflict['normalizedTitleRangeKg'][0]:g}–{conflict['normalizedTitleRangeKg'][1]:g}kg，"
+                            f"基础信息上限为{conflict['normalizedCapKg']:g}kg"
+                        )
+                    else:
+                        descriptions.append(f"价格信息“{conflict['text']}”同时使用起步价与到手价口径")
+                        evidence_parts.append("“起”表示最低起步口径，“到手价”表示确定成交口径")
+                recommendation_parts = [
+                    f"将{card_label}的标题重量范围与基础信息上限统一为同一规格口径"
+                    if conflict["lexicalCue"] == "quantity_range_exceeds_card_cap"
+                    else f"将{card_label}的起步价与到手价拆成两个有明确适用条件的价格声明"
+                    for conflict in local_conflicts
+                ]
+                anchor = str(local_conflicts[0].get("attributeElementId") or local_conflicts[0].get("elementId"))
+                auth_issues.append(issue_for_element(
+                    anchor, cid, elements, "信息真实无歧义", "不达标",
+                    f"{card_label}：{'；'.join(descriptions)}。",
+                    f"{card_label}检测到{len(local_conflicts)}项截图内可证实的口径冲突：{'；'.join(descriptions)}；{'；'.join(evidence_parts)}",
+                    "同卡可见信息必须能同时成立；规格范围上限冲突，或同一价格把“起”与“到手价”混为一个声明，均判不达标",
+                    f"当前{len(local_conflicts)}项冲突无法同时成立，因此评级为不达标",
+                    "用户无法确定实际规格或成交价格口径，会直接影响比较与下单判断",
+                    "；".join(recommendation_parts) + "。",
+                ))
+        for conflict in cross_auth_conflicts:
+            left_id, right_id = str(conflict["leftCardId"]), str(conflict["rightCardId"])
+            left_label = f"商卡{card_ids.index(left_id) + 1}"
+            right_label = f"商卡{card_ids.index(right_id) + 1}"
+            fact_text = "、".join(
+                f"{item['factName']}分别为“{item['leftText']}”与“{item['rightText']}”"
+                for item in conflict["conflictingFacts"]
+            )
+            conflict_count = len(conflict["conflictingFacts"])
+            description = f"{left_label}与{right_label}展示相同商家“{conflict['identityText']}”，检测到{conflict_count}项核心事实冲突：{fact_text}"
+            for anchor, component_id in (
+                (str(conflict["leftIdentityElementId"]), left_id),
+                (str(conflict["rightIdentityElementId"]), right_id),
+            ):
+                component_label = left_label if component_id == left_id else right_label
+                issue = issue_for_element(
+                    anchor, component_id, elements, "信息真实无歧义", "不达标",
+                    description + "。",
+                    description,
+                    "同一结果页中，展示完全相同商家与分店身份的商卡，其评分、月售和距离等可比较核心事实必须一致；否则必须补充可区分的供给身份",
+                    f"两个商卡的可见身份相同且检测到{conflict_count}项核心事实冲突，因此评级为不达标",
+                    "用户无法判断两个结果是否为同一商家，也无法确定应相信哪组经营信息",
+                    f"针对{component_label}，与{left_label}、{right_label}联合核对并补充可区分的准确门店/供给身份；若确为同一供给，则统一评分、月售和距离口径并合并重复结果。",
+                )
+                issue["locationLabel"] = f"{left_label}、{right_label}"
+                issue["relatedCardIds"] = [left_id, right_id]
+                auth_issues.append(issue)
+        auth_ratings = [row["rating"] for row in auth_rows]
+        auth_rating = worst(auth_ratings, ("优秀", "不达标"))
+        add(
+            DIM_COMPONENT, "eval-7-info-authenticity", auth_rating, auth_ratings,
+            {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(auth_rows),
+             "evaluatedUnitIds": auth_card_ids,
+             "excludedUnits": [{"id": cid, "reason": "naturally_cropped_without_complete_relation_coverage"} for cid in auth_excluded_cards],
+             "assessmentRows": auth_rows},
+            auth_issues,
+            "同卡可见信息无法同时成立，或跨卡展示同一商家与分店身份但核心事实冲突时不达标；截图外事实不终判。",
+            f"已按完整商卡扫描同卡关系和同身份跨卡关系，发现{sum(len(items) for items in [auth_conflicts_by_card[cid] for cid in card_ids]) - len(cross_auth_conflicts)}项确认冲突。",
+        )
+
+        redundancy_rows: list[dict[str, Any]] = []
+        redundancy_issues: list[dict[str, Any]] = []
+        redundancy_duplicates_by_card: dict[str, list[dict[str, Any]]] = {}
+        for cid in card_ids:
+            ledger = redundancy_by_card[cid]
+            card_duplicates = [
+                verdict for candidate in ledger.get("candidatePairs", [])
+                if (verdict := relation_module.adjudicate_redundancy_candidate(candidate)) is not None
+            ]
+            card_duplicates.extend(
+                verdict for candidate in ledger.get("selfRepeatCandidates", [])
+                if (verdict := relation_module.adjudicate_self_repeat_candidate(candidate)) is not None
+            )
+            redundancy_duplicates_by_card[cid] = card_duplicates
+        redundancy_card_ids = [cid for cid in card_ids if cid in complete_card_ids or redundancy_duplicates_by_card[cid]]
+        redundancy_excluded_cards = [cid for cid in card_ids if cid not in redundancy_card_ids]
+        for cid in redundancy_card_ids:
+            ledger = redundancy_by_card[cid]
+            duplicates = redundancy_duplicates_by_card[cid]
+            # Different lexical detectors may point to the same semantic pair;
+            # count the duplicate fact once per pair/self-repeat.
+            deduped: list[dict[str, Any]] = []
+            seen_duplicate_keys: set[tuple[str, ...]] = set()
+            for duplicate in duplicates:
+                key = tuple(sorted(str(value) for value in (
+                    duplicate.get("leftElementId") or duplicate.get("elementId"),
+                    duplicate.get("rightElementId") or duplicate.get("elementId"),
+                    duplicate.get("normalizedFact"),
+                )))
+                if key not in seen_duplicate_keys:
+                    seen_duplicate_keys.add(key)
+                    deduped.append(duplicate)
+            duplicates = deduped
+            rating = "不达标" if duplicates else "优秀"
+            examined_ids = [atom["elementId"] for atom in ledger["examinedAtoms"]]
+            redundancy_rows.append({
+                "componentId": cid,
+                "scannedRegions": ledger["scanCoverage"]["scannedRegions"],
+                "examinedElements": examined_ids,
+                "candidatePairs": ledger.get("candidatePairs", []),
+                "selfRepeatCandidates": ledger.get("selfRepeatCandidates", []),
+                "duplicates": duplicates,
+                "duplicateCount": len(duplicates),
+                "evidenceSource": "phase2_json_full_redundancy_scan",
+                "rating": rating,
+                "scanCoverage": ledger["scanCoverage"],
+            })
+            if duplicates:
+                card_label = f"商卡{card_ids.index(cid) + 1}"
+                descriptions: list[str] = []
+                evidence_parts: list[str] = []
+                for duplicate in duplicates:
+                    if duplicate["lexicalCue"] == "title_internal_repeated_quantified_fragment":
+                        descriptions.append(
+                            f"标题“{duplicate['text']}”内“{duplicate['repeatedFragment']}”重复出现{duplicate['occurrences']}次"
+                        )
+                        evidence_parts.append(
+                            f"元素“{duplicate['elementId']}”重复表达{duplicate['normalizedFact']}；{duplicate['noLossReason']}"
+                        )
+                    else:
+                        descriptions.append(f"“{duplicate['leftText']}”与“{duplicate['rightText']}”重复表达{duplicate['normalizedFact']}")
+                        evidence_parts.append(
+                            f"元素“{duplicate['leftElementId']}”和“{duplicate['rightElementId']}”语义相同；{duplicate['noLossReason']}"
+                        )
+                recommendation_parts = [
+                    f"删除{card_label}标题中重复出现的一次“{duplicate['repeatedFragment']}”"
+                    if duplicate["lexicalCue"] == "title_internal_repeated_quantified_fragment"
+                    else f"删除{card_label}基础信息中的重复“{duplicate['rightText']}”，保留标题中的完整规格"
+                    for duplicate in duplicates
+                ]
+                anchor = str(duplicates[0].get("rightElementId") or duplicates[0].get("elementId"))
+                issue = issue_for_element(
+                    anchor, cid, elements, "信息无冗余", "不达标",
+                    f"{card_label}：{'；'.join(descriptions)}。",
+                    f"{card_label}检测到{len(duplicates)}项可无损删除的重复信息：{'；'.join(descriptions)}",
+                    "完整商卡内两个独立表达语义相同且删除其中一个不损失新的决策信息时判为冗余",
+                    f"当前{len(duplicates)}项重复满足同实体、同属性、同值和无损删除条件，因此评级为不达标",
+                    "重复规格会增加扫读负担，并让用户误以为两处代表不同属性",
+                    "；".join(recommendation_parts) + "。",
+                )
+                issue["redundancyEvidence"] = "；".join(evidence_parts)
+                redundancy_issues.append(issue)
+        redundancy_ratings = [row["rating"] for row in redundancy_rows]
+        redundancy_rating = worst(redundancy_ratings, ("优秀", "不达标"))
+        add(
+            DIM_COMPONENT, "eval-8-info-redundancy", redundancy_rating, redundancy_ratings,
+            {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(redundancy_rows),
+             "evaluatedUnitIds": redundancy_card_ids,
+             "excludedUnits": [{"id": cid, "reason": "naturally_cropped_without_complete_relation_coverage"} for cid in redundancy_excluded_cards],
+             "assessmentRows": redundancy_rows},
+            redundancy_issues,
+            "只有两个独立实体语义相同且删除任一无损时才计冗余；标题内部重复量化片段也计入。",
+            f"全部完整商卡已完成区内、跨区和标题内部扫描，发现{sum(row['duplicateCount'] for row in redundancy_rows)}项确认冗余。",
+        )
 
         # Page eval 1 and 2.
         module_rows = [{"id": mid, "type": module["type"], "bounds": module["bounds"], "visible": module["visibility"]} for mid, module in atomic["modulesById"].items()]
@@ -606,7 +872,7 @@ def main() -> int:
         page_color_rating = "不达标" if total_colors > 10 or dominant == 0 or dominant > 4 else "优秀" if total_colors <= 6 and 1 <= dominant <= 2 else "达标"
         valid_pixels = int(page_color.get("n_valid_pixels_before_sample", page_color.get("n_valid_pixels", 0)))
         viewport_pixels = int(atomic["source"]["viewport"][0] * atomic["source"]["viewport"][1])
-        page_color_row = {"validUiPixelCount": valid_pixels, "excludedPhotoPixelCount": max(0, viewport_pixels - valid_pixels), "colorFamilies": page_color.get("total_color_families_36", {}), "colorFamilyCount": total_colors, "dominantColorCount": dominant, "excludeRegions": page_color.get("exclude_regions", []), "debugImage": str(page_color_debug), "rating": page_color_rating, "measurement": {"tool": str(PAGE_COLOR_SCRIPT), "artifactPath": str(page_color_json), "parameters": {"manifest": str(manifest), "maskSource": "phase2_json"}}}
+        page_color_row = {"validUiPixelCount": valid_pixels, "chromaticPixelCount": int(page_color.get("n_chromatic_pixels", 0)), "neutralPixelCount": int(page_color.get("n_neutral_pixels", 0)), "neutralRule": page_color.get("neutral_rule", {}), "excludedPhotoPixelCount": max(0, viewport_pixels - valid_pixels), "colorFamilies": page_color.get("total_color_families_36", {}), "colorFamilyCount": total_colors, "dominantColorCount": dominant, "excludeRegions": page_color.get("exclude_regions", []), "debugImage": str(page_color_debug), "rating": page_color_rating, "measurement": {"tool": str(PAGE_COLOR_SCRIPT), "artifactPath": str(page_color_json), "parameters": {"manifest": str(manifest), "maskSource": "phase2_json", "neutralExcludedFromColorBins": True, "ratioDenominator": "valid_ui_pixels"}}}
         page_color_issues = []
         if page_color_rating != "优秀":
             page_color_issues.append(page_issue(screenshot, "整页有效UI", "页面色彩", page_color_rating, f"整页有效 UI 测得{total_colors}个总颜色格、{dominant}个主导色，评级为{page_color_rating}。", f"排除照片、导航和筛选后测得总颜色{total_colors}个、主导色{dominant}个", "总颜色>10、主导色为0或>4不达标；总颜色0至6且主导色1至2优秀；其余达标", f"当前组合命中{page_color_rating}区间，因此评级为{page_color_rating}", "页面色彩数量偏多或主导关系不足会降低视觉聚焦", "收敛有效 UI 色彩，使总颜色不超过6且主导色保持1至2个。"))
@@ -727,7 +993,29 @@ def main() -> int:
         completed.append({"query": query, "runId": run_id, "score": overall["normalizedScore"], "verdict": overall["verdict"], "report": str(report), "receipt": str(result_path.with_name("receipt.json"))})
         print(json.dumps({"completed": len(completed), "query": query, "score": overall["normalizedScore"]}, ensure_ascii=False), flush=True)
 
-    write(PROJECT / ".artifacts/过程文件-评测结果与审计" / batch_id / "batch-completion.json", {"batchId": batch_id, "count": len(completed), "completed": completed})
+    # Rebuild the batch receipt from every task, not only the slice executed by
+    # this invocation.  This keeps resume-after-gate runs from publishing a
+    # misleading partial completion count.
+    batch_completed: list[dict[str, Any]] = []
+    for task_row in index["tasks"]:
+        task = read(Path(task_row["taskPath"]))
+        result_path = Path(task["resultPath"])
+        receipt_path = result_path.with_name("receipt.json")
+        if not result_path.is_file() or not receipt_path.is_file():
+            continue
+        receipt = read(receipt_path)
+        result = read(result_path)
+        if receipt.get("status") != "completed" or result.get("ok") is not True:
+            continue
+        overall_rows = ((result.get("stageD") or {}).get("summary") or [])
+        overall = overall_rows[0] if overall_rows else {}
+        batch_completed.append({
+            "query": task_row["query"], "runId": task_row["runId"],
+            "score": overall.get("normalizedScore"), "verdict": overall.get("verdict", ""),
+            "report": str((result.get("stageD") or {}).get("reportPath", "")),
+            "receipt": str(receipt_path),
+        })
+    write(PROJECT / ".artifacts/过程文件-评测结果与审计" / batch_id / "batch-completion.json", {"batchId": batch_id, "count": len(batch_completed), "completed": batch_completed})
     return 0
 
 

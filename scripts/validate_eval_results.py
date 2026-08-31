@@ -37,8 +37,9 @@ COMPONENT_ROW_REQUIREMENTS: dict[str, set[str]] = {
         "scanCoverage", "conflicts", "conflictCount", "evidenceSource", "rating",
     },
     "eval-8-info-redundancy": {
-        "regionId", "regionType", "examinedElements", "candidatePairs",
-        "duplicateCount", "evidenceSource", "rating",
+        "componentId", "scannedRegions", "examinedElements", "candidatePairs",
+        "selfRepeatCandidates", "duplicates", "duplicateCount", "scanCoverage",
+        "evidenceSource", "rating",
     },
 }
 
@@ -62,11 +63,18 @@ COMPONENT_REDUNDANCY_CROSS_CHECKS = {
 FORBIDDEN_COPY_TERMS_PATH = Path(__file__).with_name("forbidden_copy_terms.json")
 FORBIDDEN_ID_PATTERN_EXEMPTIONS = {"P0", "P1", "P2"}
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SKILL_DIRECTORIES = {
-    "phase3-single_element-eval": PROJECT_DIR / "phase3-single_element-eval" / "eval-skills",
-    "phase3-card_or_component-eval": PROJECT_DIR / "phase3-card_or_component-eval" / "eval-skills",
-    "phase3-page_framework-eval": PROJECT_DIR / "phase3-page_framework-eval" / "eval-skills",
-}
+PHASE3_DIR = PROJECT_DIR / "phase3-evaluation"
+
+
+def _load_skill_directories() -> dict[str, Path]:
+    payload = json.loads((PHASE3_DIR / "catalog.json").read_text(encoding="utf-8"))
+    return {
+        item["id"]: PHASE3_DIR / item["skillsDir"]
+        for item in payload["dimensions"]
+    }
+
+
+SKILL_DIRECTORIES = _load_skill_directories()
 
 
 def _load_forbidden_copy_terms() -> dict[str, Any]:
@@ -225,7 +233,7 @@ def require_component_color_json_evidence(
         return
     if isinstance(families, list) and count != len(families):
         errors.append(f"{prefix}:colorFamilyCount_must_match_colorFamilies")
-    expected_rating = "优秀" if count <= 3 else "达标" if count <= 5 else "不达标"
+    expected_rating = "优秀" if count <= 4 else "达标" if count == 5 else "不达标"
     if row.get("rating") != expected_rating:
         errors.append(f"{prefix}:rating_must_be_{expected_rating}")
 
@@ -578,6 +586,7 @@ def require_partition_json_evidence(
     excluded_pairs = row.get("excludedPairs")
     if not isinstance(excluded_pairs, list):
         errors.append(f"{prefix}:excludedPairs_must_be_array")
+        excluded_pairs = []
     if not isinstance(checks, list):
         errors.append(f"{prefix}:adjacentBoundaryChecks_must_be_array")
         return
@@ -597,16 +606,42 @@ def require_partition_json_evidence(
             continue
         first = regions[first_name]["contentBounds"]
         second = regions[second_name]["contentBounds"]
-        expected_gap = second[0] - (first[0] + first[2]) if axis == "horizontal" else second[1] - (first[1] + first[3])
+        gap_x = max(second[0] - (first[0] + first[2]), first[0] - (second[0] + second[2]))
+        gap_y = max(second[1] - (first[1] + first[3]), first[1] - (second[1] + second[3]))
+        expected_gap = max(gap_x, gap_y)
+        expected_axis = "horizontal" if gap_x >= gap_y else "vertical"
+        if expected_gap < 0:
+            errors.append(f"{prefix}:boundaryCheck_{index}_overlapping_pair_must_be_excluded")
+        if axis != expected_axis:
+            errors.append(f"{prefix}:boundaryCheck_{index}_axis_must_equal_{expected_axis}")
         if check.get("gapPx") != expected_gap:
             errors.append(f"{prefix}:boundaryCheck_{index}_gapPx_must_equal_{expected_gap}")
-        expected_clear = expected_gap > 0
+        expected_clear = expected_gap >= 1
         if check.get("clear") is not expected_clear:
             errors.append(f"{prefix}:boundaryCheck_{index}_clear_must_equal_{str(expected_clear).lower()}")
         if check.get("evidenceSource") != "phase2_json_coordinates":
             errors.append(f"{prefix}:boundaryCheck_{index}_evidenceSource_invalid")
         if not expected_clear:
             issue_count += 1
+    for index, pair in enumerate(excluded_pairs, start=1):
+        if not isinstance(pair, dict):
+            errors.append(f"{prefix}:excludedPair_{index}_must_be_object")
+            continue
+        first_name = pair.get("firstRegion")
+        second_name = pair.get("secondRegion")
+        if first_name not in regions or second_name not in regions:
+            errors.append(f"{prefix}:excludedPair_{index}_unknown_region")
+            continue
+        first = regions[first_name]["contentBounds"]
+        second = regions[second_name]["contentBounds"]
+        gap_x = max(second[0] - (first[0] + first[2]), first[0] - (second[0] + second[2]))
+        gap_y = max(second[1] - (first[1] + first[3]), first[1] - (second[1] + second[3]))
+        if max(gap_x, gap_y) >= 0:
+            errors.append(f"{prefix}:excludedPair_{index}_must_be_two_axis_overlap")
+        if pair.get("gapX") != gap_x or pair.get("gapY") != gap_y:
+            errors.append(f"{prefix}:excludedPair_{index}_gaps_must_match_json")
+        if pair.get("reason") != "overlapping_or_nested_content_unions_do_not_prove_unclear_partition":
+            errors.append(f"{prefix}:excludedPair_{index}_reason_invalid")
     if row.get("issueCount") != issue_count:
         errors.append(f"{prefix}:issueCount_must_equal_{issue_count}")
     expected_rating = "优秀" if issue_count == 0 else "不达标"
@@ -615,21 +650,16 @@ def require_partition_json_evidence(
 
 
 def require_zero_redundancy_scan(errors: list[str], prefix: str, row: dict[str, Any], scope: str) -> None:
-    """An excellent zero-redundancy result must retain complete scan coverage."""
+    """Validate full redundancy evidence for both zero and positive results."""
     count_field = "duplicateCount" if scope == "component" else "redundancyCount"
     count = row.get(count_field)
     if not isinstance(count, int) or count < 0:
         errors.append(f"{prefix}:{count_field}_must_be_non_negative_integer")
         return
-    if row.get("rating") != "优秀":
-        return
-    if count != 0:
-        errors.append(f"{prefix}:excellent_redundancy_count_must_equal_0")
-        return
-
     coverage = row.get("scanCoverage")
     if not isinstance(coverage, dict) or coverage.get("status") != "completed":
-        errors.append(f"{prefix}:excellent_zero_redundancy_requires_completed_scanCoverage")
+        suffix = "excellent_zero_redundancy_requires_completed_scanCoverage" if row.get("rating") == "优秀" and count == 0 else "requires_completed_scanCoverage"
+        errors.append(f"{prefix}:{suffix}")
         return
 
     if scope == "component":
@@ -645,6 +675,44 @@ def require_zero_redundancy_scan(errors: list[str], prefix: str, row: dict[str, 
             errors.append(f"{prefix}:scanCoverage_scannedRegions_must_be_array")
         if not isinstance(cross_checks, list) or not COMPONENT_REDUNDANCY_CROSS_CHECKS.issubset(cross_checks):
             errors.append(f"{prefix}:scanCoverage_missing_component_crossChecks")
+        examined = row.get("examinedElements")
+        if not isinstance(examined, list) or examined != element_ids:
+            errors.append(f"{prefix}:examinedElements_must_match_scanCoverage")
+        if not isinstance(row.get("scannedRegions"), list) or row.get("scannedRegions") != regions:
+            errors.append(f"{prefix}:scannedRegions_must_match_scanCoverage")
+        if not isinstance(row.get("candidatePairs"), list):
+            errors.append(f"{prefix}:candidatePairs_must_be_array")
+        if not isinstance(row.get("selfRepeatCandidates"), list):
+            errors.append(f"{prefix}:selfRepeatCandidates_must_be_array")
+        duplicates = row.get("duplicates")
+        if not isinstance(duplicates, list):
+            errors.append(f"{prefix}:duplicates_must_be_array")
+            duplicates = []
+        if count != len(duplicates):
+            errors.append(f"{prefix}:duplicateCount_must_match_duplicates")
+        scanned_set = set(element_ids) if isinstance(element_ids, list) else set()
+        for index, duplicate in enumerate(duplicates, start=1):
+            if not isinstance(duplicate, dict):
+                errors.append(f"{prefix}:duplicate_{index}_must_be_object")
+                continue
+            if duplicate.get("verdict") != "duplicate":
+                errors.append(f"{prefix}:duplicate_{index}_verdict_invalid")
+            for field in ("lexicalCue", "normalizedFact", "noLossReason"):
+                if not isinstance(duplicate.get(field), str) or not duplicate[field].strip():
+                    errors.append(f"{prefix}:duplicate_{index}_{field}_must_be_non_empty_string")
+            duplicate_ids = [
+                duplicate.get("elementId"), duplicate.get("leftElementId"), duplicate.get("rightElementId")
+            ]
+            duplicate_ids = [value for value in duplicate_ids if isinstance(value, str) and value]
+            if not duplicate_ids or any(value not in scanned_set for value in duplicate_ids):
+                errors.append(f"{prefix}:duplicate_{index}_elementIds_must_be_scanned")
+        expected_rating = "优秀" if count == 0 else "不达标"
+        if row.get("rating") != expected_rating:
+            errors.append(f"{prefix}:rating_must_be_{expected_rating}")
+        return
+
+    if row.get("rating") == "优秀" and count != 0:
+        errors.append(f"{prefix}:excellent_redundancy_count_must_equal_0")
         return
 
     page_regions = row.get("pageRegions")
@@ -704,7 +772,7 @@ def require_component_copy_consistency(
             errors.append(f"{prefix}:color_copy_requires_colorFamilies")
         if re.search(r"\b(?:red|orange|yellow|green|blue|cyan|magenta|purple)\b", combined, re.IGNORECASE):
             errors.append(f"{prefix}:color_copy_must_use_chinese_family_names")
-        expected_rating = "优秀" if count <= 3 else "达标" if count <= 5 else "不达标"
+        expected_rating = "优秀" if count <= 4 else "达标" if count == 5 else "不达标"
         if rating != expected_rating or expected_rating not in verdict:
             errors.append(f"{prefix}:color_copy_rating_must_match_measured_count")
     elif skill == "eval-4-element-complexity":
@@ -714,7 +782,7 @@ def require_component_copy_consistency(
             return
         if str(tag_count) not in observable_fact or str(icon_count) not in observable_fact:
             errors.append(f"{prefix}:complexity_copy_must_include_tag_and_icon_counts")
-        expected_rating = "不达标" if tag_count > 4 or icon_count > 3 else "优秀" if tag_count <= 2 and icon_count <= 1 else "达标"
+        expected_rating = "不达标" if tag_count > 5 or icon_count > 3 else "优秀" if tag_count <= 3 and icon_count <= 1 else "达标"
         if rating != expected_rating or expected_rating not in verdict:
             errors.append(f"{prefix}:complexity_copy_rating_must_match_measured_counts")
     elif skill == "eval-5-info-hierarchy":
@@ -1062,6 +1130,28 @@ def main() -> int:
                             for field in ("scannedElementIds", "scannedRegions", "crossChecks")
                         ):
                             errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_scanCoverage_arrays_required")
+                        conflicts = row.get("conflicts")
+                        conflict_count = row.get("conflictCount")
+                        if not isinstance(conflicts, list):
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_conflicts_must_be_array")
+                            conflicts = []
+                        if not isinstance(conflict_count, int) or conflict_count < 0:
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_conflictCount_invalid")
+                        elif conflict_count != len(conflicts):
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_conflictCount_must_match_conflicts")
+                        expected_rating = "优秀" if conflict_count == 0 else "不达标"
+                        if isinstance(conflict_count, int) and row.get("rating") != expected_rating:
+                            errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_rating_must_be_{expected_rating}")
+                        for conflict_index, conflict in enumerate(conflicts, start=1):
+                            if not isinstance(conflict, dict) or conflict.get("verdict") != "conflict":
+                                errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_conflict_{conflict_index}_invalid")
+                            elif not isinstance(conflict.get("lexicalCue"), str) or not conflict["lexicalCue"].strip():
+                                errors.append(f"{skill}/{tab}:authenticity_assessmentRow_{index}_conflict_{conflict_index}_lexicalCue_invalid")
+                if skill in {"eval-7-info-authenticity", "eval-8-info-redundancy"} and isinstance(assessment_rows, list):
+                    evaluated_unit_ids = evidence.get("evaluatedUnitIds")
+                    row_component_ids = [row.get("componentId") for row in assessment_rows if isinstance(row, dict)]
+                    if not isinstance(evaluated_unit_ids, list) or row_component_ids != evaluated_unit_ids:
+                        errors.append(f"{skill}/{tab}:assessmentRows_must_follow_evaluatedUnitIds")
                 if skill == "eval-4-element-complexity" and isinstance(assessment_rows, list):
                     for index, row in enumerate(assessment_rows, start=1):
                         if not isinstance(row, dict):
@@ -1091,7 +1181,7 @@ def main() -> int:
                         elif isinstance(row.get("includedIconStyles"), list) and icon_count != len(row["includedIconStyles"]):
                             errors.append(f"{skill}/{tab}:complexity_assessmentRow_{index}_iconStyleCount_mismatch")
                         if isinstance(tag_count, int) and isinstance(icon_count, int):
-                            expected_rating = "不达标" if tag_count > 4 or icon_count > 3 else "优秀" if tag_count <= 2 and icon_count <= 1 else "达标"
+                            expected_rating = "不达标" if tag_count > 5 or icon_count > 3 else "优秀" if tag_count <= 3 and icon_count <= 1 else "达标"
                             if row.get("rating") != expected_rating:
                                 errors.append(f"{skill}/{tab}:complexity_assessmentRow_{index}_rating_must_be_{expected_rating}")
                         tag_entries = row.get("includedTagStyles")

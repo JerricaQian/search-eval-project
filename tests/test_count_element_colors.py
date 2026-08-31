@@ -10,7 +10,7 @@ from PIL import Image
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
-SCRIPT = PROJECT_DIR / "phase3-single_element-eval" / "eval-skills" / "eval-2-color-logic-single-element" / "scripts" / "count_element_colors.py"
+SCRIPT = PROJECT_DIR / "phase3-evaluation" / "dimensions" / "single-element" / "skills" / "eval-2-color-logic-single-element" / "scripts" / "count_element_colors.py"
 
 
 def load_module():
@@ -49,6 +49,23 @@ class CountElementColorsTest(unittest.TestCase):
             self.assertGreater(count, 0)
             debug = np.array(Image.open(debug_path))
             self.assertTrue(np.all(debug[0, 0] == [238, 238, 238]))
+
+    def test_neutral_pixels_do_not_inflate_colour_area_ratio(self) -> None:
+        module = load_module()
+        image = np.full((10, 10, 3), [128, 128, 128], dtype=np.uint8)
+        image[0, :5] = [255, 0, 0]
+        image[0, 5:] = [0, 0, 255]
+        result = module.count_colors(image, min_ratio_pct=40.0)
+        self.assertEqual(result["color_count"], 0)
+        self.assertEqual(result["chromatic_pixels"], 10)
+        self.assertEqual(result["neutral_pixels"], 90)
+
+    def test_tinted_near_black_is_perceptually_neutral(self) -> None:
+        module = load_module()
+        pixels = np.array([[23, 48, 48], [104, 101, 91]], dtype=np.uint8)
+        hue, saturation, value = module.rgb_to_hsv_arr(pixels)
+        keys, _ = module.classify(hue, saturation, value)
+        self.assertTrue(all(key in module.ACHROMATIC_LABELS for key in keys))
 
 
 if __name__ == "__main__":

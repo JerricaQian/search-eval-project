@@ -2,6 +2,7 @@
 """Load Phase2 facts for Phase3 without persisting an expanded projection."""
 from __future__ import annotations
 
+import argparse
 import importlib.util
 import hashlib
 import json
@@ -281,3 +282,84 @@ def load_phase2_facts(
             raise ValueError("atomic v3 source screenshot sha256 mismatch")
         return _atomic_to_phase3(payload)
     return payload
+
+
+def _projected_element_ids(facts: dict[str, Any]) -> set[str]:
+    """Return the unique element ids exposed by the read-only Phase3 view."""
+    element_ids = {
+        str(element["id"])
+        for card in facts.get("cards", [])
+        for region in card.get("regions", [])
+        for element in region.get("elements", [])
+        if element.get("id")
+    }
+    for module in (facts.get("pageFacts") or {}).get("modules", []):
+        element_ids.update(
+            str(element["id"])
+            for element in module.get("elements", [])
+            if element.get("id")
+        )
+        for item in module.get("filterItems", []):
+            element_ids.update(
+                str(element["id"])
+                for element in item.get("elements", [])
+                if element.get("id")
+            )
+    return element_ids
+
+
+def validate_atomic_fact_view(manifest_path: Path) -> dict[str, Any]:
+    """Validate Atomic v3 and its complete, in-memory Phase3 projection."""
+    resolved = manifest_path.resolve()
+    payload = json.loads(resolved.read_text(encoding="utf-8"))
+    if payload.get("schemaVersion") != "phase2.atomic-manifest.v3":
+        raise ValueError("atomic_v3_manifest_required")
+    facts = load_phase2_facts(manifest_path=resolved)
+    projection = facts.get("atomicProjection") or {}
+    if projection.get("complete") is not True:
+        raise ValueError("atomic_projection_incomplete")
+    projected_ids = _projected_element_ids(facts)
+    if len(projected_ids) != projection.get("projectedElementCount"):
+        raise ValueError("atomic_projection_count_mismatch")
+    return {
+        "contractVersion": "phase3.phase2-fact-view-audit.v1",
+        "valid": True,
+        "manifest": str(resolved),
+        "query": facts.get("query", ""),
+        "sourceManifestTotal": projection.get("sourceElementCount", 0),
+        "projectedElementCount": len(projected_ids),
+        "atomicProjectionComplete": True,
+        "errors": [],
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Validate an Atomic v3 manifest through the current Phase3 read-only fact loader."
+    )
+    parser.add_argument("manifest", type=Path)
+    parser.add_argument("--audit", type=Path, required=True)
+    args = parser.parse_args()
+    try:
+        audit = validate_atomic_fact_view(args.manifest)
+        exit_code = 0
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        audit = {
+            "contractVersion": "phase3.phase2-fact-view-audit.v1",
+            "valid": False,
+            "manifest": str(args.manifest.resolve()),
+            "query": "",
+            "sourceManifestTotal": 0,
+            "projectedElementCount": 0,
+            "atomicProjectionComplete": False,
+            "errors": [str(exc)],
+        }
+        exit_code = 2
+    args.audit.parent.mkdir(parents=True, exist_ok=True)
+    args.audit.write_text(json.dumps(audit, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(audit, ensure_ascii=False))
+    return exit_code
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

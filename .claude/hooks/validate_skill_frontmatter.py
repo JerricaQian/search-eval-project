@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """SKILL.md frontmatter 校验（非阻断，PostToolUse 钩子调用）。
 读 stdin 中的 Claude Code 工具 JSON，取 tool_input.file_path；若为 SKILL.md 则校验：
-- eval 评测项（路径含 /eval-skills/eval-）：必须含 name/title/weight/aggregate 四键，
+- eval 评测项（路径含 /phase3-evaluation/dimensions/<dimension>/skills/eval-）：必须含 name/title/weight/aggregate 四键，
   且 name 的值必须与所在目录名完全一致（见 .claude/rules/skill-frontmatter.md）。
 - 非评测 skill（phase1/phase2/phase4 等渲染/标注/截图 skill）：只需 name 存在（值不要求与目录名一致）。
 结果打印到 stderr，始终 exit 0（仅提示，不阻断编辑）。"""
@@ -17,7 +17,7 @@ def main() -> int:
     if not p or os.path.basename(p) != "SKILL.md":
         return 0
     norm = p.replace("\\", "/")
-    is_eval = "/eval-skills/eval-" in norm
+    is_eval = "/phase3-evaluation/dimensions/" in norm and "/skills/eval-" in norm
     try:
         txt = open(p, encoding="utf-8").read()
     except Exception as e:  # noqa: BLE001

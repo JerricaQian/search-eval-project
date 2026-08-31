@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -14,6 +15,7 @@ EXAMPLE = PROJECT_DIR / "phase2-card-annotation/references/phase2_atomic_manifes
 VALIDATOR = PROJECT_DIR / "phase2-card-annotation/scripts/validate_atomic_manifest_v3.py"
 BUILDER = PROJECT_DIR / "phase2-card-annotation/scripts/build_atomic_manifest_v3_goldens.py"
 GOLDEN_ROOT = PROJECT_DIR / "phase2-card-annotation/golden-atomic-2.1"
+PHASE2_BUNDLE_LOADER = PROJECT_DIR / "scripts/phase2_bundle_loader.py"
 
 
 def load_validator():
@@ -154,18 +156,15 @@ class AtomicManifestV3Test(unittest.TestCase):
 
     def test_phase3_loader_expands_atomic_v3_without_prepublishing_eval_groups(self) -> None:
         shared_scripts_dir = PROJECT_DIR / "scripts"
-        phase3_scripts_dir = PROJECT_DIR / "phase3-evaluation-officer" / "scripts"
-        for scripts_dir in (shared_scripts_dir, phase3_scripts_dir):
+        component_scripts_dir = PROJECT_DIR / "phase3-evaluation" / "dimensions" / "card-component" / "scripts"
+        for scripts_dir in (shared_scripts_dir, component_scripts_dir):
             if str(scripts_dir) not in sys.path:
                 sys.path.insert(0, str(scripts_dir))
         loader_spec = importlib.util.spec_from_file_location("phase2_atomic_loader_test", shared_scripts_dir / "phase2_bundle_loader.py")
-        compare_spec = importlib.util.spec_from_file_location("phase3_atomic_compare_test", phase3_scripts_dir / "extract_phase3_comparability.py")
-        relation_spec = importlib.util.spec_from_file_location("phase3_atomic_relations_test", phase3_scripts_dir / "extract_phase3_relation_candidates.py")
-        assert loader_spec and loader_spec.loader and compare_spec and compare_spec.loader and relation_spec and relation_spec.loader
+        relation_spec = importlib.util.spec_from_file_location("phase3_atomic_relations_test", component_scripts_dir / "extract_phase3_relation_candidates.py")
+        assert loader_spec and loader_spec.loader and relation_spec and relation_spec.loader
         loader = importlib.util.module_from_spec(loader_spec)
         loader_spec.loader.exec_module(loader)
-        compare = importlib.util.module_from_spec(compare_spec)
-        compare_spec.loader.exec_module(compare)
         relations = importlib.util.module_from_spec(relation_spec)
         relation_spec.loader.exec_module(relations)
         path = GOLDEN_ROOT / "product-card/榴莲.atomic.v3.json"
@@ -175,9 +174,6 @@ class AtomicManifestV3Test(unittest.TestCase):
         self.assertEqual(facts["atomicProjection"]["sourceElementCount"], facts["atomicProjection"]["projectedElementCount"])
         self.assertEqual([card["listPosition"] for card in facts["cards"]], [1, 2, 3, 4])
         self.assertTrue(all("comparisonGroupKey" not in card["structure"] for card in facts["cards"]))
-        comparison = compare.derive_comparability(facts)
-        self.assertEqual(len(comparison["cardGroups"]), 1)
-        self.assertTrue(comparison["comparisons"])
         candidates = relations.derive_relation_candidates(facts)
         self.assertEqual(len(candidates["authenticityCandidates"]), 4)
         scenic_path = GOLDEN_ROOT / "merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json"
@@ -189,6 +185,41 @@ class AtomicManifestV3Test(unittest.TestCase):
         )
         self.assertEqual(scenic_tag["visual"]["entityKind"], "tag")
         self.assertEqual(scenic_tag["textFacts"]["semanticRole"], "scenic_rating")
+
+    def test_phase3_loader_cli_writes_only_a_complete_fact_view_audit(self) -> None:
+        manifest = GOLDEN_ROOT / "product-card/榴莲.atomic.v3.json"
+        source = json.loads(manifest.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as directory:
+            audit_path = Path(directory) / "phase2-fact-view.audit.json"
+            completed = subprocess.run(
+                [sys.executable, str(PHASE2_BUNDLE_LOADER), str(manifest), "--audit", str(audit_path)],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+            self.assertEqual(json.loads(completed.stdout), audit)
+            self.assertTrue(audit["valid"])
+            self.assertTrue(audit["atomicProjectionComplete"])
+            self.assertEqual(audit["sourceManifestTotal"], len(source["elementsById"]))
+            self.assertEqual(audit["projectedElementCount"], len(source["elementsById"]))
+            self.assertEqual(list(Path(directory).iterdir()), [audit_path])
+
+    def test_phase3_loader_cli_rejects_non_atomic_input(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            manifest = Path(directory) / "legacy.json"
+            audit_path = Path(directory) / "phase2-fact-view.audit.json"
+            manifest.write_text("{}", encoding="utf-8")
+            completed = subprocess.run(
+                [sys.executable, str(PHASE2_BUNDLE_LOADER), str(manifest), "--audit", str(audit_path)],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(completed.returncode, 2)
+            audit = json.loads(audit_path.read_text(encoding="utf-8"))
+            self.assertFalse(audit["valid"])
+            self.assertIn("atomic_v3_manifest_required", audit["errors"])
 
     def test_title_suffix_enums_are_separate_pixel_grounded_atoms(self) -> None:
         path = GOLDEN_ROOT / "merchant-text-hang/商家卡片-文下挂-搜索词为漂流.atomic.v3.json"

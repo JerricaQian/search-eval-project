@@ -80,6 +80,30 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
         self.assertTrue(any("gapPx_must_equal_10" in error for error in errors))
         self.assertTrue(any("clear_must_equal_true" in error for error in errors))
 
+    def test_partition_overlapping_unions_are_excluded_not_failed(self) -> None:
+        active = {
+            "PHOTO": {"coord": [10, 10, 100, 100]},
+            "BADGE_TITLE": {"coord": [90, 10, 100, 30]},
+        }
+        row = {
+            "evidenceSource": "phase2_json_coordinates",
+            "partitions": [
+                {"region": "head_media", "elementIds": ["PHOTO"], "contentBounds": [10, 10, 100, 100]},
+                {"region": "title", "elementIds": ["BADGE_TITLE"], "contentBounds": [90, 10, 100, 30]},
+            ],
+            "adjacentBoundaryChecks": [],
+            "excludedPairs": [{
+                "firstRegion": "head_media", "secondRegion": "title",
+                "gapX": -20, "gapY": -30,
+                "reason": "overlapping_or_nested_content_unions_do_not_prove_unclear_partition",
+            }],
+            "issueCount": 0,
+            "rating": "优秀",
+        }
+        errors: list[str] = []
+        self.module.require_partition_json_evidence(errors, "eval-6/C1", row, active)
+        self.assertEqual(errors, [])
+
     def test_alignment_relations_are_recomputed_from_json_coordinates(self) -> None:
         active = {
             "C1-H": {"coord": [0, 0, 80, 120]},
@@ -136,6 +160,28 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
         errors: list[str] = []
         self.module.require_component_color_json_evidence(errors, "eval-3/C1", row, active)
         self.assertEqual(errors, [])
+
+    def test_component_colour_four_families_is_excellent(self) -> None:
+        active = {f"E{index}": {"coord": [index * 20, 0, 20, 20]} for index in range(1, 5)}
+        families = ["红", "黄", "绿", "蓝"]
+        row = {
+            "evidenceSource": "phase2_json_visual_colors",
+            "scannedElementIds": list(active),
+            "excludedElementIds": [],
+            "sourceColorValues": [
+                {"elementId": f"E{index}", "field": "textColor", "value": value, "colorFamily": family}
+                for index, (family, value) in enumerate(zip(families, ("#FF0000", "#FFFF00", "#00FF00", "#0000FF")), start=1)
+            ],
+            "colorFamilies": families,
+            "colorFamilyCount": 4,
+            "rating": "优秀",
+        }
+        errors: list[str] = []
+        self.module.require_component_color_json_evidence(errors, "eval-3/C4", row, active)
+        self.assertEqual(errors, [])
+        row["rating"] = "达标"
+        self.module.require_component_color_json_evidence(errors, "eval-3/C4", row, active)
+        self.assertTrue(any("rating_must_be_优秀" in error for error in errors))
 
     def test_direct_json_skill_rejects_obsolete_measurement(self) -> None:
         row = {
