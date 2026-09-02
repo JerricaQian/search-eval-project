@@ -55,6 +55,20 @@ def _structured_role_dominates_text(role: str, value: str) -> bool:
     return bool(pattern and re.search(pattern, compact, re.I))
 
 
+def _reviewed_topology_expected_type(card: dict[str, Any]) -> str:
+    """Return only card types proved unambiguously by reviewed topology."""
+    topology = card.get("reviewedTopology", {})
+    if not isinstance(topology, dict):
+        return ""
+    slots = {str(item.get("slot", "")) for item in topology.get("regions", []) if isinstance(item, dict)}
+    items = [item for item in topology.get("attachedItems", []) if isinstance(item, dict)]
+    if {"merchant_head", "merchant_info", "attached_goods"}.issubset(slots) and items:
+        return "商家卡片_图文下挂"
+    if {"merchant_head", "merchant_info", "text_attachment"}.issubset(slots):
+        return "商家卡片_文字下挂"
+    return ""
+
+
 def _golden_structure_gaps(facts: dict[str, Any], candidates: dict[str, Any], semantics: dict[str, Any]) -> list[dict[str, Any]]:
     """Turn golden *structure* into screenshot-specific repair directions.
 
@@ -195,6 +209,9 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
         semantic_card = semantics.get(card_id, {})
         card_type = semantic_card.get("selectedCardType", {})
         partial_allowed = semantic_card.get("partialCardPolicy", {}).get("applied") is True
+        reviewed_expected_type = _reviewed_topology_expected_type(card)
+        if reviewed_expected_type and not partial_allowed and card_type.get("cardType") != reviewed_expected_type:
+            errors.append(f"{card_id}:reviewed_topology_selected_card_type_conflict")
         if len(local_text) < 2 and not partial_allowed:
             errors.append(f"{card_id}:insufficient_usable_text")
         if card_type.get("status") != "confirmed":
@@ -235,6 +252,8 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
     if golden_gaps:
         errors.extend(f"golden_structure_gap:{item['cardId']}:{item['kind']}" for item in golden_gaps if item["blocking"])
         reprocess.extend(item["action"] for item in golden_gaps if item["blocking"])
+    if any(error.endswith("reviewed_topology_selected_card_type_conflict") for error in errors):
+        reprocess.append("重新合并本卡当前图片复核拓扑并重算卡型一次；不得回退异构卡，也不得重复运行无关 OCR。")
     if any(error.endswith(("insufficient_usable_text", "no_confirmed_photo_candidate", "card_type_unresolved", "no_confirmed_semantic_anchor")) for error in errors):
         reprocess.append("按失败卡逐卡重跑本地 CV/OCR；只复用当前截图的卡片边界，禁止跨图坐标套用。")
     return {

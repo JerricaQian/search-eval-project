@@ -168,7 +168,7 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
 }
 ```
 
-未传 `evaluationSelection` 时，保留 `dimensions` 的旧行为。非 `full_19` 的报告必须显示“已选 X/19 项评测”，不能与完整 19 项综合分直接比较。
+未传 `evaluationSelection` 时，保留 `dimensions` 的旧行为。非 `full_19` 的报告必须显示“已选 X/19 项评测”；所有报告只呈现评级与问题项数，不计算综合分。
 
 ## Evaluation Agent 的固定约束
 

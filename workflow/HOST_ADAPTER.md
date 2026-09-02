@@ -25,7 +25,7 @@ Phase2～5 prompt。
   --evaluation-selection '{"mode":"custom_skills","skills":[{"dimension":"组件/卡片维度","skillId":"eval-7"}]}'
 ```
 
-部分评测的最终报告会标记范围，不能与完整 19 项综合分直接比较。
+部分评测的最终报告会标记范围；全部报告只呈现评级与问题项数，不计算综合分。
 
 输出中的 `portableTask.taskPath` 是唯一要交给 Harness 的任务入口；其中已有唯一
 `runId`、隔离后的 `batchId/tag/rerunId`、截图路径、契约路径和回执命令。可用

@@ -44,15 +44,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REPORTS_DIR = PROJECT_ROOT / "reports"
 MANIFEST_DIR = PROJECT_ROOT / "screenshots-out"
 
-# Skills whose overview.total is the evaluated-unit count rather than the
-# manifest element count (mirrors validate_eval_results.py).
-COMPONENT_SKILLS = {
-    "eval-1-supply-completeness",
+# Component skills whose full assessment coverage retains sourceManifestTotal
+# (mirrors validate_eval_results.py). Problem-only skills intentionally omit it.
+FULL_COVERAGE_COMPONENT_SKILLS = {
     "eval-2-visual-order-alignment",
     "eval-3-color-logic",
     "eval-4-element-complexity",
     "eval-5-info-hierarchy",
-    "eval-6-info-partitioning",
     "eval-7-info-authenticity",
     "eval-8-info-redundancy",
 }
@@ -116,7 +114,7 @@ def repair_file(results_path: Path, manifest_path: Path, changes: list[str]) -> 
             where = f"{tag}::{skill}/{tab}"
 
             # -- defect 3: stale sourceManifestTotal -------------------------
-            if skill in COMPONENT_SKILLS and "evidence" in details:
+            if skill in FULL_COVERAGE_COMPONENT_SKILLS and "evidence" in details:
                 current = evidence.get("sourceManifestTotal")
                 if current != manifest_total and isinstance(manifest_total, int):
                     evidence["sourceManifestTotal"] = manifest_total

@@ -48,6 +48,20 @@ MEASUREMENT_REQUIRED_SKILLS = {
     "eval-5-info-hierarchy",
 }
 
+COMPONENT_FULL_COVERAGE_SKILLS = {
+    "eval-2-visual-order-alignment",
+    "eval-3-color-logic",
+    "eval-4-element-complexity",
+    "eval-5-info-hierarchy",
+    "eval-7-info-authenticity",
+    "eval-8-info-redundancy",
+}
+
+COMPONENT_PROBLEM_ONLY_SKILLS = {
+    "eval-1-supply-completeness",
+    "eval-6-info-partitioning",
+}
+
 SINGLE_ELEMENT_COLOR_ROW_REQUIREMENTS = {
     "elementId", "componentId", "phase2Boundary", "sampleMask", "rawColorGrid",
     "colorCount", "rating",
@@ -82,7 +96,7 @@ def _load_forbidden_copy_terms() -> dict[str, Any]:
 
 
 def load_skill_weight(dimension: str, skill: str) -> dict[str, float] | None:
-    """Read the one authoritative rating-to-score map from an eval Skill."""
+    """Read the legacy frontmatter map whose keys define the legal ratings."""
     directory = SKILL_DIRECTORIES.get(dimension)
     path = directory / skill / "SKILL.md" if directory else None
     if path is None or not path.is_file():
@@ -90,8 +104,8 @@ def load_skill_weight(dimension: str, skill: str) -> dict[str, float] | None:
     return load_weight(path)
 
 
-def require_weighted_score(errors: list[str], prefix: str, dimension: str, skill: str, unit: dict[str, Any]) -> None:
-    """Reject a Phase3 score that does not exactly map the final rating to its Skill weight."""
+def require_supported_rating(errors: list[str], prefix: str, dimension: str, skill: str, unit: dict[str, Any]) -> None:
+    """Use the legacy weight keys only as the authoritative two/three-tier rating enum."""
     weights = load_skill_weight(dimension, skill)
     if weights is None:
         errors.append(f"{prefix}:skill_weight_unavailable")
@@ -99,14 +113,6 @@ def require_weighted_score(errors: list[str], prefix: str, dimension: str, skill
     rating = unit.get("rating")
     if rating not in weights:
         errors.append(f"{prefix}:rating_not_defined_in_skill_weight:{rating}")
-        return
-    score = unit.get("weightedScore")
-    if isinstance(score, bool) or not isinstance(score, (int, float)):
-        errors.append(f"{prefix}:weightedScore_must_be_number")
-        return
-    expected = weights[rating]
-    if float(score) != expected:
-        errors.append(f"{prefix}:weightedScore_{score}_must_equal_skill_weight_{expected:g}")
 
 
 def require_no_forbidden_terms(errors: list[str], prefix: str, text: str) -> None:
@@ -130,15 +136,16 @@ def require_no_forbidden_terms(errors: list[str], prefix: str, text: str) -> Non
         errors.append(f"{prefix}:copy_contains_english_enum_value")
 
 
-def require_recommendation_matches_threshold(errors: list[str], prefix: str, issue: dict[str, Any]) -> None:
-    """Block optimization suggestions whose stated acceptance threshold drifts from the issue's own rule."""
-    finding = issue.get("finding") if isinstance(issue.get("finding"), dict) else {}
-    rule = str(finding.get("ruleOrThreshold") or "")
+def require_actionable_recommendation(errors: list[str], prefix: str, issue: dict[str, Any]) -> None:
+    """Require an issue-scoped action and a verifiable acceptance result."""
     recommendation = str(issue.get("recommendation") or "")
-    rule_numbers = set(re.findall(r"\d+", rule))
-    recommendation_numbers = set(re.findall(r"\d+", recommendation))
-    if rule_numbers and recommendation_numbers and rule_numbers.isdisjoint(recommendation_numbers):
-        errors.append(f"{prefix}:recommendation_threshold_must_match_ruleOrThreshold")
+    require_non_empty_string(errors, prefix, issue, "recommendation")
+    if not recommendation.strip():
+        return
+    if not re.search(r"调整|改写|补齐|合并|删除|统一|收敛|恢复|归回|减少|保留|替换|修复", recommendation):
+        errors.append(f"{prefix}:recommendation_requires_concrete_action")
+    if not re.search(r"验收|复测|确认|确保|满足|不超过|不少于|无冲突|无重复|可直接", recommendation):
+        errors.append(f"{prefix}:recommendation_requires_acceptance_result")
 
 
 PAGE_EVIDENCE_REQUIREMENTS: dict[str, set[str]] = {
@@ -730,15 +737,51 @@ def require_zero_redundancy_scan(errors: list[str], prefix: str, row: dict[str, 
         errors.append(f"{prefix}:scanCoverage_crossChecks_must_cover_page_region_pairs")
 
 
-def require_structured_finding(errors: list[str], prefix: str, issue: dict[str, Any]) -> None:
-    """Require the complete issue payload consumed by Phase4/5."""
-    finding = issue.get("finding")
-    if not isinstance(finding, dict):
-        errors.append(f"{prefix}:finding_must_be_object")
-    else:
-        for field in ("observableFact", "ruleOrThreshold", "verdictReason", "userImpact"):
-            require_non_empty_string(errors, f"{prefix}/finding", finding, field)
-    require_non_empty_string(errors, prefix, issue, "recommendation")
+def _payload_contains(payload: Any, target: str) -> bool:
+    if not target:
+        return False
+    if isinstance(payload, dict):
+        return any(_payload_contains(value, target) for value in payload.values())
+    if isinstance(payload, list):
+        return any(_payload_contains(value, target) for value in payload)
+    return str(payload) == target
+
+
+def require_problem_rows_match_issues(
+    errors: list[str],
+    prefix: str,
+    assessment_rows: Any,
+    issues: list[Any],
+    *,
+    page_level: bool = False,
+) -> None:
+    """Require each actionable assessment row to project to exactly one report issue."""
+    if not isinstance(assessment_rows, list):
+        if issues:
+            errors.append(f"{prefix}:problem_issues_require_assessmentRows")
+        return
+    problem_rows = [
+        row for row in assessment_rows
+        if isinstance(row, dict) and row.get("rating") in {"达标", "不达标", "🟡", "🔴"}
+    ]
+    if len(problem_rows) != len(issues):
+        errors.append(f"{prefix}:problem_assessmentRows_{len(problem_rows)}_must_equal_issues_{len(issues)}")
+        return
+    if page_level:
+        return
+    unmatched = list(problem_rows)
+    for issue in issues:
+        if not isinstance(issue, dict):
+            continue
+        targets = [str(issue.get("elementId") or ""), str(issue.get("component") or "")]
+        match = next(
+            (row for row in unmatched if any(_payload_contains(row, target) for target in targets if target)),
+            None,
+        )
+        if match is None:
+            errors.append(f"{prefix}:issue_not_derived_from_assessmentRow:{issue.get('elementId') or issue.get('component')}")
+        else:
+            unmatched.remove(match)
 
 
 def require_component_copy_consistency(
@@ -755,67 +798,63 @@ def require_component_copy_consistency(
     row = next((item for item in assessment_rows if isinstance(item, dict) and str(item.get("componentId") or "") == component_id), None)
     if not isinstance(row, dict):
         return
-    finding = issue.get("finding") if isinstance(issue.get("finding"), dict) else {}
-    observable_fact = str(finding.get("observableFact") or "")
-    rule = str(finding.get("ruleOrThreshold") or "")
-    verdict = str(finding.get("verdictReason") or "")
-    combined = f"{observable_fact} {rule} {verdict}"
+    description = str(issue.get("description") or "")
+    combined = description
     rating = str(issue.get("rating") or "")
     if skill == "eval-3-color-logic":
         count = row.get("colorFamilyCount")
         families = row.get("colorFamilies")
         if not isinstance(count, int) or count < 0:
             return
-        if str(count) not in observable_fact:
+        if str(count) not in description:
             errors.append(f"{prefix}:color_copy_must_include_measured_colorFamilyCount")
         if not isinstance(families, list) or not families:
             errors.append(f"{prefix}:color_copy_requires_colorFamilies")
         if re.search(r"\b(?:red|orange|yellow|green|blue|cyan|magenta|purple)\b", combined, re.IGNORECASE):
             errors.append(f"{prefix}:color_copy_must_use_chinese_family_names")
         expected_rating = "优秀" if count <= 4 else "达标" if count == 5 else "不达标"
-        if rating != expected_rating or expected_rating not in verdict:
+        if rating != expected_rating:
             errors.append(f"{prefix}:color_copy_rating_must_match_measured_count")
     elif skill == "eval-4-element-complexity":
         tag_count = row.get("tagStyleCount")
         icon_count = row.get("iconStyleCount")
         if not isinstance(tag_count, int) or not isinstance(icon_count, int):
             return
-        if str(tag_count) not in observable_fact or str(icon_count) not in observable_fact:
+        if str(tag_count) not in description or str(icon_count) not in description:
             errors.append(f"{prefix}:complexity_copy_must_include_tag_and_icon_counts")
         expected_rating = "不达标" if tag_count > 5 or icon_count > 3 else "优秀" if tag_count <= 3 and icon_count <= 1 else "达标"
-        if rating != expected_rating or expected_rating not in verdict:
+        if rating != expected_rating:
             errors.append(f"{prefix}:complexity_copy_rating_must_match_measured_counts")
     elif skill == "eval-5-info-hierarchy":
         level_count = row.get("levelCount")
         tier_trace = row.get("tierTrace")
         if not isinstance(level_count, int) or level_count < 0:
             return
-        if str(level_count) not in observable_fact:
+        if str(level_count) not in description:
             errors.append(f"{prefix}:hierarchy_copy_must_include_measured_levelCount")
         if not isinstance(tier_trace, list) or not tier_trace:
             errors.append(f"{prefix}:hierarchy_copy_requires_tierTrace")
         expected_rating = "优秀" if 3 <= level_count <= 5 else "不达标"
-        if rating != expected_rating or expected_rating not in verdict:
+        if rating != expected_rating:
             errors.append(f"{prefix}:hierarchy_copy_rating_must_match_measured_levelCount")
     elif skill == "eval-7-info-authenticity":
         statuses = row.get("pairJudgements")
         conflict_count = row.get("conflictCount")
         if not isinstance(conflict_count, int) or conflict_count < 0:
             return
-        if str(conflict_count) not in observable_fact:
+        if str(conflict_count) not in description:
             errors.append(f"{prefix}:authenticity_copy_must_include_measured_conflictCount")
         if not isinstance(statuses, list) or not statuses:
             errors.append(f"{prefix}:authenticity_copy_requires_pairJudgements")
         expected_rating = "优秀" if conflict_count == 0 else "不达标"
-        if rating != expected_rating or expected_rating not in verdict:
+        if rating != expected_rating:
             errors.append(f"{prefix}:authenticity_copy_rating_must_match_measured_conflictCount")
 
 
 def require_complexity_description(errors: list[str], prefix: str, issue: dict[str, Any]) -> None:
     """Block opaque threshold-only wording: readers must see the actual counted objects."""
     description = issue.get("description")
-    fact = (issue.get("finding") or {}).get("observableFact") if isinstance(issue.get("finding"), dict) else ""
-    combined = f"{description or ''}{fact or ''}"
+    combined = str(description or "")
     prohibited = "图标样式数量为 2 至 3 种且未触发不达标条件时评级为达标"
     if not isinstance(description, str) or not description.strip():
         errors.append(f"{prefix}:complexity_description_missing")
@@ -867,17 +906,13 @@ def main() -> int:
                 errors.append(f"{skill}/unknown:unit_must_be_object")
                 continue
             tab = unit.get("tab", "unknown")
-            require_weighted_score(errors, f"{skill}/{tab}", dimension, str(skill), unit)
+            require_supported_rating(errors, f"{skill}/{tab}", dimension, str(skill), unit)
             details = unit.get("details") or {}
             if not isinstance(details, dict):
                 errors.append(f"{skill}/{tab}:details_must_be_object")
                 continue
             require_non_empty_string(errors, f"{skill}/{tab}", unit, "reason")
-            require_non_empty_string(errors, f"{skill}/{tab}", details, "criterion")
-            require_non_empty_string(errors, f"{skill}/{tab}", details, "summary")
             require_no_forbidden_terms(errors, f"{skill}/{tab}:reason", str(unit.get("reason") or ""))
-            require_no_forbidden_terms(errors, f"{skill}/{tab}:criterion", str(details.get("criterion") or ""))
-            require_no_forbidden_terms(errors, f"{skill}/{tab}:summary", str(details.get("summary") or ""))
             screenshot = details.get("screenshot")
             if not isinstance(screenshot, str) or not screenshot or not Path(screenshot).is_file():
                 errors.append(f"{skill}/{tab}:screenshot_must_reference_existing_original")
@@ -891,10 +926,10 @@ def main() -> int:
                 continue
             total, excellent, passed, failed = values
             evidence = (unit.get("details") or {}).get("evidence") or {}
+            assessment_rows = evidence.get("assessmentRows")
             if result.get("dimension") == page_framework_dimension:
                 if total != 1:
                     errors.append(f"{skill}/{tab}:page_framework_overview_total_must_equal_1")
-                assessment_rows = evidence.get("assessmentRows")
                 if evidence_mode not in {"original-page", "hybrid", "annotated-region"}:
                     errors.append(f"{skill}/{tab}:page_framework_requires_evidence_mode")
                 required_page_fields = PAGE_EVIDENCE_REQUIREMENTS.get(skill)
@@ -950,7 +985,7 @@ def main() -> int:
                 if page_issues is not None and not isinstance(page_issues, list):
                     errors.append(f"{skill}/{tab}:page_framework_issues_must_be_array")
                     page_issues = []
-                page_issue_required = {"pageArea", "dimension", "description", "rating", "priority", "priorityReason", "finding", "recommendation"}
+                page_issue_required = {"pageArea", "description", "rating", "recommendation"}
                 page_recommendations: set[str] = set()
                 for issue in page_issues or []:
                     if not isinstance(issue, dict):
@@ -959,23 +994,24 @@ def main() -> int:
                     missing_page_fields = page_issue_required - issue.keys()
                     if missing_page_fields:
                         errors.append(f"{skill}/{tab}:page_framework_issue_missing_fields:{','.join(sorted(missing_page_fields))}")
-                    require_structured_finding(errors, f"{skill}/{tab}:page_framework_issue", issue)
-                    issue_finding = issue.get("finding") if isinstance(issue.get("finding"), dict) else {}
-                    require_no_forbidden_terms(errors, f"{skill}/{tab}:page_framework_issue:observableFact", str(issue_finding.get("observableFact") or ""))
+                    require_non_empty_string(errors, f"{skill}/{tab}:page_framework_issue", issue, "description")
                     require_no_forbidden_terms(errors, f"{skill}/{tab}:page_framework_issue:description", str(issue.get("description") or ""))
                     require_no_forbidden_terms(errors, f"{skill}/{tab}:page_framework_issue:recommendation", str(issue.get("recommendation") or ""))
-                    require_recommendation_matches_threshold(errors, f"{skill}/{tab}:page_framework_issue", issue)
+                    require_actionable_recommendation(errors, f"{skill}/{tab}:page_framework_issue", issue)
                     recommendation = str(issue.get("recommendation", "")).strip()
                     if recommendation and recommendation in page_recommendations:
                         errors.append(f"{skill}/{tab}:page_framework_issue_recommendation_must_be_issue_specific")
                     page_recommendations.add(recommendation)
-                    forbidden_fields = {"elementId", "coord", "component", "elementType", "content"} & issue.keys()
+                    forbidden_fields = {"elementId", "coord", "component", "elementType", "content", "finding", "priority", "priorityReason", "dimension"} & issue.keys()
                     if forbidden_fields:
                         errors.append(f"{skill}/{tab}:page_framework_issue_forbidden_fields:{','.join(sorted(forbidden_fields))}")
                     if args.require_evidence and issue.get("rating") in {"达标", "不达标", "🟡", "🔴"}:
                         evidence_path = issue.get("evidenceImage")
                         if not isinstance(evidence_path, str) or not evidence_path or not Path(evidence_path).is_file():
                             errors.append(f"{skill}/{tab}:page_framework_issue_evidence_image_missing")
+                require_problem_rows_match_issues(
+                    errors, f"{skill}/{tab}", assessment_rows, page_issues or [], page_level=True
+                )
             elif result.get("dimension") == single_element_dimension and (
                 skill == "eval-2-color-logic-single-element"
                 or any(key in evidence for key in ("evaluatedUnitCount", "evaluatedUnitIds", "excludedUnits"))
@@ -1030,26 +1066,25 @@ def main() -> int:
                 evaluated_unit_count = evidence.get("evaluatedUnitCount")
                 assessment_rows = evidence.get("assessmentRows")
                 measurement_required = skill in MEASUREMENT_REQUIRED_SKILLS
-                evidence_required = (
-                    unit.get("rating") != "优秀"
-                    or measurement_required
-                    or skill in {
-                        "eval-2-visual-order-alignment",
-                        "eval-3-color-logic",
-                        "eval-4-element-complexity",
-                        "eval-7-info-authenticity",
-                        "eval-8-info-redundancy",
-                    }
-                )
+                full_coverage_required = skill in COMPONENT_FULL_COVERAGE_SKILLS
+                evidence_required = unit.get("rating") != "优秀" or full_coverage_required
                 if evidence_required:
-                    if not isinstance(evaluated_unit_count, int) or evaluated_unit_count < 0:
-                        errors.append(f"{skill}/{tab}:component_evaluatedUnitCount_required")
-                    elif total != evaluated_unit_count:
-                        errors.append(f"{skill}/{tab}:overview_total_{total}_must_equal_evaluatedUnitCount_{evaluated_unit_count}")
-                    if not isinstance(assessment_rows, list) or len(assessment_rows) != evaluated_unit_count:
-                        errors.append(f"{skill}/{tab}:component_assessmentRows_must_match_evaluatedUnitCount")
-                    if evidence.get("sourceManifestTotal") != expected_total:
-                        errors.append(f"{skill}/{tab}:sourceManifestTotal_must_equal_{expected_total}")
+                    if not isinstance(assessment_rows, list) or not assessment_rows:
+                        errors.append(f"{skill}/{tab}:component_assessmentRows_required")
+                    elif full_coverage_required:
+                        if not isinstance(evaluated_unit_count, int) or evaluated_unit_count < 0:
+                            errors.append(f"{skill}/{tab}:component_evaluatedUnitCount_required")
+                        elif total != evaluated_unit_count:
+                            errors.append(f"{skill}/{tab}:overview_total_{total}_must_equal_evaluatedUnitCount_{evaluated_unit_count}")
+                        if len(assessment_rows) != evaluated_unit_count:
+                            errors.append(f"{skill}/{tab}:component_assessmentRows_must_match_evaluatedUnitCount")
+                        if evidence.get("sourceManifestTotal") != expected_total:
+                            errors.append(f"{skill}/{tab}:sourceManifestTotal_must_equal_{expected_total}")
+                    elif skill in COMPONENT_PROBLEM_ONLY_SKILLS and any(
+                        isinstance(row, dict) and row.get("rating") in {"优秀", "🟢"}
+                        for row in assessment_rows
+                    ):
+                        errors.append(f"{skill}/{tab}:component_assessmentRows_must_keep_problem_rows_only")
                     required_component_fields = COMPONENT_ROW_REQUIREMENTS.get(skill)
                     if isinstance(assessment_rows, list) and required_component_fields:
                         for index, row in enumerate(assessment_rows, start=1):
@@ -1224,7 +1259,7 @@ def main() -> int:
             issue_recommendations: set[str] = set()
             issue_pass = 0
             issue_fail = 0
-            required_issue_fields = {"elementId", "coord", "component", "elementType", "content", "dimension", "description", "rating", "priority", "priorityReason", "finding", "recommendation"}
+            required_issue_fields = {"elementId", "coord", "component", "description", "rating", "recommendation"}
             for issue in issues:
                 if not isinstance(issue, dict):
                     errors.append(f"{skill}/{tab}:issue_must_be_object")
@@ -1233,12 +1268,13 @@ def main() -> int:
                 if missing:
                     errors.append(f"{skill}/{tab}:issue_missing_fields:{','.join(sorted(missing))}")
                     continue
-                require_structured_finding(errors, f"{skill}/{tab}:issue", issue)
-                issue_finding = issue.get("finding") if isinstance(issue.get("finding"), dict) else {}
-                require_no_forbidden_terms(errors, f"{skill}/{tab}:issue:observableFact", str(issue_finding.get("observableFact") or ""))
+                require_non_empty_string(errors, f"{skill}/{tab}:issue", issue, "description")
                 require_no_forbidden_terms(errors, f"{skill}/{tab}:issue:description", str(issue.get("description") or ""))
                 require_no_forbidden_terms(errors, f"{skill}/{tab}:issue:recommendation", str(issue.get("recommendation") or ""))
-                require_recommendation_matches_threshold(errors, f"{skill}/{tab}:issue", issue)
+                require_actionable_recommendation(errors, f"{skill}/{tab}:issue", issue)
+                forbidden_issue_fields = {"finding", "priority", "priorityReason", "dimension", "elementType", "content"} & issue.keys()
+                if forbidden_issue_fields:
+                    errors.append(f"{skill}/{tab}:issue_forbidden_fields:{','.join(sorted(forbidden_issue_fields))}")
                 if skill in {"eval-3-color-logic", "eval-4-element-complexity", "eval-5-info-hierarchy", "eval-7-info-authenticity"}:
                     require_component_copy_consistency(
                         errors, f"{skill}/{tab}:issue", skill, issue, assessment_rows
@@ -1259,30 +1295,6 @@ def main() -> int:
                     errors.append(f"{skill}/{tab}:issue_elementId_not_in_manifest:{element_id}")
                 elif issue.get("coord") != active_by_id[element_id].get("coord"):
                     errors.append(f"{skill}/{tab}:issue_coord_must_equal_manifest:{element_id}")
-                if issue.get("rating") in {"🔴", "不达标"} and skill in {"eval-1-supply-completeness", "eval-8-info-redundancy"}:
-                    if skill == "eval-1-supply-completeness":
-                        required_evidence = ("applicabilityEvidence", "visibleAbsenceEvidence")
-                    else:
-                        required_evidence = ("redundancyEvidence",)
-                    missing_evidence = [
-                        key for key in required_evidence
-                        if not isinstance(issue.get(key), str) or not issue.get(key).strip()
-                    ]
-                    if missing_evidence:
-                        phase2_review_items.append({
-                            "status": "pending",
-                            "query": manifest_query,
-                            "skill": skill,
-                            "tab": tab,
-                            "elementId": element_id,
-                            "component": issue.get("component", ""),
-                            "coord": issue.get("coord"),
-                            "content": issue.get("content", ""),
-                            "missingEvidence": missing_evidence,
-                            "phase3Description": issue.get("description", ""),
-                            "instruction": "回退 Phase2：重新读取整图并按需局部复核此坐标及所属卡片，确认字段/实体是否真实可见、缺失或被重复标注；更新统一清单与 recognition-audit 后，重新执行 Phase3。",
-                        })
-                        errors.append(f"{skill}/{tab}:failed_issue_requires_phase2_review:{element_id}:{','.join(missing_evidence)}")
                 if not element_in_manifest:
                     continue
                 # Whole-page conclusions without a Phase2-confirmed local boundary
@@ -1313,6 +1325,7 @@ def main() -> int:
                 errors.append(f"{skill}/{tab}:fail_count_{failed}_must_equal_fail_issues_{issue_fail}")
             if issue_pass != passed:
                 errors.append(f"{skill}/{tab}:pass_count_{passed}_must_equal_pass_issues_{issue_pass}")
+            require_problem_rows_match_issues(errors, f"{skill}/{tab}", assessment_rows, issues)
 
     audit = {
         "valid": not errors,

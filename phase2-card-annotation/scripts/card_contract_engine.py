@@ -120,6 +120,10 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     reviewed_topology = card.get("reviewedTopology", {}) if isinstance(card.get("reviewedTopology"), dict) else {}
     topology_regions = {str(item.get("slot", "")) for item in reviewed_topology.get("regions", []) if isinstance(item, dict)}
     topology_items = [item for item in reviewed_topology.get("attachedItems", []) if isinstance(item, dict)]
+    reviewed_text_downhang = (
+        {"merchant_head", "merchant_info", "text_attachment"}.issubset(topology_regions)
+        and bool(topology_items)
+    )
     title_ceiling = y + max(100, height * (0.72 if "two_column_grid_cell_boundary" in boundary_evidence else 0.45))
     for item in texts:
         value = str(item.get("text", "")).strip()
@@ -139,14 +143,18 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         card.get("classificationHint", {}).get("cardType") == "商家卡片_图文下挂"
         or bool(card.get("attachedProductPhotoIds"))
         or ("merchant_head" in topology_regions and "attached_goods" in topology_regions and bool(topology_items))
-    )
+    ) and not reviewed_text_downhang
     poster_media = any(item["coord"][3] >= item["coord"][2] * 1.18 and item["coord"][2] <= width * 0.45 for item in photos)
     price_signals = [price_evidence(item, coord) for item in texts]
     repeated_list_boundary = bool({"repeated_left_image_right_text_seed", "learned_repeat_interval_backfill", "left_media_anchor_split"} & boundary_evidence)
     merchant_graphic_boundary = (
         ("merchant_head" in topology_regions and "merchant_info" in topology_regions
          and "attached_goods" in topology_regions and bool(topology_items))
-        or ("left_square_merchant_head" in boundary_evidence and "right_side_attached_product_image_group" in boundary_evidence)
+        or (
+            not reviewed_text_downhang
+            and "left_square_merchant_head" in boundary_evidence
+            and "right_side_attached_product_image_group" in boundary_evidence
+        )
     )
     viewport_width = float(facts.get("viewport", {}).get("width", 0))
     hotel_room_title = bool(re.search(r"电竞.*房|双人.*房|双床房|大床房?|整套\s*\d+\s*室|可长租", joined))
@@ -170,7 +178,7 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "merchant_metrics": bool(re.search(r"(?:\d(?:\.\d)?\s*分|暂无评分|新店(?:入驻)?|\d+\s*条|人均)", joined, re.I)),
         "merchant_fulfillment": bool(re.search(r"到店|外卖|闪购|上门|配送|自取", joined)),
         "graphic_downhang": graphic_hint or bool(attached_photos),
-        "text_downhang": bool(attached_text_blocks) and bool(re.search(service_pattern, attached_joined)),
+        "text_downhang": reviewed_text_downhang or (bool(attached_text_blocks) and bool(re.search(service_pattern, attached_joined))),
         "service_language": bool(re.search(service_pattern, joined)),
         "hotel_identity": bool(re.search(r"酒店|民宿|住宿|经济型|舒适型|高档型|豪华型", joined)),
         "hotel_room_identity": hotel_room_title and hotel_room_specs and (hotel_room_device or "two_column_grid_cell_boundary" in boundary_evidence),
@@ -201,7 +209,7 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     features.update({
         "product_repeat_boundary": repeated_list_boundary and not graphic_hint,
         "merchant_graphic_boundary": merchant_graphic_boundary,
-        "merchant_text_boundary": repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"]),
+        "merchant_text_boundary": reviewed_text_downhang or (repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"])),
         "merchant_plain_boundary": repeated_list_boundary and not graphic_hint and not features["text_downhang"] and not features["scenic_ticket_downhang"],
         "hotel_list_boundary": repeated_list_boundary and (features["hotel_identity"] or features["homestay_identity"]),
         "hotel_grid_boundary": "two_column_grid_cell_boundary" in boundary_evidence and (features["hotel_identity"] or features["hotel_room_identity"] or features["homestay_identity"]),
@@ -266,9 +274,12 @@ def resolve_card_type(card: dict[str, Any], facts: dict[str, Any], structure_blo
         reverse=True,
     )
     if passing:
-        best = passing[0]
+        reviewed_hint = str(card.get("classificationHint", {}).get("cardType", "")) if card.get("reviewedTopology") else ""
+        reviewed_match = next((item for item in passing if item["cardType"] == reviewed_hint), None)
+        best = reviewed_match or passing[0]
         selected = {"cardType": best["cardType"], "confidence": best["score"], "status": "confirmed",
-                    "classificationMode": "known_minimum_contract_priority", "evidence": best["matchedFeatures"]}
+                    "classificationMode": "reviewed_topology_contract_priority" if reviewed_match else "known_minimum_contract_priority",
+                    "evidence": best["matchedFeatures"]}
         return {"selected": selected, "features": features, "contractValidation": best, "contractEvaluations": evaluations,
                 "nearestKnownCardType": best["cardType"]}
     ad = evaluate_contract(contracts["广告卡"], features, scores.get("广告卡", 0.0))

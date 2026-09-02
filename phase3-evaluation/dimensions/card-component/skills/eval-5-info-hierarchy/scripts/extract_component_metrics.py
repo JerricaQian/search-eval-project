@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Deterministic per-component visual measurement for pixel-dependent evals.
+"""Deterministic glyph measurement for eval-5 information hierarchy targets.
 
-Reads the phase2 element manifest (card coords + regions + elements) plus the
-original screenshot, and measures REAL pixels with OpenCV/numpy. No rating is
-decided here; ratings are derived from these numbers by
-apply_component_ratings.py, so every grade stays traceable to a measurement.
+Reads the Phase2 JSON fact view, selects complete visible result-card targets,
+then measures glyph pixels with OpenCV/numpy. It outputs only eval-5 measurement
+evidence; it does not copy the Phase2 manifest or build a generic full ledger.
+No rating is decided here; the Skill derives ratings from these measurements.
 
 Eval-2 visual order and eval-6 information partitioning are intentionally not
 measured here: both consume the validated Phase2 JSON structure and coordinates
@@ -41,6 +41,7 @@ METRIC_DIR: Path
 HIERARCHY_CALIBRATION_PROFILE = "phase3.hierarchy-glyph.v1"
 HIERARCHY_REFERENCE_WIDTH_PX = 1224
 HIERARCHY_REFERENCE_GAP_PX = 6
+SUPPORTED_SKILL = "eval-5-info-hierarchy"
 
 
 def hierarchy_glyph_gap_threshold(image_width_px: int) -> int:
@@ -59,6 +60,20 @@ def configure_paths(project_dir: str) -> None:
     ROOT = Path(project_dir)
     MANIFEST_DIR = ROOT / "screenshots-out"
     METRIC_DIR = ROOT / ".artifacts" / "过程文件-指标测量"
+
+
+def is_hierarchy_target(card: dict[str, Any]) -> bool:
+    """Select complete, visible result cards directly from Phase2 structure facts."""
+    structure = card.get("structure") if isinstance(card.get("structure"), dict) else {}
+    if structure.get("isResultListItem") is False:
+        return False
+    visibility = (
+        structure.get("visibleStatus")
+        or card.get("visibleStatus")
+        or card.get("visibility")
+        or "complete"
+    )
+    return visibility not in {"naturally_cropped", "uncertain", "partial"}
 
 
 # ---------------------------------------------------------------- utilities
@@ -259,6 +274,9 @@ def json_color_is_chromatic(value: Any) -> bool:
 def element_json_chromatic(element: dict[str, Any]) -> bool:
     """Use declared JSON styles for emphasis; pixel work is glyph height only."""
     visual = element.get("visual") if isinstance(element.get("visual"), dict) else {}
+    color_role = str(visual.get("colorRole") or "").strip().lower()
+    if color_role not in {"", "neutral", "unknown", "none", "无"}:
+        return True
     return any(
         json_color_is_chromatic(visual.get(field))
         for field in ("textColor", "backgroundColor", "borderColor")
@@ -841,6 +859,8 @@ def run_scene(
     manifest_path: Path | None = None,
     skill: str | None = None,
 ) -> dict:
+    if skill != SUPPORTED_SKILL:
+        raise ValueError(f"--skill must be {SUPPORTED_SKILL}")
     if manifest_path is not None:
         manifest = load_phase2_facts(manifest_path=manifest_path)
         audit_path = None
@@ -868,52 +888,15 @@ def run_scene(
         raise SystemExit(f"cannot read image: {shot}")
     h, w = bgr.shape[:2]
 
-    if skill == "eval-5-info-hierarchy":
-        comps = [analyse_hierarchy_card(bgr, card) for card in manifest.get("cards", [])]
-        return {
-            "scene": scene,
-            "suffix": suffix,
-            "query": manifest.get("query"),
-            "screenshot": str(shot),
-            "imageSize": [w, h],
-            "measurementScope": "hierarchy_only",
-            "hierarchyCalibration": {
-                "profile": HIERARCHY_CALIBRATION_PROFILE,
-                "referenceWidthPx": HIERARCHY_REFERENCE_WIDTH_PX,
-                "referenceGapPx": HIERARCHY_REFERENCE_GAP_PX,
-                "imageWidthPx": w,
-                "glyphHeightGapThresholdPx": hierarchy_glyph_gap_threshold(w),
-            },
-            "manifestTotal": manifest_total,
-            "componentCount": len(comps),
-            "components": comps,
-        }
-
-    excluded_boxes = []
-    overlay_boxes = []
-    ui_boxes = []
-    for card in manifest.get("cards", []):
-        for reg in card.get("regions", []):
-            for el in reg.get("elements", []):
-                box = ebox(el)
-                if not box:
-                    continue
-                if el.get("isExcluded") or etype(el) == "图片":
-                    excluded_boxes.append((el.get("render") or {}).get("photoMaskCoord") or box)
-                else:
-                    ui_boxes.append(box)
-                    if (el.get("render") or {}).get("isSystemUi") is True:
-                        overlay_boxes.append(box)
-    photo_mask = build_photo_mask(bgr, excluded_boxes, overlay_boxes)
-    ui_mask = np.zeros((h, w), dtype=np.uint8)
-    for box in ui_boxes:
-        x0, y0, x1, y1 = clamp_box(box, w, h)
-        ui_mask[y0:y1, x0:x1] = 255
-
-    comps = [analyse_card(bgr, c, photo_mask, ui_mask) for c in manifest.get("cards", [])]
+    target_cards = [card for card in manifest.get("cards", []) if is_hierarchy_target(card)]
+    comps = [analyse_hierarchy_card(bgr, card) for card in target_cards]
     return {
-        "scene": scene, "suffix": suffix, "query": manifest.get("query"),
-        "screenshot": str(shot), "imageSize": [w, h],
+        "scene": scene,
+        "suffix": suffix,
+        "query": manifest.get("query"),
+        "screenshot": str(shot),
+        "imageSize": [w, h],
+        "measurementScope": "hierarchy_only",
         "hierarchyCalibration": {
             "profile": HIERARCHY_CALIBRATION_PROFILE,
             "referenceWidthPx": HIERARCHY_REFERENCE_WIDTH_PX,
@@ -922,12 +905,8 @@ def run_scene(
             "glyphHeightGapThresholdPx": hierarchy_glyph_gap_threshold(w),
         },
         "manifestTotal": manifest_total,
-        "colorScope": {
-            "componentSource": "cards_only",
-            "excludedPageModules": excluded_page_modules(manifest),
-            "rule": "Tab、图筛、业务图筛与筛选器不属于组件/卡片色彩统计范围。",
-        },
-        "componentCount": len(comps), "components": comps,
+        "componentCount": len(comps),
+        "components": comps,
     }
 
 
@@ -936,7 +915,8 @@ def main() -> int:
     ap.add_argument("--project-dir", required=True, help="项目根目录，与 workflow projectDir 一致")
     ap.add_argument("--scenes", nargs="+", required=True)
     ap.add_argument("--suffix", default="首评-单一元素-5")
-    ap.add_argument("--skill", required=True, help="调用方 skill 名，用于隔离输出文件避免并行写冲突")
+    ap.add_argument("--skill", required=True, choices=[SUPPORTED_SKILL],
+                    help="固定为 eval-5-info-hierarchy；本脚本不服务其他评测项")
     ap.add_argument("--normalized-input", type=Path, help="紧凑黄金真值；Phase3 直接读取，不生成展开清单")
     ap.add_argument("--evidence-input", type=Path, help="与 --normalized-input 配套的校验证据")
     ap.add_argument("--manifest-input", type=Path, help="直接读取单份 atomic/legacy Phase2 manifest")

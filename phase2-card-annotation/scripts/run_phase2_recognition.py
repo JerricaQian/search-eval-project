@@ -16,12 +16,37 @@ import sys
 import tempfile
 from pathlib import Path
 
+from PIL import Image
+
 from apply_visual_review import load_review, _normalise_topology
 from card_type_registry import display_names, known_result_types
 
 
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_DIR = Path(__file__).resolve().parent
+GRAPHIC_DOWNHANG_EVIDENCE = {
+    "right_side_attached_product_image_group",
+    "summary_and_product_rail_owned_together",
+}
+
+
+def _review_card_is_naturally_cropped(review: dict, card: dict, topology: dict) -> bool:
+    if any(
+        item.get("visibleStatus") == "naturally_cropped"
+        for item in topology.get("regions", []) + topology.get("attachedItems", [])
+        if isinstance(item, dict)
+    ):
+        return True
+    coord = card.get("coord")
+    screenshot = Path(str(review.get("screenshot", ""))).expanduser()
+    if not isinstance(coord, list) or len(coord) != 4 or not screenshot.is_file():
+        return False
+    try:
+        with Image.open(screenshot) as image:
+            viewport_height = int(image.height)
+    except OSError:
+        return False
+    return coord[1] + coord[3] >= viewport_height - max(20, round(viewport_height * 0.02))
 
 
 def invoke(arguments: list[str], check: bool = True, env: dict[str, str] | None = None) -> int:
@@ -73,12 +98,18 @@ def validate_cv_llm_visual_review(review_path: Path) -> None:
         if not topology["regions"]:
             raise ValueError(f"{card_id}:visual review must declare card topology regions")
         slots = {item["slot"] for item in topology["regions"]}
+        naturally_cropped = _review_card_is_naturally_cropped(review, card, topology)
         if card_type == "商家卡片_图文下挂":
             needed = {"merchant_head", "merchant_info", "attached_goods"}
-            if not needed.issubset(slots) or not topology["attachedItems"]:
+            if naturally_cropped and "merchant_head" not in slots:
+                raise ValueError(f"{card_id}:naturally cropped merchant card requires a visible merchant_head")
+            if not naturally_cropped and (not needed.issubset(slots) or not topology["attachedItems"]):
                 raise ValueError(f"{card_id}:merchant graphic hang requires merchant_head, merchant_info, attached_goods and attachedItems")
-        elif card_type == "商家卡片_文字下挂" and not {"merchant_head", "merchant_info", "text_attachment"}.issubset(slots):
-            raise ValueError(f"{card_id}:merchant text hang requires merchant_head, merchant_info and text_attachment")
+        elif card_type == "商家卡片_文字下挂":
+            if naturally_cropped and "merchant_head" not in slots:
+                raise ValueError(f"{card_id}:naturally cropped merchant card requires a visible merchant_head")
+            if not naturally_cropped and not {"merchant_head", "merchant_info", "text_attachment"}.issubset(slots):
+                raise ValueError(f"{card_id}:merchant text hang requires merchant_head, merchant_info and text_attachment")
 
 
 def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, facts_path: Path) -> None:
@@ -118,13 +149,25 @@ def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, fac
         type_candidate = str(reviewed.get("cardTypeCandidate", ""))
         if type_candidate in known_result_types():
             candidate["classificationHint"] = {"cardType": type_candidate, "confidence": 0.96}
+        topology_slots = {str(item.get("slot", "")) for item in topology.get("regions", [])}
+        if "attached_goods" not in topology_slots:
+            # Current-pixel review is authoritative for this card.  Candidate
+            # geometry remains in the retained process artifact, but stale
+            # graphic ownership cannot stay active after the review confirms
+            # text/no visible down-hang topology.
+            candidate.pop("attachedProductPhotoIds", None)
+            candidate["evidence"] = [
+                item for item in candidate.get("evidence", [])
+                if item not in GRAPHIC_DOWNHANG_EVIDENCE
+            ]
         reviewed_photos = [item for item in accepted_photos if item.get("visualReview", {}).get("cardId") == card_id]
         head_ids = [item["id"] for item in reviewed_photos if item.get("visualReview", {}).get("topologySlot") in {"merchant_head", "head_media"}]
         attached_ids = [item["id"] for item in reviewed_photos if item.get("visualReview", {}).get("topologySlot") == "attached_goods"]
         if head_ids:
             candidate["headPhotoId"] = head_ids[0]
-        if attached_ids:
+        if "attached_goods" in topology_slots:
             candidate["attachedProductPhotoIds"] = attached_ids
+        candidate["evidence"] = list(dict.fromkeys(candidate.get("evidence", [])))
     payload["resultCards"].sort(key=lambda item: (int(item["coord"][1]), str(item.get("id", ""))))
     candidates_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

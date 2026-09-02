@@ -172,6 +172,11 @@ def main() -> int:
                     continue
                 issue_key = f"{skill}/{unit.get('tab', '')}/{issue.get('elementId', issue.get('component', 'page'))}"
                 coord, scope, reason = resolve_issue_box(result, issue, elements, components)
+                if result.get("dimension") == PAGE_DIMENSION and screenshot and not rect_ok(coord):
+                    # 页面统计或跨区域关系没有唯一可框选坐标时，Phase4 直接回写原图；
+                    # 不伪造红框，也不要求 Phase3 增加定位字段。
+                    issue["evidenceImage"] = str(Path(screenshot).resolve())
+                    continue
                 if not screenshot or not rect_ok(coord) or not scope:
                     skipped.append({"issue": issue_key, "reason": reason or "screenshot_missing"})
                     continue

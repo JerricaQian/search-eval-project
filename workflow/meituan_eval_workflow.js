@@ -368,10 +368,8 @@ const PIPELINE_SCHEMA = {
             type: 'object',
             properties: {
               tab: { type: 'string' },
-              normalizedScore: { type: 'number' },
-              verdict: { type: 'string' },
             },
-            required: ['tab', 'normalizedScore', 'verdict'],
+            required: ['tab'],
           },
         },
       },
@@ -508,7 +506,7 @@ resolvedTargets.forEach(target => { skillDirs[target.dimension] = projectDir + '
 // 原 phase2-annotator / phase4-issue-evidence；Phase5 由 phase2345-query-pipeline 的唯一 Stage D 契约处理。
 // 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
 // Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
-// 所有阶段级契约细节（Phase2 当前图片校准、七键单图清单、FACT_GATES、共享契约优先、issues/finding 结构、
+// 所有阶段级契约细节（Phase2 当前图片校准、七键单图清单、FACT_GATES、共享契约优先、assessmentRows/issues 结构、
 // 页面框架结论边界、报告渲染分支等）已完整写入 .claude/agents/phase2345-query-pipeline.md，
 // 本次调用只注入具体输入值，不在 JS 侧重复拼接任何阶段级 Prompt 文本。
 const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query + tagSuffix + '_' + dimSlug + '.json'
@@ -553,7 +551,7 @@ const mergedInputs = {
   expectedBusinessTabsCsv,
 }
 
-const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、issues/finding 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、assessmentRows/issues 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json

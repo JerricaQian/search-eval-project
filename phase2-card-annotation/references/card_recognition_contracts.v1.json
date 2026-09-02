@@ -8,7 +8,7 @@
     "closestKnownRule": "多个已知卡型通过最小契约时，按结构证据、字段证据、分类候选分数和卡型间隔选择最接近者。",
     "advertisingRule": "只有 explicit_ad_marker=true 才允许广告卡。",
     "heterogeneousRule": "边界稳定、存在可见内容、无广告证据且无已知卡型通过最小契约时归异构卡。",
-    "bottomPartialRepeatedRule": "结果流最后一张重复卡自然触底时，可继承上一张已确认已知卡型；只豁免因截断不可见的必需字段和语义锚点，已显示文字的乱码、OCR 分歧与明确广告证据仍阻断整页。",
+    "bottomPartialRepeatedRule": "结果流最后一张重复卡自然触底时，可继承同组上一张已确认已知卡型；只记录当前可见事实，不为未露出的下挂补造图片 ID、区域内容或 itemGroups。只豁免因截断不可见的必需字段、下挂证据和语义锚点，已显示文字的乱码、OCR 分歧、明确广告证据与可见拓扑冲突仍阻断整页。",
     "unknownRule": "禁止输出 unknown 卡型。"
   },
   "featureVocabulary": {

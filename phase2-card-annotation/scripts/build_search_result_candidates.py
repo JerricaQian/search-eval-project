@@ -64,9 +64,12 @@ def _repeated_merchant_head_cards(facts: dict[str, Any], blocks: list[dict[str, 
         attached_product_ids = [photo["id"] for photo in facts.get("candidates", {}).get("photos", [])
                                 if photo.get("route") == "accepted" and photo.get("id") != head["id"]
                                 and photo["coord"][1] >= top + head["coord"][3] and _overlap_y(photo["coord"], coord)]
+        evidence = ["repeated_left_square_merchant_head", "left_square_merchant_head", "next_repeated_head_boundary"]
+        if attached_product_ids:
+            evidence.extend(["right_side_attached_product_image_group", "summary_and_product_rail_owned_together"])
         cards.append({"id": f"merchant-head-{index + 1}", "coord": coord, "seedBlockId": "", "memberBlockIds": members,
                       "headPhotoId": head["id"], "attachedProductPhotoIds": attached_product_ids, "confidence": 0.91, "status": "confirmed",
-                      "evidence": ["repeated_left_square_merchant_head", "left_square_merchant_head", "right_side_attached_product_image_group", "next_repeated_head_boundary", "summary_and_product_rail_owned_together"]})
+                      "evidence": evidence})
     return cards
 
 

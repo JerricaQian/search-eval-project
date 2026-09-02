@@ -480,7 +480,10 @@ class ExtractCvFactsTest(unittest.TestCase):
                 "contractVersion": "phase2.search-result-candidates.v1", "structureBlocks": [],
                 "resultCards": [
                     {"id": "C1", "coord": [0, 100, 400, 300], "status": "confirmed", "memberBlockIds": [], "classificationHint": {"cardType": "商家卡片_图文下挂", "confidence": 0.9}, "attachedProductPhotoIds": ["G1"], "evidence": ["left_square_merchant_head", "right_side_attached_product_image_group"]},
-                    {"id": "C2", "coord": [0, 500, 400, 100], "status": "confirmed", "memberBlockIds": [], "evidence": ["repeated_left_image_right_text_seed"]},
+                    {"id": "C2", "coord": [0, 500, 400, 100], "status": "confirmed", "memberBlockIds": [],
+                     "classificationHint": {"cardType": "商家卡片_图文下挂", "confidence": 0.96},
+                     "reviewedTopology": {"regions": [{"slot": "merchant_head", "coord": [20, 520, 80, 80], "visibleStatus": "naturally_cropped"}], "attachedItems": []},
+                     "evidence": ["repeated_left_image_right_text_seed", "screen_bottom_natural_crop"]},
                 ],
             }, ensure_ascii=False), encoding="utf-8")
             subprocess.run([sys.executable, str(RESULT_SEMANTICS_SCRIPT), str(facts_path), str(candidates_path), "--output", str(cards_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)

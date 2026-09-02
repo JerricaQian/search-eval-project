@@ -3,7 +3,7 @@
 """Canonical Phase5 business-dashboard renderer.
 
 This module only presents the accepted governance dataset. It never reads Phase2/
-Phase3 artifacts, changes scores, or synthesizes issues/evidence.
+Phase3 artifacts, changes ratings, or synthesizes issues/evidence.
 """
 from __future__ import annotations
 
@@ -29,30 +29,6 @@ PRIORITY_COLORS = {"P0": "#FF3131", "P1": "#FF8282", "P2": "#FFAFAF"}
 TOP_COLORS = ("#ECB5C4", "#C8D8F9", "#D8BFF2")
 OTHER_COLOR = "#D9D9D9"
 PROBLEM_RATINGS = {"达标", "不达标", "🟡", "🔴"}
-RATING_METRIC_NAMES = {
-    "供给呈现问题": "供给呈现",
-    "供给呈现问题（页面框架）": "供给呈现",
-    "色彩运用问题": "色彩运用",
-    "色彩运用问题（页面级）": "色彩运用",
-    "单一元素色彩复杂": "单一元素色彩复杂度",
-    "组件色彩复杂": "组件色彩复杂度",
-    "页面色彩复杂": "页面色彩复杂度",
-    "视觉秩序问题": "视觉秩序",
-    "静态元素复杂": "静态元素复杂度",
-    "静态元素/组件复杂": "元素复杂度",
-    "静态组件复杂（首屏功能区数量）": "组件复杂度",
-    "元素复杂": "元素复杂度",
-    "组件复杂": "组件复杂度",
-    "信息/功能歧义": "信息/功能无歧义",
-    "信息层级不清": "信息层级",
-    "浏览动线问题": "浏览动线流畅",
-    "信息冗余": "信息无冗余",
-    "信息分区问题": "信息分区",
-    "信息不可比": "信息可比",
-    "功能/信息冗余": "功能/信息无冗余",
-}
-
-
 def esc(value: Any) -> str:
     return html.escape(str(value or ""))
 
@@ -75,32 +51,12 @@ def without_coordinates(value: Any) -> str:
     return re.sub(r"该{2,}", "该", text).strip()
 
 
-def finding_text(issue: dict[str, Any], group: dict[str, Any]) -> str:
-    finding = issue.get("finding") if isinstance(issue.get("finding"), dict) else {}
-    required = ("observableFact", "ruleOrThreshold", "verdictReason", "userImpact")
-    missing = [key for key in required if not sentence(finding.get(key))]
-    if missing:
+def issue_description_text(issue: dict[str, Any]) -> str:
+    description = without_coordinates(issue.get("description"))
+    if not sentence(description):
         target = issue.get("elementId") or issue.get("cardId") or issue.get("query") or "未命名问题"
-        raise ValueError(f"问题 {target} 缺少三段式结论字段：{','.join(missing)}")
-    location = sentence(issue.get("locationLabel") or "页面公共区域")
-    description = without_coordinates(issue.get("description") or finding["observableFact"])
-    description = sentence(description)
-    description = re.sub(rf"^{re.escape(location)}\s*[:：]\s*", "", description)
-    description = re.sub(r"^(?:该)?商卡包含", "存在", description)
-    if re.fullmatch(r"商卡\d+", location):
-        description = re.sub(r"^该商卡", "", description).lstrip(" ，,：:")
-    description = re.sub(r"[，,；;]?\s*(?:因此)?评级为(?:优秀|达标|不达标)$", "", description).strip()
-    already_located = bool(re.match(r"^(?:页面|商卡\d+|异构卡)", description))
-    if already_located:
-        location_prefix = ""
-    elif location in {"页面框架", "页面公共区域"}:
-        location_prefix = "页面中"
-    else:
-        location_prefix = location
-    raw_metric = sentence(group.get("metricName") or issue.get("dimension") or "当前指标")
-    metric = RATING_METRIC_NAMES.get(raw_metric, raw_metric)
-    rating = sentence(issue.get("rating") or "待确认")
-    return f"{location_prefix}{description}，{metric}评级为{rating}。"
+        raise ValueError(f"问题 {target} 缺少问题级 description")
+    return f"{sentence(description)}。"
 
 
 def recommendation_text(issue: dict[str, Any]) -> str:
@@ -235,7 +191,7 @@ def render_issue(
     priority_label = priority(issue, group)
     query_row = f"<div><dt>所属搜索词</dt><dd>{esc(issue.get('query') or '-')}</dd></div>" if show_query else ""
     return f"""<div class='issue-copy'><div class='issue-title'><span class='priority priority-{priority_label.lower()}'>{priority_label}</span><h3>{esc(label)}</h3><span class='dimension-badge'>{esc(dimension_label)}</span></div><dl>
-{query_row}<div><dt>问题描述</dt><dd>{esc(finding_text(issue, group))}</dd></div><div><dt>优化建议</dt><dd>{esc(recommendation_text(issue))}</dd></div></dl></div>"""
+{query_row}<div><dt>问题描述</dt><dd>{esc(issue_description_text(issue))}</dd></div><div><dt>优化建议</dt><dd>{esc(recommendation_text(issue))}</dd></div></dl></div>"""
 
 
 def ordered(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> list[tuple[dict[str, Any], dict[str, Any]]]:

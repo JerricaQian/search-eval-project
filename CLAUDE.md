@@ -96,11 +96,11 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 - **Evaluation Agent 独立**：对用户已确认的截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）→ 报告（phase5）按序完成。Phase2 的候选生成和校验仍只运行本地脚本，并为每张截图分别生成清单；当前图片校准可读取当前截图，但只能回写经审计的 Phase2 事实。
 - **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 生成唯一 `MEITUAN_EVAL_TASK_V2` 任务文件。对 phase2+3+4+5 发起这**唯一一次** Agent 调用时，只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase2345-query-pipeline.md`，不得凭记忆转述或把整段契约复制进新的 prompt。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。
 - **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：结构对齐等 Phase2 前置事实校验，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。视觉层级的字号事实改为 Phase3 校准 `glyphHeightPx` 像素测量，不再要求 Phase2 `fontSizeBucket`。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
-- Phase3 统一入口与维度契约：先读 `phase3-evaluation/SKILL.md` 及共同知识索引，再根据 `phase3-evaluation/catalog.json` 读取对应维度的 `contract.md`，最后只读用户选中的叶子 Skill；评分仍以叶子 Skill 为准。
+- Phase3 统一入口与维度契约：先读 `phase3-evaluation/SKILL.md` 及共同知识索引，再根据 `phase3-evaluation/catalog.json` 读取对应维度的 `contract.md`，最后只读用户选中的叶子 Skill；评级仍以叶子 Skill 为准。
 
 Agent 任务编排先要求用户选择 `capture_only`、`evaluate_only` 或 `capture_and_evaluate`，再按模式询问必要参数。仅评测已有截图时先发现截图组，不询问搜索词、Tab、屏数；截图+评测时必须在截图成功后才询问评测范围与报告出口。Phase2 默认 lightweight，不作为额外确认项。
 
-Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 对需要评测的已选截图，单个 Evaluation Agent 调用（内部复用 `phase2345-query-pipeline`）依次完成：phase2 默认轻量识别并为每张截图分别将一个元素清单及其审计写入项目级 `screenshots-out/`，不生成整页标注 PNG → phase3 先由统一入口解析范围、加载共同知识，再按已选维度读取共享契约与目标 `skills/eval-*/SKILL.md`，按截图消费对应清单、确定性计数并将原始结果和审计写入 `.artifacts/过程文件-评测结果与审计/` → phase4 只为不达标区域在 `screenshots-out/evidence/` 生成整页红框证据图并回写结果 → phase5 按 `phase5-report/SKILL.md` 渲染 `reports/` 本地 HTML；用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。除显式 Workflow 的宿主调度方式外，两种模式不得产生不同的数据流、评分口径、输出路径或子代理分派结构。
+Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 对需要评测的已选截图，单个 Evaluation Agent 调用（内部复用 `phase2345-query-pipeline`）依次完成：phase2 默认轻量识别并为每张截图分别将一个元素清单及其审计写入项目级 `screenshots-out/`，不生成整页标注 PNG → phase3 先由统一入口解析范围、加载共同知识，再按已选维度读取共享契约与目标 `skills/eval-*/SKILL.md`，按截图消费对应清单、确定性计数并将原始结果和审计写入 `.artifacts/过程文件-评测结果与审计/` → phase4 只为不达标区域在 `screenshots-out/evidence/` 生成整页红框证据图并回写结果 → phase5 按 `phase5-report/SKILL.md` 渲染 `reports/` 本地 HTML；用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。除显式 Workflow 的宿主调度方式外，两种模式不得产生不同的数据流、评级口径、输出路径或子代理分派结构。
 
 ### 批量子代理调度纪律（铁律）
 

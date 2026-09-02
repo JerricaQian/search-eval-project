@@ -23,7 +23,7 @@ metadata:
 | NoCode 数据、页面、证据资源、部署 | 本 Skill | 数据库记录、`public/evidence/`、线上看板 |
 
 - 待优化问题唯一口径为 `rating ∈ {达标, 不达标, 🟡, 🔴}`；优秀不进入问题列表。
-- 本地数据集是唯一事实源。线上只能改变读取介质与 React 实现，问题文案、建议、优先级、分数、业务归属和证据图必须与同批本地报告一致。
+- 本地数据集是唯一事实源。线上只能改变读取介质与 React 实现，问题文案、建议、优先级、评级、问题项数、业务归属和证据图必须与同批本地报告一致。
 - 不得修改受保护的 NoCode 工程文件：`vite.config.js`、`src/main.jsx/tsx`、NoCodeProvider、`tsconfig/jsonconfig` 或目录结构；只能改 `src/pages/**`、业务组件和 `public/evidence/**`。
 - 后续批次必须复用当前应用 `cli-ztdzbi6vu4dmnxrf`，不得因更新数据新建风格不同的页面或项目。
 
@@ -75,7 +75,7 @@ F >= 4 或 P >= 6  → P0
 
 - 三种视图均使用左 `240px × 180px` Phase4 证据、右侧问题文案的布局；小屏改为单列。
 - 按问题逐条展示；按搜索词按 `搜索词 + Tab` 分组；按指标按“维度 + 指标”分组，并整体按 P0 → P1 → P2、维度和指标名排序。
-- 每条问题展示优先级、搜索词、层级、对象定位、问题描述和问题级 recommendation。问题描述只消费该问题的完整 `finding`，建议不得退化为组级通用文案。
+- 每条问题展示优先级、搜索词、层级、对象定位、问题描述和问题级 recommendation。问题描述只消费该问题的 `description`，建议只消费对应问题的 `recommendation`，不得退化为组级通用文案。
 - 没有证据时显示明确空态；不得用原图、其它搜索词图片或旧批次同名图替代。
 
 ## 4. 数据模型与导入
@@ -85,7 +85,7 @@ F >= 4 或 P >= 6  → P0
 | 表 | 数据集来源 | 用途 |
 |---|---|---|
 | `evaluation_batches` | `batch/generatedAt/queryCount` | 批次选择、日期和评测范围 |
-| `business_summary` | `businesses[]` | 每业务一行的分数、问题率与维度分 |
+| `business_summary` | `businesses[]` | 每业务一行的问题项数、问题率与覆盖卡数 |
 | `issue_attribution` | `groups[].evidence[]` | **每条问题证据一行**，支撑概览计数和两种问题视图 |
 | `business_metric_relations` | `groups[]` | 保留可追溯关联数据；当前模板不展示桑基图 |
 | `word_evaluation_details` | `queryDetails[]` | 保留完整逐词审计数据；当前首页不展示 |
@@ -100,7 +100,7 @@ python3 phase5-report/scripts/import_to_nocode.py <dataset-json> <chat-id>
 ```
 
 - 每次导入必须新建 `evaluation_batches` 并使用数据库返回的真实 `batch_id` 写入所有明细表；不得复用或硬编码历史 batch_id。
-- `issue_attribution` 必须是问题级写入：一个 `groups[].evidence[]` 对应一行，`issue_desc` 为完整 finding 文案，`suggestion` 为问题级 recommendation，`severity/priority` 由数据集已算好的聚合 priority 映射。
+- `issue_attribution` 必须是问题级写入：一个 `groups[].evidence[]` 对应一行，`issue_desc` 为问题级 `description`，`suggestion` 为问题级 `recommendation`，`severity/priority` 由数据集已算好的聚合 priority 映射。
 - 重复同名批次可存在，选择器必须以 id 和词数后缀区分。不得删除历史批次或过程产物。
 - 导入前必须验证：`queryCount == queryDetails` 数量；每个已评测词有原图；证据所属搜索词属于本批；业务 Tab 与同批本地 Phase5 语义聚合结果完全一致。
 - 导入后必须核验新 batch 的业务汇总、67 等实际问题行数、关系、逐词详情和规则行均使用同一个 batch_id；CLI 可读不代表浏览器 anon 可读，必须验证 RLS 只读权限。
@@ -119,7 +119,7 @@ python3 phase5-report/scripts/import_to_nocode.py <dataset-json> <chat-id>
 
 1. 以当前批次隔离 artifact 运行 `phase5-report/scripts/build_experience_dashboard.py`，显式传入本批 `--expected-business-tabs`，同时生成本地 HTML 和 `.governance_dataset_<批次>.json`。
 2. 由生成器按第 2 节优先级算法写入 group/evidence 的 `priority` 与 `priorityReason`；禁止手改 HTML 或 NoCode 数字来改优先级。
-3. 对新数据集校验业务集合、三维度分、问题级 finding/recommendation、Phase4 evidenceImage 和 P0/P1/P2 票数。
+3. 对新数据集校验业务集合、问题级 description/recommendation、Phase4 evidenceImage 和 P0/P1/P2 票数。
 4. 若新增或变化证据图，先取得授权，上传到 `public/evidence/` 并核验文件存在。
 5. 用 `phase5-report/scripts/import_to_nocode.py` 新建批次并导入；核验返回的真实 batch_id 贯穿所有明细。
 6. 页面默认加载按 `batch_date DESC, id DESC` 排在第一的完整批次；截图核验标题/范围/批次选择器、吸顶一级 Tab、单综合统计卡及两个圆环、四列业务卡、单业务三级明细 Tab、`240px × 180px` 证据布局和 P0/P1/P2 计数。
@@ -132,7 +132,7 @@ python3 phase5-report/scripts/import_to_nocode.py <dataset-json> <chat-id>
 - [ ] 当前 batch 的 6 张表 batch_id 一致，anon 只读可用。
 - [ ] 每条 NoCode 问题记录与本地 `groups[].evidence[]` 一一对应：描述、建议、优先级、搜索词和证据文件一致。
 - [ ] P0/P1/P2 遵循第 2 节固定阈值，页面按 P0→P1→P2 排序。
-- [ ] 业务线仅为当前 Phase5 基于商卡语义与履约表确认的业务，且分数不由问题数据反推。
+- [ ] 业务线仅为当前 Phase5 基于商卡语义与履约表确认的业务，且不计算或反推分数。
 
 ### 布局与视觉
 

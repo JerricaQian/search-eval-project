@@ -11,49 +11,63 @@ SCRIPT = PROJECT_DIR / "scripts" / "validate_eval_results.py"
 
 
 def load_module():
-    spec = importlib.util.spec_from_file_location("validate_weighted_score_test", SCRIPT)
+    spec = importlib.util.spec_from_file_location("validate_rating_enum_test", SCRIPT)
     assert spec and spec.loader
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
 
-class Phase3WeightedScoreTest(unittest.TestCase):
-    def test_weighted_score_must_match_final_rating(self) -> None:
+class Phase3RatingEnumTest(unittest.TestCase):
+    def test_component_row_retention_modes_are_disjoint_and_complete(self) -> None:
+        module = load_module()
+        self.assertEqual(module.COMPONENT_PROBLEM_ONLY_SKILLS, {
+            "eval-1-supply-completeness",
+            "eval-6-info-partitioning",
+        })
+        self.assertEqual(module.COMPONENT_FULL_COVERAGE_SKILLS, {
+            "eval-2-visual-order-alignment",
+            "eval-3-color-logic",
+            "eval-4-element-complexity",
+            "eval-5-info-hierarchy",
+            "eval-7-info-authenticity",
+            "eval-8-info-redundancy",
+        })
+        self.assertFalse(module.COMPONENT_PROBLEM_ONLY_SKILLS & module.COMPONENT_FULL_COVERAGE_SKILLS)
+
+    def test_three_level_skill_accepts_declared_rating(self) -> None:
         module = load_module()
         errors: list[str] = []
-        module.require_weighted_score(
+        module.require_supported_rating(
             errors,
             "eval-2-color-logic-single-element/全部",
             "phase3-single_element-eval",
             "eval-2-color-logic-single-element",
-            {"rating": "达标", "weightedScore": 0},
+            {"rating": "达标"},
         )
         self.assertEqual(errors, [])
 
-    def test_weighted_score_cannot_accumulate_per_failed_element(self) -> None:
+    def test_declared_rating_does_not_require_a_score_field(self) -> None:
         module = load_module()
         errors: list[str] = []
-        module.require_weighted_score(
+        module.require_supported_rating(
             errors,
             "eval-1-supply-quality-scanner/全部",
             "phase3-single_element-eval",
             "eval-1-supply-quality-scanner",
-            {"rating": "不达标", "weightedScore": -6},
+            {"rating": "不达标"},
         )
-        self.assertEqual(errors, [
-            "eval-1-supply-quality-scanner/全部:weightedScore_-6_must_equal_skill_weight_-2"
-        ])
+        self.assertEqual(errors, [])
 
     def test_two_level_skill_rejects_invented_pass_rating(self) -> None:
         module = load_module()
         errors: list[str] = []
-        module.require_weighted_score(
+        module.require_supported_rating(
             errors,
             "eval-1-supply-quality-scanner/全部",
             "phase3-single_element-eval",
             "eval-1-supply-quality-scanner",
-            {"rating": "达标", "weightedScore": 0},
+            {"rating": "达标"},
         )
         self.assertEqual(errors, [
             "eval-1-supply-quality-scanner/全部:rating_not_defined_in_skill_weight:达标"

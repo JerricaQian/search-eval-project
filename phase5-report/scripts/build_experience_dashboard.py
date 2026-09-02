@@ -8,7 +8,6 @@ aggregated from result cards that are classified by their visible content.
 from __future__ import annotations
 
 import argparse
-import html
 import json
 import re
 import sys
@@ -19,12 +18,10 @@ from typing import Any
 
 PHASE5_DIR = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-SHARED_SCRIPTS_DIR = PROJECT_ROOT / "scripts"
-for module_dir in (PHASE5_DIR, SHARED_SCRIPTS_DIR):
+for module_dir in (PHASE5_DIR,):
     if str(module_dir) not in sys.path:
         sys.path.insert(0, str(module_dir))
 from dashboard_renderer import render_dashboard
-from skill_frontmatter import load_weight
 
 BUSINESS_LINES = {
     "dine_in": "到餐", "food_delivery": "餐饮外卖", "flash_delivery": "闪购",
@@ -280,56 +277,8 @@ def card_location_labels(cards: list[dict[str, Any]]) -> dict[str, str]:
     return labels
 
 
-def issue_finding(issue: dict[str, Any]) -> dict[str, str]:
-    """Return the normalized structured explanation, tolerating historical results."""
-    raw = issue.get("finding")
-    finding = raw if isinstance(raw, dict) else {}
-    return {
-        "observableFact": str(finding.get("observableFact", "")),
-        "ruleOrThreshold": str(finding.get("ruleOrThreshold", "")),
-        "verdictReason": str(finding.get("verdictReason", "")),
-        "userImpact": str(finding.get("userImpact", "")),
-    }
-
-
-def issue_description(issue: dict[str, Any], fallback: str = "") -> str:
-    """Prefer a structured verdict reason; fall back safely for historical records."""
-    finding = issue_finding(issue)
-    return (
-        finding["verdictReason"]
-        or str(issue.get("description", ""))
-        or finding["observableFact"]
-        or fallback
-    )
-
-
-def issue_recommendation(issue: dict[str, Any], metric_code: str) -> str:
-    """Build a concrete, issue-scoped recommendation from accepted evaluation facts."""
-    finding = issue_finding(issue)
-    target = str(issue.get("elementId") or issue.get("component") or issue.get("cardId") or issue.get("pageArea") or "当前问题区域")
-    fact = finding["observableFact"]
-    if metric_code == "color_logic":
-        action = "收敛该对象内的非语义强调色：保留价格、履约/状态与权益各自的唯一语义色，其余标签和运营装饰降为中性色或合并到同一色系"
-    elif metric_code in {"element_complexity", "static_component_complexity", "element_compliance"}:
-        action = "合并该对象内语义重复的异色/异形标签与图标，复用标准样式，并将样式数量收敛到本指标优秀阈值内"
-    elif metric_code in {"information_partitioning", "info_partitioning"}:
-        action = "在该对象涉及的相邻信息区之间补齐一致的留白或分隔边界，并将跨区字段归回标题、基础信息、价格或权益各自的固定区域"
-    elif metric_code in {"information_redundancy", "info_redundancy"}:
-        action = "删除该对象中与标题或基础信息重复的字段，仅在一个决策位置保留该事实，并将其余位置改为补充信息"
-    elif metric_code in {"information_hierarchy", "visual_order_alignment"}:
-        action = "将该对象的核心决策信息设为唯一一级强调，其余价格说明、权益和营销标签依次降为二、三级样式"
-    elif metric_code in {"supply_completeness", "supply_quality"}:
-        action = "补齐该对象缺失的关键决策字段，或在字段不可用时启用同卡型的降级布局，保持同类结果的信息基线一致"
-    elif metric_code in {"info_authenticity", "information_authenticity"}:
-        action = "改写该对象中的歧义表达，补齐适用对象、条件和价格/权益口径，并与当前可见事实逐项核对"
-    else:
-        action = "根据该对象的可见字段和触发规则收敛当前实现，避免同类卡片继续复制该问题表现"
-    return f"针对 {target}：{action}；验收时复测“{fact}”，确保不再触发“{finding['ruleOrThreshold']}”。"
-
-
 def issue_code(skill: str, issue: dict[str, Any]) -> str:
-    finding = issue_finding(issue)
-    desc = (str(issue.get("dimension", "")) + " " + str(issue.get("description", "")) + " " + finding["observableFact"] + " " + finding["verdictReason"]).lower()
+    desc = str(issue.get("description", "")).lower()
     if "层级" in desc or "主次" in desc:
         return "MULTIPLE_PRIMARY_EMPHASIS"
     if "颜色" in desc or "色彩" in desc:
@@ -393,116 +342,13 @@ def normalize_results(raw_results: Any) -> list[dict[str, Any]]:
                 "tab": str(evaluation.get("tab", "全部")),
                 "rating": str(evaluation.get("rating", "")),
                 "reason": str(evaluation.get("reason", "")),
-                "weightedScore": evaluation.get("weightedScore"),
                 "details": evaluation.get("details") or {},
             }],
         })
     return normalized
 
 
-def infer_advice(metric_code: str, evidence: list[dict[str, Any]]) -> tuple[str, str]:
-    """Return evidence-led root cause and action; never use a generic recommendation."""
-    text = " ".join(str(item.get("description", "")) for item in evidence).lower()
-    if metric_code == "information_redundancy" or "重复" in text or "冗余" in text:
-        return (
-            "标题、基础信息或营销字段由同一源字段重复透传，缺少跨分区的语义去重；同一决策信息在不同信息层重复出现。",
-            "建立标题—基础信息字段去重规则：标题仅保留商品/服务主体与必要规格，基础信息仅补充标题未表达的参数；同一规格（如度数、容量、麦汁浓度）只保留一个展示位。",
-        )
-    if metric_code in {"supply_completeness", "supply_quality"} or "缺失" in text or "截断" in text:
-        return (
-            "同类卡片的字段拼装或兜底逻辑不一致，部分卡未补齐销量、配送时效或关键决策字段。",
-            "为该卡型定义必备字段清单与缺字段兜底：统一校验标题、价格、销量/评价、履约时效等字段；字段为空时降级布局或补充默认表达，避免同类卡信息基线不一致。",
-        )
-    if metric_code == "information_hierarchy" or "层级" in text or "主次" in text:
-        return (
-            "价格、权益、营销标签等同时承担高强调样式，视觉权重缺少唯一主信息，导致阅读优先级竞争。",
-            "明确价格区层级：核心价格保留唯一一级强调，优惠/权益降为二级，原价与说明降为三级；限制同一区域高强调标签数量并统一样式 token。",
-        )
-    if metric_code == "information_partitioning" or "边界" in text or "分区" in text:
-        return (
-            "相邻信息区缺少稳定的留白、容器或色块边界，内容连续堆叠导致用户难以识别分组关系。",
-            "按信息任务重划分区：在基础信息、价格、权益/下挂之间建立一致的间距层级或分隔方式；组件模板固定各区块的起止边界，避免字段跨区混排。",
-        )
-    if metric_code == "color_logic" or "颜色" in text or "色彩" in text:
-        return (
-            "同一组件内强调色用途未收敛，不同业务标签、价格与运营信息竞争注意力。",
-            "收敛语义色：仅保留价格、履约/状态和权益等预定义强调色；同类标签使用同一色系，非关键营销信息降为中性色。",
-        )
-    if metric_code in {"element_complexity", "element_compliance"} or "样式" in text or "icon" in text:
-        return (
-            "标签与图标样式由多套配置叠加，缺少卡片级样式数量和形态约束。",
-            "建立标签/icon 白名单与数量上限：合并语义相近标签，优先复用标准胶囊和图标；在组件配置侧限制异色、异形标签的并存数量。",
-        )
-    if metric_code == "info_authenticity" or "歧义" in text or "误导" in text:
-        return (
-            "当前文案或信息表达缺少明确的业务语义约束，用户无法从可见内容确认真实含义。",
-            "回收模糊或可能误导的文案配置，补齐明确的条件、对象与价格/权益口径；对高风险表达建立上线前文案校验。",
-        )
-    return (
-        "同类卡片在当前指标上的实现存在不一致，需结合问题元素确认具体字段与样式来源。",
-        "针对命中的卡片、字段和样式配置建立专项排查清单；改造后使用同批搜索词复测，并以问题卡片率验证效果。",
-    )
-
-
-def load_skill_weights(project: Path) -> dict[tuple[str, str], dict[str, float]]:
-    """Read scoring weights from skill frontmatter; reports never invent them."""
-    weights: dict[tuple[str, str], dict[str, float]] = {}
-    phase3_dir = project / "phase3-evaluation"
-    catalog = json.loads((phase3_dir / "catalog.json").read_text(encoding="utf-8"))
-    for item in catalog["dimensions"]:
-        dimension = item["id"]
-        directory = phase3_dir / item["skillsDir"]
-        for skill_file in directory.glob("eval-*/SKILL.md"):
-            weight = load_weight(skill_file)
-            if weight is not None:
-                weights[(dimension, skill_file.parent.name)] = weight
-    return weights
-
-
-def score_business_codes(
-    level: str,
-    detail: dict[str, Any],
-    issues: list[Any],
-    classifications: dict[str, dict[str, str]],
-    element_cards: dict[str, str],
-) -> set[str]:
-    """Resolve score ownership without copying a component result to unrelated businesses."""
-    visible = {
-        item["businessCode"]
-        for item in classifications.values()
-        if item.get("scope") == "business"
-    }
-    if level == "page":
-        return visible
-
-    card_ids: set[str] = set()
-    for issue in issues:
-        if not isinstance(issue, dict):
-            continue
-        element_id = str(issue.get("elementId", ""))
-        card_ids.add(element_cards.get(element_id, str(issue.get("component", ""))))
-    evidence = detail.get("evidence") or {}
-    for row in evidence.get("assessmentRows") or []:
-        if not isinstance(row, dict):
-            continue
-        for key in ("cardId", "component", "componentId"):
-            value = str(row.get(key, ""))
-            if value:
-                card_ids.add(value)
-        for member in row.get("members") or []:
-            card_ids.add(str(member))
-
-    resolved = {
-        classifications[card_id]["businessCode"]
-        for card_id in card_ids
-        if classifications.get(card_id, {}).get("scope") == "business"
-    }
-    # A single-business page does not need a card-level fallback to preserve its score.
-    return resolved or (visible if len(visible) == 1 else set())
-
-
 def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
-    skill_weights = load_skill_weights(project)
     manifests: dict[str, tuple[Path, dict[str, Any]]] = {}
     for path in (project / "screenshots-out").glob("elements_*.json"):
         data = read_json(path)
@@ -678,33 +524,15 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                     "level": level_code, "levelName": level_name, "skill": skill,
                     "metricName": metric_name, "metricCode": metric_code, "tab": tab,
                     "rating": str(unit.get("rating", "")), "reason": str(unit.get("reason", "")),
-                    "weightedScore": unit.get("weightedScore"),
-                    "weight": skill_weights.get((dimension, skill), {}),
-                    "assessmentRows": (detail.get("evidence") or {}).get("assessmentRows") or [],
-                    "criterion": str(detail.get("criterion", "")), "evidenceMode": str(detail.get("evidenceMode", "")),
-                "summary": str(detail.get("summary", "")), "issues": issues,
-                # 轻量 Phase2 不再要求整页标注图。原图来自统一清单；问题图来自 issue.evidenceImage。
-                "screenshot": str(detail.get("screenshot") or screenshot), "annotatedImage": annotated,
-
+                    "evidenceMode": str(detail.get("evidenceMode", "")), "issues": issues,
+                    # 原图来自统一清单；问题图来自 Phase4 写入的 issue.evidenceImage。
+                    "screenshot": str(detail.get("screenshot") or screenshot), "annotatedImage": annotated,
                 })
                 # 看板的待优化对象包含“达标”和“不达标”：只有“优秀”不进入问题治理。
-                # 若上游仅给出评测项级达标、未提供逐元素 issues，则保留为无坐标的
-                # 评测项级待优化项，不能虚构成某张卡的红框问题。
                 problem_issues = [
                     issue for issue in issues
                     if isinstance(issue, dict) and str(issue.get("rating", unit.get("rating", ""))) in {"达标", "不达标", "🟡", "🔴"}
                 ]
-                if not problem_issues and str(unit.get("rating", "")) in {"达标", "不达标", "🟡", "🔴"}:
-                    problem_issues = [{
-                        "rating": str(unit.get("rating", "")),
-                        "description": str(unit.get("reason", "")) or str(detail.get("summary", "")),
-                        "dimension": metric_name,
-                        "component": "",
-                        "elementId": "",
-                        "coord": [],
-                        "evidenceImage": "",
-                        "isAssessmentLevel": True,
-                    }]
                 for issue in problem_issues:
                     element_id = str(issue.get("elementId", ""))
                     element_label = element_labels[query].get(element_id, humanize_issue_element(issue))
@@ -780,13 +608,9 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                                     "locationLabel": location_label,
                                     "relatedCardIds": related_card_ids,
                                     "rating": str(issue.get("rating", unit.get("rating", ""))),
-                                    "priority": str(issue.get("priority", "待判定")),
-                                    "priorityReason": str(issue.get("priorityReason", "")),
                                     "assessmentLevel": bool(issue.get("isAssessmentLevel", False)),
-                                    "description": str(issue.get("description", "")) or issue_description(issue, str(unit.get("reason", "")) or str(detail.get("summary", ""))),
-                                    "finding": issue_finding(issue),
+                                    "description": str(issue.get("description", "")),
                                     "recommendation": str(issue.get("recommendation", "")),
-                                    "dimension": str(issue.get("dimension", metric_name)),
                                     "component": str(issue.get("component", "")), "annotatedImage": annotated,
                                     "screenshot": str(detail.get("screenshot") or screenshot), "coord": issue.get("coord", []),
                     "evidenceImage": str(issue.get("evidenceImage", ""))}
@@ -837,7 +661,6 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             "priority": priority,
             "priorityReason": group["priorityReason"],
         } for item in group["issues"]]
-        group["rootCause"], group["recommendation"] = infer_advice(group["metricCode"], group["evidence"])
         group["problemCardRefs"] = sorted("|".join(item) for item in group["problemCards"])
         group["evaluatedCardRefs"] = sorted("|".join(item) for item in group["evaluatedCards"])
         for key in ("issues", "problemCards", "evaluatedCards", "queries", "findingCounts", "cardTypeCodes", "voteCountedSignatures"):
@@ -855,9 +678,7 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                 "level": "page", "levelName": "页面框架维度", "skill": "",
                 "metricName": "页面框架维度评测", "metricCode": "page_framework_pending",
                 "tab": "全部", "rating": "未执行", "reason": "本批次过程评测结果未包含页面框架维度，暂无可复核的页面级结论。",
-                "criterion": "未执行，不适用评级规则。", "evidenceMode": "",
-                "summary": "请补跑 phase3-page_framework-eval 后重新生成看板；不会将缺失结果误标为优秀或不达标。",
-                "issues": [], "annotatedImage": "",
+                "evidenceMode": "", "issues": [], "annotatedImage": "",
             })
 
     business_summary: dict[str, dict[str, Any]] = {}
@@ -867,7 +688,7 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             continue
         item = business_summary.setdefault(group["businessCode"], {
             "businessCode": group["businessCode"], "businessName": group["businessName"], "issueCount": 0,
-            "problemCards": set(), "evaluatedCards": set(), "componentProblemCards": set(), "componentEvaluatedCards": set(), "lowMetrics": 0, "levelScores": defaultdict(list),
+            "problemCards": set(), "evaluatedCards": set(), "componentProblemCards": set(), "componentEvaluatedCards": set(),
         })
         item["issueCount"] += group["problemCardCount"]
         item["problemCards"].update(group["problemCardRefs"])
@@ -875,47 +696,19 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
         if group["level"] == "component":
             item["componentProblemCards"].update(group["problemCardRefs"])
             item["componentEvaluatedCards"].update(group["evaluatedCardRefs"])
-    # 即使某业务没有待优化问题，只要当前批次存在可见业务卡，也要保留业务 Tab 与评分。
+    # 即使某业务没有待优化问题，只要当前批次存在可见业务卡，也要保留业务 Tab。
     for query in used_queries:
         for card_id, classification in classifications.get(query, {}).items():
             if classification["scope"] != "business":
                 continue
             summary = business_summary.setdefault(classification["businessCode"], {
                 "businessCode": classification["businessCode"], "businessName": classification["businessName"], "issueCount": 0,
-                "problemCards": set(), "evaluatedCards": set(), "componentProblemCards": set(), "componentEvaluatedCards": set(), "levelScores": defaultdict(list),
+                "problemCards": set(), "evaluatedCards": set(), "componentProblemCards": set(), "componentEvaluatedCards": set(),
             })
             # The business card rate uses the full visible-card inventory as
             # denominator, including cards whose component metrics are all
             # excellent and therefore produce no governance group.
             summary["componentEvaluatedCards"].add((query, "全部", card_id))
-
-    # 按 Skill frontmatter 的 weight 确定性汇总：先累计实际原始分及同批已执行项的理论 min/max，
-    # 再归一化；不再以问题卡片率或评级映射在报告层重算。
-    business_dimension_totals: dict[str, dict[str, dict[str, float]]] = defaultdict(lambda: defaultdict(lambda: {"raw": 0.0, "min": 0.0, "max": 0.0, "count": 0.0}))
-    for query, units in query_details.items():
-        for unit in units:
-            weight = unit.get("weight") or {}
-            rating = unit.get("rating")
-            if unit["level"] not in {"element", "component", "page"} or rating not in weight:
-                continue
-            values = [float(value) for value in weight.values()]
-            if not values:
-                continue
-            score_businesses = score_business_codes(
-                unit["level"],
-                {"evidence": {"assessmentRows": unit.get("assessmentRows") or []}},
-                unit.get("issues") or [],
-                classifications.get(query, {}),
-                element_cards.get(query, {}),
-            )
-            for business_code in score_businesses:
-                bucket = business_dimension_totals[business_code][unit["level"]]
-                # 原始分严格取当前 SKILL.md 的 rating 权重；历史产物的 weightedScore
-                # 只作审计留存，避免旧产物沿用被修订前的权重。
-                bucket["raw"] += float(weight[rating])
-                bucket["min"] += min(values)
-                bucket["max"] += max(values)
-                bucket["count"] += 1
 
     business_rows = []
     for item in business_summary.values():
@@ -924,23 +717,13 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
         # explicitly labelled as a business-card problem rate above 100%.
         total = len(item["componentEvaluatedCards"])
         problems = len(item["componentProblemCards"])
-        dimension_scores = {}
-        dimension_breakdown = {}
-        for level, totals in business_dimension_totals.get(item["businessCode"], {}).items():
-            span = totals["max"] - totals["min"]
-            normalized = round((totals["raw"] - totals["min"]) / span * 100, 1) if span else 0.0
-            dimension_scores[level] = normalized
-            dimension_breakdown[level] = {"raw": totals["raw"], "min": totals["min"], "max": totals["max"], "executedSkills": int(totals["count"])}
-        overall_score = round(sum(dimension_scores.values()) / len(dimension_scores), 1) if dimension_scores else 0.0
         business_rows.append({
-            **{k: v for k, v in item.items() if k not in {"problemCards", "evaluatedCards", "componentProblemCards", "componentEvaluatedCards", "levelScores"}},
+            **{k: v for k, v in item.items() if k not in {"problemCards", "evaluatedCards", "componentProblemCards", "componentEvaluatedCards"}},
             "evaluatedCards": total, "problemCards": problems,
             "problemRate": round(problems / total * 100, 1) if total else 0,
             # 本批次是月度问题跟踪的首个基线：所有本批发现均计为新增，
             # 尚无可验证的闭环记录时不虚构已解决数量。
             "tracking": {"newIssueCount": int(item["issueCount"]), "resolvedIssueCount": 0, "baseline": "monthly_tracking_initial"},
-            # 分数严格来自 Skill weight： (实际原始分 - 理论最低分) / (理论最高分 - 理论最低分) × 100。
-            "dimensionScores": dimension_scores, "dimensionBreakdown": dimension_breakdown, "overallScore": overall_score,
         })
     business_rows.sort(key=lambda item: (-item["issueCount"], item["businessName"]))
     return {"generatedAt": str(date.today()), "queryCount": len(used_queries), "groups": groups, "businesses": business_rows, "queryDetails": dict(sorted(query_details.items())), "unknown": unknown, "manifests": len(manifests)}
@@ -994,11 +777,8 @@ def validate_dataset(data: dict[str, Any], artifact_dir: Path, expected_business
             if evidence.get("query") not in valid_queries:
                 raise ValueError("治理卡证据引用了当前批次之外的搜索词")
             if str(evidence.get("rating", "")) in {"达标", "不达标", "🟡", "🔴"}:
-                finding = evidence.get("finding") if isinstance(evidence.get("finding"), dict) else {}
-                required_finding = ("observableFact", "ruleOrThreshold", "verdictReason", "userImpact")
-                missing_finding = [key for key in required_finding if not str(finding.get(key, "")).strip()]
-                if missing_finding:
-                    raise ValueError(f"问题 {evidence.get('query')}:{evidence.get('elementId') or evidence.get('cardId')} 缺少三段式结论事实：{','.join(missing_finding)}")
+                if not str(evidence.get("description", "")).strip():
+                    raise ValueError(f"问题 {evidence.get('query')}:{evidence.get('elementId') or evidence.get('cardId')} 缺少问题级 description")
                 if not str(evidence.get("recommendation", "")).strip():
                     raise ValueError(f"问题 {evidence.get('query')}:{evidence.get('elementId') or evidence.get('cardId')} 缺少问题级个性化优化建议")
 

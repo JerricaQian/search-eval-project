@@ -23,6 +23,18 @@ def load_module():
 
 
 class ExtractComponentMetricsTest(unittest.TestCase):
+    def test_hierarchy_targets_come_from_phase2_structure(self) -> None:
+        module = load_module()
+        self.assertTrue(module.is_hierarchy_target({
+            "structure": {"isResultListItem": True, "visibleStatus": "complete"}
+        }))
+        self.assertFalse(module.is_hierarchy_target({
+            "structure": {"isResultListItem": True, "visibleStatus": "naturally_cropped"}
+        }))
+        self.assertFalse(module.is_hierarchy_target({
+            "structure": {"isResultListItem": False, "visibleStatus": "complete"}
+        }))
+
     def test_seven_color_bins_use_the_shared_taxonomy(self) -> None:
         module = load_module()
         from color_taxonomy import HUE7_BINS
@@ -69,6 +81,13 @@ class ExtractComponentMetricsTest(unittest.TestCase):
         self.assertEqual(len(hierarchy["weightBlocks"]), 1)
         self.assertTrue(hierarchy["weightBlocks"][0]["chromatic"])
         self.assertGreater(hierarchy["weightBlocks"][0]["glyphHeightPx"], 0)
+
+    def test_hierarchy_uses_current_visual_color_role(self) -> None:
+        module = load_module()
+        self.assertTrue(module.element_json_chromatic({"visual": {"colorRole": "red"}}))
+        self.assertTrue(module.element_json_chromatic({"visual": {"colorRole": "orange"}}))
+        self.assertFalse(module.element_json_chromatic({"visual": {"colorRole": "neutral"}}))
+        self.assertFalse(module.element_json_chromatic({"visual": {"colorRole": "unknown"}}))
 
     def test_icon_measurement_traverses_atoms_without_visual_inventory(self) -> None:
         module = load_module()

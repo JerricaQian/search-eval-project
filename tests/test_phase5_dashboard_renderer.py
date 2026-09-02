@@ -18,85 +18,10 @@ def load_renderer():
 
 
 class Phase5DashboardRendererTest(unittest.TestCase):
-    def test_problem_copy_uses_natural_location_and_positive_assessment_name(self) -> None:
+    def test_problem_copy_uses_issue_description_directly(self) -> None:
         renderer = load_renderer()
-        finding = {
-            "observableFact": "可见事实", "ruleOrThreshold": "规则",
-            "verdictReason": "理由", "userImpact": "影响",
-        }
-        page_copy = renderer.finding_text({
-            "locationLabel": "页面框架",
-            "description": "同类商卡的价格或评分组合存在1项实质表达差异",
-            "rating": "不达标", "finding": finding,
-        }, {"metricName": "信息不可比"})
-        card_copy = renderer.finding_text({
-            "locationLabel": "商卡2",
-            "description": "商卡2：价格信息“￥4.27起到手价/每条¥1.43已售72”同时使用起步价与到手价口径",
-            "rating": "不达标", "finding": finding,
-        }, {"metricName": "信息/功能歧义"})
-        self.assertEqual(page_copy, "页面中同类商卡的价格或评分组合存在1项实质表达差异，信息可比评级为不达标。")
-        self.assertEqual(card_copy, "商卡2价格信息“￥4.27起到手价/每条¥1.43已售72”同时使用起步价与到手价口径，信息/功能无歧义评级为不达标。")
-
-    def test_problem_copy_deduplicates_card_location_and_pronoun(self) -> None:
-        renderer = load_renderer()
-        group = {"metricName": "信息层级不清"}
-        shared = {
-            "locationLabel": "商卡1",
-            "rating": "不达标",
-            "finding": {
-                "observableFact": "可感知层级超出阈值",
-                "ruleOrThreshold": "3至5层",
-                "verdictReason": "当前为6层",
-                "userImpact": "主次关系不清",
-            },
-        }
-        calibrated = renderer.finding_text(
-            {**shared, "description": "该商卡经校准测得6个可感知层级。"}, group
-        )
-        colour = renderer.finding_text(
-            {**shared, "locationLabel": "商卡2", "description": "该商卡共有5种有彩色系。"},
-            {"metricName": "色彩运用问题"},
-        )
-        self.assertEqual(calibrated, "商卡1经校准测得6个可感知层级，信息层级评级为不达标。")
-        self.assertEqual(colour, "商卡2共有5种有彩色系，色彩运用评级为不达标。")
-        self.assertNotIn("商卡1该商卡", calibrated)
-        self.assertNotIn("商卡2该商卡", colour)
-
-    def test_complexity_problem_names_use_short_positive_assessment_copy(self) -> None:
-        renderer = load_renderer()
-        finding = {
-            "observableFact": "复杂度超过阈值", "ruleOrThreshold": "阈值规则",
-            "verdictReason": "当前超过阈值", "userImpact": "影响浏览效率",
-        }
-        element_copy = renderer.finding_text({
-            "locationLabel": "商卡1", "description": "标签样式较多",
-            "rating": "不达标", "finding": finding,
-        }, {"metricName": "元素复杂"})
-        component_copy = renderer.finding_text({
-            "locationLabel": "页面框架", "description": "首屏功能区数量较多",
-            "rating": "不达标", "finding": finding,
-        }, {"metricName": "组件复杂"})
-        self.assertEqual(element_copy, "商卡1标签样式较多，元素复杂度评级为不达标。")
-        self.assertEqual(component_copy, "页面中首屏功能区数量较多，组件复杂度评级为不达标。")
-
-    def test_colour_problem_names_use_dimension_specific_assessment_copy(self) -> None:
-        renderer = load_renderer()
-        finding = {
-            "observableFact": "有彩色系超过阈值", "ruleOrThreshold": "色彩阈值",
-            "verdictReason": "当前超过阈值", "userImpact": "增加视觉负担",
-        }
-        cases = (
-            ("单一元素色彩复杂", "单一元素色彩复杂度"),
-            ("组件色彩复杂", "组件色彩复杂度"),
-            ("页面色彩复杂", "页面色彩复杂度"),
-        )
-        for metric_name, assessment_name in cases:
-            with self.subTest(metric_name=metric_name):
-                copy = renderer.finding_text({
-                    "locationLabel": "页面框架", "description": "有彩色系超过阈值",
-                    "rating": "不达标", "finding": finding,
-                }, {"metricName": metric_name})
-                self.assertEqual(copy, f"页面中有彩色系超过阈值，{assessment_name}评级为不达标。")
+        description = "商卡2价格信息同时使用起步价与到手价口径，命中口径一致规则，因此评级为不达标并增加横向比较成本"
+        self.assertEqual(renderer.issue_description_text({"description": description}), f"{description}。")
 
     def test_renders_reference_layout_without_changing_issue_facts(self) -> None:
         renderer = load_renderer()
@@ -128,12 +53,6 @@ class Phase5DashboardRendererTest(unittest.TestCase):
                             "locationLabel": "商卡1",
                             "description": "商卡1：存在重复配送文案。",
                             "evidenceImage": "/tmp/firepot_evidence.png",
-                            "finding": {
-                                "observableFact": "商家信息区重复展示配送文案",
-                                "ruleOrThreshold": "同类信息只展示一次",
-                                "verdictReason": "重复信息占用首屏空间",
-                                "userImpact": "用户阅读时需要重复确认",
-                            },
                             "recommendation": "调整坐标(12, 34)处的重复配送文案，并保留一次可见的履约说明。",
                         }
                     ],
@@ -166,7 +85,7 @@ class Phase5DashboardRendererTest(unittest.TestCase):
         self.assertIn(".evidence-link,.evidence-link img,.evidence-empty{display:block;width:240px;height:180px", html)
         self.assertIn("style='width:240px;height:auto;overflow:visible'", html)
         self.assertIn("style='width:240px;height:auto;max-height:none;object-fit:contain'", html)
-        self.assertIn("商卡1存在重复配送文案，信息无冗余评级为不达标。", html)
+        self.assertIn("商卡1：存在重复配送文案。", html)
         self.assertIn("调整该重复配送文案，并保留一次可见的履约说明。", html)
         self.assertIn("class='dimension-badge'", html)
         self.assertIn("组件/卡片维度", html)
@@ -220,14 +139,13 @@ class Phase5DashboardRendererTest(unittest.TestCase):
             {"businessCode": "xiaoxiang", "businessName": "小象超市"},
             {"businessCode": "service_retail", "businessName": "服务零售"},
         ]
-        finding = {"observableFact": "事实", "ruleOrThreshold": "规则", "verdictReason": "理由", "userImpact": "影响"}
         groups = [
             {"businessCode": "dine_in", "level": "component", "metricName": "信息冗余", "evidence": [
-                {"rating": "不达标", "query": "火锅", "locationLabel": "商卡1", "description": "重复信息", "finding": finding, "recommendation": "删除重复信息。"},
+                {"rating": "不达标", "query": "火锅", "locationLabel": "商卡1", "description": "重复信息", "recommendation": "删除重复信息。"},
             ]},
             {"businessCode": "service_retail", "level": "component", "metricName": "信息冗余", "evidence": [
-                {"rating": "不达标", "query": "剧本杀", "locationLabel": "商卡1", "description": "重复信息A", "finding": finding, "recommendation": "删除重复信息A。"},
-                {"rating": "达标", "query": "美甲", "locationLabel": "商卡2", "description": "重复信息B", "finding": finding, "recommendation": "删除重复信息B。"},
+                {"rating": "不达标", "query": "剧本杀", "locationLabel": "商卡1", "description": "重复信息A", "recommendation": "删除重复信息A。"},
+                {"rating": "达标", "query": "美甲", "locationLabel": "商卡2", "description": "重复信息B", "recommendation": "删除重复信息B。"},
             ]},
         ]
         html = renderer.render_dashboard({"businesses": businesses, "groups": groups})

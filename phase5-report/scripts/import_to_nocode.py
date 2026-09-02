@@ -73,15 +73,6 @@ def phase4_filename(query: str, image_path: Any) -> str:
     return f"{query}__{path.rsplit('/', 1)[-1]}" if path else ""
 
 
-def finding_text(issue: dict[str, Any]) -> str:
-    """Preserve the local report's full four-part finding, without group-level rewrite."""
-    finding = issue.get("finding") if isinstance(issue.get("finding"), dict) else {}
-    parts = [str(finding.get(key, "")).strip().rstrip("。") for key in (
-        "observableFact", "ruleOrThreshold", "verdictReason", "userImpact"
-    )]
-    return "。".join(part for part in parts if part) + ("。" if any(parts) else "")
-
-
 def main() -> None:
     if len(sys.argv) != 3:
         raise SystemExit("用法：python3 phase5-report/scripts/import_to_nocode.py <dataset_json> <chat_id>")
@@ -127,13 +118,12 @@ def main() -> None:
     print(f"  当前 batch_id：{batch_id}")
 
     print("\n2. 写入业务汇总")
-    # 汇总表按业务线一行写入：页面直接消费三类维度得分、总体得分和问题率，
-    # 不再由前端把指标/卡型记录二次拆分或平均。
+    # 汇总表按业务线一行写入问题项数和问题率，不计算或传递分数。
     summary_rows = [{
         "batch_id": batch_id,
         "metric_name": "业务线综合评测",
-        "metric_value": business.get("overallScore", 0),
-        "metric_unit": "分",
+        "metric_value": business.get("issueCount", 0),
+        "metric_unit": "项",
         "trend": "",
         "trend_value": business.get("problemRate", 0),
         "category": str(business.get("businessName", "")),
@@ -146,8 +136,6 @@ def main() -> None:
             "problemCards": business.get("problemCards"),
             "evaluatedCards": business.get("evaluatedCards"),
             "problemRate": business.get("problemRate"),
-            "dimensionScores": business.get("dimensionScores"),
-            "overallScore": business.get("overallScore"),
         }, ensure_ascii=False),
     } for business in businesses]
     insert_rows(chat_id, "business_summary", summary_rows)
@@ -163,8 +151,8 @@ def main() -> None:
                 continue
             issue_priority = str(evidence.get("priority") or group.get("priority") or "P2")
             query = str(evidence.get("query") or "")
-            description = finding_text(evidence) or str(evidence.get("description") or group.get("rootCause") or "")
-            recommendation = str(evidence.get("recommendation") or group.get("recommendation") or "")
+            description = str(evidence.get("description") or "")
+            recommendation = str(evidence.get("recommendation") or "")
             issue_rows.append({
                 "batch_id": batch_id,
                 "issue_type": ", ".join(item.get("code", "") for item in group.get("findingDistribution", [])),
@@ -209,7 +197,7 @@ def main() -> None:
                 "rating": unit.get("rating", ""),
                 # 不能截断判定依据：数据库 text/varchar 可保留完整可读描述，
                 # 前端再通过弹窗/展开区承载长文本。
-                "evidence": evidence or str(unit.get("reason", "")) or str(unit.get("summary", "")),
+                "evidence": evidence or str(unit.get("reason", "")),
                 "raw_screenshot_file": str(unit.get("screenshot", "")).rsplit("/", 1)[-1],
                 "annotated_screenshot_file": phase4_filename(word, next((item.get("evidenceImage", "") for item in issues if item.get("evidenceImage")), unit.get("annotatedImage", ""))),
             })
@@ -223,8 +211,6 @@ def main() -> None:
             "rule_name": group.get("metricCode", ""),
             "rule_desc": group.get("metricName", ""),
             "dimension": group.get("levelName", ""),
-            "weight_excellent": 100.0,
-            "weight_fail": 0.0,
         })
     insert_rows(chat_id, "evaluation_rules", list(unique_rules.values()))
 

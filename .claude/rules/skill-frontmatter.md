@@ -1,5 +1,5 @@
 ---
-description: 编辑/新建任意 SKILL.md 时生效，强制 frontmatter 契约，保证工作流能自动发现与计分。
+description: 编辑/新建任意 SKILL.md 时生效，强制 frontmatter 契约，保证工作流能自动发现并识别合法评级档位。
 globs: "**/SKILL.md"
 ---
 
@@ -7,7 +7,7 @@ globs: "**/SKILL.md"
 
 所有 `SKILL.md` 必须含 YAML frontmatter。按 skill 类型区分必填键：
 
-**① eval 评测项**（路径 `phase3-evaluation/dimensions/<dimension>/skills/eval-X-*/SKILL.md`）必须四键齐全，缺一不可（resolver 根据 `catalog.json` 加载它们并用于计分，缺键会阻断范围解析）：
+**① eval 评测项**（路径 `phase3-evaluation/dimensions/<dimension>/skills/eval-X-*/SKILL.md`）必须四键齐全，缺一不可（resolver 根据 `catalog.json` 加载它们并识别评级档位，缺键会阻断范围解析）：
 
 ```yaml
 ---
@@ -21,7 +21,7 @@ metadata: { author: ..., version: "...", domain: ... }
 ---
 ```
 
-**② 非评测 skill**（`phase1-screenshot`、`phase2-card-annotation`、`phase4-issue-evidence`、`phase5-report` 等截图/标注/渲染 skill，不参与评级计分）只需 `name` + `description`，**不要求** `title/weight/aggregate`。
+**② 非评测 skill**（`phase1-screenshot`、`phase2-card-annotation`、`phase4-issue-evidence`、`phase5-report` 等截图/标注/渲染 skill，不参与 Phase3 评级）只需 `name` + `description`，**不要求** `title/weight/aggregate`。
 
 ## 强制规则
 

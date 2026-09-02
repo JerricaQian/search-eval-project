@@ -18,8 +18,8 @@ description: 对 Phase3 已判定为问题的单一元素或组件/卡片生成�
 ## 输出
 
 - 证据图目录：`screenshots-out/evidence/<query>/`。
-- 结果回写：同一原始截图中的每个待优化问题（达标或不达标）共用同一张：
-  - `evidenceImage`：保持原始尺寸、以红框汇总标出该截图全部问题位置的整页 PNG 绝对路径。
+- 结果回写：同一原始截图中的每个待优化问题（达标或不达标）写入：
+  - `evidenceImage`：有合法局部范围时，使用保持原始尺寸、以红框汇总标出该截图全部问题位置的整页 PNG 绝对路径；页面统计或跨区域关系没有唯一坐标时，直接写同一原图绝对路径。
   - `evidenceScope`：本阶段写入实际红框粒度，仅可为 `component` 或 `card`；它只记录证据展示口径，不改变 Phase3 的 `coord`、评级或计数。
   - 单一元素问题另写 `evidenceTargetElementId`、`evidenceTargetCoord`：保持其实际判定对象和精确坐标，明确红框是上下文而非将整个组件判为问题。
 - 不生成裁剪图，也不生成整页 Phase2 全量元素标注 PNG；Phase2 生产路径只提供单图事实 JSON。
@@ -33,15 +33,15 @@ description: 对 Phase3 已判定为问题的单一元素或组件/卡片生成�
 
 ## 执行规则
 
-1. 仅处理 `rating` 为 `达标` / `🟡` / `不达标` / `🔴`、且**已通过 Phase3 评测结果校验**的问题；优秀项、无问题项、标记为“需复核/待回退 Phase2”的问题不生成证据图。无可定位范围的结论仍须由 Phase5 以文字“无可定位证据，待人工定位”呈现，绝不得伪造红框。
+1. 仅处理 `rating` 为 `达标` / `🟡` / `不达标` / `🔴`、且**已通过 Phase3 评测结果校验**的问题；优秀项、无问题项、标记为“需复核/待回退 Phase2”的问题不生成证据图。页面统计或跨区域关系没有唯一坐标时直接回写同一原图，绝不得伪造红框或写“待人工定位”。
 2. **先按评测维度决定红框展示粒度，禁止按 `elementId` 一刀切：**
    - `phase3-single_element-eval`：评测与判定仍以当前问题的单一元素为准，`elementId`、原始 `coord` 及原文均不得改变；红框则使用该元素所属完整 `cardId` / `component` 区块坐标，并写入与 Phase2 清单一致的 `evidenceTargetElementId`、`evidenceTargetCoord` 供追溯。找不到元素精确坐标或所属组件/商卡边界时跳过绘制，不得猜测或降级为元素框。
    - `phase3-card_or_component-eval`：只框选问题所属组件/商卡的完整 `cardId` / `component` 区块坐标；即使 Phase3 为追溯而引用了标题、标签等 `elementId`，也**不得**框选该元素细节。一个组件有多个问题时只保留一个组件框。
-   - `phase3-page_framework-eval`：仅在结果提供经 Phase2 `pageFacts.modules` 或页面区域事实确认的 `evidenceCoord` 时框选该模块/页面区域；页面级结论不得借用任一最小元素坐标。
+   - `phase3-page_framework-eval`：仅在结果提供经 Phase2 `pageFacts.modules` 或页面区域事实确认的 `evidenceCoord` 时框选该模块/页面区域；页面级结论不得借用任一最小元素坐标，没有唯一坐标时 `evidenceImage` 直接使用原图。
 3. **组件/卡片框必须复用对应单图 Phase2 清单的确认边界：**优先取清单中对应 `cards[].coord`（或 `pageFacts.modules[].coord`），以完整的视觉/功能独立区块为边界；包含该卡/组件的头图、文字、标签和下挂等可见内容，但不吞并相邻卡片、卡间留白或其他模块。不得根据问题元素的局部坐标猜测、外扩或平移组件框。
 4. **一张原始截图只生成一张证据图**：聚合该截图下所有 skill、Tab 与问题的已解析范围，在原图副本上一次性绘制全部红框；这些问题必须回写同一个 `evidenceImage`。不得按 issue、skill、Tab 或元素 ID 复制近似图片。
 5. 每个证据文件都保持原始截图的完整尺寸，仅以红框标出问题上下文；Phase4 不加元素编号、文字标签、半透明遮罩或其他全量标注层。每个红框绘制前必须反向核对：组件/卡片框覆盖完整区块且不侵入相邻区块；单一元素问题必须另有 `evidenceTargetElementId`、`evidenceTargetCoord` 对应真实问题对象。范围无法从对应单图 Phase2 清单解析时跳过绘制并记录原因，不能猜测或将元素框作为替代。
-6. `description` 必须保留 Phase3 的必要判定依据；本阶段不得新造问题理由。供给呈现质量问题还必须已具备字段适用性与可见缺失证据；信息冗余问题还必须已具备两个独立实体、语义角色与无信息损失的证据。
+6. `description` 必须保留 Phase3 的必要判定依据；本阶段不得新造问题理由。供给呈现质量的字段适用性与可见缺失证据、信息冗余的两个独立实体、语义角色与无信息损失证据，必须已存在于对应 `assessmentRows`。
 7. 若 `评测结果校验_*.json` 中 `phase2ReviewRequired=true`，必须停止本阶段与报告阶段；读取同目录 `待回退Phase2复核_*.json`，由 Phase2 对对应单图 manifest 的失败卡/失败行执行本地有界 CV/OCR 重跑，重新通过整页门控后再执行 Phase3。
 8. 运行后必须用 `validate_eval_results.py --require-evidence` 校验：每个已成功解析定位范围的待优化问题都有实际存在的整页红框证据图。
 

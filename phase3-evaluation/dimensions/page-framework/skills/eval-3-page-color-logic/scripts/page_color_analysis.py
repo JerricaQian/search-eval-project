@@ -19,6 +19,7 @@
 用法（单张截图）：
     python3 page_color_analysis.py '{
         "image": "path/to/page.png",
+        "manifest": "path/to/elements_page.json",
         "exclude_regions": [[y1, y2, x1, x2], ...],
         "out_debug": "path/to/debug.png",
         "out_result": "path/to/result.json"
@@ -27,9 +28,10 @@
 用法（同一搜索词的多屏滚动截图，合并统计为一条结论）：
     python3 page_color_analysis.py '{
         "pages": [
-            {"image": "path/to/page1.png", "exclude_regions": [[y1,y2,x1,x2]], "out_debug": "debug1.png"},
-            {"image": "path/to/page2.png", "exclude_regions": [[y1,y2,x1,x2]], "out_debug": "debug2.png"}
-        ]
+            {"image": "path/to/page1.png", "manifest": "path/to/elements_page1.json", "out_debug": "debug1.png"},
+            {"image": "path/to/page2.png", "manifest": "path/to/elements_page2.json", "out_debug": "debug2.png"}
+        ],
+        "out_result": "path/to/result.json"
     }'
 
 exclude_regions 中的每个矩形用 [y1, y2, x1, x2] 表示（像素坐标，y 为纵向、x 为横向，
@@ -42,6 +44,9 @@ exclude_regions 中的每个矩形用 [y1, y2, x1, x2] 表示（像素坐标，y
 读取 Phase2 JSON，自动排除已确认照片、内容模块、Tab/筛选模块，并恢复照片上有独立原子的系统 UI。
 out_debug 是排除 mask 的唯一图像核查产物，out_result 是可复现测量 JSON；不再需要
 grid_overlay.py 或直播排除前置脚本。
+
+CLI 评测模式必须传入当前 Phase2 `manifest`、`out_debug` 和 `out_result`。脚本直接从
+Phase2 JSON 确定页面测量目标与排除范围，不接受脱离事实清单的手工全量账本。
 """
 import cv2
 import numpy as np
@@ -339,19 +344,37 @@ def rate(total_color_count, dominant_color_count):
     return "🟡 达标"
 
 
+def validate_evaluation_config(config):
+    """Require the Phase2-backed inputs mandated by the eval-3 Skill."""
+    if not isinstance(config, dict):
+        raise ValueError("配置必须是 JSON 对象")
+    if not config.get("out_result"):
+        raise ValueError("out_result_required")
+    pages = config.get("pages") if "pages" in config else [config]
+    if not isinstance(pages, list) or not pages:
+        raise ValueError("pages_must_be_non_empty")
+    for index, page in enumerate(pages, start=1):
+        if not isinstance(page, dict):
+            raise ValueError(f"page_{index}_must_be_object")
+        for field in ("image", "manifest", "out_debug"):
+            if not page.get(field):
+                raise ValueError(f"page_{index}_{field}_required")
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(json.dumps({
             "error": (
                 "请传入 JSON 参数。单图模式示例：'{\"image\": \"a.png\", "
-                "\"exclude_regions\": [[y1,y2,x1,x2]], \"out_debug\": \"debug.png\"}'；"
-                "多屏合并模式示例：'{\"pages\": [{\"image\": \"a.png\", \"exclude_regions\": [...], "
-                "\"out_debug\": \"debug_a.png\"}, {\"image\": \"b.png\", ...}]}'"
+                "\"manifest\": \"elements_a.json\", \"out_debug\": \"debug.png\", "
+                "\"out_result\": \"result.json\"}'；多屏合并模式每页同样必须提供 "
+                "image/manifest/out_debug，并在顶层提供 out_result。"
             )
         }, ensure_ascii=False))
         sys.exit(1)
     config = json.loads(sys.argv[1])
     try:
+        validate_evaluation_config(config)
         if "pages" in config:
             # 多屏合并模式：同一搜索词的多张滚动截图，合并为一条结论
             result = analyze_pages_merged(config["pages"])

@@ -10,6 +10,10 @@ count_element_colors.py — 单一元素颜色数量统计（指标 1.2.2 色彩
 
     渐变无需特判：渐变像素会自然落入其跨越的多个色格，若各格占比均 ≥ 阈值即计为多色。
 
+边界：
+    评测目标必须先由 Skill 直接读取 Phase2 JSON 确定；本脚本只测量已经选中的单个候选，
+    不遍历 Phase2 全量原子、不建立目标账本，也不替代候选/排除/复核分流。
+
 用法：
     python3 count_element_colors.py <元素裁剪图.png> [--min-ratio 1.0] [--json] [--debug out.png] [--output result.json]
     # 也可对整图只统计一个矩形框：
@@ -284,7 +288,7 @@ def grade(color_count):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="单一元素颜色数量统计（指标 1.2.2）")
+    ap = argparse.ArgumentParser(description="测量 Phase2 JSON 已确定的单一元素颜色候选（指标 1.2.2）")
     ap.add_argument("image", help="元素裁剪图路径")
     ap.add_argument("--min-ratio", type=float, default=1.0,
                     help="面积占比阈值(%%)，低于此值的颜色不计入，默认 1.0")

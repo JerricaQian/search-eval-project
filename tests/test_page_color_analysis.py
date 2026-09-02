@@ -25,6 +25,22 @@ def load_module():
 
 
 class PageColorAnalysisTest(unittest.TestCase):
+    def test_cli_config_requires_phase2_manifest_and_artifacts(self) -> None:
+        module = load_module()
+        valid = {
+            "image": "page.png",
+            "manifest": "elements_page.json",
+            "out_debug": "debug.png",
+            "out_result": "result.json",
+        }
+        self.assertIsNone(module.validate_evaluation_config(valid))
+        with self.assertRaisesRegex(ValueError, "manifest_required"):
+            module.validate_evaluation_config({
+                "image": "page.png",
+                "out_debug": "debug.png",
+                "out_result": "result.json",
+            })
+
     def test_seven_color_bins_use_the_shared_taxonomy(self) -> None:
         module = load_module()
         from color_taxonomy import hue7_ranges

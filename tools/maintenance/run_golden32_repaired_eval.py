@@ -413,9 +413,8 @@ def main() -> int:
         card_ids = list(cards)
         card_rows = {cid: card_element_ids(atomic, cid) for cid in card_ids}
 
-        # Component eval 1.
-        supply_rows = [{"componentId": cid, "visibleBounds": cards[cid]["bounds"], "applicableFields": [atomic["regionsById"][rid]["name"] for rid in cards[cid]["regionIds"]], "checkResults": {"missing": [], "garbled": [], "loadFailure": []}, "rating": "优秀"} for cid in card_ids]
-        add(DIM_COMPONENT, "eval-1-supply-completeness", "优秀", ["优秀"] * len(card_ids), {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": supply_rows}, [], "仅在有适用性证据且确认缺失、乱码或加载失败时判不达标。", "所有组件在其可见范围内均有完整区域与活动原子。")
+        # Component eval 1 keeps only problem rows; this all-excellent run needs no duplicate card ledger.
+        add(DIM_COMPONENT, "eval-1-supply-completeness", "优秀", ["优秀"] * len(card_ids), {"assessmentRows": []}, [], "仅在有适用性证据且确认缺失、乱码或加载失败时判不达标。", "所有组件在其可见范围内均有完整区域与活动原子。")
 
         # Component eval 2: group only identical card type/variant/region structure.
         grouped: dict[str, list[str]] = defaultdict(list)
@@ -616,7 +615,8 @@ def main() -> int:
                 first_ids = next(p["elementIds"] for p in partitions if p["region"] == bad["firstRegion"])
                 partition_issues.append(issue_for_element(first_ids[0], cid, elements, "信息分区合理性", rating, f"该商卡两个独立相邻分区的内容包围盒仅接触、没有可见间隔，评级为不达标。", "两个确认独立的相邻功能分区在水平和垂直方向均无正向间隔", "独立分区至少有1像素正向间隔；内容并集重叠视为嵌套/覆盖关系并排除", "当前独立分区边缘恰好接触，因此评级为不达标", "相邻信息分区难以快速区分，增加扫读停顿", f"调整坐标({elements[first_ids[0]]['bounds'][0]},{elements[first_ids[0]]['bounds'][1]})处两个独立分区的位置，验收时确保至少1像素正向间隔。"))
         partition_ratings = [row["rating"] for row in partition_rows]
-        add(DIM_COMPONENT, "eval-6-info-partitioning", worst(partition_ratings, ("优秀", "不达标")), partition_ratings, {"sourceManifestTotal": len(all_ids), "evaluatedUnitCount": len(card_ids), "evaluatedUnitIds": card_ids, "excludedUnits": [], "assessmentRows": partition_rows}, partition_issues, "两个确认独立的相邻分区只要任一方向存在≥1像素正向间隔即清楚；内容并集重叠按嵌套/覆盖关系排除，不据此判问题。", "只使用 JSON 元素坐标并集；重叠区域不再被误判为信息分区边界不足。")
+        partition_problem_rows = [row for row in partition_rows if row["rating"] != "优秀"]
+        add(DIM_COMPONENT, "eval-6-info-partitioning", worst(partition_ratings, ("优秀", "不达标")), partition_ratings, {"assessmentRows": partition_problem_rows}, partition_issues, "两个确认独立的相邻分区只要任一方向存在≥1像素正向间隔即清楚；内容并集重叠按嵌套/覆盖关系排除，不据此判问题。", "只使用 JSON 元素坐标并集；重叠区域不再被误判为信息分区边界不足。")
 
         # Component eval 7/8: full-card, JSON-only semantic scan.  Generic
         # lexical overlaps remain candidates; only the closed deterministic

@@ -15,12 +15,73 @@ class Phase3SkillContractsTest(unittest.TestCase):
     def test_all_nineteen_skills_have_a_fixed_review_flow(self) -> None:
         skills = sorted(PHASE3_DIR.glob("dimensions/*/skills/eval-*/SKILL.md"))
         self.assertEqual(len(skills), 19)
+        expected_headings = [
+            "## 你是谁",
+            "## 触发场景",
+            "## 评审契约（开工前必读）",
+            "## 评审流程",
+            "## 判定标准",
+            "## 输出格式模板",
+            "## Gotchas",
+            "## 参考来源",
+        ]
         for skill in skills:
-            content = skill.read_text()
-            self.assertIn("## 固定评审流程", content, skill)
-            self.assertIn("## Phase2", content, skill)
-            self.assertIn("## 判定标准", content, skill)
-            self.assertIn("## Gotchas", content, skill)
+            content = skill.read_text(encoding="utf-8")
+            positions = []
+            for heading in expected_headings:
+                match = re.search(rf"^{re.escape(heading)}.*$", content, re.MULTILINE)
+                self.assertIsNotNone(match, f"{skill}: missing {heading}")
+                positions.append(match.start())
+            self.assertEqual(positions, sorted(positions), skill)
+            self.assertIn("assessmentRows", content, skill)
+            self.assertIn("`description`", content, skill)
+            self.assertIn("`recommendation`", content, skill)
+            self.assertIn("**建议示例：**", content, skill)
+
+    def test_leaf_review_flows_keep_only_executable_steps(self) -> None:
+        skills = sorted(PHASE3_DIR.glob("dimensions/*/skills/eval-*/SKILL.md"))
+        for skill in skills:
+            content = skill.read_text(encoding="utf-8")
+            flow = content.split("## 评审流程", 1)[1].split("## 判定标准", 1)[0]
+            steps = re.findall(r"^### Step (\d+)：", flow, re.MULTILINE)
+            expected = ["1", "2", "3", "4", "5"] if skill.parent.name == "eval-4-element-complexity" else ["1", "2", "3", "4"]
+            self.assertEqual(steps, expected, skill)
+            self.assertIn("### Step 1：读取 Phase2 JSON，确定评测目标", flow, skill)
+            self.assertNotIn("固化专属计数、比较或测量结果", flow, skill)
+            self.assertNotIn("### Step 6：输出报告", flow, skill)
+            self.assertIn("覆盖校验、评级与问题投影", flow, skill)
+            last_rule = [line.strip() for line in flow.splitlines() if line.strip() and line.strip() != "---"][-1]
+            self.assertIn("禁止运行", last_rule, skill)
+
+    def test_review_coverage_contracts_match_runtime_requirements(self) -> None:
+        page_contract = (PHASE3_DIR / "dimensions/page-framework/contract.md").read_text(encoding="utf-8")
+        self.assertIn("每个结论恰一条（含优秀） | eval-3、eval-6、eval-7", page_contract)
+        page_redundancy = (
+            PHASE3_DIR / "dimensions/page-framework/skills/eval-7-info-redundancy/SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("无论优秀或不达标都必须保留恰一条 `assessmentRows`", page_redundancy)
+
+        card_contract = (PHASE3_DIR / "dimensions/card-component/contract.md").read_text(encoding="utf-8")
+        self.assertIn("仅保留问题行 | eval-1、eval-6", card_contract)
+        self.assertNotIn("eval-7（部分）", card_contract)
+
+        for dimension in ("single-element", "card-component", "page-framework"):
+            contract = (PHASE3_DIR / f"dimensions/{dimension}/contract.md").read_text(encoding="utf-8")
+            self.assertIn("不复制原清单、不另建第二份全量账本", contract)
+
+    def test_cross_dimension_ownership_and_pixel_permissions_are_explicit(self) -> None:
+        entry = (PHASE3_DIR / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("## 跨维度归属", entry)
+        self.assertIn("同一可见事实只按其评测单位归入主要维度", entry)
+
+        pipeline = (PROJECT_DIR / ".claude/agents/phase2345-query-pipeline.md").read_text(encoding="utf-8")
+        self.assertIn("其他 JSON-only Skill 禁止回看截图补判", pipeline)
+
+        compliance = (
+            PHASE3_DIR / "dimensions/single-element/skills/eval-3-element-compliance-scanner/SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("`fontSizeBucket` 不能冒充 pt", compliance)
+        self.assertNotIn("截图先放大，读取当前元素", compliance)
 
     def test_each_dimension_contract_requires_common_phase3_knowledge(self) -> None:
         entry = PHASE3_DIR / "SKILL.md"
