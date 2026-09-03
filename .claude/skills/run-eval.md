@@ -22,13 +22,13 @@ workflow/meituan_eval_workflow.js
 3. 对评测任务读取本文件、`workflow/meituan_eval_workflow.js`，并定位所选阶段的 `SKILL.md`；
 4. 先回复用户：已识别的任务类型、输入范围、下一步阶段、缺失输入和最终产物。
 
-这一步是门禁：未完成时不得对截图打分、罗列 UI 问题，或宣称已评测。人工视觉判断只能作为流水线结束后的“人工复核”，不能代替 Phase2～5。
+这一步是门禁：未完成时不得对截图打分、罗列 UI 问题，或宣称已评测。人工视觉判断只能作为流水线结束后的“人工复核”，不能代替 Phase2～4 与批次级 Phase5。
 
 ### 请求路由与首次回复
 
 | 用户表达 | 路由 | 首次回复必须包含 |
 |---|---|---|
-| 一张图片/一个图片路径 | `evaluate_only`；先发现、校验并选择该图 | 文件路径、任务模式、待确认的维度/报告出口，以及 manifest→证据→HTML 产物 |
+| 一张图片/一个图片路径 | `evaluate_only`；先发现、校验并选择该图 | 文件路径、任务模式、待确认的维度，以及 manifest→评测结果→证据产物；单词任务不生成 HTML |
 | 多张图片或目录 | `evaluate_only`；先发现并按搜索词、Tab、屏号分组 | 发现到的分组和无效/无法解析项；不对任何单图先行点评 |
 | “帮我截图后评测” | `capture_and_evaluate` | 需要的搜索词、Tab、屏数；说明截图成功后才会确认评测配置 |
 | “只帮我截图” | `capture_only` | 需要的搜索词、Tab、屏数；明确不会生成评测报告 |
@@ -49,9 +49,9 @@ python3 workflow/eval_cli.py prepare-evaluate \
 
 该命令保留源文件，并将图片按原文件名直接复制到 `screenshots/`，不生成 Intake
 manifest，也不重命名。无 `--query` 时返回可供用户选择的截图组；带 `--query` 时除
-`MEITUAN_EVAL_HANDOFF_V1.workflowArgs` 外，还生成 `MEITUAN_EVAL_TASK_V2` 的
+`MEITUAN_EVAL_HANDOFF_V1.workflowArgs` 外，还生成 `MEITUAN_EVAL_TASK_V3` 的
 `portableTask.taskPath`。非 DSL 宿主只把该路径交给一个 Evaluation Agent，完成后执行
-任务中的 `completionCommand`；不要把 Phase2～5 的长契约重新粘贴进 prompt。详见
+任务中的 `completionCommand`；不要把 Phase2～4 的长契约重新粘贴进 prompt。详见
 `workflow/HOST_ADAPTER.md`。
 发现阶段报告无效或无法解析的文件；同名不同字节时自动追加递增的副本序号，保留两份文件，并视为独立截图而非原截图的同一屏。
 
@@ -144,7 +144,7 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
 }
 ```
 
-`reportOutlet` 可为 `local_html` 或 `nocode`。选择 `nocode` 时，仍须先完成本地 HTML 和治理数据集，再按 `phase5-report/nocode-dashboard/SKILL.md` 获得用户授权后处理线上出口。
+`reportOutlet` 可为 `local_html` 或 `nocode`，表示整批完成后的最终出口，不会触发子 Agent 生成单词 HTML。选择 `nocode` 时，仍须先完成整批本地 HTML 和治理数据集，再按 `phase5-report/nocode-dashboard/SKILL.md` 获得用户授权后处理线上出口。
 
 ### Phase3 评测范围选择
 
@@ -168,16 +168,16 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
 }
 ```
 
-未传 `evaluationSelection` 时，保留 `dimensions` 的旧行为。非 `full_19` 的报告必须显示“已选 X/19 项评测”；所有报告只呈现评级与问题项数，不计算综合分。
+未传 `evaluationSelection` 时，保留 `dimensions` 的旧行为。创建 V3 词级任务时，控制器会立刻把选择解析成不可变的 `evaluationScope.evalTargets` 和 `requiredReads`：子 Agent 必须逐一读取共同知识、每个已选维度契约与叶子 Skill，且不得读取或评级未选 Skill。所有报告只呈现已执行范围的评级与问题项数，不计算综合分。
 
 ## Evaluation Agent 的固定约束
 
-Evaluation Agent 在同一上下文内执行 Phase2 → Phase3 → Phase4 → Phase5：
+每个搜索词的 Evaluation Agent 在同一上下文内执行 Phase2 → Phase3 → Phase4：
 
 - 每张截图一个独立 manifest；
 - Phase2 默认本地轻量识别，必须通过 `validate_element_manifest.py`；
 - Phase3/4 必须通过 `validate_eval_results.py`，Phase4 使用 `--require-evidence`；
-- Phase5 只消费验收结果；
+- 成功结果的 `stageD={}`，不写报告内容或报告路径；
 - 不删除或覆盖截图、过程文件、证据或历史报告。
 
-多搜索词仍由外层按批次处理：每批最多 3 个词，每个词一个 Evaluation Agent，上批完成后才可继续。
+多搜索词由外层按批次处理：每批最多 3 个词，每个词一个 Evaluation Agent。外层可随时执行一次 `workflow/eval_cli.py finalize-batch`：只要至少一个 V3 任务已有 completed 回执，就只消费这些精确 manifest 和评测结果，生成一份批量 HTML 与治理数据集；未完成或阻断词会在报告范围中明确标注，不得混入历史产物。失败词仍可单独重试，重试后可重建报告。

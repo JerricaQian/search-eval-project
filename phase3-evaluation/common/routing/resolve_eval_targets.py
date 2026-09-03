@@ -64,9 +64,13 @@ def load_skill(path: Path, dimension: dict[str, Any], project_dir: Path) -> dict
         },
         "aggregate": string_field(frontmatter, "aggregate"),
         "extra": string_field(frontmatter, "extra") if re.search(r"^extra:", frontmatter, re.MULTILINE) else "",
-        "skillPath": str(path.relative_to(project_dir)),
-        "skillsDir": str((PHASE3_DIR / dimension["skillsDir"]).relative_to(project_dir)),
-        "contractPath": str((PHASE3_DIR / dimension["contract"]).relative_to(project_dir)),
+        # Build portable paths from the catalog, not ``Path.relative_to`` on a
+        # discovered file.  globbing through a project-local symlink resolves
+        # the file to its source location on some hosts, which otherwise makes
+        # a valid portable project look outside its own root.
+        "skillPath": str(Path("phase3-evaluation") / dimension["skillsDir"] / path.parent.name / "SKILL.md"),
+        "skillsDir": str(Path("phase3-evaluation") / dimension["skillsDir"]),
+        "contractPath": str(Path("phase3-evaluation") / dimension["contract"]),
     }
 
 

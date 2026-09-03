@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Evaluation Agent result (legacy MEITUAN_EVAL_TASK_V2)",
+  "title": "Evaluation Agent Phase2-4 handoff result",
   "type": "object",
   "properties": {
     "ok": {"type": "boolean"},
@@ -34,11 +34,8 @@
     },
     "stageD": {
       "type": "object",
-      "properties": {
-        "reportPath": {"type": "string"},
-        "summary": {"type": "array"}
-      },
-      "required": ["reportPath", "summary"]
+      "properties": {},
+      "additionalProperties": false
     },
     "blockedAt": {"type": "string"},
     "error": {"type": "string"}

@@ -1,10 +1,10 @@
 # Phase2 轻量截图识别
 
-本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径采用“本地 CV/OCR 候选 + 黄金结构范例 + 当前图片像素复核 + 卡型/枚举/元素契约门控”；模型只复核当前图片，不复制黄金字段，也不生成整页标注图。
+本目录负责把搜索结果页截图转换成 Phase3 可消费的结构化事实。生产路径采用“本地 CV 候选 + 黄金结构范例 + 当前图片像素复核 + 卡型/枚举/元素契约门控”；模型只复核当前图片，不复制黄金字段，也不生成整页标注图。
 
 `phase2.atomic-manifest.v3` 每次写出前必须使用 `references/search_card_taxonomy.v1.json` 校验枚举与契约版本；文件 SHA-256 仅作为可选溯源记录，不参与发布阻断。所有标签元素统一使用 `kind: "tag"`，槽位名统一以 `_tag` 结尾，例如 `product_attribute_tag` 与 `scenic_rating_tag`。
 
-生产 Phase2 与离线黄金校准共享同一证据策略和元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。生产流同样使用 Paddle 与模型视觉复核，但所有事实必须来自当前截图，黄金只提供结构，契约不满足即阻断。
+生产 Phase2 与离线黄金校准共享同一证据策略和元素契约：完整已知卡必须有主标题；每个下挂项分别拥有自己的图片/文字/价格；基础信息和标签按语义原子拆分；禁止单字符文字元素。生产流使用当前图片视觉复核与本地 CV 候选；所有事实必须来自当前截图，黄金只提供结构，契约不满足即阻断。
 
 详细执行纪律见 `SKILL.md`；卡型边界与最小证据以 `references/card_recognition_contracts.v1.json` 为准。
 
@@ -32,8 +32,7 @@
   --screenshot <absolute-screenshot-path> \
   --output <one-screenshot-elements.json> \
   --artifacts-dir <one-screenshot-artifact-dir> \
-  --recognition-audit <one-screenshot-elements.recognition-audit.json> \
-  --require-bounded-paddleocr
+  --recognition-audit <one-screenshot-elements.recognition-audit.json>
 ```
 
 然后读取当前整图一次，写入只包含新增/替换观察的 `current-screenshot-main-session-review.json`，再回灌同一入口：
@@ -45,8 +44,7 @@
   --output <one-screenshot-elements.json> \
   --artifacts-dir <one-screenshot-artifact-dir> \
   --recognition-audit <one-screenshot-elements.recognition-audit.json> \
-  --visual-review <current-screenshot-main-session-review.json> \
-  --require-bounded-paddleocr
+  --visual-review <current-screenshot-main-session-review.json>
 ```
 
 ```bash

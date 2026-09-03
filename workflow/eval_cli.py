@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import subprocess
 import sys
 import uuid
 from pathlib import Path
@@ -19,7 +20,9 @@ from typing import Any
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 HANDOFF_PROTOCOL = "MEITUAN_EVAL_HANDOFF_V1"
-TASK_PROTOCOL = "MEITUAN_EVAL_TASK_V2"
+TASK_PROTOCOL_V2 = "MEITUAN_EVAL_TASK_V2"
+TASK_PROTOCOL_V3 = "MEITUAN_EVAL_TASK_V3"
+TASK_PROTOCOL = TASK_PROTOCOL_V3
 RUN_ID_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-")
 STAGES = ("stageA", "stageB", "stageC", "stageD")
 
@@ -37,6 +40,10 @@ def load_module(relative_path: str, module_name: str) -> Any:
 
 DISCOVERY = load_module("phase1-screenshot/scripts/discover_screenshot_groups.py", "search_eval_discovery")
 COPY = load_module("phase1-screenshot/scripts/ingest_external_screenshots.py", "search_eval_copy")
+EVAL_TARGET_RESOLVER = load_module(
+    "phase3-evaluation/common/routing/resolve_eval_targets.py",
+    "search_eval_target_resolver",
+)
 
 
 def emit(payload: dict[str, Any], exit_code: int = 0) -> int:
@@ -61,6 +68,32 @@ def parse_evaluation_selection(value: str) -> dict[str, Any] | None:
     if not isinstance(parsed, dict):
         raise ValueError("evaluation_selection_must_be_json_object")
     return parsed
+
+
+def resolve_evaluation_scope(project_dir: Path, workflow_args: dict[str, Any]) -> dict[str, Any]:
+    """Freeze the exact Phase3 reading set into every portable task.
+
+    A user selection is not an instruction for an agent to interpret later.  It
+    is resolved while the task is created, so the immutable handoff names every
+    selected leaf Skill and its dimension contract.  This also makes a changed
+    catalog or a bad selection fail before any screenshot work starts.
+    """
+    resolved = EVAL_TARGET_RESOLVER.resolve(
+        project_dir,
+        workflow_args.get("evaluationSelection"),
+        workflow_args.get("dimensions"),
+    )
+    required_reads = [
+        ".claude/agents/phase234-query-pipeline.md",
+        "phase3-evaluation/SKILL.md",
+        "phase3-evaluation/common/references/knowledge-index.md",
+    ]
+    for target in resolved["evalTargets"]:
+        required_reads.extend([target["contractPath"], target["skillPath"]])
+    # Keep order deterministic while making repeated shared contracts explicit
+    # only once in the immutable task.
+    resolved["requiredReads"] = list(dict.fromkeys(required_reads))
+    return resolved
 
 
 def write_once(path: Path, payload: dict[str, Any]) -> None:
@@ -98,15 +131,21 @@ def portable_task(project_dir: Path, workflow_args: dict[str, Any], run_id: str,
     run_dir.mkdir(parents=True)
     task_path = run_dir / "task.json"
     result_path = run_dir / "agent-result.json"
+    evaluation_scope = resolve_evaluation_scope(project_dir, workflow_args)
+    # The resolved scope is the source of truth for the agent.  Keep the
+    # original selection too, as an auditable record of the user's request.
+    workflow_args = {**workflow_args, "evaluationScope": evaluation_scope}
     task = {
         "protocol": TASK_PROTOCOL,
         "runId": run_id,
         "projectDir": str(project_dir),
         "workflowArgs": workflow_args,
         "contractFiles": [
-            str(project_dir / ".claude/agents/phase2345-query-pipeline.md"),
-            str(project_dir / ".claude/contracts/evaluation-result.schema.json"),
+            str(project_dir / ".claude/agents/phase234-query-pipeline.md"),
+            str(project_dir / ".claude/contracts/evaluation-result.v3.schema.json"),
         ],
+        "requiredReads": [str(project_dir / path) for path in evaluation_scope["requiredReads"]],
+        "evalTargets": evaluation_scope["evalTargets"],
         "resultPath": str(result_path),
         "completionCommand": [
             sys.executable,
@@ -118,8 +157,11 @@ def portable_task(project_dir: Path, workflow_args: dict[str, Any], run_id: str,
             str(result_path),
         ],
         "hostInstructions": [
-            "Read the listed contract files from disk; do not paste them into another prompt.",
-            "Run exactly one Evaluation Agent for this query and write its final Stage A-D JSON to resultPath.",
+            "Before Phase3, read every requiredReads file from disk exactly once. The task evalTargets are the only permitted Phase3 Skills; do not read or rate an unselected leaf Skill.",
+            "Read knowledge-index.md and its directly referenced common rules as required by the pipeline, then read each selected target's contractPath and skillPath. Do not infer a Skill path from user text.",
+            "Use workflowArgs.evaluationScope/evalTargets as immutable input. If a required file is unavailable or the target set cannot be followed, return the appropriate blocked Stage instead of substituting another Skill.",
+            "Run exactly one Evaluation Agent for this query through Phase2, Phase3, and Phase4; write its Stage A-D handoff JSON to resultPath.",
+            "Do not generate a per-query HTML report. Phase5 is an outer batch step and may render the completed subset when at least one task has a completed receipt.",
             "Run completionCommand. Only its completed receipt is a successful delivery.",
         ],
     }
@@ -170,9 +212,11 @@ def nonempty_list(value: Any, label: str) -> list[Any]:
 def validate_completed_result(task: dict[str, Any], result: dict[str, Any]) -> dict[str, Any]:
     project_dir = Path(str(task["projectDir"])).resolve()
     expected = task["workflowArgs"]
+    protocol = task.get("protocol")
     if result.get("ok") is not True:
         blocked_at = result.get("blockedAt")
-        if blocked_at not in STAGES or not isinstance(result.get("error"), str) or not result["error"].strip():
+        allowed_blocked_stages = STAGES if protocol == TASK_PROTOCOL_V2 else STAGES[:3]
+        if blocked_at not in allowed_blocked_stages or not isinstance(result.get("error"), str) or not result["error"].strip():
             raise ValueError("blocked_result_missing_stage_or_error")
         return {"status": "blocked", "blockedAt": blocked_at, "error": result["error"]}
     if result.get("query") != expected.get("query"):
@@ -197,17 +241,23 @@ def validate_completed_result(task: dict[str, Any], result: dict[str, Any]) -> d
     if not isinstance(evidence, list):
         raise ValueError("stageC.evidenceImages:not_a_list")
     evidence_paths = [project_file(value, project_dir, "stageC.evidenceImage") for value in evidence]
-    report_path = project_file(stage_d.get("reportPath"), project_dir, "stageD.reportPath")
+    artifacts = {
+        "manifests": manifest_paths,
+        "manifestAudits": audit_paths,
+        "evalResult": eval_result,
+        "evalAudit": eval_audit,
+        "evidenceImages": evidence_paths,
+    }
+    if protocol == TASK_PROTOCOL_V2:
+        artifacts["report"] = project_file(stage_d.get("reportPath"), project_dir, "stageD.reportPath")
+    elif protocol == TASK_PROTOCOL_V3:
+        if stage_d:
+            raise ValueError("stageD:must_be_empty_for_batch_handoff")
+    else:
+        raise ValueError("task_protocol_invalid")
     return {
         "status": "completed",
-        "artifacts": {
-            "manifests": manifest_paths,
-            "manifestAudits": audit_paths,
-            "evalResult": eval_result,
-            "evalAudit": eval_audit,
-            "evidenceImages": evidence_paths,
-            "report": report_path,
-        },
+        "artifacts": artifacts,
     }
 
 
@@ -262,6 +312,8 @@ def command_prepare(args: argparse.Namespace) -> int:
             run_id = args.run_id or uuid.uuid4().hex
             if not valid_run_id(run_id):
                 return emit({**payload, "status": "invalid_run_id", "error": "run_id_must_be_1_to_80_alnum_dot_underscore_dash"}, 2)
+            if args.batch_id and not valid_run_id(args.batch_id):
+                return emit({**payload, "status": "invalid_batch_id", "error": "batch_id_must_be_1_to_80_alnum_dot_underscore_dash"}, 2)
             project_dir = args.project_dir.resolve()
             workflow_args = {
                 "mode": "evaluate_only",
@@ -273,7 +325,7 @@ def command_prepare(args: argparse.Namespace) -> int:
                 "reportOutlet": args.report_outlet,
                 "phase2Mode": "lightweight",
                 "runId": run_id,
-                "batchId": run_id,
+                "batchId": args.batch_id or run_id,
                 "tag": run_id,
                 "rerunId": run_id,
             }
@@ -301,7 +353,7 @@ def command_finalize(args: argparse.Namespace) -> int:
         task_path = args.task.resolve()
         result_path = args.result.resolve()
         task = read_json(task_path)
-        if not isinstance(task, dict) or task.get("protocol") != TASK_PROTOCOL:
+        if not isinstance(task, dict) or task.get("protocol") not in {TASK_PROTOCOL_V2, TASK_PROTOCOL_V3}:
             raise ValueError("task_protocol_invalid")
         if result_path != Path(str(task.get("resultPath", ""))).resolve():
             raise ValueError("result_path_mismatch")
@@ -311,7 +363,7 @@ def command_finalize(args: argparse.Namespace) -> int:
         verified = validate_completed_result(task, result)
         receipt_path = task_path.parent / "receipt.json"
         receipt = {
-            "protocol": TASK_PROTOCOL,
+            "protocol": task["protocol"],
             "runId": task["runId"],
             "query": task["workflowArgs"]["query"],
             "resultPath": str(result_path),
@@ -322,6 +374,120 @@ def command_finalize(args: argparse.Namespace) -> int:
         return emit({"ok": True, "receiptPath": str(receipt_path), **receipt})
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         return emit({"ok": False, "error": str(exc)}, 2)
+
+
+def command_finalize_batch(args: argparse.Namespace) -> int:
+    """Render a Phase5 report from the verified completed subset of V3 tasks."""
+    try:
+        project_dir = args.project_dir.resolve()
+        if not valid_run_id(args.batch_id):
+            raise ValueError("batch_id_must_be_1_to_80_alnum_dot_underscore_dash")
+        if not args.task:
+            raise ValueError("phase5_batch_requires_at_least_one_query_task")
+
+        queries: list[str] = []
+        manifests: list[str] = []
+        eval_results: list[str] = []
+        outlets: set[str] = set()
+        planned_queries: list[str] = []
+        skipped_tasks: list[dict[str, str]] = []
+        batch_artifact_dir = project_dir / ".artifacts" / "过程文件-评测结果与审计" / args.batch_id
+
+        for raw_task_path in args.task:
+            task_path = raw_task_path.resolve()
+            task = read_json(task_path)
+            if not isinstance(task, dict) or task.get("protocol") != TASK_PROTOCOL_V3:
+                raise ValueError(f"batch_task_must_use_v3:{task_path}")
+            if Path(str(task.get("projectDir", ""))).resolve() != project_dir:
+                raise ValueError(f"batch_task_project_mismatch:{task_path}")
+            workflow_args = task.get("workflowArgs")
+            if not isinstance(workflow_args, dict) or workflow_args.get("batchId") != args.batch_id:
+                raise ValueError(f"batch_task_batch_id_mismatch:{task_path}")
+            query = str(workflow_args.get("query") or "").strip()
+            if not query or query in planned_queries:
+                raise ValueError(f"batch_task_query_missing_or_duplicate:{query or task_path}")
+            planned_queries.append(query)
+
+            receipt_path = task_path.parent / "receipt.json"
+            receipt = read_json(receipt_path)
+            if not isinstance(receipt, dict) or receipt.get("protocol") != TASK_PROTOCOL_V3:
+                skipped_tasks.append({"query": query, "status": "not_completed", "reason": "未找到合法完成回执"})
+                continue
+            if receipt.get("status") != "completed":
+                skipped_tasks.append({
+                    "query": query,
+                    "status": str(receipt.get("status") or "not_completed"),
+                    "reason": str(receipt.get("error") or receipt.get("blockedAt") or "词级任务未完成"),
+                })
+                continue
+            result_path = Path(str(task.get("resultPath", ""))).resolve()
+            if receipt.get("runId") != task.get("runId") or receipt.get("query") != query or Path(str(receipt.get("resultPath", ""))).resolve() != result_path:
+                raise ValueError(f"batch_task_receipt_mismatch:{receipt_path}")
+            result = read_json(result_path)
+            if not isinstance(result, dict):
+                raise ValueError(f"batch_task_result_not_object:{result_path}")
+            verified = validate_completed_result(task, result)
+            if verified.get("status") != "completed":
+                raise ValueError(f"batch_task_not_completed:{task_path}")
+            artifacts = verified["artifacts"]
+            eval_result = Path(artifacts["evalResult"]).resolve()
+            try:
+                eval_result.relative_to(batch_artifact_dir.resolve())
+            except ValueError as exc:
+                raise ValueError(f"batch_eval_result_outside_batch:{eval_result}") from exc
+
+            queries.append(query)
+            manifests.extend(artifacts["manifests"])
+            eval_results.append(str(eval_result))
+            outlets.add(str(workflow_args.get("reportOutlet") or "local_html"))
+
+        if not queries:
+            raise ValueError("phase5_batch_requires_at_least_one_completed_query_task")
+        if len(outlets) != 1:
+            raise ValueError("batch_report_outlet_mismatch")
+
+        report_dir = project_dir / "reports"
+        report_path = args.output or report_dir / f"meituan_search_experience_dashboard_{args.batch_id}.html"
+        dataset_path = args.dataset_output or report_dir / f".governance_dataset_{args.batch_id}.json"
+        command = [
+            sys.executable,
+            str(project_dir / "phase5-report/scripts/build_experience_dashboard.py"),
+            "--project-dir", str(project_dir),
+            "--artifact-dir", str(batch_artifact_dir),
+            "--batch-name", args.batch_id,
+            "--output", str(report_path),
+            "--dataset-output", str(dataset_path),
+            "--expected-business-tabs", args.expected_business_tabs,
+            "--allow-unknown-business",
+        ]
+        for skipped in skipped_tasks:
+            command.extend(["--execution-note", f"未纳入报告：{skipped['query']}（{skipped['status']}：{skipped['reason']}）"])
+        for query in queries:
+            command.extend(["--expected-query", query])
+        for manifest in manifests:
+            command.extend(["--manifest", manifest])
+        for eval_result in eval_results:
+            command.extend(["--result", eval_result])
+
+        completed = subprocess.run(command, check=False, capture_output=True, text=True)
+        if completed.returncode != 0:
+            raise ValueError(f"phase5_batch_failed:{completed.stderr.strip() or completed.stdout.strip()}")
+        summary = json.loads(completed.stdout)
+        report_file = project_file(str(report_path), project_dir, "batch.report")
+        dataset_file = project_file(str(dataset_path), project_dir, "batch.dataset")
+        return emit({
+            "ok": True,
+            "batchId": args.batch_id,
+            "queries": queries,
+            "plannedQueries": planned_queries,
+            "skippedTasks": skipped_tasks,
+            "reportPath": report_file,
+            "datasetPath": dataset_file,
+            "reportOutlet": next(iter(outlets)),
+            "phase5": summary,
+        })
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        return emit({"ok": False, "batchId": args.batch_id, "error": str(exc)}, 2)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -354,6 +520,7 @@ def parser() -> argparse.ArgumentParser:
     prepare.add_argument("--min-bytes", type=int, default=5001)
     prepare.add_argument("--dry-run", action="store_true")
     prepare.add_argument("--run-id", default="", help="Unique portable run id; defaults to a generated id.")
+    prepare.add_argument("--batch-id", default="", help="Shared batch id for multiple query tasks; defaults to the run id.")
     prepare.add_argument("--runs-dir", type=Path, help="Defaults to <project-dir>/runs.")
     prepare.set_defaults(handler=command_prepare)
 
@@ -361,6 +528,15 @@ def parser() -> argparse.ArgumentParser:
     finalize.add_argument("--task", required=True, type=Path)
     finalize.add_argument("--result", required=True, type=Path)
     finalize.set_defaults(handler=command_finalize)
+
+    finalize_batch = commands.add_parser("finalize-batch", help="Verify completed V3 query tasks and generate one Phase5 batch report.")
+    finalize_batch.add_argument("--project-dir", default=PROJECT_DIR, type=Path)
+    finalize_batch.add_argument("--batch-id", required=True)
+    finalize_batch.add_argument("--task", required=True, action="append", type=Path, help="Repeat once per expected query task.")
+    finalize_batch.add_argument("--expected-business-tabs", required=True)
+    finalize_batch.add_argument("--output", type=Path)
+    finalize_batch.add_argument("--dataset-output", type=Path)
+    finalize_batch.set_defaults(handler=command_finalize_batch)
     return root
 
 

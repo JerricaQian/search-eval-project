@@ -125,6 +125,7 @@ def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, fac
     facts = json.loads(facts_path.read_text(encoding="utf-8"))
     accepted_photos = [item for item in facts.get("candidates", {}).get("photos", []) if item.get("route") == "accepted"]
     existing = {str(item.get("id", "")): item for item in payload.get("resultCards", [])}
+    reviewed_cards: list[dict] = []
     for reviewed in load_review(review_path).get("cards", []):
         card_id = str(reviewed.get("cardId", ""))
         coord = reviewed.get("coord")
@@ -168,6 +169,88 @@ def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, fac
         if "attached_goods" in topology_slots:
             candidate["attachedProductPhotoIds"] = attached_ids
         candidate["evidence"] = list(dict.fromkeys(candidate.get("evidence", [])))
+        reviewed_cards.append({"cardId": card_id, "coord": coord, "topology": topology})
+
+    # Current-pixel review is stronger evidence than a low-confidence CV
+    # block. Reconcile only empty boundary tails and candidates that the review
+    # fully subsumes; retain every reconciliation decision in a sidecar audit.
+    reviewed_cards.sort(key=lambda item: (item["coord"][1], item["cardId"]))
+    reviewed_ids = {item["cardId"] for item in reviewed_cards}
+    reconciliation: list[dict] = []
+    for index, reviewed_card in enumerate(reviewed_cards[:-1]):
+        candidate = existing.get(reviewed_card["cardId"])
+        if candidate is None:
+            continue
+        next_card = reviewed_cards[index + 1]
+        current = candidate["coord"]
+        next_top = next_card["coord"][1]
+        current_bottom = current[1] + current[3]
+        topology_bounds = [
+            item.get("coord") for item in (
+                reviewed_card["topology"].get("regions", [])
+                + reviewed_card["topology"].get("attachedItems", [])
+            )
+            if isinstance(item.get("coord"), list) and len(item["coord"]) == 4
+        ]
+        topology_bottom = max((box[1] + box[3] for box in topology_bounds), default=current_bottom)
+        if current[1] < next_top < current_bottom and topology_bottom <= next_top:
+            previous = list(current)
+            candidate["coord"] = [current[0], current[1], current[2], next_top - current[1]]
+            candidate.setdefault("evidence", []).append("reviewed_topology_clipped_to_next_card")
+            reconciliation.append({
+                "action": "clip_reviewed_card_tail",
+                "cardId": reviewed_card["cardId"],
+                "previousCoord": previous,
+                "nextReviewedCardId": next_card["cardId"],
+                "topologyBottom": topology_bottom,
+                "finalCoord": candidate["coord"],
+            })
+
+    def intersection_area(left: list[int], right: list[int]) -> int:
+        width = max(0, min(left[0] + left[2], right[0] + right[2]) - max(left[0], right[0]))
+        height = max(0, min(left[1] + left[3], right[1] + right[3]) - max(left[1], right[1]))
+        return width * height
+
+    published_cards: list[dict] = []
+    for candidate in payload.get("resultCards", []):
+        candidate_id = str(candidate.get("id", ""))
+        candidate_coord = candidate.get("coord")
+        if candidate_id in reviewed_ids or not isinstance(candidate_coord, list) or len(candidate_coord) != 4:
+            published_cards.append(candidate)
+            continue
+        candidate_area = candidate_coord[2] * candidate_coord[3]
+        owner = next((
+            reviewed for reviewed in reviewed_cards
+            if candidate_area > 0
+            and intersection_area(candidate_coord, existing[reviewed["cardId"]]["coord"]) / candidate_area >= 0.80
+        ), None)
+        if owner is None:
+            published_cards.append(candidate)
+            continue
+        reconciliation.append({
+            "action": "suppress_unreviewed_contained_candidate",
+            "cardId": candidate_id,
+            "coord": candidate_coord,
+            "ownerCardId": owner["cardId"],
+            "ownerCoord": existing[owner["cardId"]]["coord"],
+            "overlapRatioOfSuppressedCandidate": round(
+                intersection_area(candidate_coord, existing[owner["cardId"]]["coord"]) / candidate_area, 4
+            ),
+        })
+    payload["resultCards"] = published_cards
+
+    if reconciliation:
+        audit_path = candidates_path.with_name(f"{candidates_path.stem}.review-reconciliation.json")
+        suffix = 2
+        while audit_path.exists():
+            audit_path = candidates_path.with_name(f"{candidates_path.stem}.review-reconciliation-{suffix}.json")
+            suffix += 1
+        audit_path.write_text(json.dumps({
+            "contractVersion": "phase2.reviewed-card-reconciliation.v1",
+            "sourceCandidates": str(candidates_path),
+            "review": str(review_path),
+            "actions": reconciliation,
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     payload["resultCards"].sort(key=lambda item: (int(item["coord"][1]), str(item.get("id", ""))))
     candidates_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

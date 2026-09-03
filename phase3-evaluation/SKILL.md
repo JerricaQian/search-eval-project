@@ -12,8 +12,8 @@ description: 美团搜索结果页 Phase3 统一评测入口。用户选择完�
 1. 接收用户的 `full_19`、`dimensions` 或 `custom_skills` 选择；先运行 `common/routing/resolve_eval_targets.py`，未知维度/Skill、目录漂移或空选择立即停止，不猜测。
 2. 先读取 [知识索引](common/references/knowledge-index.md)，再按索引加载页面模型、卡片结构与适用性规范和黄金事实契约；通过 `catalog.json` 只加载本次选中维度的共享契约与叶子 `SKILL.md`。
 3. 对当前 Phase2 已验收 manifest 建立 `页面 → 模块 → 卡片 → 区域 → 槽位/元素` 的事实链；不从黄金样本、历史截图或业务常识补写当前截图事实。
-4. 在同一个 Evaluation Agent 内串行执行选中 Skill，并保持 Phase2 → Phase3 → Phase4 → Phase5 的既有门禁。
-5. 输出并传递覆盖范围：`selectedCount/fullCount/isFull/label`。非完整 19 项时，报告和看板必须明确“已选 X/19 项”；全部结果只呈现评级与问题项数。
+4. 在同一个词级 Evaluation Agent 内串行执行选中 Skill，并保持 Phase2 → Phase3 → Phase4 的阶段门禁；Phase4 验收后交付该搜索词的可核验产物，不在词级 Agent 内生成报告。
+5. 输出并传递覆盖范围：`selectedCount/fullCount/isFull/label`。批次级 Phase5 汇总全部词级 Agent 产物后生成报告；非完整 19 项时，报告和看板必须明确“已选 X/19 项”，全部结果只呈现评级与问题项数。
 
 ## 卡型不确定性
 

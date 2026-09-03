@@ -3,7 +3,7 @@
 这是一个面向美团搜索结果页的可复用评测系统。它把截图采集、页面事实识别、多维度评测、问题证据和 HTML 报告串成一条可追溯的流程。
 
 ```text
-截图 → Phase2 事实清单 → Phase3 评测 → Phase4 问题证据 → Phase5 HTML 报告
+截图分组 → 每词 Phase2 事实清单 → Phase3 评测 → Phase4 问题证据 → 整批一次 Phase5 HTML 报告
 ```
 
 系统将截图采集与评测分开处理：已有截图可以稍后再评测；只想采集截图时也不会生成评测结论。
@@ -12,7 +12,7 @@
 
 | 目标 | 可以这样说 | 交付物 |
 |---|---|---|
-| 评测一张已有图 | “评测这张截图：`<绝对路径>`” | 单图事实清单、评测结果、问题证据和本地 HTML 报告 |
+| 评测一张已有图 | “评测这张截图：`<绝对路径>`” | 单图事实清单、评测结果和问题证据；单词任务不生成 HTML |
 | 评测多张图或一个目录 | “评测这个目录中的截图：`<绝对路径>`” | 先返回截图分组；确认后按组评测并生成汇总产物 |
 | 截图后评测 | “搜索 `<词>`，截图 `<Tab>` 第 `<屏>` 屏后评测” | 截图通过检查后，再确认评测范围与报告出口 |
 | 只截图 | “只截图，不评测：搜索 `<词>`，`<Tab>`，第 `<屏>` 屏” | 可复用截图写入 `screenshots/` |
@@ -47,6 +47,42 @@ python3 workflow/eval_cli.py prepare-evaluate \
 
 若已确定搜索词，可追加 `--query <搜索词>`。命令会生成可交给宿主执行环境的任务文件；具体交接方式见 [HOST_ADAPTER.md](workflow/HOST_ADAPTER.md)。
 
+### 批量评测与最终报告
+
+同一份报告中的搜索词使用相同 `batchId`，每个搜索词使用独立 `runId`，分别创建一个 V3 任务：
+
+```bash
+python3 workflow/eval_cli.py prepare-evaluate \
+  --project-dir "$(pwd)" \
+  --source-dir "/path/to/external/screenshots" \
+  --query "咖啡" \
+  --run-id "batch-20260903-coffee" \
+  --batch-id "batch-20260903" \
+  --evaluation-selection '{"mode":"full_19"}'
+```
+
+对每个搜索词重复执行一次，只替换 `--query` 和 `--run-id`。宿主只把返回的 `portableTask.taskPath` 交给对应的一个 Evaluation Agent；每批最多并发 3 个词，必须等待本批全部成功、失败或明确介入后再启动下一批。
+
+每个词完成后都要执行任务 JSON 中自带的 `completionCommand`。只有产生 `status=completed` 的本地回执，才算该词可进入最终汇总。任一词失败时只重试该词，不重跑其他成功词，也不生成不完整报告。
+
+全部预期词完成后，统一执行一次 Phase5：
+
+```bash
+python3 workflow/eval_cli.py finalize-batch \
+  --project-dir "$(pwd)" \
+  --batch-id "batch-20260903" \
+  --task "<咖啡 taskPath>" \
+  --task "<火锅 taskPath>" \
+  --expected-business-tabs "dine_in,food_delivery"
+```
+
+`--task` 按预期搜索词逐个重复。`finalize-batch` 会重新核验全部 V3 结果和 completed 回执，只把回执列出的精确 manifest、最终评测结果和预期搜索词交给 Phase5 确定性生成器，输出：
+
+- `reports/meituan_search_experience_dashboard_<batchId>.html`
+- `reports/.governance_dataset_<batchId>.json`
+
+Phase5 不调用模型，不重新评测截图，也不会把总报告写回各词回执。正式治理看板要求至少两个搜索词、所有词均完成完整 19 项，并显式提供预期业务 `businessCode` 集合。
+
 ## 三种任务模式
 
 | 模式 | 适用场景 | 需要提供的信息 |
@@ -65,9 +101,51 @@ python3 workflow/eval_cli.py prepare-evaluate \
 | Phase2 事实识别 | 单张截图 | `screenshots-out/` 内一图一份事实清单 |
 | Phase3 评测 | 原始截图和对应事实清单 | `.artifacts/过程文件-评测结果与审计/` |
 | Phase4 证据 | 已确认的问题定位 | `screenshots-out/evidence/` |
-| Phase5 报告 | 已验收的评测结果和证据 | `reports/` 内本地 HTML；多词批次额外生成治理数据集 |
+| Phase5 报告 | 本批全部词已验收的结果、manifest 和证据 | `reports/` 内一份批量 HTML 和一份治理数据集 |
 
 每张截图都有独立事实清单，Phase3 只消费已通过 Phase2 校验的清单。批量索引只用于定位文件，不能替代单图事实。
+
+### 词级 Agent 交付契约
+
+V3 Evaluation Agent 只完成 Phase2～4，并返回可核验的文件路径。它不写报告正文，也不生成单词 HTML：
+
+```json
+{
+  "ok": true,
+  "query": "当前搜索词",
+  "stageA": {
+    "elementListPaths": [],
+    "elementAuditPaths": [],
+    "elementCount": 0,
+    "annotated": []
+  },
+  "stageB": {
+    "evalResultFile": "",
+    "evalAuditFile": "",
+    "evalCount": 0
+  },
+  "stageC": {
+    "evidenceImages": [],
+    "skipped": []
+  },
+  "stageD": {},
+  "blockedAt": "",
+  "error": ""
+}
+```
+
+这些产物与 Phase5 的关系是：
+
+| 子 Agent 产物 | Phase5 用途 |
+|---|---|
+| `elementListPaths` | 获取搜索词、原图、卡片/元素 ID、卡型、业务归属与可见语义 |
+| `elementAuditPaths` | 证明每份 Phase2 manifest 已通过确定性验收 |
+| `evalResultFile` | 获取维度、Skill、Tab、评级、问题描述和独立建议 |
+| `evalAuditFile` | 证明 Phase3 结果和 Phase4 证据引用已通过确定性验收 |
+| `evidenceImages` | 验证问题证据文件真实存在；HTML 使用结果中回写的 `evidenceImage` |
+| `stageD` | 固定为空交接对象；最终报告只在批次级 Phase5 生成 |
+
+同一搜索词可以包含多张截图。Phase5 按原图路径隔离 manifest，因此不同截图中重复出现的 `C1`、`E1` 等局部 ID 不会相互覆盖或被错误去重。
 
 ## 评测范围
 
@@ -79,17 +157,20 @@ python3 workflow/eval_cli.py prepare-evaluate \
 | 单元素 | 供给质量、色彩逻辑、元素规范、信息真实性 | 4 |
 | 页面框架 | 模块完整性、视觉秩序、页面色彩、静态组件复杂度、浏览流畅度、信息可比性、信息冗余 | 7 |
 
-可以选择完整 19 项、一个或多个维度，或指定具体评测项。非完整评测会在报告中标识已选范围；报告统一呈现评级与问题项数，不计算综合分。
+可以选择完整 19 项、一个或多个维度，或指定具体评测项。正式批量治理报告要求本批全部搜索词均完成 19 项；部分评测仍交付可核验结果与证据，但不进入该治理看板。报告只呈现评级与问题项数，不计算综合分。
 
 ## 工作方式
 
 ```text
 Workflow
 ├─ Screenshot Agent：截图或发现已有截图
-└─ Evaluation Agent：Phase2 → Phase3 → Phase4 → Phase5
+├─ 每个搜索词一个 Evaluation Agent：Phase2 → Phase3 → Phase4
+└─ 全部词级回执成功后：一次 Phase5 批量报告
 ```
 
-Workflow 只负责按需询问、任务路由和批次控制；评级和事实判断由评测流程完成。进入评测后，事实清单、评测结果和证据都必须通过相应校验，才会生成报告。
+Workflow 只负责按需询问、任务路由和词级执行；外层宿主负责最多 3 词并发、批次屏障和失败词重试。评级和事实判断由评测流程完成。所有预期搜索词的事实清单、评测结果和证据均通过本地回执后，Phase5 才读取这些精确产物生成一次总报告。
+
+新任务默认使用 `MEITUAN_EVAL_TASK_V3`、`phase234-query-pipeline.md` 和 `evaluation-result.v3.schema.json`。已有 `MEITUAN_EVAL_TASK_V2` 仍可按原 `phase2345-query-pipeline.md` 与单词报告契约完成和复验，但不再用于创建新任务。
 
 ## 目录速览
 

@@ -21,7 +21,8 @@ governance, or agent capabilities:
 4. Use `phase1-screenshot/scripts/discover_screenshot_groups.py` on `screenshots/`, return the
    discovered groups and invalid/unparseable inputs, then obtain the minimum
    evaluation configuration required by the selected mode.
-5. Only after the preceding steps may the Evaluation Agent run Phase2 → Phase5.
+5. Only after the preceding steps may each query Evaluation Agent run Phase2 → Phase4.
+   Phase5 runs once after every expected query has a completed local receipt.
    Human visual comments are permitted solely as clearly-labelled post-pipeline
    review and never replace the formal result.
 
@@ -29,10 +30,12 @@ governance, or agent capabilities:
 
 When a host cannot execute `workflow/meituan_eval_workflow.js` directly, use
 `python3 workflow/eval_cli.py prepare-evaluate` to run the copy and discovery
-preflight. When a query is selected it also emits a `MEITUAN_EVAL_TASK_V2`
-portable task with a unique `runId`; give the host only its `taskPath`, then run
-the included completion command. See `workflow/HOST_ADAPTER.md`. The CLI does
-not claim to execute the LLM-dependent Phase3 judgement.
+preflight. When a query is selected it emits a `MEITUAN_EVAL_TASK_V3` portable
+task with a unique `runId`; queries in one report share a `batchId`. Give the
+host only each `taskPath`, run its completion command, then use
+`finalize-batch` once all expected receipts are completed. See
+`workflow/HOST_ADAPTER.md`. The CLI does not claim to execute the
+LLM-dependent Phase3 judgement.
 
 ## Local artifact publication policy
 

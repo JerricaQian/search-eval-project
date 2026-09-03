@@ -144,7 +144,7 @@ bash phase2-card-annotation/scripts/run_cv_facts.sh <screenshot> --output <facts
 
 ### CV + LLM 生产模式
 
-`run_phase2_recognition.py` 固定运行 `cv_llm`：关闭 Tesseract 与 Paddle，仅保留本地 CV 的模块、卡片和图片候选；文字、语义原子、卡片拓扑和归属必须来自带 `completeCurrentPixelReview:true` 的 `--visual-review`。缺少该记录、类型注册表不一致、结构/枚举/schema/审计任一门禁失败，都必须阻断。`--require-bounded-paddleocr` 已退休并会直接报错；运行目录仍必须保留，以复核卡数、元素数、标题/价格/标签完整性及门禁结果。
+`run_phase2_recognition.py` 固定运行 `cv_llm`：关闭 Tesseract 与 Paddle，仅保留本地 CV 的模块、卡片和图片候选；文字、语义原子、卡片拓扑和归属必须来自带 `completeCurrentPixelReview:true` 的 `--visual-review`。缺少该记录、类型注册表不一致、结构/枚举/schema/审计任一门禁失败，都必须阻断。运行目录仍必须保留，以复核卡数、元素数、标题/价格/标签完整性及门禁结果。
 
 卡型标识与展示名称只读取仓库根目录 `card-type-registry.v1.json`。详细的 Phase2 区域契约位于 `references/search_card_taxonomy.v1.json`，Phase3 解释位于 `phase3-evaluation/common/references/card-taxonomy.md`；三者通过同一 id 对齐，禁止在任一说明中手写另一套名称。
 
@@ -152,7 +152,7 @@ Tesseract 默认用 `PSM 6` 与 `PSM 11` 两种独立布局识别。主输出不
 
 照片检测除多色轮廓外，允许以“大面积 + 高像素方差 + 足够彩色像素 + 非细长几何”补充低色相商品/商家照片；该规则不检测圆角容器，不按业务词推断图片。
 
-PaddleOCR 只允许作为门控失败后的本地重跑后端：先用 CV 得到 `reprocessTargets` 的失败卡边界，再一次加载模型、顺序识别这些卡的标题/价格/信息列裁剪；禁止整页长图 OCR、禁止每个字段单独初始化模型。主入口会在初次门控失败时自动尝试这一轮；本地模型不存在或初始化失败时可退回有界 Tesseract，但每个裁剪必须记录 `requestedBackend`、`actualBackend` 与 `fallbackReason`，不得把回退产物描述成 Paddle 证据。要求 Paddle 的运行追加 `--require-bounded-paddleocr`，任何回退立即阻断。设置 `PHASE2_DISABLE_BOUNDED_PADDLEOCR=1` 可完全关闭 Paddle，线程默认由 `PHASE2_OCR_THREADS=2` 限制。
+当前生产入口不调用 PaddleOCR 或 Tesseract，也不接受任何 OCR 运行参数。门控失败时先保留 CV 过程事实，使用当前截图复核和有界结构重建；不能把旧 OCR 参数、环境检查或回退后端作为发布通道。
 
 跨机器不能假定 `git clone` 已带 Paddle 能力：运行时包和模型均不进入 Git。首次准备必须用实际执行 Phase2 的同一个 Python 运行 `phase2-card-annotation/scripts/setup_phase2_ocr.py --all`；该入口安装 PaddlePaddle/PaddleOCR、从 Paddle 官方 BOS 源下载锁定模型、校验 SHA-256 并执行本地推理冒烟测试。`phase2-card-annotation/scripts/setup_phase2_ocr.py --check` 或 `bash setup.sh --with-ocr` 只检查不安装；未通过检查不得声称环境具备 Paddle 能力。
 
@@ -231,7 +231,7 @@ Phase3 通过 `scripts/phase2_bundle_loader.py` 直接消费 atomic v3；入口�
 }
 ```
 
-轻量模式不发布 `annotatedImage`；Phase5 统一使用原始 `screenshot` 与 Phase4 问题证据图。旧清单中的该字段仅为兼容读取，不能作为新产物要求。
+轻量模式不发布 `annotatedImage`；批次级 Phase5 统一使用各词级 Agent 交付的原始 `screenshot` 与 Phase4 问题证据图。旧清单中的该字段仅为兼容读取，不能作为新产物要求。
 
 `pageFacts` 至少记录 `screen`、`isContinuation`、`viewport` 和 `modules[]`。每个 module 含 `id`、`moduleType`、`coord`、`visibleStatus`、`contentRole`、`isListPrefix`、`isListItem`。
 

@@ -151,6 +151,34 @@ class CvLlmTopologyTests(unittest.TestCase):
         self.assertNotIn("summary_and_product_rail_owned_together", card["evidence"])
         self.assertEqual(card["classificationHint"]["cardType"], "商家卡片_文字下挂")
 
+    def test_review_merge_reconciles_duplicate_cv_candidate_and_adjacent_boundary(self):
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            candidates_path = temp_path / "candidates.json"
+            facts_path = temp_path / "facts.json"
+            review_path = temp_path / "review.json"
+            candidates_path.write_text(json.dumps({"resultCards": [
+                {"id": "C1", "coord": [0, 100, 400, 430], "status": "confirmed"},
+                {"id": "C2", "coord": [0, 115, 400, 385], "status": "confirmed", "confidence": 0.49},
+                {"id": "C3", "coord": [0, 500, 400, 300], "status": "confirmed"},
+            ]}), encoding="utf-8")
+            facts_path.write_text(json.dumps({"candidates": {"photos": []}}), encoding="utf-8")
+            review_path.write_text(json.dumps({"cards": [
+                {"cardId": "C1", "coord": [0, 100, 400, 430], "cardTypeCandidate": "商品卡片",
+                 "topology": {"regions": [{"slot": "head_media", "coord": [20, 100, 100, 100]}, {"slot": "price", "coord": [140, 400, 180, 100]}], "attachedItems": []}},
+                {"cardId": "C3", "coord": [0, 500, 400, 300], "cardTypeCandidate": "商品卡片",
+                 "topology": {"regions": [{"slot": "head_media", "coord": [20, 500, 100, 100]}, {"slot": "price", "coord": [140, 650, 180, 80]}], "attachedItems": []}},
+            ]}), encoding="utf-8")
+
+            merge_reviewed_card_boundaries(candidates_path, review_path, facts_path)
+            cards = json.loads(candidates_path.read_text(encoding="utf-8"))["resultCards"]
+            reconciliation = json.loads((temp_path / "candidates.review-reconciliation.json").read_text(encoding="utf-8"))
+
+        self.assertEqual([card["id"] for card in cards], ["C1", "C3"])
+        self.assertEqual(cards[0]["coord"], [0, 100, 400, 400])
+        self.assertIn("clip_reviewed_card_tail", [item["action"] for item in reconciliation["actions"]])
+        self.assertIn("suppress_unreviewed_contained_candidate", [item["action"] for item in reconciliation["actions"]])
+
     def test_bottom_cropped_graphic_card_review_can_omit_unseen_downhang(self):
         with tempfile.TemporaryDirectory() as temp:
             temp_path = Path(temp)

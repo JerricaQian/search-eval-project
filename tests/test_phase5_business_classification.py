@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -170,3 +172,66 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
         self.assertEqual(self.module.METRICS["eval-2-color-logic-single-element"][0], "单一元素色彩复杂")
         self.assertEqual(self.module.METRICS["eval-3-color-logic"][0], "组件色彩复杂")
         self.assertEqual(self.module.METRICS["eval-3-page-color-logic"][0], "页面色彩复杂")
+
+    def test_collect_uses_explicit_multi_screenshot_manifests_without_id_collision(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            project = root / "project"
+            artifact_dir = project / ".artifacts" / "过程文件-评测结果与审计" / "batch-1"
+            artifact_dir.mkdir(parents=True)
+            manifests = []
+            screenshots = []
+            for index in (1, 2):
+                screenshot = project / "screenshots" / f"咖啡_全部_{index}.png"
+                screenshot.parent.mkdir(parents=True, exist_ok=True)
+                screenshot.write_bytes(b"image")
+                manifest = project / "screenshots-out" / f"elements_咖啡_全部_{index}_run.json"
+                manifest.parent.mkdir(parents=True, exist_ok=True)
+                payload = {
+                    "query": "咖啡",
+                    "screenshot": str(screenshot),
+                    "cards": [{
+                        "cardId": "C1",
+                        "卡片类型": "商家卡片-文字下挂",
+                        "ownershipScope": "business",
+                        "businessCode": "dine_in",
+                        "regions": [{
+                            "name": "标题区",
+                            "elements": [{"id": "E1", "内容简述": f"原文:咖啡店{index}"}],
+                        }],
+                    }],
+                }
+                manifest.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+                manifests.append(manifest)
+                screenshots.append(screenshot)
+
+            result_path = artifact_dir / "评测原始结果_咖啡_full19.json"
+            result_path.write_text(json.dumps([{
+                "dimension": "phase3-card_or_component-eval",
+                "skill": "eval-8-info-redundancy",
+                "units": [{
+                    "tab": "全部",
+                    "rating": "不达标",
+                    "reason": "存在重复信息",
+                    "details": {
+                        "screenshot": str(screenshot),
+                        "evidenceMode": "original-page",
+                        "issues": [{
+                            "elementId": "E1",
+                            "component": "C1",
+                            "rating": "不达标",
+                            "description": f"第{index}屏存在重复信息。",
+                            "recommendation": f"删除第{index}屏重复信息，并确保复测无重复。",
+                        }],
+                    },
+                } for index, screenshot in enumerate(screenshots, start=1)],
+            }], ensure_ascii=False), encoding="utf-8")
+
+            data = self.module.collect(project, artifact_dir, manifests, [result_path])
+
+            self.assertEqual(data["manifests"], 2)
+            self.assertEqual(data["queryCount"], 1)
+            self.assertEqual(data["unknown"], [])
+            self.assertEqual(len(data["groups"]), 1)
+            self.assertEqual(len(data["groups"][0]["evidence"]), 2)
+            self.assertEqual(data["businesses"][0]["evaluatedCards"], 2)

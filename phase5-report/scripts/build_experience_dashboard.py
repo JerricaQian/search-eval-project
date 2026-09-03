@@ -348,17 +348,33 @@ def normalize_results(raw_results: Any) -> list[dict[str, Any]]:
     return normalized
 
 
-def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
-    manifests: dict[str, tuple[Path, dict[str, Any]]] = {}
-    for path in (project / "screenshots-out").glob("elements_*.json"):
+def collect(
+    project: Path,
+    artifact_dir: Path,
+    manifest_paths: list[Path] | None = None,
+    result_paths: list[Path] | None = None,
+) -> dict[str, Any]:
+    # A query can contain multiple screenshots. Keep one accepted manifest per
+    # source screenshot so repeated C1/E1 identifiers never collide across pages.
+    manifests: dict[str, dict[str, tuple[Path, dict[str, Any]]]] = defaultdict(dict)
+
+    def register_manifest(path: Path, data: dict[str, Any]) -> None:
+        query = str(data.get("query") or "").strip()
+        screenshot = str(data.get("screenshot") or "").strip()
+        if not query or not screenshot or not isinstance(data.get("cards"), list):
+            return
+        current = manifests[query].get(screenshot)
+        if current is None or path.stat().st_mtime > current[0].stat().st_mtime:
+            manifests[query][screenshot] = (path, data)
+
+    source_manifests = manifest_paths if manifest_paths is not None else list((project / "screenshots-out").glob("elements_*.json"))
+    for path in source_manifests:
         data = read_json(path)
         # recognition-audit files share the `elements_` prefix but are not manifests.
         # Only select a document with the required Phase2 card payload, otherwise a
         # newer audit can shadow the actual screenshot declaration for a query.
-        if isinstance(data, dict) and isinstance(data.get("query"), str) and isinstance(data.get("cards"), list):
-            current = manifests.get(data["query"])
-            if current is None or path.stat().st_mtime > current[0].stat().st_mtime:
-                manifests[data["query"]] = (path, data)
+        if isinstance(data, dict):
+            register_manifest(path, data)
 
     # Golden-JSON exemption runs do not create legacy ``screenshots-out``
     # manifests.  Their read-only Atomic v3 fact packs retain the canonical
@@ -404,39 +420,44 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             # stronger than any same-query legacy projection in screenshots-out.
             # Overwrite it so an older, shorter card list cannot shadow the
             # loader-verified golden manifest and orphan current issue IDs.
-            manifests[query] = (fact_pack_path, {
+            register_manifest(fact_pack_path, {
                 "query": query,
                 "screenshot": str(facts.get("screenshot", "")),
                 "annotatedImage": "",
                 "cards": facts.get("cards", []),
             })
 
-    classifications: dict[str, dict[str, dict[str, str]]] = {}
-    element_cards: dict[str, dict[str, str]] = {}
-    element_labels: dict[str, dict[str, str]] = {}
-    location_labels: dict[str, dict[str, str]] = {}
-    for query, (_, manifest) in manifests.items():
-        classifications[query] = {}
-        element_cards[query] = {}
-        element_labels[query] = {}
-        location_labels[query] = card_location_labels(manifest.get("cards", []))
-        for card in manifest.get("cards", []):
-            card_id = str(card.get("cardId", ""))
-            classifications[query][card_id] = classify_card(card)
-            for region in card.get("regions", []):
-                for element in region.get("elements", []):
-                    element_id = str(element.get("id", ""))
-                    element_cards[query][element_id] = card_id
-                    element_labels[query][element_id] = humanize_element_label(element)
+    classifications: dict[tuple[str, str], dict[str, dict[str, str]]] = {}
+    element_cards: dict[tuple[str, str], dict[str, str]] = {}
+    element_labels: dict[tuple[str, str], dict[str, str]] = {}
+    location_labels: dict[tuple[str, str], dict[str, str]] = {}
+    manifest_data: dict[tuple[str, str], dict[str, Any]] = {}
+    for query, by_screenshot in manifests.items():
+        for screenshot, (_, manifest) in by_screenshot.items():
+            context = (query, screenshot)
+            manifest_data[context] = manifest
+            classifications[context] = {}
+            element_cards[context] = {}
+            element_labels[context] = {}
+            location_labels[context] = card_location_labels(manifest.get("cards", []))
+            for card in manifest.get("cards", []):
+                card_id = str(card.get("cardId", ""))
+                classifications[context][card_id] = classify_card(card)
+                for region in card.get("regions", []):
+                    for element in region.get("elements", []):
+                        element_id = str(element.get("id", ""))
+                        element_cards[context][element_id] = card_id
+                        element_labels[context][element_id] = humanize_element_label(element)
 
     stats: dict[tuple[str, str, str, str], dict[str, Any]] = {}
     query_details: dict[str, list[dict[str, Any]]] = defaultdict(list)
     unknown: list[dict[str, str]] = []
-    for query, cards in classifications.items():
+    for (query, screenshot), cards in classifications.items():
         for card_id, classification in cards.items():
             if classification["scope"] == "unknown":
                 unknown.append({
                     "query": query,
+                    "screenshot": screenshot,
                     "cardId": card_id,
                     "reason": "当前商卡语义与履约事实不足以判定业务",
                 })
@@ -446,29 +467,34 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
     candidates_by_query: dict[str, list[Path]] = defaultdict(list)
     # 各词独立执行会保留不同命名的最终合并结果；优先消费已经通过
     # Phase4 回写的 all-results，确保治理看板引用的是最终证据路径而非 Phase3 初稿。
-    for pattern in (
-        ".eval_results_*.json", "评测原始结果_*.json", "*all-results*.json",
-        "eval_results_*.json", "eval-results*.json", "phase3-results.json",
-    ):
-        for path in artifact_dir.rglob(pattern):
-            if "audit" in path.name.lower() or "target" in path.name.lower():
-                continue
-            query = query_from_result(path)
-            if query not in manifests:
-                # Some retained historical-compatible paths use directory suffixes
-                # such as `库迪_results` or filename suffixes such as `_dual`.
-                # Resolve them only when a known manifest query is an unambiguous
-                # result filename prefix; this preserves batch isolation.
-                filename_matches = [
-                    candidate for candidate in manifests
-                    if path.name.startswith(f"评测原始结果_{candidate}_")
-                    or path.name.startswith(f".eval_results_{candidate}_")
-                ]
-                query = max(filename_matches, key=len) if filename_matches else None
-            if query:
-                candidates_by_query[query].append(path)
+    if result_paths is None:
+        discovered_result_paths: list[Path] = []
+        for pattern in (
+            ".eval_results_*.json", "评测原始结果_*.json", "*all-results*.json",
+            "eval_results_*.json", "eval-results*.json", "phase3-results.json",
+        ):
+            discovered_result_paths.extend(artifact_dir.rglob(pattern))
+    else:
+        discovered_result_paths = result_paths
+    for path in discovered_result_paths:
+        if "audit" in path.name.lower() or "target" in path.name.lower():
+            continue
+        query = query_from_result(path)
+        if query not in manifests:
+            # Some retained historical-compatible paths use directory suffixes
+            # such as `库迪_results` or filename suffixes such as `_dual`.
+            # Resolve them only when a known manifest query is an unambiguous
+            # result filename prefix; this preserves batch isolation.
+            filename_matches = [
+                candidate for candidate in manifests
+                if path.name.startswith(f"评测原始结果_{candidate}_")
+                or path.name.startswith(f".eval_results_{candidate}_")
+            ]
+            query = max(filename_matches, key=len) if filename_matches else None
+        if query:
+            candidates_by_query[query].append(path)
 
-    result_paths: list[Path] = []
+    selected_result_paths: list[Path] = []
     for query, candidates in candidates_by_query.items():
         # A verified recheck supersedes the initial result for the same query;
         # otherwise prefer a combined (all-skill) document over partial files.
@@ -477,10 +503,10 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
         finalized = [path for path in (rechecks or candidates) if "all-results" in path.name]
         combined = [path for path in (finalized or rechecks or candidates) if "card_or_component_page_framework" in path.name]
         pool = combined or finalized or rechecks or candidates
-        result_paths.append(max(pool, key=lambda path: path.stat().st_mtime))
+        selected_result_paths.append(max(pool, key=lambda path: path.stat().st_mtime))
 
     used_queries: set[str] = set()
-    for result_path in sorted(result_paths):
+    for result_path in sorted(selected_result_paths):
         query = query_from_result(result_path)
         if query not in manifests:
             filename_matches = [
@@ -504,9 +530,8 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
         if not results:
             continue
         used_queries.add(query)
-        manifest_path, manifest = manifests[query]
-        annotated = str(manifest.get("annotatedImage", ""))
-        screenshot = str(manifest.get("screenshot", ""))
+        query_manifest_contexts = [(query, screenshot) for screenshot in manifests[query]]
+        default_context = query_manifest_contexts[0] if len(query_manifest_contexts) == 1 else None
         for result in results:
             if not isinstance(result, dict):
                 continue
@@ -520,13 +545,29 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                 tab = str(unit.get("tab", "全部"))
                 detail = unit.get("details") or {}
                 issues = detail.get("issues") or []
+                requested_screenshot = str(detail.get("screenshot") or "")
+                context = (query, requested_screenshot)
+                if context not in manifest_data:
+                    context = default_context
+                if context is None or context not in manifest_data:
+                    unknown.append({
+                        "query": query,
+                        "screenshot": requested_screenshot,
+                        "cardId": "",
+                        "reason": "评测单元无法与本批 Phase2 manifest 的原图一一对应",
+                    })
+                    continue
+                manifest = manifest_data[context]
+                screenshot = str(manifest.get("screenshot", ""))
+                screenshot_ref = Path(screenshot).name or screenshot
+                annotated = str(manifest.get("annotatedImage", ""))
                 query_details[query].append({
                     "level": level_code, "levelName": level_name, "skill": skill,
                     "metricName": metric_name, "metricCode": metric_code, "tab": tab,
                     "rating": str(unit.get("rating", "")), "reason": str(unit.get("reason", "")),
                     "evidenceMode": str(detail.get("evidenceMode", "")), "issues": issues,
                     # 原图来自统一清单；问题图来自 Phase4 写入的 issue.evidenceImage。
-                    "screenshot": str(detail.get("screenshot") or screenshot), "annotatedImage": annotated,
+                    "screenshot": screenshot, "annotatedImage": annotated,
                 })
                 # 看板的待优化对象包含“达标”和“不达标”：只有“优秀”不进入问题治理。
                 problem_issues = [
@@ -535,16 +576,16 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                 ]
                 for issue in problem_issues:
                     element_id = str(issue.get("elementId", ""))
-                    element_label = element_labels[query].get(element_id, humanize_issue_element(issue))
-                    card_id = element_cards[query].get(element_id, str(issue.get("component", "")))
-                    classification = classifications[query].get(card_id)
+                    element_label = element_labels[context].get(element_id, humanize_issue_element(issue))
+                    card_id = element_cards[context].get(element_id, str(issue.get("component", "")))
+                    classification = classifications[context].get(card_id)
                     # 页面框架是评测维度而非业务线。页面级达标/不达标结论按同一截图
                     # 中可见业务归属，写入各业务 Tab 的问题明细；同一业务每页仅保留一份，
                     # 不创建“页面框架”业务 Tab，也不在“全部”页签展示问题明细。
                     if level_code == "page" or issue.get("isAssessmentLevel"):
                         visible_businesses = {
                             item["businessCode"]: item
-                            for item in classifications[query].values()
+                            for item in classifications[context].values()
                             if item["scope"] == "business"
                         }
                         target_classifications = [
@@ -554,7 +595,7 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                             }
                             for item in visible_businesses.values()
                         ]
-                        card_id = f"page:{query}"
+                        card_id = f"page:{query}:{screenshot_ref}"
                     elif classification and classification["scope"] == "business":
                         target_classifications = [classification]
                     elif classification and classification["scope"] == "platform":
@@ -564,7 +605,7 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                         continue
                     elif level_code == "element":
                         target_classifications = [
-                            item for item in classifications[query].values()
+                            item for item in classifications[context].values()
                             if item["scope"] == "business"
                         ]
                     else:
@@ -585,8 +626,8 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                     for target in target_classifications:
                         related_card_ids = [str(value) for value in issue.get("relatedCardIds", []) if value]
                         target_card_id = (
-                            "cross:" + "+".join(sorted(related_card_ids))
-                            if related_card_ids else (card_id if classification else f"{level_code}:{query}")
+                            f"{screenshot_ref}:cross:" + "+".join(sorted(related_card_ids))
+                            if related_card_ids else f"{screenshot_ref}:" + (card_id if classification else f"{level_code}:{query}")
                         )
                         # 治理优先级的唯一统计单元：业务线 + 维度 + 指标；卡型只保留为
                         # 覆盖范围元数据，不能将同一指标拆成多个优先级票池。
@@ -602,7 +643,7 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                         if level_code == "page" or issue.get("isAssessmentLevel"):
                             location_label = "页面框架"
                         else:
-                            location_label = str(issue.get("locationLabel") or location_labels[query].get(card_id) or "页面公共区域")
+                            location_label = str(issue.get("locationLabel") or location_labels[context].get(card_id) or "页面公共区域")
                         evidence = {"query": query, "tab": tab, "cardId": target_card_id, "elementId": element_id,
                                     "elementLabel": element_label,
                                     "locationLabel": location_label,
@@ -612,9 +653,9 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                                     "description": str(issue.get("description", "")),
                                     "recommendation": str(issue.get("recommendation", "")),
                                     "component": str(issue.get("component", "")), "annotatedImage": annotated,
-                                    "screenshot": str(detail.get("screenshot") or screenshot), "coord": issue.get("coord", []),
+                                    "screenshot": screenshot, "coord": issue.get("coord", []),
                     "evidenceImage": str(issue.get("evidenceImage", ""))}
-                        signature = (query, tab, target_card_id, metric_code, finding)
+                        signature = (query, screenshot_ref, tab, target_card_id, metric_code, finding)
                         if not any(item["signature"] == signature for item in group["issues"]):
                             group["issues"].append({"signature": signature, **evidence})
                         if signature not in group["voteCountedSignatures"]:
@@ -629,15 +670,16 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
                         group["findingCounts"][finding] += 1
 
     # Add denominators per business/card-type/metric based on all classified cards.
-    for query, cards in classifications.items():
+    for (query, screenshot), cards in classifications.items():
         if query not in used_queries:
             continue
+        screenshot_ref = Path(screenshot).name or screenshot
         for card_id, classification in cards.items():
             if classification["scope"] != "business":
                 continue
             for key, group in stats.items():
                 if key[0] == classification["businessCode"] and classification["cardTypeCode"] in group["cardTypeCodes"]:
-                    group["evaluatedCards"].add((query, "全部", card_id))
+                    group["evaluatedCards"].add((query, "全部", f"{screenshot_ref}:{card_id}"))
 
     groups = []
     for group in stats.values():
@@ -697,8 +739,11 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             item["componentProblemCards"].update(group["problemCardRefs"])
             item["componentEvaluatedCards"].update(group["evaluatedCardRefs"])
     # 即使某业务没有待优化问题，只要当前批次存在可见业务卡，也要保留业务 Tab。
-    for query in used_queries:
-        for card_id, classification in classifications.get(query, {}).items():
+    for (query, screenshot), cards in classifications.items():
+        if query not in used_queries:
+            continue
+        screenshot_ref = Path(screenshot).name or screenshot
+        for card_id, classification in cards.items():
             if classification["scope"] != "business":
                 continue
             summary = business_summary.setdefault(classification["businessCode"], {
@@ -708,7 +753,7 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             # The business card rate uses the full visible-card inventory as
             # denominator, including cards whose component metrics are all
             # excellent and therefore produce no governance group.
-            summary["componentEvaluatedCards"].add((query, "全部", card_id))
+            summary["componentEvaluatedCards"].add("|".join((query, "全部", f"{screenshot_ref}:{card_id}")))
 
     business_rows = []
     for item in business_summary.values():
@@ -726,16 +771,30 @@ def collect(project: Path, artifact_dir: Path) -> dict[str, Any]:
             "tracking": {"newIssueCount": int(item["issueCount"]), "resolvedIssueCount": 0, "baseline": "monthly_tracking_initial"},
         })
     business_rows.sort(key=lambda item: (-item["issueCount"], item["businessName"]))
-    return {"generatedAt": str(date.today()), "queryCount": len(used_queries), "groups": groups, "businesses": business_rows, "queryDetails": dict(sorted(query_details.items())), "unknown": unknown, "manifests": len(manifests)}
+    manifest_count = sum(len(by_screenshot) for by_screenshot in manifests.values())
+    return {"generatedAt": str(date.today()), "queryCount": len(used_queries), "groups": groups, "businesses": business_rows, "queryDetails": dict(sorted(query_details.items())), "unknown": unknown, "manifests": manifest_count}
 
 
-def validate_dataset(data: dict[str, Any], artifact_dir: Path, expected_business_tabs: set[str]) -> None:
+def validate_dataset(
+    data: dict[str, Any],
+    artifact_dir: Path,
+    expected_business_tabs: set[str],
+    expected_queries: set[str] | None = None,
+    allow_unknown_business: bool = False,
+) -> None:
     """Fail early when a dashboard would silently mix batches or lose audit evidence."""
     if not data["queryCount"]:
         raise ValueError(f"未从评测产物读取到有效搜索词：{artifact_dir}")
     if data["queryCount"] != len(data["queryDetails"]):
         raise ValueError("搜索词计数与逐词详情不一致，停止生成以避免交付不完整看板")
-    if data.get("unknown"):
+    if expected_queries is not None and set(data["queryDetails"]) != expected_queries:
+        missing = sorted(expected_queries - set(data["queryDetails"]))
+        extra = sorted(set(data["queryDetails"]) - expected_queries)
+        raise ValueError(
+            "报告搜索词不满足本批任务集合："
+            f"缺失={','.join(missing) or '无'}；多出={','.join(extra) or '无'}"
+        )
+    if data.get("unknown") and not allow_unknown_business:
         unresolved = "; ".join(
             f"{item.get('query')}:{item.get('cardId')}（{item.get('reason')}）"
             for item in data["unknown"]
@@ -800,20 +859,33 @@ def main() -> int:
         required=True,
         help="本批次业务 Tab 断言（逗号分隔 businessCode）；实际输出必须完全一致",
     )
+    parser.add_argument("--expected-query", action="append", default=[], help="重复传入本批每个预期搜索词。")
+    parser.add_argument("--manifest", action="append", type=Path, default=[], help="重复传入已验收的 Phase2 manifest。")
+    parser.add_argument("--result", action="append", type=Path, default=[], help="重复传入已验收且已回写证据的 Phase3/4 结果。")
+    parser.add_argument("--allow-unknown-business", action="store_true", help="本地部分报告允许未归属商卡不进入业务 Tab，并在报告范围中显式标注。")
+    parser.add_argument("--execution-note", action="append", default=[], help="外层批次控制器写入的未完成/阻断范围说明。")
     args = parser.parse_args()
     project = args.project_dir.resolve()
     artifact_dir = args.artifact_dir or project / ".artifacts" / "过程文件-评测结果与审计"
     output = args.output or project / "reports" / "meituan_search_experience_dashboard_五图全维度.html"
     dataset_output = args.dataset_output or project / "reports" / ".governance_dataset_五图全维度.json"
-    data = collect(project, artifact_dir)
+    data = collect(
+        project,
+        artifact_dir,
+        manifest_paths=args.manifest or None,
+        result_paths=args.result or None,
+    )
     data["batch"] = args.batch_name or artifact_dir.name
+    data["executionNotes"] = args.execution_note
+    data["unclassifiedCardCount"] = len(data.get("unknown") or [])
     expected_business_tabs = {code.strip() for code in args.expected_business_tabs.split(",") if code.strip()}
     if not expected_business_tabs:
         raise ValueError("--expected-business-tabs 不能为空")
     invalid_expected_codes = sorted(expected_business_tabs - set(EXPECTED_REPORT_BUSINESS_TABS))
     if invalid_expected_codes:
         raise ValueError(f"--expected-business-tabs 包含未允许的业务：{','.join(invalid_expected_codes)}")
-    validate_dataset(data, artifact_dir, expected_business_tabs)
+    expected_queries = set(args.expected_query) if args.expected_query else None
+    validate_dataset(data, artifact_dir, expected_business_tabs, expected_queries, args.allow_unknown_business)
     output.parent.mkdir(parents=True, exist_ok=True)
     dataset_output.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     output.write_text(render(data), encoding="utf-8")

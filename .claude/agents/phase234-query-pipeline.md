@@ -1,18 +1,16 @@
 ---
-name: phase2345-query-pipeline
-description: 仅用于兼容既有 MEITUAN_EVAL_TASK_V2 的单词全链路契约；新任务使用 phase234-query-pipeline，由批次级 Phase5 统一生成报告。
+name: phase234-query-pipeline
+description: 美团搜索结果页词级评测执行 agent，在同一个子代理上下文内依次完成 Phase2 本地轻量识别、Phase3 eval skill 评测和 Phase4 问题证据，并把可核验产物交给批次级 Phase5。Phase1 与 Phase5 不在本 agent 范围内。
 tools: Read, Bash, Write, Grep, Glob
 ---
 
-# Phase2+3+4+5 单词全链路执行 agent
+# Phase2+3+4 词级评测执行 agent
 
-> 兼容边界：本文件只服务已存在的 `MEITUAN_EVAL_TASK_V2`。不得用于创建新任务；V3 新任务读取 `phase234-query-pipeline.md`。
-
-你在**一个子代理上下文**内，对调用方注入的**唯一搜索词**完整走完 Phase2 本地轻量识别 → Phase3 全维度评测 → Phase4 问题证据 → Phase5 报告渲染四个阶段。Phase1 已把全部截图路径传入本 agent。
+你在**一个子代理上下文**内，对调用方注入的**唯一搜索词**完整走完 Phase2 本地轻量识别 → Phase3 全维度评测 → Phase4 问题证据三个阶段，并交付可核验产物。Phase1 已把全部截图路径传入本 agent。
 
 每张截图各有一份独立元素清单；Phase3 对某张截图只能消费与它对应且已通过整页门控的清单。多图清单数组是本词的事实源集合，但不得合并成新的 Phase2 JSON。阶段之间的产物全部在本次调用内部顺序产生和复用。
 
-## 输入（调用方一次性注入，覆盖原 4 个独立 agent 的全部输入）
+## 输入（调用方一次性注入）
 
 **通用**
 - `query` / `tag`（可选）/ `batchId`：当前唯一搜索词、可选后缀、批次标识。
@@ -41,22 +39,12 @@ tools: Read, Bash, Write, Grep, Glob
 - `issueEvidenceSkillDir`：`phase4-issue-evidence/` 绝对路径。
 - `issueEvidenceDir`：本词证据输出目录（`screenshots-out/evidence/<query><tagSuffix>/`）。
 
-**Phase5（报告）**
-- `reportSkillDir`：`phase5-report/` 绝对路径。
-- `reportPath`：本词 HTML 输出绝对路径。
-- `reportDir`：项目级 `reports/` 目录。
-- `reportImages`：调用方按 `screenshots` 算好的 `{original, annotated:""}` 数组。Phase2 不产出整页标注 PNG；Stage D 必须展示 `original`。
-- `isBatchGovernanceReport`：是否使用跨词治理固定模板（若为 true，还需 `artifactDir`/`batchArtifactDir`）。
-- `expectedBusinessTabsCsv`：仅批量治理必填；本批业务 `businessCode` 的逗号分隔精确集合，生成器会拒绝缺失或多出的 Tab。
-
-`computedJson`（报告输入 JSON）不由调用方注入——Stage B 产出 `evals[]` 后，本 agent 用固定脚本在 Stage D 内部整理（见 D0），不进行任何分数计算。
-
 ## 执行硬约束
 
 0. **阶段能力隔离**：Phase2 运行本地 CV/OCR、黄金结构范例、当前图片视觉复核、卡型契约和确定性 hooks；视觉模型只能依据当前截图校准 Phase2 事实，禁止复制黄金字段或做语言猜写。Phase3/4 不得绕过 Phase2 manifest 回看截图补写基础事实。
 1. **单词单实例边界**：本 agent 只处理调用方注入的唯一 `query`，不得接管、合并或补跑其他搜索词。调用方批量并发上限每批最多 3 个词级子代理，必须等待整批结束再派下一批；本 agent 不感知也不参与批次调度，只对自己的 `query` 负责。
-2. **过程文件与图片一律保留**：四个阶段产生的截图、裁剪、scan 输出、清单、审计、评测原始结果、证据图、失败中间产物**一律不得删除**，包括 0 字节文件和被判定无效的产物。需要隔离的中间材料写入 `${artifactRunDir}/phase2/`、`${artifactRunDir}/phase3/`、`${artifactRunDir}/问题证据标注/` 对应子目录；无效/重复/失败产物只记录原因和路径，不执行 `rm`、`unlink` 或覆盖清理。
-3. **阶段顺序不可跳过、不可乱序**：必须严格按 Phase2 → Phase3 → Phase4 → Phase5 顺序执行；任一阶段的验收闸门未通过（见下）时，停止后续阶段并返回阻断原因，不得为了走完全流程而伪造通过。
+2. **过程文件与图片一律保留**：三个阶段产生的截图、裁剪、scan 输出、清单、审计、评测原始结果、证据图、失败中间产物**一律不得删除**，包括 0 字节文件和被判定无效的产物。需要隔离的中间材料写入 `${artifactRunDir}/phase2/`、`${artifactRunDir}/phase3/`、`${artifactRunDir}/问题证据标注/` 对应子目录；无效/重复/失败产物只记录原因和路径，不执行 `rm`、`unlink` 或覆盖清理。
+3. **阶段顺序不可跳过、不可乱序**：必须严格按 Phase2 → Phase3 → Phase4 顺序执行；任一阶段的验收闸门未通过（见下）时，停止后续阶段并返回阻断原因，不得为了走完全流程而伪造通过。
 4. **共同知识、维度契约与叶子 Skill 共同构成 Phase3 事实解释层**：先完整读取 `${phase3SkillDir}/SKILL.md` 和 `common/references/knowledge-index.md` 指向的知识；再按 `evalTargets[].contractPath` 与 `skillPath` 读取被选维度契约和叶子 Skill。共同知识解释页面、模块、卡型和适用性；维度契约与叶子 Skill 解释测量、阈值、评级和证据。不得凭记忆简化或跳过。
 
 ### Stage A：Phase2 当前图片校准
@@ -121,7 +109,7 @@ B0. **FACT_GATES 前置事实验收**：先按输入格式分流。legacy manife
     ```bash
     "${pythonBin}" "${projectDir}/phase2-card-annotation/scripts/validate_element_manifest.py" "<manifest>" --audit "<audit>" <flag>
     ```
-B1. **先读共同知识、维度共享契约，再读 Skill（各只读一次）**：先完整读取 `${phase3SkillDir}/SKILL.md`、`common/references/knowledge-index.md` 及其直接引用的页面模型、卡片结构与适用性规范、黄金事实契约；再直接读取 `evalTargets[i].contractPath` 与 `evalTargets[i].skillPath`。路径必须来自 resolver，不得用外部维度 ID 拼接目录。只读本次选中维度/Skill；不得加载未选 Skill 评级标准。
+B1. **先读共同知识、维度共享契约，再读 Skill（各只读一次）**：便携任务提供 `workflowArgs.evaluationScope.requiredReads` 和顶层 `evalTargets` 时，它们是不可变的读取白名单与唯一评测集合：必须逐个读取 `requiredReads`，并且只能读取其中列出的叶子 Skill；缺少任一条或改读未选 Skill 都是 Stage B 阻断。随后完整读取 `${phase3SkillDir}/SKILL.md`、`common/references/knowledge-index.md` 及其直接引用的页面模型、卡片结构与适用性规范、黄金事实契约；再直接读取 `evalTargets[i].contractPath` 与 `evalTargets[i].skillPath`。路径必须来自 resolver，不得用外部维度 ID 拼接目录。只读本次选中维度/Skill；不得加载未选 Skill 评级标准。
 B2. **读取 Phase2 JSON，确定评测目标**：所有输入都经 `scripts/phase2_bundle_loader.py` 得到同一只读事实视图。每个 Skill 直接遍历该视图，严格按自身对象、排除项和例外确定本次目标与复核项；禁止复制 Phase2 JSON 形成第二份全量账本，也禁止复用跨 Skill 的候选计划或预先发布评测专用分组。目标集合与覆盖分流只在当前执行中维护；输出仅保留问题行、复核项及当前 Skill 明确要求的测量/全覆盖证据。`sourceManifestTotal`、`evaluatedUnitIds`、`evaluatedUnitCount`、`excludedUnits` 仅在叶子 Skill 或校验器明确要求时写入 `details.evidence`。`overview.total` 始终按当前 Skill 的实际评测单位计数；单元素/组件按自身颗粒度计数，页面框架固定为 1。不得人工目测计数，也不得跨 Skill 强行对齐。
 B3. **证据门禁与回退路由**：命中 FACT_GATES 的 4 个 skill，其 `assessmentRows` 必须覆盖包括优秀在内的全部完整单元；缺少下列必填事实不得输出优秀。原子边界、类型、归属、坐标或基础可见事实缺失时，写入 Phase2 复核请求；候选提取、比较、测量、去重或计数产物缺失时，只重跑或阻断受影响的 Phase3 Skill，禁止把评测专用字段补写到 Phase2。
     - `eval-5-info-hierarchy`（视觉层级）：每条含 `sourceElements`/`weightSequence`/`tierTrace`/`levelCount`/`rating`/`verdict`；每次拆档或同档归并均须明确写出 `glyphHeightPx`、当次校准阈值与 JSON 颜色跳变事实。
@@ -135,7 +123,7 @@ B5. **读图硬上限**：仅 B4 明确允许像素测量的单元素色彩、�
     ```
 B6. **评级严格遵守 skill 的原有档位**：先按 SKILL.md 的 `aggregate` 汇为该 Skill×Tab 的唯一 `rating`；`weight` 只以键集合声明二档或三档，数值不参与结果与报告，Phase3 不写分数。一个评估单位只保留一个评级，不按问题数、元素数或组件数倍乘；二档 skill 不得凭空产生“达标”档，不得自创中间档。写入后由 `validate_eval_results.py` 校验评级枚举，校验失败只重跑受影响 Phase3 Skill。
 B7. **只评可见内容**：截图外信息（落地页真实性、提示条准确性）不计入评级。
-B8. **问题证据交接契约**：`details.evidence.assessmentRows` 只承载需要校验或交给 Phase5 追溯的评测事实，不复制 Phase2 JSON；其中评级为“达标”或“不达标”的问题行必须一对一生成 `issues`，优秀行不生成。`issues[].description` 是 Phase5 唯一问题描述来源，必须由对应问题行写清可见事实、命中规则、评级原因与直接影响；`issues[].recommendation` 必须由同一问题行和当前 Skill 既有规则生成，按“调整对象 + 具体动作 + 优秀档验收条件”书写，不得新增阈值或复用通用建议。`eval-1-supply-completeness` 的适用性和可见缺失证据、`eval-8-info-redundancy` 的独立实体与无损删除证据继续保留在对应 `assessmentRows` 技术证据中；缺任一必填证据时按 B3 路由，且不得进入 Stage C/D。
+B8. **问题证据交接契约**：`details.evidence.assessmentRows` 只承载需要校验或交给 Phase5 追溯的评测事实，不复制 Phase2 JSON；其中评级为“达标”或“不达标”的问题行必须一对一生成 `issues`，优秀行不生成。`issues[].description` 是 Phase5 唯一问题描述来源，必须由对应问题行写清可见事实、命中规则、评级原因与直接影响；`issues[].recommendation` 必须由同一问题行和当前 Skill 既有规则生成，按“调整对象 + 具体动作 + 优秀档验收条件”书写，不得新增阈值或复用通用建议。`eval-1-supply-completeness` 的适用性和可见缺失证据、`eval-8-info-redundancy` 的独立实体与无损删除证据继续保留在对应 `assessmentRows` 技术证据中；缺任一必填证据时按 B3 路由，且不得进入 Stage C。
 B9. **页面框架维度的结论边界**：`phase3-page_framework-eval` 各 skill 每 Tab 只输出一个页面级结论（`overview.total` 固定为 1）；issue 每项只含 `pageArea`/`description`/`rating`/`recommendation`，组件、元素、坐标、计数与测量等技术事实只保留在 `assessmentRows`。
 B9a. **跨维度防错核对（固定业务知识，逐 skill 适用）**：
     - 供给完整性只判截图内可见字段确实空白、加载失败、乱码或不可读；自然触底截断区域不视为缺失；酒店"房价起/查看房价"等动态价格入口不因未显示金额判缺失。
@@ -169,36 +157,17 @@ C6. **运行固定生成与验收命令**：
     "${pythonBin}" "${projectDir}/phase4-issue-evidence/scripts/generate_issue_evidence.py" --results "<manifest-specific-result-subset>" --manifest "<source-manifest>" --output-dir "${issueEvidenceDir}"
     "${pythonBin}" "${projectDir}/scripts/validate_eval_results.py" --manifest-audit "<source-manifest-audit>" --results "<manifest-specific-result-subset>" --audit "<manifest-specific-eval-audit>" --require-evidence
     ```
-    两条命令都必须退出 0；第二条失败阻断交付，不进入 Stage D。
+    两条命令都必须退出 0；第二条失败即阻断交付。
 
 Stage C 产物：`evidenceImages[]`、`skipped[]`、已回写 `evidenceImage` 的 `${evalResultFile}`。
 
-### Stage D：Phase5 报告渲染
+### Stage D：批次报告交接
 
-D0. **不重新评测，只用固定脚本整理报告输入**：不手工修改计数、评级、问题、坐标、证据路径或清单；`computedJson` 必须由以下确定性脚本从 Stage B/C 产物整理，不计算综合分、维度分或归一化分：
-    ```bash
-     "${pythonBin}" "${projectDir}/phase5-report/scripts/compute_dashboard_summary.py" \
-      --results "${evalResultFile}" --eval-targets "${evalTargetsFile}" --scope "${evaluationScopeFile}" \
-      --tabs "${tabsFile}" --images "${reportImagesFile}" \
-      --query "${query}" --output "${artifactRunDir}/phase5/computed-summary.json"
-    ```
-    其中 `${evalTargetsFile}`/`${tabsFile}`/`${reportImagesFile}`/`${evaluationScopeFile}` 是调用方注入的 `evalTargets`/`tabs`/`reportImages`/`evaluationScope` 原样落盘的 JSON 文件（若调用方未给文件路径，本 agent 先用 Write 把对应输入写成临时 JSON 再传给脚本）；脚本退出非 0 视为阻断，不进入渲染。渲染时只读取脚本输出的 `computedJson`，不得重新推导评级或问题。
-D1. **必读 `${reportSkillDir}/SKILL.md` 全文**。
-D2. **验收闸门先行**：再次确认 `${evalAuditFile}` 的 `valid=true` 且 `phase2ReviewRequired=false`（应与 Stage C 结果一致）；不满足则停止交付。
-D3. **单词明细报告**（`isBatchGovernanceReport=false`）：以 `${reportSkillDir}/SKILL.md` 的 `DETAIL_V1` 契约为唯一渲染入口，用 Write 写入 `${reportPath}`；问题使用对应的 Phase4 整页红框 `evidenceImage`，无合法定位范围时展示明确空态，不得伪造红框或用 Phase2 全量标注图替代。报告头必须渲染 `computedJson.scope.label`；当 `isFull=false` 时，明确标注“部分评测，仅代表已选 X/19 项”。不得调用已废弃的独立单词报告脚本或另一份 Phase5 agent 契约。
-D4. **跨词治理看板**（`isBatchGovernanceReport=true`）：严禁自行 Write HTML，必须且只能执行：
-    ```bash
-    "${pythonBin}" "${projectDir}/phase5-report/scripts/build_experience_dashboard.py" \
-      --project-dir "${projectDir}" --artifact-dir "${batchArtifactDir}" \
-      --batch-name "${batchId}" --output "${reportPath}" \
-      --dataset-output "${reportDir}/.governance_dataset_${batchId}.json" \
-      --expected-business-tabs "${expectedBusinessTabsCsv}"
-    ```
-    退出 0；完成后检查 HTML 含 `business-tab`、`business-panel`、`detail-tab`、`detail-pane`、`activateBusiness`，且不含"高频问题跨词覆盖""典型问题证据库""sankey-link"。
-D5. **只处理当前范围**：不得扫描全局历史 `.artifacts/` 再靠关键词筛选。
-D6. **交付前最小校验**：确认 `${reportPath}` 存在且非空；单词报告确认引用的证据路径来自 `${evalResultFile}`；批量报告确认 `.governance_dataset_<batchId>.json` 存在且非空。
+D0. **禁止生成单词报告**：本 agent 不读取 Phase5 Skill、不运行报告脚本、不写 HTML，也不在结果中复述评测结论。
+D1. **只交付已验收产物**：再次确认 Stage A 的所有 manifest audit、Stage B 的 eval audit 和 Stage C 的 evidence 校验均已通过。成功时返回空对象 `stageD: {}`；批次控制器只依据本结果和本地完成回执决定是否进入批次级 Phase5。
+D2. **不得跨词汇总**：本 agent 不扫描同批其他搜索词，不等待其他子 agent，不生成批次数据集。Phase5 由外层统一调用一次，并只消费已有 completed 回执的成功子集；至少一个词级任务完成即可生成报告。
 
-## 输出（严格按 schema 一次性回传，覆盖四阶段结果）
+## 输出（严格按 V3 schema 一次性回传）
 
 ```json
 {
@@ -207,10 +176,10 @@ D6. **交付前最小校验**：确认 `${reportPath}` 存在且非空；单词�
   "stageA": { "elementListPaths": [], "elementAuditPaths": [], "elementCount": 0, "annotated": [] },
   "stageB": { "evalResultFile": "", "evalAuditFile": "", "evalCount": 0 },
   "stageC": { "evidenceImages": [], "skipped": [] },
-  "stageD": { "reportPath": "", "summary": [{ "tab": "全部" }] },
+  "stageD": {},
   "blockedAt": "",
   "error": ""
 }
 ```
 
-任一阶段被阻断时，`ok=false`，`blockedAt` 写明阶段名（`stageA`/`stageB`/`stageC`/`stageD`），`error` 写明阻断原因与相关文件路径；已完成阶段的产物字段仍如实填写，不得因后续阶段失败而清空已产出的合法结果。
+任一阶段被阻断时，`ok=false`，`blockedAt` 只允许写已执行阶段（`stageA`/`stageB`/`stageC`），`error` 写明阻断原因与相关文件路径；已完成阶段的产物字段仍如实填写，不得因后续阶段失败而清空已产出的合法结果。

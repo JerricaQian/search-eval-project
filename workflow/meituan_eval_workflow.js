@@ -1,10 +1,10 @@
 export const meta = {
   name: 'meituan-search-eval',
-  description: '美团搜索结果页 1.0：按需截图、发现已有截图或执行 Phase2/3/4/5 评测流水线',
+  description: '美团搜索结果页：按需截图、发现已有截图或执行 Phase2/3/4 词级评测流水线',
   phases: [
     { title: '① Screenshot Agent', detail: 'ADB现场截图，或只读发现已有截图' },
     { title: '② Phase3 评测官解析范围', detail: '按用户选择确定性解析完整19项、维度或自定义 eval skill' },
-    { title: '③ Phase2+3+4+5 单词全链路', detail: '单图本地识别→多维度评测→问题证据→报告渲染，四阶段在同一子代理内顺序完成' },
+    { title: '③ Phase2+3+4 词级评测', detail: '单图本地识别→多维度评测→问题证据，三个阶段在同一子代理内顺序完成' },
     { title: '④ Manifest 质量侧审计', detail: '可选：单图元素清单 L1/L2/L3 合规率统计，仅记录不阻断' },
   ],
 }
@@ -206,11 +206,12 @@ if (phase2Mode !== 'lightweight') throw new Error('phase2Mode 当前只允许 li
 const annotateScenes = A.annotateScenes ? A.annotateScenes : []
 if (!Array.isArray(annotateScenes)) throw new Error('annotateScenes 必须是截图绝对路径数组')
 if (annotateScenes.length) throw new Error('annotateScenes 已停用：Phase2 必须为本轮每张 screenshots 输入分别生成 manifest')
-// granularity：Phase3 三个维度都以统一最小元素清单为单一事实源；合并后的 phase2345-query-pipeline agent
+// granularity：Phase3 三个维度都以统一最小元素清单为单一事实源；合并后的 phase234-query-pipeline agent
 // 固定按元素级契约（七键单图清单/regions/elements）执行，不再支持 component/region 颗粒度。
 const granularity = A.granularity ? A.granularity : 'element'
 if (granularity !== 'element') throw new Error('当前标准工作流只接受 granularity=element；组件/卡片与页面框架评测也必须消费同一份最小元素清单，再按各 Skill 聚合')
 const enableAnnotationAudit = A.enableAnnotationAudit !== false
+// reportOutlet 仅描述整批完成后的最终出口；词级 Evaluation Agent 不生成报告。
 const reportOutlet = A.reportOutlet ? A.reportOutlet : 'local_html'
 if (!['local_html', 'nocode'].includes(reportOutlet)) {
   throw new Error('reportOutlet 只允许 local_html/nocode，收到: ' + reportOutlet)
@@ -228,7 +229,6 @@ const tagSuffix = tag ? '_' + tag : ''
 
 // annotatedDir：Phase2 单图元素清单输出目录；Phase2 不生成整页标注 PNG。
 const annotatedDir = (A.annotatedDir ? A.annotatedDir : projectDir + '/screenshots-out')
-const reportDir = (A.reportDir ? A.reportDir : projectDir + '/reports')
 // 过程文件与最终 HTML 分离：报告目录只放交付物，评测原始结果和审计记录归档到易识别的过程文件目录。
 // 过程产物只追加保留，禁止删除、unlink 或覆盖清理；无效/失败文件也必须保留并记录路径。
 const evaluationArtifactDir = projectDir + '/.artifacts/过程文件-评测结果与审计'
@@ -238,25 +238,9 @@ const rerunId = A.rerunId ? A.rerunId : (runId || batchId)
 const batchArtifactDir = evaluationArtifactDir + '/' + batchId
 const artifactRunDir = batchArtifactDir + '/' + query + tagSuffix
 const dimSlug = dimensions.map(d => d.replace(/^phase3-/, '').replace(/-eval$/, '')).join('_')
-// 批量治理看板可读取调用方显式给定的当前 batchArtifactDir，但不得借 queries 在本实例内混跑多词。
-const isBatchGovernanceReport = A.batchGovernance === true
-if (isBatchGovernanceReport && !A.batchId) throw new Error('批量治理报告必须显式传入 batchId，以隔离本批过程产物与治理数据集')
-const expectedBusinessTabs = [...new Set((Array.isArray(A.expectedBusinessTabs)
-  ? A.expectedBusinessTabs
-  : (typeof A.expectedBusinessTabs === 'string' ? A.expectedBusinessTabs.split(',') : []))
-  .map(code => String(code).trim())
-  .filter(Boolean))]
-const expectedBusinessTabsCsv = expectedBusinessTabs.join(',')
-if (isBatchGovernanceReport && !expectedBusinessTabsCsv) {
-  throw new Error('批量治理报告必须显式传入 expectedBusinessTabs（业务 businessCode 数组或逗号分隔字符串），用于断言本批业务 Tab 口径')
-}
-const reportPath = isBatchGovernanceReport
-  ? reportDir + '/meituan_search_experience_dashboard_' + query + tagSuffix + '.html'
-  : reportDir + '/meituan_eval_report_' + query + tagSuffix + '_' + dimSlug + '.html'
 const shotSkillDir = (A.shotSkillDir ? A.shotSkillDir : projectDir + '/phase1-screenshot')
 const phase2SkillDir = (A.phase2SkillDir ? A.phase2SkillDir : projectDir + '/phase2-card-annotation')
 const issueEvidenceSkillDir = (A.issueEvidenceSkillDir ? A.issueEvidenceSkillDir : projectDir + '/phase4-issue-evidence')
-const reportSkillDir = (A.reportSkillDir ? A.reportSkillDir : projectDir + '/phase5-report')
 const phase3SkillDir = projectDir + '/phase3-evaluation'
 
 // ---------- schemas ----------
@@ -325,7 +309,8 @@ const ANNOTATE_AUDIT_SCHEMA = {
   },
   required: ['stdout'],
 }
-// PIPELINE_SCHEMA：phase2345-query-pipeline agentType 的统一输出契约，覆盖原 Phase2/3/4/5 四个独立 schema。
+// PIPELINE_SCHEMA：phase234-query-pipeline 的统一输出契约。Stage D 只是空交接对象；
+// Phase5 在全部词级结果通过本地回执后由批次控制器统一运行一次。
 const PIPELINE_SCHEMA = {
   type: 'object',
   properties: {
@@ -360,20 +345,8 @@ const PIPELINE_SCHEMA = {
     },
     stageD: {
       type: 'object',
-      properties: {
-        reportPath: { type: 'string' },
-        summary: {
-          type: 'array',
-          items: {
-            type: 'object',
-            properties: {
-              tab: { type: 'string' },
-            },
-            required: ['tab'],
-          },
-        },
-      },
-      required: ['reportPath', 'summary'],
+      properties: {},
+      additionalProperties: false,
     },
     blockedAt: { type: 'string' },
     error: { type: 'string' },
@@ -383,7 +356,7 @@ const PIPELINE_SCHEMA = {
 
 // ---------- Screenshot Agent ----------
 phase('截图')
-log('工作流模式=' + mode + '；步骤：Screenshot Agent → 发现评测项 → Evaluation Agent(Phase2+3+4+5)')
+log('工作流模式=' + mode + '；步骤：Screenshot Agent → 发现评测项 → Evaluation Agent(Phase2+3+4)')
 log('Screenshot Agent: query=' + query + ' skip=' + skipScreenshot)
 
 const shotPrompt = `你是美团搜索截图执行 Agent。任务：为搜索词「${query}」获取 ${tabs.join('/')} × 第${screens.join('/')}屏 截图，目录 ${screenshotDir}。
@@ -472,8 +445,6 @@ if (new Set(phase2Outputs.map(item => item.manifest)).size !== phase2Outputs.len
 const phase2RereviewAuditFile = annotatedDir + '/elements_' + query + tagSuffix + '.recognition-audit-rereview-' + rerunId + '.json'
 const phase2RereviewValidationFile = evaluationArtifactDir + '/Phase2返工复核校验_' + query + tagSuffix + '_' + dimSlug + '.json'
 
-const reportImages = screenshots.map(p => ({ original: p, annotated: '' }))
-
 // ---------- Phase 2b: 由统一 catalog 解析评测范围（确定性、不读图） ----------
 phase('评测')
 log('Phase 2b catalog 解析: dimensions=' + dimensions.join(',') + (legacySelectionFallback ? '（兼容旧 dimensions 参数）' : ''))
@@ -494,20 +465,16 @@ const resolvedTargets = resolution.evalTargets
 const resolvedDimensions = resolution.dimensions
 const evaluationScope = resolution.coverage
 log('Phase3范围=' + evaluationScope.label + '；目标=' + resolvedTargets.map(item => item.dimension + '/' + item.skill).join(','))
-if (isBatchGovernanceReport && !evaluationScope.isFull) {
-  throw new Error('批量治理看板只接受完整19项评测，当前为' + evaluationScope.label + '；请改用 full_19，避免与全量分混合')
-}
-
 // 目录由 resolver 从 catalog 返回；外部维度 ID 不再参与物理路径拼接。
 const skillDirs = {}
 resolvedTargets.forEach(target => { skillDirs[target.dimension] = projectDir + '/' + target.skillsDir })
 
-// ---------- Evaluation Agent: Phase 2+3+4+5 ----------
-// 原 phase2-annotator / phase4-issue-evidence；Phase5 由 phase2345-query-pipeline 的唯一 Stage D 契约处理。
-// 四个独立 agent() 调用合并为一次 phase2345-query-pipeline 调用：同一子代理上下文内部顺序完成
-// Stage A(本地识别)→B(评测)→C(问题证据)→D(报告)，中间不返回调用方、不切换子代理。
+// ---------- Evaluation Agent: Phase 2+3+4 ----------
+// 原 phase2-annotator / phase4-issue-evidence 合并为一次 phase234-query-pipeline 调用：
+// 同一子代理上下文内部顺序完成 Stage A(本地识别)→B(评测)→C(问题证据)→D(空交接)，
+// 中间不返回调用方、不切换子代理。Phase5 在全部词级回执通过后由批次控制器运行一次。
 // 所有阶段级契约细节（Phase2 当前图片校准、七键单图清单、FACT_GATES、共享契约优先、assessmentRows/issues 结构、
-// 页面框架结论边界、报告渲染分支等）已完整写入 .claude/agents/phase2345-query-pipeline.md，
+// 页面框架结论边界与批次报告交接等）已完整写入 .claude/agents/phase234-query-pipeline.md，
 // 本次调用只注入具体输入值，不在 JS 侧重复拼接任何阶段级 Prompt 文本。
 const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query + tagSuffix + '_' + dimSlug + '.json'
 const evalAuditFile = artifactRunDir + '/results/评测结果校验_' + query + tagSuffix + '_' + dimSlug + '.json'
@@ -541,17 +508,9 @@ const mergedInputs = {
   // Phase4（问题证据）
   issueEvidenceSkillDir,
   issueEvidenceDir,
-  // Phase5（报告）
-  reportSkillDir,
-  reportPath,
-  reportDir,
-  reportImages,
-  isBatchGovernanceReport,
-  batchArtifactDir,
-  expectedBusinessTabsCsv,
 }
 
-const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4→Phase5 全链路。先读取并严格遵守 .claude/agents/phase2345-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、assessmentRows/issues 结构、页面框架结论边界、报告渲染分支等），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4 评测。先读取并严格遵守 .claude/agents/phase234-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、assessmentRows/issues 结构、页面框架结论边界和批次报告交接），本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json
@@ -561,7 +520,7 @@ ${JSON.stringify(mergedInputs, null, 2)}
 
 const pipelineResult = await agent(mergedPrompt, withRequestedModel({ label: 'Evaluation Agent:' + query, phase: '评测', schema: PIPELINE_SCHEMA, agentType: 'evaluation-agent' }))
 if (!pipelineResult || !pipelineResult.ok) {
-  throw new Error('Phase2+3+4+5 单词全链路子代理未通过：blockedAt=' + (pipelineResult && pipelineResult.blockedAt) + ' error=' + (pipelineResult && pipelineResult.error))
+  throw new Error('Phase2+3+4 词级子代理未通过：blockedAt=' + (pipelineResult && pipelineResult.blockedAt) + ' error=' + (pipelineResult && pipelineResult.error))
 }
 const stageA = pipelineResult.stageA
 const stageB = pipelineResult.stageB
@@ -572,15 +531,14 @@ if (pipelineResult.query !== query || !stageA || !stageB || !stageC || !stageD |
     stageA.elementListPaths.length === 0 || stageA.elementListPaths.length !== stageA.elementAuditPaths.length ||
     typeof stageB.evalResultFile !== 'string' || !stageB.evalResultFile ||
     typeof stageB.evalAuditFile !== 'string' || !stageB.evalAuditFile ||
-    !Array.isArray(stageC.evidenceImages) ||
-    typeof stageD.reportPath !== 'string' || !stageD.reportPath) {
+    !Array.isArray(stageC.evidenceImages) || Object.keys(stageD).length !== 0) {
   throw new Error('Evaluation Agent 返回 ok=true 但阶段产物不完整；拒绝将其标记为成功')
 }
 const elementListPaths = stageA.elementListPaths
 const elementAuditPaths = stageA.elementAuditPaths
 const elementCount = stageA.elementCount
 const annotatedPaths = stageA.annotated
-log('Phase2+3+4+5 完成: elementCount=' + elementCount + ' evalCount=' + (stageB.evalCount || 0) + ' evidenceImages=' + ((stageC.evidenceImages || []).length) + ' report=' + stageD.reportPath)
+log('Phase2+3+4 完成: elementCount=' + elementCount + ' evalCount=' + (stageB.evalCount || 0) + ' evidenceImages=' + ((stageC.evidenceImages || []).length) + '；等待批次级 Phase5')
 
 // ---------- Phase2 manifest 质量侧审计（可选，仅记录 L1/L2/L3 合规率，不阻断） ----------
 // phase3-标记权威白名单，仅供本侧审计脚本比对，不再注入合并子代理的 Prompt（Stage A 已在
@@ -767,7 +725,7 @@ PYEOF
   log('Manifest质量侧审计: L1=' + l1 + ' L2=' + l2 + ' L3=' + l3 + (annotationAudit.ok ? '' : ' (audit failed)'))
 }
 
-log('全部完成: 报告已生成 → ' + stageD.reportPath)
+log('词级评测完成：已交付 Phase2/3/4 可核验产物，报告由批次级 Phase5 统一生成')
 return {
   mode: mode,
   status: 'completed',
@@ -782,7 +740,7 @@ return {
   annotatedCount: annotatedPaths.length,
   evalSkillsCount: stageB.evalCount || 0,
   annotationAudit: annotationAudit,
-  report: stageD,
+  evaluationResult: pipelineResult,
   deterministicAudits: {
     manifests: elementAuditPaths,
     recognition: phase2Outputs.map(item => item.recognitionAudit),
