@@ -1,11 +1,13 @@
 ---
 name: run-eval
-description: 使用美团搜索评测 1.0 Workflow：仅截图、仅评测已有截图，或截图后确认评测的全流程。
+description: 使用美团搜索评测最终 Workflow：仅截图、仅评测已有截图，或截图后确认评测的全流程。
 ---
 
-# 运行评测工作流（1.0）
+# 运行评测工作流
 
 用户请求截图、评测已有截图、现场截图后评测或生成报告时使用本技能。入口为：
+
+维护者概览见同目录 `README.md`；执行时仍以本文件和 task 冻结的契约为准。
 
 ```text
 workflow/meituan_eval_workflow.js
@@ -29,7 +31,7 @@ workflow/meituan_eval_workflow.js
 | 用户表达 | 路由 | 首次回复必须包含 |
 |---|---|---|
 | 一张图片/一个图片路径 | `evaluate_only`；先发现、校验并选择该图 | 文件路径、任务模式、待确认的维度，以及 manifest→评测结果→证据产物；单词任务不生成 HTML |
-| 多张图片或目录 | `evaluate_only`；先发现并按搜索词、Tab、屏号分组 | 发现到的分组和无效/无法解析项；不对任何单图先行点评 |
+| 多张图片或目录 | `evaluate_only`；先发现，未命名图自动读当前像素生成身份映射，再按搜索词分组 | 规范分组、有效未命名候选/身份映射和真正无效项；不对任何单图先行点评 |
 | “帮我截图后评测” | `capture_and_evaluate` | 需要的搜索词、Tab、屏数；说明截图成功后才会确认评测配置 |
 | “只帮我截图” | `capture_only` | 需要的搜索词、Tab、屏数；明确不会生成评测报告 |
 | “这份报告为什么有问题” | 复核既有 Phase2～5 产物；必要时重跑受影响阶段 | 复核对象、证据/manifest 范围和新批次产物策略 |
@@ -48,12 +50,12 @@ python3 workflow/eval_cli.py prepare-evaluate \
 ```
 
 该命令保留源文件，并将图片按原文件名直接复制到 `screenshots/`，不生成 Intake
-manifest，也不重命名。无 `--query` 时返回可供用户选择的截图组；带 `--query` 时除
-`MEITUAN_EVAL_HANDOFF_V1.workflowArgs` 外，还生成 `MEITUAN_EVAL_TASK_V3` 的
-`portableTask.taskPath`。非 DSL 宿主只把该路径交给一个 Evaluation Agent，完成后执行
+manifest，也不重命名。无 `--query` 时返回可供用户选择的截图组与独立的未命名图；带 `--query` 时除
+`MEITUAN_EVAL_HANDOFF.workflowArgs` 外，还生成 `MEITUAN_EVAL_TASK` 的
+`portableTask.taskPath`。非 DSL 宿主必须先核验 task 中的 `requiredCapabilities`，尤其是实际读图能力；不能读图时写 `blockedAt=preflight` 而不派发。通过后才把该路径交给一个 Evaluation Agent，完成后执行
 任务中的 `completionCommand`；不要把 Phase2～4 的长契约重新粘贴进 prompt。详见
 `workflow/HOST_ADAPTER.md`。
-发现阶段报告无效或无法解析的文件；同名不同字节时自动追加递增的副本序号，保留两份文件，并视为独立截图而非原截图的同一屏。
+发现阶段只把损坏、过小或不可读取的图片报告为无效。无法从文件名解析身份但可读取的图片以一图一组的 `unlabeledGroups` 返回，不得放入错误列表或要求先改名。宿主随后读取每张当前截图，生成带路径、SHA-256、query、Tab、屏号、来源和置信度的 `screenshot.identity-map`；多个搜索词按映射拆成词级任务，不能按视觉相似性自动合并。同名不同字节时自动追加递增副本序号并保留两份。
 
 ## 先确认任务模式
 
@@ -102,20 +104,21 @@ Workflow 只调用 Screenshot Agent，返回 `screenshots/` 中本次有效图�
 }
 ```
 
-Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` 后再调用。`query` 由文件名推导，不需向用户重复询问：
+Workflow 返回规范截图组；对 `IMG_*.PNG` 等未命名图会自动读取当前像素并返回 `screenshotIdentityMap`。外层按映射中的 query 拆成词级任务后再调用，不要求用户重复输入或改名：
 
 ```json
 {
   "mode": "evaluate_only",
   "projectDir": "<项目绝对路径>",
   "selectedScreenshots": ["<截图绝对路径>"],
+  "screenshotIdentityMap": {"contract": "screenshot.identity-map", "entries": []},
   "evaluationSelection": { "mode": "dimensions", "dimensions": ["phase3-card_or_component-eval"] },
   "reportOutlet": "local_html",
   "phase2Mode": "lightweight"
 }
 ```
 
-截图身份统一解析为 `<搜索词>_<Tab>_<屏>.<ext>`。外部原件不重命名，尾部 `_副本`、`_副本N`、`_副本(N)` 或 `_copyN` 解析为独立副本实例而不是搜索词的一部分；无法解析时，由调用方补充系统推导出的 `query`，而不是要求用户重复输入搜索词。
+规范文件名可解析为 `<搜索词>_<Tab>_<屏>.<ext>`。外部原件不重命名，尾部 `_副本`、`_副本N`、`_副本(N)` 或 `_copyN` 解析为独立副本实例而不是搜索词的一部分；无法解析时以当前像素身份映射为准。评测成功后如需规范文件名，只生成独立副本或映射，不覆盖原图。
 
 ### 3. 自动化截图 + 评测
 
@@ -168,7 +171,7 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
 }
 ```
 
-未传 `evaluationSelection` 时，保留 `dimensions` 的旧行为。创建 V3 词级任务时，控制器会立刻把选择解析成不可变的 `evaluationScope.evalTargets` 和 `requiredReads`：子 Agent 必须逐一读取共同知识、每个已选维度契约与叶子 Skill，且不得读取或评级未选 Skill。所有报告只呈现已执行范围的评级与问题项数，不计算综合分。
+未传 `evaluationSelection` 时，保留 `dimensions` 的兼容行为。创建词级任务时，控制器会立刻把选择解析成不可变的 `evaluationScope.evalTargets` 和 `requiredReads`：子 Agent 必须逐一读取共同知识、每个已选维度契约与叶子 Skill，且不得读取或评级未选 Skill。所有报告只呈现已执行范围的评级与问题项数，不计算综合分。
 
 ## Evaluation Agent 的固定约束
 
@@ -180,4 +183,15 @@ Workflow 返回可选截图组。用户选择同一搜索词的一组 `files` �
 - 成功结果的 `stageD={}`，不写报告内容或报告路径；
 - 不删除或覆盖截图、过程文件、证据或历史报告。
 
-多搜索词由外层按批次处理：每批最多 3 个词，每个词一个 Evaluation Agent。外层可随时执行一次 `workflow/eval_cli.py finalize-batch`：只要至少一个 V3 任务已有 completed 回执，就只消费这些精确 manifest 和评测结果，生成一份批量 HTML 与治理数据集；未完成或阻断词会在报告范围中明确标注，不得混入历史产物。失败词仍可单独重试，重试后可重建报告。
+多搜索词使用 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式：先冻结全部预期 task，每批最多 3 个词，每个词一个 Evaluation Agent。Phase2 内部纠错耗尽后，外层为该词创建新的隔离 `runId/taskPath` 并交给新的 Evaluation Agent，最多三个词级任务；第三次仍失败则标记 abandoned。只有所有词进入 completed/abandoned 终态后才执行一次 `finalize-batch --batch-state`；Phase5 仅消费 completed 词，abandoned 词不进入报告。全部 abandoned 时不生成空报告。
+
+```json
+{
+  "mode": "batch_evaluate",
+  "projectDir": "<项目绝对路径>",
+  "batchId": "<本批唯一 ID>",
+  "taskPaths": ["<query-1 初始 taskPath>", "<query-2 初始 taskPath>"],
+  "expectedBusinessTabs": ["dine_in", "food_delivery"],
+  "maxQueryAttempts": 3
+}
+```

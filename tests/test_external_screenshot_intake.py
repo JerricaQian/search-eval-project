@@ -16,6 +16,7 @@ PROJECT_DIR = Path(__file__).resolve().parents[1]
 INTAKE_PATH = PROJECT_DIR / "phase1-screenshot" / "scripts" / "ingest_external_screenshots.py"
 DISCOVERY_PATH = PROJECT_DIR / "phase1-screenshot" / "scripts" / "discover_screenshot_groups.py"
 CLI_PATH = PROJECT_DIR / "workflow" / "eval_cli.py"
+ALIAS_PATH = PROJECT_DIR / "workflow" / "materialize_screenshot_aliases.py"
 
 
 def load_intake_module():
@@ -124,6 +125,8 @@ class ExternalScreenshotCopyTest(unittest.TestCase):
             source_dir = root / "external"
             project_dir = root / "project"
             source_dir.mkdir(parents=True)
+            project_dir.mkdir()
+            (project_dir / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
             Image.new("RGB", (100, 100), "white").save(source_dir / "露营_全部_1.png")
 
             completed = subprocess.run(
@@ -146,10 +149,123 @@ class ExternalScreenshotCopyTest(unittest.TestCase):
             )
             payload = json.loads(completed.stdout)
 
-            self.assertEqual(payload["protocol"], "MEITUAN_EVAL_HANDOFF_V1")
+            self.assertEqual(payload["protocol"], "MEITUAN_EVAL_HANDOFF")
             self.assertEqual(payload["status"], "ready_for_host_workflow")
             self.assertEqual(payload["workflowArgs"]["mode"], "evaluate_only")
             self.assertEqual(payload["workflowArgs"]["pythonBin"], sys.executable)
             self.assertEqual(payload["workflowArgs"]["selectedScreenshots"], [
                 str((project_dir / "screenshots" / "露营_全部_1.png").resolve())
             ])
+
+    def test_prepare_cli_allows_explicit_selection_for_unnamed_image(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_dir = root / "external"
+            project_dir = root / "project"
+            source_dir.mkdir(parents=True)
+            project_dir.mkdir()
+            (project_dir / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            Image.new("RGB", (100, 100), "white").save(source_dir / "IMG_0001.png")
+            imported = project_dir / "screenshots" / "IMG_0001.png"
+
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    str(CLI_PATH),
+                    "prepare-evaluate",
+                    "--project-dir", str(project_dir),
+                    "--source-dir", str(source_dir),
+                    "--query", "露营",
+                    "--selected-screenshot", str(imported),
+                    "--min-bytes", "1",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            payload = json.loads(completed.stdout)
+
+            self.assertEqual(payload["status"], "ready_for_host_workflow")
+            self.assertEqual(payload["workflowArgs"]["selectedScreenshots"], [str(imported.resolve())])
+            self.assertEqual(payload["workflowArgs"]["screenshotSelectionMode"], "explicit_paths")
+            self.assertEqual(payload["workflowArgs"]["screenshotIdentityMap"]["entries"][0]["identitySource"], "user_confirmed")
+
+    def test_prepare_unnamed_image_requests_visual_identity_without_blocking(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_dir = root / "external"
+            project_dir = root / "project"
+            source_dir.mkdir(parents=True)
+            project_dir.mkdir()
+            (project_dir / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            Image.new("RGB", (100, 100), "white").save(source_dir / "IMG_0001.png")
+            completed = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-evaluate",
+                "--project-dir", str(project_dir), "--source-dir", str(source_dir), "--min-bytes", "1",
+            ], check=True, capture_output=True, text=True)
+            payload = json.loads(completed.stdout)
+            self.assertEqual(payload["status"], "awaiting_visual_identity_resolution")
+            self.assertEqual(len(payload["identityResolution"]["candidatePaths"]), 1)
+            self.assertEqual(payload["discovery"]["invalidFiles"], [])
+            self.assertEqual(payload["discovery"]["unparseableFiles"], [])
+
+    def test_prepare_unnamed_image_accepts_current_pixel_identity_map(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_dir = root / "external"
+            project_dir = root / "project"
+            source_dir.mkdir(parents=True)
+            project_dir.mkdir()
+            (project_dir / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            source = source_dir / "IMG_0001.png"
+            Image.new("RGB", (100, 100), "white").save(source)
+            imported = project_dir / "screenshots" / source.name
+            identity = root / "identity.json"
+            identity.write_text(json.dumps({
+                "contract": "screenshot.identity-map",
+                "entries": [{
+                    "sourcePath": str(imported), "sha256": digest(source), "query": "露营",
+                    "tab": "全部", "screen": "1", "identitySource": "current_pixels", "confidence": 0.99,
+                }],
+            }, ensure_ascii=False))
+            completed = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-evaluate",
+                "--project-dir", str(project_dir), "--source-dir", str(source_dir),
+                "--identity-map", str(identity), "--min-bytes", "1", "--run-id", "identity-map-run",
+            ], check=True, capture_output=True, text=True)
+            payload = json.loads(completed.stdout)
+            self.assertEqual(payload["status"], "ready_for_host_workflow")
+            self.assertEqual(payload["workflowArgs"]["query"], "露营")
+            self.assertEqual(payload["workflowArgs"]["screenshotSelectionMode"], "identity_map")
+            self.assertEqual(payload["portableTask"]["protocol"], "MEITUAN_EVAL_TASK")
+
+    def test_post_evaluation_alias_preserves_unnamed_source(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "screenshots" / "IMG_0001.PNG"
+            source.parent.mkdir()
+            Image.new("RGB", (100, 100), "white").save(source)
+            source_hash = digest(source)
+            identity = root / "identity.json"
+            identity.write_text(json.dumps({
+                "contract": "screenshot.identity-map",
+                "entries": [{
+                    "sourcePath": str(source), "sha256": source_hash, "query": "露营",
+                    "tab": "全部", "screen": "1", "identitySource": "current_pixels", "confidence": 0.99,
+                }],
+            }, ensure_ascii=False))
+            aliases = root / "normalized"
+            mapping = root / "alias-map.json"
+            receipt = root / "receipt.json"
+            receipt.write_text('{"protocol":"MEITUAN_EVAL_TASK","status":"completed","query":"露营"}')
+            subprocess.run([
+                sys.executable, str(ALIAS_PATH), "--identity-map", str(identity),
+                "--receipt", str(receipt),
+                "--output-dir", str(aliases), "--mapping-output", str(mapping),
+            ], check=True, capture_output=True, text=True)
+            alias = aliases / "露营_全部_1.PNG"
+            self.assertTrue(source.is_file())
+            self.assertTrue(alias.is_file())
+            self.assertEqual(digest(source), source_hash)
+            self.assertEqual(digest(alias), source_hash)
+            self.assertTrue(json.loads(mapping.read_text())["sourceFilesPreserved"])

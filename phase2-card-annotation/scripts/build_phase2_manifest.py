@@ -126,11 +126,30 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
         "title": "标题区", "price": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "价格区",
         "rating": "基础信息区", "sales": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "基础信息区",
         "location": "基础信息区", "fulfillment": "基础信息区", "recommendation": "标签区",
-        "subtitle": "AI推荐理由", "promotion": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "价格区",
+        "subtitle": "AI推荐理由", "attachment": "文字下挂区",
+        "promotion": "文字下挂区" if selected_type == "商家卡片_文字下挂" else "价格区",
     }
     for item in text_candidates:
         review = item.get("visualReview")
         role = review.get("role") if isinstance(review, dict) else ""
+        # A current-pixel text-attachment slot is stronger evidence than the
+        # generic OCR subtitle role.  Preserve it as an item atom so the
+        # Phase2 manifest can prove each text-downhang row has text + price.
+        if (selected_type == "商家卡片_文字下挂" and isinstance(review, dict)
+                and review.get("topologySlot") == "text_attachment"
+                and role in {"subtitle", "attachment"}):
+            role = "attachment"
+        # Numeric/basic merchant facts can legitimately be recorded as
+        # ``other`` by the visual reviewer.  When their explicit topology is
+        # merchant_info, retain that ownership instead of pushing the line
+        # into the lower text-downhang fallback by y-position.
+        if role == "other" and isinstance(review, dict) and review.get("topologySlot") == "merchant_info":
+            output[item["id"]] = {
+                **output.get(item["id"], {}), "semanticRoleCandidate": role,
+                "regionCandidate": "基础信息区", "status": "confirmed",
+                "evidence": ["main_session_local_visual_read"],
+            }
+            continue
         if role in reviewed_region:
             region = reviewed_region[role]
             # A POI/category attribute (for example “主题乐园” or
@@ -205,6 +224,9 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
     }.get(selected_type, "基础信息区")
     for item in text_candidates:
         current = output.get(item["id"], {})
+        if (current.get("regionCandidate") == "基础信息区"
+                and "main_session_local_visual_read" in current.get("evidence", [])):
+            continue
         if current.get("semanticRoleCandidate", "other") != "other":
             continue
         lower_content = item["coord"][1] >= y + height * 0.28

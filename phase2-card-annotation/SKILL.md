@@ -91,15 +91,27 @@ Phase2 只采集事实：当前截图中的页面模块、结果卡、最小元�
 
 对每张截图串行运行；所有路径由 `projectDir`、`batch`、`query`、`tag` 推导，禁止写死搜索词或历史目录。
 
-生产入口是一条命令；它直接产出 Phase3 manifest、识别审计和校验审计。`<pythonBin>` 由调用方注入；可移植任务使用 `workflowArgs.pythonBin`，不得假定项目 `.venv` 或 `python3` 别名。
+生产入口只有一套契约，分为候选、当前像素复核、发布校验和有界纠错。候选命令只保留本地 CV 几何/图片事实，不能产出可供 Phase3 使用的 manifest；发布命令必须消费同一截图的候选 bundle 与当前像素复核。`<pythonBin>` 由调用方注入；可移植任务使用 `workflowArgs.pythonBin`，不得假定项目 `.venv` 或 `python3` 别名。
 
 ```bash
 <pythonBin> phase2-card-annotation/scripts/run_phase2_recognition.py \
-  --query <query> --screenshot <screenshot> --output <elements.json> \
+  --stage candidate --query <query> --screenshot <screenshot> --output <candidate-bundle.json> \
   --artifacts-dir <this-batch-artifacts-dir>
 ```
 
-生产流必须追加 `--recognition-audit <elements.recognition-audit.json>`。首次运行只会写出不可发布的当前像素审计模板；模型完成整图一次、全元素核对后，将新增/替换观察和 `completeCurrentPixelReview:true` 写入 `--visual-review` JSON，并以相同参数回灌 `run_phase2_recognition.py`。回灌命令从最终 manifest 自动生成校准审计；禁止手改 audit 或 `phase3Ready` 解锁。记录格式和读图上限见 `references/current_image_calibration.v1.md`。
+候选 bundle 固定为 `phase3Ready=false`。模型完成整图一次、全元素核对后，将新增/替换观察和 `completeCurrentPixelReview:true` 写入 `--visual-review` JSON，再运行发布命令：
+
+```bash
+<pythonBin> phase2-card-annotation/scripts/run_phase2_recognition.py \
+  --stage publish --query <query> --screenshot <screenshot> \
+  --candidate-bundle <candidate-bundle.json> --visual-review <visual-review.json> \
+  --output <elements.json> --recognition-audit <elements.recognition-audit.json> \
+  --artifacts-dir <this-batch-artifacts-dir>
+```
+
+发布命令从最终 manifest 自动生成校准审计；禁止手改 audit 或 `phase3Ready` 解锁。记录格式和读图上限见 `references/current_image_calibration.v1.md`。
+
+发布和 manifest 校验后必须运行 `scripts/build_phase2_retry_plan.py`。`retryRequired=true` 时按 `targets[].cardId` 写下一次 visual review 的 `cardOverrides`，并重新执行完整 candidate→review→publish→validate；不得保留一份失败证据就结束任务。只有达到任务的 `phase2MaxAttempts` 后仍失败才允许阻断 Stage A。
 
 以下是该入口内部的可审计展开流程；只用于诊断或替换某一识别步骤：
 

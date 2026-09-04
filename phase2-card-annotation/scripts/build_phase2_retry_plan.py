@@ -1,0 +1,107 @@
+#!/usr/bin/env python3
+"""Convert a failed Phase2 attempt into bounded, executable retry work."""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+from typing import Any
+
+
+def load(path: Path) -> dict[str, Any]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"not_object:{path}")
+    return payload
+
+
+def card_ids(errors: list[str], gate: dict[str, Any], manifest: dict[str, Any] | None = None) -> list[str]:
+    ids = {
+        error.split(":", 1)[0]
+        for error in errors
+        if isinstance(error, str) and error.startswith("C") and ":" in error
+    }
+    for target in gate.get("reprocessTargets", []):
+        if isinstance(target, dict) and str(target.get("cardId", "")):
+            ids.add(str(target["cardId"]))
+    # Manifest validation addresses cards by their stable array position.  A
+    # retry plan must turn that back into a card ID, otherwise it tells the
+    # next attempt to re-review the entire screenshot and defeats the
+    # targeted-rework guarantee.
+    cards = manifest.get("cards", []) if isinstance(manifest, dict) else []
+    for error in errors:
+        match = re.search(r"(?:manifest_audit:)?cards\[(\d+)\]", error)
+        if not match or not isinstance(cards, list):
+            continue
+        index = int(match.group(1))
+        if 0 <= index < len(cards) and isinstance(cards[index], dict):
+            card_id = str(cards[index].get("cardId", ""))
+            if card_id:
+                ids.add(card_id)
+    return sorted(ids)
+
+
+def build(gate: dict[str, Any], manifest_audit: dict[str, Any] | None, attempt: int, max_attempts: int,
+          manifest: dict[str, Any] | None = None) -> dict[str, Any]:
+    errors = [str(value) for value in gate.get("errors", [])]
+    if manifest_audit and manifest_audit.get("valid") is not True:
+        errors.extend(f"manifest_audit:{value}" for value in manifest_audit.get("errors", []))
+    targets = []
+    for card_id in card_ids(errors, gate, manifest):
+        card_errors = [error for error in errors if error.startswith(f"{card_id}:")]
+        if not card_errors and isinstance(manifest, dict):
+            cards = manifest.get("cards", [])
+            index = next((i for i, card in enumerate(cards) if isinstance(card, dict) and card.get("cardId") == card_id), None)
+            if index is not None:
+                card_errors = [error for error in errors if f"cards[{index}]" in error]
+        action = "redo_card_current_pixel_review"
+        required = ["cardTypeCandidate", "topology.regions", "topology.attachedItems", "atomic fields with separate coords"]
+        if any("graphic" in error or "attached_goods" in error for error in card_errors):
+            action = "redo_card_topology_using_cv_photo_candidates"
+            required.append("do not declare graphic downhang without a CV photo anchor")
+        if any("topology_selected_card_type_conflict" in error for error in card_errors):
+            required.append("use the canonical merchant state machine; no-downhang is not heterogeneous")
+        targets.append({"cardId": card_id, "errors": card_errors, "action": action, "required": required})
+    if errors and attempt < max_attempts:
+        next_action = "rerun_cv_candidate_then_targeted_current_pixel_review_then_publish"
+    elif errors:
+        next_action = "finalize_blocked_receipt_with_all_attempt_artifacts"
+    else:
+        next_action = "advance_to_phase3"
+    return {
+        "contract": "phase2.retry-plan",
+        "retryRequired": bool(errors) and attempt < max_attempts,
+        "attempt": attempt,
+        "maxAttempts": max_attempts,
+        "nextAttempt": attempt + 1 if errors and attempt < max_attempts else None,
+        "errors": errors,
+        "targets": targets,
+        "nextAction": next_action,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--recognition-gate", required=True, type=Path)
+    parser.add_argument("--manifest-audit", type=Path)
+    parser.add_argument("--manifest", type=Path,
+                        help="Published attempt manifest; resolves audit card indexes to stable card IDs.")
+    parser.add_argument("--attempt", required=True, type=int)
+    parser.add_argument("--max-attempts", type=int, default=3)
+    parser.add_argument("--output", required=True, type=Path)
+    args = parser.parse_args()
+    if args.attempt < 1 or args.max_attempts < args.attempt:
+        parser.error("attempt_must_be_between_1_and_max_attempts")
+    gate = load(args.recognition_gate)
+    audit = load(args.manifest_audit) if args.manifest_audit else None
+    manifest = load(args.manifest) if args.manifest else None
+    result = build(gate, audit, args.attempt, args.max_attempts, manifest)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(result, ensure_ascii=False))
+    return 0 if not result["retryRequired"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

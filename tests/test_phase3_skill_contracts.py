@@ -75,7 +75,7 @@ class Phase3SkillContractsTest(unittest.TestCase):
         self.assertIn("同一可见事实只按其评测单位归入主要维度", entry)
 
         pipeline = (PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md").read_text(encoding="utf-8")
-        self.assertIn("其他 JSON-only Skill 禁止回看截图补判", pipeline)
+        self.assertIn("JSON-only skill 禁止回看截图补写事实", pipeline)
 
         compliance = (
             PHASE3_DIR / "dimensions/single-element/skills/eval-3-element-compliance-scanner/SKILL.md"
@@ -135,6 +135,15 @@ class Phase3SkillContractsTest(unittest.TestCase):
             "route_phase3_validation_failure.py",
         ):
             self.assertNotIn(obsolete, content)
+
+    def test_pipeline_declares_retry_and_deterministic_measurement_preparation(self) -> None:
+        pipeline = PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md"
+        content = pipeline.read_text(encoding="utf-8")
+        self.assertIn("phase2MaxAttempts", content)
+        self.assertIn("build_phase2_retry_plan.py", content)
+        self.assertIn("prepare_phase3_measurements.py", content)
+        self.assertTrue((PROJECT_DIR / "workflow/prepare_phase3_measurements.py").is_file())
+        self.assertTrue((PROJECT_DIR / "phase3-evaluation/common/routing/phase3_measurement_requirements.json").is_file())
 
 
 if __name__ == "__main__":

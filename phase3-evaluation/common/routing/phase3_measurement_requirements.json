@@ -1,0 +1,20 @@
+{
+  "contract": "phase3.measurement-requirements",
+  "defaultPolicy": "phase2_json_only",
+  "skills": {
+    "eval-5-info-hierarchy": {
+      "policy": "required_deterministic_pixel_measurement",
+      "script": "phase3-evaluation/dimensions/card-component/skills/eval-5-info-hierarchy/scripts/extract_component_metrics.py",
+      "arguments": ["--skill", "eval-5-info-hierarchy", "--manifest-input", "<manifest>", "--output", "<artifact>"],
+      "requiredOutput": ["measurementScope", "hierarchyCalibration", "components"]
+    },
+    "eval-3-element-compliance-scanner": {
+      "policy": "phase2_json_or_review",
+      "rule": "fontSizeBucket is not pt; unavailable exact typography becomes a review item and never a fabricated rating."
+    },
+    "eval-3-color-logic": {
+      "policy": "phase2_json_or_review",
+      "rule": "Use published sourceColorValues when available; otherwise retain a review item rather than inventing a color value."
+    }
+  }
+}

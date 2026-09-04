@@ -13,7 +13,7 @@ metadata:
 
 ## 职责与边界
 
-Phase5 由外层批次控制器运行一次，只渲染已有 completed 回执的 Phase2、Phase3、Phase4 事实：不重新评测、不计算分数、不改写评级、业务归属、问题数、坐标、证据或建议。只要至少一个词级任务完成即可生成报告；未完成或阻断任务不混入数据集，必须在报告范围中明确标注。词级 Evaluation Agent 不读取本 Skill，也不生成单词 HTML。
+Phase5 由外层批次控制器运行一次，只渲染已有 completed 回执的 Phase2、Phase3、Phase4 事实：不重新评测、不计算分数、不改写评级、业务归属、问题数、坐标、证据或建议。它只能在全部预期词进入终态后运行：仅 completed 词进入数据集和 HTML；连续三个隔离任务失败后标记为 abandoned 的词只保留在批次控制状态中，报告不得提及。至少要有一个 completed 词；全部 abandoned 时不得生成空报告。词级 Evaluation Agent 不读取本 Skill，也不生成单词 HTML。
 
 - 待优化问题仅为 `rating ∈ {达标, 不达标}`；优秀不作为问题展示。
 - 有合法局部范围的问题必须使用 Phase4 整页红框 `evidenceImage`。页面级结论无局部范围时，只能复用同一原图已有的 Phase4 证据；没有可复用证据则显示“暂无截图证据”，不能伪造红框或用 Phase2 标注图替代。
@@ -47,7 +47,7 @@ Phase5 由外层批次控制器运行一次，只渲染已有 completed 回执�
 
 `--expected-business-tabs` 是必填的、逗号分隔的标准 `businessCode` 精确集合。实际聚合的 Tab 缺失或多出任一项，生成器必须退出失败，不能以空卡、历史数据或默认 Tab 补齐。
 
-由 `workflow/eval_cli.py finalize-batch` 触发的本地部分报告会附带 `--allow-unknown-business` 和 `--execution-note`：前者只允许当前像素事实不足的商卡不进入业务 Tab，并在看板范围显式计数；后者逐项说明未完成/阻断搜索词。它不改变任何已完成任务的评测结论或业务归属。
+由 `workflow/eval_cli.py finalize-batch --batch-state <最新状态>` 触发时，abandoned 搜索词只用于验证终态屏障，不传给报告生成器。pending、retry_required 或尚未达到三次上限的失败词会阻断 Phase5，不能提前生成部分报告。
 
 `--expected-query`、`--manifest`、`--result` 均来自本批 V3 词级任务及其 completed 回执，且只覆盖本次报告的成功子集与每张对应的 manifest；禁止从全局 `screenshots-out/` 或历史批次按更新时间猜选输入。同一搜索词多张截图的卡片/元素 ID 可能重复，生成器必须以原图路径隔离后再聚合。
 

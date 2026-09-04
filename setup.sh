@@ -130,10 +130,8 @@ else
       ok "设备已连接: $(adb shell getprop ro.product.model 2>/dev/null || echo '未知设备')"
       if adb shell pm list packages 2>/dev/null | grep -q 'com.android.adbkeyboard'; then
         ok "ADBKeyBoard 已安装"
-      elif [ -f "$PROJECT_DIR/ADBKeyboard.apk" ]; then
-        warn "ADBKeyBoard 尚未安装；运行现场截图前可执行: adb install -r ADBKeyboard.apk"
       else
-        err "未找到 ADBKeyboard.apk，无法准备中文 ADB 输入。"
+        err "未安装 ADBKeyBoard，无法准备中文 ADB 输入。请在已连接设备或模拟器后执行：git clone https://github.com/senzhk/ADBKeyBoard.git && cd ADBKeyBoard && export ANDROID_HOME=\$HOME/Android/Sdk（或编辑 local.properties）&& ./gradlew installDebug"
         FAILED=1
       fi
       if adb shell pm list packages 2>/dev/null | grep -q 'com.sankuai.meituan'; then

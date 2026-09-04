@@ -1,11 +1,12 @@
 export const meta = {
   name: 'meituan-search-eval',
-  description: '美团搜索结果页：按需截图、发现已有截图或执行 Phase2/3/4 词级评测流水线',
+  description: '美团搜索结果页：按需截图、词级 Phase2/3/4，以及带失败重派和 Phase5 屏障的批次评测',
   phases: [
     { title: '① Screenshot Agent', detail: 'ADB现场截图，或只读发现已有截图' },
     { title: '② Phase3 评测官解析范围', detail: '按用户选择确定性解析完整19项、维度或自定义 eval skill' },
     { title: '③ Phase2+3+4 词级评测', detail: '单图本地识别→多维度评测→问题证据，三个阶段在同一子代理内顺序完成' },
     { title: '④ Manifest 质量侧审计', detail: '可选：单图元素清单 L1/L2/L3 合规率统计，仅记录不阻断' },
+    { title: '⑤ 批次屏障与 Phase5', detail: '失败词最多三次隔离重派；全部预期词终态后生成唯一总报告' },
   ],
 }
 
@@ -14,7 +15,167 @@ let A = args
 if (typeof A === 'string') { try { A = JSON.parse(A) } catch (e) { A = {} } }
 if (!A || typeof A !== 'object') A = {}
 log('args=' + JSON.stringify(A))
-log('批量调度纪律：当前实例仅处理 1 个搜索词；外层每批最多 3 个词级子代理，必须批次屏障后再继续。')
+
+// ---------- 批次入口：跨词调度、隔离重试、终态 Phase5 ----------
+// 单词模式仍由下方原流程处理。批次模式接收 prepare-evaluate 已生成的初始 taskPath，
+// 每轮最多并发 3 个 Evaluation Agent；每个词最多派发 3 次且每次使用全新 runId。
+if (A.mode === 'batch_evaluate') {
+  if (!A.projectDir || typeof A.projectDir !== 'string') throw new Error('batch_evaluate 必须显式传入 projectDir')
+  const batchProjectDir = A.projectDir.replace(/\/+$/, '')
+  const batchPythonBin = typeof A.pythonBin === 'string' && A.pythonBin.trim() ? A.pythonBin.trim() : 'python3'
+  const batchId = typeof A.batchId === 'string' ? A.batchId.trim() : ''
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$/.test(batchId)) throw new Error('batchId 格式非法')
+  const initialTaskPaths = Array.isArray(A.taskPaths) ? A.taskPaths : []
+  if (!initialTaskPaths.length || !initialTaskPaths.every(path => typeof path === 'string' && path.startsWith(batchProjectDir + '/') && !/[\r\n]/.test(path))) {
+    throw new Error('taskPaths 必须是项目目录内的非空绝对路径数组')
+  }
+  if (new Set(initialTaskPaths).size !== initialTaskPaths.length) throw new Error('taskPaths 不得重复')
+  const expectedBusinessTabs = Array.isArray(A.expectedBusinessTabs)
+    ? A.expectedBusinessTabs.join(',')
+    : (typeof A.expectedBusinessTabs === 'string' ? A.expectedBusinessTabs.trim() : '')
+  if (!expectedBusinessTabs) throw new Error('batch_evaluate 必须提供 expectedBusinessTabs')
+  const maxQueryAttempts = A.maxQueryAttempts == null ? 3 : A.maxQueryAttempts
+  if (maxQueryAttempts !== 3) throw new Error('maxQueryAttempts 固定为 3；同一词最多派发 3 次')
+
+  const shellArg = value => "'" + String(value).replace(/'/g, "'\"'\"'") + "'"
+  const batchOptions = options => A.model ? { ...options, model: A.model } : options
+  const CONTROL_SCHEMA = {
+    type: 'object',
+    properties: {
+      ok: { type: 'boolean' }, batchId: { type: 'string' }, statePath: { type: 'string' },
+      status: { type: 'string' }, dispatchTasks: { type: 'array', items: { type: 'string' } },
+      completedQueries: { type: 'array', items: { type: 'string' } },
+      retryQueries: { type: 'array', items: { type: 'string' } },
+      failedQueries: { type: 'array', items: { type: 'string' } },
+      readyForPhase5: { type: 'boolean' }, error: { type: 'string' },
+    },
+    required: ['ok'],
+  }
+  const RETRY_SCHEMA = {
+    type: 'object',
+    properties: {
+      ok: { type: 'boolean' }, batchId: { type: 'string' }, query: { type: 'string' },
+      attempt: { type: 'number' }, taskPath: { type: 'string' }, runId: { type: 'string' },
+      statePath: { type: 'string' }, error: { type: 'string' },
+    },
+    required: ['ok'],
+  }
+  const DISPATCH_SCHEMA = {
+    type: 'object',
+    properties: {
+      ok: { type: 'boolean' }, query: { type: 'string' }, taskPath: { type: 'string' },
+      receiptPath: { type: 'string' }, status: { type: 'string' }, blockedAt: { type: 'string' }, error: { type: 'string' },
+    },
+    required: ['ok', 'query', 'taskPath', 'receiptPath', 'status', 'blockedAt', 'error'],
+  }
+  const PHASE5_SCHEMA = {
+    type: 'object',
+    properties: {
+      ok: { type: 'boolean' }, batchId: { type: 'string' }, queries: { type: 'array' },
+      plannedQueries: { type: 'array' }, skippedTasks: { type: 'array' }, reportPath: { type: 'string' },
+      datasetPath: { type: 'string' }, reportOutlet: { type: 'string' }, phase5: { type: 'object' }, error: { type: 'string' },
+    },
+    required: ['ok'],
+  }
+
+  const runControlCommand = async (label, command, schema) => agent(
+    `你是批次控制命令执行器。只运行下面这一条确定性命令；即使命令退出码非零，也要解析 stdout JSON 并原样按 schema 返回，不做评测、不修改返回字段：\n\n${command}`,
+    batchOptions({ label, phase: '批次控制', schema }),
+  )
+
+  phase('批次初始化')
+  const prepareCommand = [
+    shellArg(batchPythonBin), shellArg(batchProjectDir + '/workflow/eval_cli.py'), 'prepare-batch',
+    '--project-dir', shellArg(batchProjectDir), '--batch-id', shellArg(batchId),
+    '--expected-business-tabs', shellArg(expectedBusinessTabs), '--max-query-attempts', String(maxQueryAttempts),
+    ...initialTaskPaths.flatMap(path => ['--task', shellArg(path)]),
+  ].join(' ')
+  const prepared = await runControlCommand('冻结批次任务', prepareCommand, CONTROL_SCHEMA)
+  if (!prepared || prepared.ok !== true || !prepared.statePath || !Array.isArray(prepared.dispatchTasks)) {
+    throw new Error('批次初始化失败: ' + (prepared && prepared.error ? prepared.error : '控制器无有效返回'))
+  }
+
+  let statePath = prepared.statePath
+  let dispatchTasks = prepared.dispatchTasks
+  let completedQueries = []
+  let abandonedQueries = []
+  for (let wave = 1; wave <= maxQueryAttempts; wave += 1) {
+    phase('词级评测·第' + wave + '轮')
+    log('第' + wave + '轮派发 ' + dispatchTasks.length + ' 个词级任务；每组最多 3 个并发')
+    for (let offset = 0; offset < dispatchTasks.length; offset += 3) {
+      const chunk = dispatchTasks.slice(offset, offset + 3)
+      await parallel(chunk.map(taskPath => () => agent(
+        `你是本轮全新的 Evaluation Agent。唯一输入是 taskPath：\n${taskPath}\n\n先读取 task JSON，确认 requiredCapabilities，再完整读取 contractFiles 与 requiredReads；严格执行 Phase2→Phase3→Phase4，将最终结果写入 resultPath，并执行 completionCommand。成功或阻断都必须产生 receipt.json。最后只返回本次任务的 query、taskPath、receiptPath、status、blockedAt、error；不得执行 Phase5。`,
+        batchOptions({ label: 'Evaluation Agent:' + taskPath.split('/').slice(-2, -1)[0], phase: '词级评测', schema: DISPATCH_SCHEMA, agentType: 'evaluation-agent' }),
+      )))
+    }
+
+    const advanceCommand = [
+      shellArg(batchPythonBin), shellArg(batchProjectDir + '/workflow/eval_cli.py'), 'advance-batch', '--state', shellArg(statePath),
+    ].join(' ')
+    const advanced = await runControlCommand('核验第' + wave + '轮回执', advanceCommand, CONTROL_SCHEMA)
+    if (!advanced || !advanced.statePath) throw new Error('批次回执核验失败: ' + (advanced && advanced.error ? advanced.error : '控制器无有效返回'))
+    statePath = advanced.statePath
+    completedQueries = advanced.completedQueries || []
+    if (advanced.readyForPhase5 === true) {
+      abandonedQueries = advanced.failedQueries || []
+      dispatchTasks = []
+      break
+    }
+    if (advanced.status === 'failed' || (advanced.failedQueries || []).length) {
+      return {
+        mode: 'batch_evaluate', status: 'failed', batchId, statePath,
+        completedQueries, failedQueries: advanced.failedQueries || [], reportPath: '', datasetPath: '',
+        error: '全部搜索词均连续失败 ' + maxQueryAttempts + ' 次；没有可用于 Phase5 的完成结果',
+      }
+    }
+
+    dispatchTasks = []
+    const retryQueries = advanced.retryQueries || []
+    for (let index = 0; index < retryQueries.length; index += 1) {
+      const query = retryQueries[index]
+      const retryRunId = batchId.slice(0, 58) + '.a' + (wave + 1) + '.q' + (index + 1)
+      const retryCommand = [
+        shellArg(batchPythonBin), shellArg(batchProjectDir + '/workflow/eval_cli.py'), 'create-batch-retry',
+        '--state', shellArg(statePath), '--query', shellArg(query), '--run-id', shellArg(retryRunId),
+      ].join(' ')
+      const retried = await runControlCommand('创建隔离重试:' + query, retryCommand, RETRY_SCHEMA)
+      if (!retried || retried.ok !== true || !retried.taskPath || !retried.statePath) {
+        throw new Error('无法为失败词创建隔离重试任务: ' + query + ' ' + (retried && retried.error ? retried.error : ''))
+      }
+      statePath = retried.statePath
+      dispatchTasks.push(retried.taskPath)
+    }
+  }
+
+  if (dispatchTasks.length) {
+    return {
+      mode: 'batch_evaluate', status: 'failed', batchId, statePath,
+      completedQueries, failedQueries: [], reportPath: '', datasetPath: '',
+      error: '达到词级派发上限；正式 Phase5 未生成',
+    }
+  }
+
+  phase('Phase5 总报告')
+  const finalizeCommand = [
+    shellArg(batchPythonBin), shellArg(batchProjectDir + '/workflow/eval_cli.py'), 'finalize-batch',
+    '--project-dir', shellArg(batchProjectDir), '--batch-id', shellArg(batchId), '--batch-state', shellArg(statePath),
+    '--expected-business-tabs', shellArg(expectedBusinessTabs),
+  ].join(' ')
+  const finalReport = await runControlCommand('Phase5 唯一总报告', finalizeCommand, PHASE5_SCHEMA)
+  if (!finalReport || finalReport.ok !== true) {
+    throw new Error('Phase5 生成失败: ' + (finalReport && finalReport.error ? finalReport.error : '控制器无有效返回'))
+  }
+  return {
+    mode: 'batch_evaluate', status: 'completed', batchId, statePath,
+    completedQueries: finalReport.queries, failedQueries: abandonedQueries,
+    skippedTasks: finalReport.skippedTasks || [],
+    reportPath: finalReport.reportPath, datasetPath: finalReport.datasetPath,
+    reportOutlet: finalReport.reportOutlet, phase5: finalReport.phase5,
+  }
+}
+
+log('单词调度纪律：当前实例只处理 1 个搜索词；多词任务请使用 batch_evaluate。')
 
 // 1.0 对外任务模式。未传 mode 时保留旧参数语义：skipScreenshot=false
 // 表示截图后评测，其余旧调用仍按“复用已有截图后评测”执行。
@@ -55,7 +216,19 @@ function inferQueryFromScreenshots(paths) {
   return queries.length && queries.every(value => value === queries[0]) ? queries[0] : ''
 }
 
+const suppliedIdentityMap = A.screenshotIdentityMap && typeof A.screenshotIdentityMap === 'object'
+  ? A.screenshotIdentityMap : null
+
+function inferQueryFromIdentityMap(paths, identityMap) {
+  if (!identityMap || identityMap.contract !== 'screenshot.identity-map' || !Array.isArray(identityMap.entries)) return ''
+  const selected = new Set(paths)
+  const entries = identityMap.entries.filter(item => item && selected.has(item.sourcePath))
+  const queries = entries.map(item => typeof item.query === 'string' ? item.query.trim() : '').filter(Boolean)
+  return entries.length === paths.length && queries.length && queries.every(value => value === queries[0]) ? queries[0] : ''
+}
+
 let query = (typeof A.query === 'string' ? A.query.trim() : '')
+if (!query && selectedScreenshots.length) query = inferQueryFromIdentityMap(selectedScreenshots, suppliedIdentityMap)
 if (!query && selectedScreenshots.length) query = inferQueryFromScreenshots(selectedScreenshots)
 
 const COPY_SCHEMA = {
@@ -113,17 +286,51 @@ if (mode === 'evaluate_only' && (A.discoveryOnly === true || selectedScreenshots
       properties: {
         screenshotDir: { type: 'string' },
         groups: { type: 'array' },
+        unlabeledGroups: { type: 'array' },
+        unnamedFiles: { type: 'array' },
         invalidFiles: { type: 'array' },
         unparseableFiles: { type: 'array' },
         error: { type: 'string' },
       },
-      required: ['screenshotDir', 'groups', 'invalidFiles', 'unparseableFiles', 'error'],
+      required: ['screenshotDir', 'groups', 'unlabeledGroups', 'unnamedFiles', 'invalidFiles', 'unparseableFiles', 'error'],
     },
   }))
+  const unlabeledGroups = (discoveryResult && discoveryResult.unlabeledGroups) || []
+  const unnamedPaths = unlabeledGroups.flatMap(group => Array.isArray(group.files) ? group.files : [])
+  let identityResult = null
+  if (unnamedPaths.length && A.resolveUnnamedIdentities !== false) {
+    const identityPrompt = `你是截图身份识别 Agent，只执行 Phase1 身份解析，不做 Phase2 事实标注或任何评分。逐张读取以下当前图片像素：
+${unnamedPaths.map(path => '- ' + path).join('\n')}
+
+对每张图提取当前搜索框/结果页可见的 query，并在可可靠判断时提取 Tab 和屏号；运行 shasum -a 256 获取当前文件哈希。文件名不得作为阻断条件。每张返回 sourcePath、sha256、query、tab、screen、identitySource="current_pixels"、confidence。只有当前像素确实无法确定 query 时放入 unresolved，并写原因；不得猜测或按视觉相似性合并。`
+    identityResult = await agent(identityPrompt, withRequestedModel({
+      label: '未命名截图身份识别',
+      phase: '截图身份识别',
+      agentType: 'screenshot-agent',
+      schema: {
+        type: 'object',
+        properties: {
+          ok: { type: 'boolean' },
+          contract: { type: 'string' },
+          entries: { type: 'array' },
+          unresolved: { type: 'array' },
+          error: { type: 'string' },
+        },
+        required: ['ok', 'contract', 'entries', 'unresolved', 'error'],
+      },
+    }))
+  }
+  const resolvedEntries = identityResult && Array.isArray(identityResult.entries) ? identityResult.entries : []
+  const resolvedQueries = [...new Set(resolvedEntries.map(item => item && item.query).filter(Boolean))]
   return {
     mode,
-    status: 'awaiting_screenshot_selection',
+    status: resolvedEntries.length ? 'ready_for_query_task_split' : (unnamedPaths.length ? 'awaiting_visual_identity_resolution' : 'awaiting_screenshot_selection'),
     discoveredGroups: (discoveryResult && discoveryResult.groups) || [],
+    unlabeledGroups,
+    unnamedFiles: (discoveryResult && discoveryResult.unnamedFiles) || [],
+    screenshotIdentityMap: resolvedEntries.length ? { contract: 'screenshot.identity-map', entries: resolvedEntries } : null,
+    resolvedQueries,
+    unresolvedIdentities: (identityResult && identityResult.unresolved) || [],
     invalidFiles: (discoveryResult && discoveryResult.invalidFiles) || [],
     unparseableFiles: (discoveryResult && discoveryResult.unparseableFiles) || [],
     copy: copySummary,
@@ -319,16 +526,19 @@ const PIPELINE_SCHEMA = {
     stageA: {
       type: 'object',
       properties: {
+        phase2Attempts: { type: 'number' },
+        retryPlans: { type: 'array' },
         elementListPaths: { type: 'array', items: { type: 'string' } },
         elementAuditPaths: { type: 'array', items: { type: 'string' } },
         elementCount: { type: 'number' },
         annotated: { type: 'array', items: { type: 'string' } },
       },
-      required: ['elementListPaths', 'elementAuditPaths', 'elementCount', 'annotated'],
+      required: ['phase2Attempts', 'retryPlans', 'elementListPaths', 'elementAuditPaths', 'elementCount', 'annotated'],
     },
     stageB: {
       type: 'object',
       properties: {
+        measurementsIndex: { type: 'string' },
         evalResultFile: { type: 'string' },
         evalAuditFile: { type: 'string' },
         evalCount: { type: 'number' },
@@ -375,7 +585,7 @@ ${selectedScreenshots.map(path => '- ' + path).join('\n')}
 - 个别屏缺失（如缺第2/3屏但第1屏在）不影响 ok，只需在 error 字段备注哪些屏缺失，仍返回已有的路径
 禁止覆盖或删除任何已有文件。` : `## 现场截图模式
 设备：Android 手机，USB 连 Mac、USB调试开启、美团App已登录。
-⚠️ 坐标依赖机型：run_scroll.sh 的坐标按华为 ABR-AL80（1224×2700）校准。若机型不同，先读 ${shotSkillDir}/SKILL.md 的坐标表，用 adb shell uiautomator dump 校准搜索框/tab/返回按钮坐标后再跑。
+截图脚本会读取当前厂商/机型/系统版本和 \`wm size\`。返回使用系统返回键；搜索输入框与 Tab 必须由当前 UI XML 的 bounds 动态定位，滑动使用屏幕比例。若结果页 XML 连续为空、找不到 Tab 或点击后不可验证，返回当前词/Tab 的明确失败，不得使用固定坐标兜底。
 
 ⚠️ 关键守卫：设备离线时 run_scroll.sh 会写出 0 字节文件覆盖已有图。因此启动脚本前必须确认设备在线。
 
@@ -436,7 +646,9 @@ const phase2Outputs = phase2InputPaths.map(p => {
     audit: manifest.replace(/\.json$/, '.audit.json'),
     recognitionAudit: manifest.replace(/\.json$/, '.recognition-audit.json'),
     visualReview: manifest.replace(/\.json$/, '.visual-review.json'),
+    candidateBundle: manifest.replace(/\.json$/, '.candidate-bundle.v2.json'),
     artifactsDir: artifactRunDir + '/phase2/' + stem + tagSuffix,
+    attemptRoot: artifactRunDir + '/phase2/' + stem + tagSuffix + '/attempts',
   }
 })
 if (new Set(phase2Outputs.map(item => item.manifest)).size !== phase2Outputs.length) {
@@ -480,12 +692,15 @@ const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query +
 const evalAuditFile = artifactRunDir + '/results/评测结果校验_' + query + tagSuffix + '_' + dimSlug + '.json'
 const phase2ReviewFile = artifactRunDir + '/results/待回退Phase2复核_' + query + tagSuffix + '_' + dimSlug + '.json'
 const issueEvidenceDir = annotatedDir + '/evidence/' + query + tagSuffix
+const measurementsDir = artifactRunDir + '/phase3/measurements'
+const stagePaths = { measurementsDir, evalResultFile, evalAuditFile, phase2ReviewFile, issueEvidenceDir }
 
 const mergedInputs = {
   query, tag, batchId, runId,
   projectDir,
   pythonBin,
   screenshots,
+  screenshotIdentityMap: suppliedIdentityMap,
   tabs,
   artifactRunDir,
   // Phase2（本地识别）
@@ -493,6 +708,7 @@ const mergedInputs = {
   phase2SkillDir,
   phase2Mode,
   phase2Outputs,
+  phase2MaxAttempts: Number.isInteger(A.phase2MaxAttempts) ? A.phase2MaxAttempts : 3,
   skipAnnotation,
   // Phase3（评测）
   evalTargets: resolvedTargets,
@@ -508,9 +724,10 @@ const mergedInputs = {
   // Phase4（问题证据）
   issueEvidenceSkillDir,
   issueEvidenceDir,
+  stagePaths,
 }
 
-const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的 Phase2→Phase3→Phase4 评测。先读取并严格遵守 .claude/agents/phase234-query-pipeline.md 的全部阶段级规则（Phase2 当前图片校准、七键单图清单、FACT_GATES、评测官知识库与共享契约优先读取、assessmentRows/issues 结构、页面框架结论边界和批次报告交接），本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的唯一 Phase2→Phase3→Phase4 评测契约。先读取并严格遵守 .claude/agents/phase234-query-pipeline.md。开始前确认宿主可读取当前图片像素；若不支持，返回 blockedAt=preflight、error=model_vision_not_supported，且不得进入 Phase2。本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json

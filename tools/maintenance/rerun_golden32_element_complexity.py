@@ -382,11 +382,11 @@ def main() -> int:
         run_dir = RUNS_ROOT / run_id
         task_path, agent_result_path = run_dir / "task.json", run_dir / "agent-result.json"
         task = {
-            "protocol": "MEITUAN_EVAL_TASK_V2", "runId": run_id, "projectDir": str(PROJECT),
+            "protocol": "MEITUAN_EVAL_TASK", "runId": run_id, "projectDir": str(PROJECT),
             "workflowArgs": {**source_task["workflowArgs"], "runId": run_id, "batchId": args.batch_id, "tag": run_id,
                              "rerunId": run_id, "artifactRunDir": str(artifact), "query": query,
                              "evaluationSelection": {"mode": "full_19"}},
-            "contractFiles": [str(PROJECT / ".claude/agents/phase2345-query-pipeline.md"), str(PROJECT / ".claude/contracts/evaluation-result.schema.json")],
+            "contractFiles": [str(PROJECT / ".claude/agents/phase234-query-pipeline.md"), str(PROJECT / ".claude/contracts/evaluation-result.schema.json")],
             "resultPath": str(agent_result_path),
             "completionCommand": [sys.executable, str(FINALIZER), "finalize-evaluate", "--task", str(task_path), "--result", str(agent_result_path)],
             "hostInstructions": ["Offline Golden Atomic v3 element-complexity re-evaluation; validate complete-card scope and full JSON inventory."],

@@ -45,11 +45,21 @@ python3 workflow/eval_cli.py prepare-evaluate \
 
 该命令不修改源文件，会把图片以原文件名复制到 `screenshots/`。同名但内容不同的图片会自动保留为独立副本，不会覆盖旧文件。
 
-若已确定搜索词，可追加 `--query <搜索词>`。命令会生成可交给宿主执行环境的任务文件；具体交接方式见 [HOST_ADAPTER.md](workflow/HOST_ADAPTER.md)。
+若文件名符合 `<搜索词>_<Tab>_<屏>`，已确定搜索词后可追加 `--query <搜索词>`。对于 `IMG_0001.png` 等未命名但可读取的图片，发现结果会将每张图列为独立有效未命名组并返回 `awaiting_visual_identity_resolution`。宿主读取当前图片像素，生成 `screenshot.identity-map` 后显式选择；不修改文件名，也不要求用户补写文件身份：
+
+```bash
+python3 workflow/eval_cli.py prepare-evaluate \
+  --project-dir "$(pwd)" \
+  --source-dir "/path/to/external/screenshots" \
+  --identity-map "/path/to/screenshot-identity-map.json" \
+  --selected-screenshot "$(pwd)/screenshots/IMG_0001.png"
+```
+
+身份映射记录当前文件 SHA-256、query、Tab、屏号、识别来源和置信度；CLI 会再次核验路径和字节。未命名图不会被自动合并；多个不同搜索词按身份映射分别创建任务。命令会生成可交给宿主执行环境的任务文件；具体交接方式见 [HOST_ADAPTER.md](workflow/HOST_ADAPTER.md)。
 
 ### 批量评测与最终报告
 
-同一份报告中的搜索词使用相同 `batchId`，每个搜索词使用独立 `runId`，分别创建一个 V3 任务：
+同一份报告中的搜索词使用相同 `batchId`，每个搜索词使用独立 `runId`，分别创建一个最终契约任务：
 
 ```bash
 python3 workflow/eval_cli.py prepare-evaluate \
@@ -61,37 +71,49 @@ python3 workflow/eval_cli.py prepare-evaluate \
   --evaluation-selection '{"mode":"full_19"}'
 ```
 
-对每个搜索词重复执行一次，只替换 `--query` 和 `--run-id`。宿主只把返回的 `portableTask.taskPath` 交给对应的一个 Evaluation Agent；每批最多并发 3 个词，必须等待本批全部成功、失败或明确介入后再启动下一批。
+对每个搜索词重复执行一次，只替换 `--query` 和 `--run-id`。随后用 `prepare-batch` 冻结全部预期 task；`meituan_eval_workflow.js` 的 `batch_evaluate` 模式每批最多并发 3 个词，并保存每轮状态快照。
 
-每个词完成后都要执行任务 JSON 中自带的 `completionCommand`。只有产生 `status=completed` 的本地回执，才算该词可进入最终汇总。任一词失败时只重试该词，不重跑其他成功词，也不生成不完整报告。
+每个词完成后都要执行任务 JSON 中自带的 `completionCommand`。只有产生 `status=completed` 的本地回执，才算成功。失败词使用新的隔离 `runId/taskPath` 和新的 Evaluation Agent 定向重派；每词最多三个任务，第三次仍失败则标记 `abandoned`，不重跑其他成功词。
 
-全部预期词完成后，统一执行一次 Phase5：
+没有 Workflow DSL 的宿主先冻结批次，再依据返回的 `statePath` 执行派发、`advance-batch` 核验和 `create-batch-retry` 隔离重试：
+
+```bash
+python3 workflow/eval_cli.py prepare-batch \
+  --project-dir "$(pwd)" \
+  --batch-id "batch-20260903" \
+  --task "<咖啡初始 taskPath>" \
+  --task "<火锅初始 taskPath>" \
+  --expected-business-tabs "dine_in,food_delivery" \
+  --max-query-attempts 3
+```
+
+支持 Workflow DSL 时，直接把相同的初始 `taskPaths`、`batchId`、`expectedBusinessTabs` 传给 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式，由它完成这些状态命令和 Agent 派发。全部预期词进入 `completed` 或 `abandoned` 终态后，统一执行一次 Phase5：
 
 ```bash
 python3 workflow/eval_cli.py finalize-batch \
   --project-dir "$(pwd)" \
   --batch-id "batch-20260903" \
-  --task "<咖啡 taskPath>" \
-  --task "<火锅 taskPath>" \
+  --batch-state "<advance-batch 返回的最新 statePath>" \
   --expected-business-tabs "dine_in,food_delivery"
 ```
 
-`--task` 按预期搜索词逐个重复。`finalize-batch` 会重新核验全部 V3 结果和 completed 回执，只把回执列出的精确 manifest、最终评测结果和预期搜索词交给 Phase5 确定性生成器，输出：
+推荐传入批次控制器最后生成的 `--batch-state`；`finalize-batch` 会拒绝 pending、尚可重试的失败词，以及没有批次状态佐证的提前部分报告。它只把 completed 回执列出的精确 manifest 和结果交给 Phase5；abandoned 词仅保留在批次状态中，不进入报告。输出：
 
 - `reports/meituan_search_experience_dashboard_<batchId>.html`
 - `reports/.governance_dataset_<batchId>.json`
 
-Phase5 不调用模型，不重新评测截图，也不会把总报告写回各词回执。正式治理看板要求至少两个搜索词、所有词均完成完整 19 项，并显式提供预期业务 `businessCode` 集合。
+Phase5 不调用模型，不重新评测截图，也不会把总报告写回各词回执。只要至少一个词完成即可在终态屏障后生成唯一报告；若全部词 abandoned，则不生成空报告。正式治理看板中的 completed 词须完成完整 19 项，并显式提供预期业务 `businessCode` 集合。
 
-## 三种任务模式
+## 用户任务模式与批次执行模式
 
 | 模式 | 适用场景 | 需要提供的信息 |
 |---|---|---|
 | `capture_only` | 只采集截图 | 搜索词、Tab、屏数 |
 | `evaluate_only` | 评测已有截图 | 截图范围、评测范围、报告出口 |
 | `capture_and_evaluate` | 先截图再评测 | 先提供搜索词、Tab、屏数；截图完成后再确认评测范围和报告出口 |
+| `batch_evaluate` | 内部批次执行入口 | 初始 `taskPaths`、`batchId`、`expectedBusinessTabs`；不作为新的用户意图类型 |
 
-评测已有截图时，系统会先发现并分组 `screenshots/` 内的文件。选择文件后，搜索词、Tab 和屏号会从文件名 `<搜索词>_<Tab>_<屏>.<ext>` 推导，无需重复填写。
+评测已有截图时，系统会先发现并分组 `screenshots/` 内的文件。规范名称从 `<搜索词>_<Tab>_<屏>.<ext>` 推导；未命名图由宿主读取当前像素生成身份映射。两条路径都不要求重命名原图。
 
 ## 输入、输出与数据流
 
@@ -101,25 +123,28 @@ Phase5 不调用模型，不重新评测截图，也不会把总报告写回各�
 | Phase2 事实识别 | 单张截图 | `screenshots-out/` 内一图一份事实清单 |
 | Phase3 评测 | 原始截图和对应事实清单 | `.artifacts/过程文件-评测结果与审计/` |
 | Phase4 证据 | 已确认的问题定位 | `screenshots-out/evidence/` |
-| Phase5 报告 | 本批全部词已验收的结果、manifest 和证据 | `reports/` 内一份批量 HTML 和一份治理数据集 |
+| Phase5 报告 | 本批 completed 词已验收的结果、manifest 和证据 | `reports/` 内唯一批量 HTML 和治理数据集；不呈现 abandoned 词 |
 
 每张截图都有独立事实清单，Phase3 只消费已通过 Phase2 校验的清单。批量索引只用于定位文件，不能替代单图事实。
 
 ### 词级 Agent 交付契约
 
-V3 Evaluation Agent 只完成 Phase2～4，并返回可核验的文件路径。它不写报告正文，也不生成单词 HTML：
+Evaluation Agent 只完成 Phase2～4，并返回可核验的文件路径。它不写报告正文，也不生成单词 HTML：
 
 ```json
 {
   "ok": true,
   "query": "当前搜索词",
   "stageA": {
+    "phase2Attempts": 1,
+    "retryPlans": ["<phase2 retry plan path>"],
     "elementListPaths": [],
     "elementAuditPaths": [],
     "elementCount": 0,
     "annotated": []
   },
   "stageB": {
+    "measurementsIndex": "",
     "evalResultFile": "",
     "evalAuditFile": "",
     "evalCount": 0
@@ -165,12 +190,12 @@ V3 Evaluation Agent 只完成 Phase2～4，并返回可核验的文件路径。�
 Workflow
 ├─ Screenshot Agent：截图或发现已有截图
 ├─ 每个搜索词一个 Evaluation Agent：Phase2 → Phase3 → Phase4
-└─ 全部词级回执成功后：一次 Phase5 批量报告
+└─ 全部词进入 completed/abandoned 终态后：一次 Phase5 批量报告
 ```
 
-Workflow 只负责按需询问、任务路由和词级执行；外层宿主负责最多 3 词并发、批次屏障和失败词重试。评级和事实判断由评测流程完成。所有预期搜索词的事实清单、评测结果和证据均通过本地回执后，Phase5 才读取这些精确产物生成一次总报告。
+Workflow 的 `batch_evaluate` 模式负责最多 3 词并发、批次状态快照、失败词隔离重派和终态屏障。评级和事实判断仍由词级评测流程完成。Phase5 只读取 completed 词的精确产物；连续三次失败的 abandoned 词不进入报告，全部失败时不生成报告。
 
-新任务默认使用 `MEITUAN_EVAL_TASK_V3`、`phase234-query-pipeline.md` 和 `evaluation-result.v3.schema.json`。已有 `MEITUAN_EVAL_TASK_V2` 仍可按原 `phase2345-query-pipeline.md` 与单词报告契约完成和复验，但不再用于创建新任务。
+任务只使用 `MEITUAN_EVAL_TASK`、`phase234-query-pipeline.md` 和 `evaluation-result.schema.json`。流程先产出不可发布的本地 CV 候选，再由具备读图能力的宿主完成当前像素复核；门禁失败在同一任务内按卡片定向修正并重新发布，只有耗尽重试预算后才阻断。Phase3 按所选 Skill 运行必要的确定性像素测量，Phase4 生成并校验证据。历史版本契约已备份并移出当前入口，已有本地产物保持不变。
 
 ## 目录速览
 

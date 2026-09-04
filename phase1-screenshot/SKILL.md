@@ -1,7 +1,7 @@
 ---
 name: meituan-search-screenshot
 description: 自动化在美团 Android App 按搜索词搜索并采集搜索结果页截图。每个搜索词在「全部/外卖/团购」三个 tab 下分别截取第一屏、第二屏、第三屏，共 9 张/词，供评测人员批量收集页面数据。当用户提到美团截图、搜索结果截图、采图、收集评测截图、搜索词截图时使用。
-compatibility: 需要宿主可调用 adb、目标 Android 设备已授权 USB 调试且输入法可写入中文
+compatibility: 需要宿主可调用 adb、目标 Android 设备已授权 USB 调试且输入法可写入中文；结果页必须可稳定导出 UI XML 以定位 Tab
 metadata:
   author: qianjing
   version: "1.0"
@@ -22,7 +22,16 @@ allowed-tools: Bash(adb:*) Read Write
 
 ## 执行
 
-1. 先验证 `adb devices` 中目标状态为 `device`，确认设备已解锁、应用可达、当前输入法能写入中文；能力或状态不足时阻断并返回实际检测结果。
+1. 先验证 `adb devices` 中目标状态为 `device`，读取厂商/机型/Android 版本与 `wm size`，确认设备已解锁、应用可达、当前输入法能写入中文；能力或状态不足时阻断并返回实际检测结果。设备未授权时，提示用户按本机系统设置路径手动开启开发者选项和 USB 调试并确认授权；Agent 不得自行修改这些系统开关。若未检测到 `com.android.adbkeyboard`，在设备或模拟器已连接后引导用户从源码安装：
+
+```bash
+git clone https://github.com/senzhk/ADBKeyBoard.git
+cd ADBKeyBoard
+export ANDROID_HOME=$HOME/Android/Sdk  # 或编辑 local.properties
+./gradlew installDebug
+```
+
+安装后重新检查该输入法包；项目不再内置或安装 APK。
 2. 只调用当前项目的 `phase1-screenshot/scripts/run_scroll.sh`；参数来自本次输入：
 
 ```bash
@@ -30,14 +39,17 @@ bash <projectDir>/phase1-screenshot/scripts/run_scroll.sh "<queries>" "<tabs>" "
 ```
 
 3. 大批量可调用同目录 `loop_screenshot.sh`，但每词失败须保留日志、仅重试该词，不能用旧截图补齐。
-4. 截图后检查每张文件存在、非零字节且可读取；再由 `phase1-screenshot/scripts/discover_screenshot_groups.py --screenshot-dir <projectDir>/screenshots` 产出可评测分组和无效/无法解析项。
+4. 截图后检查每张文件存在、非零字节且可读取；再由 `phase1-screenshot/scripts/discover_screenshot_groups.py --screenshot-dir <projectDir>/screenshots` 产出规范分组、有效未命名候选和无效项。有效未命名图不得作为错误或阻断项。
 
 ## 宿主与失败处理
 
-- 坐标、页面状态和输入方式属于当前设备事实；脚本不能适配时停止并记录，不在 Skill 内写入机型、UDID、分辨率或历史临时路径。
+- 返回、输入框、搜索提交和 Tab 必须由当前 UI XML 动态定位：返回使用 `KEYCODE_BACK`，输入框选择可见 EditText 的 bounds，Tab 按文本/`content-desc` 的 bounds 定位并验证状态；不得使用历史机型坐标。唯一例外是**刚提交新搜索后的「全部」第一屏**：若已由 `SearchResultActivity` 验证进入结果页但 XML 暂不可用，可不点击 Tab，直接采集默认「全部」页；外卖/团购仍必须定位并验证 XML。其他 XML 缺失、Tab 不存在或点击后无法验证的情形，阻断当前词/Tab 并保留日志，不得回退到固定坐标。
+- 每轮采集必须在日志中记录当前设备的搜索框 bounds/中心点、`KEYCODE_BACK` 已回到可写搜索框的验证，以及 XML 可用时「全部」Tab 的 bounds/中心点。这些是运行时校准记录，不得回写为任何设备固定坐标。
+- 刚提交搜索后，已确认的默认「全部」首屏必须直接稳定截图：不得再执行滚回顶部、滑动或重复点击「全部」；只有用户明确请求第 2/3 屏，或切换到非默认 Tab 时才可执行对应手势。
+- 滑动按当前 `wm size` 的屏幕比例计算，且必须验证页面指纹变化；未变化时不得将重复页面保存为下一屏。
 - 设备断连、弹窗、输入失败或截屏失败只影响当前词/屏；保留失败产物和原因，修复环境后重跑该范围。
-- 外部截图由 `phase1-screenshot/scripts/ingest_external_screenshots.py` 复制到项目 `screenshots/`，源文件只读保留。复制后同样必须 discover，不能手工假定分组。
+- 外部截图由 `phase1-screenshot/scripts/ingest_external_screenshots.py` 复制到项目 `screenshots/`，源文件只读保留。复制后同样必须 discover；未命名图由宿主读取当前像素形成 `screenshot.identity-map` 后分组，不能手工假定或要求先改名。
 
 ## 验收
 
-返回本次有效截图路径、发现的分组、无效/无法解析文件和每个失败范围；不要输出任何评测结论。
+返回本次有效截图路径、规范分组、有效未命名候选、无效文件和每个失败范围；不要输出任何评测结论。

@@ -8,6 +8,7 @@ defined by references/current_image_calibration.v1.md before Phase3 consumes it.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -20,6 +21,7 @@ from PIL import Image
 
 from apply_visual_review import load_review, _normalise_topology
 from card_type_registry import display_names, known_result_types
+from phase2_contract import merchant_variant, reviewed_card_type, topology_errors, topology_parts
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -53,6 +55,57 @@ def invoke(arguments: list[str], check: bool = True, env: dict[str, str] | None 
     return subprocess.run(arguments, cwd=ROOT, check=check, env=env).returncode
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def run_candidate(screenshot: Path, artifacts: Path, output: Path) -> int:
+    """Create an explicitly non-publishable local-CV candidate bundle.
+
+    This is deliberately separate from manifest publication: no textual fact,
+    topology, or Phase3-ready claim can be made without the later current-pixel
+    review.  The bundle binds the retained CV facts to the exact screenshot.
+    """
+    artifacts.mkdir(parents=True, exist_ok=True)
+    facts = artifacts / "cv-facts.candidate.json"
+    cv_env = os.environ.copy()
+    cv_env["SEARCH_EVAL_PYTHON"] = sys.executable
+    cv_env["PHASE2_DISABLE_LOCAL_OCR"] = "1"
+    invoke(["bash", str(SCRIPT_DIR / "run_cv_facts.sh"), str(screenshot), "--output", str(facts)], env=cv_env)
+    output.write_text(json.dumps({
+        "contractVersion": "phase2.candidate-bundle.v2",
+        "status": "awaiting_current_pixel_review",
+        "screenshot": str(screenshot.resolve()),
+        "screenshotSha256": sha256_file(screenshot),
+        "factsPath": str(facts.resolve()),
+        "phase3Ready": False,
+        "wholePageGate": False,
+        "visualReviewRequired": True,
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return 0
+
+
+def validate_candidate_bundle(bundle_path: Path, screenshot: Path) -> Path:
+    """Return the retained CV facts only when they belong to this screenshot."""
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    if not isinstance(bundle, dict) or bundle.get("contractVersion") != "phase2.candidate-bundle.v2":
+        raise ValueError("phase2_candidate_bundle_invalid")
+    if bundle.get("status") != "awaiting_current_pixel_review" or bundle.get("phase3Ready") is not False:
+        raise ValueError("phase2_candidate_bundle_must_not_be_publishable")
+    if Path(str(bundle.get("screenshot", ""))).resolve() != screenshot.resolve():
+        raise ValueError("phase2_candidate_bundle_screenshot_mismatch")
+    if bundle.get("screenshotSha256") != sha256_file(screenshot):
+        raise ValueError("phase2_candidate_bundle_screenshot_hash_mismatch")
+    facts = Path(str(bundle.get("factsPath", ""))).resolve()
+    if not facts.is_file() or facts.stat().st_size == 0:
+        raise ValueError("phase2_candidate_bundle_facts_missing")
+    return facts
+
+
 def write_structure_gate(candidates: Path, semantics: Path, output: Path) -> bool:
     """Stage A: publish only bounded, known page components to Phase2 facts."""
     cards = json.loads(candidates.read_text(encoding="utf-8")).get("resultCards", [])
@@ -75,7 +128,11 @@ def write_structure_gate(candidates: Path, semantics: Path, output: Path) -> boo
     return not errors
 
 
-def validate_cv_llm_visual_review(review_path: Path) -> None:
+def _overlap(left: list[int], right: list[int]) -> bool:
+    return left[0] < right[0] + right[2] and left[0] + left[2] > right[0] and left[1] < right[1] + right[3] and left[1] + left[3] > right[1]
+
+
+def validate_cv_llm_visual_review(review_path: Path, cv_facts: dict | None = None) -> None:
     """Reject an incomplete review before it can be mistaken for CV+LLM facts."""
     review = load_review(review_path)
     if review.get("completeCurrentPixelReview") is not True:
@@ -99,17 +156,27 @@ def validate_cv_llm_visual_review(review_path: Path) -> None:
             raise ValueError(f"{card_id}:visual review must declare card topology regions")
         slots = {item["slot"] for item in topology["regions"]}
         naturally_cropped = _review_card_is_naturally_cropped(review, card, topology)
-        if card_type == "商家卡片_图文下挂":
-            needed = {"merchant_head", "merchant_info", "attached_goods"}
-            if naturally_cropped and "merchant_head" not in slots:
-                raise ValueError(f"{card_id}:naturally cropped merchant card requires a visible merchant_head")
-            if not naturally_cropped and (not needed.issubset(slots) or not topology["attachedItems"]):
-                raise ValueError(f"{card_id}:merchant graphic hang requires merchant_head, merchant_info, attached_goods and attachedItems")
-        elif card_type == "商家卡片_文字下挂":
-            if naturally_cropped and "merchant_head" not in slots:
-                raise ValueError(f"{card_id}:naturally cropped merchant card requires a visible merchant_head")
-            if not naturally_cropped and not {"merchant_head", "merchant_info", "text_attachment"}.issubset(slots):
-                raise ValueError(f"{card_id}:merchant text hang requires merchant_head, merchant_info and text_attachment")
+        errors = topology_errors(card_type, topology)
+        if errors and not naturally_cropped:
+            raise ValueError(f"{card_id}:{errors[0]}")
+        # A visual reviewer may describe text and ownership, but it may not
+        # invent a product-image rail. Graphic downhang requires a current CV
+        # photo candidate inside a declared attached item.
+        if card_type == "商家卡片_图文下挂" and not naturally_cropped:
+            _, items = topology_parts(topology)
+            photos = (cv_facts or {}).get("candidates", {}).get("photos", [])
+            has_cv_anchor = any(
+                isinstance(photo, dict)
+                and photo.get("route") == "accepted"
+                and isinstance(photo.get("coord"), list)
+                and any(_overlap(photo["coord"], item["coord"]) for item in items)
+                for photo in photos
+            )
+            if not has_cv_anchor:
+                raise ValueError(f"{card_id}:merchant_graphic_hang_requires_cv_attached_photo_anchor")
+        expected = reviewed_card_type(card_type, topology)
+        if expected and expected != card_type and not naturally_cropped:
+            raise ValueError(f"{card_id}:merchant_variant_does_not_match_topology:{expected}")
 
 
 def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, facts_path: Path) -> None:
@@ -150,6 +217,8 @@ def merge_reviewed_card_boundaries(candidates_path: Path, review_path: Path, fac
         type_candidate = str(reviewed.get("cardTypeCandidate", ""))
         if type_candidate in known_result_types():
             candidate["classificationHint"] = {"cardType": type_candidate, "confidence": 0.96}
+        candidate["reviewedMerchantVariant"] = merchant_variant(topology)
+        candidate["reviewedCardType"] = type_candidate
         topology_slots = {str(item.get("slot", "")) for item in topology.get("regions", [])}
         if "attached_goods" not in topology_slots:
             # Current-pixel review is authoritative for this card.  Candidate
@@ -273,7 +342,7 @@ def mark_manifest_blocked(output: Path, error: str) -> None:
 
 def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifacts: Path,
         visual_review: Path | None = None,
-        recognition_mode: str = "cv_llm") -> int:
+        recognition_mode: str = "cv_llm", candidate_bundle: Path | None = None) -> int:
     if recognition_mode != "cv_llm":
         raise ValueError("Phase2 production recognition is cv_llm only; legacy local OCR modes are not available")
     artifacts.mkdir(parents=True, exist_ok=True)
@@ -296,13 +365,16 @@ def run(query: str, screenshot: Path, output: Path, audit: Path | None, artifact
     # The LLM's recorded current-pixel read is the sole text observation
     # source.  Do not silently retain any local OCR fallback.
     cv_env["PHASE2_DISABLE_LOCAL_OCR"] = "1"
-    invoke(["bash", str(SCRIPT_DIR / "run_cv_facts.sh"), str(screenshot), "--output", str(facts_initial)], env=cv_env)
-    facts_source = facts_initial
+    if candidate_bundle is None:
+        invoke(["bash", str(SCRIPT_DIR / "run_cv_facts.sh"), str(screenshot), "--output", str(facts_initial)], env=cv_env)
+        facts_source = facts_initial
+    else:
+        facts_source = validate_candidate_bundle(candidate_bundle, screenshot)
     if visual_review is None:
         raise ValueError("cv_llm mode requires --visual-review with completeCurrentPixelReview=true")
-    validate_cv_llm_visual_review(visual_review)
+    validate_cv_llm_visual_review(visual_review, json.loads(facts_source.read_text(encoding="utf-8")))
     facts_reviewed = artifacts / "cv-facts.visual-reviewed.before-structure.json"
-    invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts_initial), "--review", str(visual_review), "--output", str(facts_reviewed)])
+    invoke([sys.executable, str(SCRIPT_DIR / "apply_visual_review.py"), "--facts", str(facts_source), "--review", str(visual_review), "--output", str(facts_reviewed)])
     facts_source = facts_reviewed
     invoke([sys.executable, str(SCRIPT_DIR / "build_search_page_structure.py"), str(facts_source), "--output", str(structure_initial)])
     invoke([sys.executable, str(SCRIPT_DIR / "build_search_result_candidates.py"), str(facts_source), str(structure_initial), "--output", str(candidates_initial)])
@@ -353,16 +425,26 @@ def main() -> int:
     parser.add_argument("--recognition-audit", type=Path, help="Optional separate debug audit; the canonical gate is embedded in --output")
     parser.add_argument("--artifacts-dir", type=Path, help="Optional retained CV/OCR process artifacts directory")
     parser.add_argument("--visual-review", type=Path, help="Current-screenshot main-session local visual-review JSON")
+    parser.add_argument("--candidate-bundle", type=Path, help="Retained local-CV candidate bundle bound to --screenshot")
+    parser.add_argument("--stage", choices=("candidate", "publish"), default="publish",
+                        help="Run candidate before visual review, then publish the reviewed result.")
     parser.add_argument("--recognition-mode", choices=("cv_llm",), default="cv_llm",
                         help="Production CV+LLM mode: local CV geometry plus mandatory current-pixel visual review; no local OCR backend")
     args = parser.parse_args()
+    if args.stage == "candidate":
+        if args.visual_review or args.candidate_bundle or args.recognition_audit:
+            parser.error("candidate stage accepts only screenshot, output, and artifacts-dir")
+        if args.artifacts_dir:
+            return run_candidate(args.screenshot, args.artifacts_dir, args.output)
+        with tempfile.TemporaryDirectory(prefix="phase2-candidate-") as temp:
+            return run_candidate(args.screenshot, Path(temp), args.output)
     if args.artifacts_dir:
         return run(args.query, args.screenshot, args.output, args.recognition_audit, args.artifacts_dir,
-                   args.visual_review, args.recognition_mode)
+                   args.visual_review, args.recognition_mode, args.candidate_bundle)
     else:
         with tempfile.TemporaryDirectory(prefix="phase2-recognition-") as temp:
             return run(args.query, args.screenshot, args.output, args.recognition_audit, Path(temp),
-                       args.visual_review, args.recognition_mode)
+                       args.visual_review, args.recognition_mode, args.candidate_bundle)
 
 
 if __name__ == "__main__":

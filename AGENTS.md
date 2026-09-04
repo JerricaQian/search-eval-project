@@ -19,10 +19,16 @@ governance, or agent capabilities:
    overwriting or blocking. A suffixed filename is a distinct screenshot and
    must not be merged with the unsuffixed file during discovery.
 4. Use `phase1-screenshot/scripts/discover_screenshot_groups.py` on `screenshots/`, return the
-   discovered groups and invalid/unparseable inputs, then obtain the minimum
-   evaluation configuration required by the selected mode.
+   canonical groups, valid unnamed candidates, and truly invalid inputs. Valid
+   unnamed screenshots must proceed through current-pixel identity mapping and
+   must never be blocked as unparseable. Then obtain only the minimum evaluation
+   configuration required by the selected mode.
 5. Only after the preceding steps may each query Evaluation Agent run Phase2 → Phase4.
-   Phase5 runs once after every expected query has a completed local receipt.
+   Phase5 runs once after every expected query is terminal: either it has a
+   completed local receipt, or it has failed three isolated Evaluation Agent
+   attempts and is explicitly marked abandoned. Phase5 consumes only completed
+   queries and does not mention abandoned queries in the report; if all queries
+   are abandoned, do not generate an empty Phase5 report.
    Human visual comments are permitted solely as clearly-labelled post-pipeline
    review and never replace the formal result.
 
@@ -30,7 +36,9 @@ governance, or agent capabilities:
 
 When a host cannot execute `workflow/meituan_eval_workflow.js` directly, use
 `python3 workflow/eval_cli.py prepare-evaluate` to run the copy and discovery
-preflight. When a query is selected it emits a `MEITUAN_EVAL_TASK_V3` portable
+preflight. For unnamed images the host first reads current pixels and supplies a
+SHA-bound `screenshot.identity-map`; filenames never block evaluation. When a
+query is selected it emits a `MEITUAN_EVAL_TASK` portable
 task with a unique `runId`; queries in one report share a `batchId`. Give the
 host only each `taskPath`, run its completion command, then use
 `finalize-batch` once all expected receipts are completed. See

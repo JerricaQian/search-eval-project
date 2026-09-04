@@ -39,12 +39,16 @@ class DiscoverScreenshotGroupsTest(unittest.TestCase):
         self.assertEqual(kudi["tabs"][0]["tab"], "全部")
         self.assertEqual(kudi["tabs"][0]["screens"], ["1"])
         self.assertEqual(len(result["invalidFiles"]), 1)
-        self.assertEqual(len(result["unparseableFiles"]), 1)
+        self.assertEqual(result["unparseableFiles"], [])
+        self.assertEqual(result["unnamedFiles"], [str((root / "unparseable.png").resolve())])
+        self.assertEqual(result["unlabeledGroups"][0]["files"], [str((root / "unparseable.png").resolve())])
 
     def test_missing_directory_is_reported_without_error(self) -> None:
         module = load_module()
         result = module.discover(Path("/tmp/not-a-real-screenshot-directory"), min_bytes=1)
         self.assertEqual(result["groups"], [])
+        self.assertEqual(result["unlabeledGroups"], [])
+        self.assertEqual(result["unnamedFiles"], [])
         self.assertEqual(result["error"], "directory_not_found")
 
     def test_copy_suffixes_are_distinct_instances_not_query_text(self) -> None:

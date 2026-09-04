@@ -12,6 +12,7 @@ from PIL import Image
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 CLI_PATH = PROJECT_DIR / "workflow" / "eval_cli.py"
+PROMOTE_PATH = PROJECT_DIR / "workflow" / "promote_phase2_attempt.py"
 
 
 class PortableTaskProtocolTest(unittest.TestCase):
@@ -40,14 +41,20 @@ class PortableTaskProtocolTest(unittest.TestCase):
             task_path = Path(portable["taskPath"])
             task = json.loads(task_path.read_text())
 
-            self.assertEqual(portable["protocol"], "MEITUAN_EVAL_TASK_V3")
+            self.assertEqual(portable["protocol"], "MEITUAN_EVAL_TASK")
             self.assertEqual(task["runId"], "portable-01")
             self.assertEqual(task["workflowArgs"]["tag"], "portable-01")
             self.assertEqual(task["workflowArgs"]["batchId"], "portable-01")
             self.assertEqual(task["workflowArgs"]["rerunId"], "portable-01")
             self.assertEqual(task["workflowArgs"]["pythonBin"], sys.executable)
             self.assertTrue(task["contractFiles"][0].endswith("phase234-query-pipeline.md"))
-            self.assertTrue(task["contractFiles"][1].endswith("evaluation-result.v3.schema.json"))
+            self.assertTrue(task["contractFiles"][1].endswith("evaluation-result.schema.json"))
+            self.assertEqual(task["requiredCapabilities"]["readImagePixels"], True)
+            self.assertEqual(len(task["workflowArgs"]["phase2Outputs"]), 1)
+            self.assertTrue(task["workflowArgs"]["phase2Outputs"][0]["candidateBundle"].endswith(".candidate-bundle.v2.json"))
+            self.assertIn("attemptRoot", task["workflowArgs"]["phase2Outputs"][0])
+            self.assertIn("stagePaths", task["workflowArgs"])
+            self.assertEqual(task["workflowArgs"]["screenshotIdentityMap"]["contract"], "screenshot.identity-map")
 
             source = root / "external"
             project = root / "project"
@@ -61,6 +68,102 @@ class PortableTaskProtocolTest(unittest.TestCase):
             )
             self.assertEqual(repeated.returncode, 2)
             self.assertEqual(json.loads(repeated.stdout)["status"], "run_setup_failed")
+
+    def test_promote_phase2_attempt_publishes_validated_winner_once(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            screenshot = root / "IMG_0001.PNG"
+            Image.new("RGB", (100, 100), "white").save(screenshot)
+            attempt = root / "attempt"
+            attempt.mkdir()
+            manifest = attempt / "manifest.json"
+            manifest.write_text(json.dumps({
+                "screenshot": str(screenshot.resolve()),
+                "recognition": {"phase3Ready": True, "wholePageGate": True},
+            }))
+            manifest_audit = attempt / "manifest.audit.json"
+            manifest_audit.write_text('{"valid":true}')
+            recognition_audit = attempt / "recognition.audit.json"
+            recognition_audit.write_text('{"valid":true}')
+            final = root / "final"
+            command = [
+                sys.executable, str(PROMOTE_PATH), "--screenshot", str(screenshot),
+                "--manifest", str(manifest), "--manifest-audit", str(manifest_audit),
+                "--recognition-audit", str(recognition_audit),
+                "--output-manifest", str(final / "manifest.json"),
+                "--output-audit", str(final / "manifest.audit.json"),
+                "--output-recognition-audit", str(final / "recognition.audit.json"),
+            ]
+            subprocess.run(command, check=True, capture_output=True, text=True)
+            self.assertTrue((final / "manifest.json").is_file())
+            repeated = subprocess.run(command, check=False, capture_output=True, text=True)
+            self.assertNotEqual(repeated.returncode, 0)
+            self.assertIn("refuse_to_overwrite", repeated.stderr)
+
+    def test_prepare_freezes_retry_and_measurement_contracts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "external"
+            project = root / "project"
+            source.mkdir()
+            project.mkdir()
+            (project / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            Image.new("RGB", (100, 100), "white").save(source / "露营_全部_1.png")
+            completed = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-evaluate", "--project-dir", str(project),
+                "--source-dir", str(source), "--query", "露营", "--min-bytes", "1", "--run-id", "portable-final",
+                "--evaluation-selection", '{"mode":"full_19"}',
+            ], check=True, capture_output=True, text=True)
+            payload = json.loads(completed.stdout)
+            task = json.loads(Path(payload["portableTask"]["taskPath"]).read_text())
+            self.assertEqual(task["protocol"], "MEITUAN_EVAL_TASK")
+            self.assertEqual(task["workflowArgs"]["phase2MaxAttempts"], 3)
+            self.assertTrue(task["contractFiles"][0].endswith("phase234-query-pipeline.md"))
+            self.assertIn("attemptRoot", task["workflowArgs"]["phase2Outputs"][0])
+
+    def test_finalize_rejects_stage_a_before_retry_budget_is_exhausted(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source, project = root / "external", root / "project"
+            source.mkdir(); project.mkdir()
+            (project / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            Image.new("RGB", (100, 100), "white").save(source / "露营_全部_1.png")
+            created = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-evaluate", "--project-dir", str(project), "--source-dir", str(source),
+                "--query", "露营", "--min-bytes", "1", "--run-id", "no-early-stop",
+            ], check=True, capture_output=True, text=True)
+            task_path = Path(json.loads(created.stdout)["portableTask"]["taskPath"])
+            task = json.loads(task_path.read_text())
+            result_path = Path(task["resultPath"])
+            result_path.write_text(json.dumps({
+                "ok": False, "query": "露营", "stageA": {"phase2Attempts": 1, "retryPlans": [{}]},
+                "stageB": {}, "stageC": {}, "stageD": {}, "blockedAt": "stageA", "error": "first gate failed",
+            }, ensure_ascii=False))
+            completed = subprocess.run([sys.executable, str(CLI_PATH), "finalize-evaluate", "--task", str(task_path), "--result", str(result_path)], check=False, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 2)
+            self.assertEqual(json.loads(completed.stdout)["error"], "stageA_block_requires_exhausted_retry_plans")
+
+    def test_finalize_rejects_success_when_retry_history_is_not_completed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source, project = root / "external", root / "project"
+            source.mkdir(); project.mkdir()
+            (project / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            Image.new("RGB", (100, 100), "white").save(source / "露营_全部_1.png")
+            created = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-evaluate", "--project-dir", str(project), "--source-dir", str(source),
+                "--query", "露营", "--min-bytes", "1", "--run-id", "no-passive-retry",
+            ], check=True, capture_output=True, text=True)
+            task_path = Path(json.loads(created.stdout)["portableTask"]["taskPath"])
+            task = json.loads(task_path.read_text())
+            Path(task["resultPath"]).write_text(json.dumps({
+                "ok": True, "query": "露营",
+                "stageA": {"phase2Attempts": 1, "retryPlans": [], "elementListPaths": [], "elementAuditPaths": []},
+                "stageB": {}, "stageC": {}, "stageD": {}, "blockedAt": "", "error": "",
+            }, ensure_ascii=False))
+            completed = subprocess.run([sys.executable, str(CLI_PATH), "finalize-evaluate", "--task", str(task_path), "--result", task["resultPath"]], check=False, capture_output=True, text=True)
+            self.assertEqual(completed.returncode, 2)
+            self.assertEqual(json.loads(completed.stdout)["error"], "stageA_retry_history_missing_or_incomplete")
 
     def test_prepare_preserves_explicit_evaluation_selection(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -100,22 +203,26 @@ class PortableTaskProtocolTest(unittest.TestCase):
             project = root / "project"
             task_path = Path(payload["portableTask"]["taskPath"])
             result_path = Path(payload["portableTask"]["resultPath"])
+            task = json.loads(task_path.read_text())
 
-            manifest = project / "screenshots-out" / "elements.json"
+            manifest = Path(task["workflowArgs"]["phase2Outputs"][0]["manifest"])
             manifest.parent.mkdir(parents=True)
             manifest.write_text("{}")
-            manifest_audit = project / "screenshots-out" / "elements.audit.json"
+            manifest_audit = Path(task["workflowArgs"]["phase2Outputs"][0]["audit"])
             manifest_audit.write_text('{"valid": true}')
-            eval_result = project / ".artifacts" / "eval-results.json"
+            eval_result = Path(task["workflowArgs"]["stagePaths"]["evalResultFile"])
             eval_result.parent.mkdir(parents=True)
             eval_result.write_text("[]")
-            eval_audit = project / ".artifacts" / "eval-audit.json"
+            eval_audit = Path(task["workflowArgs"]["stagePaths"]["evalAuditFile"])
             eval_audit.write_text('{"valid": true}')
+            measurements = Path(task["workflowArgs"]["stagePaths"]["measurementsDir"]) / "phase3-measurements.json"
+            measurements.parent.mkdir(parents=True)
+            measurements.write_text('{"valid": true}')
             result_path.write_text(json.dumps({
                 "ok": True,
                 "query": "露营",
-                "stageA": {"elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                "stageB": {"evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
+                "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
+                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
                 "stageC": {"evidenceImages": []},
                 "stageD": {},
                 "blockedAt": "",
@@ -144,46 +251,43 @@ class PortableTaskProtocolTest(unittest.TestCase):
             self.assertEqual(completed.returncode, 2)
             self.assertIn("successful_result_missing_stage", json.loads(completed.stdout)["error"])
 
-    def test_finalize_keeps_existing_v2_report_contract_compatible(self) -> None:
+    def test_finalize_accepts_preflight_vision_block(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            payload = self.prepare(root)
-            project = root / "project"
+            payload = self.prepare(Path(tmp))
             task_path = Path(payload["portableTask"]["taskPath"])
             result_path = Path(payload["portableTask"]["resultPath"])
-            task = json.loads(task_path.read_text())
-            task["protocol"] = "MEITUAN_EVAL_TASK_V2"
-            task_path.write_text(json.dumps(task))
-
-            manifest = project / "screenshots-out" / "elements.json"
-            manifest.parent.mkdir(parents=True)
-            manifest.write_text("{}")
-            manifest_audit = project / "screenshots-out" / "elements.audit.json"
-            manifest_audit.write_text('{"valid": true}')
-            eval_result = project / ".artifacts" / "eval-results.json"
-            eval_result.parent.mkdir(parents=True)
-            eval_result.write_text("[]")
-            eval_audit = project / ".artifacts" / "eval-audit.json"
-            eval_audit.write_text('{"valid": true}')
-            report = project / "reports" / "report.html"
-            report.parent.mkdir(parents=True)
-            report.write_text("<html></html>")
             result_path.write_text(json.dumps({
-                "ok": True,
-                "query": "露营",
-                "stageA": {"elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                "stageB": {"evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
-                "stageC": {"evidenceImages": []},
-                "stageD": {"reportPath": str(report)},
-                "blockedAt": "",
-                "error": "",
+                "ok": False, "query": "露营", "stageA": {}, "stageB": {}, "stageC": {}, "stageD": {},
+                "blockedAt": "preflight", "error": "model_vision_not_supported: host cannot read image pixels",
             }, ensure_ascii=False))
-
             completed = subprocess.run(
                 [sys.executable, str(CLI_PATH), "finalize-evaluate", "--task", str(task_path), "--result", str(result_path)],
                 check=True, capture_output=True, text=True,
             )
-            self.assertEqual(json.loads(completed.stdout)["protocol"], "MEITUAN_EVAL_TASK_V2")
+            receipt = json.loads(completed.stdout)
+            self.assertEqual(receipt["status"], "blocked")
+            self.assertEqual(receipt["blockedAt"], "preflight")
+
+    def test_finalize_rejects_retired_task_protocol(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload = self.prepare(root)
+            task_path = Path(payload["portableTask"]["taskPath"])
+            result_path = Path(payload["portableTask"]["resultPath"])
+            task = json.loads(task_path.read_text())
+            task["protocol"] = "MEITUAN_EVAL_TASK_LEGACY"
+            task_path.write_text(json.dumps(task))
+            result_path.write_text(json.dumps({
+                "ok": False, "query": "露营", "stageA": {}, "stageB": {}, "stageC": {}, "stageD": {},
+                "blockedAt": "stageA", "error": "old task",
+            }, ensure_ascii=False))
+
+            completed = subprocess.run(
+                [sys.executable, str(CLI_PATH), "finalize-evaluate", "--task", str(task_path), "--result", str(result_path)],
+                check=False, capture_output=True, text=True,
+            )
+            self.assertEqual(completed.returncode, 2)
+            self.assertEqual(json.loads(completed.stdout)["error"], "task_protocol_invalid")
 
     def test_finalize_allows_blocked_task_to_complete_after_retry(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -192,6 +296,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             project = root / "project"
             task_path = Path(payload["portableTask"]["taskPath"])
             result_path = Path(payload["portableTask"]["resultPath"])
+            task = json.loads(task_path.read_text())
 
             result_path.write_text(json.dumps({
                 "ok": False, "query": "露营", "blockedAt": "stageB", "error": "needs phase3 retry",
@@ -202,20 +307,23 @@ class PortableTaskProtocolTest(unittest.TestCase):
             )
             self.assertEqual(json.loads(blocked.stdout)["status"], "blocked")
 
-            manifest = project / "screenshots-out" / "elements.json"
+            manifest = Path(task["workflowArgs"]["phase2Outputs"][0]["manifest"])
             manifest.parent.mkdir(parents=True)
             manifest.write_text("{}")
-            manifest_audit = project / "screenshots-out" / "elements.audit.json"
+            manifest_audit = Path(task["workflowArgs"]["phase2Outputs"][0]["audit"])
             manifest_audit.write_text('{"valid": true}')
-            eval_result = project / ".artifacts" / "eval-results.json"
+            eval_result = Path(task["workflowArgs"]["stagePaths"]["evalResultFile"])
             eval_result.parent.mkdir(parents=True)
             eval_result.write_text("[]")
-            eval_audit = project / ".artifacts" / "eval-audit.json"
+            eval_audit = Path(task["workflowArgs"]["stagePaths"]["evalAuditFile"])
             eval_audit.write_text('{"valid": true}')
+            measurements = Path(task["workflowArgs"]["stagePaths"]["measurementsDir"]) / "phase3-measurements.json"
+            measurements.parent.mkdir(parents=True)
+            measurements.write_text('{"valid": true}')
             result_path.write_text(json.dumps({
                 "ok": True, "query": "露营",
-                "stageA": {"elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                "stageB": {"evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
+                "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
+                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
                 "stageC": {"evidenceImages": []}, "stageD": {},
                 "blockedAt": "", "error": "",
             }, ensure_ascii=False))
@@ -226,7 +334,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             self.assertEqual(json.loads(completed.stdout)["status"], "completed")
             self.assertTrue((task_path.parent / "receipt.blocked-stageB.json").is_file())
 
-    def test_finalize_batch_requires_completed_v3_tasks_and_builds_one_report(self) -> None:
+    def test_finalize_batch_requires_completed_tasks_and_builds_one_report(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project = root / "project"
@@ -271,12 +379,17 @@ class PortableTaskProtocolTest(unittest.TestCase):
                 }], ensure_ascii=False))
                 eval_audit = result_dir / f"评测结果校验_{query}.json"
                 eval_audit.write_text('{"valid": true}')
+                measurements_dir = result_dir.parent / "phase3" / "measurements"
+                measurements_dir.mkdir(parents=True)
+                measurements = measurements_dir / "phase3-measurements.json"
+                measurements.write_text('{"valid": true}')
+                evidence_dir = project / "screenshots-out" / "evidence" / f"run-{index}"
                 result_path = run_dir / "agent-result.json"
                 result_path.write_text(json.dumps({
                     "ok": True,
                     "query": query,
-                    "stageA": {"elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                    "stageB": {"evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
+                    "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
+                    "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
                     "stageC": {"evidenceImages": []},
                     "stageD": {},
                     "blockedAt": "",
@@ -284,7 +397,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                 }, ensure_ascii=False))
                 task_path = run_dir / "task.json"
                 task_path.write_text(json.dumps({
-                    "protocol": "MEITUAN_EVAL_TASK_V3",
+                    "protocol": "MEITUAN_EVAL_TASK",
                     "runId": f"run-{index}",
                     "projectDir": str(project),
                     "workflowArgs": {
@@ -292,11 +405,19 @@ class PortableTaskProtocolTest(unittest.TestCase):
                         "batchId": batch_id,
                         "reportOutlet": "local_html",
                         "evaluationSelection": {"mode": "full_19"},
+                        "phase2MaxAttempts": 3,
+                        "phase2Outputs": [{"manifest": str(manifest), "audit": str(manifest_audit)}],
+                        "stagePaths": {
+                            "measurementsDir": str(measurements_dir),
+                            "evalResultFile": str(eval_result),
+                            "evalAuditFile": str(eval_audit),
+                            "issueEvidenceDir": str(evidence_dir),
+                        },
                     },
                     "resultPath": str(result_path),
                 }, ensure_ascii=False))
                 (run_dir / "receipt.json").write_text(json.dumps({
-                    "protocol": "MEITUAN_EVAL_TASK_V3",
+                    "protocol": "MEITUAN_EVAL_TASK",
                     "runId": f"run-{index}",
                     "query": query,
                     "resultPath": str(result_path),
@@ -321,7 +442,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             self.assertTrue(Path(payload["datasetPath"]).is_file())
 
             (task_paths[1].parent / "receipt.json").write_text(json.dumps({
-                "protocol": "MEITUAN_EVAL_TASK_V3",
+                "protocol": "MEITUAN_EVAL_TASK",
                 "runId": "run-2",
                 "query": "火锅",
                 "resultPath": str(task_paths[1].parent / "agent-result.json"),
@@ -333,8 +454,138 @@ class PortableTaskProtocolTest(unittest.TestCase):
                 "--output", str(project / "reports" / "partial.html"),
                 "--dataset-output", str(project / "reports" / ".partial.json"),
             ]
-            partial_completed = subprocess.run(partial, check=True, capture_output=True, text=True)
+            premature = subprocess.run(partial, check=False, capture_output=True, text=True)
+            self.assertEqual(premature.returncode, 2)
+            self.assertIn("phase5_batch_incomplete", json.loads(premature.stdout)["error"])
+
+            retry_attempts = []
+            previous_run = "run-2"
+            for attempt in range(1, 4):
+                if attempt == 1:
+                    retry_task_path = task_paths[1]
+                    retry_run_id = "run-2"
+                else:
+                    retry_run_id = f"run-2-retry-{attempt}"
+                    retry_dir = project / "runs" / retry_run_id
+                    retry_dir.mkdir()
+                    retry_task_path = retry_dir / "task.json"
+                    retry_task = json.loads(task_paths[1].read_text())
+                    retry_task.update({
+                        "runId": retry_run_id,
+                        "batchAttempt": attempt,
+                        "retryOf": previous_run,
+                        "resultPath": str(retry_dir / "agent-result.json"),
+                    })
+                    retry_task_path.write_text(json.dumps(retry_task, ensure_ascii=False))
+                    (retry_dir / "receipt.json").write_text(json.dumps({
+                        "protocol": "MEITUAN_EVAL_TASK",
+                        "runId": retry_run_id,
+                        "query": "火锅",
+                        "resultPath": str(retry_dir / "agent-result.json"),
+                        "status": "blocked",
+                        "blockedAt": "stageA",
+                        "error": "phase2 needs review",
+                    }, ensure_ascii=False))
+                retry_attempts.append({
+                    "attempt": attempt, "runId": retry_run_id, "taskPath": str(retry_task_path),
+                    "receiptPath": str(retry_task_path.parent / "receipt.json"), "status": "blocked",
+                })
+                previous_run = retry_run_id
+
+            state_path = project / "runs" / "batch-state.json"
+            state_path.write_text(json.dumps({
+                "protocol": "MEITUAN_EVAL_BATCH",
+                "batchId": batch_id,
+                "projectDir": str(project),
+                "expectedBusinessTabs": ["dine_in"],
+                "maxQueryAttempts": 3,
+                "status": "ready_for_partial_phase5",
+                "sequence": 4,
+                "queries": [
+                    {"query": "咖啡", "status": "completed", "attempts": [{
+                        "attempt": 1, "runId": "run-1", "taskPath": str(task_paths[0]),
+                        "receiptPath": str(task_paths[0].parent / "receipt.json"), "status": "completed",
+                    }]},
+                    {"query": "火锅", "status": "abandoned", "attempts": retry_attempts},
+                ],
+            }, ensure_ascii=False))
+            controlled_partial = [
+                sys.executable, str(CLI_PATH), "finalize-batch",
+                "--project-dir", str(project), "--batch-id", batch_id,
+                "--batch-state", str(state_path),
+                "--output", str(project / "reports" / "partial.html"),
+                "--dataset-output", str(project / "reports" / ".partial.json"),
+            ]
+            partial_completed = subprocess.run(controlled_partial, check=True, capture_output=True, text=True)
             partial_payload = json.loads(partial_completed.stdout)
             self.assertEqual(partial_payload["queries"], ["咖啡"])
             self.assertEqual(partial_payload["skippedTasks"][0]["query"], "火锅")
-            self.assertIn("未纳入报告：火锅", Path(partial_payload["reportPath"]).read_text())
+            self.assertNotIn("火锅", Path(partial_payload["reportPath"]).read_text())
+
+    def test_batch_controller_creates_fresh_retry_tasks_and_stops_after_three_attempts(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "external"
+            project = root / "project"
+            source.mkdir()
+            project.mkdir()
+            (project / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
+            Image.new("RGB", (100, 100), "white").save(source / "露营_全部_1.png")
+            created = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-evaluate",
+                "--project-dir", str(project), "--source-dir", str(source), "--query", "露营",
+                "--min-bytes", "1", "--run-id", "batch-retry.q1", "--batch-id", "batch-retry",
+            ], check=True, capture_output=True, text=True)
+            first_task = Path(json.loads(created.stdout)["portableTask"]["taskPath"])
+
+            def block(task_path: Path) -> None:
+                task = json.loads(task_path.read_text())
+                result_path = Path(task["resultPath"])
+                result_path.write_text(json.dumps({
+                    "ok": False, "query": "露营", "stageA": {}, "stageB": {}, "stageC": {}, "stageD": {},
+                    "blockedAt": "preflight", "error": "temporary host failure",
+                }, ensure_ascii=False))
+                subprocess.run([
+                    sys.executable, str(CLI_PATH), "finalize-evaluate",
+                    "--task", str(task_path), "--result", str(result_path),
+                ], check=True, capture_output=True, text=True)
+
+            block(first_task)
+            prepared = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-batch",
+                "--project-dir", str(project), "--batch-id", "batch-retry",
+                "--expected-business-tabs", "dine_in", "--max-query-attempts", "3",
+                "--task", str(first_task),
+            ], check=True, capture_output=True, text=True)
+            state_path = Path(json.loads(prepared.stdout)["statePath"])
+
+            for attempt in (2, 3):
+                advanced = subprocess.run([
+                    sys.executable, str(CLI_PATH), "advance-batch", "--state", str(state_path),
+                ], check=True, capture_output=True, text=True)
+                advanced_payload = json.loads(advanced.stdout)
+                self.assertEqual(advanced_payload["retryQueries"], ["露营"])
+                state_path = Path(advanced_payload["statePath"])
+                retried = subprocess.run([
+                    sys.executable, str(CLI_PATH), "create-batch-retry", "--state", str(state_path),
+                    "--query", "露营", "--run-id", f"batch-retry.q1.attempt{attempt}",
+                ], check=True, capture_output=True, text=True)
+                retry_payload = json.loads(retried.stdout)
+                retry_task = Path(retry_payload["taskPath"])
+                retry_contract = json.loads(retry_task.read_text())
+                self.assertEqual(retry_contract["batchAttempt"], attempt)
+                self.assertNotEqual(retry_contract["runId"], json.loads(first_task.read_text())["runId"])
+                self.assertTrue(retry_contract["retryOf"])
+                state_path = Path(retry_payload["statePath"])
+                block(retry_task)
+
+            exhausted = subprocess.run([
+                sys.executable, str(CLI_PATH), "advance-batch", "--state", str(state_path),
+            ], check=False, capture_output=True, text=True)
+            self.assertEqual(exhausted.returncode, 2)
+            exhausted_payload = json.loads(exhausted.stdout)
+            self.assertEqual(exhausted_payload["status"], "failed")
+            self.assertEqual(exhausted_payload["failedQueries"], ["露营"])
+            final_state = json.loads(Path(exhausted_payload["statePath"]).read_text())
+            self.assertEqual(final_state["queries"][0]["status"], "abandoned")
+            self.assertEqual(len(final_state["queries"][0]["attempts"]), 3)

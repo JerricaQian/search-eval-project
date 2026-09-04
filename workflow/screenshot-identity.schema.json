@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Current-pixel screenshot identity map",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "contract": {"const": "screenshot.identity-map"},
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sourcePath": {"type": "string", "minLength": 1},
+          "originalFilename": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "query": {"type": "string", "minLength": 1},
+          "tab": {"type": "string"},
+          "screen": {"type": "string"},
+          "identitySource": {"enum": ["current_pixels", "filename", "user_confirmed"]},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "required": ["sourcePath", "sha256", "query", "tab", "screen", "identitySource", "confidence"]
+      }
+    }
+  },
+  "required": ["contract", "entries"]
+}

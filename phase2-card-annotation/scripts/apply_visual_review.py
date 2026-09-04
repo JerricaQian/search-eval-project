@@ -14,7 +14,10 @@ from typing import Any
 from extract_cv_facts import Box, _direct_text_phase3_facts
 
 
-TOPOLOGY_SLOTS = {"head_media", "merchant_head", "merchant_info", "rights", "attached_goods", "text_attachment", "price", "primary_info"}
+TOPOLOGY_SLOTS = {
+    "head_media", "merchant_head", "merchant_info", "rights", "attached_goods", "text_attachment", "price", "primary_info",
+    "title", "subtitle", "tag", "package_summary", "performance_info", "entity_title", "entity_info", "media", "secondary_info", "action", "attachment",
+}
 
 
 def _normalise_topology(card: dict[str, Any]) -> dict[str, Any]:
@@ -50,7 +53,17 @@ def _normalise_topology(card: dict[str, Any]) -> dict[str, Any]:
 def _topology_slot(topology: dict[str, Any], coord: list[int]) -> tuple[str, int | None]:
     for item in topology.get("attachedItems", []):
         if overlap(coord, item["coord"]):
-            return "attached_goods", int(item["itemIndex"])
+            # Item membership and its rail type are separate facts.  The old
+            # implementation returned ``attached_goods`` for every item,
+            # silently turning text downhang atoms into graphic ones in later
+            # manifest assembly.  Resolve the declared enclosing rail first.
+            rail = next(
+                (str(region.get("slot", "")) for region in topology.get("regions", [])
+                 if str(region.get("slot", "")) in {"attached_goods", "text_attachment"}
+                 and overlap(coord, region.get("coord", []))),
+                "attached_goods",
+            )
+            return rail, int(item["itemIndex"])
     for region in topology.get("regions", []):
         if overlap(coord, region["coord"]):
             return str(region["slot"]), None
@@ -78,6 +91,28 @@ def load_review(path: Path) -> dict[str, Any]:
     for key in ("cards", "modules", "localReviewPaths"):
         if key not in review:
             merged[key] = base.get(key, [])
+    # A Phase2 retry normally corrects one rejected card.  Requiring a full
+    # replacement list makes that retry silently discard previously reviewed
+    # cards, contrary to the bounded-rework rule. ``cardOverrides`` is a
+    # narrow, screenshot-bound overlay: every override must name an existing
+    # card and replaces only the explicitly supplied card keys.
+    overrides = review.get("cardOverrides", [])
+    if overrides:
+        if not isinstance(overrides, list):
+            raise ValueError("visual review cardOverrides must be a list")
+        cards = merged.get("cards", [])
+        if not isinstance(cards, list):
+            raise ValueError("visual review base cards must be a list")
+        by_id = {str(card.get("cardId", "")): dict(card) for card in cards if isinstance(card, dict)}
+        for override in overrides:
+            if not isinstance(override, dict):
+                raise ValueError("visual review cardOverride must be an object")
+            card_id = str(override.get("cardId", ""))
+            if not card_id or card_id not in by_id:
+                raise ValueError(f"visual review cardOverride unknown cardId: {card_id}")
+            by_id[card_id] = {**by_id[card_id], **{key: value for key, value in override.items() if key != "cardId"}}
+        merged["cards"] = [by_id.get(str(card.get("cardId", "")), card) if isinstance(card, dict) else card for card in cards]
+    merged.pop("cardOverrides", None)
     return merged
 
 def overlap(a: list[int], b: list[int]) -> bool:
@@ -152,6 +187,13 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
                 # render/text preserve the more precise natural-crop state.
                 phase3_facts["visual"]["visualStatus"] = "uncertain"
             topology_slot, item_index = _topology_slot(topology, coord)
+            # In a text downhang, the reviewer has already established that
+            # this line belongs to an independently purchasable/service item.
+            # OCR's generic ``subtitle`` label is not enough to erase that
+            # ownership: retain the explicit current-pixel attachment role so
+            # every confirmed item can be audited with its title and price.
+            if topology_slot == "text_attachment" and field.get("role") in {"attachment", "subtitle"}:
+                phase3_facts["textFacts"]["semanticRole"] = "attachment"
             text.append({"id": f"VR{next_id}", "kind": "text", "text": label, "coord": coord,
                 "ocrConsensus": {"status": "confirmed", "primaryText": label, "secondaryText": "",
                                  "method": "main_session_local_visual_read"},

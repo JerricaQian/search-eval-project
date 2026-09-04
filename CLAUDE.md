@@ -1,6 +1,6 @@
 # 项目工作流声明（search-eval-project）
 
-本仓库是美团搜索结果页标准化评测系统。对外由 **Workflow → Screenshot Agent / 词级 Evaluation Agent → 批次 Phase5** 编排：Screenshot Agent 负责 Phase1 的现场截图或已有截图发现；每个搜索词的 Evaluation Agent 在同一上下文内执行 **Phase2 轻量识别 → Phase3 多维度评测 → Phase4 问题证据**；所有预期词级回执成功后，Phase5 只运行一次并生成整批报告。完整参数与用法见 `README.md`，本文件只声明阶段、目录与数据流向，供每个 Claude Code 会话快速对齐。
+本仓库是美团搜索结果页标准化评测系统。对外由 **Workflow → Screenshot Agent / 词级 Evaluation Agent → 批次 Phase5** 编排：Screenshot Agent 负责 Phase1 的现场截图或已有截图发现；每个搜索词的 Evaluation Agent 在同一上下文内执行 **Phase2 轻量识别 → Phase3 多维度评测 → Phase4 问题证据**。失败词用新的 `runId` 和新的 Evaluation Agent 定向重派，最多三次；全批所有词进入 completed 或 abandoned 终态后，Phase5 只运行一次并只消费完成词，不在报告中呈现放弃词。若没有任何完成词，不生成空报告。完整参数与用法见 `README.md`。
 
 ## 1.0 任务模式与职责边界
 
@@ -8,7 +8,7 @@
 - `evaluate_only`：Screenshot Agent 只读发现 `screenshots/`；用户选择截图后才调用 Evaluation Agent，只确认评测范围（完整19项、维度或自定义 Skill）和报告出口，不要求用户重复搜索词、Tab、屏数或设备参数。
 - `capture_and_evaluate`：先调用 Screenshot Agent；截图通过基本完整性检查后，返回 `awaiting_evaluation_config`，再确认评测范围和报告出口后调用 Evaluation Agent。
 - Workflow 只做条件询问、模式路由和词级执行；外层宿主负责单词隔离、批次屏障、失败词重试和状态汇总。二者不得运行 OCR、评测、评分或证据业务逻辑；批次完成后只可调用 Phase5 的确定性生成器。
-- 1.0 不存在 Runtime Guard、自动反思或经验库。Phase2～4 的既有确定性校验器仍在 Evaluation Agent 内执行。
+- 当前流程不依赖 Runtime Guard、自动反思或经验库。Phase2～4 的确定性校验器仍在 Evaluation Agent 内执行。
 
 ## 评测请求预检与路由门禁（铁律）
 
@@ -30,13 +30,13 @@
 | 用户意图 | 路由与后续动作 | 首次回复要求 |
 |---|---|---|
 | 单张已有截图评测 | `evaluate_only`：先只读发现/校验截图，再由用户确认范围与维度后执行 Phase2～4 | 确认文件、任务模式和将产出的 manifest、评测结果与证据；单词任务不生成 HTML，不得先给人工分数 |
-| 多张图片或目录评测 | `evaluate_only`：发现并按搜索词/Tab/屏号分组；同词图片作为一组进入流水线 | 返回发现的组、无法解析/无效文件及待用户选择的组 |
+| 多张图片或目录评测 | `evaluate_only`：发现规范组；未命名有效图自动读当前像素形成身份映射并按 query 分组；同词图片作为一组进入流水线 | 返回规范组、有效未命名候选/身份映射和真正无效文件；文件名不触发阻断 |
 | 现场截图后评测 | `capture_and_evaluate`：先 Phase1，截图合格后再收集评测范围和报告出口 | 明确截图词、Tab、屏数，以及截图完成后会暂停确认评测配置 |
 | 仅自动化截图 | `capture_only`：只执行 Phase1 | 明确只交付截图，不生成评测结论或报告 |
 | 复核已有报告 | 读取其输入、单图 manifest、阶段结果、证据与校验记录；必要时回退并重跑受影响阶段 | 标明复核范围及是否会产生新批次产物；不得用新的人工评分覆盖旧结果 |
 | 询问系统能力 | 只读取项目说明和已注册技能，回答支持的输入、维度、产物与限制 | 明确这是能力说明，未对任何截图运行评测 |
 
-用户直接给出项目外图片路径时，先以不修改原文件的方式将图片直接复制到 `screenshots/`。复制保留原文件名，不生成 Intake manifest，也不做名称规范化；发现阶段负责报告无效或无法解析的文件。目标同名但字节不同则追加递增的副本序号保留两份，绝不覆盖，并作为独立截图而非同一屏，不能直接判图。
+用户直接给出项目外图片路径时，先以不修改原文件的方式将图片直接复制到 `screenshots/`。复制保留原文件名，不生成 Intake manifest，也不做名称规范化；发现阶段只报告真正无效文件。文件名无法解析但图片可读取时进入 `unlabeledGroups`，由宿主读取当前像素生成 `screenshot.identity-map` 后继续，不得要求改名或把它列为错误。目标同名但字节不同则追加递增副本序号保留两份，绝不覆盖，并作为独立截图而非同一屏。
 
 ## 阶段与目录
 
@@ -46,7 +46,7 @@
 | phase2 轻量识别 | `phase2-card-annotation/` | 本地 CV/OCR、卡型契约、整页门控；每张截图输出一个独立元素清单 JSON |
 | phase3 评测 | `phase3-evaluation/` | 统一入口下按单元素、组件/卡片、页面框架三个维度执行 19 项评测 |
 | phase4 问题证据 | `phase4-issue-evidence/` | 只为 phase3 已判为问题的位置产出整页截图红框证据图 |
-| phase5 报告 | `phase5-report/` + `workflow/eval_cli.py finalize-batch` | 全部词级回执成功后，精确消费本批 manifest、结果与局部证据，生成一份本地 HTML 与治理数据集；可选同步到 NoCode 线上看板 |
+| phase5 报告 | `phase5-report/` + `workflow/eval_cli.py finalize-batch` | 全部词进入 completed/abandoned 终态后，仅消费完成词的 manifest、结果与局部证据，生成一份本地 HTML 与治理数据集 |
 
 
 ## phase2 输入 / 输出（关键）
@@ -77,7 +77,7 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 
 ## phase5 本地与线上出口
 
-- `phase5-report/SKILL.md` 负责整批本地 HTML；只在两个及以上搜索词的全部 V3 任务取得 completed 回执后运行。必须显式提供本批 `expectedBusinessTabs`、预期搜索词、回执中的 manifest 与最终评测结果，由 `phase5-report/scripts/build_experience_dashboard.py` 确定性生成 `GOVERNANCE_DASHBOARD_V2` 与同批 `.governance_dataset_<批次>.json`，不得手写单词报告或另一套批量 HTML。
+- `phase5-report/SKILL.md` 负责整批本地 HTML；只在所有预期词进入终态后运行。仅 completed 词进入数据集和报告；连续三次失败的 abandoned 词仅保留在批次控制状态中。必须至少存在一个 completed 词，并显式提供本批 `expectedBusinessTabs`、回执中的 manifest 与最终评测结果，由确定性生成器生成唯一看板与数据集。
 - `phase5-report/nocode-dashboard/SKILL.md` 负责将上述数据集导入 NoCode、发布 Phase4 局部问题证据图并部署线上看板。线上页必须沿用本地看板的信息架构、分数/计数口径、视觉令牌与交互语义；它不能读取开发机 `file://` 图片，证据图需经 `public/evidence/` 受控资源发布。
 - NoCode 数据库的每张批次明细表都以真实 `batch_id` 关联；浏览器匿名角色对看板表的只读权限是上线验收项。CLI 能读取记录不代表线上页面可读。
 
@@ -87,20 +87,20 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 
 | 模式 | 适用场景 | 执行入口 | 约束 |
 |---|---|---|---|
-| **显式 Workflow（优先）** | 当前会话提供 Workflow 工具时 | `workflow/meituan_eval_workflow.js` + args | 由宿主注入 `args/agent/parallel/phase/log`，每个实例只执行一个搜索词的 Phase2～4；整批 Phase5 由宿主在屏障后调用。 |
+| **显式 Workflow（优先）** | 当前会话提供 Workflow 工具时 | `workflow/meituan_eval_workflow.js` + args | 单词模式执行一个词的 Phase2～4；`batch_evaluate` 模式冻结全部 task、每批最多并发 3 个词、失败词隔离重派并在终态屏障后调用一次 Phase5。 |
 | **Agent 任务编排（等价回退）** | Workflow 工具未注入、宿主运行时不可用，或用户明确要求逐阶段执行时 | Agent 以 TODO 依次派发子代理调用 | 不得跳过任何 phase 的事实源、确定性校验或报告契约；不得因为显式 Workflow 不可用而停止评测；子代理分派结构必须与显式 Workflow 一致（见下）。 |
 
 两种模式共用同一套**子代理分派结构**，不是各自随意拆分：
 
 - **Screenshot Agent 独立**：`capture_only` 时执行现场 ADB 截图；`evaluate_only` 时只读运行 `phase1-screenshot/scripts/discover_screenshot_groups.py` 发现、聚合和校验已有截图；不与其它 phase 混入同一上下文。
 - **Evaluation Agent 独立**：对一个搜索词的已确认截图，内部把本地轻量识别（phase2）→ 全维度评测（phase3）→ 问题证据（phase4）按序完成。Phase2 的候选生成和校验仍只运行本地脚本，并为每张截图分别生成清单；当前图片校准可读取当前截图，但只能回写经审计的 Phase2 事实。词级 Agent 不读取 Phase5 Skill、不跨词汇总、不生成 HTML。
-- **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 为每个词生成一个 `MEITUAN_EVAL_TASK_V3` 任务文件，同批任务共享 `batchId` 且各自使用唯一 `runId`。每词只发起这**唯一一次** Agent 调用并只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase234-query-pipeline.md`，不得凭记忆转述或把整段契约复制进新的 prompt。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。已有 V2 任务保留原契约兼容验收。
+- **回退模式的具体派发机制**：先用 `python3 workflow/eval_cli.py prepare-evaluate` 为每个词生成一个 `MEITUAN_EVAL_TASK` 任务文件，同批任务共享 `batchId` 且各自使用唯一 `runId`。派发前宿主必须确认全部 `requiredCapabilities` 可实际满足；否则写 `blockedAt=preflight`，不启动评测。每词只发起这**唯一一次** Agent 调用并只传入 `taskPath`；该 Agent 必须从任务文件读取路径并完整读取 `.claude/agents/phase234-query-pipeline.md`，执行 CV 候选、当前图复核、发布与有界纠错，最后才进入 Phase3/4。结果写入 `resultPath` 后，必须运行任务中的 `completionCommand` 生成本地回执。历史版本任务不再执行；历史产物只保留在本地供审计。
 - **FACT_GATES 与 Phase2 返工复核内嵌在这一次调用内部**：结构对齐等 Phase2 前置事实校验，以及校验失败触发的 Phase2 本地返工（按 `reprocessTargets` 重跑失败卡/失败行、更新对应单图清单、重跑受影响 skill），都必须在这同一个子代理的同一次执行内部完成闭环。视觉层级的字号事实改为 Phase3 校准 `glyphHeightPx` 像素测量，不再要求 Phase2 `fontSizeBucket`。Phase3 不得回看原图补写 Phase2 事实；主 Agent 只根据这一次调用最终返回的 `ok`/`blockedAt`/`error` 决定是否继续 phase5 之后的 NoCode 出口或整体重跑。
 - Phase3 统一入口与维度契约：先读 `phase3-evaluation/SKILL.md` 及共同知识索引，再根据 `phase3-evaluation/catalog.json` 读取对应维度的 `contract.md`，最后只读用户选中的叶子 Skill；评级仍以叶子 Skill 为准。
 
 Agent 任务编排先要求用户选择 `capture_only`、`evaluate_only` 或 `capture_and_evaluate`，再按模式询问必要参数。仅评测已有截图时先发现截图组，不询问搜索词、Tab、屏数；截图+评测时必须在截图成功后才询问评测范围与报告出口。Phase2 默认 lightweight，不作为额外确认项。
 
-Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 每个搜索词一个 Evaluation Agent 调用（内部复用 `phase234-query-pipeline`）依次完成 phase2 默认轻量识别、phase3 共同知识与叶子 Skill 评测、phase4 问题证据并取得 completed 回执；③ 外层等待全部预期词成功后，只调用一次 `workflow/eval_cli.py finalize-batch`，按 `phase5-report/SKILL.md` 精确消费这些回执列出的 manifest 和最终结果，渲染 `reports/` 批量 HTML 与治理数据集。用户选择 NoCode 时，再按 `phase5-report/nocode-dashboard/SKILL.md` 处理线上出口。任一词失败只重试该词，禁止生成不完整总报告。
+Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验已有截图；② 每个搜索词一个 Evaluation Agent 调用（内部复用 `phase234-query-pipeline`）完成 Phase2～4并写回执；③ 失败词以全新 `runId` 和新的 Evaluation Agent 定向重派，最多三次，之后标记 abandoned；④ 所有词终态后只调用一次 `workflow/eval_cli.py finalize-batch`，仅消费 completed 词的产物。至少一个词成功时生成唯一 HTML 与治理数据集；abandoned 词不进入报告，全部 abandoned 时不生成空报告。
 
 ### 批量子代理调度纪律（铁律）
 
@@ -138,7 +138,7 @@ phase2 默认开启轻量识别；仅 `annotate=false` 显式跳过。`phase2Mod
 
 ### 已落地
 - **Rules**：`.claude/rules/skill-frontmatter.md`（SKILL.md frontmatter 契约）、`.claude/rules/project-conventions.md`（命名+路径+评级规范）。
-- **Subagents**：`.claude/agents/screenshot-agent.md`（截图/外部图片复制/已有截图发现）与 `.claude/agents/evaluation-agent.md`（词级评测入口）；后者默认复用 `.claude/agents/phase234-query-pipeline.md`（单词单实例、Phase2～4 顺序完成）。Phase5 不是子 Agent，由批次屏障后的确定性脚本运行一次。Phase2 的候选提取只运行本地 CV/OCR；其受审计的当前像素校准可由多模态模型核对整图或有界裁图，但只能确认可见边界、类型、归属和原文，不能补写 OCR、注入黄金字段或做任何评测判断。
+- **Subagents**：`.claude/agents/screenshot-agent.md`（截图/外部图片复制/已有截图发现与未命名图身份解析）与 `.claude/agents/evaluation-agent.md`（词级评测入口）；后者复用唯一 `.claude/agents/phase234-query-pipeline.md`（单词单实例、Phase2 候选→当前图复核→发布/定向纠错→Phase3～4）。Phase5 不是子 Agent，由批次屏障后的确定性脚本运行一次。Phase2 的候选提取只运行本地 CV；其受审计的当前像素校准可由多模态模型核对整图或有界裁图，但只能确认可见边界、类型、归属和原文，不能补写 OCR、注入黄金字段或做任何评测判断。
 - **Hooks**：`.claude/settings.json` + `.claude/hooks/validate_skill_frontmatter.py`（编辑 SKILL.md 后自动校验四键，非阻断）。
 - **Output Style**：`.claude/output-styles/eval-strict.md`。
 - **运行入口**：`.claude/skills/run-eval.md`，以保守默认参数调用工作流。

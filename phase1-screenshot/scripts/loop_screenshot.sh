@@ -59,9 +59,8 @@ for w in "${WORDS[@]}"; do
     reconnect || { echo "  !! 重连失败,跳过 $w" | tee -a "$LOG"; failed="$failed,$w"; continue; }
   fi
   adb shell ime set com.android.adbkeyboard/.AdbIME >/dev/null 2>&1
-  # 回搜索输入页
-  adb shell input tap 68 202 2>&1; sleep 2
-  adb shell input tap 465 365 2>&1; sleep 2
+  # 搜索页回退、输入框和 Tab 都由 run_scroll.sh 的当前 UI XML 动态定位；
+  # 此处不得预先点击任何机型坐标。
   : > /tmp/meituan_scroll.log
   bash "$RUN" "$w" "$TABS" "$SCREENS" >> /tmp/scroll_run.out 2>&1
 # 保留 0 字节截图（设备卡顿产物）以便审计；由工作流将路径和原因归档到 .artifacts。

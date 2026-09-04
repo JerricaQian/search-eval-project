@@ -1,46 +1,40 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Evaluation Agent result (legacy MEITUAN_EVAL_TASK_V2)",
+  "title": "Evaluation Agent Phase2-4 handoff result",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "ok": {"type": "boolean"},
     "query": {"type": "string"},
     "stageA": {
       "type": "object",
       "properties": {
+        "phase2Attempts": {"type": "integer", "minimum": 1},
+        "retryPlans": {"type": "array"},
         "elementListPaths": {"type": "array", "items": {"type": "string"}},
         "elementAuditPaths": {"type": "array", "items": {"type": "string"}},
-        "elementCount": {"type": "number"},
+        "elementCount": {"type": "integer", "minimum": 0},
         "annotated": {"type": "array", "items": {"type": "string"}}
-      },
-      "required": ["elementListPaths", "elementAuditPaths", "elementCount", "annotated"]
+      }
     },
     "stageB": {
       "type": "object",
       "properties": {
+        "measurementsIndex": {"type": "string"},
         "evalResultFile": {"type": "string"},
         "evalAuditFile": {"type": "string"},
-        "evalCount": {"type": "number"}
-      },
-      "required": ["evalResultFile", "evalAuditFile", "evalCount"]
+        "evalCount": {"type": "integer", "minimum": 0}
+      }
     },
     "stageC": {
       "type": "object",
       "properties": {
         "evidenceImages": {"type": "array", "items": {"type": "string"}},
         "skipped": {"type": "array"}
-      },
-      "required": ["evidenceImages", "skipped"]
+      }
     },
-    "stageD": {
-      "type": "object",
-      "properties": {
-        "reportPath": {"type": "string"},
-        "summary": {"type": "array"}
-      },
-      "required": ["reportPath", "summary"]
-    },
-    "blockedAt": {"type": "string"},
+    "stageD": {"type": "object", "additionalProperties": false},
+    "blockedAt": {"type": "string", "enum": ["", "preflight", "stageA", "stageB", "stageC"]},
     "error": {"type": "string"}
   },
   "required": ["ok", "query", "stageA", "stageB", "stageC", "stageD", "blockedAt", "error"]

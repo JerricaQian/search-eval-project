@@ -120,6 +120,7 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     reviewed_topology = card.get("reviewedTopology", {}) if isinstance(card.get("reviewedTopology"), dict) else {}
     topology_regions = {str(item.get("slot", "")) for item in reviewed_topology.get("regions", []) if isinstance(item, dict)}
     topology_items = [item for item in reviewed_topology.get("attachedItems", []) if isinstance(item, dict)]
+    reviewed_merchant_variant = str(card.get("reviewedMerchantVariant", ""))
     reviewed_text_downhang = (
         {"merchant_head", "merchant_info", "text_attachment"}.issubset(topology_regions)
         and bool(topology_items)
@@ -210,7 +211,12 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "product_repeat_boundary": repeated_list_boundary and not graphic_hint,
         "merchant_graphic_boundary": merchant_graphic_boundary,
         "merchant_text_boundary": reviewed_text_downhang or (repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"])),
-        "merchant_plain_boundary": repeated_list_boundary and not graphic_hint and not features["text_downhang"] and not features["scenic_ticket_downhang"],
+        # The canonical contract records the merchant base form after a complete
+        # current-pixel review.  It is a known card type, not an ambiguous
+        # shape that should fall through to ``异构卡``.
+        "merchant_plain_boundary": reviewed_merchant_variant == "商家卡片_无下挂" or (
+            repeated_list_boundary and not graphic_hint and not features["text_downhang"] and not features["scenic_ticket_downhang"]
+        ),
         "hotel_list_boundary": repeated_list_boundary and (features["hotel_identity"] or features["homestay_identity"]),
         "hotel_grid_boundary": "two_column_grid_cell_boundary" in boundary_evidence and (features["hotel_identity"] or features["hotel_room_identity"] or features["homestay_identity"]),
         "performance_poster_boundary": poster_media and features["performance_schedule"] and (repeated_list_boundary or bool(left_heads)),

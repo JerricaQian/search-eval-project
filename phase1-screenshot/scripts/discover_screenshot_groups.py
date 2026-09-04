@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Discover reusable search screenshots without changing any files.
 
-Expected filenames are ``<query>_<tab>_<screen>.png``; a preserved external
-copy may additionally end in ``_副本`` or ``_副本N``.  Parsing from the
-right keeps search terms containing underscores usable.  The JSON output is
-intended for the Screenshot Agent and can be safely shown to a user before an
-evaluation run is created.
+Canonical filenames are ``<query>_<tab>_<screen>.png``; a preserved external
+copy may additionally end in ``_副本`` or ``_副本N``.  Parsing from the right
+keeps search terms containing underscores usable.  Valid images without a
+canonical identity remain selectable as independent ``unlabeledGroups``; they
+are never renamed or silently merged, and require an explicit confirmed query
+when a portable evaluation task is created.
 """
 
 from __future__ import annotations
@@ -55,17 +56,40 @@ def parse_name(path: Path) -> tuple[str, str, str, str] | None:
 def discover(directory: Path, min_bytes: int = 5001) -> dict[str, Any]:
     grouped: dict[tuple[str, str], dict[str, list[dict[str, str]]]] = defaultdict(lambda: defaultdict(list))
     invalid: list[dict[str, str]] = []
-    unparseable: list[str] = []
+    unnamed: list[str] = []
+    unlabeled_groups: list[dict[str, Any]] = []
 
     if not directory.exists():
-        return {"screenshotDir": str(directory), "groups": [], "invalidFiles": [], "unparseableFiles": [], "error": "directory_not_found"}
+        return {
+            "screenshotDir": str(directory),
+            "groups": [],
+            "unlabeledGroups": [],
+            "unnamedFiles": [],
+            "invalidFiles": [],
+            "unparseableFiles": [],
+            "error": "directory_not_found",
+        }
 
     for path in sorted(directory.iterdir()):
         if not path.is_file() or path.suffix.lower() not in IMAGE_SUFFIXES:
             continue
         parsed = parse_name(path)
         if parsed is None:
-            unparseable.append(str(path.resolve()))
+            resolved = str(path.resolve())
+            issue = inspect_image(path, min_bytes)
+            if issue:
+                invalid.append({"path": resolved, "reason": issue})
+            else:
+                unnamed.append(resolved)
+                # Filename-free inputs are deliberately one-file groups.  A
+                # later explicit selection supplies the query; discovery must
+                # never guess it or merge two visually similar files.
+                unlabeled_groups.append({
+                    "instance": "unlabeled",
+                    "identitySource": "filename_unavailable",
+                    "files": [resolved],
+                    "count": 1,
+                })
             continue
         issue = inspect_image(path, min_bytes)
         if issue:
@@ -87,8 +111,13 @@ def discover(directory: Path, min_bytes: int = 5001) -> dict[str, Any]:
     return {
         "screenshotDir": str(directory.resolve()),
         "groups": groups,
+        "unlabeledGroups": unlabeled_groups,
+        "unnamedFiles": unnamed,
         "invalidFiles": invalid,
-        "unparseableFiles": unparseable,
+        # Compatibility field: valid filename-free screenshots are no longer
+        # reported as parse failures. Consumers must use unnamedFiles or
+        # unlabeledGroups and continue with current-pixel identity resolution.
+        "unparseableFiles": [],
         "error": "",
     }
 

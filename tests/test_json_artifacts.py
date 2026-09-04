@@ -33,15 +33,15 @@ def load_validator_module():
 
 
 class JsonArtifactsTest(unittest.TestCase):
-    def test_every_committed_json_artifact_parses(self) -> None:
-        """Keep static contracts and golden outputs loadable by all consumers."""
+    def test_every_worktree_json_artifact_parses(self) -> None:
+        """Keep every present tracked or new JSON artifact loadable."""
         tracked = subprocess.run(
-            ["git", "-c", "core.quotepath=false", "ls-files", "-z", "--", "*.json"],
+            ["git", "-c", "core.quotepath=false", "ls-files", "-z", "--cached", "--others", "--exclude-standard", "--", "*.json"],
             cwd=PROJECT_DIR,
             check=True,
             capture_output=True,
         ).stdout.split(b"\0")
-        json_paths = [PROJECT_DIR / value.decode("utf-8") for value in tracked if value]
+        json_paths = [PROJECT_DIR / value.decode("utf-8") for value in tracked if value and (PROJECT_DIR / value.decode("utf-8")).is_file()]
         self.assertGreater(len(json_paths), 0)
         for path in json_paths:
             with self.subTest(path=path.relative_to(PROJECT_DIR)):
