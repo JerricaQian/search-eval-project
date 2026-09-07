@@ -42,7 +42,11 @@ def main() -> int:
         raise ValueError("manifest_screenshot_mismatch")
     if manifest.get("recognition", {}).get("phase3Ready") is not True or manifest.get("recognition", {}).get("wholePageGate") is not True:
         raise ValueError("manifest_not_phase3_ready")
-    if manifest_audit.get("valid") is not True or recognition_audit.get("valid") is not True:
+    current_pixel_review_valid = (
+        recognition_audit.get("contractVersion") == "phase2.current-image-calibration.v1"
+        and recognition_audit.get("reviewedAgainstCurrentPixels") is True
+    )
+    if manifest_audit.get("valid") is not True or not current_pixel_review_valid:
         raise ValueError("attempt_audit_not_valid")
 
     publications = (

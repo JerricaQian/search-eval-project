@@ -465,6 +465,38 @@ def collect(
     # Discover recursively, then select one combined result per query so compatibility
     # aliases or per-dimension fallback files do not double-count a query.
     candidates_by_query: dict[str, list[Path]] = defaultdict(list)
+
+    def resolve_result_query(path: Path) -> str | None:
+        query = query_from_result(path)
+        if query in manifests:
+            return query
+        filename_matches = [
+            candidate for candidate in manifests
+            if path.name.startswith(f"评测原始结果_{candidate}_")
+            or path.name.startswith(f".eval_results_{candidate}_")
+        ]
+        if filename_matches:
+            return max(filename_matches, key=len)
+
+        # Portable per-run results are named with the immutable runId, while
+        # the query remains tied to the existing screenshot path inside each
+        # unit. Resolve that already-present fact against the accepted
+        # manifests instead of depending on a query-bearing filename.
+        raw_results = normalize_results(read_json(path))
+        screenshots = {
+            str(unit.get("details", {}).get("screenshot") or "").strip()
+            for result in raw_results
+            for unit in result.get("units", [])
+            if isinstance(unit, dict) and isinstance(unit.get("details"), dict)
+        }
+        screenshots.discard("")
+        screenshot_matches = {
+            candidate
+            for candidate, by_screenshot in manifests.items()
+            if screenshots.intersection(by_screenshot)
+        }
+        return next(iter(screenshot_matches)) if len(screenshot_matches) == 1 else None
+
     # 各词独立执行会保留不同命名的最终合并结果；优先消费已经通过
     # Phase4 回写的 all-results，确保治理看板引用的是最终证据路径而非 Phase3 初稿。
     if result_paths is None:
@@ -479,18 +511,7 @@ def collect(
     for path in discovered_result_paths:
         if "audit" in path.name.lower() or "target" in path.name.lower():
             continue
-        query = query_from_result(path)
-        if query not in manifests:
-            # Some retained historical-compatible paths use directory suffixes
-            # such as `库迪_results` or filename suffixes such as `_dual`.
-            # Resolve them only when a known manifest query is an unambiguous
-            # result filename prefix; this preserves batch isolation.
-            filename_matches = [
-                candidate for candidate in manifests
-                if path.name.startswith(f"评测原始结果_{candidate}_")
-                or path.name.startswith(f".eval_results_{candidate}_")
-            ]
-            query = max(filename_matches, key=len) if filename_matches else None
+        query = resolve_result_query(path)
         if query:
             candidates_by_query[query].append(path)
 
@@ -507,14 +528,7 @@ def collect(
 
     used_queries: set[str] = set()
     for result_path in sorted(selected_result_paths):
-        query = query_from_result(result_path)
-        if query not in manifests:
-            filename_matches = [
-                candidate for candidate in manifests
-                if result_path.name.startswith(f"评测原始结果_{candidate}_")
-                or result_path.name.startswith(f".eval_results_{candidate}_")
-            ]
-            query = max(filename_matches, key=len) if filename_matches else None
+        query = resolve_result_query(result_path)
         if not query:
             continue
         raw_results = read_json(result_path)

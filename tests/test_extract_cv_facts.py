@@ -59,6 +59,34 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertEqual(output["T-base"]["regionCandidate"], "基础信息区")
         self.assertNotIn("elementTypeCandidate", output["T-base"])
 
+    def test_graphic_downhang_review_keeps_text_and_price_with_attached_goods(self) -> None:
+        script_dir = MANIFEST_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_manifest_graphic_downhang_test", MANIFEST_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+
+        card = {"id": "C1", "coord": [0, 0, 400, 260]}
+        title = {
+            "id": "T-title", "text": "商品名称", "coord": [120, 150, 120, 24],
+            "visualReview": {"role": "attachment", "topologySlot": "attached_goods"},
+        }
+        price = {
+            "id": "T-price", "text": "¥9.9", "coord": [120, 190, 80, 24],
+            "visualReview": {"role": "price", "topologySlot": "attached_goods"},
+        }
+        output = module.card_local_semantics(card, "商家卡片_图文下挂", [title, price], {})
+
+        self.assertEqual(output["T-title"]["regionCandidate"], "下挂商品区")
+        self.assertEqual(output["T-title"]["semanticRoleCandidate"], "attachment")
+        self.assertEqual(output["T-price"]["regionCandidate"], "下挂商品区")
+        self.assertEqual(output["T-price"]["semanticRoleCandidate"], "price")
+
     def test_rating_schema_requires_a_complete_rating_field(self) -> None:
         script_dir = GATE_HOOKS_SCRIPT.parent
         sys.path.insert(0, str(script_dir))
@@ -455,6 +483,43 @@ class ExtractCvFactsTest(unittest.TestCase):
         performance = next(item for item in card["contractEvaluations"] if item["cardType"] == "演出电影卡片")
         self.assertTrue(performance["minimumSatisfied"])
         self.assertNotIn("performance_identity", card["selectedCardType"]["evidence"])
+
+    def test_hotel_contract_beats_wrong_product_review_and_excludes_room_urgency_from_price(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            facts_path, candidates_path, output_path = tmp_path / "facts.json", tmp_path / "candidates.json", tmp_path / "cards.json"
+            facts_path.write_text(json.dumps({
+                "contractVersion": "phase2.cv-facts.v1", "screenshot": "/tmp/hotel.png", "viewport": {"width": 400, "height": 600},
+                "candidates": {
+                    "photos": [{"id": "P1", "coord": [20, 100, 120, 180], "route": "accepted"}],
+                    "text": [
+                        {"id": "T1", "text": "全季酒店 高档型", "coord": [160, 100, 180, 28], "route": "accepted"},
+                        {"id": "T2", "text": "低价房仅剩1间", "coord": [160, 150, 160, 28], "route": "accepted", "visualHint": {"colorRole": "red"}},
+                        {"id": "T3", "text": "立减83", "coord": [160, 185, 90, 28], "route": "accepted", "visualHint": {"colorRole": "red"}},
+                        {"id": "T4", "text": "¥519起", "coord": [160, 230, 100, 30], "route": "accepted", "visualHint": {"colorRole": "red"}},
+                    ],
+                }, "routing": {"missingCapabilities": []},
+            }, ensure_ascii=False), encoding="utf-8")
+            candidates_path.write_text(json.dumps({
+                "contractVersion": "phase2.search-result-candidates.v1", "structureBlocks": [],
+                "resultCards": [{
+                    "id": "C1", "coord": [0, 80, 400, 240], "status": "confirmed", "memberBlockIds": [],
+                    "classificationHint": {"cardType": "商品卡片", "confidence": 0.96},
+                    "reviewedTopology": {"regions": [
+                        {"slot": "head_media", "coord": [20, 100, 120, 180]},
+                        {"slot": "title", "coord": [160, 100, 180, 28]},
+                        {"slot": "price", "coord": [160, 230, 100, 30]},
+                    ], "attachedItems": []},
+                    "evidence": ["repeated_left_image_right_text_seed"],
+                }],
+            }, ensure_ascii=False), encoding="utf-8")
+            subprocess.run([sys.executable, str(RESULT_SEMANTICS_SCRIPT), str(facts_path), str(candidates_path), "--output", str(output_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            card = json.loads(output_path.read_text(encoding="utf-8"))["cards"][0]
+
+        self.assertEqual(card["selectedCardType"]["cardType"], "酒店卡片")
+        self.assertEqual(card["selectedCardType"]["classificationMode"], "known_minimum_contract_priority")
+        price_region = next(region for region in card["regions"] if region["region"] == "价格区")
+        self.assertEqual(price_region["evidenceSourceIds"], ["T4"])
 
     def test_bottom_partial_card_inherits_previous_repeated_type_and_waives_missing_fields(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

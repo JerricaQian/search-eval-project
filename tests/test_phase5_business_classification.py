@@ -235,3 +235,43 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
             self.assertEqual(len(data["groups"]), 1)
             self.assertEqual(len(data["groups"][0]["evidence"]), 2)
             self.assertEqual(data["businesses"][0]["evaluatedCards"], 2)
+
+    def test_collect_resolves_portable_runid_result_from_unit_screenshot(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            project = root / "project"
+            artifact_dir = project / ".artifacts" / "过程文件-评测结果与审计" / "batch-1"
+            result_dir = artifact_dir / "batch-1-IMG_1" / "results"
+            result_dir.mkdir(parents=True)
+            screenshot = project / "screenshots" / "IMG_1.PNG"
+            screenshot.parent.mkdir(parents=True)
+            screenshot.write_bytes(b"image")
+            manifest = project / "screenshots-out" / "elements_IMG_1_batch-1.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({
+                "query": "咖啡",
+                "screenshot": str(screenshot),
+                "cards": [{
+                    "cardId": "C1",
+                    "卡片类型": "商家卡片-文字下挂",
+                    "ownershipScope": "business",
+                    "businessCode": "dine_in",
+                    "regions": [{"name": "标题区", "elements": []}],
+                }],
+            }, ensure_ascii=False), encoding="utf-8")
+            result_path = result_dir / "评测原始结果_batch-1-IMG_1.json"
+            result_path.write_text(json.dumps([{
+                "dimension": "phase3-card_or_component-eval",
+                "skill": "eval-8-info-redundancy",
+                "units": [{
+                    "tab": "全部",
+                    "rating": "优秀",
+                    "reason": "无冗余",
+                    "details": {"screenshot": str(screenshot), "issues": []},
+                }],
+            }], ensure_ascii=False), encoding="utf-8")
+
+            data = self.module.collect(project, artifact_dir, [manifest], [result_path])
+
+            self.assertEqual(data["queryCount"], 1)
+            self.assertIn("咖啡", data["queryDetails"])

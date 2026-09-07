@@ -16,6 +16,13 @@ PROMOTE_PATH = PROJECT_DIR / "workflow" / "promote_phase2_attempt.py"
 
 
 class PortableTaskProtocolTest(unittest.TestCase):
+    @staticmethod
+    def eval_rows(task: dict) -> list[dict]:
+        return [
+            {"dimension": target["dimension"], "skill": target["skill"], "units": []}
+            for target in task["evalTargets"]
+        ]
+
     def prepare(self, root: Path, run_id: str = "portable-01") -> dict:
         source = root / "external"
         project = root / "project"
@@ -84,7 +91,10 @@ class PortableTaskProtocolTest(unittest.TestCase):
             manifest_audit = attempt / "manifest.audit.json"
             manifest_audit.write_text('{"valid":true}')
             recognition_audit = attempt / "recognition.audit.json"
-            recognition_audit.write_text('{"valid":true}')
+            recognition_audit.write_text(json.dumps({
+                "contractVersion": "phase2.current-image-calibration.v1",
+                "reviewedAgainstCurrentPixels": True,
+            }))
             final = root / "final"
             command = [
                 sys.executable, str(PROMOTE_PATH), "--screenshot", str(screenshot),
@@ -212,7 +222,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             manifest_audit.write_text('{"valid": true}')
             eval_result = Path(task["workflowArgs"]["stagePaths"]["evalResultFile"])
             eval_result.parent.mkdir(parents=True)
-            eval_result.write_text("[]")
+            eval_result.write_text(json.dumps(self.eval_rows(task)))
             eval_audit = Path(task["workflowArgs"]["stagePaths"]["evalAuditFile"])
             eval_audit.write_text('{"valid": true}')
             measurements = Path(task["workflowArgs"]["stagePaths"]["measurementsDir"]) / "phase3-measurements.json"
@@ -222,7 +232,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                 "ok": True,
                 "query": "露营",
                 "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
+                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit), "evalCount": len(task["evalTargets"])},
                 "stageC": {"evidenceImages": []},
                 "stageD": {},
                 "blockedAt": "",
@@ -236,6 +246,41 @@ class PortableTaskProtocolTest(unittest.TestCase):
             receipt = json.loads(completed.stdout)
             self.assertEqual(receipt["status"], "completed")
             self.assertTrue(Path(receipt["receiptPath"]).is_file())
+
+    def test_finalize_rejects_empty_result_for_selected_targets(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            payload = self.prepare(root)
+            task_path = Path(payload["portableTask"]["taskPath"])
+            task = json.loads(task_path.read_text())
+            result_path = Path(task["resultPath"])
+
+            manifest = Path(task["workflowArgs"]["phase2Outputs"][0]["manifest"])
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text("{}")
+            manifest_audit = Path(task["workflowArgs"]["phase2Outputs"][0]["audit"])
+            manifest_audit.write_text('{"valid": true}')
+            eval_result = Path(task["workflowArgs"]["stagePaths"]["evalResultFile"])
+            eval_result.parent.mkdir(parents=True)
+            eval_result.write_text("[]")
+            eval_audit = Path(task["workflowArgs"]["stagePaths"]["evalAuditFile"])
+            eval_audit.write_text('{"valid": true}')
+            measurements = Path(task["workflowArgs"]["stagePaths"]["measurementsDir"]) / "phase3-measurements.json"
+            measurements.parent.mkdir(parents=True)
+            measurements.write_text('{"valid": true}')
+            result_path.write_text(json.dumps({
+                "ok": True, "query": "露营",
+                "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
+                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit), "evalCount": 0},
+                "stageC": {"evidenceImages": []}, "stageD": {}, "blockedAt": "", "error": "",
+            }, ensure_ascii=False))
+
+            completed = subprocess.run(
+                [sys.executable, str(CLI_PATH), "finalize-evaluate", "--task", str(task_path), "--result", str(result_path)],
+                check=False, capture_output=True, text=True,
+            )
+            self.assertEqual(completed.returncode, 2)
+            self.assertEqual(json.loads(completed.stdout)["error"], "stageB.evalResultFile:target_count_or_duplicates_invalid")
 
     def test_finalize_rejects_success_without_all_stages(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -314,7 +359,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             manifest_audit.write_text('{"valid": true}')
             eval_result = Path(task["workflowArgs"]["stagePaths"]["evalResultFile"])
             eval_result.parent.mkdir(parents=True)
-            eval_result.write_text("[]")
+            eval_result.write_text(json.dumps(self.eval_rows(task)))
             eval_audit = Path(task["workflowArgs"]["stagePaths"]["evalAuditFile"])
             eval_audit.write_text('{"valid": true}')
             measurements = Path(task["workflowArgs"]["stagePaths"]["measurementsDir"]) / "phase3-measurements.json"
@@ -323,7 +368,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             result_path.write_text(json.dumps({
                 "ok": True, "query": "露营",
                 "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
+                "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit), "evalCount": len(task["evalTargets"])},
                 "stageC": {"evidenceImages": []}, "stageD": {},
                 "blockedAt": "", "error": "",
             }, ensure_ascii=False))
@@ -389,7 +434,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                     "ok": True,
                     "query": query,
                     "stageA": {"phase2Attempts": 1, "retryPlans": [{"contract": "phase2.retry-plan", "attempt": 1, "maxAttempts": 3, "errors": [], "retryRequired": False}], "elementListPaths": [str(manifest)], "elementAuditPaths": [str(manifest_audit)]},
-                    "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit)},
+                    "stageB": {"measurementsIndex": str(measurements), "evalResultFile": str(eval_result), "evalAuditFile": str(eval_audit), "evalCount": 1},
                     "stageC": {"evidenceImages": []},
                     "stageD": {},
                     "blockedAt": "",
@@ -400,6 +445,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                     "protocol": "MEITUAN_EVAL_TASK",
                     "runId": f"run-{index}",
                     "projectDir": str(project),
+                    "evalTargets": [{"dimension": "phase3-card_or_component-eval", "skill": "eval-8-info-redundancy"}],
                     "workflowArgs": {
                         "query": query,
                         "batchId": batch_id,

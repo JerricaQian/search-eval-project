@@ -132,6 +132,14 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
     for item in text_candidates:
         review = item.get("visualReview")
         role = review.get("role") if isinstance(review, dict) else ""
+        topology_slot = review.get("topologySlot") if isinstance(review, dict) else ""
+        if selected_type == "商家卡片_图文下挂" and topology_slot == "attached_goods":
+            output[item["id"]] = {
+                **output.get(item["id"], {}), "semanticRoleCandidate": role or "other",
+                "regionCandidate": "下挂商品区", "status": "confirmed",
+                "evidence": ["main_session_local_visual_read"],
+            }
+            continue
         # A current-pixel text-attachment slot is stronger evidence than the
         # generic OCR subtitle role.  Preserve it as an item atom so the
         # Phase2 manifest can prove each text-downhang row has text + price.

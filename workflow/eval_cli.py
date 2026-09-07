@@ -550,6 +550,25 @@ def validate_completed_result(task: dict[str, Any], result: dict[str, Any]) -> d
     eval_result = project_file(stage_b.get("evalResultFile"), project_dir, "stageB.evalResultFile")
     eval_audit = valid_audit(stage_b.get("evalAuditFile"), project_dir, "stageB.evalAuditFile")
     measurements_index = project_file(stage_b.get("measurementsIndex"), project_dir, "stageB.measurementsIndex")
+    eval_payload = read_json(Path(eval_result))
+    if not isinstance(eval_payload, list):
+        raise ValueError("stageB.evalResultFile:must_be_array")
+    expected_targets = [
+        (str(item.get("dimension") or ""), str(item.get("skill") or ""))
+        for item in task.get("evalTargets", [])
+        if isinstance(item, dict)
+    ]
+    actual_targets = [
+        (str(item.get("dimension") or ""), str(item.get("skill") or ""))
+        for item in eval_payload
+        if isinstance(item, dict)
+    ]
+    if len(actual_targets) != len(expected_targets) or len(set(actual_targets)) != len(actual_targets):
+        raise ValueError("stageB.evalResultFile:target_count_or_duplicates_invalid")
+    if set(actual_targets) != set(expected_targets):
+        raise ValueError("stageB.evalResultFile:targets_must_match_task")
+    if stage_b.get("evalCount") != len(expected_targets):
+        raise ValueError("stageB.evalCount_must_match_task")
     measurement_payload = read_json(Path(measurements_index))
     if not isinstance(measurement_payload, dict) or measurement_payload.get("valid") is not True:
         raise ValueError("stageB.measurementsIndex:valid_not_true")

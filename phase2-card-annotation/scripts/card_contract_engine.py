@@ -280,11 +280,18 @@ def resolve_card_type(card: dict[str, Any], facts: dict[str, Any], structure_blo
         reverse=True,
     )
     if passing:
-        reviewed_hint = str(card.get("classificationHint", {}).get("cardType", "")) if card.get("reviewedTopology") else ""
-        reviewed_match = next((item for item in passing if item["cardType"] == reviewed_hint), None)
-        best = reviewed_match or passing[0]
+        # A current-pixel review contributes topology and a high-confidence
+        # candidate score above, but it cannot bypass the canonical contract
+        # resolver.  In particular, product and hotel cards share the basic
+        # head-media/title/price topology; accepting a reviewer label as an
+        # unconditional tie-breaker let a mistaken product hint turn hotel
+        # urgency copy (for example "低价房" / "立减") into product-price
+        # evidence.  Keep one resolution policy for every card type; an
+        # eventual review/result conflict is surfaced by the recognition gate
+        # for bounded correction instead of silently changing contracts.
+        best = passing[0]
         selected = {"cardType": best["cardType"], "confidence": best["score"], "status": "confirmed",
-                    "classificationMode": "reviewed_topology_contract_priority" if reviewed_match else "known_minimum_contract_priority",
+                    "classificationMode": "known_minimum_contract_priority",
                     "evidence": best["matchedFeatures"]}
         return {"selected": selected, "features": features, "contractValidation": best, "contractEvaluations": evaluations,
                 "nearestKnownCardType": best["cardType"]}

@@ -76,6 +76,10 @@ description: 单搜索词 Phase2→Phase3→Phase4 最终流水线；统一卡�
 
 ## Stage B：Phase3 按需测量、评测与返工
 
+历史 Phase3 结果或账本不是当前任务的输入。它们与当前 manifest 的原子 ID、边界或计数不一致时只保留审计价值；不得复用，也不得因此阻断。当前任务必须仅从已发布 manifest 生成完整的 `task.evalTargets` 评测结果。
+
+当前 Evaluation Agent 本身就是 Phase3 判断执行器：按已读取的 leaf Skill 对当前 manifest 逐项判断并写入结果，不存在也不需要另一个“结果生成脚本”。缺少这类脚本、工作量尚未完成或需要继续撰写结果都不是 `blockedAt=stageB` 的理由；必须继续到全部目标及 Phase4 验证完成。
+
 所有最终 Stage A manifest 发布后，逐一读取 task.requiredReads 中的共同知识、维度 contract 和选中 leaf skills。`task.evalTargets` 是唯一可评测集合；所有 skill 通过 `phase2_bundle_loader.py` 只读正式 manifest。
 
 先对全部最终 manifest 一次性运行按需测量准备：
