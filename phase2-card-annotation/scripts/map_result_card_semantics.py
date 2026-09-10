@@ -16,9 +16,10 @@ from typing import Any
 from card_contract_engine import KNOWN_RESULT_TYPES, price_evidence_items, resolve_card_type
 from card_type_registry import validate_phase2_taxonomy
 from classify_search_card_types import classify_card_types
+from phase2_contract import MERCHANT_HEAD_AND_INFO, topology_errors, topology_parts
 
 
-VERSION = "phase2.result-card-semantics.v1"
+VERSION = "phase2.result-card-semantics.v3"
 
 
 def _overlap(box: list[int], container: list[int]) -> bool:
@@ -151,6 +152,92 @@ def _topology_type_candidate(card: dict[str, Any], facts: dict[str, Any], struct
     return None
 
 
+def _reviewed_merchant_attachment_state(card: dict[str, Any], facts: dict[str, Any]) -> dict[str, Any] | None:
+    """Resolve a reviewed merchant card without lexical service-name gates.
+
+    Current-pixel review has established merchant ownership and every visible
+    attachment. A closed service-word list must not reclassify KTV or SPA
+    merchants as products. The state machine stays fail-closed for a declared
+    but unenumerated downhang, or a graphic downhang without a CV image anchor.
+    """
+    topology = card.get("reviewedTopology")
+    if not isinstance(topology, dict):
+        return None
+    slots, items = topology_parts(topology)
+    if not MERCHANT_HEAD_AND_INFO.issubset(slots):
+        return None
+
+    attachment_slots = {"attached_goods", "text_attachment"} & slots
+    if not items:
+        if attachment_slots:
+            return None
+        return {
+            "cardType": "商家卡片_无下挂",
+            "confidence": 1.0,
+            "evidence": ["reviewed_merchant_attachment_state:no_attached_items"],
+        }
+
+    # A generic CV photo candidate is not sufficient for a graphic downhang:
+    # sale badges and other decorative marks can look image-like. The anchor
+    # must be confirmed in the current-pixel review and explicitly owned by
+    # this card's attached-goods rail.
+    accepted_photos = [
+        item for item in facts.get("candidates", {}).get("photos", [])
+        if item.get("route") == "accepted"
+        and isinstance(item.get("coord"), list)
+        and isinstance(item.get("visualReview"), dict)
+        and item["visualReview"].get("cardId") == card.get("id")
+        and item["visualReview"].get("topologySlot") == "attached_goods"
+    ]
+    has_item_photo_anchor = any(
+        _overlap(photo["coord"], attachment["coord"])
+        for attachment in items if isinstance(attachment.get("coord"), list)
+        for photo in accepted_photos
+    )
+    if has_item_photo_anchor:
+        if "attached_goods" not in slots:
+            return None
+        card_type = "商家卡片_图文下挂"
+        evidence = ["reviewed_merchant_attachment_state:attached_item_cv_photo_anchor"]
+    else:
+        if "text_attachment" not in slots:
+            return None
+        reviewed_text = [
+            item for item in facts.get("candidates", {}).get("text", [])
+            if item.get("route") == "accepted"
+            and isinstance(item.get("visualReview"), dict)
+            and item["visualReview"].get("cardId") == card.get("id")
+            and item["visualReview"].get("topologySlot") == "text_attachment"
+            and item["visualReview"].get("itemIndex") is not None
+            and str(item.get("text", "")).strip()
+        ]
+        reviewed_item_indexes = {int(item["visualReview"]["itemIndex"]) for item in reviewed_text}
+        required_indexes = {int(item.get("itemIndex", index)) for index, item in enumerate(items, 1)}
+        if not required_indexes.issubset(reviewed_item_indexes):
+            return None
+        card_type = "商家卡片_文字下挂"
+        evidence = ["reviewed_merchant_attachment_state:independent_text_items_without_cv_photo_anchor"]
+
+    if topology_errors(card_type, topology):
+        return None
+    return {"cardType": card_type, "confidence": 1.0, "evidence": evidence}
+
+
+def _reviewed_merchant_contract_validation(resolved: dict[str, Any], card_type: str, evidence: list[str]) -> dict[str, Any]:
+    """Record topology-backed proof without pretending lexical evidence exists."""
+    existing = next(
+        (item for item in resolved["contractEvaluations"] if item.get("cardType") == card_type),
+        {"cardType": card_type, "score": 0.0, "matchedFeatures": [], "missingEvidenceGroups": []},
+    )
+    return {
+        **existing,
+        "minimumSatisfied": True,
+        "matchedFeatures": sorted(set(existing.get("matchedFeatures", [])) | set(evidence)),
+        "missingEvidenceGroups": [],
+        "validationMode": "reviewed_merchant_attachment_state_machine_v3",
+    }
+
+
 def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[str, Any], recognition_contracts: dict[str, Any],
               geometry_profiles: dict[str, Any] | None = None) -> dict[str, Any]:
     validate_phase2_taxonomy(taxonomy)
@@ -171,6 +258,19 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
             type_result["candidates"].sort(key=lambda item: item["confidence"], reverse=True)
         resolved = resolve_card_type(card, facts, structure_blocks, recognition_contracts, type_result["candidates"], geometry_profiles)
         selected = resolved["selected"]
+        reviewed_merchant = _reviewed_merchant_attachment_state(card, facts)
+        if reviewed_merchant:
+            selected = {
+                "cardType": reviewed_merchant["cardType"],
+                "confidence": reviewed_merchant["confidence"],
+                "status": "confirmed",
+                "classificationMode": "reviewed_merchant_attachment_state_machine_v3",
+                "evidence": reviewed_merchant["evidence"],
+            }
+            resolved["contractValidation"] = _reviewed_merchant_contract_validation(
+                resolved, selected["cardType"], selected["evidence"],
+            )
+            resolved["nearestKnownCardType"] = selected["cardType"]
         partial_policy = {"applied": False}
         bottom = card["coord"][1] + card["coord"][3]
         grid_column = str(card.get("gridColumn", ""))

@@ -147,11 +147,14 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
                 and review.get("topologySlot") == "text_attachment"
                 and role in {"subtitle", "attachment"}):
             role = "attachment"
-        # Numeric/basic merchant facts can legitimately be recorded as
-        # ``other`` by the visual reviewer.  When their explicit topology is
-        # merchant_info, retain that ownership instead of pushing the line
-        # into the lower text-downhang fallback by y-position.
-        if role == "other" and isinstance(review, dict) and review.get("topologySlot") == "merchant_info":
+        # An explicitly reviewed merchant-info slot owns the complete merchant
+        # summary, including facts that happen to be parsed as price, sales or
+        # subtitle (for example 人均价、服务类目和权益标签). It is not a service
+        # item merely because a text-downhang card also has purchasable rows
+        # below it. Preserve that stronger current-pixel ownership before the
+        # generic role-to-region map, otherwise the manifest creates bogus
+        # itemGroups containing a lone summary price or category label.
+        if isinstance(review, dict) and review.get("topologySlot") == "merchant_info":
             output[item["id"]] = {
                 **output.get(item["id"], {}), "semanticRoleCandidate": role,
                 "regionCandidate": "基础信息区", "status": "confirmed",

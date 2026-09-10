@@ -12,12 +12,14 @@ SCRIPTS = str(ROOT / "phase2-card-annotation" / "scripts")
 sys.path.insert(0, SCRIPTS)
 
 from apply_visual_review import apply  # noqa: E402
-from build_phase2_manifest import append_item_groups  # noqa: E402
+from build_phase2_manifest import append_item_groups, card_local_semantics  # noqa: E402
 from build_search_result_candidates import _repeated_merchant_head_cards  # noqa: E402
 from card_contract_engine import extract_features  # noqa: E402
 from card_type_registry import load_registry, validate_phase2_taxonomy  # noqa: E402
+from map_result_card_semantics import map_cards  # noqa: E402
 from run_phase2_recognition import merge_reviewed_card_boundaries, run, sha256_file, validate_candidate_bundle, validate_cv_llm_visual_review  # noqa: E402
 from validate_phase2_recognition import gate  # noqa: E402
+from validate_element_manifest import text_downhang_has_inline_price  # noqa: E402
 from phase2_contract import STRUCTURE_BLUEPRINTS, card_contract, golden_structure_examples, merchant_variant, registered_card_types, review_topology_slots, structure_blueprint, topology_errors  # noqa: E402
 from build_phase2_retry_plan import build as build_retry_plan  # noqa: E402
 
@@ -115,6 +117,98 @@ class CvLlmTopologyTests(unittest.TestCase):
         }], "modules": []}
         result = apply(facts, review)
         self.assertEqual(result["candidates"]["text"][0]["visualReview"]["topologySlot"], "text_attachment")
+
+    def test_reviewed_photo_replaces_overlapping_cv_photo(self):
+        """A reviewed head image must not be published twice with its CV candidate."""
+        with tempfile.TemporaryDirectory() as temp:
+            screenshot = Path(temp) / "current.png"
+            Image.new("RGB", (400, 300), "white").save(screenshot)
+            facts = {
+                "screenshot": str(screenshot),
+                "candidates": {"text": [], "photos": [
+                    {"id": "P1", "coord": [10, 10, 90, 90], "route": "accepted"},
+                ]},
+                "routing": {},
+            }
+            review = {"screenshot": str(screenshot), "cards": [{
+                "cardId": "C1", "coord": [0, 0, 400, 220],
+                "topology": {"regions": [{"slot": "merchant_head", "coord": [10, 10, 90, 90]}], "attachedItems": []},
+                "photos": [{"coord": [10, 10, 90, 90]}],
+            }], "modules": []}
+
+            result = apply(facts, review)
+
+        self.assertEqual(result["candidates"]["photos"][0]["route"], "rejected")
+        self.assertEqual(result["candidates"]["photos"][-1]["id"], "VP1")
+
+    def test_reviewed_merchant_text_items_override_product_lexicon(self):
+        """A service label outside the old keyword list remains text-downhang."""
+        references = ROOT / "phase2-card-annotation" / "references"
+        taxonomy = json.loads((references / "search_card_taxonomy.v1.json").read_text(encoding="utf-8"))
+        contracts = json.loads((references / "card_recognition_contracts.v1.json").read_text(encoding="utf-8"))
+        profiles = json.loads((references / "learned_card_geometry_profiles.v1.json").read_text(encoding="utf-8"))
+        facts = {
+            "contractVersion": "phase2.cv-facts.v1",
+            "screenshot": "/tmp/ktv.png",
+            "viewport": {"width": 400, "height": 600},
+            "candidates": {
+                "photos": [
+                    {"id": "H1", "coord": [10, 100, 90, 90], "route": "accepted"},
+                    # A CV false positive that overlaps the service row cannot
+                    # promote a text downhang to graphic without review.
+                    {"id": "P-badge", "coord": [120, 220, 40, 24], "route": "accepted"},
+                ],
+                "text": [
+                    {"id": "T1", "text": "夜场KTV", "coord": [120, 110, 130, 24], "route": "accepted"},
+                    {"id": "T2", "text": "¥99", "coord": [120, 150, 60, 24], "route": "accepted"},
+                    {"id": "T3", "text": "小包3小时", "coord": [120, 220, 130, 24], "route": "accepted",
+                     "visualReview": {"cardId": "C1", "topologySlot": "text_attachment", "itemIndex": 1}},
+                ],
+            },
+        }
+        candidates = {"structureBlocks": [], "resultCards": [{
+            "id": "C1", "coord": [0, 90, 400, 220], "status": "confirmed",
+            "reviewedCardType": "商家卡片_文字下挂",
+            "reviewedTopology": {"regions": [
+                {"slot": "merchant_head", "coord": [10, 100, 90, 90]},
+                {"slot": "merchant_info", "coord": [120, 100, 260, 90]},
+                {"slot": "text_attachment", "coord": [120, 210, 260, 60]},
+            ], "attachedItems": [{"itemIndex": 1, "coord": [120, 210, 260, 60]}]},
+        }]}
+        result = map_cards(facts, candidates, taxonomy, contracts, profiles)
+        selected = result["cards"][0]["selectedCardType"]
+        self.assertEqual(selected["cardType"], "商家卡片_文字下挂")
+        self.assertEqual(selected["classificationMode"], "reviewed_merchant_attachment_state_machine_v3")
+        self.assertTrue(result["cards"][0]["contractValidation"]["minimumSatisfied"])
+
+    def test_merchant_summary_never_enters_text_downhang_item_groups(self):
+        """An explicit merchant-info price is summary information, not a service item."""
+        card = {"id": "C1", "coord": [0, 0, 400, 260]}
+        average_spend = {
+            "id": "T-average", "text": "人均¥128", "coord": [120, 64, 96, 24],
+            "visualReview": {"role": "price", "topologySlot": "merchant_info"},
+        }
+        service = {
+            "id": "T-service", "text": "75分钟精油SPA", "coord": [120, 180, 170, 24],
+            "visualReview": {"role": "attachment", "topologySlot": "text_attachment", "itemIndex": 1},
+        }
+        output = card_local_semantics(card, "商家卡片_文字下挂", [average_spend, service], {})
+
+        self.assertEqual(output["T-average"]["regionCandidate"], "基础信息区")
+        self.assertEqual(output["T-service"]["regionCandidate"], "文字下挂区")
+
+    def test_text_downhang_can_prove_price_inside_service_text(self):
+        group = {"textElementIds": ["T-service"], "priceElementIds": []}
+        elements = [{
+            "id": "T-service",
+            "textFacts": {"rawText": "轻奢小包2小时38元起"},
+        }]
+        self.assertTrue(text_downhang_has_inline_price(group, elements))
+        self.assertFalse(text_downhang_has_inline_price(group, [{
+            "id": "T-service",
+            "textFacts": {"rawText": "轻奢小包2小时"},
+        }]))
+
     def test_candidate_bundle_is_non_publishable_and_bound_to_its_screenshot(self):
         with tempfile.TemporaryDirectory() as temp:
             temp_path = Path(temp)

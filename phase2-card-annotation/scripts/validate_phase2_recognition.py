@@ -145,6 +145,23 @@ def gate(facts: dict[str, Any], candidates: dict[str, Any], card_semantics: dict
     # still send the underlying OCR text through every semantic hook below.
     accepted_by_id = {item.get("id"): item for item in accepted}
     text_ids = set(accepted_by_id)
+    # A current-pixel reviewer has already established item ownership for a
+    # text downhang.  That topology evidence must outrank the page-level
+    # lexical heuristic: labels such as “特价团” can look price-like, but are
+    # the service title of their attached item rather than a price field.
+    # Preserve the explicit attachment role before page/block semantics are
+    # allowed to assign a structured role and trigger a false grammar error.
+    for source_id, source in accepted_by_id.items():
+        review = source.get("visualReview")
+        if (isinstance(review, dict)
+                and review.get("topologySlot") == "text_attachment"
+                and review.get("role") in {"attachment", "subtitle"}):
+            mapped[source_id] = {
+                "sourceId": source_id,
+                "semanticRoleCandidate": "attachment",
+                "status": "confirmed",
+                "evidence": ["main_session_local_visual_read_text_attachment"],
+            }
     # Page-block roles are deliberately coarse. Inside a confirmed card,
     # discard a structured page role unless the text itself has that field's
     # grammar; precise card regions below may then assign the correct role.

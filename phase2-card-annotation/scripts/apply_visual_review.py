@@ -139,9 +139,16 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
         if any(overlap(item["coord"], box) for box in replacement_boxes + full_card_replacements):
             item["route"] = "rejected"
             item.setdefault("rejectionReasons", []).append("superseded_by_main_session_local_visual_review")
+    # A directly reviewed photo is the current-pixel replacement for a CV
+    # detection in the same box. Keep an explicit ``replacePhotoBoxes`` escape
+    # hatch for a reviewer that wants to suppress a photo without recording a
+    # replacement, but never publish both atoms for one visible image.
     replacement_photo_boxes = [
         box for card in observed for box in card.get("replacePhotoBoxes", [])
         if isinstance(box, list) and len(box) == 4
+    ] + [
+        photo.get("coord") for card in observed for photo in card.get("photos", [])
+        if isinstance(photo, dict) and isinstance(photo.get("coord"), list) and len(photo["coord"]) == 4
     ]
     for item in facts.get("candidates", {}).get("photos", []):
         if any(overlap(item["coord"], box) for box in replacement_photo_boxes):

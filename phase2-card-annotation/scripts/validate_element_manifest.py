@@ -120,6 +120,20 @@ def is_within(inner: list[float], outer: list[float], tolerance: float = 2) -> b
     )
 
 
+def text_downhang_has_inline_price(group: dict[str, Any], elements: list[dict[str, Any]]) -> bool:
+    """Return whether a reviewed text downhang item exposes its price inline."""
+    text_ids = {str(item) for item in group.get("textElementIds", [])}
+    return any(
+        isinstance(element, dict)
+        and str(element.get("id", "")) in text_ids
+        and re.search(
+            r"(?:[¥￥]\s*\d|\d+(?:\.\d+)?\s*元(?:起)?|\d+(?:\.\d+)?\s*折)",
+            str(element.get("textFacts", {}).get("rawText", "")),
+        )
+        for element in elements
+    )
+
+
 def normalized_visible_text(value: str) -> str:
     """Normalize copied visible text only for conservative duplicate-supply candidates."""
     return re.sub(r"[\s\W_]+", "", value.removeprefix("原文:")).lower()
@@ -416,7 +430,16 @@ def main() -> int:
                             continue
                         if set(ids) != set().union(*(set(values) for values in role_lists)) or any(item not in region_ids for item in ids):
                             errors.append(f"{gprefix}:item_group_roles_must_partition_owned_elements")
-                        if group.get("visibleStatus") == "confirmed" and (not group.get("textElementIds") or not group.get("priceElementIds")):
+                        # A text/service downhang can publish its price inline
+                        # in the one visible service string (for example
+                        # “小包2小时38元起”). That is direct price evidence,
+                        # not a missing-price defect. Graphic product rows
+                        # still require a separate price atom.
+                        inline_text_price = (
+                            card.get("卡片类型") == "商家卡片-文字下挂"
+                            and text_downhang_has_inline_price(group, elements)
+                        )
+                        if group.get("visibleStatus") == "confirmed" and (not group.get("textElementIds") or (not group.get("priceElementIds") and not inline_text_price)):
                             errors.append(f"{gprefix}:appended_item_requires_text_and_price")
                         if group.get("visibleStatus") == "naturally_cropped" and not group.get("elementIds"):
                             errors.append(f"{gprefix}:naturally_cropped_item_requires_visible_atom")
