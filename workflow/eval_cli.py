@@ -916,6 +916,7 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
             raise ValueError("batch_requires_at_least_one_query_task")
 
         entries = []
+        selected_screenshot_count = 0
         seen_queries: set[str] = set()
         for raw_task_path in args.task:
             task_path = raw_task_path.resolve()
@@ -924,9 +925,22 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
             query = str(workflow_args.get("query") or "").strip() if isinstance(workflow_args, dict) else ""
             if not query or query in seen_queries:
                 raise ValueError(f"batch_task_query_missing_or_duplicate:{query or task_path}")
+            selected_screenshots = workflow_args.get("selectedScreenshots") if isinstance(workflow_args, dict) else None
+            if not isinstance(selected_screenshots, list) or not selected_screenshots:
+                raise ValueError(f"batch_task_selected_screenshots_missing:{query or task_path}")
             attempt = task_batch_entry(task_path, project_dir, args.batch_id, 1)
             seen_queries.add(query)
-            entries.append({"query": query, "status": "pending", "attempts": [attempt]})
+            screenshot_count = len(selected_screenshots)
+            selected_screenshot_count += screenshot_count
+            entries.append({"query": query, "screenshotCount": screenshot_count, "status": "pending", "attempts": [attempt]})
+
+        subagent_policy = {
+            "trigger": "selected_screenshot_count_gt_3",
+            "selectedScreenshotCount": selected_screenshot_count,
+            "requiresQuerySubagents": selected_screenshot_count > 3,
+            "singleQueryPerAgent": True,
+            "maxParallelAgents": 3,
+        }
 
         state_root = batch_state_root(project_dir, args.batch_id)
         if state_root.exists():
@@ -938,6 +952,7 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
             "projectDir": str(project_dir),
             "expectedBusinessTabs": tabs,
             "maxQueryAttempts": args.max_query_attempts,
+            "subagentPolicy": subagent_policy,
             "status": "pending",
             "sequence": 0,
             "queries": entries,
@@ -949,6 +964,7 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
             "statePath": str(state_path),
             "status": "pending",
             "dispatchTasks": [entry["attempts"][-1]["taskPath"] for entry in entries],
+            "subagentPolicy": subagent_policy,
         })
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         return emit({"ok": False, "error": str(exc)}, 2)

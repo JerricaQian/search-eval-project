@@ -100,7 +100,7 @@ Claude Code、Codex、Catpaw 或其他 Harness 都使用同一个 `MEITUAN_EVAL_
 
 ## 5. 全部词终态后统一生成 Phase5
 
-先用 `prepare-batch` 冻结所有预期 task。每批最多并发 3 个词级 Evaluation Agent；每轮结束用 `advance-batch` 核验回执。失败词通过 `create-batch-retry` 生成新的隔离任务并交给新的 Evaluation Agent，最多三次；第三次仍失败标记 abandoned。所有词进入 completed/abandoned 后执行一次：
+当确认选中的截图总数超过 3 张时，先用 `prepare-batch` 冻结所有预期 task，并按搜索词下发 Evaluation Agent。阈值按身份映射完成后的 `selectedScreenshots` 总数计算；一个 Agent 处理一个词的全部截图，最多并发 3 个。3 张及以下不因图片数量本身强制下发子代理。每轮结束用 `advance-batch` 核验回执。失败词通过 `create-batch-retry` 生成新的隔离任务并交给新的 Evaluation Agent，最多三次；第三次仍失败标记 abandoned。所有词进入 completed/abandoned 后执行一次：
 
 ```bash
 <pythonBin> workflow/eval_cli.py finalize-batch \

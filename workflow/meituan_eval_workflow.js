@@ -18,7 +18,8 @@ log('args=' + JSON.stringify(A))
 
 // ---------- 批次入口：跨词调度、隔离重试、终态 Phase5 ----------
 // 单词模式仍由下方原流程处理。批次模式接收 prepare-evaluate 已生成的初始 taskPath，
-// 每轮最多并发 3 个 Evaluation Agent；每个词最多派发 3 次且每次使用全新 runId。
+// 已选截图超过 3 张时，必须按搜索词下发 Evaluation Agent；每轮最多并发 3 个。
+// batch_evaluate 是该词级调度入口；每个词最多派发 3 次且每次使用全新 runId。
 if (A.mode === 'batch_evaluate') {
   if (!A.projectDir || typeof A.projectDir !== 'string') throw new Error('batch_evaluate 必须显式传入 projectDir')
   const batchProjectDir = A.projectDir.replace(/\/+$/, '')
@@ -47,6 +48,7 @@ if (A.mode === 'batch_evaluate') {
       completedQueries: { type: 'array', items: { type: 'string' } },
       retryQueries: { type: 'array', items: { type: 'string' } },
       failedQueries: { type: 'array', items: { type: 'string' } },
+      subagentPolicy: { type: 'object' },
       readyForPhase5: { type: 'boolean' }, error: { type: 'string' },
     },
     required: ['ok'],
@@ -97,6 +99,10 @@ if (A.mode === 'batch_evaluate') {
 
   let statePath = prepared.statePath
   let dispatchTasks = prepared.dispatchTasks
+  const subagentPolicy = prepared.subagentPolicy || {}
+  log('子代理阈值：已选截图 ' + (subagentPolicy.selectedScreenshotCount ?? '未知') + ' 张；'
+    + (subagentPolicy.requiresQuerySubagents ? '必须按词级子代理调度' : '不因图片数本身强制下发')
+    + '；单 Agent 单词，最多并发 ' + (subagentPolicy.maxParallelAgents || 3) + ' 个')
   let completedQueries = []
   let abandonedQueries = []
   for (let wave = 1; wave <= maxQueryAttempts; wave += 1) {

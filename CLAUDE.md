@@ -87,7 +87,7 @@ screenshots/ ──phase2 轻量识别──▶ screenshots-out/ ──phase3 �
 
 | 模式 | 适用场景 | 执行入口 | 约束 |
 |---|---|---|---|
-| **显式 Workflow（优先）** | 当前会话提供 Workflow 工具时 | `workflow/meituan_eval_workflow.js` + args | 单词模式执行一个词的 Phase2～4；`batch_evaluate` 模式冻结全部 task、每批最多并发 3 个词、失败词隔离重派并在终态屏障后调用一次 Phase5。 |
+| **显式 Workflow（优先）** | 当前会话提供 Workflow 工具时 | `workflow/meituan_eval_workflow.js` + args | 单词模式执行一个词的 Phase2～4；确认选中的截图总数超过 3 张时，必须按搜索词下发 Evaluation Agent；`batch_evaluate` 冻结全部 task、每批最多并发 3 个词、失败词隔离重派并在终态屏障后调用一次 Phase5。 |
 | **Agent 任务编排（等价回退）** | Workflow 工具未注入、宿主运行时不可用，或用户明确要求逐阶段执行时 | Agent 以 TODO 依次派发子代理调用 | 不得跳过任何 phase 的事实源、确定性校验或报告契约；不得因为显式 Workflow 不可用而停止评测；子代理分派结构必须与显式 Workflow 一致（见下）。 |
 
 两种模式共用同一套**子代理分派结构**，不是各自随意拆分：
@@ -104,6 +104,7 @@ Agent 任务编排的固定顺序：① Screenshot Agent 截图或发现/校验�
 
 ### 批量子代理调度纪律（铁律）
 
+- **下发阈值按图计，不按词计**：确认的 `selectedScreenshots` 总数超过 **3 张** 时，宿主必须使用词级 Evaluation Agent 调度。该计数发生在截图发现和未命名图身份映射完成之后；3 张及以下的任务不因图片数量本身强制下发子代理。进入批量调度后，仍按下列单词边界和并发上限执行。
 - **模型能力按阶段隔离**：Phase2 的候选提取、卡型契约和校验器必须运行本地 CV/OCR 与确定性 hooks；当前图片校准可由具备读图能力的模型依据当前像素回写 Phase2 manifest，但不得注入黄金字段或语言猜写。Phase3/4 只能消费已验收 manifest，不能回看截图补写基础事实。模型名由宿主 adapter 选择，adapter 必须确认其具备读图和结构化 JSON 输出能力。
 - 批量搜索词执行时，**一个子代理只处理一个搜索词**（该词所需的 Phase2/Phase3/Phase4 连续工作）；不得把多个词、多个截图词或“剩余若干词”合并下发给同一子代理。
 - 每批并发最多 **3 个子代理 / 3 个搜索词**；必须等待本批全部成功、失败或明确介入完成后，才可启动下一批。不得为了追吞吐提前投放下一批。

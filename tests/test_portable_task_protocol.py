@@ -23,22 +23,43 @@ class PortableTaskProtocolTest(unittest.TestCase):
             for target in task["evalTargets"]
         ]
 
-    def prepare(self, root: Path, run_id: str = "portable-01") -> dict:
+    def prepare(self, root: Path, run_id: str = "portable-01", image_count: int = 1) -> dict:
         source = root / "external"
         project = root / "project"
         source.mkdir()
         project.mkdir()
         (project / "phase3-evaluation").symlink_to(PROJECT_DIR / "phase3-evaluation", target_is_directory=True)
-        Image.new("RGB", (100, 100), "white").save(source / "露营_全部_1.png")
+        for screen in range(1, image_count + 1):
+            Image.new("RGB", (100, 100), "white").save(source / f"露营_全部_{screen}.png")
         completed = subprocess.run(
             [
                 sys.executable, str(CLI_PATH), "prepare-evaluate",
                 "--project-dir", str(project), "--source-dir", str(source),
                 "--query", "露营", "--min-bytes", "1", "--run-id", run_id,
+                "--evaluation-selection", '{"mode":"full_19"}', "--report-outlet", "none",
             ],
             check=True, capture_output=True, text=True,
         )
         return json.loads(completed.stdout)
+
+    def test_prepare_batch_publishes_image_based_subagent_policy(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = self.prepare(Path(tmp), run_id="batch-image-trigger", image_count=4)
+            task_path = Path(payload["portableTask"]["taskPath"])
+            project_dir = task_path.parents[2]
+            prepared = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-batch",
+                "--project-dir", str(project_dir), "--batch-id", "batch-image-trigger",
+                "--expected-business-tabs", "dine_in", "--max-query-attempts", "3",
+                "--task", str(task_path),
+            ], check=True, capture_output=True, text=True)
+
+            policy = json.loads(prepared.stdout)["subagentPolicy"]
+            self.assertEqual(policy["trigger"], "selected_screenshot_count_gt_3")
+            self.assertEqual(policy["selectedScreenshotCount"], 4)
+            self.assertTrue(policy["requiresQuerySubagents"])
+            self.assertTrue(policy["singleQueryPerAgent"])
+            self.assertEqual(policy["maxParallelAgents"], 3)
 
     def test_prepare_creates_immutable_task_and_rejects_duplicate_run_id(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -73,6 +94,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                     sys.executable, str(CLI_PATH), "prepare-evaluate",
                     "--project-dir", str(project), "--source-dir", str(source),
                     "--query", "露营", "--min-bytes", "1", "--run-id", "portable-01",
+                    "--evaluation-selection", '{"mode":"full_19"}', "--report-outlet", "none",
                 ],
                 check=False, capture_output=True, text=True,
             )
@@ -206,7 +228,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             completed = subprocess.run([
                 sys.executable, str(CLI_PATH), "prepare-evaluate", "--project-dir", str(project),
                 "--source-dir", str(source), "--query", "露营", "--min-bytes", "1", "--run-id", "portable-final",
-                "--evaluation-selection", '{"mode":"full_19"}',
+                "--evaluation-selection", '{"mode":"full_19"}', "--report-outlet", "none",
             ], check=True, capture_output=True, text=True)
             payload = json.loads(completed.stdout)
             task = json.loads(Path(payload["portableTask"]["taskPath"]).read_text())
@@ -225,6 +247,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             created = subprocess.run([
                 sys.executable, str(CLI_PATH), "prepare-evaluate", "--project-dir", str(project), "--source-dir", str(source),
                 "--query", "露营", "--min-bytes", "1", "--run-id", "no-early-stop",
+                "--evaluation-selection", '{"mode":"full_19"}', "--report-outlet", "none",
             ], check=True, capture_output=True, text=True)
             task_path = Path(json.loads(created.stdout)["portableTask"]["taskPath"])
             task = json.loads(task_path.read_text())
@@ -247,6 +270,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             created = subprocess.run([
                 sys.executable, str(CLI_PATH), "prepare-evaluate", "--project-dir", str(project), "--source-dir", str(source),
                 "--query", "露营", "--min-bytes", "1", "--run-id", "no-passive-retry",
+                "--evaluation-selection", '{"mode":"full_19"}', "--report-outlet", "none",
             ], check=True, capture_output=True, text=True)
             task_path = Path(json.loads(created.stdout)["portableTask"]["taskPath"])
             task = json.loads(task_path.read_text())
@@ -276,7 +300,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                     sys.executable, str(CLI_PATH), "prepare-evaluate",
                     "--project-dir", str(project), "--source-dir", str(source), "--query", "露营",
                     "--min-bytes", "1", "--run-id", "portable-selection",
-                    "--evaluation-selection", json.dumps(selection, ensure_ascii=False),
+                    "--evaluation-selection", json.dumps(selection, ensure_ascii=False), "--report-outlet", "none",
                 ],
                 check=True, capture_output=True, text=True,
             )
@@ -535,6 +559,11 @@ class PortableTaskProtocolTest(unittest.TestCase):
                         "batchId": batch_id,
                         "reportOutlet": "local_html",
                         "evaluationSelection": {"mode": "full_19"},
+                        "evaluationScope": {
+                            "schemaVersion": "phase3.eval-selection.v1",
+                            "selection": {"mode": "full_19"},
+                            "coverage": {"selectedCount": 19, "fullCount": 19, "isFull": True, "label": "完整19项评测"},
+                        },
                         "phase2MaxAttempts": 3,
                         "phase2Outputs": [{"manifest": str(manifest), "audit": str(manifest_audit)}],
                         "stagePaths": {
@@ -665,6 +694,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
                 sys.executable, str(CLI_PATH), "prepare-evaluate",
                 "--project-dir", str(project), "--source-dir", str(source), "--query", "露营",
                 "--min-bytes", "1", "--run-id", "batch-retry.q1", "--batch-id", "batch-retry",
+                "--evaluation-selection", '{"mode":"full_19"}', "--report-outlet", "none",
             ], check=True, capture_output=True, text=True)
             first_task = Path(json.loads(created.stdout)["portableTask"]["taskPath"])
 

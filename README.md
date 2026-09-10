@@ -72,7 +72,7 @@ python3 workflow/eval_cli.py prepare-evaluate \
   --report-outlet local_html
 ```
 
-对每个搜索词重复执行一次，只替换 `--query` 和 `--run-id`。随后用 `prepare-batch` 冻结全部预期 task；`meituan_eval_workflow.js` 的 `batch_evaluate` 模式每批最多并发 3 个词，并保存每轮状态快照。
+对每个搜索词重复执行一次，只替换 `--query` 和 `--run-id`。确认选中的截图总数超过 3 张时，必须用 `prepare-batch` 冻结全部预期 task，并按搜索词下发 Evaluation Agent；一个 Agent 处理一个词的全部截图。`meituan_eval_workflow.js` 的 `batch_evaluate` 模式每批最多并发 3 个词，并保存每轮状态快照。3 张及以下不因图片数本身强制使用子代理。
 
 每个词完成后都要执行任务 JSON 中自带的 `completionCommand`。只有产生 `status=completed` 的本地回执，才算成功。失败词使用新的隔离 `runId/taskPath` 和新的 Evaluation Agent 定向重派；每词最多三个任务，第三次仍失败则标记 `abandoned`，不重跑其他成功词。
 
@@ -205,7 +205,7 @@ Workflow
 └─ 全部词进入 completed/abandoned 终态后：一次 Phase5 批量报告
 ```
 
-Workflow 的 `batch_evaluate` 模式负责最多 3 词并发、批次状态快照、失败词隔离重派和终态屏障。评级和事实判断仍由词级评测流程完成。Phase5 只读取 completed 词的精确产物；连续三次失败的 abandoned 词不进入报告，全部失败时不生成报告。
+已确认截图超过 3 张时，Workflow 必须按词级子代理执行；每个子代理处理一个搜索词的全部截图，每批最多 3 个子代理并发。`batch_evaluate` 负责批次状态快照、失败词隔离重派和终态屏障。评级和事实判断仍由词级评测流程完成。Phase5 只读取 completed 词的精确产物；连续三次失败的 abandoned 词不进入报告，全部失败时不生成报告。
 
 任务只使用 `MEITUAN_EVAL_TASK`、`MEITUAN_AGENT_DISPATCH`、`workflow/contracts/phase234-query-pipeline.md` 和 `evaluation-result.schema.json`。流程先产出不可发布的本地 CV 候选，再由具备读图能力的宿主完成当前像素复核；门禁失败在同一任务内按卡片定向修正并重新发布，只有耗尽重试预算后才阻断。Phase3 按所选 Skill 运行必要的确定性像素测量，Phase4 生成并校验证据。历史版本契约已备份并移出当前入口，已有本地产物保持不变。
 

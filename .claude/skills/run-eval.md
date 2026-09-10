@@ -183,7 +183,7 @@ Workflow 返回规范截图组；对 `IMG_*.PNG` 等未命名图会自动读取�
 - 成功结果的 `stageD={}`，不写报告内容或报告路径；
 - 不删除或覆盖截图、过程文件、证据或历史报告。
 
-多搜索词先冻结全部预期 task，再按统一 `MEITUAN_AGENT_DISPATCH` 每批最多派发 3 个词，每个词一个 Evaluation Agent。支持 Workflow DSL 时，`meituan_eval_workflow.js` 的 `batch_evaluate` 只是同一协议的宿主适配器。Phase2 内部纠错耗尽后，外层为该词创建新的隔离 `runId/taskPath` 并交给新的 Evaluation Agent，最多三个词级任务；第三次仍失败则标记 abandoned。只有所有词进入 completed/abandoned 终态后才执行一次 `finalize-batch --batch-state`；Phase5 仅消费 completed 词，abandoned 词不进入报告。全部 abandoned 时不生成空报告。
+确认选中的截图总数超过 3 张时，必须先按搜索词冻结全部预期 task，再按统一 `MEITUAN_AGENT_DISPATCH` 下发词级子代理；每个子代理处理一个词的全部截图，每批最多派发 3 个。该阈值以截图发现和身份映射后的 `selectedScreenshots` 总数计算，而非搜索词数量；3 张及以下不因图片数本身强制下发子代理。支持 Workflow DSL 时，`meituan_eval_workflow.js` 的 `batch_evaluate` 只是同一协议的宿主适配器。Phase2 内部纠错耗尽后，外层为该词创建新的隔离 `runId/taskPath` 并交给新的 Evaluation Agent，最多三个词级任务；第三次仍失败则标记 abandoned。只有所有词进入 completed/abandoned 终态后才执行一次 `finalize-batch --batch-state`；Phase5 仅消费 completed 词，abandoned 词不进入报告。全部 abandoned 时不生成空报告。
 
 ```json
 {

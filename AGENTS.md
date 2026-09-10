@@ -32,6 +32,16 @@ governance, or agent capabilities:
    Human visual comments are permitted solely as clearly-labelled post-pipeline
    review and never replace the formal result.
 
+## Subagent dispatch threshold
+
+When the confirmed selection contains more than three screenshots, the host
+must dispatch query-level Evaluation Agents. The threshold counts selected
+screenshots after discovery and identity mapping, not the number of queries.
+Each Evaluation Agent handles exactly one query (including every selected
+screenshot for that query), and no more than three such agents may run in
+parallel. A selection of three or fewer screenshots does not require
+subagents solely because of its image count.
+
 ## Portable front door
 
 All hosts use `python3 workflow/eval_cli.py prepare-evaluate` to create the same
