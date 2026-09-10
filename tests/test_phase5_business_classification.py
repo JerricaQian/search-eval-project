@@ -236,66 +236,6 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
             self.assertEqual(len(data["groups"][0]["evidence"]), 2)
             self.assertEqual(data["businesses"][0]["evaluatedCards"], 2)
 
-    def test_collect_keeps_sibling_issues_but_counts_one_card_vote(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            project = root / "project"
-            artifact_dir = project / ".artifacts" / "过程文件-评测结果与审计" / "batch-1"
-            artifact_dir.mkdir(parents=True)
-            screenshot = project / "screenshots" / "IMG_1.PNG"
-            screenshot.parent.mkdir(parents=True)
-            screenshot.write_bytes(b"image")
-            manifest = project / "screenshots-out" / "elements_IMG_1_batch-1.json"
-            manifest.parent.mkdir(parents=True)
-            manifest.write_text(json.dumps({
-                "query": "咖啡",
-                "screenshot": str(screenshot),
-                "cards": [{
-                    "cardId": "C1",
-                    "卡片类型": "商家卡片-文字下挂",
-                    "ownershipScope": "business",
-                    "businessCode": "dine_in",
-                    "regions": [{
-                        "name": "标题区",
-                        "elements": [
-                            {"id": "E1", "内容简述": "原文:第一处重复"},
-                            {"id": "E2", "内容简述": "原文:第二处重复"},
-                        ],
-                    }],
-                }],
-            }, ensure_ascii=False), encoding="utf-8")
-            result_path = artifact_dir / "评测原始结果_咖啡_full19.json"
-            result_path.write_text(json.dumps([{
-                "dimension": "phase3-card_or_component-eval",
-                "skill": "eval-8-info-redundancy",
-                "units": [{
-                    "tab": "全部",
-                    "rating": "不达标",
-                    "reason": "同一卡片存在两处重复信息",
-                    "details": {
-                        "screenshot": str(screenshot),
-                        "evidenceMode": "original-page",
-                        "issues": [{
-                            "elementId": element_id,
-                            "component": "C1",
-                            "rating": "不达标",
-                            "description": description,
-                            "recommendation": "删除重复表达，并确认信息无损。",
-                        } for element_id, description in (
-                            ("E1", "第一处重复信息。"),
-                            ("E2", "第二处重复信息。"),
-                        )],
-                    },
-                }],
-            }], ensure_ascii=False), encoding="utf-8")
-
-            data = self.module.collect(project, artifact_dir, [manifest], [result_path])
-
-            self.assertEqual(len(data["groups"]), 1)
-            self.assertEqual(len(data["groups"][0]["evidence"]), 2)
-            self.assertEqual(data["groups"][0]["failVoteCount"], 1)
-            self.assertEqual(data["groups"][0]["problemCardCount"], 1)
-
     def test_collect_resolves_portable_runid_result_from_unit_screenshot(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

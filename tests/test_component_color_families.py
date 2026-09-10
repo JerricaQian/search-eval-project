@@ -8,6 +8,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from PIL import Image
+
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 SCRIPT = (
@@ -73,6 +75,39 @@ class ComponentColorFamiliesTest(unittest.TestCase):
 
         self.assertEqual(component["colorFamilies"], ["紫"])
         self.assertEqual(component["excludedElementIds"], ["E2"])
+
+    def test_legacy_colour_roles_and_effective_ui_area_support_page_dominance(self) -> None:
+        module = load_module()
+        with tempfile.TemporaryDirectory() as tmp:
+            screenshot = Path(tmp) / "screen.png"
+            image = Image.new("RGB", (100, 100), "white")
+            for x in range(6):
+                for y in range(100):
+                    image.putpixel((x, y), (255, 0, 0))
+            for x in range(6, 10):
+                for y in range(100):
+                    image.putpixel((x, y), (255, 102, 0))
+            image.save(screenshot)
+            facts = {"cards": [{
+                "cardId": "C1",
+                "coord": [0, 0, 100, 100],
+                "regions": [{"elements": [
+                    {**element("E1", ""), "坐标": [0, 0, 6, 100], "visual": {
+                        "visualStatus": "confirmed", "colorRole": "red",
+                    }},
+                    {**element("E2", ""), "坐标": [6, 0, 4, 100], "visual": {
+                        "visualStatus": "confirmed", "colorRole": "orange",
+                    }},
+                ]}],
+            }]}
+
+            component = module.compute_components(facts, screenshot)[0]
+
+        self.assertEqual(component["colorFamilies"], ["红", "橙"])
+        self.assertEqual(component["effectiveUiPixelCount"], 10_000)
+        self.assertEqual(component["colorFamilyPixelAreas"]["红"], 600)
+        self.assertEqual(component["colorFamilyPixelAreas"]["橙"], 400)
+        self.assertEqual(component["dominantColorMeasurementStatus"], "measured")
 
     def test_graphic_filters_are_excluded_even_when_legacy_data_exposes_them_as_cards(self) -> None:
         module = load_module()

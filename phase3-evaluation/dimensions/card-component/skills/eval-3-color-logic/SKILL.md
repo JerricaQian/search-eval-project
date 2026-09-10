@@ -1,7 +1,7 @@
 ---
 name: eval-3-color-logic
 description: >-
-  评测搜索结果页卡片组件有效 UI 的有彩色系数量，触发词包括组件色彩、七色标准、颜色逻辑、色系数量、中性色门槛，并以达标或不达标组件作为问题项。即使未明确提及色彩运用逻辑，只要需要按 Phase2 JSON 样式色值统计组件红橙黄绿青蓝紫色系，就应激活。
+  评测搜索结果页卡片组件有效 UI 的有彩色系数量，并产出供页面主导色条件复用的七色有效面积；触发词包括组件色彩、七色标准、颜色逻辑、色系数量、中性色门槛。即使未明确提及色彩运用逻辑，只要需要按 Phase2 JSON 样式色值统计组件红橙黄绿青蓝紫色系，就应激活。
 title: 色彩运用逻辑性
 weight: { "优秀": 1, "达标": 0, "不达标": -1 }
 aggregate: "本维度按搜索词×组件，聚合到 Tab 级（取最差）。"
@@ -9,7 +9,7 @@ extra: ""
 metadata:
   creator: qianjing16
   updater: Codex
-  version: "V3"
+  version: "V3.1"
   high_sensitive: "false"
   author: qianjing16
   domain: 美团搜索结果页组件色彩逻辑评估
@@ -21,9 +21,9 @@ metadata:
 
 ## 你是谁
 
-你是一位资深的美团搜索结果页体验评测专家。职责链是：**基于已确认 UI 原子的 `visual.textColor/backgroundColor/borderColor` → 运行唯一组件七色计算工具 → 按组件计数 → 产出评级、问题项数、排除项、复核项与可追溯证据**。
+你是一位资深的美团搜索结果页体验评测专家。职责链是：**基于已确认 UI 原子的 `visual.textColor/backgroundColor/borderColor`（兼容已确认的旧版 `visual.colorRole`）→ 运行唯一组件七色计算工具 → 按组件计数，并产出有效 UI 中的七色像素面积 → 产出评级、问题项数、排除项、复核项与可追溯证据**。
 
-**证据只来自 Phase2 JSON，绝不像素级主观扫描。**达标或不达标组件记为一个问题项，优秀不是问题项；同一组件命中多条问题也只计一个问题项，不按问题条数倍乘。
+**色系归类只来自 Phase2 JSON，绝不像素级主观扫描。**当页面色彩同时被选择时，计算器可在已确认的卡片范围内对当前截图作确定性像素面积统计；这只服务页面主导色条件，不改变组件色系数量。达标或不达标组件记为一个问题项，优秀不是问题项；同一组件命中多条问题也只计一个问题项，不按问题条数倍乘。
 
 ---
 
@@ -50,7 +50,7 @@ metadata:
 ### Step 1：读取 Phase2 JSON，确定评测目标
 
 - 通过 `scripts/phase2_bundle_loader.py` 校验并读取 Phase2 JSON。组件色彩只枚举 `cards[]`；Tab、图筛、业务图筛和筛选器属于页面导航/查询收敛模块，不能被提升为组件候选。兼容旧清单时，即使图筛被错误投影为卡片，计算器也必须按 `image_filter`、`business_image_filter`、`图筛` 或 `业务图筛` 类型显式跳过。
-- 遍历组件全部活动原子，只读取 `visualStatus=confirmed` 的 `visual.textColor/backgroundColor/borderColor`。照片、营销素材、金刚 icon 和纯白底图排除；照片上有独立 Phase2 原子的标签或操作角标仍保留。
+- 遍历组件全部活动原子，只读取 `visualStatus=confirmed` 的 `visual.textColor/backgroundColor/borderColor`；旧版清单没有 CSS 色值时，复用已确认的 `visual.colorRole`。照片、营销素材、金刚 icon 和纯白底图排除；照片上有独立 Phase2 原子的标签或操作角标仍保留。
 - 对每个样式色值先使用统一感知中性色门槛：仅当 `S≥15、V≥20、RGB绝对色度≥20` 同时成立才进入红、橙、黄、绿、青、蓝、紫归并；带轻微色偏的近黑、灰褐、灰蓝均排除。同一色值或同一色系出现多次只计一种；不根据元素面积或像素占比过滤。
 - 必须运行 `scripts/compute_component_color_families.py` 取得组件七色结果；它只读取 Phase2 JSON，不扫描截图像素。任一活动 UI 原子的颜色事实缺失或未确认时回退 Phase2，不允许从截图目测补色。
 - 每个组件（包括优秀）保留 `assessmentRows`：`componentId`、`scannedElementIds`、`excludedElementIds`、`sourceColorValues`、`colorFamilies`、`colorFamilyCount`、`evidenceSource=phase2_json_visual_colors` 和评级，不得附带 `measurement`。
@@ -64,7 +64,7 @@ metadata:
 ### Step 3：执行专属扫描、测量或关系核查
 
 1. 运行 `scripts/compute_component_color_families.py --manifest <manifest> --output <artifact>`；当前组件色彩评测与页面色彩兜底必须复用同一产物，不能二次归类。
-2. 从脚本产物读取每个组件的全部活动原子、`sourceColorValues`、`neutralColorValues`、排除项与去重后的 `colorFamilies`。
+2. 从脚本产物读取每个组件的全部活动原子、`sourceColorValues`、`neutralColorValues`、排除项与去重后的 `colorFamilies`。页面色彩被选择时，同时读取 `effectiveUiPixelCount`、`colorFamilyPixelAreas` 与 `dominantColorMeasurementStatus`；面积由卡片边界内有效 UI 像素统计，已确认图片和图筛区域不进入分母或分子。
 3. 按 `colorFamilyCount` 套阈值评级；不得回看截图补色或覆盖脚本 JSON 结论。
 4. 覆盖全部组件后取最差 Tab 评级，并记录问题项。
 
@@ -155,7 +155,7 @@ Phase5 问题卡由 `assessmentRows` 中评级为达标或不达标的问题行�
 ## Gotchas
 
 - **相邻彩色标签 ≠ 同一元素**；相邻的两枚彩色标签不能因文案或位置接近而合并元素；但它们归入同一七色色系时，组件色系数只计一种。
-- **JSON 色值评测 ≠ 面积/像素重测**；不得用元素面积、像素占比或测量脚本重新解释 JSON 色值；样式色值不完整时必须回退 Phase2。
+- **组件色系数 ≠ 页面主导色数**；组件评级只读 JSON 色系数，不被像素面积改变。页面需要主导色时，只能复用本计算器输出的有效 UI 面积，不能另起页面脚本。
 
 ---
 

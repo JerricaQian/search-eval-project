@@ -52,6 +52,7 @@ LEVELS = {
     "phase3-card_or_component-eval": ("组件/卡片维度", "component", "#10b981"),
     "phase3-page_framework-eval": ("页面框架维度", "page", "#60a5fa"),
 }
+LEVEL_ORDER = tuple(LEVELS.items())
 PASS_RATINGS = {"达标", "🟡"}
 FAIL_RATINGS = {"不达标", "🔴"}
 
@@ -353,6 +354,7 @@ def collect(
     artifact_dir: Path,
     manifest_paths: list[Path] | None = None,
     result_paths: list[Path] | None = None,
+    evaluation_scope: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     # A query can contain multiple screenshots. Keep one accepted manifest per
     # source screenshot so repeated C1/E1 identifiers never collide across pages.
@@ -669,26 +671,16 @@ def collect(
                                     "component": str(issue.get("component", "")), "annotatedImage": annotated,
                                     "screenshot": screenshot, "coord": issue.get("coord", []),
                     "evidenceImage": str(issue.get("evidenceImage", ""))}
-                        # One card contributes one governance vote for a metric,
-                        # while every distinct issue on that card must remain
-                        # visible in the report.  Keeping the two identities
-                        # separate prevents sibling element issues from being
-                        # collapsed without inflating priority counts.
-                        vote_signature = (query, screenshot_ref, tab, target_card_id, metric_code, finding)
-                        evidence_signature = (
-                            *vote_signature,
-                            element_id,
-                            str(issue.get("description", "")),
-                        )
-                        if not any(item["signature"] == evidence_signature for item in group["issues"]):
-                            group["issues"].append({"signature": evidence_signature, **evidence})
-                        if vote_signature not in group["voteCountedSignatures"]:
+                        signature = (query, screenshot_ref, tab, target_card_id, metric_code, finding)
+                        if not any(item["signature"] == signature for item in group["issues"]):
+                            group["issues"].append({"signature": signature, **evidence})
+                        if signature not in group["voteCountedSignatures"]:
                             vote_rating = str(issue.get("rating", unit.get("rating", "")))
                             if vote_rating in FAIL_RATINGS:
                                 group["failVoteCount"] += 1
                             elif vote_rating in PASS_RATINGS:
                                 group["passVoteCount"] += 1
-                            group["voteCountedSignatures"].add(vote_signature)
+                            group["voteCountedSignatures"].add(signature)
                         group["problemCards"].add((query, tab, target_card_id))
                         group["queries"].add(query)
                         group["findingCounts"][finding] += 1
@@ -734,16 +726,35 @@ def collect(
         groups.append(group)
     groups.sort(key=lambda item: ({"P0": 0, "P1": 1, "P2": 2, "待判定": 3}.get(item["priority"], 4), -item["problemRate"], -item["problemCardCount"]))
 
-    # Keep all three evaluation levels visible in the per-query review. If a
-    # selected batch misses one level, show an explicit non-evaluated status
-    # rather than silently omitting that level or fabricating a rating.
+    # Keep all evaluation levels visible in per-query review. A deliberately
+    # unselected dimension is an explicit scope fact, not a fabricated rating.
+    # The frozen task scopes are supplied by the control plane when available;
+    # direct compatibility calls retain the historical three-level display.
+    scope_by_query = {
+        str(item.get("query") or ""): item
+        for item in (evaluation_scope or {}).get("queryScopes", [])
+        if isinstance(item, dict) and str(item.get("query") or "")
+    }
     for query in sorted(used_queries):
         units = query_details[query]
-        if not any(unit["level"] == "page" for unit in units):
+        query_scope = scope_by_query.get(query, {})
+        selected_dimensions = {
+            str(value) for value in query_scope.get("dimensions", [])
+            if isinstance(value, str)
+        }
+        for dimension, (level_name, level_code, _) in LEVEL_ORDER:
+            if any(unit["level"] == level_code for unit in units):
+                continue
+            scope_label = "未选择" if query_scope and dimension not in selected_dimensions else "未执行"
+            reason = (
+                f"本批次冻结评测范围未选择{level_name}，因此未生成该维度结论。"
+                if scope_label == "未选择"
+                else f"本批次过程评测结果未包含{level_name}，暂无可复核的{level_name}结论。"
+            )
             units.append({
-                "level": "page", "levelName": "页面框架维度", "skill": "",
-                "metricName": "页面框架维度评测", "metricCode": "page_framework_pending",
-                "tab": "全部", "rating": "未执行", "reason": "本批次过程评测结果未包含页面框架维度，暂无可复核的页面级结论。",
+                "level": level_code, "levelName": level_name, "skill": "",
+                "metricName": f"{level_name}评测", "metricCode": f"{level_code}_pending",
+                "tab": "全部", "rating": scope_label, "reason": reason,
                 "evidenceMode": "", "issues": [], "annotatedImage": "",
             })
 
@@ -796,7 +807,16 @@ def collect(
         })
     business_rows.sort(key=lambda item: (-item["issueCount"], item["businessName"]))
     manifest_count = sum(len(by_screenshot) for by_screenshot in manifests.values())
-    return {"generatedAt": str(date.today()), "queryCount": len(used_queries), "groups": groups, "businesses": business_rows, "queryDetails": dict(sorted(query_details.items())), "unknown": unknown, "manifests": manifest_count}
+    return {
+        "generatedAt": str(date.today()),
+        "queryCount": len(used_queries),
+        "groups": groups,
+        "businesses": business_rows,
+        "queryDetails": dict(sorted(query_details.items())),
+        "unknown": unknown,
+        "manifests": manifest_count,
+        "evaluationScope": evaluation_scope or {},
+    }
 
 
 def validate_dataset(
@@ -828,7 +848,7 @@ def validate_dataset(
         if not units:
             raise ValueError(f"搜索词 {query} 没有评测明细")
         for unit in units:
-            if unit.get("rating") != "未执行" and not unit.get("screenshot"):
+            if unit.get("rating") not in {"未执行", "未选择"} and not unit.get("screenshot"):
                 raise ValueError(f"搜索词 {query} 缺少统一元素清单声明的原图路径")
             for issue in unit.get("issues", []):
                 # 页面/关系型结论可能为追溯保留元素坐标，但未有经 Phase2 确认的
@@ -887,20 +907,29 @@ def main() -> int:
     parser.add_argument("--manifest", action="append", type=Path, default=[], help="重复传入已验收的 Phase2 manifest。")
     parser.add_argument("--result", action="append", type=Path, default=[], help="重复传入已验收且已回写证据的 Phase3/4 结果。")
     parser.add_argument("--allow-unknown-business", action="store_true", help="本地部分报告允许未归属商卡不进入业务 Tab，并在报告范围中显式标注。")
+    parser.add_argument("--evaluation-scope", default="{}", help="控制面传入的冻结评测范围 JSON；报告仅呈现此范围内已执行的结果。")
     parser.add_argument("--execution-note", action="append", default=[], help="外层批次控制器写入的未完成/阻断范围说明。")
     args = parser.parse_args()
     project = args.project_dir.resolve()
     artifact_dir = args.artifact_dir or project / ".artifacts" / "过程文件-评测结果与审计"
     output = args.output or project / "reports" / "meituan_search_experience_dashboard_五图全维度.html"
     dataset_output = args.dataset_output or project / "reports" / ".governance_dataset_五图全维度.json"
+    try:
+        evaluation_scope = json.loads(args.evaluation_scope)
+    except json.JSONDecodeError as exc:
+        raise ValueError("--evaluation-scope 必须是 JSON 对象") from exc
+    if not isinstance(evaluation_scope, dict):
+        raise ValueError("--evaluation-scope 必须是 JSON 对象")
     data = collect(
         project,
         artifact_dir,
         manifest_paths=args.manifest or None,
         result_paths=args.result or None,
+        evaluation_scope=evaluation_scope,
     )
     data["batch"] = args.batch_name or artifact_dir.name
-    data["executionNotes"] = args.execution_note
+    scope_note = str(evaluation_scope.get("note") or "").strip()
+    data["executionNotes"] = [*args.execution_note, *([scope_note] if scope_note else [])]
     data["unclassifiedCardCount"] = len(data.get("unknown") or [])
     expected_business_tabs = {code.strip() for code in args.expected_business_tabs.split(",") if code.strip()}
     if not expected_business_tabs:

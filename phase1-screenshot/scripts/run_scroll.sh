@@ -127,21 +127,73 @@ ui_fingerprint() {
   adb exec-out screencap -p 2>/dev/null | shasum -a 256 | awk '{print $1}'
 }
 
+# 只读取 ActivityManager 的 resumed activity。`dumpsys window | grep` 会列出
+# back stack 中的旧窗口，不能用它判断当前是否真的停在结果页。
+current_resumed_activity() {
+  adb shell 'dumpsys activity activities 2>/dev/null' |
+    sed -n 's/.*mResumedActivity: ActivityRecord{[^ ]* u[0-9][0-9]* \([^ ]*\) .*/\1/p' |
+    head -1
+}
+
 # 回到搜索输入页：只使用系统返回键；不再假定返回按钮或搜索框的固定坐标。
+is_search_result_activity() {
+  [[ "$(current_resumed_activity)" == *'.search.result.SearchResultActivity' ]]
+}
+
+is_search_home_activity() {
+  [[ "$(current_resumed_activity)" == *'.search.home.SearchActivity' ]]
+}
+
+is_system_overlay_active() {
+  adb shell 'dumpsys window 2>/dev/null' | grep -q 'mCurrentFocus=Window{.*NotificationShade'
+}
+
 ensure_input_page() {
-  # Do not repeatedly dump a result page before trying Back: several Huawei
-  # builds expose no result-page XML at all.  A single bounded probe preserves
-  # the case where the caller already starts on the input page.
-  if dump_ui; then
-    SEARCH_EDIT_BOUNDS=$(find_edittext_bounds)
-    if [ -n "$SEARCH_EDIT_BOUNDS" ]; then
-      log_search_calibration
-      return 0
-    fi
+  # There are exactly two permitted navigation states for this capture flow:
+  # SearchResultActivity and SearchActivity.  In particular, never keep
+  # pressing Back when the latter is already foreground merely because its XML
+  # happens to be unavailable; that would leave the user on the home page.
+  if is_system_overlay_active; then
+    echo "  !! 系统通知面板处于前台；请手动收起后重试，未发送任何返回/点击/滑动" | tee -a "$LOG"
+    return 1
   fi
+  local unknown_back_sent=0
   for i in 1 2 3 4 5 6; do
-    adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1
-    sleep 1.5
+    if is_search_home_activity; then
+      if dump_ui; then
+        SEARCH_EDIT_BOUNDS=$(find_edittext_bounds)
+        if [ -n "$SEARCH_EDIT_BOUNDS" ]; then
+          log_search_calibration
+          return 0
+        fi
+      fi
+      echo "  等待[搜索输入框]: 已在搜索页，未再发送返回键" | tee -a "$LOG"
+      sleep 1
+      continue
+    fi
+    if is_search_result_activity; then
+      RETURN_PENDING=1
+      adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1
+      sleep 1.5
+      continue
+    fi
+    # A word may lead to an unsupported/intermediate page rather than a
+    # result list.  Return once to the search flow so the next word can run;
+    # never loop Back through arbitrary pages.
+    if [ "$unknown_back_sent" -eq 0 ]; then
+      unknown_back_sent=1
+      RETURN_PENDING=1
+      echo "  当前不在搜索页或结果页：返回一次后继续下一词流程" | tee -a "$LOG"
+      adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1
+      sleep 1.5
+      continue
+    fi
+    echo "  !! 返回后仍未回到搜索页，跳过当前词" | tee -a "$LOG"
+    return 1
+  done
+  if is_search_home_activity; then
+    # One final bounded XML read gives a delayed SearchActivity a chance to
+    # expose its input, while preserving the page state if it still cannot.
     if dump_ui; then
       SEARCH_EDIT_BOUNDS=$(find_edittext_bounds)
       if [ -n "$SEARCH_EDIT_BOUNDS" ]; then
@@ -149,7 +201,7 @@ ensure_input_page() {
         return 0
       fi
     fi
-  done
+  fi
   return 1
 }
 
@@ -198,11 +250,9 @@ input_query() {
 
 restart_adb_keyboard() {
   local fallback_ime
-  # A result-page search bar may look editable in XML but has no writable
-  # InputConnection.  Return to SearchActivity before rebinding the IME.
-  adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1
-  RETURN_PENDING=1
-  sleep 0.7
+  # Call only after ensure_input_page has verified a real SearchActivity
+  # EditText.  Rebinding the IME must not send Back here: on the first query
+  # that would leave the search page and make the batch unable to start.
   fallback_ime=$(adb shell ime list -s 2>/dev/null | tr -d '\r' | grep -v '^com\.android\.adbkeyboard/' | head -1)
   [ -n "$fallback_ime" ] && adb shell ime set "$fallback_ime" >/dev/null 2>&1
   adb shell ime set com.android.adbkeyboard/.AdbIME >/dev/null 2>&1
@@ -227,13 +277,12 @@ wait_for_result_page() {
         return 0
       fi
     fi
-    # A freshly submitted Meituan search opens SearchResultActivity on the
-    # default “全部” tab.  This narrow fallback is safe only for that default
-    # tab: it performs no coordinate click and never substitutes for locating
-    # 外卖/团购 tabs by XML.
-    if adb shell dumpsys window 2>/dev/null | grep -q 'SearchResultActivity'; then
+    # 进入结果页后，首屏定位由后续的 scroll_to_top 完成；不能要求
+    # 动态页面的两帧像素完全一致，否则会把正常刷新误判为失败。
+    if is_search_result_activity; then
       RESULT_XML_AVAILABLE=0
       FRESH_DEFAULT_RESULT=1
+      echo "  校准[全部Tab]: XML 暂不可用；进入结果页后执行回顶" | tee -a "$LOG"
       return 0
     fi
     sleep 1
@@ -283,6 +332,19 @@ shot_clean() {
   done
 }
 
+shot_direct() {
+  local out="$1" sz
+  for s in 1 2 3; do
+    adb exec-out screencap -p > "$out"
+    sz=$(stat -f%z "$out" 2>/dev/null)
+    if [ -n "$sz" ] && [ "$sz" -gt 5000 ]; then
+      return 0
+    fi
+    sleep 1.0
+  done
+  return 1
+}
+
 scroll_down() {
   local before after x start_y end_y
   before=$(ui_fingerprint) || return 1
@@ -319,19 +381,15 @@ tab_is_selected() {
 # 切 tab 前必须先滚回第一屏；只点 XML 当前返回的 bounds，并验证选中态或层级变化。
 tap_tab() {
   local label="$1" bounds before after
-  # `submit_search` has already proved that a fresh result page starts on
-  # the default 全部 tab.  Do not scroll or click it again: on a loading
-  # result page those gestures can be consumed by the list and turn screen 1
-  # into a lower screen.
-  if [ "$label" = "全部" ] && [ "$FRESH_DEFAULT_RESULT" -eq 1 ]; then
-    return 0
-  fi
-  if [ "$label" = "全部" ] && [ "$RESULT_XML_AVAILABLE" -eq 0 ]; then
-    echo "  结果页 XML 暂不可用；使用本次新搜索的默认全部 Tab，不执行坐标点击" | tee -a "$LOG"
+  # Every capture begins by placing the currently visible result list at its
+  # top.  For the default 全部 tab this is the whole operation: there is no
+  # redundant tab click after the reset.  Other tabs reset first, then click.
+  scroll_to_top
+  if [ "$label" = "全部" ]; then
+    echo "  默认全部 Tab：已回顶，不重复点击 Tab" | tee -a "$LOG"
     return 0
   fi
   FRESH_DEFAULT_RESULT=0
-  scroll_to_top
   dump_ui || { echo "  !! 结果页 XML 不可用，无法动态定位 Tab '$label'" | tee -a "$LOG"; return 1; }
   bounds=$(find_tab_bounds "$label")
   [ -n "$bounds" ] || { echo "  !! 未在结果页 XML 中找到 Tab '$label'" | tee -a "$LOG"; return 1; }
@@ -361,7 +419,12 @@ shoot_screen() {
     n=$((n + 1))
   done
   if [ "$screen" = "1" ]; then
-    shot_clean "$target"; echo "  ${tabname}_1 ok" | tee -a "$LOG"
+    if [ "$tabname" = "全部" ]; then
+      shot_direct "$target" || return 1
+      echo "  ${tabname}_1 top-reset ok" | tee -a "$LOG"
+    else
+      shot_clean "$target"; echo "  ${tabname}_1 ok" | tee -a "$LOG"
+    fi
   elif [ "$screen" = "2" ]; then
     scroll_down || return 1
     shot_clean "$target"; echo "  ${tabname}_2 ok" | tee -a "$LOG"
@@ -383,11 +446,11 @@ for q in "${QUERIES[@]}"; do
   # Start each query from a real SearchActivity input connection.  On this
   # device the result-page bar is visually similar but cannot receive IME
   # commits after navigation.
-  restart_adb_keyboard
   if ! ensure_input_page; then
     echo "  !! 无法回到搜索输入页，跳过 $q" | tee -a "$LOG"
     continue
   fi
+  restart_adb_keyboard
   tap_bounds "$SEARCH_EDIT_BOUNDS" || { echo "  !! 无法点击动态定位的搜索输入框，跳过 $q" | tee -a "$LOG"; continue; }
   # 清空 + 输入 + 验证(重试3次)
   ok=0

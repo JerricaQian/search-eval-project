@@ -152,7 +152,9 @@ PAGE_EVIDENCE_REQUIREMENTS: dict[str, set[str]] = {
     "eval-2-visual-order-alignment": {"pageRegions", "sameTypeComparisons", "rating"},
     "eval-3-page-color-logic": {
         "colorLogicContractVersion", "componentColorArtifact", "componentColorSummaries",
-        "colorFamilies", "colorFamilyCount", "evidenceSource", "rating",
+        "colorFamilies", "colorFamilyCount", "dominantColorAreaRatioThreshold",
+        "effectiveUiPixelCount", "colorFamilyPixelAreas", "colorFamilyAreaRatios",
+        "dominantColorFamilies", "dominantColorCount", "evidenceSource", "rating",
     },
     "eval-4-static-component-complexity": {"firstScreenBounds", "functionalModules", "moduleCount", "rating"},
     "eval-5-browsing-flow-smoothness": {"listPositions", "visibleListPositionCount", "coverageStatus", "heterogeneousCount", "rating"},
@@ -248,9 +250,9 @@ def require_component_color_json_evidence(
 
 
 def require_page_color_component_aggregation(errors: list[str], prefix: str, row: dict[str, Any]) -> None:
-    """Validate the V3 page-colour union of component seven-colour families."""
-    if row.get("colorLogicContractVersion") != "3.0":
-        errors.append(f"{prefix}:colorLogicContractVersion_must_be_3.0")
+    """Validate V3.1 component aggregation and the dominant-colour condition."""
+    if row.get("colorLogicContractVersion") != "3.1":
+        errors.append(f"{prefix}:colorLogicContractVersion_must_be_3.1")
     require_json_derived_evidence(errors, prefix, row, "component_color_family_aggregation")
     artifact = row.get("componentColorArtifact")
     if not isinstance(artifact, str) or not artifact or not Path(artifact).is_file():
@@ -262,6 +264,8 @@ def require_page_color_component_aggregation(errors: list[str], prefix: str, row
     expected_families: set[str] = set()
     component_ids: set[str] = set()
     allowed_families = {"红", "橙", "黄", "绿", "青", "蓝", "紫"}
+    expected_effective_pixels = 0
+    expected_areas = {family: 0 for family in allowed_families}
     for index, summary in enumerate(summaries, start=1):
         item_prefix = f"{prefix}:componentColorSummaries_{index}"
         if not isinstance(summary, dict):
@@ -282,6 +286,21 @@ def require_page_color_component_aggregation(errors: list[str], prefix: str, row
         if not isinstance(count, int) or count != len(families):
             errors.append(f"{item_prefix}_colorFamilyCount_must_match_colorFamilies")
         expected_families.update(families)
+        effective_pixels = summary.get("effectiveUiPixelCount")
+        if not isinstance(effective_pixels, int) or effective_pixels <= 0:
+            errors.append(f"{item_prefix}_effectiveUiPixelCount_must_be_positive_integer")
+        else:
+            expected_effective_pixels += effective_pixels
+        if summary.get("dominantColorMeasurementStatus") != "measured":
+            errors.append(f"{item_prefix}_dominantColorMeasurementStatus_must_be_measured")
+        areas = summary.get("colorFamilyPixelAreas")
+        if not isinstance(areas, dict) or set(areas) != allowed_families or any(
+            not isinstance(value, int) or value < 0 for value in areas.values()
+        ):
+            errors.append(f"{item_prefix}_colorFamilyPixelAreas_invalid")
+        else:
+            for family, value in areas.items():
+                expected_areas[family] += value
     families = row.get("colorFamilies")
     count = row.get("colorFamilyCount")
     if not isinstance(families, list) or any(family not in allowed_families for family in families):
@@ -294,7 +313,45 @@ def require_page_color_component_aggregation(errors: list[str], prefix: str, row
     if not isinstance(count, int) or count != len(families):
         errors.append(f"{prefix}:colorFamilyCount_must_match_colorFamilies")
         return
-    expected_rating = "优秀" if count <= 5 else "达标" if count == 6 else "不达标"
+    threshold = row.get("dominantColorAreaRatioThreshold")
+    if not isinstance(threshold, (int, float)) or abs(float(threshold) - 0.05) > 1e-12:
+        errors.append(f"{prefix}:dominantColorAreaRatioThreshold_must_be_0.05")
+        return
+    effective_pixels = row.get("effectiveUiPixelCount")
+    if not isinstance(effective_pixels, int) or effective_pixels != expected_effective_pixels or effective_pixels <= 0:
+        errors.append(f"{prefix}:effectiveUiPixelCount_must_equal_component_sum")
+        return
+    areas = row.get("colorFamilyPixelAreas")
+    if not isinstance(areas, dict) or set(areas) != allowed_families or any(
+        not isinstance(value, int) or value < 0 for value in areas.values()
+    ):
+        errors.append(f"{prefix}:colorFamilyPixelAreas_invalid")
+        return
+    if areas != expected_areas:
+        errors.append(f"{prefix}:colorFamilyPixelAreas_must_equal_component_sum")
+    ratios = row.get("colorFamilyAreaRatios")
+    if not isinstance(ratios, dict) or set(ratios) != allowed_families or any(
+        not isinstance(value, (int, float)) or value < 0 for value in ratios.values()
+    ):
+        errors.append(f"{prefix}:colorFamilyAreaRatios_invalid")
+        return
+    for family in allowed_families:
+        expected_ratio = areas[family] / effective_pixels
+        if abs(float(ratios[family]) - expected_ratio) > 1e-9:
+            errors.append(f"{prefix}:colorFamilyAreaRatios_must_match_areas")
+            break
+    dominant_families = row.get("dominantColorFamilies")
+    expected_dominant = {family for family in allowed_families if areas[family] / effective_pixels > threshold}
+    if not isinstance(dominant_families, list) or set(dominant_families) != expected_dominant:
+        errors.append(f"{prefix}:dominantColorFamilies_must_match_area_threshold")
+    dominant_count = row.get("dominantColorCount")
+    if not isinstance(dominant_count, int) or dominant_count != len(expected_dominant):
+        errors.append(f"{prefix}:dominantColorCount_must_match_dominantColorFamilies")
+        return
+    color_rating = "优秀" if count <= 5 else "达标" if count == 6 else "不达标"
+    dominant_rating = "优秀" if 1 <= dominant_count <= 2 else "达标" if dominant_count == 3 else "不达标"
+    rating_order = {"不达标": 0, "达标": 1, "优秀": 2}
+    expected_rating = min((color_rating, dominant_rating), key=lambda rating: rating_order[rating])
     if row.get("rating") != expected_rating:
         errors.append(f"{prefix}:rating_must_be_{expected_rating}")
 
