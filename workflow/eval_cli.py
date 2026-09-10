@@ -715,6 +715,15 @@ def command_prepare(args: argparse.Namespace) -> int:
         evaluation_selection = parse_evaluation_selection(args.evaluation_selection)
     except (TypeError, json.JSONDecodeError, ValueError) as exc:
         return emit({**payload, "status": "invalid_evaluation_selection", "error": str(exc)}, 2)
+    if evaluation_selection is None or not args.report_outlet:
+        payload.update({
+            "status": "awaiting_evaluation_config",
+            "requiredConfig": {
+                "evaluationSelection": "full_19, dimensions, or custom_skills",
+                "reportOutlet": ["none", "local_html", "nocode"],
+            },
+        })
+        return emit(payload)
     if args.phase2_max_attempts < 1 or args.phase2_max_attempts > 10:
         return emit({**payload, "status": "invalid_phase2_attempt_budget", "error": "phase2_max_attempts_must_be_1_to_10"}, 2)
     copied_paths = {
@@ -1110,6 +1119,7 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
         manifests: list[str] = []
         eval_results: list[str] = []
         outlets: set[str] = set()
+        scopes: set[str] = set()
         planned_queries: list[str] = []
         skipped_tasks: list[dict[str, str]] = []
         batch_artifact_dir = project_dir / ".artifacts" / "过程文件-评测结果与审计" / args.batch_id
@@ -1160,7 +1170,14 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
             queries.append(query)
             manifests.extend(artifacts["manifests"])
             eval_results.append(str(eval_result))
-            outlets.add(str(workflow_args.get("reportOutlet") or "local_html"))
+            outlet = str(workflow_args.get("reportOutlet") or "").strip()
+            if outlet not in {"none", "local_html", "nocode"}:
+                raise ValueError(f"batch_report_outlet_invalid:{outlet or 'missing'}")
+            outlets.add(outlet)
+            scope = workflow_args.get("evaluationScope")
+            if not isinstance(scope, dict):
+                raise ValueError("batch_task_evaluation_scope_missing")
+            scopes.add(json.dumps(scope, ensure_ascii=False, sort_keys=True, separators=(",", ":")))
 
         skipped_query_names = {item["query"] for item in skipped_tasks}
         if skipped_tasks and (not args.batch_state or skipped_query_names != abandoned_queries):
@@ -1172,6 +1189,21 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
             raise ValueError("phase5_batch_requires_completed_query_tasks")
         if len(outlets) != 1:
             raise ValueError("batch_report_outlet_mismatch")
+        if len(scopes) != 1:
+            raise ValueError("batch_report_evaluation_scope_mismatch")
+        report_outlet = next(iter(outlets))
+        if report_outlet == "none":
+            return emit({
+                "ok": True,
+                "batchId": args.batch_id,
+                "queries": queries,
+                "plannedQueries": planned_queries,
+                "skippedTasks": skipped_tasks,
+                "reportPath": "",
+                "datasetPath": "",
+                "reportOutlet": "none",
+                "phase5": {"skipped": True, "reason": "report_not_requested"},
+            })
 
         report_dir = project_dir / "reports"
         report_path = args.output or report_dir / f"meituan_search_experience_dashboard_{args.batch_id}.html"
@@ -1186,6 +1218,7 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
             "--dataset-output", str(dataset_path),
             "--expected-business-tabs", expected_business_tabs,
             "--allow-unknown-business",
+            "--evaluation-scope", next(iter(scopes)),
         ]
         for query in queries:
             command.extend(["--expected-query", query])
@@ -1208,7 +1241,7 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
             "skippedTasks": skipped_tasks,
             "reportPath": report_file,
             "datasetPath": dataset_file,
-            "reportOutlet": next(iter(outlets)),
+            "reportOutlet": report_outlet,
             "phase5": summary,
         })
     except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -1250,9 +1283,12 @@ def parser() -> argparse.ArgumentParser:
     prepare.add_argument(
         "--evaluation-selection",
         default="",
-        help='JSON：{"mode":"full_19"}、{"mode":"dimensions","dimensions":[...]} 或 {"mode":"custom_skills","skills":[{"dimension":"...","skill":"..."}]}。未传时兼容 --dimensions。',
+        help='评测前确认的范围 JSON：{"mode":"full_19"}、{"mode":"dimensions","dimensions":[...]} 或 {"mode":"custom_skills","skills":[{"dimension":"...","skill":"..."}]}。',
     )
-    prepare.add_argument("--report-outlet", choices=["local_html", "nocode"], default="local_html")
+    prepare.add_argument(
+        "--report-outlet", default="", choices=["none", "local_html", "nocode"],
+        help="评测前经用户确认的报告出口：none 不生成报告；local_html 生成本地 HTML；nocode 在本地报告通过后导入 NoCode。",
+    )
     prepare.add_argument("--min-bytes", type=int, default=5001)
     prepare.add_argument("--dry-run", action="store_true")
     prepare.add_argument("--run-id", default="", help="Unique portable run id; defaults to a generated id.")

@@ -382,8 +382,10 @@ if (typeof evaluationSelection === 'string') {
     throw new Error('evaluationSelection 字符串必须是合法 JSON：' + error.message)
   }
 }
-const legacySelectionFallback = evaluationSelection == null
-if (legacySelectionFallback) evaluationSelection = { mode: 'dimensions', dimensions: legacyDimensions }
+if (evaluationSelection == null) {
+  throw new Error('evaluationSelection 必须在评测前由用户确认；不得使用默认维度')
+}
+const legacySelectionFallback = false
 if (!evaluationSelection || typeof evaluationSelection !== 'object' || Array.isArray(evaluationSelection)) {
   throw new Error('evaluationSelection 必须是对象，mode 为 full_19、dimensions 或 custom_skills')
 }
@@ -418,10 +420,10 @@ if (annotateScenes.length) throw new Error('annotateScenes 已停用：Phase2 �
 const granularity = A.granularity ? A.granularity : 'element'
 if (granularity !== 'element') throw new Error('当前标准工作流只接受 granularity=element；组件/卡片与页面框架评测也必须消费同一份最小元素清单，再按各 Skill 聚合')
 const enableAnnotationAudit = A.enableAnnotationAudit !== false
-// reportOutlet 仅描述整批完成后的最终出口；词级 Evaluation Agent 不生成报告。
-const reportOutlet = A.reportOutlet ? A.reportOutlet : 'local_html'
-if (!['local_html', 'nocode'].includes(reportOutlet)) {
-  throw new Error('reportOutlet 只允许 local_html/nocode，收到: ' + reportOutlet)
+// reportOutlet 必须在评测前由用户确认；词级 Evaluation Agent 不生成报告。
+const reportOutlet = typeof A.reportOutlet === 'string' ? A.reportOutlet.trim() : ''
+if (!['none', 'local_html', 'nocode'].includes(reportOutlet)) {
+  throw new Error('reportOutlet 必须由用户确认，只允许 none/local_html/nocode，收到: ' + (reportOutlet || 'missing'))
 }
 // 可移植前门会提供 runId，并把它复用为 batch/tag/rerun，保证同词并发不共用产物。
 // 旧调用仍可不传 runId，但会保留旧目录语义并在日志中明确提示风险。

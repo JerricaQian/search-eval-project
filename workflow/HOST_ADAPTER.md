@@ -31,17 +31,18 @@ Claude Code、Codex、Catpaw 或其他 Harness 都使用同一个 `MEITUAN_EVAL_
 
 身份映射遵守 `workflow/screenshot-identity.schema.json`，每项必须含 `sourcePath/sha256/query/tab/screen/identitySource/confidence`，其中自动识别使用 `identitySource=current_pixels`。CLI 会核验路径属于本次导入、当前字节 SHA 一致；一个映射含多个 query 时返回 `ready_for_query_task_split`，外层按词各建一个任务。若用户已经明确确认 query，也可以继续使用 `--query` + `--selected-screenshot`，该路径不依赖文件名。
 
-可选地通过 `--evaluation-selection` 指定评测范围；支持完整 19 项、按维度或自定义 Skill。例如：
+必须在评测前通过 `--evaluation-selection` 显式冻结用户确认的评测范围，并通过 `--report-outlet` 明确用户是否要报告（`none`、`local_html` 或 `nocode`）；支持完整 19 项、按维度或自定义 Skill。例如：
 
 ```bash
 <pythonBin> workflow/eval_cli.py prepare-evaluate \
   --project-dir "<项目绝对路径>" \
   --source-dir "<外部截图目录>" \
   --query "<已确认的搜索词>" \
-  --evaluation-selection '{"mode":"custom_skills","skills":[{"dimension":"组件/卡片维度","skillId":"eval-7"}]}'
+  --evaluation-selection '{"mode":"custom_skills","skills":[{"dimension":"phase3-card_or_component-eval","skill":"eval-7-info-authenticity"}]}' \
+  --report-outlet local_html
 ```
 
-正式批量治理报告要求本批各词均执行完整 19 项；部分评测只交付词级可核验产物。
+只要用户选择报告，任何已确认范围的批次都可生成治理报告；报告与数据集必须明确显示已执行范围，不能暗示完成完整 19 项。
 
 输出中的 `portableTask.taskPath` 是唯一要交给 Harness 的任务入口；其中已有唯一
 `runId`、隔离后的 `batchId/tag/rerunId`、截图路径、契约路径和回执命令。可用

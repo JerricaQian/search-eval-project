@@ -22,7 +22,7 @@ workflow/meituan_eval_workflow.js
 1. 完整读取项目根 `CLAUDE.md`、存在时的 `AGENTS.md`、根 `README.md`；
 2. 识别请求属于单图、多图/目录、现场截图、已有报告复核还是能力咨询；
 3. 对评测任务读取本文件、`workflow/meituan_eval_workflow.js`，并定位所选阶段的 `SKILL.md`；
-4. 先回复用户：已识别的任务类型、输入范围、下一步阶段、缺失输入和最终产物。
+4. 先回复用户：已识别的任务类型、输入范围、下一步阶段、缺失输入和最终产物；任何评测必须询问并获得确认的评测范围，以及是否生成报告（不生成、本地 HTML 或 NoCode）。
 
 这一步是门禁：未完成时不得对截图打分、罗列 UI 问题，或宣称已评测。人工视觉判断只能作为流水线结束后的“人工复核”，不能代替 Phase2～4 与批次级 Phase5。
 
@@ -65,7 +65,7 @@ manifest，也不重命名。无 `--query` 时返回可供用户选择的截图�
 2. **仅评测已有截图**
 3. **自动化截图 + 评测**
 
-只询问当前模式需要的参数，不能提前追问无关项目。
+只询问当前模式需要的参数，不能提前追问无关项目。任何包含评测的模式在 Phase2 前都必须明确确认 `evaluationSelection` 和 `reportOutlet`；`reportOutlet` 为 `none`、`local_html` 或 `nocode`，不得默认为 `local_html`。
 
 | 模式 | 询问 | 不询问 |
 |---|---|---|
@@ -147,7 +147,7 @@ Workflow 返回规范截图组；对 `IMG_*.PNG` 等未命名图会自动读取�
 }
 ```
 
-`reportOutlet` 可为 `local_html` 或 `nocode`，表示整批完成后的最终出口，不会触发子 Agent 生成单词 HTML。选择 `nocode` 时，仍须先完成整批本地 HTML 和治理数据集，再按 `phase5-report/nocode-dashboard/SKILL.md` 获得用户授权后处理线上出口。
+`reportOutlet` 必须在评测前确认：`none` 表示不生成报告；`local_html` 表示整批完成后生成本地 HTML 与数据集；`nocode` 表示先生成本地 HTML 与数据集，再按 `phase5-report/nocode-dashboard/SKILL.md` 获得用户授权后处理线上出口。任意已确认的评测范围都可以生成报告，且报告必须标注“已选 X/19 项”；词级子 Agent 始终不生成 HTML。
 
 ### Phase3 评测范围选择
 
