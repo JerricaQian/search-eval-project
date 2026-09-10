@@ -34,16 +34,17 @@ governance, or agent capabilities:
 
 ## Portable front door
 
-When a host cannot execute `workflow/meituan_eval_workflow.js` directly, use
-`python3 workflow/eval_cli.py prepare-evaluate` to run the copy and discovery
-preflight. For unnamed images the host first reads current pixels and supplies a
-SHA-bound `screenshot.identity-map`; filenames never block evaluation. When a
-query is selected it emits a `MEITUAN_EVAL_TASK` portable
-task with a unique `runId`; queries in one report share a `batchId`. Give the
-host only each `taskPath`, run its completion command, then use
-`finalize-batch` once all expected receipts are completed. See
-`workflow/HOST_ADAPTER.md`. The CLI does not claim to execute the
-LLM-dependent Phase3 judgement.
+All hosts use `python3 workflow/eval_cli.py prepare-evaluate` to create the same
+`MEITUAN_EVAL_TASK`. For unnamed images the host first reads current pixels and
+supplies a SHA-bound `screenshot.identity-map`; filenames never block
+evaluation. When a query is selected the task has a unique `runId`; queries in
+one report share a `batchId`. Before spawning Claude, Codex, Catpaw, or another
+agent, run `prepare-dispatch --task <taskPath> --host <host>` with the host's
+actual capabilities. Give the agent only the returned `taskPath`, run its
+completion command, then use `finalize-batch` once all expected receipts are
+terminal. `workflow/meituan_eval_workflow.js` is only the Workflow-DSL adapter
+over this protocol. See `workflow/HOST_ADAPTER.md`. The CLI does not claim to
+execute the LLM-dependent Phase3 judgement.
 
 ## Local artifact publication policy
 

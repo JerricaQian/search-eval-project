@@ -23,6 +23,8 @@ PROJECT_DIR = Path(__file__).resolve().parents[1]
 HANDOFF_PROTOCOL = "MEITUAN_EVAL_HANDOFF"
 TASK_PROTOCOL = "MEITUAN_EVAL_TASK"
 BATCH_PROTOCOL = "MEITUAN_EVAL_BATCH"
+DISPATCH_PROTOCOL = "MEITUAN_AGENT_DISPATCH"
+SUPPORTED_HOSTS = ("claude", "codex", "catpaw", "generic")
 RUN_ID_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-")
 STAGES = ("stageA", "stageB", "stageC", "stageD")
 
@@ -169,7 +171,7 @@ def resolve_evaluation_scope(project_dir: Path, workflow_args: dict[str, Any]) -
         workflow_args.get("dimensions"),
     )
     required_reads = [
-        ".claude/agents/phase234-query-pipeline.md",
+        "workflow/contracts/phase234-query-pipeline.md",
         "phase3-evaluation/SKILL.md",
         "phase3-evaluation/common/references/knowledge-index.md",
     ]
@@ -267,10 +269,17 @@ def portable_task(project_dir: Path, workflow_args: dict[str, Any], run_id: str,
         "projectDir": str(project_dir),
         "workflowArgs": workflow_args,
         "contractFiles": [
-            str(project_dir / ".claude/agents/phase234-query-pipeline.md"),
-            str(project_dir / ".claude/contracts/evaluation-result.schema.json"),
+            str(project_dir / "workflow/contracts/phase234-query-pipeline.md"),
+            str(project_dir / "workflow/contracts/evaluation-result.schema.json"),
             str(project_dir / "workflow/screenshot-identity.schema.json"),
         ],
+        "dispatch": {
+            "protocol": DISPATCH_PROTOCOL,
+            "agentRole": "evaluation-agent",
+            "inputMode": "task_path_only",
+            "canonicalContract": str(project_dir / "workflow/contracts/phase234-query-pipeline.md"),
+            "supportedHosts": list(SUPPORTED_HOSTS),
+        },
         "requiredCapabilities": {
             "readImagePixels": True,
             "readFiles": True,
@@ -307,6 +316,65 @@ def portable_task(project_dir: Path, workflow_args: dict[str, Any], run_id: str,
         "resultPath": str(result_path),
         "completionCommand": task["completionCommand"],
     }
+
+
+def command_prepare_dispatch(args: argparse.Namespace) -> int:
+    """Build the same task-path-only dispatch envelope for every Harness.
+
+    The CLI deliberately does not spawn an agent: Claude, Codex and Catpaw
+    expose different process/agent APIs.  It does own the portable boundary so
+    those adapters receive identical instructions and capability semantics.
+    """
+    try:
+        task_path = args.task.resolve()
+        task = read_json(task_path)
+        if not isinstance(task, dict) or task.get("protocol") != TASK_PROTOCOL:
+            raise ValueError("task_protocol_invalid")
+        project_dir = Path(str(task.get("projectDir") or "")).resolve()
+        try:
+            task_path.relative_to(project_dir)
+        except ValueError as exc:
+            raise ValueError("task_path_outside_project") from exc
+        required = task.get("requiredCapabilities")
+        if not isinstance(required, dict) or not required:
+            raise ValueError("task_required_capabilities_missing")
+        required_names = {str(name) for name, value in required.items() if value is True}
+        declared = {str(name) for name in args.capability}
+        unknown = sorted(declared - set(required))
+        if unknown:
+            raise ValueError(f"unknown_host_capabilities:{','.join(unknown)}")
+        missing = sorted(required_names - declared) if declared else sorted(required_names)
+        if not declared:
+            status = "awaiting_capability_confirmation"
+        elif missing:
+            status = "blocked_preflight"
+        else:
+            status = "ready_for_dispatch"
+        claude_definition = project_dir / ".claude/agents/evaluation-agent.md"
+        binding = {
+            "mode": "native_agent_definition" if args.host == "claude" else "portable_task",
+            "agentType": "evaluation-agent",
+            "definitionFile": str(claude_definition) if args.host == "claude" else "",
+        }
+        payload = {
+            "ok": status != "blocked_preflight",
+            "protocol": DISPATCH_PROTOCOL,
+            "host": args.host,
+            "status": status,
+            "agentRole": "evaluation-agent",
+            "taskPath": str(task_path),
+            "input": {"mode": "task_path_only", "value": str(task_path)},
+            "prompt": f"你是 Evaluation Agent。唯一输入是 MEITUAN_EVAL_TASK taskPath：\n{task_path}",
+            "requiredCapabilities": required,
+            "declaredCapabilities": sorted(declared),
+            "missingCapabilities": missing,
+            "binding": binding,
+            "resultPath": str(task.get("resultPath") or ""),
+            "completionCommand": task.get("completionCommand", []),
+        }
+        return emit(payload, 2 if status == "blocked_preflight" else 0)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        return emit({"ok": False, "protocol": DISPATCH_PROTOCOL, "host": args.host, "error": str(exc)}, 2)
 
 
 def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -1193,6 +1261,15 @@ def parser() -> argparse.ArgumentParser:
                          help="Bounded Phase2 candidate/review/publish attempts per screenshot.")
     prepare.add_argument("--runs-dir", type=Path, help="Defaults to <project-dir>/runs.")
     prepare.set_defaults(handler=command_prepare)
+
+    dispatch = commands.add_parser("prepare-dispatch", help="Emit one host-neutral task-path-only agent dispatch envelope.")
+    dispatch.add_argument("--task", required=True, type=Path)
+    dispatch.add_argument("--host", required=True, choices=SUPPORTED_HOSTS)
+    dispatch.add_argument(
+        "--capability", action="append", default=[],
+        help="Repeat for each capability the current host actually provides. With none, the envelope awaits host confirmation.",
+    )
+    dispatch.set_defaults(handler=command_prepare_dispatch)
 
     finalize = commands.add_parser("finalize-evaluate", help="Verify a host result and write an immutable delivery receipt.")
     finalize.add_argument("--task", required=True, type=Path)

@@ -42,7 +42,8 @@ RELATION_SCRIPT = PROJECT / "phase3-evaluation/dimensions/card-component/scripts
 CURRENT_MEASUREMENT_TOOLS = {
     "eval-2-color-logic-single-element": PROJECT / "phase3-evaluation/dimensions/single-element/skills/eval-2-color-logic-single-element/scripts/count_element_colors.py",
     "eval-5-info-hierarchy": PROJECT / "phase3-evaluation/dimensions/card-component/skills/eval-5-info-hierarchy/scripts/extract_component_metrics.py",
-    "eval-3-page-color-logic": PROJECT / "phase3-evaluation/dimensions/page-framework/skills/eval-3-page-color-logic/scripts/page_color_analysis.py",
+    # Historical V2 validation only; active V3 page colour has no page-pixel script.
+    "eval-3-page-color-logic": PROJECT / "tools/maintenance/legacy/page_color_analysis_v2.py",
 }
 TARGET_SKILLS = {
     ("phase3-single_element-eval", "eval-4-info-authenticity-single-element"),
@@ -681,7 +682,7 @@ def main() -> int:
             "workflowArgs": {**source_task["workflowArgs"], "runId": run_id, "batchId": args.batch_id, "tag": run_id,
                              "rerunId": run_id, "artifactRunDir": str(artifact), "query": query,
                              "evaluationSelection": {"mode": "full_19"}},
-            "contractFiles": [str(PROJECT / ".claude/agents/phase234-query-pipeline.md"), str(PROJECT / ".claude/contracts/evaluation-result.schema.json")],
+            "contractFiles": [str(PROJECT / "workflow/contracts/phase234-query-pipeline.md"), str(PROJECT / "workflow/contracts/evaluation-result.schema.json")],
             "resultPath": str(agent_result_path),
             "completionCommand": [sys.executable, str(FINALIZER), "finalize-evaluate", "--task", str(task_path), "--result", str(agent_result_path)],
             "hostInstructions": ["Offline Golden Atomic v3 semantic re-evaluation; validate loader audit and all Stage A-D artifacts before finalizing."],

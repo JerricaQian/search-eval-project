@@ -39,19 +39,34 @@ def main() -> int:
         recognition = payload.get("recognition", {})
         if recognition.get("phase3Ready") is not True or recognition.get("wholePageGate") is not True:
             raise ValueError(f"manifest_not_phase3_ready:{manifest}")
+        prepared_dependencies: dict[str, Path] = {}
         for skill in sorted(targets):
             requirement = requirements.get("skills", {}).get(skill, {})
-            if requirement.get("policy") != "required_deterministic_pixel_measurement":
+            policy = requirement.get("policy")
+            if policy not in {
+                "required_deterministic_pixel_measurement",
+                "required_deterministic_json_computation",
+            }:
                 continue
-            output = args.output_dir / f"{manifest.stem}.{skill}.json"
-            command = [
-                sys.executable, str(ROOT / requirement["script"]),
-                "--project-dir", str(ROOT), "--scenes", str(manifest),
-                "--skill", skill, "--manifest-input", str(manifest), "--output", str(output),
-            ]
-            completed = subprocess.run(command, cwd=ROOT, check=False, capture_output=True, text=True)
-            if completed.returncode != 0:
-                raise ValueError(f"measurement_failed:{skill}:{completed.stderr.strip() or completed.stdout.strip()}")
+            dependency_key = str(requirement.get("dependencyKey") or skill)
+            output = prepared_dependencies.get(dependency_key)
+            if output is None:
+                output = args.output_dir / f"{manifest.stem}.{dependency_key}.json"
+                if policy == "required_deterministic_pixel_measurement":
+                    command = [
+                        sys.executable, str(ROOT / requirement["script"]),
+                        "--project-dir", str(ROOT), "--scenes", str(manifest),
+                        "--skill", skill, "--manifest-input", str(manifest), "--output", str(output),
+                    ]
+                else:
+                    command = [
+                        sys.executable, str(ROOT / requirement["script"]),
+                        "--manifest", str(manifest), "--output", str(output),
+                    ]
+                completed = subprocess.run(command, cwd=ROOT, check=False, capture_output=True, text=True)
+                if completed.returncode != 0:
+                    raise ValueError(f"measurement_failed:{skill}:{completed.stderr.strip() or completed.stdout.strip()}")
+                prepared_dependencies[dependency_key] = output
             measured = load(output)
             missing = [key for key in requirement.get("requiredOutput", []) if key not in measured]
             if missing:

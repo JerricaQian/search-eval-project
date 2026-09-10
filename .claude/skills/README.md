@@ -5,8 +5,8 @@
 当前项目只有一套活动中的 Phase2→4 契约：
 
 - Task protocol：`MEITUAN_EVAL_TASK`
-- Agent contract：`.claude/agents/phase234-query-pipeline.md`
-- Result schema：`.claude/contracts/evaluation-result.schema.json`
+- Agent contract：`workflow/contracts/phase234-query-pipeline.md`
+- Result schema：`workflow/contracts/evaluation-result.schema.json`
 
 未命名但可读取的截图属于有效输入。发现器将其放入 `unlabeledGroups`，宿主通过当前像素生成 `screenshot.identity-map`，随后按 query 创建词级任务。文件名不能成为评测阻断条件。
 

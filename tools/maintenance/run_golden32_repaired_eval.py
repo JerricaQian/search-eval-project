@@ -29,7 +29,9 @@ SCOPE_FILE = Path("/tmp/golden32-eval-scope.json")
 TAXONOMY = PROJECT / "phase2-card-annotation/references/search_card_taxonomy.v1.json"
 COLOR_SCRIPT = PROJECT / "phase3-evaluation/dimensions/single-element/skills/eval-2-color-logic-single-element/scripts/count_element_colors.py"
 HIERARCHY_SCRIPT = PROJECT / "phase3-evaluation/dimensions/card-component/skills/eval-5-info-hierarchy/scripts/extract_component_metrics.py"
-PAGE_COLOR_SCRIPT = PROJECT / "phase3-evaluation/dimensions/page-framework/skills/eval-3-page-color-logic/scripts/page_color_analysis.py"
+# Historical V2 golden repairs retain their original page-pixel contract.  The
+# active V3 page Skill aggregates component seven-colour results instead.
+PAGE_COLOR_SCRIPT = PROJECT / "tools/maintenance/legacy/page_color_analysis_v2.py"
 RELATION_SCRIPT = PROJECT / "phase3-evaluation/dimensions/card-component/scripts/extract_phase3_relation_candidates.py"
 VALIDATOR = PROJECT / "scripts/validate_eval_results.py"
 EVIDENCE_SCRIPT = PROJECT / "phase4-issue-evidence/scripts/generate_issue_evidence.py"

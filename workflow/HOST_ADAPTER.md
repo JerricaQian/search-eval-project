@@ -1,8 +1,10 @@
 # 跨 Harness 最小接入
 
 `workflow/meituan_eval_workflow.js` 是支持其 DSL 的宿主 adapter，不是通用执行器。
-Claude Code、Codex、Catpaw 或其他 Harness 都使用同一个轻量交接文件，避免复制整段
-Phase2～4 prompt。
+Claude Code、Codex、Catpaw 或其他 Harness 都使用同一个 `MEITUAN_EVAL_TASK` 和
+`MEITUAN_AGENT_DISPATCH`，避免复制整段 Phase2～4 prompt。正式业务契约位于
+`workflow/contracts/phase234-query-pipeline.md`；`.claude/agents/` 只保留 Claude
+按名称加载的薄绑定。
 
 ## 1. 创建不可变任务
 
@@ -47,11 +49,32 @@ Phase2～4 prompt。
 `workflowArgs.pythonBin` 是创建任务时实际运行 CLI 的解释器；Harness 必须原样传入并用它
 执行所有 Python 脚本，不假定项目 `.venv`、`python3` 别名或 macOS 工具存在。
 
-## 2. Harness 只做一件事
+## 2. 统一生成派发信封
+
+所有宿主在启动 Agent 前运行同一条命令，并只声明自己实际具备的能力：
+
+```bash
+<pythonBin> workflow/eval_cli.py prepare-dispatch \
+  --task "<taskPath>" --host <claude|codex|catpaw|generic> \
+  --capability readImagePixels --capability readFiles \
+  --capability runCommands --capability writeJson
+```
+
+输出固定为 `MEITUAN_AGENT_DISPATCH`，其中 `input.mode=task_path_only`。Claude
+输出中的 `binding.mode=native_agent_definition` 允许继续使用
+`.claude/agents/evaluation-agent.md`；Codex、Catpaw 和 generic 使用
+`binding.mode=portable_task`，由各自宿主的子 Agent API 启动。除这个启动动作外，
+三者收到相同的 taskPath、prompt、能力门禁、resultPath 和 completionCommand。
+
+不传 `--capability` 时只返回 `awaiting_capability_confirmation`，不宣称可以执行；
+只声明部分能力时返回 `blocked_preflight` 和 `missingCapabilities`。适配器不得把未
+实际具备的能力写入命令。
+
+## 3. Harness 只做一件事
 
 先确认宿主实际具备读图、读文件、运行命令和写 JSON 权限。新建 `MEITUAN_EVAL_TASK` 的 `requiredCapabilities` 是强制预检；无法读取图像像素时写 `blockedAt=preflight`、`error=model_vision_not_supported`，不要派发 Phase2。
 
-通过预检后，让一个 Evaluation Agent：
+`prepare-dispatch` 返回 `ready_for_dispatch` 后，让一个 Evaluation Agent：
 
 1. 读取 `<taskPath>`，再读取其中 `contractFiles`；
 2. 对 `workflowArgs.query` 完整执行 Phase2 → Phase3 → Phase4；Stage D 只返回空交接对象；
@@ -62,7 +85,7 @@ Phase2～4 prompt。
 `workflow/meituan_eval_workflow.js`，并将返回对象中的 `evaluationResult` 写到 `resultPath` 后执行
 同一条 completion command。
 
-## 3. 只认可本地回执
+## 4. 只认可本地回执
 
 `finalize-evaluate` 会拒绝：缺失 Stage A～D、`ok=true` 但 Phase2～4 产物不完整、审计 JSON
 不是 `valid=true`、空文件、项目外路径或重复的成功写入。成功时创建一次性的
@@ -74,7 +97,7 @@ Phase2～4 prompt。
 
 若评测完成后需要规范名称，运行 `workflow/materialize_screenshot_aliases.py`，同时传入 completed `receipt.json`，把身份映射物化为独立规范副本和 `screenshot.canonical-alias-map`。脚本在没有完成回执时拒绝运行，且永不移动、覆盖或删除原始 `IMG_*.PNG`；Tab/屏号仍不确定的条目保持原名并记录 skipped，不猜写。
 
-## 4. 全部词终态后统一生成 Phase5
+## 5. 全部词终态后统一生成 Phase5
 
 先用 `prepare-batch` 冻结所有预期 task。每批最多并发 3 个词级 Evaluation Agent；每轮结束用 `advance-batch` 核验回执。失败词通过 `create-batch-retry` 生成新的隔离任务并交给新的 Evaluation Agent，最多三次；第三次仍失败标记 abandoned。所有词进入 completed/abandoned 后执行一次：
 

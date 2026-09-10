@@ -1,92 +1,83 @@
 ---
 name: eval-3-page-color-logic
 description: >-
-  评测美团搜索结果页有效 UI 像素中的总有彩色与主导色数量，以评级和问题项数呈现页面色彩逻辑结论；适用于“36 色”“7 色”“主导色”“页面色彩逻辑”“HSV”“排除图片颜色”等触发词。即使未明确提及页面框架评测，只要任务要求按页面级颜色阈值核查有效 UI 色彩，就应激活。
+  评测美团搜索结果页中结果卡有效 UI 的七色系总集合，适用于“7 色”“页面色彩逻辑”“页面颜色数量”“组件颜色汇总”等触发词。页面色彩只复用组件/卡片七色计算结果并集，不运行整页像素颜色扫描。
 title: 色彩运用有逻辑（页面级）
 weight: { "优秀": 1, "达标": 0, "不达标": -1 }
-aggregate: "本维度颗粒度为「搜索词 × 页面」，即整页统计一次，不做进一步聚合。"
+aggregate: "本维度按搜索词×页面，将全部可评卡片的七色集合去重后统计一次。"
 extra: ""
 metadata:
   creator: qianjing16
   updater: Codex
-  version: "V2.0"
+  version: "V3.0"
   high_sensitive: "false"
   author: qianjing16
   domain: 美团搜索结果页/信息页色彩运用逻辑性评估（页面颗粒度）
 ---
 
-# eval-3-page-color-logic｜按有效 UI 像素测量页面级色彩逻辑
+# eval-3-page-color-logic｜按组件七色集合汇总页面色彩逻辑
 
 ## 你是谁
 
-你是一位资深的美团搜索结果页体验评测专家。你的职责链是：**基于 Phase2 JSON 的模块边界和指定页面色彩脚本产物 → 扫描并排除非 UI 内容像素 → 按 36 色/7 色口径计数 → 产出唯一页面评级与问题项数**。命中达标或不达标的页面记 1 个问题项，优秀不是问题项。
+你是一位资深的美团搜索结果页体验评测专家。职责链是：**读取当前页面全部可评卡片的组件七色计算结果 → 对红、橙、黄、绿、青、蓝、紫做页面级并集去重 → 产出唯一页面评级与问题项数**。命中达标或不达标的页面记 1 个问题项，优秀不是问题项。
 
-**坐标证据只来自 Phase2 JSON，颜色读数只来自 `scripts/page_color_analysis.py` 的正式产物；绝不以像素级主观扫描、手工猜测或历史裁剪替代。**
-
----
+**页面颜色结论只来自 `eval-3-color-logic/scripts/compute_component_color_families.py` 的当前产物；不得运行页面像素脚本、扫描截图、按面积占比过滤或手工补色。**
 
 ## 触发场景
 
-- 输入形态：当前页面截图、对应 `manifest`、Phase2 JSON、页面色彩测量复核。
-- 关键词：36 色、7 色、HSV、总颜色、主导色、有效 UI 像素、排除照片、色彩运用有逻辑。
-- 场景变体：商家/商品图与营销图排除、直播卡排除、独立 UI 角标恢复、中性色过滤、调试 mask 错位复核。
-
----
+- 输入形态：当前页面截图对应的已验收 Phase2 JSON，以及当前任务的组件七色计算产物。
+- 关键词：7 色、页面色彩逻辑、页面颜色数量、组件颜色汇总、色系并集。
+- 场景变体：组件色彩与页面色彩同时评测，或只评页面色彩时自动补齐组件七色计算。
 
 ## 评审契约（开工前必读）
 
-评审对象是**每页排除指定非 UI 内容后的有效 UI 像素色彩**；每页只输出一条结论，且必须有恰一条 `assessmentRows`（含优秀）。
+评审对象是当前页面结果卡有效 UI 的七色系集合；每页只输出一条结论，且必须有恰一条 `assessmentRows`（含优秀）。
 
-1. **先完整读取 Phase3 [知识索引](../../../common/references/knowledge-index.md)、本维度[共享契约](../../contract.md)，再读当前 Skill。**
-2. **所有排除范围必须由当前 Phase2 JSON 原子/模块坐标生成；不得根据颜色鲜艳程度反推排除区。**
-3. **必须验收调试 mask 与全部排除区域；坐标、排除模块或调试图缺失时停止评级并回退 Phase2/重跑。**
-
----
+1. 先完整读取 Phase3 [知识索引](../../../common/references/knowledge-index.md)、本维度[共享契约](../../contract.md)，再读当前 Skill。
+2. 可评范围只来自当前 Phase2 `cards[]`；Tab、图筛、业务图筛、筛选器、商家/商品图、营销素材和金刚 icon 不得成为页面颜色来源。
+3. 组件色彩与页面色彩同时被选择时，复用已生成的组件色彩产物；只选择页面色彩时，内部调用同一组件计算工具生成依赖产物。两条路径不得产生不同的组件色系列表。
 
 ## 评审流程（4 步）
 
 ### Step 1：读取 Phase2 JSON，确定评测目标
 
-- 商家/商品图片、营销素材（营销图片、Banner、腰封）、金刚 icon、分类配图及其坐标只读 `render.isPhoto`、`pageFacts.modules`、`visual`；标签不属于营销素材排除项。
-- Tab、图筛、业务图筛以及文筛/排序/优惠/日期等筛选器同样必须按已确认模块坐标排除。
-- 直播或等价大面积活动内容卡按已确认模块边界整体排除，其上有独立原子的系统 UI 需从排除 mask 中恢复。
+- 通过 `scripts/phase2_bundle_loader.py` 校验当前事实视图，只枚举 `cards[]` 中的可评结果卡。
+- 组件色彩工具负责从已确认 `visual.textColor/backgroundColor/borderColor` 读取颜色、排除图片/中性色并归并七色；页面 Skill 不重复执行这些判断。
 
-### Step 2：按“先排除→再成立→再例外”构建 mask
+### Step 2：取得唯一组件七色结果
 
-1. **先排除：**商家/商品图、营销图/Banner/腰封、金刚、图筛、业务图筛、筛选器、Tab、直播或等价大面积活动内容卡、黑白灰。
-2. **再成立：**剩余且满足统一门槛 `S≥15、V≥20、RGB绝对色度≥20` 的像素才进入有彩色候选；标签保留。
-3. **再例外：**覆盖在照片或直播卡上的独立 UI 角标/系统 UI 原子必须从排除 mask 中恢复；中性色不进入任何颜色格，但保留在有效 UI 面积分母中。
+1. 若当前任务包含组件/卡片 `eval-3-color-logic`，直接复用其 `component-color-families.v3` 产物。
+2. 若当前任务未包含组件色彩，运行 `eval-3-color-logic/scripts/compute_component_color_families.py --manifest <manifest> --output <artifact>`，仅作为页面色彩的内部依赖，不额外输出组件维度结论。
+3. 组件产物缺失、组件 ID 不匹配、颜色集合不唯一或事实未确认时，停止页面评级并回退 Phase2；不得使用旧批次、截图目测或页面像素补齐。
 
-### Step 3：运行唯一指定脚本并保存测量证据
+### Step 3：页面并集去重
 
-- **只运行 `scripts/page_color_analysis.py` 一个页面像素脚本**，并必须传入当前 `manifest`、`out_debug` 与 `out_result`。
-- 脚本通过 `phase2_bundle_loader.py` 读取同一事实视图，自动建立照片、营销内容、导航/筛选模块和直播卡的排除 mask。**不再要求运行 `phase2_live_card_exclusions.py` 或 `grid_overlay.py`。**
-- 输出必须记录 `n_chromatic_pixels`、`n_neutral_pixels`、统一中性色门槛、`exclude_regions`、来源模块 ID、总颜色/主导色/色系占比、调用参数、`debugImage` 和 `measurement.tool/artifactPath/parameters`。
-- 检查调试图是否只剩有效 UI 像素；若排除区错位，回退修正 Phase2 坐标后重跑，不手工改排除框或统计数字，**不擅自合并不同排除区域**。
+设组件 1 为 `红、蓝、黄`，组件 2 为 `蓝、橙、绿`，则页面为 `红、蓝、黄、橙、绿`，颜色数为 5。相同色系出现在多个组件中只算一次。
+
+```text
+pageColorFamilies = unique(union(component.colorFamilies))
+pageColorFamilyCount = len(pageColorFamilies)
+```
+
+输出必须记录每个组件的 `componentId`、`colorFamilies`、`colorFamilyCount`、当前组件产物路径、页面并集 `colorFamilies`、`colorFamilyCount`、`colorLogicContractVersion="3.0"` 和 `evidenceSource="component_color_family_aggregation"`。
 
 ### Step 4：覆盖校验、评级与问题投影
 
-1. **校验覆盖完整性：**若 `manifest`、排除区、调试图、测量字段或独立 UI 恢复项缺失，停止评级，宁可不出结论。
-2. **先归类后读数：**先完成全部排除和 mask 验收，再读取 `colorFamilyCount` 与 `dominantColorCount`。
-3. **按阈值判级并落问题项：**先判不达标，再判优秀，其余达标；达标或不达标记 1 个问题项，优秀记 0 个问题项。
+先校验组件覆盖和并集计算，再按下列阈值评级；页面恰有一条测量行、一个评级和恰一条 `assessmentRows`。LLM 只解释组件产物与页面并集，不能修改计数。
 
-- 每页恰有一条测量行、一个评级和恰一条 `assessmentRows`，LLM 只解释脚本产物。
-- 不输出“评级分布汇总（按搜索词×Tab）”表。
-
-
-**禁止运行任何其他脚本；本 Skill 唯一允许的页面像素脚本是 `scripts/page_color_analysis.py`，尤其不得运行 `phase2_live_card_exclusions.py`、`grid_overlay.py`、候选生成或自动评级脚本。**
-
----
+**禁止运行页面像素颜色脚本、截图扫描脚本或自动页面评级脚本；只允许复用组件七色计算产物。**
 
 ## 判定标准
 
-按以下优先级评级：总颜色 >10、主导色为 0 或 >4 为不达标；否则总颜色 0–6 且主导色 1–2 为优秀；其余为达标。总颜色按 36 色标准统计面积占比 `≥1%` 的有效颜色；主导色按 7 色标准统计面积占比 `>5%` 的有效颜色。商家/商品图、营销图/Banner/腰封、金刚、图筛、业务图筛、筛选器、Tab、黑白灰不参与统计，标签保留。
+页面颜色数量只按红、橙、黄、绿、青、蓝、紫七色统计。每个组件内已由组件计算工具去重；页面再跨组件去重，不按深浅、像素块、面积或出现次数重复计数。
 
-总颜色和主导色是两套不同的统计口径：先用统一门槛 `S≥15、V≥20、RGB绝对色度≥20` 排除黑白灰、近黑及轻微染色灰；中性色不进入任何颜色格，但保留在有效 UI 面积分母中。总颜色再看占有效 UI 面积 `≥1%` 的 36 色格（9 个色相方向 × 浅、常规、深、暗 4 个明度档），主导色看占有效 UI 面积 `>5%` 的 7 色。先按不达标条件判定，再判优秀，其余才是达标；不能把“照片很花”、Tab/图筛/筛选器的导航色，或“品牌色很多”替代这两个输出值。
+| 页面有效 UI 有彩色系 | 评级 |
+|---:|---|
+| ≤5 | 优秀 |
+| 6 | 达标 |
+| 7 | 不达标 |
 
-计数口径：整页只统计一次；达标或不达标页面记 1 个问题项，优秀记 0 个问题项。
-
----
+没有可评组件时按优秀输出，并在 `reason` 中写明“当前页面无可评结果卡，未形成页面色彩集合”。达标或不达标页面记 1 个问题项，优秀记 0 个问题项。
 
 ## 输出格式模板
 
@@ -94,64 +85,39 @@ metadata:
 
 📌 **评测概述：** 搜索词 {X} · {Tab名} · 页面 {1} 个
 
-Phase5 问题卡由 `assessmentRows` 中评级为达标或不达标的问题行一对一生成：`description` 写该行事实、命中规则、评级原因与直接影响；`recommendation` 写“调整对象 + 具体动作 + 本 Skill 优秀档验收条件”；Phase4 回写 `evidenceImage`。
+`description` 必须列出参与并集的组件、页面去重后的七色集合、数量和命中阈值；`recommendation` 必须说明需统一的组件色系，并以页面色系不超过 5 作为优秀验收条件。
 
-原有字段与示例锚点（保持原口径）：`0–6`、`1–2`、`>10`、`>4`、`colorFamilies`、`excludeRegions`、`excludedPhotoPixelCount`、`rating`、`validUiPixelCount`。
+**建议示例：** `统一商卡1、商卡2中的促销与状态色；验收时页面去重后的红、橙、黄、绿、青、蓝、紫色系总数不超过 5。`
 
----
-
-**评测明细（assessmentRows）**
-
-| 页面/元素文案 | 有效 UI 像素数 | 排除照片像素数 | 总颜色数 | 主导色数 | 评级 |
-| --- | :---: | :---: | :---: | :---: | --- |
-| 标签、价格、系统 UI | 128400 | 73600 | 6 | 2 | 🟢 优秀 |
-
-**填写示例：** 上表最后一行展示真实文案、实际数量和对应评级；正式输出时逐一替换为当前页面事实，不使用内部 ID 充当用户可读文案。
-
-> `description` 必须基于对应问题行写清实际对象、计数或比较结果、命中规则、评级原因与直接影响；`recommendation` 必须给出调整对象、具体动作和本 Skill 优秀档验收条件。
-
-**建议示例：** `统一当前页面有效 UI 色彩并减少非必要颜色；验收时确认总颜色为 0–6 且主导色为 1–2，评级达到优秀。`
+| 页面 | 组件色系 | 页面去重色系 | 色系数 | 评级 |
+| --- | --- | --- | :---: | --- |
+| 商卡1、商卡2 | 红、蓝、黄；蓝、橙、绿 | 红、蓝、黄、橙、绿 | 5 | 🟢 优秀 |
 
 **结构化证据（随 `assessmentRows` 附出）**
 
 ```json
 {
-  "validUiPixelCount": 0,
-  "excludedPhotoPixelCount": 0,
+  "colorLogicContractVersion": "3.0",
+  "componentColorArtifact": "",
+  "componentColorSummaries": [],
   "colorFamilies": [],
   "colorFamilyCount": 0,
-  "dominantColorCount": 0,
-  "excludeRegions": [],
-  "exclude_regions": [],
-  "debugImage": "",
-  "measurement": {"tool": "scripts/page_color_analysis.py", "artifactPath": "", "parameters": {}},
-  "n_chromatic_pixels": 0,
-  "n_neutral_pixels": 0
+  "evidenceSource": "component_color_family_aggregation",
+  "rating": ""
 }
 ```
 
-**排除对象（excludedUnits）**
-
-| 模块/元素文案 | 排除原因 | 来源模块 ID | 像素数 |
-| --- | --- | :---: | :---: |
-| 商家图片、营销 Banner、Tab、图筛 | 白名单排除项 | module_photo_01 等 | 73600 |
-
 **Phase2 复核项（phase2ReviewCandidates）**
 
-- 列出坐标、排除模块、调试图或测量字段缺口；存在复核项时停止评级并回退 Phase2/重跑。
-- 复核项只承载当前 JSON 中未确认、归属缺失或事实不完整的对象；**存在复核项时不得给出正式评级**。
-
-**总结说明：** 汇总页面总颜色与主导色、超阈问题、优秀页面特征与改进建议；达标或不达标页面计 1 个问题项。 Phase5 只展示达标/不达标问题项；优秀仅保留评级解释，不进入发现问题或治理项。
-
----
+- 列出组件色彩产物缺失、组件 ID 不一致、颜色事实未确认或页面并集字段不一致；存在复核项时停止评级。
 
 ## Gotchas
 
-- **颜色鲜艳 ≠ 可以临时排除：**直播卡或大面积活动内容的排除范围必须来自 Phase2 bounds。
-- **覆盖在照片上 ≠ 不是有效 UI：**独立 UI 角标不能与照片像素一起删掉。
-- **旧网格工具 ≠ 正式评测前置：**调试 mask 才是排除范围验收依据。
-- **黑、白、灰 ≠ 有彩色：**不要把抗锯齿或低占比杂色纳入色系。
-
----
+- **组件颜色数之和 ≠ 页面颜色数：**页面必须取七色集合并集去重，不能把 `colorFamilyCount` 数值相加。
+- **页面色彩 ≠ 页面像素色：**不得启动页面像素脚本或生成 mask，亦不得以照片、Banner、Tab、筛选器颜色替代组件色彩结果。
+- **未选组件维度 ≠ 可跳过组件计算：**仍须运行组件七色计算工具作为页面的内部依赖。
 
 ## 参考来源
+
+- [组件色彩逻辑 Skill](../../../card-component/skills/eval-3-color-logic/SKILL.md)
+- [七色标准](../../../single-element/skills/eval-2-color-logic-single-element/references/7色标准.md)

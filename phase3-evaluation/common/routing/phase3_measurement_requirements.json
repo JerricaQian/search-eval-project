@@ -13,8 +13,18 @@
       "rule": "fontSizeBucket is not pt; unavailable exact typography becomes a review item and never a fabricated rating."
     },
     "eval-3-color-logic": {
-      "policy": "phase2_json_or_review",
-      "rule": "Use published sourceColorValues when available; otherwise retain a review item rather than inventing a color value."
+      "policy": "required_deterministic_json_computation",
+      "dependencyKey": "component-color-families",
+      "script": "phase3-evaluation/dimensions/card-component/skills/eval-3-color-logic/scripts/compute_component_color_families.py",
+      "arguments": ["--manifest", "<manifest>", "--output", "<artifact>"],
+      "requiredOutput": ["contractVersion", "components"]
+    },
+    "eval-3-page-color-logic": {
+      "policy": "required_deterministic_json_computation",
+      "dependencyKey": "component-color-families",
+      "script": "phase3-evaluation/dimensions/card-component/skills/eval-3-color-logic/scripts/compute_component_color_families.py",
+      "arguments": ["--manifest", "<manifest>", "--output", "<artifact>"],
+      "requiredOutput": ["contractVersion", "components"]
     }
   }
 }

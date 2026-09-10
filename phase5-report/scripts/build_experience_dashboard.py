@@ -669,16 +669,26 @@ def collect(
                                     "component": str(issue.get("component", "")), "annotatedImage": annotated,
                                     "screenshot": screenshot, "coord": issue.get("coord", []),
                     "evidenceImage": str(issue.get("evidenceImage", ""))}
-                        signature = (query, screenshot_ref, tab, target_card_id, metric_code, finding)
-                        if not any(item["signature"] == signature for item in group["issues"]):
-                            group["issues"].append({"signature": signature, **evidence})
-                        if signature not in group["voteCountedSignatures"]:
+                        # One card contributes one governance vote for a metric,
+                        # while every distinct issue on that card must remain
+                        # visible in the report.  Keeping the two identities
+                        # separate prevents sibling element issues from being
+                        # collapsed without inflating priority counts.
+                        vote_signature = (query, screenshot_ref, tab, target_card_id, metric_code, finding)
+                        evidence_signature = (
+                            *vote_signature,
+                            element_id,
+                            str(issue.get("description", "")),
+                        )
+                        if not any(item["signature"] == evidence_signature for item in group["issues"]):
+                            group["issues"].append({"signature": evidence_signature, **evidence})
+                        if vote_signature not in group["voteCountedSignatures"]:
                             vote_rating = str(issue.get("rating", unit.get("rating", "")))
                             if vote_rating in FAIL_RATINGS:
                                 group["failVoteCount"] += 1
                             elif vote_rating in PASS_RATINGS:
                                 group["passVoteCount"] += 1
-                            group["voteCountedSignatures"].add(signature)
+                            group["voteCountedSignatures"].add(vote_signature)
                         group["problemCards"].add((query, tab, target_card_id))
                         group["queries"].add(query)
                         group["findingCounts"][finding] += 1

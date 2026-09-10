@@ -52,8 +52,8 @@ python3 workflow/eval_cli.py prepare-evaluate \
 该命令保留源文件，并将图片按原文件名直接复制到 `screenshots/`，不生成 Intake
 manifest，也不重命名。无 `--query` 时返回可供用户选择的截图组与独立的未命名图；带 `--query` 时除
 `MEITUAN_EVAL_HANDOFF.workflowArgs` 外，还生成 `MEITUAN_EVAL_TASK` 的
-`portableTask.taskPath`。非 DSL 宿主必须先核验 task 中的 `requiredCapabilities`，尤其是实际读图能力；不能读图时写 `blockedAt=preflight` 而不派发。通过后才把该路径交给一个 Evaluation Agent，完成后执行
-任务中的 `completionCommand`；不要把 Phase2～4 的长契约重新粘贴进 prompt。详见
+`portableTask.taskPath`。所有宿主统一运行 `prepare-dispatch --task <taskPath> --host <claude|codex|catpaw|generic>` 并声明实际具备的 `requiredCapabilities`；不能读图时写 `blockedAt=preflight` 而不派发。通过后只把该路径交给一个 Evaluation Agent，完成后执行
+任务中的 `completionCommand`；正式 Agent 契约为 `workflow/contracts/phase234-query-pipeline.md`，不要把 Phase2～4 的长契约重新粘贴进 prompt。详见
 `workflow/HOST_ADAPTER.md`。
 发现阶段只把损坏、过小或不可读取的图片报告为无效。无法从文件名解析身份但可读取的图片以一图一组的 `unlabeledGroups` 返回，不得放入错误列表或要求先改名。宿主随后读取每张当前截图，生成带路径、SHA-256、query、Tab、屏号、来源和置信度的 `screenshot.identity-map`；多个搜索词按映射拆成词级任务，不能按视觉相似性自动合并。同名不同字节时自动追加递增副本序号并保留两份。
 
@@ -183,7 +183,7 @@ Workflow 返回规范截图组；对 `IMG_*.PNG` 等未命名图会自动读取�
 - 成功结果的 `stageD={}`，不写报告内容或报告路径；
 - 不删除或覆盖截图、过程文件、证据或历史报告。
 
-多搜索词使用 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式：先冻结全部预期 task，每批最多 3 个词，每个词一个 Evaluation Agent。Phase2 内部纠错耗尽后，外层为该词创建新的隔离 `runId/taskPath` 并交给新的 Evaluation Agent，最多三个词级任务；第三次仍失败则标记 abandoned。只有所有词进入 completed/abandoned 终态后才执行一次 `finalize-batch --batch-state`；Phase5 仅消费 completed 词，abandoned 词不进入报告。全部 abandoned 时不生成空报告。
+多搜索词先冻结全部预期 task，再按统一 `MEITUAN_AGENT_DISPATCH` 每批最多派发 3 个词，每个词一个 Evaluation Agent。支持 Workflow DSL 时，`meituan_eval_workflow.js` 的 `batch_evaluate` 只是同一协议的宿主适配器。Phase2 内部纠错耗尽后，外层为该词创建新的隔离 `runId/taskPath` 并交给新的 Evaluation Agent，最多三个词级任务；第三次仍失败则标记 abandoned。只有所有词进入 completed/abandoned 终态后才执行一次 `finalize-batch --batch-state`；Phase5 仅消费 completed 词，abandoned 词不进入报告。全部 abandoned 时不生成空报告。
 
 ```json
 {

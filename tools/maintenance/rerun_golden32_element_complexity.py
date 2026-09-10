@@ -386,7 +386,7 @@ def main() -> int:
             "workflowArgs": {**source_task["workflowArgs"], "runId": run_id, "batchId": args.batch_id, "tag": run_id,
                              "rerunId": run_id, "artifactRunDir": str(artifact), "query": query,
                              "evaluationSelection": {"mode": "full_19"}},
-            "contractFiles": [str(PROJECT / ".claude/agents/phase234-query-pipeline.md"), str(PROJECT / ".claude/contracts/evaluation-result.schema.json")],
+            "contractFiles": [str(PROJECT / "workflow/contracts/phase234-query-pipeline.md"), str(PROJECT / "workflow/contracts/evaluation-result.schema.json")],
             "resultPath": str(agent_result_path),
             "completionCommand": [sys.executable, str(FINALIZER), "finalize-evaluate", "--task", str(task_path), "--result", str(agent_result_path)],
             "hostInstructions": ["Offline Golden Atomic v3 element-complexity re-evaluation; validate complete-card scope and full JSON inventory."],

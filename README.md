@@ -75,6 +75,17 @@ python3 workflow/eval_cli.py prepare-evaluate \
 
 每个词完成后都要执行任务 JSON 中自带的 `completionCommand`。只有产生 `status=completed` 的本地回执，才算成功。失败词使用新的隔离 `runId/taskPath` 和新的 Evaluation Agent 定向重派；每词最多三个任务，第三次仍失败则标记 `abandoned`，不重跑其他成功词。
 
+Claude、Codex、Catpaw 和其他宿主使用同一个派发入口。声明当前宿主实际具备的能力后，命令返回统一的 `MEITUAN_AGENT_DISPATCH` 信封；所有宿主都只向 Evaluation Agent 传递 `taskPath`：
+
+```bash
+python3 workflow/eval_cli.py prepare-dispatch \
+  --task "<taskPath>" --host codex \
+  --capability readImagePixels --capability readFiles \
+  --capability runCommands --capability writeJson
+```
+
+将 `--host` 换成 `claude`、`catpaw` 或 `generic`，任务内容、能力门禁、结果路径和完成命令均不变化。Claude 可继续使用 `.claude/agents/evaluation-agent.md` 的原生名称绑定；其他宿主使用自身的子 Agent API。
+
 没有 Workflow DSL 的宿主先冻结批次，再依据返回的 `statePath` 执行派发、`advance-batch` 核验和 `create-batch-retry` 隔离重试：
 
 ```bash
@@ -87,7 +98,7 @@ python3 workflow/eval_cli.py prepare-batch \
   --max-query-attempts 3
 ```
 
-支持 Workflow DSL 时，直接把相同的初始 `taskPaths`、`batchId`、`expectedBusinessTabs` 传给 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式，由它完成这些状态命令和 Agent 派发。全部预期词进入 `completed` 或 `abandoned` 终态后，统一执行一次 Phase5：
+支持 Workflow DSL 时，直接把相同的初始 `taskPaths`、`batchId`、`expectedBusinessTabs` 传给 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式；它只是上述统一任务协议的 DSL 适配器。全部预期词进入 `completed` 或 `abandoned` 终态后，统一执行一次 Phase5：
 
 ```bash
 python3 workflow/eval_cli.py finalize-batch \
@@ -195,7 +206,7 @@ Workflow
 
 Workflow 的 `batch_evaluate` 模式负责最多 3 词并发、批次状态快照、失败词隔离重派和终态屏障。评级和事实判断仍由词级评测流程完成。Phase5 只读取 completed 词的精确产物；连续三次失败的 abandoned 词不进入报告，全部失败时不生成报告。
 
-任务只使用 `MEITUAN_EVAL_TASK`、`phase234-query-pipeline.md` 和 `evaluation-result.schema.json`。流程先产出不可发布的本地 CV 候选，再由具备读图能力的宿主完成当前像素复核；门禁失败在同一任务内按卡片定向修正并重新发布，只有耗尽重试预算后才阻断。Phase3 按所选 Skill 运行必要的确定性像素测量，Phase4 生成并校验证据。历史版本契约已备份并移出当前入口，已有本地产物保持不变。
+任务只使用 `MEITUAN_EVAL_TASK`、`MEITUAN_AGENT_DISPATCH`、`workflow/contracts/phase234-query-pipeline.md` 和 `evaluation-result.schema.json`。流程先产出不可发布的本地 CV 候选，再由具备读图能力的宿主完成当前像素复核；门禁失败在同一任务内按卡片定向修正并重新发布，只有耗尽重试预算后才阻断。Phase3 按所选 Skill 运行必要的确定性像素测量，Phase4 生成并校验证据。历史版本契约已备份并移出当前入口，已有本地产物保持不变。
 
 ## 目录速览
 

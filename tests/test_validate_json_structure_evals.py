@@ -183,6 +183,54 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
         self.module.require_component_color_json_evidence(errors, "eval-3/C4", row, active)
         self.assertTrue(any("rating_must_be_优秀" in error for error in errors))
 
+    def test_page_colour_uses_the_union_of_component_families(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "component-color-families.json"
+            artifact.write_text("{}", encoding="utf-8")
+            row = {
+                "colorLogicContractVersion": "3.0",
+                "componentColorArtifact": str(artifact),
+                "componentColorSummaries": [
+                    {"componentId": "C1", "colorFamilies": ["红", "蓝", "黄"], "colorFamilyCount": 3},
+                    {"componentId": "C2", "colorFamilies": ["蓝", "橙", "绿"], "colorFamilyCount": 3},
+                ],
+                "colorFamilies": ["红", "蓝", "黄", "橙", "绿"],
+                "colorFamilyCount": 5,
+                "evidenceSource": "component_color_family_aggregation",
+                "rating": "优秀",
+            }
+            errors: list[str] = []
+            self.module.require_page_color_component_aggregation(errors, "eval-3/page", row)
+        self.assertEqual(errors, [])
+
+    def test_page_colour_thresholds_are_five_six_and_seven(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            artifact = Path(tmp) / "component-color-families.json"
+            artifact.write_text("{}", encoding="utf-8")
+            families = ["红", "橙", "黄", "绿", "青", "蓝", "紫"]
+            row = {
+                "colorLogicContractVersion": "3.0",
+                "componentColorArtifact": str(artifact),
+                "componentColorSummaries": [
+                    {"componentId": "C1", "colorFamilies": families, "colorFamilyCount": 7},
+                ],
+                "colorFamilies": families,
+                "colorFamilyCount": 7,
+                "evidenceSource": "component_color_family_aggregation",
+                "rating": "不达标",
+            }
+            errors: list[str] = []
+            self.module.require_page_color_component_aggregation(errors, "eval-3/page", row)
+            self.assertEqual(errors, [])
+            row["colorFamilyCount"] = 6
+            row["colorFamilies"] = families[:6]
+            row["componentColorSummaries"][0]["colorFamilies"] = families[:6]
+            row["componentColorSummaries"][0]["colorFamilyCount"] = 6
+            row["rating"] = "达标"
+            errors = []
+            self.module.require_page_color_component_aggregation(errors, "eval-3/page", row)
+        self.assertEqual(errors, [])
+
     def test_direct_json_skill_rejects_obsolete_measurement(self) -> None:
         row = {
             "evidenceSource": "phase2_json_cross_card_comparison",

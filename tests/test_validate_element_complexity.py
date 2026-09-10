@@ -58,7 +58,7 @@ class ValidateElementComplexityTest(unittest.TestCase):
                 "content": "服务很好非常喜欢",
                 "styleKey": "tag|orange|recommendation|none|none",
                 "countDecision": "计入",
-                "dedupDecision": "同键去重",
+                "dedupDecision": "逐实例计入（不去重）",
             }],
         }
 
@@ -89,6 +89,47 @@ class ValidateElementComplexityTest(unittest.TestCase):
         errors: list[str] = []
         self.module.require_complexity_coverage(errors, "eval-4/C1", row)
         self.assertTrue(any("phase2_review_required_blocks_formal_rating" in error for error in errors))
+
+    def test_repeated_style_keys_are_counted_as_separate_tag_instances(self) -> None:
+        row = self.valid_row()
+        repeated = {
+            "elementId": "E3",
+            "region": "rating_and_reason",
+            "content": "服务很好非常喜欢",
+            "decision": "included_tag",
+            "reason": "无容器彩色辅助文字",
+            "styleKey": "tag|orange|recommendation|none|none",
+        }
+        row["candidateLedger"].append(repeated)
+        row["scannedElementIds"].append("E3")
+        row["includedTagStyles"].append({
+            "elementIds": ["E3"],
+            "content": "服务很好非常喜欢",
+            "styleKey": "tag|orange|recommendation|none|none",
+            "countDecision": "计入",
+            "dedupDecision": "逐实例计入（不去重）",
+        })
+        errors: list[str] = []
+        self.module.require_complexity_coverage(errors, "eval-4/C1", row)
+        self.assertEqual(errors, [])
+
+    def test_one_tag_instance_may_group_multiple_atoms(self) -> None:
+        row = self.valid_row()
+        grouped_atom = {
+            "elementId": "E3",
+            "region": "rating_and_reason",
+            "content": "满38可用",
+            "decision": "included_tag",
+            "reason": "组合优惠标签的组成原子",
+            "styleKey": "tag|orange|recommendation|none|none",
+        }
+        row["candidateLedger"].append(grouped_atom)
+        row["scannedElementIds"].append("E3")
+        row["includedTagStyles"][0]["elementIds"] = ["E1", "E3"]
+        row["includedTagStyles"][0]["groupingDecision"] = "同一组合优惠标签，计 1 个实例"
+        errors: list[str] = []
+        self.module.require_complexity_coverage(errors, "eval-4/C1", row)
+        self.assertEqual(errors, [])
 
 
 if __name__ == "__main__":

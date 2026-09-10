@@ -54,8 +54,11 @@ class PortableTaskProtocolTest(unittest.TestCase):
             self.assertEqual(task["workflowArgs"]["batchId"], "portable-01")
             self.assertEqual(task["workflowArgs"]["rerunId"], "portable-01")
             self.assertEqual(task["workflowArgs"]["pythonBin"], sys.executable)
-            self.assertTrue(task["contractFiles"][0].endswith("phase234-query-pipeline.md"))
+            self.assertIn("/workflow/contracts/phase234-query-pipeline.md", task["contractFiles"][0])
             self.assertTrue(task["contractFiles"][1].endswith("evaluation-result.schema.json"))
+            self.assertEqual(task["dispatch"]["protocol"], "MEITUAN_AGENT_DISPATCH")
+            self.assertEqual(task["dispatch"]["inputMode"], "task_path_only")
+            self.assertEqual(task["dispatch"]["supportedHosts"], ["claude", "codex", "catpaw", "generic"])
             self.assertEqual(task["requiredCapabilities"]["readImagePixels"], True)
             self.assertEqual(len(task["workflowArgs"]["phase2Outputs"]), 1)
             self.assertTrue(task["workflowArgs"]["phase2Outputs"][0]["candidateBundle"].endswith(".candidate-bundle.v2.json"))
@@ -75,6 +78,87 @@ class PortableTaskProtocolTest(unittest.TestCase):
             )
             self.assertEqual(repeated.returncode, 2)
             self.assertEqual(json.loads(repeated.stdout)["status"], "run_setup_failed")
+
+    def test_prepare_dispatch_uses_one_envelope_for_claude_codex_and_catpaw(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = self.prepare(Path(tmp))
+            task_path = Path(payload["portableTask"]["taskPath"])
+            capabilities = [
+                "readImagePixels", "readFiles", "runCommands", "writeJson",
+            ]
+            envelopes = {}
+            for host in ("claude", "codex", "catpaw"):
+                command = [
+                    sys.executable, str(CLI_PATH), "prepare-dispatch",
+                    "--task", str(task_path), "--host", host,
+                ]
+                for capability in capabilities:
+                    command.extend(["--capability", capability])
+                completed = subprocess.run(command, check=True, capture_output=True, text=True)
+                envelopes[host] = json.loads(completed.stdout)
+
+            for host, envelope in envelopes.items():
+                self.assertTrue(envelope["ok"], host)
+                self.assertEqual(envelope["protocol"], "MEITUAN_AGENT_DISPATCH")
+                self.assertEqual(envelope["status"], "ready_for_dispatch")
+                self.assertEqual(envelope["taskPath"], str(task_path.resolve()))
+                self.assertEqual(envelope["input"], {"mode": "task_path_only", "value": str(task_path.resolve())})
+                self.assertEqual(envelope["missingCapabilities"], [])
+                self.assertEqual(envelope["completionCommand"], envelopes["claude"]["completionCommand"])
+            self.assertEqual(envelopes["claude"]["binding"]["mode"], "native_agent_definition")
+            self.assertTrue(envelopes["claude"]["binding"]["definitionFile"].endswith(".claude/agents/evaluation-agent.md"))
+            self.assertEqual(envelopes["codex"]["binding"]["mode"], "portable_task")
+            self.assertEqual(envelopes["catpaw"]["binding"]["mode"], "portable_task")
+
+            awaiting = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-dispatch", "--task", str(task_path), "--host", "generic",
+            ], check=True, capture_output=True, text=True)
+            self.assertEqual(json.loads(awaiting.stdout)["status"], "awaiting_capability_confirmation")
+
+            blocked = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-dispatch", "--task", str(task_path), "--host", "codex",
+                "--capability", "readFiles",
+            ], check=False, capture_output=True, text=True)
+            self.assertEqual(blocked.returncode, 2)
+            blocked_payload = json.loads(blocked.stdout)
+            self.assertEqual(blocked_payload["status"], "blocked_preflight")
+            self.assertIn("readImagePixels", blocked_payload["missingCapabilities"])
+
+    def test_prepare_dispatch_accepts_tasks_created_before_dispatch_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = self.prepare(Path(tmp))
+            task_path = Path(payload["portableTask"]["taskPath"])
+            task = json.loads(task_path.read_text())
+            task.pop("dispatch")
+            task["contractFiles"][0] = str(PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md")
+            task_path.write_text(json.dumps(task, ensure_ascii=False))
+
+            command = [
+                sys.executable, str(CLI_PATH), "prepare-dispatch",
+                "--task", str(task_path), "--host", "codex",
+            ]
+            for capability in ("readImagePixels", "readFiles", "runCommands", "writeJson"):
+                command.extend(["--capability", capability])
+            completed = subprocess.run(command, check=True, capture_output=True, text=True)
+            envelope = json.loads(completed.stdout)
+            self.assertEqual(envelope["status"], "ready_for_dispatch")
+            self.assertEqual(envelope["input"]["mode"], "task_path_only")
+
+    def test_claude_compatibility_files_delegate_to_host_neutral_contracts(self) -> None:
+        agent_adapter = (PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md").read_text()
+        schema_adapter = json.loads(
+            (PROJECT_DIR / ".claude/contracts/evaluation-result.schema.json").read_text()
+        )
+        canonical_contract = PROJECT_DIR / "workflow/contracts/phase234-query-pipeline.md"
+        canonical_schema = PROJECT_DIR / "workflow/contracts/evaluation-result.schema.json"
+
+        self.assertIn("workflow/contracts/phase234-query-pipeline.md", agent_adapter)
+        self.assertEqual(
+            schema_adapter["$ref"],
+            "../../workflow/contracts/evaluation-result.schema.json",
+        )
+        self.assertTrue(canonical_contract.is_file())
+        self.assertEqual(json.loads(canonical_schema.read_text())["type"], "object")
 
     def test_promote_phase2_attempt_publishes_validated_winner_once(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -128,7 +212,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             task = json.loads(Path(payload["portableTask"]["taskPath"]).read_text())
             self.assertEqual(task["protocol"], "MEITUAN_EVAL_TASK")
             self.assertEqual(task["workflowArgs"]["phase2MaxAttempts"], 3)
-            self.assertTrue(task["contractFiles"][0].endswith("phase234-query-pipeline.md"))
+            self.assertIn("/workflow/contracts/phase234-query-pipeline.md", task["contractFiles"][0])
             self.assertIn("attemptRoot", task["workflowArgs"]["phase2Outputs"][0])
 
     def test_finalize_rejects_stage_a_before_retry_budget_is_exhausted(self) -> None:

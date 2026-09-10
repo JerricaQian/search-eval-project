@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-页面级色彩运用逻辑性评测脚本（eval-3-page-color-logic）
+历史 V2 页面色彩脚本（仅供旧黄金产物维护）
 
 统计口径：整页（按「搜索词 × 页面」颗粒度），非逐组件/逐元素。
 
@@ -55,7 +55,7 @@ import sys
 import os
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[6]
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 PHASE3_SCRIPTS = PROJECT_ROOT / "phase3-evaluation" / "common" / "scripts"
 if str(PHASE3_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(PHASE3_SCRIPTS))
@@ -394,3 +394,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(json.dumps({"error": str(e)}, ensure_ascii=False))
         sys.exit(1)
+

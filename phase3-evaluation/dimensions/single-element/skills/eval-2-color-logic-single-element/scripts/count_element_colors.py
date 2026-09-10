@@ -290,8 +290,8 @@ def grade(color_count):
 def main():
     ap = argparse.ArgumentParser(description="测量 Phase2 JSON 已确定的单一元素颜色候选（指标 1.2.2）")
     ap.add_argument("image", help="元素裁剪图路径")
-    ap.add_argument("--min-ratio", type=float, default=1.0,
-                    help="面积占比阈值(%%)，低于此值的颜色不计入，默认 1.0")
+    ap.add_argument("--min-ratio", type=float, default=3.0,
+                    help="面积占比阈值(%%)，低于此值的颜色不计入，默认 3.0")
     ap.add_argument("--box", default=None,
                     help="只统计图中某矩形，格式 x,y,w,h（像素）")
     ap.add_argument("--drop-bg", action="store_true",

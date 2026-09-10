@@ -224,24 +224,24 @@ def info_tip(title: str, lines: list[str], *, document_link: bool = False) -> st
 def render_by_issue(entries: list[tuple[dict[str, Any], dict[str, Any]]]) -> str:
     rows = ordered(entries)
     counts = Counter(priority(issue, group) for group, issue in rows)
-    active_priority = next((item for item in PRIORITY_ORDER if counts[item]), "P0")
+    active_priority = "全部"
     filters = render_subfilters(
-        [(item, item, counts[item]) for item in PRIORITY_ORDER], active_priority, "问题等级筛选"
+        [("全部", "全部", len(rows)), *[(item, item, counts[item]) for item in PRIORITY_ORDER]],
+        active_priority,
+        "问题等级筛选",
     )
     cards = []
     for number, (group, issue) in enumerate(rows, 1):
         value = priority(issue, group)
-        hidden = " filter-hidden" if value != active_priority else ""
         cards.append(
-            f"<article class='issue-card filter-card{hidden}' data-filter-card='{esc(value)}'>"
+            f"<article class='issue-card filter-card' data-filter-card='{esc(value)}'>"
             f"<div class='issue-layout'><div>{evidence_html(issue_image(issue), '问题证据')}</div>"
             f"{render_issue(issue, group, number)}</div></article>"
         )
     for value in PRIORITY_ORDER:
         if not counts[value]:
-            hidden = " filter-hidden" if value != active_priority else ""
             cards.append(
-                f"<div class='empty filter-card{hidden}' data-filter-card='{esc(value)}'>该业务暂无 {esc(value)} 问题。</div>"
+                f"<div class='empty filter-card filter-hidden' data-filter-card='{esc(value)}'>该业务暂无 {esc(value)} 问题。</div>"
             )
     return filters + "".join(cards)
 
@@ -354,5 +354,5 @@ const tabs=[...document.querySelectorAll('.business-tab')],panels=[...document.q
 tabs.forEach(tab=>tab.addEventListener('click',()=>{{tabs.forEach(item=>{{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))}});panels.forEach(panel=>panel.classList.toggle('active',panel.dataset.panel===tab.dataset.business))}}));
 document.querySelectorAll('.business-card').forEach(card=>card.addEventListener('click',()=>document.querySelector(`[data-business="${{card.dataset.target}}"]`).click()));
 document.querySelectorAll('.detail-tab').forEach(tab=>tab.addEventListener('click',()=>{{const section=tab.closest('.business-panel'),target=tab.dataset.detailTab;section.querySelectorAll('.detail-tab').forEach(item=>{{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))}});section.querySelectorAll('.detail-pane').forEach(item=>item.classList.toggle('active',item.dataset.detailPane===target))}}));
-document.querySelectorAll('.subfilter-bar').forEach(bar=>{{const pane=bar.closest('.detail-pane');bar.querySelectorAll('.subfilter').forEach(button=>button.addEventListener('click',()=>{{const value=button.dataset.filterValue;bar.querySelectorAll('.subfilter').forEach(item=>{{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))}});pane.querySelectorAll('[data-filter-card]').forEach(card=>card.classList.toggle('filter-hidden',card.dataset.filterCard!==value))}}))}});
+document.querySelectorAll('.subfilter-bar').forEach(bar=>{{const pane=bar.closest('.detail-pane');bar.querySelectorAll('.subfilter').forEach(button=>button.addEventListener('click',()=>{{const value=button.dataset.filterValue,showAll=value==='全部';bar.querySelectorAll('.subfilter').forEach(item=>{{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active))}});pane.querySelectorAll('[data-filter-card]').forEach(card=>{{const visible=showAll?!card.classList.contains('empty'):card.dataset.filterCard===value;card.classList.toggle('filter-hidden',!visible)}})}}))}});
 </script></body></html>"""

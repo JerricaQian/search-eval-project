@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evaluation Agent Phase2-4 handoff result",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ok": {"type": "boolean"},
+    "query": {"type": "string"},
+    "stageA": {
+      "type": "object",
+      "properties": {
+        "phase2Attempts": {"type": "integer", "minimum": 1},
+        "retryPlans": {"type": "array"},
+        "elementListPaths": {"type": "array", "items": {"type": "string"}},
+        "elementAuditPaths": {"type": "array", "items": {"type": "string"}},
+        "elementCount": {"type": "integer", "minimum": 0},
+        "annotated": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "stageB": {
+      "type": "object",
+      "properties": {
+        "measurementsIndex": {"type": "string"},
+        "evalResultFile": {"type": "string"},
+        "evalAuditFile": {"type": "string"},
+        "evalCount": {"type": "integer", "minimum": 0}
+      }
+    },
+    "stageC": {
+      "type": "object",
+      "properties": {
+        "evidenceImages": {"type": "array", "items": {"type": "string"}},
+        "skipped": {"type": "array"}
+      }
+    },
+    "stageD": {"type": "object", "additionalProperties": false},
+    "blockedAt": {"type": "string", "enum": ["", "preflight", "stageA", "stageB", "stageC"]},
+    "error": {"type": "string"}
+  },
+  "required": ["ok", "query", "stageA", "stageB", "stageC", "stageD", "blockedAt", "error"]
+}

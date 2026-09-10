@@ -44,7 +44,6 @@ COMPONENT_ROW_REQUIREMENTS: dict[str, set[str]] = {
 }
 
 MEASUREMENT_REQUIRED_SKILLS = {
-    "eval-3-page-color-logic",
     "eval-5-info-hierarchy",
 }
 
@@ -151,7 +150,10 @@ def require_actionable_recommendation(errors: list[str], prefix: str, issue: dic
 PAGE_EVIDENCE_REQUIREMENTS: dict[str, set[str]] = {
     "eval-1-supply-module-completeness": {"modules", "expectedModules", "layoutChecks", "rating"},
     "eval-2-visual-order-alignment": {"pageRegions", "sameTypeComparisons", "rating"},
-    "eval-3-page-color-logic": {"validUiPixelCount", "excludedPhotoPixelCount", "colorFamilies", "colorFamilyCount", "debugImage", "rating"},
+    "eval-3-page-color-logic": {
+        "colorLogicContractVersion", "componentColorArtifact", "componentColorSummaries",
+        "colorFamilies", "colorFamilyCount", "evidenceSource", "rating",
+    },
     "eval-4-static-component-complexity": {"firstScreenBounds", "functionalModules", "moduleCount", "rating"},
     "eval-5-browsing-flow-smoothness": {"listPositions", "visibleListPositionCount", "coverageStatus", "heterogeneousCount", "rating"},
     "eval-6-info-comparability": {
@@ -241,6 +243,58 @@ def require_component_color_json_evidence(
     if isinstance(families, list) and count != len(families):
         errors.append(f"{prefix}:colorFamilyCount_must_match_colorFamilies")
     expected_rating = "优秀" if count <= 4 else "达标" if count == 5 else "不达标"
+    if row.get("rating") != expected_rating:
+        errors.append(f"{prefix}:rating_must_be_{expected_rating}")
+
+
+def require_page_color_component_aggregation(errors: list[str], prefix: str, row: dict[str, Any]) -> None:
+    """Validate the V3 page-colour union of component seven-colour families."""
+    if row.get("colorLogicContractVersion") != "3.0":
+        errors.append(f"{prefix}:colorLogicContractVersion_must_be_3.0")
+    require_json_derived_evidence(errors, prefix, row, "component_color_family_aggregation")
+    artifact = row.get("componentColorArtifact")
+    if not isinstance(artifact, str) or not artifact or not Path(artifact).is_file():
+        errors.append(f"{prefix}:componentColorArtifact_missing")
+    summaries = row.get("componentColorSummaries")
+    if not isinstance(summaries, list):
+        errors.append(f"{prefix}:componentColorSummaries_must_be_array")
+        return
+    expected_families: set[str] = set()
+    component_ids: set[str] = set()
+    allowed_families = {"红", "橙", "黄", "绿", "青", "蓝", "紫"}
+    for index, summary in enumerate(summaries, start=1):
+        item_prefix = f"{prefix}:componentColorSummaries_{index}"
+        if not isinstance(summary, dict):
+            errors.append(f"{item_prefix}_must_be_object")
+            continue
+        component_id = summary.get("componentId")
+        families = summary.get("colorFamilies")
+        count = summary.get("colorFamilyCount")
+        if not isinstance(component_id, str) or not component_id or component_id in component_ids:
+            errors.append(f"{item_prefix}_componentId_invalid")
+        else:
+            component_ids.add(component_id)
+        if not isinstance(families, list) or any(family not in allowed_families for family in families):
+            errors.append(f"{item_prefix}_colorFamilies_invalid")
+            continue
+        if len(families) != len(set(families)):
+            errors.append(f"{item_prefix}_colorFamilies_must_be_unique")
+        if not isinstance(count, int) or count != len(families):
+            errors.append(f"{item_prefix}_colorFamilyCount_must_match_colorFamilies")
+        expected_families.update(families)
+    families = row.get("colorFamilies")
+    count = row.get("colorFamilyCount")
+    if not isinstance(families, list) or any(family not in allowed_families for family in families):
+        errors.append(f"{prefix}:colorFamilies_invalid")
+        return
+    if len(families) != len(set(families)):
+        errors.append(f"{prefix}:colorFamilies_must_be_unique")
+    if set(families) != expected_families:
+        errors.append(f"{prefix}:colorFamilies_must_equal_component_union")
+    if not isinstance(count, int) or count != len(families):
+        errors.append(f"{prefix}:colorFamilyCount_must_match_colorFamilies")
+        return
+    expected_rating = "优秀" if count <= 5 else "达标" if count == 6 else "不达标"
     if row.get("rating") != expected_rating:
         errors.append(f"{prefix}:rating_must_be_{expected_rating}")
 
@@ -394,7 +448,7 @@ def require_complexity_coverage(
 
     included_styles = row.get("includedTagStyles")
     if isinstance(included_styles, list):
-        style_keys: list[str] = []
+        included_tag_ids: list[str] = []
         for index, style in enumerate(included_styles, start=1):
             if not isinstance(style, dict):
                 continue
@@ -404,17 +458,25 @@ def require_complexity_coverage(
                 isinstance(element_id, str) and element_id for element_id in element_ids
             ):
                 errors.append(f"{prefix}:includedTagStyles_{index}_elementIds_required")
-            if isinstance(style_key, str):
-                style_keys.append(style_key)
-        if len(style_keys) != len(set(style_keys)):
-            errors.append(f"{prefix}:includedTagStyles_styleKey_must_be_unique")
-        ledger_style_keys = {
-            str(entry.get("styleKey"))
-            for entry in ledger
-            if isinstance(entry, dict) and entry.get("decision") == "included_tag"
+                continue
+            if len(element_ids) > 1 and not isinstance(style.get("groupingDecision"), str):
+                errors.append(f"{prefix}:includedTagStyles_{index}_multi_atom_instance_requires_groupingDecision")
+            for element_id in element_ids:
+                included_tag_ids.append(element_id)
+                ledger_entry = ledger_by_id.get(element_id)
+                if not isinstance(ledger_entry, dict) or ledger_entry.get("decision") != "included_tag":
+                    errors.append(f"{prefix}:includedTagStyles_{index}_elementId_must_reference_included_tag")
+                elif style_key != ledger_entry.get("styleKey"):
+                    errors.append(f"{prefix}:includedTagStyles_{index}_styleKey_must_match_candidateLedger")
+        if len(included_tag_ids) != len(set(included_tag_ids)):
+            errors.append(f"{prefix}:includedTagStyles_elementIds_must_be_unique")
+        ledger_tag_ids = {
+            element_id
+            for element_id, entry in ledger_by_id.items()
+            if entry.get("decision") == "included_tag"
         }
-        if set(style_keys) != ledger_style_keys:
-            errors.append(f"{prefix}:includedTagStyles_must_match_candidateLedger_styleKeys")
+        if set(included_tag_ids) != ledger_tag_ids:
+            errors.append(f"{prefix}:includedTagStyles_must_cover_candidateLedger_included_tags")
 
 def _union_element_bounds(
     element_ids: list[str],
@@ -937,6 +999,7 @@ def main() -> int:
                 evidence_required = (
                     unit.get("rating") != "优秀"
                     or measurement_required
+                    or skill == "eval-3-page-color-logic"
                     or skill in {"eval-6-info-comparability", "eval-7-info-redundancy"}
                 )
                 if evidence_required:
@@ -952,6 +1015,10 @@ def main() -> int:
                     row = assessment_rows[0]
                     if isinstance(row, dict):
                         require_zero_redundancy_scan(errors, f"{skill}/{tab}/row_1", row, "page")
+                if skill == "eval-3-page-color-logic" and isinstance(assessment_rows, list) and assessment_rows:
+                    row = assessment_rows[0]
+                    if isinstance(row, dict):
+                        require_page_color_component_aggregation(errors, f"{skill}/{tab}/row_1", row)
                 if skill == "eval-6-info-comparability" and isinstance(assessment_rows, list) and assessment_rows:
                     row = assessment_rows[0]
                     if isinstance(row, dict):

@@ -110,6 +110,7 @@ class Phase5DashboardRendererTest(unittest.TestCase):
         self.assertIn("data-detail-tab='dine_in-issue'", html)
         self.assertIn(">按问题等级</button>", html)
         self.assertIn("aria-label='问题等级筛选'", html)
+        self.assertIn("data-filter-value='全部'", html)
         self.assertIn("data-filter-value='P0'", html)
         self.assertIn("data-filter-value='P1'", html)
         self.assertIn("data-filter-value='P2'", html)
@@ -129,7 +130,11 @@ class Phase5DashboardRendererTest(unittest.TestCase):
         self.assertNotIn("<dt>所属搜索词</dt>", query_html)
         self.assertIn("<dt>所属搜索词</dt>", issue_html)
         self.assertIn("<dt>所属搜索词</dt>", metric_html)
-        self.assertEqual(renderer.render_by_issue([]).count("data-filter-value='P"), 3)
+        empty_issue_html = renderer.render_by_issue([])
+        self.assertEqual(empty_issue_html.count("data-filter-value='P"), 3)
+        self.assertIn("data-filter-value='全部'", empty_issue_html)
+        self.assertIn("class='subfilter active'", issue_html)
+        self.assertNotIn("issue-card filter-card filter-hidden", issue_html)
 
     def test_business_tabs_are_sorted_by_issue_count_with_zero_issue_tabs_last(self) -> None:
         renderer = load_renderer()

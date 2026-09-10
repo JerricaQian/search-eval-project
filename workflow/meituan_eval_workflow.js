@@ -686,7 +686,7 @@ resolvedTargets.forEach(target => { skillDirs[target.dimension] = projectDir + '
 // 同一子代理上下文内部顺序完成 Stage A(本地识别)→B(评测)→C(问题证据)→D(空交接)，
 // 中间不返回调用方、不切换子代理。Phase5 在全部词级回执通过后由批次控制器运行一次。
 // 所有阶段级契约细节（Phase2 当前图片校准、七键单图清单、FACT_GATES、共享契约优先、assessmentRows/issues 结构、
-// 页面框架结论边界与批次报告交接等）已完整写入 .claude/agents/phase234-query-pipeline.md，
+// 页面框架结论边界与批次报告交接等）已完整写入 workflow/contracts/phase234-query-pipeline.md，
 // 本次调用只注入具体输入值，不在 JS 侧重复拼接任何阶段级 Prompt 文本。
 const evalResultFile = artifactRunDir + '/results/评测原始结果_' + query + tagSuffix + '_' + dimSlug + '.json'
 const evalAuditFile = artifactRunDir + '/results/评测结果校验_' + query + tagSuffix + '_' + dimSlug + '.json'
@@ -727,7 +727,7 @@ const mergedInputs = {
   stagePaths,
 }
 
-const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的唯一 Phase2→Phase3→Phase4 评测契约。先读取并严格遵守 .claude/agents/phase234-query-pipeline.md。开始前确认宿主可读取当前图片像素；若不支持，返回 blockedAt=preflight、error=model_vision_not_supported，且不得进入 Phase2。本次调用只提供具体输入值，不重复给出规则文本。
+const mergedPrompt = `你正在以 Evaluation Agent 身份执行当前搜索词的唯一 Phase2→Phase3→Phase4 评测契约。先读取并严格遵守 workflow/contracts/phase234-query-pipeline.md。开始前确认宿主可读取当前图片像素；若不支持，返回 blockedAt=preflight、error=model_vision_not_supported，且不得进入 Phase2。本次调用只提供具体输入值，不重复给出规则文本。
 
 ## 本次调用输入（JSON，字段名与你的输入契约一一对应）
 \`\`\`json

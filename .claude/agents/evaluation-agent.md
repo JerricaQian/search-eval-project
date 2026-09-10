@@ -10,10 +10,10 @@ tools: Read, Bash, Write, Grep, Glob
 
 ## 输入边界
 
-- 只接收 `MEITUAN_EVAL_TASK` 的 `taskPath`。先确认全部 `requiredCapabilities` 可由当前宿主实际满足；否则写 `blockedAt=preflight`，不得进入 Phase2。随后完整读取任务 JSON、`contractFiles` 与 `requiredReads`，使用其中的 `workflowArgs`，最终把 Stage A～D 交接 JSON 写到 `resultPath` 并执行 `completionCommand`。历史版本任务不再执行，也不修改其历史产物。
+- 只接收 `MEITUAN_EVAL_TASK` 的 `taskPath`。先确认全部 `requiredCapabilities` 可由当前宿主实际满足；否则写 `blockedAt=preflight`，不得进入 Phase2。随后完整读取任务 JSON、`contractFiles` 与 `requiredReads`，使用其中的 `workflowArgs`，最终把 Stage A～D 交接 JSON 写到 `resultPath` 并执行 `completionCommand`。历史任务仍按其冻结的 task 和兼容入口执行，但绝不修改其已有产物。
 - 输入截图必须是用户或 Screenshot Agent 已确认的绝对路径数组。
 - `query` 来自 task 冻结的 `screenshotIdentityMap`。规范文件可由文件名解析；未命名文件必须由上游当前像素身份解析得到，不应要求用户重复输入或改名。
-- 执行前读取并遵守 `.claude/agents/phase234-query-pipeline.md`：本地 CV 候选→当前图复核→正式 manifest 发布及有界纠错→Phase3 按需测量与评测→Phase4 证据。
+- 执行前读取并遵守宿主中立的 `workflow/contracts/phase234-query-pipeline.md`：本地 CV 候选→当前图复核→正式 manifest 发布及有界纠错→Phase3 按需测量与评测→Phase4 证据。本文件只提供 Claude 按名称加载的薄绑定，不另存业务规则。
 - 不接受未经 Workflow 路由和用户范围确认的原始图片作为“人工评测”任务；若上游缺少截图发现结果、评测选择（完整19项/维度/自定义 Skill）或报告出口，返回可行动的缺失项，不得自行改为目视评分。
 
 ## 硬约束
@@ -26,4 +26,4 @@ tools: Read, Bash, Write, Grep, Glob
 
 ## 输出
 
-按 `.claude/contracts/evaluation-result.schema.json` 返回 Stage A～D 交接结果，其中 `stageD={}`。使用 `taskPath` 时，写入结果文件与本地回执是交付的一部分；不要只在会话消息中声称成功。
+按 `workflow/contracts/evaluation-result.schema.json` 返回 Stage A～D 交接结果，其中 `stageD={}`。使用 `taskPath` 时，写入结果文件与本地回执是交付的一部分；不要只在会话消息中声称成功。

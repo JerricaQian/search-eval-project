@@ -74,7 +74,7 @@ class Phase3SkillContractsTest(unittest.TestCase):
         self.assertIn("## 跨维度归属", entry)
         self.assertIn("同一可见事实只按其评测单位归入主要维度", entry)
 
-        pipeline = (PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md").read_text(encoding="utf-8")
+        pipeline = (PROJECT_DIR / "workflow/contracts/phase234-query-pipeline.md").read_text(encoding="utf-8")
         self.assertIn("JSON-only skill 禁止回看截图补写事实", pipeline)
 
         compliance = (
@@ -120,7 +120,7 @@ class Phase3SkillContractsTest(unittest.TestCase):
             self.assertIn(term, content, skill)
 
     def test_pipeline_project_script_references_exist(self) -> None:
-        pipeline = PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md"
+        pipeline = PROJECT_DIR / "workflow/contracts/phase234-query-pipeline.md"
         content = pipeline.read_text(encoding="utf-8")
         project_relative = set(re.findall(r"\$\{projectDir\}/([^`\"'\s]+\.py)", content))
         shared_scripts = set(re.findall(r"(?<![\w/])(scripts/[A-Za-z0-9_./-]+\.py)", content))
@@ -137,7 +137,7 @@ class Phase3SkillContractsTest(unittest.TestCase):
             self.assertNotIn(obsolete, content)
 
     def test_pipeline_declares_retry_and_deterministic_measurement_preparation(self) -> None:
-        pipeline = PROJECT_DIR / ".claude/agents/phase234-query-pipeline.md"
+        pipeline = PROJECT_DIR / "workflow/contracts/phase234-query-pipeline.md"
         content = pipeline.read_text(encoding="utf-8")
         self.assertIn("phase2MaxAttempts", content)
         self.assertIn("build_phase2_retry_plan.py", content)
