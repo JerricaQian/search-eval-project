@@ -146,12 +146,25 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
                 "groups": [],
             }, Path("/tmp"), set())
 
-    def test_phase2_explicit_business_ownership_has_priority(self) -> None:
+    def test_phase2_explicit_business_ownership_cannot_override_visible_facts(self) -> None:
         input_card = card("商品卡片", ("原文:火锅餐厅",), ("原文:外卖配送",))
         input_card.update({"ownershipScope": "business", "businessCode": "healthcare"})
         result = self.module.classify_card(input_card)
-        self.assertEqual(result["businessCode"], "healthcare")
-        self.assertEqual(result["confidence"], "phase2_explicit")
+        self.assertEqual(result["businessCode"], "unknown")
+        self.assertIn("conflicts_visible_facts", result["confidence"])
+
+    def test_query_or_task_tab_never_participates_in_business_attribution(self) -> None:
+        input_card = card("商家卡片-文字下挂", ("原文:火锅餐厅",), ("原文:外卖配送",))
+        input_card.update({"query": "医药", "tab": "医药健康", "expectedBusinessTab": "healthcare"})
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["businessCode"], "food_delivery")
+
+    def test_matching_explicit_business_is_only_audit_metadata(self) -> None:
+        input_card = card("商品卡片", ("原文:火锅餐厅",), ("原文:外卖配送",))
+        input_card.update({"ownershipScope": "business", "businessCode": "food_delivery"})
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["businessCode"], "food_delivery")
+        self.assertEqual(result["confidence"], "phase2_explicit+delivery+food_category")
 
     def test_unsupported_phase2_business_ownership_stays_unknown(self) -> None:
         input_card = card("商品卡片", ("原文:火锅餐厅",), ("原文:外卖配送",))
@@ -159,6 +172,15 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
         result = self.module.classify_card(input_card)
         self.assertEqual(result["businessCode"], "unknown")
         self.assertIn("unsupported_explicit_business_code", result["confidence"])
+
+    def test_visible_business_tabs_are_derived_from_collected_cards(self) -> None:
+        data = {
+            "businesses": [
+                {"businessCode": "food_delivery"},
+                {"businessCode": "service_retail"},
+            ],
+        }
+        self.assertEqual(self.module.visible_business_tabs(data), {"food_delivery", "service_retail"})
 
     def test_positive_redundancy_metrics_are_rendered_as_problem_names(self) -> None:
         self.assertEqual(self.module.METRICS["eval-8-info-redundancy"][0], "信息冗余")

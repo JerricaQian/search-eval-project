@@ -751,6 +751,24 @@ class ExtractCvFactsTest(unittest.TestCase):
             module.dense_numeric_atomicity_hook({"semanticItems": [{"sourceId": "T10", "role": "fulfillment", "text": "33分钟"}]}),
             [],
         )
+        # Current-pixel topology wins over the ambiguous glyph ``分``: these
+        # are service durations in an attached item, not 0--5 rating fields.
+        service_duration = {
+            "semanticItems": [
+                {"sourceId": "T11", "role": "price", "text": "¥555 恢复SPA·品质调理｜80分… 年售60+"},
+                {"sourceId": "T12", "role": "price", "text": "特价团 肩颈放松60分… 年售200+"},
+                {"sourceId": "T13", "role": "price", "text": "短时体验4分…"},
+            ],
+            "factsById": {
+                source_id: {"visualReview": {"role": "attached_item", "topologySlot": "text_attachment"}}
+                for source_id in ("T11", "T12", "T13")
+            },
+        }
+        self.assertEqual(module.dense_numeric_atomicity_hook(service_duration), [])
+        self.assertEqual(
+            module.dense_numeric_atomicity_hook({"semanticItems": [{"sourceId": "T14", "role": "price", "text": "4.8分"}]}),
+            [{"hook": "dense_numeric_atomicity", "sourceId": "T14", "reason": "rating_token_must_be_a_standalone_rating_field"}],
+        )
 
     def test_price_evidence_recovers_currency_glyph_damage_without_using_delivery_fee(self) -> None:
         cases = [("YQ97.5起", "red", "商品卡片"), ("起送#35免配送费", "red", "异构卡")]

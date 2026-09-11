@@ -211,13 +211,26 @@ def dense_numeric_atomicity_hook(context: dict[str, Any]) -> list[dict[str, str]
     of remaining the prefix of an otherwise generic merchant-information row.
     """
     findings = []
+    facts_by_id = context.get("factsById", {})
     for item in context["semanticItems"]:
         text = re.sub(r"\s+", "", item["text"])
         role = item["role"]
         reason = ""
-        if re.search(r"(?:\d(?:\.\d)?分(?!钟)|暂无评分).+", text) and role != "rating":
+        # A score is only 0--5 and belongs in an independent rating field.
+        # Check the current-pixel topology first: an attached service item may
+        # legitimately contain a duration such as ``60分…`` or ``80分钟``.
+        # Its final digit must never be treated as a one-digit rating.
+        source = facts_by_id.get(item["sourceId"], {})
+        review = source.get("visualReview", {}) if isinstance(source, dict) else {}
+        attached_service_item = isinstance(review, dict) and (
+            review.get("role") in {"attached_item", "attachment"}
+            or review.get("topologySlot") == "text_attachment"
+        )
+        score_token = r"(?<![\d.])(?:[0-4](?:\.\d+)?|5(?:\.0+)?)分"
+        has_misplaced_score = bool(re.search(score_token, text)) and role != "rating" and not attached_service_item
+        if (has_misplaced_score or ("暂无评分" in text and role != "rating" and not attached_service_item)):
             reason = "rating_token_must_be_a_standalone_rating_field"
-        elif re.search(r"\d(?:\.\d)?分\d", text):
+        elif re.search(rf"{score_token}\d", text):
             reason = "rating_is_glued_to_following_numeric_field"
         elif re.search(r"[^0-9.]\d+(?:\.\d+)?km$", text) and not re.fullmatch(r"\d+(?:\.\d+)?km", text):
             reason = "distance_has_non_distance_prefix"

@@ -118,7 +118,7 @@ python3 phase5-report/scripts/import_to_nocode.py <dataset-json> <chat-id>
 
 ## 6. 后续批次标准流程
 
-1. 以当前批次隔离 artifact 运行 `phase5-report/scripts/build_experience_dashboard.py`，显式传入本批 `--expected-business-tabs`，同时生成本地 HTML 和 `.governance_dataset_<批次>.json`。
+1. 以当前批次隔离 artifact 运行 `phase5-report/scripts/build_experience_dashboard.py`，由当前截图中已验收商卡的可见语义与履约标识推导业务 Tab，同时生成本地 HTML 和 `.governance_dataset_<批次>.json`。可选 `--expected-business-tabs` 只能作为事后断言，不能作为归属依据。
 2. 由生成器按第 2 节优先级算法写入 group/evidence 的 `priority` 与 `priorityReason`；禁止手改 HTML 或 NoCode 数字来改优先级。
 3. 对新数据集校验业务集合、问题级 description/recommendation、Phase4 evidenceImage 和 P0/P1/P2 票数。
 4. 若新增或变化证据图，先取得授权，上传到 `public/evidence/` 并核验文件存在。

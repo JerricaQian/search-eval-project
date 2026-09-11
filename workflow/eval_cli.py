@@ -910,8 +910,8 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
         if args.max_query_attempts != 3:
             raise ValueError("max_query_attempts_must_be_3")
         tabs = [value.strip() for value in args.expected_business_tabs.split(",") if value.strip()]
-        if not tabs or len(tabs) != len(set(tabs)):
-            raise ValueError("expected_business_tabs_missing_or_duplicate")
+        if len(tabs) != len(set(tabs)):
+            raise ValueError("expected_business_tabs_duplicate")
         if not args.task:
             raise ValueError("batch_requires_at_least_one_query_task")
 
@@ -950,7 +950,10 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
             "protocol": BATCH_PROTOCOL,
             "batchId": args.batch_id,
             "projectDir": str(project_dir),
-            "expectedBusinessTabs": tabs,
+            # This optional post-evaluation assertion never participates in
+            # business attribution.  Phase5 derives its actual tab set from
+            # accepted cards' visible semantics and fulfilment facts.
+            "businessTabsAssertion": tabs,
             "maxQueryAttempts": args.max_query_attempts,
             "subagentPolicy": subagent_policy,
             "status": "pending",
@@ -1109,10 +1112,13 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
                 raise ValueError("batch_state_batch_id_mismatch")
             if Path(str(state.get("projectDir", ""))).resolve() != project_dir:
                 raise ValueError("batch_state_project_mismatch")
-            state_tabs = ",".join(state.get("expectedBusinessTabs", []))
-            if expected_business_tabs and expected_business_tabs != state_tabs:
+            # Older state files froze guessed expectedBusinessTabs. Keep them
+            # readable as an assertion, but new states use the neutral name
+            # below and may intentionally contain no pre-evaluation guess.
+            state_tabs = ",".join(state.get("businessTabsAssertion", state.get("expectedBusinessTabs", [])))
+            if expected_business_tabs and state_tabs and expected_business_tabs != state_tabs:
                 raise ValueError("batch_state_expected_business_tabs_mismatch")
-            expected_business_tabs = state_tabs
+            expected_business_tabs = state_tabs or expected_business_tabs
             task_paths = []
             for entry in state["queries"]:
                 attempts = entry.get("attempts")
@@ -1128,8 +1134,6 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
                 task_paths.append(Path(str(attempts[-1].get("taskPath") or "")))
         if not task_paths:
             raise ValueError("phase5_batch_requires_at_least_one_query_task")
-        if not expected_business_tabs:
-            raise ValueError("phase5_expected_business_tabs_required")
 
         queries: list[str] = []
         manifests: list[str] = []
@@ -1232,10 +1236,11 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
             "--batch-name", args.batch_id,
             "--output", str(report_path),
             "--dataset-output", str(dataset_path),
-            "--expected-business-tabs", expected_business_tabs,
             "--allow-unknown-business",
             "--evaluation-scope", next(iter(scopes)),
         ]
+        if expected_business_tabs:
+            command.extend(["--expected-business-tabs", expected_business_tabs])
         for query in queries:
             command.extend(["--expected-query", query])
         for manifest in manifests:
@@ -1332,7 +1337,10 @@ def parser() -> argparse.ArgumentParser:
     prepare_batch.add_argument("--project-dir", default=PROJECT_DIR, type=Path)
     prepare_batch.add_argument("--batch-id", required=True)
     prepare_batch.add_argument("--task", required=True, action="append", type=Path, help="Repeat once per expected query.")
-    prepare_batch.add_argument("--expected-business-tabs", required=True)
+    prepare_batch.add_argument(
+        "--expected-business-tabs", default="",
+        help="可选的 Phase5 业务 Tab 事后断言；不参与当前截图商卡归属推导。",
+    )
     prepare_batch.add_argument("--max-query-attempts", type=int, default=3)
     prepare_batch.set_defaults(handler=command_prepare_batch)
 
@@ -1351,7 +1359,10 @@ def parser() -> argparse.ArgumentParser:
     finalize_batch.add_argument("--batch-id", required=True)
     finalize_batch.add_argument("--task", action="append", type=Path, help="Repeat once per expected query task.")
     finalize_batch.add_argument("--batch-state", type=Path, help="Latest state snapshot; uses each query's latest task.")
-    finalize_batch.add_argument("--expected-business-tabs", default="")
+    finalize_batch.add_argument(
+        "--expected-business-tabs", default="",
+        help="可选的 Phase5 业务 Tab 事后断言；不参与当前截图商卡归属推导。",
+    )
     finalize_batch.add_argument("--output", type=Path)
     finalize_batch.add_argument("--dataset-output", type=Path)
     finalize_batch.set_defaults(handler=command_finalize_batch)

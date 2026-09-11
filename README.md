@@ -95,18 +95,16 @@ python3 workflow/eval_cli.py prepare-batch \
   --batch-id "batch-20260903" \
   --task "<咖啡初始 taskPath>" \
   --task "<火锅初始 taskPath>" \
-  --expected-business-tabs "dine_in,food_delivery" \
   --max-query-attempts 3
 ```
 
-支持 Workflow DSL 时，直接把相同的初始 `taskPaths`、`batchId`、`expectedBusinessTabs` 传给 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式；它只是上述统一任务协议的 DSL 适配器。全部预期词进入 `completed` 或 `abandoned` 终态后，统一执行一次 Phase5：
+支持 Workflow DSL 时，直接把相同的初始 `taskPaths`、`batchId` 传给 `meituan_eval_workflow.js` 的 `batch_evaluate` 模式；它只是上述统一任务协议的 DSL 适配器。Phase5 的业务 Tab 由当前截图中已验收商卡的可见语义与履约标识推导，不能由搜索词或预设 Tab 猜定。全部预期词进入 `completed` 或 `abandoned` 终态后，统一执行一次 Phase5：
 
 ```bash
 python3 workflow/eval_cli.py finalize-batch \
   --project-dir "$(pwd)" \
   --batch-id "batch-20260903" \
-  --batch-state "<advance-batch 返回的最新 statePath>" \
-  --expected-business-tabs "dine_in,food_delivery"
+  --batch-state "<advance-batch 返回的最新 statePath>"
 ```
 
 推荐传入批次控制器最后生成的 `--batch-state`；`finalize-batch` 会拒绝 pending、尚可重试的失败词，以及没有批次状态佐证的提前部分报告。它只把 completed 回执列出的精确 manifest 和结果交给 Phase5；abandoned 词仅保留在批次状态中，不进入报告。输出：
@@ -123,7 +121,7 @@ Phase5 不调用模型，不重新评测截图，也不会把总报告写回各�
 | `capture_only` | 只采集截图 | 搜索词、Tab、屏数 |
 | `evaluate_only` | 评测已有截图 | 截图范围、评测范围、报告出口 |
 | `capture_and_evaluate` | 先截图再评测 | 先提供搜索词、Tab、屏数；截图完成后再确认评测范围和报告出口 |
-| `batch_evaluate` | 内部批次执行入口 | 初始 `taskPaths`、`batchId`、`expectedBusinessTabs`；不作为新的用户意图类型 |
+| `batch_evaluate` | 内部批次执行入口 | 初始 `taskPaths`、`batchId`；可选 `expectedBusinessTabs` 仅作事后断言，不作为归属依据 |
 
 评测已有截图时，系统会先发现并分组 `screenshots/` 内的文件。规范名称从 `<搜索词>_<Tab>_<屏>.<ext>` 推导；未命名图由宿主读取当前像素生成身份映射。两条路径都不要求重命名原图。
 

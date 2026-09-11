@@ -183,6 +183,27 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
         self.module.require_component_color_json_evidence(errors, "eval-3/C4", row, active)
         self.assertTrue(any("rating_must_be_优秀" in error for error in errors))
 
+    def test_issue_description_requires_a_readable_card_or_component_location(self) -> None:
+        errors: list[str] = []
+        self.module.require_readable_component_location(
+            errors,
+            "eval-3/issue",
+            {"description": "商卡2 · 川味小馆的促销标签使用 5 个色系，命中达标档。"},
+        )
+        self.assertEqual(errors, [])
+        self.module.require_readable_component_location(
+            errors,
+            "eval-3/issue",
+            {"description": "图筛中的彩色标签实例过多，命中不达标档。"},
+        )
+        self.assertEqual(errors, [])
+        self.module.require_readable_component_location(
+            errors,
+            "eval-3/issue",
+            {"description": "C1 的标签实例过多，命中不达标档。"},
+        )
+        self.assertTrue(any("description_requires_readable_card_or_component_location" in error for error in errors))
+
     def test_page_colour_uses_the_union_of_component_families(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             artifact = Path(tmp) / "component-color-families.json"

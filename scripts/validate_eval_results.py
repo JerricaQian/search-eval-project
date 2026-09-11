@@ -147,6 +147,19 @@ def require_actionable_recommendation(errors: list[str], prefix: str, issue: dic
         errors.append(f"{prefix}:recommendation_requires_acceptance_result")
 
 
+READABLE_COMPONENT_LOCATION_RE = re.compile(
+    r"(?:商卡\s*[0-9一二三四五六七八九十]+|图筛|快筛|筛选(?:条|组件)?|品牌直达|"
+    r"直播(?:模块|横滑商品流)?|广告卡|运营(?:聚合)?卡)"
+)
+
+
+def require_readable_component_location(errors: list[str], prefix: str, issue: dict[str, Any]) -> None:
+    """Require issue copy to identify a user-visible card or component."""
+    description = str(issue.get("description") or "")
+    if not READABLE_COMPONENT_LOCATION_RE.search(description):
+        errors.append(f"{prefix}:description_requires_readable_card_or_component_location")
+
+
 PAGE_EVIDENCE_REQUIREMENTS: dict[str, set[str]] = {
     "eval-1-supply-module-completeness": {"modules", "expectedModules", "layoutChecks", "rating"},
     "eval-2-visual-order-alignment": {"pageRegions", "sameTypeComparisons", "rating"},
@@ -1339,6 +1352,8 @@ def main() -> int:
                 require_no_forbidden_terms(errors, f"{skill}/{tab}:issue:description", str(issue.get("description") or ""))
                 require_no_forbidden_terms(errors, f"{skill}/{tab}:issue:recommendation", str(issue.get("recommendation") or ""))
                 require_actionable_recommendation(errors, f"{skill}/{tab}:issue", issue)
+                if result.get("dimension") in {single_element_dimension, "phase3-card_or_component-eval"}:
+                    require_readable_component_location(errors, f"{skill}/{tab}:issue", issue)
                 forbidden_issue_fields = {"finding", "priority", "priorityReason", "dimension", "elementType", "content"} & issue.keys()
                 if forbidden_issue_fields:
                     errors.append(f"{skill}/{tab}:issue_forbidden_fields:{','.join(sorted(forbidden_issue_fields))}")

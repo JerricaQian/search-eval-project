@@ -106,8 +106,7 @@ Claude Code、Codex、Catpaw 或其他 Harness 都使用同一个 `MEITUAN_EVAL_
 <pythonBin> workflow/eval_cli.py finalize-batch \
   --project-dir "<项目绝对路径>" \
   --batch-id "<本批共享 batchId>" \
-  --batch-state "<advance-batch 返回的最新 statePath>" \
-  --expected-business-tabs "<逗号分隔 businessCode>"
+  --batch-state "<advance-batch 返回的最新 statePath>"
 ```
 
-该命令重新核验每份最终契约结果及本地回执，只把 completed 回执中的精确 manifest 和评测结果交给确定性生成器，生成一份批量 HTML 与一份治理数据集。abandoned 词仅保留在批次状态中，不进入报告；尚未终态会阻断，全部 abandoned 也不会生成空报告。
+该命令重新核验每份最终契约结果及本地回执，只把 completed 回执中的精确 manifest 和评测结果交给确定性生成器。Phase5 仅依据当前截图可见商卡的语义与履约标识推导业务 Tab，不读取搜索词或任务时预设 Tab；可选 `--expected-business-tabs` 只可作为最终集合断言。随后生成一份批量 HTML 与一份治理数据集。abandoned 词仅保留在批次状态中，不进入报告；尚未终态会阻断，全部 abandoned 也不会生成空报告。

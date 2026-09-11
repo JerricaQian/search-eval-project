@@ -178,18 +178,13 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
     """
     card_type = str(card.get("卡片类型", ""))
     kind = card_type_code(card_type)
-    # Phase2 may explicitly assign a standard business ownership after it has
-    # inspected the card.  That fact is stronger than keyword heuristics, but
-    # an unsupported code must remain visible and block aggregation below.
+    # Business attribution is deliberately recomputed from the accepted
+    # current-screen facts below.  A Phase2 businessCode is audit metadata,
+    # not a fallback or an override: otherwise a query-level preset could be
+    # smuggled into Phase5 without visible merchant semantics or fulfilment.
     explicit_code = str(card.get("businessCode") or "").strip()
-    if card.get("ownershipScope") == "business" and explicit_code:
-        if explicit_code in BUSINESS_LINES:
-            return classified_business(
-                explicit_code,
-                kind,
-                card_type,
-                str(card.get("businessConfidence") or "phase2_explicit"),
-            )
+    has_explicit_business = card.get("ownershipScope") == "business" and bool(explicit_code)
+    if has_explicit_business and explicit_code not in BUSINESS_LINES:
         return {
             "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
             "confidence": f"unsupported_explicit_business_code:{explicit_code}",
@@ -200,11 +195,14 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
             or (card_type == "异构卡" and "大家还在搜" in semantic)):
         return {"scope": "platform", "businessCode": "platform", "businessName": "平台公共组件",
                 "confidence": "high", "cardTypeCode": "platform_component", "cardTypeName": card_type}
+    visible_result: dict[str, str]
     if has_any(semantic, SERVICE_RETAIL_EXCLUSIVE_TERMS):
-        return classified_business("service_retail", kind, card_type, "specific_service_semantic")
+        visible_result = classified_business("service_retail", kind, card_type, "specific_service_semantic")
+    else:
+        visible_result = {}
     for business, terms in DEDICATED_BUSINESS_TERMS:
-        if has_any(semantic, terms):
-            return classified_business(business, kind, card_type, "semantic")
+        if not visible_result and has_any(semantic, terms):
+            visible_result = classified_business(business, kind, card_type, "semantic")
 
     is_service = has_any(semantic, SERVICE_RETAIL_TERMS)
     is_flash_label = has_any(semantic, FLASH_DELIVERY_TERMS) or has_any(fulfillment, FLASH_DELIVERY_TERMS)
@@ -213,26 +211,44 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
     is_food = has_any(semantic, FOOD_TERMS)
     is_delivery = has_any(fulfillment, DELIVERY_TERMS)
 
-    if is_service:
-        return classified_business("service_retail", kind, card_type, "semantic")
-    if is_delivery:
+    if not visible_result and is_service:
+        visible_result = classified_business("service_retail", kind, card_type, "semantic")
+    if not visible_result and is_delivery:
         if is_flash_label or (is_flash_category and (not is_food or is_flash_category_override)):
-            return classified_business("flash_delivery", kind, card_type, "delivery+flash_category")
-        if is_food:
-            return classified_business("food_delivery", kind, card_type, "delivery+food_category")
+            visible_result = classified_business("flash_delivery", kind, card_type, "delivery+flash_category")
+        elif is_food:
+            visible_result = classified_business("food_delivery", kind, card_type, "delivery+food_category")
+        else:
+            visible_result = {
+                "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
+                "confidence": "delivery_category_not_confirmed", "cardTypeCode": kind, "cardTypeName": card_type,
+            }
+    if not visible_result and is_food:
+        visible_result = classified_business("dine_in", kind, card_type, "food_category+non_delivery")
+    if not visible_result:
+        # A card container alone is not business evidence.  Defaulting it to
+        # a permitted tab makes a dashboard look complete while silently
+        # corrupting that tab's score and issue rate.
+        visible_result = {
+            "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
+            "confidence": "insufficient_current_facts", "cardTypeCode": kind, "cardTypeName": card_type,
+        }
+
+    if not has_explicit_business:
+        return visible_result
+    if visible_result["scope"] != "business":
         return {
             "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
-            "confidence": "delivery_category_not_confirmed", "cardTypeCode": kind, "cardTypeName": card_type,
+            "confidence": "explicit_business_without_visible_card_evidence",
+            "cardTypeCode": kind, "cardTypeName": card_type,
         }
-    if is_food:
-        return classified_business("dine_in", kind, card_type, "food_category+non_delivery")
-    # A card container alone is not business evidence.  Defaulting it to a
-    # permitted tab makes a dashboard look complete while silently corrupting
-    # that tab's score and issue rate; callers must stop and obtain facts.
-    return {
-        "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
-        "confidence": "insufficient_current_facts", "cardTypeCode": kind, "cardTypeName": card_type,
-    }
+    if explicit_code != visible_result["businessCode"]:
+        return {
+            "scope": "unknown", "businessCode": "unknown", "businessName": "未知待确认",
+            "confidence": f"explicit_business_conflicts_visible_facts:{explicit_code}!={visible_result['businessCode']}",
+            "cardTypeCode": kind, "cardTypeName": card_type,
+        }
+    return {**visible_result, "confidence": f"phase2_explicit+{visible_result['confidence']}"}
 
 
 def humanize_element_label(element: dict[str, Any]) -> str:
@@ -886,6 +902,20 @@ def validate_dataset(
                     raise ValueError(f"问题 {evidence.get('query')}:{evidence.get('elementId') or evidence.get('cardId')} 缺少问题级个性化优化建议")
 
 
+def visible_business_tabs(data: dict[str, Any]) -> set[str]:
+    """Derive the batch's tabs from accepted current-screen merchant-card facts.
+
+    Search terms, task-time UI Tabs and controller defaults are deliberately
+    absent. ``classify_card`` rejects cards whose visible semantics or
+    fulfilment facts are insufficient or conflict with a Phase2 ownership hint.
+    """
+    return {
+        str(item.get("businessCode"))
+        for item in data.get("businesses", [])
+        if str(item.get("businessCode")) in EXPECTED_REPORT_BUSINESS_TABS
+    }
+
+
 def render(data: dict[str, Any]) -> str:
     """Render only through the canonical Phase5 dashboard renderer."""
     return render_dashboard(data)
@@ -900,8 +930,8 @@ def main() -> int:
     parser.add_argument("--batch-name", help="当前隔离评测批次名；不传时使用 artifact-dir 目录名")
     parser.add_argument(
         "--expected-business-tabs",
-        required=True,
-        help="本批次业务 Tab 断言（逗号分隔 businessCode）；实际输出必须完全一致",
+        default="",
+        help="可选业务 Tab 事后断言（逗号分隔 businessCode）；省略时由当前截图中已验收商卡事实推导",
     )
     parser.add_argument("--expected-query", action="append", default=[], help="重复传入本批每个预期搜索词。")
     parser.add_argument("--manifest", action="append", type=Path, default=[], help="重复传入已验收的 Phase2 manifest。")
@@ -931,18 +961,17 @@ def main() -> int:
     scope_note = str(evaluation_scope.get("note") or "").strip()
     data["executionNotes"] = [*args.execution_note, *([scope_note] if scope_note else [])]
     data["unclassifiedCardCount"] = len(data.get("unknown") or [])
-    expected_business_tabs = {code.strip() for code in args.expected_business_tabs.split(",") if code.strip()}
-    if not expected_business_tabs:
-        raise ValueError("--expected-business-tabs 不能为空")
-    invalid_expected_codes = sorted(expected_business_tabs - set(EXPECTED_REPORT_BUSINESS_TABS))
+    supplied_business_tabs = {code.strip() for code in args.expected_business_tabs.split(",") if code.strip()}
+    invalid_expected_codes = sorted(supplied_business_tabs - set(EXPECTED_REPORT_BUSINESS_TABS))
     if invalid_expected_codes:
         raise ValueError(f"--expected-business-tabs 包含未允许的业务：{','.join(invalid_expected_codes)}")
+    expected_business_tabs = supplied_business_tabs or visible_business_tabs(data)
     expected_queries = set(args.expected_query) if args.expected_query else None
     validate_dataset(data, artifact_dir, expected_business_tabs, expected_queries, args.allow_unknown_business)
     output.parent.mkdir(parents=True, exist_ok=True)
     dataset_output.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     output.write_text(render(data), encoding="utf-8")
-    print(json.dumps({"dashboard": str(output), "dataset": str(dataset_output), "businesses": len(data["businesses"]), "groups": len(data["groups"]), "queries": data["queryCount"]}, ensure_ascii=False))
+    print(json.dumps({"dashboard": str(output), "dataset": str(dataset_output), "businessTabs": sorted(expected_business_tabs), "businesses": len(data["businesses"]), "groups": len(data["groups"]), "queries": data["queryCount"]}, ensure_ascii=False))
     return 0
 
 

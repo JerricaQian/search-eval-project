@@ -39,13 +39,12 @@ Phase5 由外层批次控制器运行一次，只渲染已有 completed 回执�
   --project-dir "${projectDir}" --artifact-dir "${batchArtifactDir}" \
   --batch-name "${batchId}" --output "${reportPath}" \
   --dataset-output "${reportDir}/.governance_dataset_${batchId}.json" \
-  --expected-business-tabs "${expectedBusinessTabsCsv}" \
   --expected-query "<query-1>" --expected-query "<query-2>" \
   --manifest "<accepted-manifest-1>" --manifest "<accepted-manifest-2>" \
   --result "<accepted-result-1>" --result "<accepted-result-2>"
 ```
 
-`--expected-business-tabs` 是必填的、逗号分隔的标准 `businessCode` 精确集合。实际聚合的 Tab 缺失或多出任一项，生成器必须退出失败，不能以空卡、历史数据或默认 Tab 补齐。
+业务 Tab 必须由本批当前截图中、已验收商卡的可见语义与履约标识推导；搜索词、任务时 UI Tab、历史批次和控制器默认值都不能参与归属。`--expected-business-tabs` 是可选的逗号分隔标准 `businessCode` 事后断言；如提供，实际聚合的 Tab 缺失或多出任一项必须退出失败，不能以空卡、历史数据或默认 Tab 补齐。
 
 由 `workflow/eval_cli.py finalize-batch --batch-state <最新状态>` 触发时，abandoned 搜索词只用于验证终态屏障，不传给报告生成器。pending、retry_required 或尚未达到三次上限的失败词会阻断 Phase5，不能提前生成部分报告。
 
@@ -55,8 +54,8 @@ Phase5 由外层批次控制器运行一次，只渲染已有 completed 回执�
 
 - 只消费当前批次已通过 `validate_element_manifest.py` 与 `validate_eval_results.py` 的产物；每个已评测词有原图，带坐标的待优化问题有 Phase4 证据，所有问题级 `description` 与 `recommendation` 完整。
 - 可用业务仅为：`dine_in`、`food_delivery`、`flash_delivery`、`service_retail`、`healthcare`、`hotel_travel`、`xiaoxiang`、`maoyan`。平台组件不进入业务 Tab。
-- 若 Phase2 写明 `ownershipScope=business` 且 `businessCode` 为上述标准值，优先采用该明确归属；未知或不支持的显式 code 仍为 `unknown` 并阻断。
-- 否则由当前卡片的可见商家/商品语义与履约事实判定：专属业态（医药、旅行、猫眼、小象）优先；服务零售次之；配送场景须同时具备餐饮或闪购品类事实；无配送的餐饮语义归到餐。卡片容器、搜索词、历史批次和 HTML 补丁都不能作为归属事实。
+- `ownershipScope=business` / `businessCode` 只是 Phase2 审计提示，不能优先于当前卡片事实；只有它与重新从可见语义、履约标识得到的归属一致时才可保留为置信度信息。冲突、未知或不支持的显式 code 都为 `unknown` 并阻断。
+- 当前卡片的可见商家/商品语义与履约事实是唯一归属依据：专属业态（医药、旅行、猫眼、小象）优先；服务零售次之；配送场景须同时具备餐饮或闪购品类事实；无配送的餐饮语义归到餐。卡片容器、搜索词、任务预设 Tab、历史批次和 HTML 补丁都不能作为归属事实。
 - 任何商卡证据不足即记录 `unknown` 并停止正式业务看板；先回到 Phase2 补充当前可见事实。
 
 ### 固定信息架构与视觉
@@ -101,7 +100,7 @@ Phase5 由外层批次控制器运行一次，只渲染已有 completed 回执�
 - 数据集中的搜索词集合与全部 completed 词级任务完全一致；
 - HTML 包含 `business-tab`、`business-panel`、`detail-tab`、`detail-pane`、`activateBusiness`；
 - HTML 不包含 `sankey-link`、“高频问题跨词覆盖”或“典型问题证据库”；
-- 业务 Tab 与 `--expected-business-tabs` 精确一致。
+- 业务 Tab 与当前卡片可见事实推导结果精确一致；若提供 `--expected-business-tabs`，还须与该断言精确一致。
 
 ## 出口
 

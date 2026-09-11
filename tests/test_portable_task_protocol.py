@@ -50,7 +50,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             prepared = subprocess.run([
                 sys.executable, str(CLI_PATH), "prepare-batch",
                 "--project-dir", str(project_dir), "--batch-id", "batch-image-trigger",
-                "--expected-business-tabs", "dine_in", "--max-query-attempts", "3",
+                "--max-query-attempts", "3",
                 "--task", str(task_path),
             ], check=True, capture_output=True, text=True)
 
@@ -588,7 +588,6 @@ class PortableTaskProtocolTest(unittest.TestCase):
                 sys.executable, str(CLI_PATH), "finalize-batch",
                 "--project-dir", str(project),
                 "--batch-id", batch_id,
-                "--expected-business-tabs", "dine_in",
             ]
             for task_path in task_paths:
                 command.extend(["--task", str(task_path)])
@@ -714,7 +713,7 @@ class PortableTaskProtocolTest(unittest.TestCase):
             prepared = subprocess.run([
                 sys.executable, str(CLI_PATH), "prepare-batch",
                 "--project-dir", str(project), "--batch-id", "batch-retry",
-                "--expected-business-tabs", "dine_in", "--max-query-attempts", "3",
+                "--max-query-attempts", "3",
                 "--task", str(first_task),
             ], check=True, capture_output=True, text=True)
             state_path = Path(json.loads(prepared.stdout)["statePath"])

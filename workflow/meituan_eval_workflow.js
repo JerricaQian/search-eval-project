@@ -34,7 +34,9 @@ if (A.mode === 'batch_evaluate') {
   const expectedBusinessTabs = Array.isArray(A.expectedBusinessTabs)
     ? A.expectedBusinessTabs.join(',')
     : (typeof A.expectedBusinessTabs === 'string' ? A.expectedBusinessTabs.trim() : '')
-  if (!expectedBusinessTabs) throw new Error('batch_evaluate 必须提供 expectedBusinessTabs')
+  // This is only an optional post-evaluation assertion. Phase5 derives the
+  // actual business tabs from each accepted card's visible semantics and
+  // fulfilment facts; never from a query or a task-time tab preset.
   const maxQueryAttempts = A.maxQueryAttempts == null ? 3 : A.maxQueryAttempts
   if (maxQueryAttempts !== 3) throw new Error('maxQueryAttempts 固定为 3；同一词最多派发 3 次')
 
@@ -89,10 +91,11 @@ if (A.mode === 'batch_evaluate') {
   const prepareCommand = [
     shellArg(batchPythonBin), shellArg(batchProjectDir + '/workflow/eval_cli.py'), 'prepare-batch',
     '--project-dir', shellArg(batchProjectDir), '--batch-id', shellArg(batchId),
-    '--expected-business-tabs', shellArg(expectedBusinessTabs), '--max-query-attempts', String(maxQueryAttempts),
+    '--max-query-attempts', String(maxQueryAttempts),
     ...initialTaskPaths.flatMap(path => ['--task', shellArg(path)]),
-  ].join(' ')
-  const prepared = await runControlCommand('冻结批次任务', prepareCommand, CONTROL_SCHEMA)
+  ]
+  if (expectedBusinessTabs) prepareCommand.push('--expected-business-tabs', shellArg(expectedBusinessTabs))
+  const prepared = await runControlCommand('冻结批次任务', prepareCommand.join(' '), CONTROL_SCHEMA)
   if (!prepared || prepared.ok !== true || !prepared.statePath || !Array.isArray(prepared.dispatchTasks)) {
     throw new Error('批次初始化失败: ' + (prepared && prepared.error ? prepared.error : '控制器无有效返回'))
   }
@@ -166,9 +169,9 @@ if (A.mode === 'batch_evaluate') {
   const finalizeCommand = [
     shellArg(batchPythonBin), shellArg(batchProjectDir + '/workflow/eval_cli.py'), 'finalize-batch',
     '--project-dir', shellArg(batchProjectDir), '--batch-id', shellArg(batchId), '--batch-state', shellArg(statePath),
-    '--expected-business-tabs', shellArg(expectedBusinessTabs),
-  ].join(' ')
-  const finalReport = await runControlCommand('Phase5 唯一总报告', finalizeCommand, PHASE5_SCHEMA)
+  ]
+  if (expectedBusinessTabs) finalizeCommand.push('--expected-business-tabs', shellArg(expectedBusinessTabs))
+  const finalReport = await runControlCommand('Phase5 唯一总报告', finalizeCommand.join(' '), PHASE5_SCHEMA)
   if (!finalReport || finalReport.ok !== true) {
     throw new Error('Phase5 生成失败: ' + (finalReport && finalReport.error ? finalReport.error : '控制器无有效返回'))
   }
