@@ -187,32 +187,15 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             artifact = Path(tmp) / "component-color-families.json"
             artifact.write_text("{}", encoding="utf-8")
-            c1_areas = {"红": 11, "橙": 0, "黄": 0, "绿": 0, "青": 0, "蓝": 5, "紫": 0}
-            c2_areas = {"红": 0, "橙": 0, "黄": 0, "绿": 0, "青": 0, "蓝": 6, "紫": 0}
-            page_areas = {"红": 11, "橙": 0, "黄": 0, "绿": 0, "青": 0, "蓝": 11, "紫": 0}
             row = {
-                "colorLogicContractVersion": "3.1",
+                "colorLogicContractVersion": "3.0",
                 "componentColorArtifact": str(artifact),
                 "componentColorSummaries": [
-                    {
-                        "componentId": "C1", "colorFamilies": ["红", "蓝", "黄"], "colorFamilyCount": 3,
-                        "effectiveUiPixelCount": 100, "colorFamilyPixelAreas": c1_areas,
-                        "dominantColorMeasurementStatus": "measured",
-                    },
-                    {
-                        "componentId": "C2", "colorFamilies": ["蓝", "橙", "绿"], "colorFamilyCount": 3,
-                        "effectiveUiPixelCount": 100, "colorFamilyPixelAreas": c2_areas,
-                        "dominantColorMeasurementStatus": "measured",
-                    },
+                    {"componentId": "C1", "colorFamilies": ["红", "蓝", "黄"], "colorFamilyCount": 3},
+                    {"componentId": "C2", "colorFamilies": ["蓝", "橙", "绿"], "colorFamilyCount": 3},
                 ],
                 "colorFamilies": ["红", "蓝", "黄", "橙", "绿"],
                 "colorFamilyCount": 5,
-                "dominantColorAreaRatioThreshold": 0.05,
-                "effectiveUiPixelCount": 200,
-                "colorFamilyPixelAreas": page_areas,
-                "colorFamilyAreaRatios": {family: value / 200 for family, value in page_areas.items()},
-                "dominantColorFamilies": ["红", "蓝"],
-                "dominantColorCount": 2,
                 "evidenceSource": "component_color_family_aggregation",
                 "rating": "优秀",
             }
@@ -225,25 +208,14 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
             artifact = Path(tmp) / "component-color-families.json"
             artifact.write_text("{}", encoding="utf-8")
             families = ["红", "橙", "黄", "绿", "青", "蓝", "紫"]
-            areas = {"红": 20, "橙": 0, "黄": 0, "绿": 0, "青": 0, "蓝": 0, "紫": 0}
             row = {
-                "colorLogicContractVersion": "3.1",
+                "colorLogicContractVersion": "3.0",
                 "componentColorArtifact": str(artifact),
                 "componentColorSummaries": [
-                    {
-                        "componentId": "C1", "colorFamilies": families, "colorFamilyCount": 7,
-                        "effectiveUiPixelCount": 100, "colorFamilyPixelAreas": areas,
-                        "dominantColorMeasurementStatus": "measured",
-                    },
+                    {"componentId": "C1", "colorFamilies": families, "colorFamilyCount": 7},
                 ],
                 "colorFamilies": families,
                 "colorFamilyCount": 7,
-                "dominantColorAreaRatioThreshold": 0.05,
-                "effectiveUiPixelCount": 100,
-                "colorFamilyPixelAreas": areas,
-                "colorFamilyAreaRatios": {family: value / 100 for family, value in areas.items()},
-                "dominantColorFamilies": ["红"],
-                "dominantColorCount": 1,
                 "evidenceSource": "component_color_family_aggregation",
                 "rating": "不达标",
             }
@@ -258,39 +230,6 @@ class ValidateJsonStructureEvalsTest(unittest.TestCase):
             errors = []
             self.module.require_page_color_component_aggregation(errors, "eval-3/page", row)
         self.assertEqual(errors, [])
-
-    def test_page_dominant_colour_thresholds_are_one_to_two_three_and_zero_or_four(self) -> None:
-        with tempfile.TemporaryDirectory() as tmp:
-            artifact = Path(tmp) / "component-color-families.json"
-            artifact.write_text("{}", encoding="utf-8")
-            def row_for(areas: dict[str, int], dominant: list[str], rating: str) -> dict:
-                return {
-                    "colorLogicContractVersion": "3.1",
-                    "componentColorArtifact": str(artifact),
-                    "componentColorSummaries": [{
-                        "componentId": "C1", "colorFamilies": ["红", "橙", "黄"], "colorFamilyCount": 3,
-                        "effectiveUiPixelCount": 100, "colorFamilyPixelAreas": areas,
-                        "dominantColorMeasurementStatus": "measured",
-                    }],
-                    "colorFamilies": ["红", "橙", "黄"], "colorFamilyCount": 3,
-                    "dominantColorAreaRatioThreshold": 0.05,
-                    "effectiveUiPixelCount": 100, "colorFamilyPixelAreas": areas,
-                    "colorFamilyAreaRatios": {family: value / 100 for family, value in areas.items()},
-                    "dominantColorFamilies": dominant, "dominantColorCount": len(dominant),
-                    "evidenceSource": "component_color_family_aggregation", "rating": rating,
-                }
-            three = {"红": 6, "橙": 6, "黄": 6, "绿": 0, "青": 0, "蓝": 0, "紫": 0}
-            errors: list[str] = []
-            self.module.require_page_color_component_aggregation(errors, "eval-3/page", row_for(three, ["红", "橙", "黄"], "达标"))
-            self.assertEqual(errors, [])
-            zero = {"红": 5, "橙": 5, "黄": 5, "绿": 0, "青": 0, "蓝": 0, "紫": 0}
-            errors = []
-            self.module.require_page_color_component_aggregation(errors, "eval-3/page", row_for(zero, [], "不达标"))
-            self.assertEqual(errors, [])
-            four = {"红": 6, "橙": 6, "黄": 6, "绿": 6, "青": 0, "蓝": 0, "紫": 0}
-            errors = []
-            self.module.require_page_color_component_aggregation(errors, "eval-3/page", row_for(four, ["红", "橙", "黄", "绿"], "不达标"))
-            self.assertEqual(errors, [])
 
     def test_direct_json_skill_rejects_obsolete_measurement(self) -> None:
         row = {

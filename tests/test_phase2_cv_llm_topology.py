@@ -102,7 +102,29 @@ class CvLlmTopologyTests(unittest.TestCase):
     def test_retry_maps_manifest_audit_index_to_card_id(self):
         manifest = {"cards": [{"cardId": "C1"}, {"cardId": "C4"}]}
         plan = build_retry_plan({"errors": []}, {"valid": False, "errors": ["cards[1].regions[2]:bad_item"]}, 1, 3, manifest)
-        self.assertEqual(plan["targets"][0]["cardId"], "C4")
+        self.assertEqual(plan["targets"][0]["cardId"], "C1")
+        self.assertEqual(plan["targets"][0]["errors"], ["manifest_audit:cards[1].regions[2]:bad_item"])
+
+    def test_retry_keeps_a_middle_card_error_off_the_cropped_tail_card(self):
+        manifest = {"cards": [{"cardId": "C1"}, {"cardId": "C2"}, {"cardId": "C3"}]}
+        plan = build_retry_plan(
+            {"errors": []},
+            {"valid": False, "errors": ["cards[2].regions[3].itemGroups[2]:appended_item_requires_text_and_price"]},
+            1,
+            3,
+            manifest,
+        )
+        self.assertEqual([target["cardId"] for target in plan["targets"]], ["C2"])
+        self.assertIn("cards[2].regions[3].itemGroups[2]", plan["targets"][0]["errors"][0])
+
+    def test_cropped_graphic_item_does_not_require_offscreen_text_or_price(self):
+        groups = append_item_groups("下挂商品区", [{
+            "id": "P1", "元素类型": "图片", "坐标": [0, 0, 80, 60],
+            "render": {"visibleStatus": "naturally_cropped"},
+        }], "商家卡片_图文下挂")
+        self.assertEqual(groups[0]["visibleStatus"], "naturally_cropped")
+        self.assertEqual(groups[0]["textElementIds"], [])
+        self.assertEqual(groups[0]["priceElementIds"], [])
 
     def test_text_attachment_item_preserves_text_attachment_slot(self):
         facts = {"screenshot": "/tmp/current.png", "candidates": {"text": [], "photos": []}, "routing": {}}

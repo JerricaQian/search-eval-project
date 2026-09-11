@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Derive canonical seven-colour families for every Phase2 result card.
 
-This is the sole deterministic component calculator shared by component and
-page colour evaluation.  It derives colour families from Phase2 visual facts
-and, when the accepted source screenshot is available, measures each card's
-effective UI pixels for the page-level dominant-colour condition.  The page
-Skill only aggregates this artifact; it never launches its own pixel script.
+This is the sole deterministic colour calculator shared by component and page
+colour evaluation.  It reads only published Phase2 visual colour values; it
+never samples screenshot pixels.  The page Skill consumes the union of its
+per-component families rather than running a separate page-colour script.
 """
 from __future__ import annotations
 
@@ -15,9 +14,6 @@ import re
 import sys
 from pathlib import Path
 from typing import Any, Iterable
-
-from PIL import Image
-
 
 ROOT = Path(__file__).resolve().parents[6]
 SHARED_SCRIPTS = ROOT / "scripts"
@@ -30,11 +26,10 @@ from color_taxonomy import HUE7_ZH, hue7_family, is_chromatic_rgb
 from phase2_bundle_loader import load_phase2_facts
 
 
-CONTRACT_VERSION = "component-color-families.v3.1"
+CONTRACT_VERSION = "component-color-families.v3"
 FAMILY_ORDER = ("red", "orange", "yellow", "green", "cyan", "blue", "purple")
 COLOR_FIELDS = ("textColor", "backgroundColor", "borderColor")
 COLOR_ROLE_FAMILIES = frozenset(FAMILY_ORDER)
-DOMINANT_COLOR_AREA_RATIO_THRESHOLD = 0.05
 FILTER_COMPONENT_TYPES = {
     "image_filter",
     "business_image_filter",
@@ -122,22 +117,6 @@ def component_rating(color_count: int) -> str:
     return "不达标"
 
 
-def rect_from_value(value: Any) -> tuple[int, int, int, int] | None:
-    """Read a Phase2 ``[x, y, width, height]`` rectangle without guessing."""
-    if not isinstance(value, (list, tuple)) or len(value) != 4:
-        return None
-    if any(not isinstance(item, (int, float)) for item in value):
-        return None
-    x, y, width, height = (int(item) for item in value)
-    if width <= 0 or height <= 0:
-        return None
-    return x, y, width, height
-
-
-def element_rect(element: dict[str, Any]) -> tuple[int, int, int, int] | None:
-    return rect_from_value(element.get("coord")) or rect_from_value(element.get("坐标"))
-
-
 def family_from_color_role(value: Any) -> str | None:
     """Use legacy confirmed seven-colour roles only when CSS values are absent."""
     if not isinstance(value, str):
@@ -148,13 +127,12 @@ def family_from_color_role(value: Any) -> str | None:
 
 def component_colour_families(
     card: dict[str, Any],
-) -> tuple[list[str], list[str], list[str], list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
-    """Collect a card's verified colour facts and the exclusions used for pixels."""
+) -> tuple[list[str], list[str], list[str], list[dict[str, Any]], list[dict[str, Any]]]:
+    """Collect a card's verified colour facts and exclusions."""
     scanned_ids: list[str] = []
     excluded_ids: list[str] = []
     neutral_values: list[dict[str, Any]] = []
     source_values: list[dict[str, Any]] = []
-    excluded_regions: list[dict[str, Any]] = []
     family_keys: set[str] = set()
     for element in iter_card_elements(card):
         element_id = element.get("id")
@@ -163,9 +141,6 @@ def component_colour_families(
         excluded_reason = visual_element_is_excluded(element)
         if excluded_reason:
             excluded_ids.append(element_id)
-            rect = element_rect(element)
-            if rect:
-                excluded_regions.append({"elementId": element_id, "rect": rect, "reason": excluded_reason})
             continue
         scanned_ids.append(element_id)
         visual = element.get("visual") if isinstance(element.get("visual"), dict) else {}
@@ -208,76 +183,7 @@ def component_colour_families(
         [HUE7_ZH[family] for family in ordered_keys],
         neutral_values,
         source_values,
-        excluded_regions,
     )
-
-
-def measure_component_colour_areas(
-    image: Image.Image | None,
-    card: dict[str, Any],
-    family_names: list[str],
-    excluded_regions: list[dict[str, Any]],
-) -> dict[str, Any]:
-    """Measure known card colour families after excluding photos and image filters.
-
-    The denominator is every pixel in the card's confirmed effective UI bounds
-    after Phase2-excluded media is removed.  Only families already established
-    by the card's Phase2 colour facts receive a numerator, so photos, filters
-    and unconfirmed colours cannot create a dominant colour.
-    """
-    empty_areas = {HUE7_ZH[family]: 0 for family in FAMILY_ORDER}
-    if image is None:
-        return {
-            "status": "unavailable",
-            "reason": "accepted_screenshot_unavailable",
-            "effectiveUiPixelCount": 0,
-            "colorFamilyPixelAreas": empty_areas,
-        }
-    rect = rect_from_value(card.get("coord")) or rect_from_value(card.get("坐标"))
-    if rect is None:
-        return {
-            "status": "unavailable",
-            "reason": "card_bounds_unavailable",
-            "effectiveUiPixelCount": 0,
-            "colorFamilyPixelAreas": empty_areas,
-        }
-    x, y, width, height = rect
-    left, top = max(0, x), max(0, y)
-    right, bottom = min(image.width, x + width), min(image.height, y + height)
-    if right <= left or bottom <= top:
-        return {
-            "status": "unavailable",
-            "reason": "card_bounds_outside_screenshot",
-            "effectiveUiPixelCount": 0,
-            "colorFamilyPixelAreas": empty_areas,
-        }
-    excluded_rects = [item["rect"] for item in excluded_regions if isinstance(item.get("rect"), tuple)]
-    allowed_families = {key for key, zh_name in HUE7_ZH.items() if zh_name in family_names}
-    areas = {HUE7_ZH[family]: 0 for family in FAMILY_ORDER}
-    effective_pixels = 0
-    rgb_image = image.convert("RGB")
-    pixels = rgb_image.load()
-    for pixel_y in range(top, bottom):
-        for pixel_x in range(left, right):
-            if any(
-                excluded_x <= pixel_x < excluded_x + excluded_width
-                and excluded_y <= pixel_y < excluded_y + excluded_height
-                for excluded_x, excluded_y, excluded_width, excluded_height in excluded_rects
-            ):
-                continue
-            effective_pixels += 1
-            red, green, blue = pixels[pixel_x, pixel_y]
-            if not is_chromatic_rgb(red, green, blue):
-                continue
-            family = hue7_family(rgb_hue(red, green, blue))
-            if family in allowed_families:
-                areas[HUE7_ZH[family]] += 1
-    return {
-        "status": "measured",
-        "reason": "",
-        "effectiveUiPixelCount": effective_pixels,
-        "colorFamilyPixelAreas": areas,
-    }
 
 
 def iter_card_elements(card: dict[str, Any]) -> Iterable[dict[str, Any]]:
@@ -289,22 +195,14 @@ def iter_card_elements(card: dict[str, Any]) -> Iterable[dict[str, Any]]:
                 yield element
 
 
-def compute_components(facts: dict[str, Any], screenshot_path: Path | None = None) -> list[dict[str, Any]]:
-    image: Image.Image | None = None
-    if screenshot_path and screenshot_path.is_file():
-        try:
-            with Image.open(screenshot_path) as source:
-                image = source.convert("RGB")
-        except OSError:
-            image = None
+def compute_components(facts: dict[str, Any]) -> list[dict[str, Any]]:
     components: list[dict[str, Any]] = []
     for card in facts.get("cards", []):
         if not isinstance(card, dict) or not isinstance(card.get("cardId"), str):
             continue
         if component_is_filter(card):
             continue
-        scanned_ids, excluded_ids, families, neutral_values, source_values, excluded_regions = component_colour_families(card)
-        area_measurement = measure_component_colour_areas(image, card, families, excluded_regions)
+        scanned_ids, excluded_ids, families, neutral_values, source_values = component_colour_families(card)
         components.append({
             "componentId": card["cardId"],
             "scannedElementIds": scanned_ids,
@@ -313,10 +211,6 @@ def compute_components(facts: dict[str, Any], screenshot_path: Path | None = Non
             "sourceColorValues": source_values,
             "colorFamilies": families,
             "colorFamilyCount": len(families),
-            "effectiveUiPixelCount": area_measurement["effectiveUiPixelCount"],
-            "colorFamilyPixelAreas": area_measurement["colorFamilyPixelAreas"],
-            "dominantColorMeasurementStatus": area_measurement["status"],
-            "dominantColorMeasurementReason": area_measurement["reason"],
             "rating": component_rating(len(families)),
             "evidenceSource": "phase2_json_visual_colors",
         })
@@ -329,14 +223,11 @@ def main() -> int:
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     facts = load_phase2_facts(manifest_path=args.manifest)
-    screenshot = facts.get("screenshot")
-    screenshot_path = Path(screenshot) if isinstance(screenshot, str) and screenshot else None
     result = {
         "contract": "component-color-families",
         "contractVersion": CONTRACT_VERSION,
         "manifest": str(args.manifest.resolve()),
-        "dominantColorAreaRatioThreshold": DOMINANT_COLOR_AREA_RATIO_THRESHOLD,
-        "components": compute_components(facts, screenshot_path),
+        "components": compute_components(facts),
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

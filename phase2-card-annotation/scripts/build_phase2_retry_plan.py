@@ -25,16 +25,17 @@ def card_ids(errors: list[str], gate: dict[str, Any], manifest: dict[str, Any] |
     for target in gate.get("reprocessTargets", []):
         if isinstance(target, dict) and str(target.get("cardId", "")):
             ids.add(str(target["cardId"]))
-    # Manifest validation addresses cards by their stable array position.  A
-    # retry plan must turn that back into a card ID, otherwise it tells the
-    # next attempt to re-review the entire screenshot and defeats the
-    # targeted-rework guarantee.
+    # Manifest validation reports human-readable, one-based card positions
+    # (``cards[1]`` is the first card).  Convert that position to the
+    # zero-based Python list index before resolving the stable card ID.
+    # Keeping this conversion here prevents a failed middle card from being
+    # retried as the next (often naturally cropped) tail card.
     cards = manifest.get("cards", []) if isinstance(manifest, dict) else []
     for error in errors:
         match = re.search(r"(?:manifest_audit:)?cards\[(\d+)\]", error)
         if not match or not isinstance(cards, list):
             continue
-        index = int(match.group(1))
+        index = int(match.group(1)) - 1
         if 0 <= index < len(cards) and isinstance(cards[index], dict):
             card_id = str(cards[index].get("cardId", ""))
             if card_id:
@@ -54,7 +55,8 @@ def build(gate: dict[str, Any], manifest_audit: dict[str, Any] | None, attempt: 
             cards = manifest.get("cards", [])
             index = next((i for i, card in enumerate(cards) if isinstance(card, dict) and card.get("cardId") == card_id), None)
             if index is not None:
-                card_errors = [error for error in errors if f"cards[{index}]" in error]
+                validator_position = index + 1
+                card_errors = [error for error in errors if f"cards[{validator_position}]" in error]
         action = "redo_card_current_pixel_review"
         required = ["cardTypeCandidate", "topology.regions", "topology.attachedItems", "atomic fields with separate coords"]
         if any("graphic" in error or "attached_goods" in error for error in card_errors):
