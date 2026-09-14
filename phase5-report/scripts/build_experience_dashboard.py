@@ -38,14 +38,28 @@ DEDICATED_BUSINESS_TERMS = (
     ("maoyan", ("电影", "影院", "演出", "场次", "票价", "剧场")),
     ("xiaoxiang", ("小象超市", "小象")),
 )
-SERVICE_RETAIL_TERMS = ("休闲娱乐", "休闲园区", "KTV", "洗浴", "美发", "美甲", "美睫", "美容院", "美容美体", "皮肤管理", "祛痘", "面部清洁", "丽人", "摄影", "婚礼", "结婚", "教育", "培训", "家政", "亲子", "儿童乐园", "剧本杀", "沉浸式探秘", "团建拓展", "按摩", "理发", "维修")
+SERVICE_RETAIL_TERMS = (
+    "休闲娱乐", "休闲园区", "KTV", "洗浴", "美发", "美甲", "美睫", "美容院", "美容美体",
+    "皮肤管理", "祛痘", "面部清洁", "丽人", "摄影", "婚礼", "结婚", "教育", "培训", "家政",
+    "亲子", "儿童乐园", "剧本杀", "沉浸式探秘", "团建拓展", "按摩", "理发", "维修",
+    "健身", "健身房", "健身中心", "健身工作室", "私教", "DIY手工坊", "手作", "手工坊",
+    "主机游戏", "游戏体验馆", "游戏馆", "桌游", "头疗", "采耳", "养发", "台球", "台球厅", "棋牌",
+)
 # 这些服务业态的展示文案可能同时出现“剧场/演绎”等猫眼弱提示词，
 # 但其业务身份仍由更具体的服务零售语义决定。
 SERVICE_RETAIL_EXCLUSIVE_TERMS = ("剧本杀", "沉浸式探秘", "足道", "足浴", "按摩", "spa")
 FLASH_DELIVERY_TERMS = ("闪购", "分钟达", "即时零售", "小时达", "闪电仓", "歪马送酒")
-FLASH_CATEGORY_TERMS = ("零食", "饮料", "日用百货", "卫生巾", "安睡裤", "纸巾", "粮油", "调味", "水果", "西瓜", "果切", "榴莲", "蔬菜", "黄瓜", "肉禽蛋", "水产", "生鲜", "鲜生", "盒马", "超市", "鲜花", "花束", "啤酒", "白酒", "红酒", "矿泉水", "咖啡豆", "便利店")
+FLASH_CATEGORY_TERMS = ("零食", "饮料", "日用百货", "卫生巾", "安睡裤", "纸巾", "粮油", "调味", "水果", "西瓜", "果切", "榴莲", "蔬菜", "黄瓜", "肉禽蛋", "水产", "生鲜", "鲜生", "盒马", "超市", "鲜花", "花束", "啤酒", "白酒", "红酒", "矿泉水", "咖啡豆", "便利店", "成人用品", "情趣", "避孕套", "健康用品", "计生用品")
 FLASH_CATEGORY_OVERRIDE_TERMS = ("咖啡豆", "咖啡粉", "咖啡胶囊")
-FOOD_TERMS = ("餐厅", "饭店", "火锅", "烧烤", "肉串", "猪脚饭", "烧腊", "蛋糕", "面包甜点", "柠檬水", "百香果", "咖啡", "奶茶", "菜品", "美食", "小吃", "快餐", "汉堡", "粉面", "盒饭", "日料", "中餐", "西餐")
+FOOD_TERMS = (
+    "餐厅", "饭店", "火锅", "烧烤", "肉串", "猪脚饭", "烧腊", "蛋糕", "面包甜点", "早餐",
+    "柠檬水", "百香果", "咖啡", "coffee", "奶茶", "茶饮", "果茶", "奶酪", "酸奶", "菜品",
+    "美食", "小吃", "快餐", "汉堡", "粉面", "米粉", "米线", "盒饭", "日料", "中餐", "西餐",
+    "包子", "小笼包", "黄焖鸡", "疙瘩汤", "汤粉", "炸鸡", "鸡腿", "寿司", "鳗鱼饭", "刺身",
+    "烧鸟", "披萨", "比萨", "肯德基", "kfc", "必胜客", "达美乐", "星巴克", "喜茶", "1点点",
+    "一点点",
+)
+LOCAL_RETAIL_TERMS = ("零食", "零食乐园", "品牌零食", "省钱超市")
 DELIVERY_TERMS = ("外卖", "配送", "起送", "送达", "外送")
 LEVELS = {
     "phase3-single_element-eval": ("单一元素维度", "element", "#6366f1"),
@@ -121,7 +135,8 @@ def card_semantic_text(card: dict[str, Any]) -> str:
     for region in card.get("regions", []):
         for element in region.get("elements", []):
             facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
-            if facts.get("semanticRole") == "fulfillment" or "履约" in str(region.get("name", "")):
+            semantic_role = str(facts.get("semanticRole") or "").strip()
+            if semantic_role in {"fulfillment", "location", "distance"} or "履约" in str(region.get("name", "")):
                 continue
             values.extend(str(element.get(key, "")) for key in ("内容简述", "content", "text", "visibleText"))
             values.append(str(facts.get("rawText", "")))
@@ -157,7 +172,8 @@ def card_type_code(card_type: str) -> str:
 
 
 def has_any(text: str, terms: tuple[str, ...]) -> bool:
-    return any(term in text for term in terms)
+    normalized = text.casefold()
+    return any(term.casefold() in normalized for term in terms)
 
 
 def classified_business(code: str, kind: str, card_type: str, confidence: str) -> dict[str, str]:
@@ -191,6 +207,20 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
             "cardTypeCode": kind, "cardTypeName": card_type,
         }
     semantic, fulfillment = card_semantic_text(card), fulfillment_text(card)
+    has_visible_text = any(
+        str((element.get("textFacts") or {}).get("rawText") or element.get("内容简述")
+            or element.get("content") or element.get("text") or element.get("visibleText") or "").strip()
+        for region in card.get("regions", [])
+        for element in region.get("elements", [])
+        if isinstance(element, dict)
+    )
+    if (not has_visible_text
+            and str((card.get("structure") or {}).get("visibleStatus") or "") == "naturally_cropped"):
+        return {
+            "scope": "cropped", "businessCode": "", "businessName": "自然触底未形成可归属卡片",
+            "confidence": "naturally_cropped_without_visible_semantics",
+            "cardTypeCode": kind, "cardTypeName": card_type,
+        }
     if (card_type in PLATFORM_SCOPES or card.get("cardId") == "macro-top"
             or (card_type == "异构卡" and "大家还在搜" in semantic)):
         return {"scope": "platform", "businessCode": "platform", "businessName": "平台公共组件",
@@ -210,10 +240,13 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
     is_flash_category_override = has_any(semantic, FLASH_CATEGORY_OVERRIDE_TERMS)
     is_food = has_any(semantic, FOOD_TERMS)
     is_delivery = has_any(fulfillment, DELIVERY_TERMS)
+    is_local_retail = has_any(semantic, LOCAL_RETAIL_TERMS)
 
     if not visible_result and is_service:
         visible_result = classified_business("service_retail", kind, card_type, "semantic")
-    if not visible_result and is_delivery:
+    # “闪购/分钟达”等是当前卡片直接可见的即时零售履约身份；即使 OCR 将
+    # 起送/配送字段归入价格区，也不应因此把已显示闪购标识的卡片留为 unknown。
+    if not visible_result and (is_delivery or is_flash_label):
         if is_flash_label or (is_flash_category and (not is_food or is_flash_category_override)):
             visible_result = classified_business("flash_delivery", kind, card_type, "delivery+flash_category")
         elif is_food:
@@ -225,6 +258,8 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
             }
     if not visible_result and is_food:
         visible_result = classified_business("dine_in", kind, card_type, "food_category+non_delivery")
+    if not visible_result and is_local_retail:
+        visible_result = classified_business("service_retail", kind, card_type, "local_retail_semantic")
     if not visible_result:
         # A card container alone is not business evidence.  Defaulting it to
         # a permitted tab makes a dashboard look complete while silently
@@ -488,6 +523,20 @@ def collect(
         query = query_from_result(path)
         if query in manifests:
             return query
+        # Portable query tasks name their isolated result directories with the
+        # immutable runId rather than the human query.  Resolve that runId via
+        # its adjacent task contract before falling back to fragile filename
+        # or unit-screenshot heuristics.  This is especially important for
+        # versioned retry runs (``...-q24-r2``), whose result filenames cannot
+        # safely encode a Chinese query and whose units may legitimately have
+        # no issues.
+        run_id = path.parent.parent.name if path.parent.name == "results" else ""
+        if run_id:
+            task = read_json(project / "runs" / run_id / "task.json")
+            workflow_args = task.get("workflowArgs") if isinstance(task, dict) else None
+            task_query = str(workflow_args.get("query") or "").strip() if isinstance(workflow_args, dict) else ""
+            if task_query in manifests:
+                return task_query
         filename_matches = [
             candidate for candidate in manifests
             if path.name.startswith(f"评测原始结果_{candidate}_")

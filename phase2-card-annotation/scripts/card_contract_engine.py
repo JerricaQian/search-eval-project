@@ -12,6 +12,7 @@ import re
 from typing import Any
 
 from card_type_registry import known_result_types
+from phase2_contract import fulfillment_semantic_kind
 
 
 KNOWN_RESULT_TYPES = known_result_types()
@@ -23,6 +24,36 @@ def _overlap(box: list[int], container: list[int]) -> bool:
 
 def _usable(item: dict[str, Any]) -> bool:
     return item.get("route") != "rejected"
+
+
+def _intersection_area(first: list[int], second: list[int]) -> int:
+    x0, y0 = max(first[0], second[0]), max(first[1], second[1])
+    x1 = min(first[0] + first[2], second[0] + second[2])
+    y1 = min(first[1] + first[3], second[1] + second[3])
+    return max(0, x1 - x0) * max(0, y1 - y0)
+
+
+def _photo_is_fulfillment_badge(photo: dict[str, Any], texts: list[dict[str, Any]]) -> bool:
+    """Resolve compact fulfillment UI before using a CV box as media.
+
+    Photo detectors routinely return a coloured pill/label as an image.  A
+    taxonomy-backed fulfillment field occupying most of that candidate is
+    stronger evidence than generic texture.  Relative coverage keeps this from
+    suppressing a real photograph that merely contains a small overlay label.
+    """
+    box = photo.get("coord", [])
+    if not isinstance(box, list) or len(box) != 4 or box[2] <= 0 or box[3] <= 0:
+        return False
+    photo_area = box[2] * box[3]
+    for text in texts:
+        text_box = text.get("coord", [])
+        if not fulfillment_semantic_kind(str(text.get("text", ""))) or not isinstance(text_box, list) or len(text_box) != 4:
+            continue
+        text_area = max(1, text_box[2] * text_box[3])
+        shared = _intersection_area(box, text_box)
+        if shared / text_area >= 0.70 and photo_area / text_area <= 12:
+            return True
+    return False
 
 
 def _meaningful(value: str) -> str:
@@ -112,7 +143,8 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     coord = card.get("coord", [0, 0, 0, 0])
     x, y, width, height = coord
     texts = [item for item in facts.get("candidates", {}).get("text", []) if _usable(item) and _overlap(item.get("coord", [0, 0, 0, 0]), coord)]
-    photos = [item for item in facts.get("candidates", {}).get("photos", []) if _usable(item) and _overlap(item.get("coord", [0, 0, 0, 0]), coord)]
+    raw_photos = [item for item in facts.get("candidates", {}).get("photos", []) if _usable(item) and _overlap(item.get("coord", [0, 0, 0, 0]), coord)]
+    photos = [item for item in raw_photos if not _photo_is_fulfillment_badge(item, texts)]
     joined = "\n".join(str(item.get("text", "")) for item in texts)
     title_like = []
     structured_only = re.compile(r"^(?:[¥￥]?\d[\d.]*|\d+(?:\.\d+)?(?:km|公里|分钟|条|分)|月售\d+|已售\d+)$", re.I)
@@ -120,6 +152,11 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     reviewed_topology = card.get("reviewedTopology", {}) if isinstance(card.get("reviewedTopology"), dict) else {}
     topology_regions = {str(item.get("slot", "")) for item in reviewed_topology.get("regions", []) if isinstance(item, dict)}
     topology_items = [item for item in reviewed_topology.get("attachedItems", []) if isinstance(item, dict)]
+    reviewed_product_topology = (
+        str(card.get("reviewedCardType", "")) == "商品卡片"
+        and {"head_media", "title", "price"}.issubset(topology_regions)
+        and not topology_items
+    )
     reviewed_merchant_variant = str(card.get("reviewedMerchantVariant", ""))
     reviewed_text_downhang = (
         {"merchant_head", "merchant_info", "text_attachment"}.issubset(topology_regions)
@@ -177,7 +214,8 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
         "price_text": any(any(item.values()) for item in price_signals),
         "product_spec_text": bool(re.search(r"\d+(?:\.\d+)?\s*(?:g|kg|ml|L|片|粒|瓶|盒|包|袋|支|个|罐|听)(?:\s*[xX*×]\s*\d+)?", joined, re.I)),
         "merchant_metrics": bool(re.search(r"(?:\d(?:\.\d)?\s*分|暂无评分|新店(?:入驻)?|\d+\s*条|人均)", joined, re.I)),
-        "merchant_fulfillment": bool(re.search(r"到店|外卖|闪购|上门|配送|自取", joined)),
+        "merchant_fulfillment": any(fulfillment_semantic_kind(str(item.get("text", ""))) for item in texts),
+        "reviewed_product_topology": reviewed_product_topology,
         "graphic_downhang": graphic_hint or bool(attached_photos),
         "text_downhang": reviewed_text_downhang or (bool(attached_text_blocks) and bool(re.search(service_pattern, attached_joined))),
         "service_language": bool(re.search(service_pattern, joined)),
@@ -208,14 +246,15 @@ def extract_features(card: dict[str, Any], facts: dict[str, Any], structure_bloc
     # require the card candidate to carry the geometry/topology evidence for
     # that type's documented cutting strategy.
     features.update({
-        "product_repeat_boundary": repeated_list_boundary and not graphic_hint,
+        "product_repeat_boundary": reviewed_product_topology or (repeated_list_boundary and not graphic_hint),
         "merchant_graphic_boundary": merchant_graphic_boundary,
         "merchant_text_boundary": reviewed_text_downhang or (repeated_list_boundary and (features["text_downhang"] or features["scenic_ticket_downhang"])),
         # The canonical contract records the merchant base form after a complete
         # current-pixel review.  It is a known card type, not an ambiguous
         # shape that should fall through to ``异构卡``.
         "merchant_plain_boundary": reviewed_merchant_variant == "商家卡片_无下挂" or (
-            repeated_list_boundary and not graphic_hint and not features["text_downhang"] and not features["scenic_ticket_downhang"]
+            repeated_list_boundary and not reviewed_product_topology and not features["product_spec_text"]
+            and not graphic_hint and not features["text_downhang"] and not features["scenic_ticket_downhang"]
         ),
         "hotel_list_boundary": repeated_list_boundary and (features["hotel_identity"] or features["homestay_identity"]),
         "hotel_grid_boundary": "two_column_grid_cell_boundary" in boundary_evidence and (features["hotel_identity"] or features["hotel_room_identity"] or features["homestay_identity"]),
@@ -272,7 +311,7 @@ def resolve_card_type(card: dict[str, Any], facts: dict[str, Any], structure_blo
         "演出电影卡片": 52 if (features.get("performance_poster_boundary") or features.get("movie_schedule_boundary")) and (features.get("performance_identity") or not (features.get("hotel_list_boundary") or features.get("hotel_grid_boundary"))) else 0,
         "度假酒店套餐卡片": 50 if features.get("package_bundle_boundary") else 0,
         "酒店卡片": 48 if features.get("hotel_list_boundary") or features.get("hotel_grid_boundary") else 0,
-        "商品卡片": 10 if features.get("product_repeat_boundary") else 0,
+        "商品卡片": 58 if features.get("reviewed_product_topology") else 10 if features.get("product_repeat_boundary") else 0,
     }
     passing = sorted(
         (item for item in evaluations if item["minimumSatisfied"]),

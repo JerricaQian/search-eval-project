@@ -16,6 +16,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 from semantic_atomicity import merged_tag_reason
+from phase2_contract import fulfillment_semantic_kind
 
 
 Hook = Callable[[dict[str, Any]], list[dict[str, str]]]
@@ -35,11 +36,14 @@ def field_schema_hook(context: dict[str, Any]) -> list[dict[str, str]]:
         # treating an arbitrary numeric token as a rating.
         "rating": r"(?:[0-4](?:\.\d+)?|5(?:\.0+)?)(?:\s*分)?|暂无评分",
         "sales": r"(?:月售|已售|年售|回购|加购).{0,8}\d",
-        "fulfillment": r"到店|外卖|配送|送达|自取|上门|景点|起送|\d{1,3}\s*分钟|\d{1,2}:\d{2}(?:营业|休息)",
     }
     findings = []
     for item in context["semanticItems"]:
         role, text = item["role"], item["text"]
+        if role == "fulfillment":
+            if not fulfillment_semantic_kind(text):
+                findings.append({"hook": "field_schema", "sourceId": item["sourceId"], "reason": f"{role}_text_does_not_match_field_grammar:{text}"})
+            continue
         pattern = patterns.get(role)
         if not pattern:
             continue

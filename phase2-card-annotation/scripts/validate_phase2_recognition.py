@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 from recognition_gate_hooks import run_hooks
-from phase2_contract import merchant_variant, reviewed_card_type
+from phase2_contract import fulfillment_semantic_kind, merchant_variant, reviewed_card_type
 
 
 def overlap(a: list[int], b: list[int]) -> bool:
@@ -44,11 +44,12 @@ def _structured_role_dominates_text(role: str, value: str) -> bool:
     """
     text = value.strip()
     compact = re.sub(r"\s+", "", text)
+    if role == "fulfillment":
+        return bool(fulfillment_semantic_kind(text))
     rules = {
         "location": r"^\d+(?:\.\d+)?(?:km|公里|m|米)$",
         "rating": r"^(?:\d(?:\.\d)?分|暂无评分)$",
         "sales": r"^(?:月售|已售|年售|回购|加购).{0,10}\d.{0,3}$",
-        "fulfillment": r"^(?:(?:约)?\d{1,3}分钟|.{0,4}(?:配送|送达|自取|上门|到店|外卖).{0,6})$",
         "price": r"^(?:[¥￥#Yy]\s*\d|(?:到手价|神价|低价|券后价?|票价|起价)[:：]?\s*[¥￥#Yy]?\d)",
         "tag": r"^.{1,8}$",
     }

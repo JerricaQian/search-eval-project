@@ -16,7 +16,7 @@ from typing import Any
 from card_contract_engine import KNOWN_RESULT_TYPES, price_evidence_items, resolve_card_type
 from card_type_registry import validate_phase2_taxonomy
 from classify_search_card_types import classify_card_types
-from phase2_contract import MERCHANT_HEAD_AND_INFO, topology_errors, topology_parts
+from phase2_contract import MERCHANT_HEAD_AND_INFO, reviewed_card_type, topology_errors, topology_parts
 
 
 VERSION = "phase2.result-card-semantics.v3"
@@ -223,7 +223,7 @@ def _reviewed_merchant_attachment_state(card: dict[str, Any], facts: dict[str, A
     return {"cardType": card_type, "confidence": 1.0, "evidence": evidence}
 
 
-def _reviewed_merchant_contract_validation(resolved: dict[str, Any], card_type: str, evidence: list[str]) -> dict[str, Any]:
+def _reviewed_topology_contract_validation(resolved: dict[str, Any], card_type: str, evidence: list[str]) -> dict[str, Any]:
     """Record topology-backed proof without pretending lexical evidence exists."""
     existing = next(
         (item for item in resolved["contractEvaluations"] if item.get("cardType") == card_type),
@@ -234,7 +234,45 @@ def _reviewed_merchant_contract_validation(resolved: dict[str, Any], card_type: 
         "minimumSatisfied": True,
         "matchedFeatures": sorted(set(existing.get("matchedFeatures", [])) | set(evidence)),
         "missingEvidenceGroups": [],
-        "validationMode": "reviewed_merchant_attachment_state_machine_v3",
+        "validationMode": "reviewed_current_pixel_topology",
+    }
+
+
+def _reviewed_product_state(card: dict[str, Any], resolved: dict[str, Any]) -> dict[str, Any] | None:
+    """Resolve a current-pixel product topology before generic merchant cues.
+
+    Product result cards legitimately contain merchant fulfillment, sales and
+    distance rows.  Those supporting fields must not outweigh the reviewed
+    single-product structure of head media, product title and product price.
+    """
+    topology = card.get("reviewedTopology")
+    if not isinstance(topology, dict):
+        return None
+    card_type = reviewed_card_type(str(card.get("reviewedCardType", "")), topology)
+    if card_type != "商品卡片" or topology_errors(card_type, topology):
+        return None
+    # A reviewed shape is not permission to erase stronger domain identity.
+    # Hotel cards share head-media/title/price, so a fully satisfied hotel
+    # contract wins when the current text also establishes hotel/homestay
+    # identity and hotel list/grid topology.
+    hotel_contract = next(
+        (item for item in resolved.get("contractEvaluations", []) if item.get("cardType") == "酒店卡片"),
+        {},
+    )
+    features = resolved.get("features", {})
+    if (
+        hotel_contract.get("minimumSatisfied") is True
+        and (features.get("hotel_identity") or features.get("hotel_room_identity") or features.get("homestay_identity"))
+        and (features.get("hotel_list_boundary") or features.get("hotel_grid_boundary"))
+    ):
+        return None
+    slots, items = topology_parts(topology)
+    if items or not {"head_media", "title", "price"}.issubset(slots):
+        return None
+    return {
+        "cardType": "商品卡片",
+        "confidence": 1.0,
+        "evidence": ["reviewed_product_topology:head_media_title_price"],
     }
 
 
@@ -258,8 +296,21 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
             type_result["candidates"].sort(key=lambda item: item["confidence"], reverse=True)
         resolved = resolve_card_type(card, facts, structure_blocks, recognition_contracts, type_result["candidates"], geometry_profiles)
         selected = resolved["selected"]
+        reviewed_product = _reviewed_product_state(card, resolved)
         reviewed_merchant = _reviewed_merchant_attachment_state(card, facts)
-        if reviewed_merchant:
+        if reviewed_product:
+            selected = {
+                "cardType": reviewed_product["cardType"],
+                "confidence": reviewed_product["confidence"],
+                "status": "confirmed",
+                "classificationMode": "reviewed_product_topology_v1",
+                "evidence": reviewed_product["evidence"],
+            }
+            resolved["contractValidation"] = _reviewed_topology_contract_validation(
+                resolved, selected["cardType"], selected["evidence"],
+            )
+            resolved["nearestKnownCardType"] = selected["cardType"]
+        elif reviewed_merchant:
             selected = {
                 "cardType": reviewed_merchant["cardType"],
                 "confidence": reviewed_merchant["confidence"],
@@ -267,7 +318,7 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
                 "classificationMode": "reviewed_merchant_attachment_state_machine_v3",
                 "evidence": reviewed_merchant["evidence"],
             }
-            resolved["contractValidation"] = _reviewed_merchant_contract_validation(
+            resolved["contractValidation"] = _reviewed_topology_contract_validation(
                 resolved, selected["cardType"], selected["evidence"],
             )
             resolved["nearestKnownCardType"] = selected["cardType"]
@@ -275,6 +326,14 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
         bottom = card["coord"][1] + card["coord"][3]
         grid_column = str(card.get("gridColumn", ""))
         is_bottom_partial = viewport_height > 0 and bottom >= viewport_height - max(20, round(viewport_height * 0.02)) and (card_index == len(result_cards) - 1 or bool(grid_column))
+        reviewed_topology = card.get("reviewedTopology", {}) if isinstance(card.get("reviewedTopology"), dict) else {}
+        reviewed_media_visible = any(
+            isinstance(region, dict)
+            and region.get("slot") in {"head_media", "media", "merchant_head"}
+            and region.get("visibleStatus", "confirmed") in {"confirmed", "naturally_cropped"}
+            for region in reviewed_topology.get("regions", [])
+        )
+        has_visible_media = resolved["features"].get("has_media") or reviewed_media_visible
         previous = output[-1] if output else None
         if grid_column:
             previous = next(
@@ -284,14 +343,14 @@ def map_cards(facts: dict[str, Any], candidates: dict[str, Any], taxonomy: dict[
             )
         previous_selected = previous.get("selectedCardType", {}) if previous else {}
         previous_type = str(previous_selected.get("cardType", ""))
-        if is_bottom_partial and resolved["features"].get("has_media"):
+        if is_bottom_partial and has_visible_media:
             partial_policy = {
                 "applied": True, "visibleStatus": "naturally_cropped", "screenEdge": "bottom",
                 "waivedOnly": ["missing_required_field", "missing_semantic_anchor"],
                 "stillBlocking": ["malformed_visible_text", "ocr_consensus_failure", "explicit_ad_conflict"],
                 "unobservableReasons": ["viewport_bottom_natural_crop"],
             }
-        if is_bottom_partial and resolved["features"].get("has_media") and previous_selected.get("status") == "confirmed" and previous_type in KNOWN_RESULT_TYPES and not resolved["features"].get("explicit_ad_marker"):
+        if is_bottom_partial and has_visible_media and previous_selected.get("status") == "confirmed" and previous_type in KNOWN_RESULT_TYPES and not resolved["features"].get("explicit_ad_marker"):
             inherited_validation = next(
                 (item for item in resolved["contractEvaluations"] if item.get("cardType") == previous_type),
                 resolved["contractValidation"],

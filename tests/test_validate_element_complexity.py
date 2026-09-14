@@ -62,6 +62,21 @@ class ValidateElementComplexityTest(unittest.TestCase):
             }],
         }
 
+    @staticmethod
+    def active_elements() -> dict[str, dict]:
+        return {
+            "E1": {
+                "id": "E1", "content": "原文:服务很好非常喜欢",
+                "semanticRole": "recommendation", "promotionPrefix": "",
+                "colorRole": "orange", "entityKind": "text", "isPhoto": False,
+            },
+            "E2": {
+                "id": "E2", "content": "原文:¥375起",
+                "semanticRole": "price", "promotionPrefix": "",
+                "colorRole": "red", "entityKind": "text", "isPhoto": False,
+            },
+        }
+
     def test_complete_whole_card_coverage_is_directly_auditable(self) -> None:
         errors: list[str] = []
         self.module.require_complexity_coverage(errors, "eval-4/C1", self.valid_row())
@@ -130,6 +145,57 @@ class ValidateElementComplexityTest(unittest.TestCase):
         errors: list[str] = []
         self.module.require_complexity_coverage(errors, "eval-4/C1", row)
         self.assertEqual(errors, [])
+
+    def test_colored_special_offer_cannot_use_generic_text_exclusion(self) -> None:
+        row = self.valid_row()
+        row["candidateLedger"][0].update({
+            "content": "特价团", "decision": "excluded", "reason": "当前原子为内容文字或图片",
+        })
+        row["includedTagStyles"] = []
+        active = self.active_elements()
+        active["E1"].update({"content": "原文:特价团", "semanticRole": "promotion", "colorRole": "red"})
+        errors: list[str] = []
+
+        self.module.require_complexity_coverage(errors, "eval-4/C1", row, active)
+
+        self.assertTrue(any("generic_exclusion_reason_forbidden" in error for error in errors))
+        self.assertTrue(any("colored_promotion_must_be_included_tag" in error for error in errors))
+
+    def test_embedded_shenqiangshou_counts_prefix_only(self) -> None:
+        row = self.valid_row()
+        row["candidateLedger"][0].update({
+            "content": "【神抢手】精选双人餐",
+            "styleKey": "tag|red|promotion|none|none",
+        })
+        row["includedTagStyles"][0].update({
+            "content": "【神抢手】精选双人餐",
+            "styleKey": "tag|red|promotion|none|none",
+        })
+        active = self.active_elements()
+        active["E1"].update({
+            "content": "原文:【神抢手】精选双人餐", "semanticRole": "attachment",
+            "promotionPrefix": "【神抢手】", "colorRole": "neutral",
+        })
+        errors: list[str] = []
+
+        self.module.require_complexity_coverage(errors, "eval-4/C1", row, active)
+
+        self.assertTrue(any("content_must_equal_promotionPrefix" in error for error in errors))
+
+        row["includedTagStyles"][0]["content"] = "【神抢手】"
+        errors = []
+        self.module.require_complexity_coverage(errors, "eval-4/C1", row, active)
+        self.assertEqual(errors, [])
+
+    def test_fulfillment_semantics_outrank_colored_tag_style(self) -> None:
+        row = self.valid_row()
+        active = self.active_elements()
+        active["E1"].update({"content": "原文:闪购", "semanticRole": "fulfillment", "colorRole": "yellow"})
+        errors: list[str] = []
+
+        self.module.require_complexity_coverage(errors, "eval-4/C1", row, active)
+
+        self.assertTrue(any("fulfillment_must_be_excluded" in error for error in errors))
 
 
 if __name__ == "__main__":

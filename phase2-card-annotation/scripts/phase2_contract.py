@@ -8,6 +8,7 @@ validate the remaining visible facts.
 from __future__ import annotations
 
 import json
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -79,6 +80,43 @@ def authoritative_contracts() -> dict[str, dict[str, Any]]:
 
 def registered_card_types() -> set[str]:
     return set(authoritative_contracts())
+
+
+@lru_cache(maxsize=1)
+def fulfillment_tag_values() -> frozenset[str]:
+    """Return the shared fulfillment enum owned by the search taxonomy.
+
+    Recognition, manifest assembly and validation must not maintain separate
+    handwritten copies of these labels.  Golden manifests use the same enum,
+    so this is also the compatibility point for golden-contract versioning.
+    """
+    taxonomy = json.loads(TAXONOMY_PATH.read_text(encoding="utf-8"))
+    values = taxonomy.get("commonElementVocabulary", {}).get("fulfillment", [])
+    return frozenset(str(value).strip() for value in values if str(value).strip())
+
+
+def fulfillment_semantic_kind(value: str) -> str:
+    """Classify a complete visible field as fulfillment, or return ``""``.
+
+    Full-field matching is intentional: a product title that happens to contain
+    “酒店” or “外卖” must remain a title.  Structured delivery rows are covered
+    in addition to the short badge enum because golden/Phase3 facts include
+    duration, minimum-order, delivery-fee and pickup variants.
+    """
+    compact = re.sub(r"[\s·•|]+", "", str(value).strip())
+    if not compact:
+        return ""
+    if compact in {re.sub(r"[\s·•|]+", "", item) for item in fulfillment_tag_values()}:
+        return "fulfillment_tag"
+    patterns = (
+        ("delivery_time", r"^(?:约)?\d{1,3}分钟$|^预计.{0,8}(?:送达|达)$|^\d{1,2}:\d{2}(?:前)?送达$"),
+        ("minimum_order", r"^起送[¥￥]?\d+(?:\.\d+)?(?:元)?$"),
+        ("delivery_fee", r"^(?:配送(?:费)?(?:约)?[¥￥]?\d+(?:\.\d+)?|免配送费|免费配送|满[¥￥]?\d+(?:\.\d+)?(?:包邮|免配送费))$"),
+        ("pickup", r"^(?:可自取|到店取|线上点到店取|门店自提)$"),
+        ("delivery_status", r"^(?:\d{1,2}:\d{2}|明天\d{1,2}:\d{2})(?:营业|配送|后配送)$"),
+        ("fulfillment_row", r"^(?=.{2,80}$)(?=.*(?:起送|配送|包邮|自取|送达|分钟))(?:起送[¥￥]?\d+(?:\.\d+)?|满[¥￥]?\d+(?:\.\d+)?(?:免配送费|包邮)|免配送费|免费配送|配送(?:费)?(?:约)?[¥￥]?\d+(?:\.\d+)?|(?:约)?\d{1,3}分钟|预计.{0,8}(?:送达|达)|可自取|到店取|\d+(?:\.\d+)?(?:km|公里|m|米))+$"),
+    )
+    return next((kind for kind, pattern in patterns if re.fullmatch(pattern, compact)), "")
 
 
 def structure_blueprint(card_type: str) -> dict[str, Any]:

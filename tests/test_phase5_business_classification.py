@@ -74,6 +74,57 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
         self.assertEqual(result["businessCode"], "dine_in")
         self.assertFalse(hasattr(self.module, "REPORT_QUERY_BUSINESS_OVERRIDES"))
 
+    def test_business_terms_are_case_insensitive(self) -> None:
+        result = self.module.classify_card(card("商家卡片-文字下挂", ("原文:量贩式KTV",), ()))
+        self.assertEqual(result["businessCode"], "service_retail")
+
+    def test_fitness_and_diy_cards_are_service_retail(self) -> None:
+        for semantic in ("原文:24小时健身房", "原文:DIY手工坊拼豆"):
+            with self.subTest(semantic=semantic):
+                result = self.module.classify_card(card("商家卡片-文字下挂", (semantic,), ()))
+                self.assertEqual(result["businessCode"], "service_retail")
+
+    def test_location_semantics_do_not_override_visible_retail_identity(self) -> None:
+        input_card = card("异构卡", ("原文:好想来零食乐园",), ())
+        input_card["regions"][0]["elements"].append({
+            "内容简述": "原文:中山医院",
+            "textFacts": {"semanticRole": "location"},
+        })
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["businessCode"], "service_retail")
+
+    def test_visible_flash_badge_is_sufficient_delivery_identity(self) -> None:
+        result = self.module.classify_card(card("商品卡片", ("原文:充电宝",), ("原文:闪购",)))
+        self.assertEqual(result["businessCode"], "flash_delivery")
+
+    def test_breakfast_with_delivery_is_food_delivery(self) -> None:
+        result = self.module.classify_card(card("商家卡片-图文下挂", ("原文:品致早餐",), ("原文:外卖",)))
+        self.assertEqual(result["businessCode"], "food_delivery")
+
+    def test_visible_legacy_food_and_service_terms_are_classified(self) -> None:
+        cases = [
+            (card("异构卡", ("原文:肯德基官方直播间",), ()), "dine_in"),
+            (card("商家卡片-图文下挂", ("原文:滨寿司",), ()), "dine_in"),
+            (card("商家卡片-图文下挂", ("原文:CONTENT U COFFEE",), ("原文:外卖",)), "food_delivery"),
+            (card("商家卡片-图文下挂", ("原文:情趣成人用品",), ("原文:外卖",)), "flash_delivery"),
+            (card("商家卡片-文字下挂", ("原文:专业采耳水洗头疗",), ()), "service_retail"),
+            (card("商家卡片-文字下挂", ("原文:台球棋牌俱乐部",), ()), "service_retail"),
+        ]
+        for input_card, expected in cases:
+            with self.subTest(expected=expected, card=input_card):
+                self.assertEqual(self.module.classify_card(input_card)["businessCode"], expected)
+
+    def test_photo_only_natural_bottom_crop_does_not_create_unknown_business(self) -> None:
+        input_card = {
+            "cardId": "C4",
+            "卡片类型": "商家卡片-图文下挂",
+            "structure": {"visibleStatus": "naturally_cropped"},
+            "regions": [{"name": "下挂商品区", "elements": [{"id": "P1", "元素类型": "图片"}]}],
+        }
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["scope"], "cropped")
+        self.assertNotEqual(result["businessCode"], "unknown")
+
     def test_named_business_semantics_take_priority_over_fulfillment(self) -> None:
         result = self.module.classify_card(card("商品卡片", ("原文:连锁药房",), ("原文:分钟达",)))
         self.assertEqual(result["businessCode"], "healthcare")

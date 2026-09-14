@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from extract_cv_facts import Box, _direct_text_phase3_facts
+from phase2_contract import fulfillment_semantic_kind
 
 
 TOPOLOGY_SLOTS = {
@@ -118,6 +119,22 @@ def load_review(path: Path) -> dict[str, Any]:
 def overlap(a: list[int], b: list[int]) -> bool:
     return a[0] < b[0]+b[2] and a[0]+a[2] > b[0] and a[1] < b[1]+b[3] and a[1]+a[3] > b[1]
 
+
+def _fulfillment_field_owns_photo_candidate(field: dict[str, Any], photo: dict[str, Any]) -> bool:
+    """Return true when a CV photo is actually the reviewed fulfillment UI."""
+    if field.get("role") != "fulfillment" and not fulfillment_semantic_kind(str(field.get("text", ""))):
+        return False
+    label = field.get("coord", [])
+    image = photo.get("coord", [])
+    if not all(isinstance(box, list) and len(box) == 4 for box in (label, image)):
+        return False
+    x0, y0 = max(label[0], image[0]), max(label[1], image[1])
+    x1, y1 = min(label[0] + label[2], image[0] + image[2]), min(label[1] + label[3], image[1] + image[3])
+    shared = max(0, x1 - x0) * max(0, y1 - y0)
+    label_area = max(1, label[2] * label[3])
+    image_area = max(1, image[2] * image[3])
+    return shared / label_area >= 0.70 and image_area / label_area <= 12
+
 def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
     if Path(str(review.get("screenshot", ""))).resolve() != Path(str(facts["screenshot"])).resolve():
         raise ValueError("visual review screenshot does not match CV facts")
@@ -210,6 +227,20 @@ def apply(facts: dict[str, Any], review: dict[str, Any]) -> dict[str, Any]:
                 "route": "accepted", "rejectionReasons": [],
                 "visualReview": {"cardId": card.get("cardId", ""), "crop": card["coord"], "readId": field.get("readId", "main_session_local_read"), "role": field.get("role", "other"), "topologySlot": topology_slot, "itemIndex": item_index, "visibleStatus": visible_status}})
             next_id += 1
+    # Resolve reviewed fulfillment labels before later card topology consumes
+    # generic CV media.  The rejected box remains in the audit with the exact
+    # semantic reason; this is a classification correction, not a new gate.
+    fulfillment_fields = [
+        field for card in observed for field in card.get("fields", [])
+        if isinstance(field, dict)
+        and (field.get("role") == "fulfillment" or fulfillment_semantic_kind(str(field.get("text", ""))))
+    ]
+    for photo in facts.get("candidates", {}).get("photos", []):
+        if photo.get("route") == "accepted" and any(
+            _fulfillment_field_owns_photo_candidate(field, photo) for field in fulfillment_fields
+        ):
+            photo["route"] = "rejected"
+            photo.setdefault("rejectionReasons", []).append("reviewed_fulfillment_ui_not_photo")
     next_photo_id = 1
     photos = facts.setdefault("candidates", {}).setdefault("photos", [])
     for card in observed:

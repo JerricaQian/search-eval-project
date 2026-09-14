@@ -148,6 +148,26 @@ def element_visible_text(element: dict[str, Any]) -> str:
     return content.removeprefix("原文:").strip() if isinstance(content, str) else ""
 
 
+def active_audit_entry(element: dict[str, Any]) -> dict[str, Any]:
+    """Publish the minimal semantic/visual trace Phase3 classification needs."""
+    text_facts = element.get("textFacts") if isinstance(element.get("textFacts"), dict) else {}
+    visual = element.get("visual") if isinstance(element.get("visual"), dict) else {}
+    render = element.get("render") if isinstance(element.get("render"), dict) else {}
+    return {
+        "id": element["id"],
+        "coord": element["坐标"],
+        "component": element["所属组件"],
+        "elementType": element["元素类型"],
+        "content": f"原文:{element_visible_text(element)}",
+        "semanticRole": str(text_facts.get("semanticRole") or visual.get("semanticRole") or ""),
+        "promotionPrefix": str(text_facts.get("promotionPrefix") or ""),
+        "entityKind": str(visual.get("entityKind") or ""),
+        "colorRole": str(visual.get("colorRole") or text_facts.get("textColorRole") or "unknown"),
+        "isPhoto": bool(render.get("isPhoto")),
+        "countedInComplexity": bool(visual.get("countedInComplexity", False)),
+    }
+
+
 def semantic_tag_group_count(text: str) -> int:
     groups = (
         r"神券|立减|最高膨",
@@ -798,10 +818,7 @@ def main() -> int:
         "query": data.get("query", "") if isinstance(data, dict) else "",
         "total": len(active),
         "elementIds": element_ids,
-        "activeElements": [
-            {"id": item["id"], "coord": item["坐标"], "component": item["所属组件"], "elementType": item["元素类型"], "content": f"原文:{element_visible_text(item)}"}
-            for item in active
-        ],
+        "activeElements": [active_audit_entry(item) for item in active],
         "errors": errors,
         "warnings": warnings,
         "duplicateSupplyCandidates": duplicate_supply_candidates,

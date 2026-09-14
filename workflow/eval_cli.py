@@ -974,7 +974,14 @@ def command_prepare_batch(args: argparse.Namespace) -> int:
 
 
 def command_advance_batch(args: argparse.Namespace) -> int:
-    """Reconcile the latest attempt receipts after a complete dispatch wave."""
+    """Reconcile receipts without charging work that has not returned one.
+
+    ``prepare-batch`` freezes every planned query before hosts dispatch them in
+    bounded waves.  Consequently the absence of a receipt says only that the
+    attempt is still pending (and commonly has not been dispatched yet).  A
+    retry is charged exclusively from a terminal non-completed receipt written
+    by the query task itself.
+    """
     try:
         source_path = args.state.resolve()
         state = read_batch_state(source_path)
@@ -984,6 +991,7 @@ def command_advance_batch(args: argparse.Namespace) -> int:
         retry_queries: list[str] = []
         failed_queries: list[str] = []
         completed_queries: list[str] = []
+        pending_queries: list[str] = []
         next_queries = []
 
         for raw_entry in state["queries"]:
@@ -1005,16 +1013,23 @@ def command_advance_batch(args: argparse.Namespace) -> int:
                     "error": str(receipt.get("error") or ""),
                 })
             else:
+                # A missing receipt is not a failed dispatch.  The batch may
+                # contain many frozen tasks while only three are allowed to run
+                # concurrently.  Leave this attempt pending so an early host
+                # reconciliation cannot consume its isolated retry budget.
                 latest.update({
-                    "status": "failed",
-                    "blockedAt": "dispatch",
-                    "error": "missing_or_invalid_receipt_after_dispatch",
+                    "status": "pending",
+                    "blockedAt": "",
+                    "error": "",
                 })
             attempts[-1] = latest
             entry["attempts"] = attempts
             if latest["status"] == "completed":
                 entry["status"] = "completed"
                 completed_queries.append(entry["query"])
+            elif latest["status"] == "pending":
+                entry["status"] = "pending"
+                pending_queries.append(entry["query"])
             elif len(attempts) >= int(state["maxQueryAttempts"]):
                 entry["status"] = "abandoned"
                 failed_queries.append(entry["query"])
@@ -1023,7 +1038,9 @@ def command_advance_batch(args: argparse.Namespace) -> int:
                 retry_queries.append(entry["query"])
             next_queries.append(entry)
 
-        if retry_queries:
+        if pending_queries:
+            status = "awaiting_receipts"
+        elif retry_queries:
             status = "retry_required"
         elif failed_queries and completed_queries:
             status = "ready_for_partial_phase5"
@@ -1036,15 +1053,16 @@ def command_advance_batch(args: argparse.Namespace) -> int:
         next_state = {**state, "status": status, "queries": next_queries}
         state_path = publish_batch_snapshot(next_state, state_root)
         return emit({
-            "ok": status in {"ready_for_phase5", "ready_for_partial_phase5", "retry_required"},
+            "ok": status in {"ready_for_phase5", "ready_for_partial_phase5", "retry_required", "awaiting_receipts"},
             "batchId": state["batchId"],
             "statePath": str(state_path),
             "status": status,
             "completedQueries": completed_queries,
+            "pendingQueries": pending_queries,
             "retryQueries": retry_queries,
             "failedQueries": failed_queries,
             "readyForPhase5": status in {"ready_for_phase5", "ready_for_partial_phase5"},
-        }, 0 if status in {"ready_for_phase5", "ready_for_partial_phase5", "retry_required"} else 2)
+        }, 0 if status in {"ready_for_phase5", "ready_for_partial_phase5", "retry_required", "awaiting_receipts"} else 2)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         return emit({"ok": False, "error": str(exc)}, 2)
 
@@ -1236,7 +1254,6 @@ def command_finalize_batch(args: argparse.Namespace) -> int:
             "--batch-name", args.batch_id,
             "--output", str(report_path),
             "--dataset-output", str(dataset_path),
-            "--allow-unknown-business",
             "--evaluation-scope", next(iter(scopes)),
         ]
         if expected_business_tabs:

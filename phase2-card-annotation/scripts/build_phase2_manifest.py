@@ -13,13 +13,28 @@ import re
 from pathlib import Path
 from typing import Any
 from card_type_registry import display_names
+from phase2_contract import fulfillment_semantic_kind, fulfillment_tag_values
 
 
 VERSION = "phase2.page-manifest.v2"
 TYPE_NAMES = display_names()
 # These are only candidates.  Their region is determined by the current card's
 # geometry/visual review, never by the label text alone.
-TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES = {"外卖", "团购", "到店", "闪购"}
+TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES = set(fulfillment_tag_values())
+PROMOTION_LABEL_PATTERN = re.compile(
+    r"^(?:【\s*)?(?:神抢手|神枪手|特价团|神券|限时秒杀|秒杀价|到手价|券后价|直播特惠|会员价|新客价)(?:\s*】)?"
+)
+
+
+def promotion_prefix(value: str) -> tuple[str, bool]:
+    """Return an explicit promotion prefix and whether it owns the full atom."""
+    match = PROMOTION_LABEL_PATTERN.search(str(value).strip())
+    if not match:
+        return "", False
+    prefix = match.group(0).strip()
+    remainder = str(value).strip()[match.end():]
+    standalone = not re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]", "", remainder)
+    return prefix, standalone
 # ``regions`` is a semantic reading sequence, not OCR discovery order.  In
 # particular, an OCR engine may return a small "外卖" tag before the adjacent
 # product title; publishing that order makes a human reader and a Phase3
@@ -133,12 +148,26 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
         review = item.get("visualReview")
         role = review.get("role") if isinstance(review, dict) else ""
         topology_slot = review.get("topologySlot") if isinstance(review, dict) else ""
+        visible_text = str(item.get("text", "")).strip()
+        detected_promotion_prefix, standalone_promotion = promotion_prefix(visible_text)
+        # The semantic prefix remains observable even when an OCR/review box
+        # also contains neutral product-title glyphs and its aggregate colour
+        # collapses to neutral.  Colour describes style; it does not decide
+        # whether an explicit attached promotion prefix exists.
+        promotion_label = bool(detected_promotion_prefix)
         if selected_type == "商家卡片_图文下挂" and topology_slot == "attached_goods":
             output[item["id"]] = {
-                **output.get(item["id"], {}), "semanticRoleCandidate": role or "other",
+                **output.get(item["id"], {}), "semanticRoleCandidate": "promotion" if promotion_label and standalone_promotion else role or "other",
                 "regionCandidate": "下挂商品区", "status": "confirmed",
                 "evidence": ["main_session_local_visual_read"],
             }
+            if promotion_label:
+                output[item["id"]].update({
+                    "promotionPrefix": detected_promotion_prefix,
+                    "evidence": ["main_session_local_visual_read", "colored_attached_promotion_label"],
+                })
+                if standalone_promotion:
+                    output[item["id"]]["elementTypeCandidate"] = "标签"
             continue
         # A current-pixel text-attachment slot is stronger evidence than the
         # generic OCR subtitle role.  Preserve it as an item atom so the
@@ -147,6 +176,8 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
                 and review.get("topologySlot") == "text_attachment"
                 and role in {"subtitle", "attachment"}):
             role = "attachment"
+        if topology_slot == "text_attachment" and promotion_label and standalone_promotion:
+            role = "promotion"
         # An explicitly reviewed merchant-info slot owns the complete merchant
         # summary, including facts that happen to be parsed as price, sales or
         # subtitle (for example 人均价、服务类目和权益标签). It is not a service
@@ -188,6 +219,13 @@ def card_local_semantics(candidate: dict[str, Any], selected_type: str, text_can
                 "regionCandidate": region, "status": "confirmed",
                 "evidence": ["main_session_local_visual_read"],
             }
+            if promotion_label:
+                output[item["id"]].update({
+                    "promotionPrefix": detected_promotion_prefix,
+                    "evidence": ["main_session_local_visual_read", "colored_attached_promotion_label"],
+                })
+                if standalone_promotion:
+                    output[item["id"]]["elementTypeCandidate"] = "标签"
     structured = re.compile(r"月售|已售|评分|到店|外卖|上门|景点|酒店|民宿|\d(?:\.\d)?\s*分|\d+(?:\.\d+)?\s*(?:km|公里|分钟|元)|[¥￥]\s*\d|起送|配送费|\d{4}[-/.年]\d{1,2}")
     possible_titles = []
     for item in text_candidates:
@@ -278,7 +316,7 @@ def visual_hint(candidate: dict[str, Any], kind: str, region: str, role: str = "
     }
     if kind in {"tag", "icon"} and confirmed:
         raw = str(candidate.get("text", ""))
-        semantic_role = "券标" if re.search(r"神券|券", raw) else "履约标" if re.search(r"外卖|配送|到店|上门", raw) else "业务类型标" if re.search(r"演出|景点", raw) else "推荐标" if re.search(r"推荐|必玩", raw) else role or "其他标签"
+        semantic_role = "券标" if re.search(r"神券|券", raw) else "履约标" if fulfillment_semantic_kind(raw) else "业务类型标" if re.search(r"演出|景点", raw) else "推荐标" if re.search(r"推荐|必玩", raw) else role or "其他标签"
         value.update({"semanticRole": semantic_role, "containerShape": container_shape,
                       "graphicAssistRole": "无", "countedInComplexity": value["isColored"],
                       "dedupWithElementIds": []})
@@ -311,6 +349,8 @@ def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], i
         color = candidate_color if candidate_color != "unknown" else facts.get("textColorRole", "unknown")
         facts.update({"rawText": item.get("text", ""), "textStatus": "complete" if visible == "confirmed" else "naturally_cropped" if visible == "naturally_cropped" else "uncertain",
                       "semanticRole": role, "emphasisLevel": "primary" if role in {"title", "price"} else "secondary", "textColorRole": color})
+        if semantic.get("promotionPrefix"):
+            facts["promotionPrefix"] = semantic["promotionPrefix"]
         facts.setdefault("fontSizeBucket", "unknown"); facts.setdefault("fontWeightBucket", "unknown")
         element["textFacts"] = facts
     if element_type == "文本":
@@ -326,12 +366,13 @@ def text_element(card_id: str, item: dict[str, Any], semantic: dict[str, Any], i
         if isinstance(direct.get("visual"), dict):
             visual.update(direct["visual"])
         color = visual.get("colorRole", "unknown")
-        semantic_role = "履约标" if item.get("text") in TITLE_PREFIX_BUSINESS_LABEL_CANDIDATES else "其他标签"
+        semantic_role = "履约标" if role == "fulfillment" or fulfillment_semantic_kind(str(item.get("text", ""))) else "促销标" if role == "promotion" else "其他标签"
+        counted = semantic_role != "履约标" and color not in {"neutral", "unknown"}
         visual.update({
             "entityKind": "tag",
             "containerShape": visual.get("containerShape", "unknown"),
             "graphicAssistRole": visual.get("graphicAssistRole", "无"),
-            "countedInComplexity": bool(visual.get("countedInComplexity", False)),
+            "countedInComplexity": bool(visual.get("countedInComplexity", False)) or counted,
             "styleKey": f"标签|{color}|{semantic_role}|{visual.get('containerShape', 'unknown')}|{visual.get('graphicAssistRole', '无')}",
         })
         element["visual"] = visual

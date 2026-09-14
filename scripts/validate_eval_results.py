@@ -77,6 +77,16 @@ FORBIDDEN_COPY_TERMS_PATH = Path(__file__).with_name("forbidden_copy_terms.json"
 FORBIDDEN_ID_PATTERN_EXEMPTIONS = {"P0", "P1", "P2"}
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 PHASE3_DIR = PROJECT_DIR / "phase3-evaluation"
+_PHASE2_TAXONOMY = json.loads(
+    (PROJECT_DIR / "phase2-card-annotation" / "references" / "search_card_taxonomy.v1.json").read_text(encoding="utf-8")
+)
+FULFILLMENT_COMPLEXITY_EXCLUSIONS = {
+    re.sub(r"[\s·•|]+", "", str(value))
+    for value in _PHASE2_TAXONOMY.get("commonElementVocabulary", {}).get("fulfillment", [])
+}
+PROMOTION_PREFIX_PATTERN = re.compile(
+    r"^(?:原文:)?(?:【\s*)?(?:神抢手|神枪手|特价团|神券|限时秒杀|秒杀价|到手价|券后价|直播特惠|会员价|新客价)(?:\s*】)?"
+)
 
 
 def _load_skill_directories() -> dict[str, Path]:
@@ -444,10 +454,36 @@ def require_complexity_coverage(
             errors.append(f"{prefix}:candidateLedger_{index}_decision_invalid")
         if not isinstance(entry.get("reason"), str) or not entry["reason"].strip():
             errors.append(f"{prefix}:candidateLedger_{index}_reason_required")
+        elif any(value in entry["reason"] for value in ("内容文字或图片", "不是独立异形异色标签")):
+            errors.append(f"{prefix}:candidateLedger_{index}_generic_exclusion_reason_forbidden")
         if decision == "included_tag":
             style_key = entry.get("styleKey")
             if not isinstance(style_key, str) or len([part for part in style_key.split("|") if part.strip()]) != 5:
                 errors.append(f"{prefix}:candidateLedger_{index}_included_tag_requires_five_part_styleKey")
+        if active_by_id is not None and element_id in active_by_id:
+            source = active_by_id[element_id]
+            content = str(source.get("content") or "").removeprefix("原文:").strip()
+            compact = re.sub(r"[\s·•|]+", "", content)
+            semantic_role = str(source.get("semanticRole") or "")
+            color_role = str(source.get("colorRole") or "unknown")
+            promotion_prefix = str(source.get("promotionPrefix") or "").strip()
+            is_fulfillment = (
+                semantic_role in {"fulfillment", "fulfillment_tag", "delivery_time", "delivery_time_tag"}
+                or compact in FULFILLMENT_COMPLEXITY_EXCLUSIONS
+            )
+            if is_fulfillment and decision != "excluded":
+                errors.append(f"{prefix}:candidateLedger_{index}_fulfillment_must_be_excluded")
+            elif source.get("isPhoto") and decision != "excluded":
+                errors.append(f"{prefix}:candidateLedger_{index}_photo_material_must_be_excluded")
+            elif semantic_role in {"title", "price", "rating"} and not promotion_prefix and decision in {"included_tag", "included_icon"}:
+                errors.append(f"{prefix}:candidateLedger_{index}_core_field_must_not_be_counted")
+            elif promotion_prefix and decision != "included_tag":
+                errors.append(f"{prefix}:candidateLedger_{index}_promotion_prefix_must_be_included_tag")
+            elif (
+                semantic_role == "promotion"
+                or PROMOTION_PREFIX_PATTERN.search(content)
+            ) and color_role not in {"neutral", "unknown", ""} and decision != "included_tag":
+                errors.append(f"{prefix}:candidateLedger_{index}_colored_promotion_must_be_included_tag")
 
     if set(ledger_by_id) != set(scanned_element_ids):
         errors.append(f"{prefix}:candidateLedger_must_cover_scannedElementIds")
@@ -481,6 +517,10 @@ def require_complexity_coverage(
                     errors.append(f"{prefix}:includedTagStyles_{index}_elementId_must_reference_included_tag")
                 elif style_key != ledger_entry.get("styleKey"):
                     errors.append(f"{prefix}:includedTagStyles_{index}_styleKey_must_match_candidateLedger")
+                elif active_by_id is not None:
+                    promotion_prefix = str(active_by_id.get(element_id, {}).get("promotionPrefix") or "").strip()
+                    if promotion_prefix and str(style.get("content") or "").strip() != promotion_prefix:
+                        errors.append(f"{prefix}:includedTagStyles_{index}_content_must_equal_promotionPrefix")
         if len(included_tag_ids) != len(set(included_tag_ids)):
             errors.append(f"{prefix}:includedTagStyles_elementIds_must_be_unique")
         ledger_tag_ids = {

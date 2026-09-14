@@ -748,3 +748,28 @@ class PortableTaskProtocolTest(unittest.TestCase):
             final_state = json.loads(Path(exhausted_payload["statePath"]).read_text())
             self.assertEqual(final_state["queries"][0]["status"], "abandoned")
             self.assertEqual(len(final_state["queries"][0]["attempts"]), 3)
+
+    def test_advance_batch_keeps_missing_receipt_pending_without_charging_attempt(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = self.prepare(Path(tmp), run_id="batch-await.q1")
+            task_path = Path(payload["portableTask"]["taskPath"])
+            project_dir = task_path.parents[2]
+            prepared = subprocess.run([
+                sys.executable, str(CLI_PATH), "prepare-batch",
+                "--project-dir", str(project_dir), "--batch-id", "batch-await.q1",
+                "--max-query-attempts", "3", "--task", str(task_path),
+            ], check=True, capture_output=True, text=True)
+            state_path = Path(json.loads(prepared.stdout)["statePath"])
+
+            advanced = subprocess.run([
+                sys.executable, str(CLI_PATH), "advance-batch", "--state", str(state_path),
+            ], check=True, capture_output=True, text=True)
+            output = json.loads(advanced.stdout)
+            state = json.loads(Path(output["statePath"]).read_text())
+
+        self.assertEqual(output["status"], "awaiting_receipts")
+        self.assertEqual(output["pendingQueries"], ["露营"])
+        self.assertEqual(output["retryQueries"], [])
+        self.assertEqual(state["queries"][0]["status"], "pending")
+        self.assertEqual(state["queries"][0]["attempts"][0]["status"], "pending")
+        self.assertEqual(len(state["queries"][0]["attempts"]), 1)

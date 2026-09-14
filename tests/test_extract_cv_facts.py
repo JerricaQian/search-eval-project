@@ -19,6 +19,7 @@ SEMANTIC_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/map_search_page_
 RESULT_CANDIDATES_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_search_result_candidates.py"
 RESULT_SEMANTICS_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/map_result_card_semantics.py"
 MANIFEST_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_phase2_manifest.py"
+VISUAL_REVIEW_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/apply_visual_review.py"
 MANIFEST_VALIDATOR = PROJECT_DIR / "phase2-card-annotation/scripts/validate_element_manifest.py"
 CALIBRATION_AUDIT_SCRIPT = PROJECT_DIR / "phase2-card-annotation/scripts/build_current_image_calibration_audit.py"
 RECOGNITION_GATE = PROJECT_DIR / "phase2-card-annotation/scripts/validate_phase2_recognition.py"
@@ -86,6 +87,58 @@ class ExtractCvFactsTest(unittest.TestCase):
         self.assertEqual(output["T-title"]["semanticRoleCandidate"], "attachment")
         self.assertEqual(output["T-price"]["regionCandidate"], "下挂商品区")
         self.assertEqual(output["T-price"]["semanticRoleCandidate"], "price")
+
+    def test_colored_downhang_promotion_is_classified_as_tag_without_losing_embedded_title(self) -> None:
+        script_dir = MANIFEST_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_manifest_promotion_test", MANIFEST_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+
+        card = {"id": "C1", "coord": [0, 0, 500, 300]}
+        standalone = {
+            "id": "T-sale", "text": "特价团", "coord": [120, 160, 80, 24],
+            "visualHint": {"colorRole": "red"},
+            "visualReview": {"role": "attachment", "topologySlot": "attached_goods"},
+        }
+        embedded = {
+            "id": "T-prefix", "text": "【神抢手】精选双人餐", "coord": [220, 160, 180, 24],
+            # A mixed prefix + neutral title box can collapse to a neutral
+            # aggregate colour; the explicit prefix must still survive.
+            "visualHint": {"colorRole": "neutral"},
+            "visualReview": {"role": "attachment", "topologySlot": "attached_goods"},
+        }
+        output = module.card_local_semantics(card, "商家卡片_图文下挂", [standalone, embedded], {})
+
+        self.assertEqual(output["T-sale"]["semanticRoleCandidate"], "promotion")
+        self.assertEqual(output["T-sale"]["elementTypeCandidate"], "标签")
+        self.assertEqual(output["T-prefix"]["semanticRoleCandidate"], "attachment")
+        self.assertEqual(output["T-prefix"]["promotionPrefix"], "【神抢手】")
+        self.assertNotIn("elementTypeCandidate", output["T-prefix"])
+
+    def test_reviewed_fulfillment_badge_owns_compact_photo_candidate_only(self) -> None:
+        script_dir = VISUAL_REVIEW_SCRIPT.parent
+        sys.path.insert(0, str(script_dir))
+        try:
+            spec = importlib.util.spec_from_file_location("phase2_visual_review_fulfillment_test", VISUAL_REVIEW_SCRIPT)
+            assert spec and spec.loader
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[spec.name] = module
+            spec.loader.exec_module(module)
+        finally:
+            sys.path.pop(0)
+
+        field = {"text": "闪购", "role": "fulfillment", "coord": [100, 100, 80, 36]}
+        badge_candidate = {"coord": [94, 94, 94, 48]}
+        product_photo = {"coord": [20, 20, 320, 320]}
+
+        self.assertTrue(module._fulfillment_field_owns_photo_candidate(field, badge_candidate))
+        self.assertFalse(module._fulfillment_field_owns_photo_candidate(field, product_photo))
 
     def test_rating_schema_requires_a_complete_rating_field(self) -> None:
         script_dir = GATE_HOOKS_SCRIPT.parent
@@ -391,6 +444,46 @@ class ExtractCvFactsTest(unittest.TestCase):
 
         self.assertEqual(result["selectedCardType"]["cardType"], "商家卡片_无下挂")
         self.assertFalse(result["recognitionFeatures"]["text_downhang"])
+
+    def test_reviewed_product_topology_outweighs_merchant_fulfillment_rows(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            facts_path, candidates_path, output_path = tmp_path / "facts.json", tmp_path / "candidates.json", tmp_path / "semantics.json"
+            facts_path.write_text(json.dumps({
+                "contractVersion": "phase2.cv-facts.v1", "screenshot": "/tmp/water.png", "viewport": {"width": 1224, "height": 2600},
+                "candidates": {
+                    "photos": [{"id": "P1", "coord": [56, 902, 318, 318], "route": "accepted"}],
+                    "text": [
+                        {"id": "T1", "text": "天然水550ml*12瓶", "coord": [405, 908, 500, 56], "route": "accepted"},
+                        {"id": "T2", "text": "¥9.9", "coord": [405, 1068, 104, 51], "route": "accepted", "visualHint": {"colorRole": "red"}},
+                        {"id": "T3", "text": "月售800+", "coord": [518, 1074, 151, 42], "route": "accepted"},
+                        {"id": "T4", "text": "闪购", "coord": [980, 1135, 100, 45], "route": "accepted"},
+                    ],
+                }, "routing": {"missingCapabilities": []},
+            }, ensure_ascii=False), encoding="utf-8")
+            candidates_path.write_text(json.dumps({
+                "contractVersion": "phase2.search-result-candidates.v1",
+                "resultCards": [{
+                    "id": "C1", "coord": [24, 882, 1088, 366], "status": "confirmed",
+                    "memberBlockIds": [], "evidence": ["repeated_left_image_right_text_seed"],
+                    "reviewedCardType": "商品卡片",
+                    "reviewedTopology": {
+                        "regions": [
+                            {"slot": "head_media", "coord": [56, 902, 318, 318]},
+                            {"slot": "title", "coord": [405, 908, 500, 56]},
+                            {"slot": "price", "coord": [405, 1068, 104, 51]},
+                        ],
+                        "attachedItems": [],
+                    },
+                }],
+                "structureBlocks": [],
+            }, ensure_ascii=False), encoding="utf-8")
+            subprocess.run([sys.executable, str(RESULT_SEMANTICS_SCRIPT), str(facts_path), str(candidates_path), "--output", str(output_path)], check=True, cwd=PROJECT_DIR, capture_output=True, text=True)
+            result = json.loads(output_path.read_text(encoding="utf-8"))["cards"][0]
+
+        self.assertEqual(result["selectedCardType"]["cardType"], "商品卡片")
+        self.assertEqual(result["selectedCardType"]["classificationMode"], "reviewed_product_topology_v1")
+        self.assertTrue(result["contractValidation"]["minimumSatisfied"])
 
     def test_learned_geometry_is_a_soft_known_type_signal(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
