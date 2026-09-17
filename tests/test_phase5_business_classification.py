@@ -185,6 +185,16 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
             "food_delivery",
         )
 
+    def test_visible_minutes_are_delivery_evidence_for_flash_category(self) -> None:
+        result = self.module.classify_card(card("商家卡片-图文下挂", ("原文:鲜花店",), ("原文:71分钟",)))
+        self.assertEqual(result["businessCode"], "flash_delivery")
+
+    def test_partially_visible_tail_card_without_business_facts_is_cropped(self) -> None:
+        input_card = card("商品卡片", ("原文:教师节礼物",), ())
+        input_card["structure"] = {"visibleStatus": "naturally_cropped"}
+        result = self.module.classify_card(input_card)
+        self.assertEqual(result["scope"], "cropped")
+
     def test_unclassified_merchant_card_blocks_business_dashboard(self) -> None:
         result = self.module.classify_card(card("商家卡片-文字下挂", ("原文:某商户",), ()))
         self.assertEqual(result["businessCode"], "unknown")

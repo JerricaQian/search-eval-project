@@ -61,6 +61,7 @@ class Phase5DashboardRendererTest(unittest.TestCase):
         }
 
         html = renderer.render_dashboard(data)
+        self.assertIn("function activateBusiness", html)
 
         self.assertNotIn("class='topbar'", html)
         self.assertIn("class='summary-card summary-spaced'", html)

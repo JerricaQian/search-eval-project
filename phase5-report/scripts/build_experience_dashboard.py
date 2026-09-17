@@ -44,6 +44,7 @@ SERVICE_RETAIL_TERMS = (
     "亲子", "儿童乐园", "剧本杀", "沉浸式探秘", "团建拓展", "按摩", "理发", "维修",
     "健身", "健身房", "健身中心", "健身工作室", "私教", "DIY手工坊", "手作", "手工坊",
     "主机游戏", "游戏体验馆", "游戏馆", "桌游", "头疗", "采耳", "养发", "台球", "台球厅", "棋牌",
+    "酒吧", "学习规划", "机器人编程", "留学考试", "雅思", "托福", "自习室",
 )
 # 这些服务业态的展示文案可能同时出现“剧场/演绎”等猫眼弱提示词，
 # 但其业务身份仍由更具体的服务零售语义决定。
@@ -57,10 +58,12 @@ FOOD_TERMS = (
     "美食", "小吃", "快餐", "汉堡", "粉面", "米粉", "米线", "盒饭", "日料", "中餐", "西餐",
     "包子", "小笼包", "黄焖鸡", "疙瘩汤", "汤粉", "炸鸡", "鸡腿", "寿司", "鳗鱼饭", "刺身",
     "烧鸟", "披萨", "比萨", "肯德基", "kfc", "必胜客", "达美乐", "星巴克", "喜茶", "1点点",
-    "一点点",
+    "一点点", "老乡鸡", "烤肉", "自助餐", "自助", "茉莉奶白", "茶百道", "霸王茶姬",
+    "螺蛳粉", "云饺", "饺子", "水饺", "云吞", "麻辣烫", "麻辣香锅", "鸡架", "弹弹面",
+    "盖饭", "牛肉饭", "湘菜", "小炒", "肠粉", "粥", "鸡柳大人", "麦当劳",
 )
 LOCAL_RETAIL_TERMS = ("零食", "零食乐园", "品牌零食", "省钱超市")
-DELIVERY_TERMS = ("外卖", "配送", "起送", "送达", "外送")
+DELIVERY_TERMS = ("外卖", "配送", "起送", "送达", "外送", "分钟")
 LEVELS = {
     "phase3-single_element-eval": ("单一元素维度", "element", "#6366f1"),
     "phase3-card_or_component-eval": ("组件/卡片维度", "component", "#10b981"),
@@ -260,6 +263,12 @@ def classify_card(card: dict[str, Any]) -> dict[str, str]:
         visible_result = classified_business("dine_in", kind, card_type, "food_category+non_delivery")
     if not visible_result and is_local_retail:
         visible_result = classified_business("service_retail", kind, card_type, "local_retail_semantic")
+    if not visible_result and str((card.get("structure") or {}).get("visibleStatus") or "") == "naturally_cropped":
+        return {
+            "scope": "cropped", "businessCode": "", "businessName": "自然触底未形成可归属卡片",
+            "confidence": "naturally_cropped_without_sufficient_business_facts",
+            "cardTypeCode": kind, "cardTypeName": card_type,
+        }
     if not visible_result:
         # A card container alone is not business evidence.  Defaulting it to
         # a permitted tab makes a dashboard look complete while silently
