@@ -114,6 +114,45 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
             with self.subTest(expected=expected, card=input_card):
                 self.assertEqual(self.module.classify_card(input_card)["businessCode"], expected)
 
+    def test_visible_local_service_terms_cover_car_care_and_internet_cafes(self) -> None:
+        for semantic in (
+            "原文:巨会养车鸿云祥汽服 美容洗车",
+            "原文:网鱼网咖 网吧",
+            "原文:普瑞祥电竞 新客专享网费",
+        ):
+            with self.subTest(semantic=semantic):
+                result = self.module.classify_card(card("商家卡片-文字下挂", (semantic,), ()))
+                self.assertEqual(result["businessCode"], "service_retail")
+
+    def test_visible_restaurant_terms_cover_current_unknown_cards(self) -> None:
+        cases = [
+            ("原文:海底捞拌饭 番茄肥牛捞饭", "原文:外卖 免配送费", "food_delivery"),
+            ("原文:蓝色港湾日本料理 牛肉乌冬面", "原文:到店", "dine_in"),
+            ("原文:乡野江西菜", "原文:外卖 免配送费", "food_delivery"),
+            ("原文:葱花鸡蛋炒饭 热卤鸭头", "原文:外卖 免配送费", "food_delivery"),
+            ("原文:鱼酷活鱼烤鱼", "原文:到店", "dine_in"),
+            ("原文:探鱼烤鱼", "原文:外卖 免配送费", "food_delivery"),
+            ("原文:北京烤鸭", "原文:起送¥15", "food_delivery"),
+            ("原文:爷爷不泡茶", "原文:外卖 22分钟", "food_delivery"),
+            ("原文:台爸鲁肉饭", "原文:到店", "dine_in"),
+        ]
+        for semantic, fulfillment, expected in cases:
+            with self.subTest(semantic=semantic, expected=expected):
+                result = self.module.classify_card(card(
+                    "商家卡片-图文下挂",
+                    (semantic,),
+                    (fulfillment,),
+                ))
+                self.assertEqual(result["businessCode"], expected)
+
+    def test_confirmed_food_brand_with_delivery_classifies_as_food_delivery(self) -> None:
+        result = self.module.classify_card(card(
+            "商家卡片-无下挂",
+            ("原文:便宜坊（望京店）",),
+            ("原文:外卖", "原文:免配送费"),
+        ))
+        self.assertEqual(result["businessCode"], "food_delivery")
+
     def test_photo_only_natural_bottom_crop_does_not_create_unknown_business(self) -> None:
         input_card = {
             "cardId": "C4",
@@ -242,6 +281,36 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
             ],
         }
         self.assertEqual(self.module.visible_business_tabs(data), {"food_delivery", "service_retail"})
+
+    def test_original_screenshot_evidence_override_keeps_dataset_layers_consistent(self) -> None:
+        data = {
+            "queryDetails": {
+                "火锅": [{
+                    "screenshot": "/tmp/firepot.png",
+                    "issues": [{"evidenceImage": "/tmp/firepot_redbox.png"}],
+                }],
+            },
+            "groups": [{
+                "evidence": [{
+                    "screenshot": "/tmp/firepot.png",
+                    "evidenceImage": "/tmp/firepot_redbox.png",
+                }],
+            }],
+        }
+        self.module.replace_issue_evidence_with_original_screenshots(data)
+        self.assertEqual(
+            data["queryDetails"]["火锅"][0]["issues"][0]["evidenceImage"],
+            "/tmp/firepot.png",
+        )
+        self.assertEqual(data["groups"][0]["evidence"][0]["evidenceImage"], "/tmp/firepot.png")
+
+    def test_report_exclusion_parser_requires_query_and_element_id(self) -> None:
+        self.assertEqual(
+            self.module.parse_excluded_issue_keys(["自助餐:C1-P2"]),
+            {("自助餐", "C1-P2")},
+        )
+        with self.assertRaisesRegex(ValueError, "搜索词"):
+            self.module.parse_excluded_issue_keys(["自助餐"])
 
     def test_positive_redundancy_metrics_are_rendered_as_problem_names(self) -> None:
         self.assertEqual(self.module.METRICS["eval-8-info-redundancy"][0], "信息冗余")

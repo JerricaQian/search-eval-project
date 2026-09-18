@@ -45,6 +45,7 @@ SERVICE_RETAIL_TERMS = (
     "健身", "健身房", "健身中心", "健身工作室", "私教", "DIY手工坊", "手作", "手工坊",
     "主机游戏", "游戏体验馆", "游戏馆", "桌游", "头疗", "采耳", "养发", "台球", "台球厅", "棋牌",
     "酒吧", "学习规划", "机器人编程", "留学考试", "雅思", "托福", "自习室",
+    "洗车", "汽车美容", "美容洗车", "养车", "汽服", "网吧", "网咖", "网费",
 )
 # 这些服务业态的展示文案可能同时出现“剧场/演绎”等猫眼弱提示词，
 # 但其业务身份仍由更具体的服务零售语义决定。
@@ -61,6 +62,8 @@ FOOD_TERMS = (
     "一点点", "老乡鸡", "烤肉", "自助餐", "自助", "茉莉奶白", "茶百道", "霸王茶姬",
     "螺蛳粉", "云饺", "饺子", "水饺", "云吞", "麻辣烫", "麻辣香锅", "鸡架", "弹弹面",
     "盖饭", "牛肉饭", "湘菜", "小炒", "肠粉", "粥", "鸡柳大人", "麦当劳",
+    "拌饭", "捞饭", "鲁肉饭", "猪肘饭", "炒饭", "烧饼", "热卤", "鸭头",
+    "烤鱼", "烤鸭", "江西菜", "日本料理", "乌冬面", "定食", "寿喜锅", "泡茶", "便宜坊",
 )
 LOCAL_RETAIL_TERMS = ("零食", "零食乐园", "品牌零食", "省钱超市")
 DELIVERY_TERMS = ("外卖", "配送", "起送", "送达", "外送", "分钟")
@@ -415,6 +418,7 @@ def collect(
     manifest_paths: list[Path] | None = None,
     result_paths: list[Path] | None = None,
     evaluation_scope: dict[str, Any] | None = None,
+    excluded_issue_keys: set[tuple[str, str]] | None = None,
 ) -> dict[str, Any]:
     # A query can contain multiple screenshots. Keep one accepted manifest per
     # source screenshot so repeated C1/E1 identifiers never collide across pages.
@@ -635,6 +639,14 @@ def collect(
                 tab = str(unit.get("tab", "全部"))
                 detail = unit.get("details") or {}
                 issues = detail.get("issues") or []
+                if excluded_issue_keys:
+                    issues = [
+                        issue for issue in issues
+                        if not (
+                            isinstance(issue, dict)
+                            and (query, str(issue.get("elementId") or "")) in excluded_issue_keys
+                        )
+                    ]
                 requested_screenshot = str(detail.get("screenshot") or "")
                 context = (query, requested_screenshot)
                 if context not in manifest_data:
@@ -974,6 +986,43 @@ def visible_business_tabs(data: dict[str, Any]) -> set[str]:
     }
 
 
+def replace_issue_evidence_with_original_screenshots(data: dict[str, Any]) -> None:
+    """Use each issue's accepted source screenshot as its displayed evidence.
+
+    This is an explicit report-presentation override. It leaves Phase3/4 source
+    artifacts untouched while keeping query details and governance groups in
+    the emitted dataset consistent with the HTML.
+    """
+    for units in data.get("queryDetails", {}).values():
+        for unit in units:
+            screenshot = str(unit.get("screenshot") or "")
+            if not screenshot:
+                continue
+            for issue in unit.get("issues", []):
+                if isinstance(issue, dict):
+                    issue["screenshot"] = screenshot
+                    issue["evidenceImage"] = screenshot
+    for group in data.get("groups", []):
+        for issue in group.get("evidence", []):
+            if not isinstance(issue, dict):
+                continue
+            screenshot = str(issue.get("screenshot") or "")
+            if screenshot:
+                issue["evidenceImage"] = screenshot
+
+
+def parse_excluded_issue_keys(values: list[str]) -> set[tuple[str, str]]:
+    """Parse report-only exclusions as ``<query>:<elementId>`` pairs."""
+    keys: set[tuple[str, str]] = set()
+    for value in values:
+        query, separator, element_id = str(value).partition(":")
+        query, element_id = query.strip(), element_id.strip()
+        if not separator or not query or not element_id:
+            raise ValueError("--exclude-issue 必须使用 <搜索词>:<元素ID> 格式")
+        keys.add((query, element_id))
+    return keys
+
+
 def render(data: dict[str, Any]) -> str:
     """Render only through the canonical Phase5 dashboard renderer."""
     return render_dashboard(data)
@@ -997,6 +1046,17 @@ def main() -> int:
     parser.add_argument("--allow-unknown-business", action="store_true", help="本地部分报告允许未归属商卡不进入业务 Tab，并在报告范围中显式标注。")
     parser.add_argument("--evaluation-scope", default="{}", help="控制面传入的冻结评测范围 JSON；报告仅呈现此范围内已执行的结果。")
     parser.add_argument("--execution-note", action="append", default=[], help="外层批次控制器写入的未完成/阻断范围说明。")
+    parser.add_argument(
+        "--original-screenshot-evidence",
+        action="store_true",
+        help="显式展示覆盖：所有问题证据图改用对应评测单元的原始搜索截图，不改写 Phase4 源文件。",
+    )
+    parser.add_argument(
+        "--exclude-issue",
+        action="append",
+        default=[],
+        help="报告展示排除项，格式为 <搜索词>:<元素ID>；不改写原始 Phase3/4 结果。",
+    )
     args = parser.parse_args()
     project = args.project_dir.resolve()
     artifact_dir = args.artifact_dir or project / ".artifacts" / "过程文件-评测结果与审计"
@@ -1008,17 +1068,21 @@ def main() -> int:
         raise ValueError("--evaluation-scope 必须是 JSON 对象") from exc
     if not isinstance(evaluation_scope, dict):
         raise ValueError("--evaluation-scope 必须是 JSON 对象")
+    excluded_issue_keys = parse_excluded_issue_keys(args.exclude_issue)
     data = collect(
         project,
         artifact_dir,
         manifest_paths=args.manifest or None,
         result_paths=args.result or None,
         evaluation_scope=evaluation_scope,
+        excluded_issue_keys=excluded_issue_keys,
     )
     data["batch"] = args.batch_name or artifact_dir.name
     scope_note = str(evaluation_scope.get("note") or "").strip()
     data["executionNotes"] = [*args.execution_note, *([scope_note] if scope_note else [])]
     data["unclassifiedCardCount"] = len(data.get("unknown") or [])
+    if args.original_screenshot_evidence:
+        replace_issue_evidence_with_original_screenshots(data)
     supplied_business_tabs = {code.strip() for code in args.expected_business_tabs.split(",") if code.strip()}
     invalid_expected_codes = sorted(supplied_business_tabs - set(EXPECTED_REPORT_BUSINESS_TABS))
     if invalid_expected_codes:

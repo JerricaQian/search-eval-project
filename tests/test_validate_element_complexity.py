@@ -197,6 +197,15 @@ class ValidateElementComplexityTest(unittest.TestCase):
 
         self.assertTrue(any("fulfillment_must_be_excluded" in error for error in errors))
 
+    def test_revised_complexity_thresholds(self) -> None:
+        self.assertEqual(self.module.complexity_rating(4, 1), "优秀")
+        self.assertEqual(self.module.complexity_rating(5, 0), "达标")
+        self.assertEqual(self.module.complexity_rating(6, 1), "达标")
+        self.assertEqual(self.module.complexity_rating(4, 2), "达标")
+        self.assertEqual(self.module.complexity_rating(7, 0), "不达标")
+        self.assertEqual(self.module.complexity_rating(0, 4), "不达标")
+
+
 
 if __name__ == "__main__":
     unittest.main()

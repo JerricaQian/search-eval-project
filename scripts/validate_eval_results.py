@@ -89,6 +89,15 @@ PROMOTION_PREFIX_PATTERN = re.compile(
 )
 
 
+def complexity_rating(tag_count: int, icon_count: int) -> str:
+    """Return the fixed eval-4 rating from independently counted instances."""
+    if tag_count >= 7 or icon_count >= 4:
+        return "不达标"
+    if tag_count <= 4 and icon_count <= 1:
+        return "优秀"
+    return "达标"
+
+
 def _load_skill_directories() -> dict[str, Path]:
     payload = json.loads((PHASE3_DIR / "catalog.json").read_text(encoding="utf-8"))
     return {
@@ -937,7 +946,7 @@ def require_component_copy_consistency(
             return
         if str(tag_count) not in description or str(icon_count) not in description:
             errors.append(f"{prefix}:complexity_copy_must_include_tag_and_icon_counts")
-        expected_rating = "不达标" if tag_count > 5 or icon_count > 3 else "优秀" if tag_count <= 3 and icon_count <= 1 else "达标"
+        expected_rating = complexity_rating(tag_count, icon_count)
         if rating != expected_rating:
             errors.append(f"{prefix}:complexity_copy_rating_must_match_measured_counts")
     elif skill == "eval-5-info-hierarchy":
@@ -1336,7 +1345,7 @@ def main() -> int:
                         elif isinstance(row.get("includedIconStyles"), list) and icon_count != len(row["includedIconStyles"]):
                             errors.append(f"{skill}/{tab}:complexity_assessmentRow_{index}_iconStyleCount_mismatch")
                         if isinstance(tag_count, int) and isinstance(icon_count, int):
-                            expected_rating = "不达标" if tag_count > 5 or icon_count > 3 else "优秀" if tag_count <= 3 and icon_count <= 1 else "达标"
+                            expected_rating = complexity_rating(tag_count, icon_count)
                             if row.get("rating") != expected_rating:
                                 errors.append(f"{skill}/{tab}:complexity_assessmentRow_{index}_rating_must_be_{expected_rating}")
                         tag_entries = row.get("includedTagStyles")
