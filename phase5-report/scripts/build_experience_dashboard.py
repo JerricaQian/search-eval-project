@@ -47,9 +47,12 @@ SERVICE_RETAIL_TERMS = (
     "酒吧", "学习规划", "机器人编程", "留学考试", "雅思", "托福", "自习室",
     "洗车", "汽车美容", "美容洗车", "养车", "汽服", "网吧", "网咖", "网费",
 )
-# 这些服务业态的展示文案可能同时出现“剧场/演绎”等猫眼弱提示词，
-# 但其业务身份仍由更具体的服务零售语义决定。
-SERVICE_RETAIL_EXCLUSIVE_TERMS = ("剧本杀", "沉浸式探秘", "足道", "足浴", "按摩", "spa")
+# 这些服务业态的展示文案可能同时出现“剧场/演绎”“住宿/酒店式”等
+# 其他业务弱提示词，但其业务身份仍由更具体的服务零售语义决定。
+SERVICE_RETAIL_EXCLUSIVE_TERMS = (
+    "剧本杀", "沉浸式探秘", "足道", "足浴", "按摩", "spa",
+    "洗浴", "汤泉", "汗蒸",
+)
 FLASH_DELIVERY_TERMS = ("闪购", "分钟达", "即时零售", "小时达", "闪电仓", "歪马送酒")
 FLASH_CATEGORY_TERMS = ("零食", "饮料", "日用百货", "卫生巾", "安睡裤", "纸巾", "粮油", "调味", "水果", "西瓜", "果切", "榴莲", "蔬菜", "黄瓜", "肉禽蛋", "水产", "生鲜", "鲜生", "盒马", "超市", "鲜花", "花束", "啤酒", "白酒", "红酒", "矿泉水", "咖啡豆", "便利店", "成人用品", "情趣", "避孕套", "健康用品", "计生用品")
 FLASH_CATEGORY_OVERRIDE_TERMS = ("咖啡豆", "咖啡粉", "咖啡胶囊")
@@ -192,8 +195,9 @@ def classified_business(code: str, kind: str, card_type: str, confidence: str) -
 def classify_card(card: dict[str, Any]) -> dict[str, str]:
     """Classify one card by current visible facts, in this fixed precedence.
 
-    Dedicated business semantics (healthcare, travel, Maoyan, Xiaoxiang) win
-    first. Service-retail semantics identify local-service group-buy cards.
+    Highly specific service-retail semantics win before weaker cross-business
+    wording such as theater or hotel-style rest areas. Other dedicated business
+    semantics (healthcare, travel, Maoyan, Xiaoxiang) then take precedence.
     For delivery cards, a flash label or a recognised flash product category
     distinguishes flash delivery from food delivery. A card type by itself is
     never a flash-delivery fact. Missing evidence remains ``unknown``.

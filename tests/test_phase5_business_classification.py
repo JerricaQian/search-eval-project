@@ -184,6 +184,20 @@ class Phase5BusinessClassificationTest(unittest.TestCase):
         ))
         self.assertEqual(result["businessCode"], "service_retail")
 
+    def test_bathhouse_semantics_override_hotel_style_copy(self) -> None:
+        for semantic in (
+            "原文:汤泉洗浴 可过夜 酒店式休息区",
+            "原文:附近洗浴 汗蒸住宿",
+        ):
+            with self.subTest(semantic=semantic):
+                result = self.module.classify_card(card(
+                    "商家卡片-文字下挂",
+                    (semantic,),
+                    ("原文:到店",),
+                ))
+                self.assertEqual(result["businessCode"], "service_retail")
+                self.assertEqual(result["confidence"], "specific_service_semantic")
+
     def test_location_labels_number_standard_cards_and_name_heterogeneous_cards(self) -> None:
         cards = [
             {**card("商家卡片-无下挂", ("原文:商户A",), ()), "cardId": "C1"},
